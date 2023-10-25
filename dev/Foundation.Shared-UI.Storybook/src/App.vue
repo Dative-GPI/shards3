@@ -7,5 +7,5 @@
 </template>
 
 <script setup lang="ts">
-  import HelloWorld from '@/components/HelloWorld.vue'
+  import HelloWorld from '@dative-gpi/foundation-shared-ui-components/components/HelloWorld.vue'
 </script>

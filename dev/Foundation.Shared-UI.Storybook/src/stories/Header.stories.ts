@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import MyHeader from './Header.vue';
+import MyHeader from '@dative-gpi/foundation-shared-ui-components/components/Header.vue';
 
 const meta = {
   /* 👇 The title prop is optional.

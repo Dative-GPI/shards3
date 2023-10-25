@@ -1,0 +1,30 @@
+name: Publish Package to NPM
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+  
+    steps:
+      # Checking out repository
+      - uses: actions/checkout@v3
+      
+      # Setting .npmrc file up to publish to npm
+      - name: Setting things up 🔧
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+          # User or organization
+          scope: '@dative-gpi'
+
+      # Publishing with tag name as version
+      - name: Publishing to npm 🚀
+        run: |
+          lerna publish ${{ github.ref_name }} --exact --no-git-tag-version --yes --no-private --force-publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

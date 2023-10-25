@@ -3,6 +3,7 @@ import type { App } from 'vue'
 
 import vuetify from '../src/plugins/vuetify'
 import { loadFonts } from '../src/plugins/webfontloader'
+import { mockApp } from '../src/plugins/axiosmock'
 
 import { withVuetifyTheme } from './withVuetifyTheme.decorator'
 
@@ -27,6 +28,8 @@ const preview: Preview = {
 };
 
 loadFonts();
+
+mockApp();
 
 setup((app:App) => {
   app.use(vuetify);
