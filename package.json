@@ -1,10 +1,10 @@
 {
   "private": true,
   "workspaces": [
-    "src/Foundation.Shared-UI.Components",
-    "src/Foundation.Shared-UI.Domain",
-    "src/Foundation.Shared-UI.Services",
-    "dev/Foundation.Shared-UI.Storybook"
+    "src/foundation-shared-ui-components",
+    "src/foundation-shared-ui-domain",
+    "src/foundation-shared-ui-services",
+    "dev/storybook"
   ],
   "dependencies": {
     "axios-mock-adapter": "^1.22.0"

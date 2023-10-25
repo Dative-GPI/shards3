@@ -1,9 +1,6 @@
 <template>
     <div>
         Here is the components containing : {{ organisation?.label }}
-        <div>
-            Device : {{ device }}
-        </div>
     </div>
 </template>
   
@@ -18,14 +15,12 @@ import axios from 'axios';
 export default defineComponent({
     setup() {
         const { get, entity: organisation } = useOrganisation();
-        const device = ref('NOT mocked device :(');
         onMounted(async () => {
             get("testId");
         })
 
         return {
-            organisation,
-            device
+            organisation
         }
     }
 });

@@ -7,9 +7,6 @@
 
     <section class="storybook-page">
       <h2>Pages in Storybook</h2>
-      <div>
-        Device : {{ device }}
-      </div>
     </section>
   </article>
 </template>
@@ -24,7 +21,6 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 
 const user = ref<{ name: string } | null>(null);
-const device = ref('NOT mocked device :(');
 
 const onLogin = () => {
   user.value = { name: 'Jane Doe' };
@@ -36,9 +32,4 @@ const onCreateAccount = () => {
   user.value = { name: 'Jane Doe' };
 };
 
-onMounted(() => {
-  axios.get("/api/device").then(function (response: any) {
-    device.value = response.data.data;
-  });
-});
 </script>

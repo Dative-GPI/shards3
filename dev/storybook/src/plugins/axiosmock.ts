@@ -8,6 +8,5 @@ import { organisation } from '@/mocks';
 
 export function mockApp() {
     const mock = new MockAdapter(ServiceFactory.http);
-    // const mock = new MockAdapter(axios);
-    mock.onGet("/api/device").reply(200, { data: "Mocked device lr :)" });
+    mock.onGet("/api/core/v1/organisations/testId").reply(200, { data: "Mocked organisation lr :)" });
 }
