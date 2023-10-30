@@ -1,4 +1,4 @@
-import{B as y}from"./Button-272d3c80.js";import"./vue.esm-bundler-7b0c4c4e.js";import"./_plugin-vue_export-helper-c27b6911.js";const z={title:"Foundation/Button",component:y,tags:["autodocs"],argTypes:{size:{control:"select",options:["small","medium","large"]},backgroundColor:{control:"color"},onClick:{action:"clicked"}},args:{primary:!1}},r={args:{primary:!0,label:"Button"}},a={args:{primary:!1,label:"Button"}},e={args:{label:"Button",size:"large"}},o={args:{label:"Button",size:"small"}};var s,t,n;r.parameters={...r.parameters,docs:{...(s=r.parameters)==null?void 0:s.docs,source:{originalSource:`{
+import{B as y}from"./FButton-6954fc9a.js";import"./vue.esm-bundler-7b0c4c4e.js";import"./_plugin-vue_export-helper-c27b6911.js";const z={title:"Foundation/Button",component:y,tags:["autodocs"],argTypes:{size:{control:"select",options:["small","medium","large"]},backgroundColor:{control:"color"},onClick:{action:"clicked"}},args:{primary:!1}},r={args:{primary:!0,label:"Button"}},a={args:{primary:!1,label:"Button"}},e={args:{label:"Button",size:"large"}},o={args:{label:"Button",size:"small"}};var s,t,n;r.parameters={...r.parameters,docs:{...(s=r.parameters)==null?void 0:s.docs,source:{originalSource:`{
   args: {
     primary: true,
     label: 'Button'
@@ -19,4 +19,4 @@ import{B as y}from"./Button-272d3c80.js";import"./vue.esm-bundler-7b0c4c4e.js";i
     size: 'small'
   }
 }`,...(B=(g=o.parameters)==null?void 0:g.docs)==null?void 0:B.source}}};const k=["Primary","Secondary","Large","Small"];export{e as Large,r as Primary,a as Secondary,o as Small,k as __namedExportsOrder,z as default};
-//# sourceMappingURL=Button.stories-421f8da6.js.map
+//# sourceMappingURL=Button.stories-f9d5698b.js.map
