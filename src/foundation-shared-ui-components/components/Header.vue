@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import MyButton from './Button.vue';
+import MyButton from './FButton.vue';
 
 defineProps<{ user: { name: string } | null }>();
 

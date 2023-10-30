@@ -2,6 +2,7 @@
   "private": true,
   "workspaces": [
     "src/foundation-shared-ui-components",
+    "src/foundation-shared-ui-loader",
     "src/foundation-shared-ui-domain",
     "src/foundation-shared-ui-services",
     "dev/storybook"

@@ -20,6 +20,7 @@
   "devDependencies": {
     "@babel/types": "^7.21.4",
     "@dative-gpi/foundation-shared-ui-components": "1.0.0",
+    "@dative-gpi/foundation-shared-ui-loader": "1.0.0",
     "@storybook/addon-essentials": "^7.4.0",
     "@storybook/addon-interactions": "^7.4.0",
     "@storybook/addon-links": "^7.4.0",

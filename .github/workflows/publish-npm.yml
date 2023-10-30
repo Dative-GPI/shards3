@@ -13,6 +13,7 @@ jobs:
       # Checking out repository
       - uses: actions/checkout@v3
       
+      
       # Setting .npmrc file up to publish to npm
       - name: Setting things up 🔧
         uses: actions/setup-node@v2
@@ -21,6 +22,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           # User or organization
           scope: '@dative-gpi'
+
+      - name: Build foundation-shared-ui-loader
+        run: npm run build -w @dative-gpi/foundation-shared-ui-loader
 
       # Publishing with tag name as version
       - name: Publishing to npm 🚀

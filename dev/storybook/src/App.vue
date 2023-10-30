@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <FButton label="Hello" />
       <HelloWorld />
     </v-main>
   </v-app>
