@@ -1,12 +1,8 @@
 {
-  "components": {
-    "FTest": {
-      "from": "components/FTest.vue"
+    "components": {
+        "FButton": {
+            "from": "@dative-gpi/foundation-shared-ui-components/components/FButton.vue"
+        }
     },
-    "FButton": {
-      "from": "@dative-gpi/foundation-shared-ui-components/components/FButton.vue"
-    }
-  },
-  "directives": [
-  ]
+    "directives": []
 }

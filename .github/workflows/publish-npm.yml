@@ -23,6 +23,16 @@ jobs:
           # User or organization
           scope: '@dative-gpi'
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Generate import map
+        run: |
+          cd src/foundation-shared-ui-components
+          python importsGenerator.py
+
       - name: Build foundation-shared-ui-loader
         run: npm run build -w @dative-gpi/foundation-shared-ui-loader
 
