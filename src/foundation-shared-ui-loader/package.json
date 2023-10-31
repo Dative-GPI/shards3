@@ -2,6 +2,9 @@
   "name": "@dative-gpi/foundation-shared-ui-loader",
   "version": "1.0.0",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "npx tsc --resolveJsonModule"
   },
