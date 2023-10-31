@@ -34,7 +34,9 @@ jobs:
           python importsGenerator.py
 
       - name: Build foundation-shared-ui-loader
-        run: npm run build -w @dative-gpi/foundation-shared-ui-loader
+        run: |
+          npm install -w @dative-gpi/foundation-shared-ui-loader
+          npm run build -w @dative-gpi/foundation-shared-ui-loader
 
       # Publishing with tag name as version
       - name: Publishing to npm 🚀
