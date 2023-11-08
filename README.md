@@ -3,4 +3,4 @@
 
 This project use npm workspaces, so in order to launch the storybook you have to :
 - npm install (in the root folder)
-- @dative-gpi/foundation-shared-ui-storybook
+- npm run storybook -w @dative-gpi/foundation-shared-ui-storybook
