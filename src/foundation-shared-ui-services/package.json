@@ -9,8 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dative-gpi/bones-ui": "^0.0.50",
     "@dative-gpi/foundation-shared-ui-domain": "1.0.0",
-    "@dative-gpi/bones-ui": "^0.0.45",
-    "vue": "^3.2.0"
+    "vue": "^3.2.0",
+    "vue-router": "^4.2.5"
   }
 }

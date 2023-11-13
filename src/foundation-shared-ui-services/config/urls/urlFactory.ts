@@ -1,9 +1,17 @@
-import { useOrganisationId } from "../../composables/useOrganisationId";
+import { Ref, ref } from "vue";
 
-export function urlFactory(url: (organisationId: string) => string) {
+const organisationId = ref<string | null>(null);
+
+export function setOrganisationId(orgId: Ref<string | null>) {
+    organisationId.value = orgId.value;
+}
+
+export function urlFactory(url: (orgId: string) => string) {
     return () => {
-        const { organisationId } = useOrganisationId();
-        if (!organisationId.value) throw new Error("Organisation ID is not defined");
+        if (!organisationId.value) {
+            throw new Error("OrganisationId is not set");
+        }
+
         return url(organisationId.value);
     }
 }
