@@ -1,3 +1,3 @@
-import { ORGANISATION_URL } from "./organisations";
+import { CORE_URL } from "./base";
 
-export const PERMISSION_CATEGORIES_URL = `${ORGANISATION_URL}/permission-categories`;
+export const PERMISSION_CATEGORIES_URL = `${CORE_URL}/permission-categories`;

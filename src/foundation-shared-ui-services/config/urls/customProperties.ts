@@ -1,3 +1,3 @@
-import { ORGANISATION_URL } from "./organisations";
+import { CORE_URL } from "./base";
 
-export const CUSTOM_PROPERTIES_URL = `${ORGANISATION_URL}/custom-properties`;
+export const CUSTOM_PROPERTIES_URL = `${CORE_URL}/custom-properties`;

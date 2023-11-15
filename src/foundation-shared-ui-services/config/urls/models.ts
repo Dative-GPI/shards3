@@ -1,4 +1,4 @@
-import { ORGANISATION_URL } from "./organisations";
+import { CORE_URL } from "./base";
 
-export const MODELS_URL = `${ORGANISATION_URL}/models`;
+export const MODELS_URL = `${CORE_URL}/models`;
 export const MODEL_URL = (modelId: string) => `${MODELS_URL}/${encodeURIComponent(modelId)}`;

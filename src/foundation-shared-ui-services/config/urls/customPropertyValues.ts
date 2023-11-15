@@ -1,5 +1,5 @@
 import { PropertyEntity } from "@dative-gpi/foundation-shared-ui-domain";
 
-import { ORGANISATION_URL } from "./organisations";
+import { CORE_URL } from "./base";
 
-export const CUSTOM_PROPERTY_VALUES_URL = (entity: PropertyEntity, entityId: string, code: string) => `${ORGANISATION_URL}/custom-property-values/${encodeURIComponent(entity)}/${encodeURIComponent(entityId)}/${encodeURIComponent(code)}`;
+export const CUSTOM_PROPERTY_VALUES_URL = (entity: PropertyEntity, entityId: string, code: string) => `${CORE_URL}/custom-property-values/${encodeURIComponent(entity)}/${encodeURIComponent(entityId)}/${encodeURIComponent(code)}`;

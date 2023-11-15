@@ -1,4 +1,4 @@
-import { PathCrumb, PathCrumbDTO } from "./pathCrumb";
+import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
 
 export class GroupInfos {
     id: string;

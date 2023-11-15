@@ -1,4 +1,4 @@
-import { FilterType } from "../enums/filterEnums";
+import { FilterType } from "../enums/sharedEnums";
 
 export class CustomPropertyColor {
     priority: number;

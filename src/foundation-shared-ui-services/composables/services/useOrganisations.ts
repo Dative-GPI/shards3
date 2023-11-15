@@ -3,7 +3,7 @@ import { Ref, onUnmounted, readonly, ref } from "vue";
 import { ChangeOrganisationDashboardDTO, OrganisationDetails, OrganisationDetailsDTO, OrganisationFilters, OrganisationInfos, OrganisationInfosDTO, UpdateOrganisationDTO } from "@dative-gpi/foundation-shared-ui-domain";
 import { ComposableFactory, onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
-import { ORGANISATIONS_URL, ORGANISATION_URL } from "../../config/urls";
+import { ORGANISATION_DASHBOARD_URL, ORGANISATIONS_URL, ORGANISATION_URL } from "../../config/urls";
 
 const OrganisationServiceFactory = new ServiceFactory<OrganisationDetailsDTO, OrganisationDetails>("organisation", OrganisationDetails).create(factory => factory.build(
     factory.addGet(ORGANISATION_URL),
@@ -11,7 +11,7 @@ const OrganisationServiceFactory = new ServiceFactory<OrganisationDetailsDTO, Or
     factory.addUpdate<UpdateOrganisationDTO>(ORGANISATION_URL),
     factory.addNotify((notifyService) => ({
         changeDashboard: async (payload: ChangeOrganisationDashboardDTO): Promise<OrganisationDetails> => {
-            const response = await ServiceFactory.http.put(ORGANISATION_URL(), payload);
+            const response = await ServiceFactory.http.put(ORGANISATION_DASHBOARD_URL, payload);
             const result = new OrganisationDetails(response.data);
 
             notifyService.notify("update", result);
