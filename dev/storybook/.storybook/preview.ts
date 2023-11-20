@@ -1,11 +1,15 @@
 import  { type Preview , setup }  from '@storybook/vue3';
+
 import type { App } from 'vue'
 
 import vuetify from '../src/plugins/vuetify'
+
 import { loadFonts } from '../src/plugins/webfontloader'
 import { mockApp } from '../src/plugins/axiosmock'
 
 import { withVuetifyTheme } from './withVuetifyTheme.decorator'
+
+import { ColorPlugin } from "../../../src/foundation-shared-ui-components/plugins/colorPlugin";
 
 const preview: Preview = {
   parameters: {
@@ -32,7 +36,7 @@ loadFonts();
 mockApp();
 
 setup((app:App) => {
-  app.use(vuetify);
+  app.use(vuetify).use(ColorPlugin);
 })
 
 setup((app:App) => {

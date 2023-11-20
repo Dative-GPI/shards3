@@ -1,8 +1,6 @@
 <template>
     <div :style="style">
-        <template v-for="(index, name) in $slots" #[name]="data">
-            <slot :name="name" v-bind="data" />
-        </template>
+        <slot />
     </div>
 </template>
 
@@ -10,7 +8,7 @@
 import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
-    name: "FRow",
+    name: "FSRow",
     props: {
         width: {
             type: String as PropType<"hug" | "fill" | string>,
@@ -31,7 +29,7 @@ export default defineComponent({
     setup(props) {
         const style = {
             display: "flex",
-            alignItems: "flex-start",
+            alignItems: "center",
             gap: `${props.gap}px`
         };
 

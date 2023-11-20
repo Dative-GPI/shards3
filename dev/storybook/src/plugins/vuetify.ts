@@ -1,26 +1,25 @@
-/**
- * plugins/vuetify.ts
- *
- * Framework documentation: https://vuetifyjs.com`
- */
 
-// Styles
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
 
-// Composables
-import { createVuetify } from 'vuetify'
+import { createVuetify } from "vuetify";
 
-// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
+import { DefaultTheme } from "../../../../src/foundation-shared-ui-components/themes";
+import { FSButtonsAliases, FSButtonsProps } from "../../../../src/foundation-shared-ui-components/defaults/FSButtons";
+
+import "../../../../src/foundation-shared-ui-components/styles/texts.css";
+
 export default createVuetify({
   theme: {
+    defaultTheme: "DefaultTheme",
     themes: {
-      light: {
-        colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
-        },
-      },
-    },
+      DefaultTheme
+    }
   },
-})
+  aliases: {
+    ...FSButtonsAliases
+  },
+  defaults: {
+    ...FSButtonsProps
+  }
+});

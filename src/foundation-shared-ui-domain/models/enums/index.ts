@@ -1,5 +1,6 @@
 export * from "./alertEnums";
 export * from "./applicationEnums";
+export * from "./colorEnums";
 export * from "./customPropertyEnums";
 export * from "./dashboardEnums";
 export * from "./dataDefinitionEnums";
