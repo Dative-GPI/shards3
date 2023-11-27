@@ -53,7 +53,7 @@ export const WithTags: Story = {
       return { ...args };
     },
     template: `
-      <Tabs v-bind="args">
+      <Tabs v-bind="args" v-model:tab="args.tab">
         <template #default="{ color }">
           <Tab label="Tab 1"   :value="0" :color="color" tag="1" />
           <Tab label="Tab 2"   :value="1" :color="color" tag="2" />
@@ -80,7 +80,7 @@ export const ShowArrows: Story = {
       return { ...args };
     },
     template: `
-      <Tabs v-bind="args">
+      <Tabs v-bind="args" v-model:tab="args.tab">
         <template #default="{ color }">
           <Tab label="Tab 1: This tab has a long name" :value="0" :color="color" tag="First" />
           <Tab label="Tab 2: This tab has a long name" :value="1" :color="color" />

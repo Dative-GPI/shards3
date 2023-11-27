@@ -7,16 +7,13 @@
         v-bind="$attrs"
     >
         <FSRow>
-            <FSRow class="fs-tab-label">
-                <FSSpan>
-                    {{ label }}
-                </FSSpan>
-            </FSRow>
-            <FSRow v-if="tag" class="fs-tab-tag" width="hug">
-                <FSSpan font="text-body">
-                    {{ tag }}
-                </FSSpan>
-            </FSRow>
+            <FSSpan class="fs-tab-label" :text="label">
+                {{ label }}
+            </FSSpan>
+            <v-spacer />
+            <FSSpan v-if="tag" class="fs-tab-tag" font="text-body">
+                {{ tag }}
+            </FSSpan>
         </FSRow>
     </v-tab>
 </template>
@@ -24,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType, toRefs } from "vue";
 
-import { useColors, useCanvas } from "@dative-gpi/foundation-shared-ui-components/composables";
+import { useColors } from "@dative-gpi/foundation-shared-ui-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-ui-components/themes";
 
 import FSSpan from "./FSSpan.vue";
@@ -55,13 +52,10 @@ export default defineComponent({
     setup(props) {
         const { label, color } = toRefs(props);
 
-        const sizes = useCanvas().getTextSize(label.value, "text-button");
         const colors = useColors().getVariants(color.value);
         const textColors = useColors().getText();
 
         const style = {
-            "--ww": sizes.web,
-            "--mw": sizes.mobile,
             "--lc": colors.light,
             "--bc": colors.base,
             "--dc": colors.dark,
@@ -80,7 +74,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-ui-components/styles/texts.scss";
+@import "@dative-gpi/foundation-shared-ui-components/styles/main.scss";
 
 .fs-tab {
     display: flex;
@@ -91,27 +85,26 @@ export default defineComponent({
 
     &:hover {
         border-bottom: 1px solid var(--dt);
-        color: var(--dt);
 
-        .fs-tab-label .fs-span {
-            @extend .text-button;
+        .fs-tab-label {
+            color: transparent;
+
+            &:after {
+                content: attr(text);
+                position: absolute;
+                color: var(--dt);
+
+                @extend .text-button;
+            }
         }
     }
 
     @include web {
         height: 48px;
-        
-        .fs-tab-label .fs-span {
-            width: var(--ww) !important;
-        }
     }
 
     @include mobile {
         height: 40px;
-        
-        .fs-tab-label .fs-span {
-            width: var(--mw) !important;
-        }
     }
 }
 
@@ -121,8 +114,16 @@ export default defineComponent({
     border-bottom: 0 !important;
 }
 
-.fs-tab-active .fs-tab-label .fs-span {
-    @extend .text-button;
+.fs-tab-active .fs-tab-label {
+    color: transparent;
+
+    &:after {
+        content: attr(text);
+        position: absolute;
+        color: var(--dt);
+
+        @extend .text-button;
+    }
 }
 
 .fs-tab-tag {

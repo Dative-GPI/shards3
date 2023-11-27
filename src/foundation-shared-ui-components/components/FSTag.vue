@@ -86,7 +86,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-ui-components/styles/breakpoints.scss";
+@import "@dative-gpi/foundation-shared-ui-components/styles/main.scss";
 
 .fs-tag {
     padding: 0 8px;
@@ -103,14 +103,9 @@ export default defineComponent({
     }
 }
 
-.fs-tag-button-wrapper {
-    display: flex;
-    height: 100%;
-    align-items: center;
-}
-
 .fs-tag-button {
     padding: 0;
+    margin: 4px 0;
     border-radius: 2px;
     box-shadow: none !important;
     background-color: var(--lc);
