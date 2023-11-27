@@ -31,9 +31,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-ui-components/styles/texts.scss";
+@import "@dative-gpi/foundation-shared-ui-components/styles/main.scss";
 
 .fs-span {
+    height: 100%;
+    display: flex;
+    align-items: center;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

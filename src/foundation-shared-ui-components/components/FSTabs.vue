@@ -60,7 +60,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-ui-components/styles/breakpoints.scss";
+@import "@dative-gpi/foundation-shared-ui-components/styles/main.scss";
+@import "@dative-gpi/foundation-shared-ui-components/styles/main.scss";
 
 .fs-tabs {
     display: flex;
@@ -82,10 +83,15 @@ export default defineComponent({
 :deep(.v-slide-group__prev),
 :deep(.v-slide-group__next) {
     transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 24px !important;
-    width: 24px !important;
     flex: 1 1 0 !important;
     color: var(--bt);
+
+    min-width: 24px !important;
+    width: 24px !important;
+
+    @include touchscreen {
+        display: none;
+    }
 }
 
 :deep(.v-slide-group__prev:hover),

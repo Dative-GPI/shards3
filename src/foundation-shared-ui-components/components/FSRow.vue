@@ -4,12 +4,7 @@
         :style="style"
         v-bind="$attrs"
     >
-        <div
-            class="fs-row-inner"
-            :style="innerStyle"
-        >
-            <slot />
-        </div>
+        <slot />
     </div>
 </template>
 
@@ -42,19 +37,14 @@ export default defineComponent({
             "--g": `${gap.value}px`
         };
 
-        const innerStyle = {
-        };
-
         switch (width.value) {
             case "hug":
                 break;
             case "fill":
                 style["flex"] = "1 0 0";
-                innerStyle["flex"] = "1 0 0";
                 break;
             default:
                 style["width"] = width.value;
-                innerStyle["width"] = width.value;
                 break;
         }
 
@@ -71,8 +61,7 @@ export default defineComponent({
         }
 
         return {
-            style,
-            innerStyle
+            style
         };
     }
 });
@@ -82,12 +71,6 @@ export default defineComponent({
 .fs-row {
     display: flex;
     align-items: flex-start;
-}
-
-.fs-row-inner {
-    display: flex;
-    height: 100%;
-    align-items: center;
     gap: var(--g);
 }
 </style>

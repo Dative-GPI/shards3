@@ -83,7 +83,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-ui-components/styles/texts.scss";
+@import "@dative-gpi/foundation-shared-ui-components/styles/main.scss";
 
 .fs-button {
     padding: var(--pa);

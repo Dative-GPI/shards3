@@ -7,16 +7,13 @@
         v-bind="$attrs"
     >
         <FSRow>
-            <FSRow class="fs-tab-label">
-                <FSSpan>
-                    {{ label }}
-                </FSSpan>
-            </FSRow>
-            <FSRow v-if="tag" class="fs-tab-tag" width="hug">
-                <FSSpan font="text-body">
-                    {{ tag }}
-                </FSSpan>
-            </FSRow>
+            <FSSpan class="fs-tab-label">
+                {{ label }}
+            </FSSpan>
+            <v-spacer />
+            <FSSpan v-if="tag" class="fs-tab-tag" font="text-body">
+                {{ tag }}
+            </FSSpan>
         </FSRow>
     </v-tab>
 </template>
@@ -80,7 +77,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-ui-components/styles/texts.scss";
+@import "@dative-gpi/foundation-shared-ui-components/styles/main.scss";
 
 .fs-tab {
     display: flex;
@@ -93,7 +90,7 @@ export default defineComponent({
         border-bottom: 1px solid var(--dt);
         color: var(--dt);
 
-        .fs-tab-label .fs-span {
+        .fs-tab-label {
             @extend .text-button;
         }
     }
@@ -101,7 +98,7 @@ export default defineComponent({
     @include web {
         height: 48px;
         
-        .fs-tab-label .fs-span {
+        .fs-tab-label {
             width: var(--ww) !important;
         }
     }
@@ -109,7 +106,7 @@ export default defineComponent({
     @include mobile {
         height: 40px;
         
-        .fs-tab-label .fs-span {
+        .fs-tab-label {
             width: var(--mw) !important;
         }
     }
@@ -121,7 +118,7 @@ export default defineComponent({
     border-bottom: 0 !important;
 }
 
-.fs-tab-active .fs-tab-label .fs-span {
+.fs-tab-active .fs-tab-label {
     @extend .text-button;
 }
 
