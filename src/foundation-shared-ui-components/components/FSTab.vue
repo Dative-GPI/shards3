@@ -7,7 +7,7 @@
         v-bind="$attrs"
     >
         <FSRow>
-            <FSSpan class="fs-tab-label">
+            <FSSpan class="fs-tab-label" :text="label">
                 {{ label }}
             </FSSpan>
             <v-spacer />
@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType, toRefs } from "vue";
 
-import { useColors, useCanvas } from "@dative-gpi/foundation-shared-ui-components/composables";
+import { useColors } from "@dative-gpi/foundation-shared-ui-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-ui-components/themes";
 
 import FSSpan from "./FSSpan.vue";
@@ -52,13 +52,10 @@ export default defineComponent({
     setup(props) {
         const { label, color } = toRefs(props);
 
-        const sizes = useCanvas().getTextSize(label.value, "text-button");
         const colors = useColors().getVariants(color.value);
         const textColors = useColors().getText();
 
         const style = {
-            "--ww": sizes.web,
-            "--mw": sizes.mobile,
             "--lc": colors.light,
             "--bc": colors.base,
             "--dc": colors.dark,
@@ -88,27 +85,26 @@ export default defineComponent({
 
     &:hover {
         border-bottom: 1px solid var(--dt);
-        color: var(--dt);
 
         .fs-tab-label {
-            @extend .text-button;
+            color: transparent;
+
+            &:after {
+                content: attr(text);
+                position: absolute;
+                color: var(--dt);
+
+                @extend .text-button;
+            }
         }
     }
 
     @include web {
         height: 48px;
-        
-        .fs-tab-label {
-            width: var(--ww) !important;
-        }
     }
 
     @include mobile {
         height: 40px;
-        
-        .fs-tab-label {
-            width: var(--mw) !important;
-        }
     }
 }
 
@@ -119,7 +115,15 @@ export default defineComponent({
 }
 
 .fs-tab-active .fs-tab-label {
-    @extend .text-button;
+    color: transparent;
+
+    &:after {
+        content: attr(text);
+        position: absolute;
+        color: var(--dt);
+
+        @extend .text-button;
+    }
 }
 
 .fs-tab-tag {

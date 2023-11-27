@@ -5,11 +5,11 @@
         :style="style"
         v-bind="$attrs"
     >
-        <FSRow>
+        <FSRow width="hug">
             <FSIcon v-if="icon" size="m">
                 {{ icon }}
             </FSIcon>
-            <FSSpan v-if="label">
+            <FSSpan v-if="label" :text="label">
                 {{ label }}
             </FSSpan>
         </FSRow>
@@ -19,18 +19,18 @@
 <script lang="ts">
 import { defineComponent, PropType, toRefs } from "vue";
 
-import { useColors, useCanvas } from "@dative-gpi/foundation-shared-ui-components/composables";
+import { useColors } from "@dative-gpi/foundation-shared-ui-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-ui-components/themes";
 
-import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
+import FSIcon from "./FSIcon.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
     name: "FSButton",
     components: {
-        FSIcon,
         FSSpan,
+        FSIcon,
         FSRow
     },
     props: {
@@ -58,12 +58,9 @@ export default defineComponent({
     setup(props) {
         const { label, full, color } = toRefs(props);
 
-        const sizes = useCanvas().getTextSize(label.value, "text-button");
         const colors = useColors().getVariants(color.value);
 
         const style = {
-            "--ww": label.value ? sizes.web : "auto",
-            "--mw": label.value ? sizes.mobile: "auto",
             "--pa": label.value ? "0 16px" : "0",
             "--lc": full.value ? colors.base : colors.light,
             "--bc": colors.base,
@@ -98,36 +95,31 @@ export default defineComponent({
         color: var(--bt);
 
         & .fs-span {
-            @extend .text-button;
+            color: transparent;
+
+            &:after {
+                content: attr(text);
+                position: absolute;
+                color: var(--bt);
+
+                @extend .text-button;
+            }
         }
     }
 
     &:active {
         border-color: var(--dc);
         background-color: var(--dc);
-        color: var(--dt);
-
-        & .fs-span {
-            @extend .text-button;
-        }
     }
 
     @include web {
         min-width: 48px !important;
         height: 48px !important;
-
-        & .fs-span {
-            width: var(--ww) !important;
-        }
     }
 
     @include mobile {
         min-width: 36px !important;
         height: 36px !important;
-        
-        & .fs-span {
-            width: var(--mw) !important;
-        }
     }
 }
 </style>
