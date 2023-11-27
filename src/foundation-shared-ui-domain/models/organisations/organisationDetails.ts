@@ -1,79 +1,53 @@
-import { OrganisationInfos } from "./organisationInfos";
+import { PermissionInfos, PermissionInfosDTO } from "../permissions/permissionInfos";
+import { OrganisationInfos, OrganisationInfosDTO } from "./organisationInfos";
+import { DashboardType } from "../enums/dashboardEnums";
 
 export class OrganisationDetails extends OrganisationInfos {
-    label: string;
-    userCount: number;
     organisationTypeId: string;
     mainDashboardId?: string;
-    description: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    mainDashboardType: DashboardType;
     adminId: string;
     adminName: string;
-    locationCount: number;
-    deviceCount: number;
-    mainDashboardOrganisationsIds: string[];
-    mainDashboardOrganisationTypesIds: string[];
+    description: string;
+    locationsCount: number;
+    deviceOrganisationsCount: number;
+    permissions: PermissionInfos[];
 
     constructor(params: OrganisationDetailsDTO) {
         super(params);
 
         this.organisationTypeId = params.organisationTypeId;
-        this.label = params.label;
-        this.userCount = params.userCount;
+        this.mainDashboardType = params.mainDashboardType;
         this.mainDashboardId = params.mainDashboardId;
-        this.description = params.description;
-        this.imageId = params.imageId;
-        this.imageBlurHash = params.imageBlurHash;
-        this.imageHeight = params.imageHeight;
-        this.imageWidth = params.imageWidth;
         this.adminId = params.adminId;
         this.adminName = params.adminName;
-        this.locationCount = params.locationCount;
-        this.deviceCount = params.deviceCount;
-        this.mainDashboardOrganisationsIds = params.mainDashboardOrganisationsIds.slice();
-        this.mainDashboardOrganisationTypesIds = params.mainDashboardOrganisationTypesIds.slice();
+        this.description = params.description;
+        this.locationsCount = params.locationsCount;
+        this.deviceOrganisationsCount = params.deviceOrganisationsCount;
+        this.permissions = params.permissions.map(dto => new PermissionInfos(dto));
     }
 }
 
-export interface OrganisationDetailsDTO {
-    id: string;
+export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
     organisationTypeId: string;
     mainDashboardId?: string;
-    label: string;
-    userCount: number;
-    description: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    mainDashboardType: DashboardType;
     adminId: string;
     adminName: string;
-    locationCount: number;
-    deviceCount: number;
-    mainDashboardOrganisationsIds: string[];
-    mainDashboardOrganisationTypesIds: string[];
-}
-
-export interface CreateOrganisationDTO {
-    label: string,
-    description: string,
-    administratorFirstName: string,
-    administratorLastName: string,
-    administratorEmail: string,
-    administratorPhone: string,
-    administratorTimezoneId: string,
-    organisationTypeId: string,
-    acceptGeneralConditions: boolean,
-    acceptPrivacyPolicy: boolean,
-    legalInformationId: string,
+    description: string;
+    locationsCount: number;
+    deviceOrganisationsCount: number;
+    permissions: PermissionInfosDTO[];
 }
 
 export interface UpdateOrganisationDTO {
-    label: string;
-    description: string;
     imageId?: string;
     image?: string;
+    label: string;
+    description: string;
+}
+
+export interface ChangeOrganisationDashboardDTO {
+    mainDashboardId?: string;
+    mainDashboardType: DashboardType;
 }

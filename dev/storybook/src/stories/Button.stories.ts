@@ -1,52 +1,49 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import Button from '@dative-gpi/foundation-shared-ui-components/components/FButton.vue';
+import Button from "@dative-gpi/foundation-shared-ui-components/components/FSButton.vue";
 
-// More on how to set up stories at: https://storybook.js.org/docs/vue/writing-stories/introduction
+import { FSButtonsProps } from "@dative-gpi/foundation-shared-ui-components/defaults/FSButtons";
+
 const meta = {
   title: 'Foundation/Button',
   component: Button,
-  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/vue/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {
-    size: { control: 'select', options: ['small', 'medium', 'large'] },
-    backgroundColor: { control: 'color' },
-    onClick: { action: 'clicked' },
-  },
-  args: { primary: false }, // default value
+    onClick: { action: 'clicked' }
+  }
 } satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/vue/api/csf
- * to learn how to use render functions.
- */
-export const Primary: Story = {
-  args: {
-    primary: true,
-    label: 'Button',
-  },
-};
 
-export const Secondary: Story = {
-  args: {
-    primary: false,
-    label: 'Button',
-  },
-};
+export const Search: Story = {
+  args: FSButtonsProps.FSButtonSearch
+}
 
-export const Large: Story = {
-  args: {
-    label: 'Button',
-    size: 'large',
-  },
-};
+export const SearchMini: Story = {
+  args: FSButtonsProps.FSButtonSearchMini
+}
 
-export const Small: Story = {
-  args: {
-    label: 'Button',
-    size: 'small',
-  },
-};
+export const Save: Story = {
+  args: FSButtonsProps.FSButtonSave
+}
+
+export const SaveMini: Story = {
+  args: FSButtonsProps.FSButtonSaveMini
+}
+
+export const Cancel: Story = {
+  args: FSButtonsProps.FSButtonCancel
+}
+
+export const CancelMini: Story = {
+  args: FSButtonsProps.FSButtonCancelMini
+}
+
+export const Remove: Story = {
+  args: FSButtonsProps.FSButtonRemove
+}
+
+export const RemoveMini: Story = {
+  args: FSButtonsProps.FSButtonRemoveMini
+}

@@ -1,2 +1,2 @@
-export * from "./organisationDetails"
-export * from "./organisationInfos"
+export * from "./organisationDetails";
+export * from "./organisationInfos";
