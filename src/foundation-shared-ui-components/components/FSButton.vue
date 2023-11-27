@@ -1,19 +1,15 @@
 <template>
     <v-btn
-        v-bind="$attrs"
-        :elevation="0"
+        class="fs-button"
         :ripple="false"
-        :style="wrapperStyle"
-        @mouseenter="onHover(true)"
-        @mouseleave="onHover(false)"
-        @mousedown="onActive(true)"
-        @mouseup="onActive(false)"
+        :style="style"
+        v-bind="$attrs"
     >
-        <FSRow :style="contentStyle" gap="8" width="hug" height="hug">
-            <v-icon v-if="icon" :size="iconSize">
+        <FSRow>
+            <FSIcon v-if="icon" size="m">
                 {{ icon }}
-            </v-icon>
-            <FSSpan v-if="label" :textFont="textFont">
+            </FSIcon>
+            <FSSpan v-if="label">
                 {{ label }}
             </FSSpan>
         </FSRow>
@@ -21,17 +17,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, toRefs } from "vue";
 
-import { useColors, useMobile } from "@dative-gpi/foundation-shared-ui-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-ui-domain";
+import { useColors, useCanvas } from "@dative-gpi/foundation-shared-ui-components/composables";
+import { ColorBase } from "@dative-gpi/foundation-shared-ui-components/themes";
 
+import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
     name: "FSButton",
     components: {
+        FSIcon,
         FSSpan,
         FSRow
     },
@@ -46,85 +44,90 @@ export default defineComponent({
             required: false,
             default: null
         },
-        backgroundColor: {
-            type: String as PropType<ColorBase>,
+        full: {
+            type: Boolean,
             required: false,
-            default: ColorBase.PrimaryLight
+            default: false
         },
-        borderColor: {
+        color: {
             type: String as PropType<ColorBase>,
             required: false,
-            default: ColorBase.PrimaryDark
-        },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.PrimaryDark
+            default: ColorBase.Primary
         }
     },
     setup(props) {
-        const colors = useColors().getButtonVariants(props.backgroundColor, props.borderColor, props.textColor);
+        const { label, full, color } = toRefs(props);
 
-        const iconSize = ref(24);
+        const sizes = useCanvas().getTextSize(label.value, "text-button");
+        const colors = useColors().getVariants(color.value);
 
-        const wrapperStyle = ref({
-            minWidth: "48px",
-            height: "48px",
-            padding: "0 16px",
-            borderRadius: "4px",
-            border: `1px solid ${colors.border}`,
-            backgroundColor: colors.backgroundBase
-        });
-
-        const contentStyle = ref({
-            textTransform: "none",
-            color: colors.textBase
-        });
-
-        const textFont = ref("text-button");
-
-        useMobile().startWatch([{
-            value: iconSize,
-            web: 24,
-            mobile: 18
-        }, {
-            value: wrapperStyle,
-            property: "minWidth",
-            web: "48px",
-            mobile: "36px"
-        }, {
-            value: wrapperStyle,
-            property: "height",
-            web: "48px",
-            mobile: "36px"
-        }, {
-            value: wrapperStyle,
-            property: "padding",
-            web: props.label ? "0 16px" : "0",
-            mobile: props.label ? "0 16px" : "0"
-        }]);
-
-        const onHover = (hover: boolean): void => {
-            wrapperStyle.value["backgroundColor"] = hover ? colors.backgroundHover : colors.backgroundBase;
-            contentStyle.value["color"] = hover ? colors.textHover : colors.textBase;
-        }
-
-        const onActive = (active: boolean): void => {
-            wrapperStyle.value["backgroundColor"] = active ? colors.backgroundActive : colors.backgroundHover;
-            contentStyle.value["color"] = active ? colors.textActive : colors.textHover;
-        }
+        const style = {
+            "--ww": label.value ? sizes.web : "auto",
+            "--mw": label.value ? sizes.mobile: "auto",
+            "--pa": label.value ? "0 16px" : "0",
+            "--lc": full.value ? colors.base : colors.light,
+            "--bc": colors.base,
+            "--dc": colors.dark,
+            "--lt": full.value ? colors.light : colors.base,
+            "--bt": colors.light,
+            "--dt": colors.light
+        };
 
         return {
             icon: props.icon,
-            label: props.label,
-            textColor: props.textColor,
-            iconSize,
-            wrapperStyle,
-            contentStyle,
-            textFont,
-            onHover,
-            onActive
+            label,
+            style
         };
     }
 });
 </script>
+
+<style lang="scss" scoped>
+@import "@dative-gpi/foundation-shared-ui-components/styles/texts.scss";
+
+.fs-button {
+    padding: var(--pa);
+    border-radius: 4px;
+    box-shadow: none !important;
+    border: 1px solid var(--bc);
+    background-color: var(--lc);
+    color: var(--lt);
+
+    &:hover {
+        background-color: var(--bc);
+        color: var(--bt);
+
+        & .fs-span {
+            @extend .text-button;
+        }
+    }
+
+    &:active {
+        border-color: var(--dc);
+        background-color: var(--dc);
+        color: var(--dt);
+
+        & .fs-span {
+            @extend .text-button;
+        }
+    }
+
+    @include web {
+        min-width: 48px !important;
+        height: 48px !important;
+
+        & .fs-span {
+            width: var(--ww) !important;
+        }
+    }
+
+    @include mobile {
+        min-width: 36px !important;
+        height: 36px !important;
+        
+        & .fs-span {
+            width: var(--mw) !important;
+        }
+    }
+}
+</style>

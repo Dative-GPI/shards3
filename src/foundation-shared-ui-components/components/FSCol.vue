@@ -1,11 +1,15 @@
 <template>
-    <div :style="style">
+    <div
+        class="fs-col"
+        :style="style"
+        v-bind="$attrs"
+    >
         <slot />
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, toRefs } from "vue";
 
 export default defineComponent({
     name: "FSCol",
@@ -27,33 +31,32 @@ export default defineComponent({
         }
     },
     setup(props) {
+        const { width, height, gap } = toRefs(props);
+
         const style = {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: `${props.gap}px`
+            "--g": `${gap.value}px`
         };
 
-        switch (props.width) {
+        switch (width.value) {
             case "hug":
                 break;
             case "fill":
-                style["alignSelf"] = "stretch";
+                style["align-self"] = "stretch";
                 break;
             default:
-                style["width"] = props.width;
+                style["width"] = width.value;
                 break;
         }
 
-        switch (props.height) {
+        switch (height.value) {
             case "hug":
                 break;
             case "fill":
                 style["flex"] = "1 0 0";
                 break;
             default:
-                style["height"] = props.height;
-                style["flexShrink"] = "0";
+                style["height"] = height.value;
+                style["flex-shrink"] = "0";
                 break;
         }
 
@@ -63,3 +66,12 @@ export default defineComponent({
     }
 });
 </script>
+
+<style lang="scss" scoped>
+.fs-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--g)
+}
+</style>

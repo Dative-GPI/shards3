@@ -1,11 +1,20 @@
 <template>
-    <div :style="style">
-        <slot />
+    <div
+        class="fs-row"
+        :style="style"
+        v-bind="$attrs"
+    >
+        <div
+            class="fs-row-inner"
+            :style="innerStyle"
+        >
+            <slot />
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, toRefs } from "vue";
 
 export default defineComponent({
     name: "FSRow",
@@ -27,38 +36,58 @@ export default defineComponent({
         }
     },
     setup(props) {
+        const { width, height, gap } = toRefs(props);
+        
         const style = {
-            display: "flex",
-            alignItems: "center",
-            gap: `${props.gap}px`
+            "--g": `${gap.value}px`
         };
 
-        switch (props.width) {
-            case "hug":
-                break;
-            case "fill":
-                style["alignSelf"] = "stretch";
-                break;
-            default:
-                style["width"] = props.width;
-                break;
-        }
+        const innerStyle = {
+        };
 
-        switch (props.height) {
+        switch (width.value) {
             case "hug":
                 break;
             case "fill":
                 style["flex"] = "1 0 0";
+                innerStyle["flex"] = "1 0 0";
                 break;
             default:
-                style["height"] = props.height;
-                style["flexShrink"] = "0";
+                style["width"] = width.value;
+                innerStyle["width"] = width.value;
+                break;
+        }
+
+        switch (height.value) {
+            case "hug":
+                break;
+            case "fill":
+                style["align-self"] = "stretch";
+                break;
+            default:
+                style["height"] = height.value;
+                style["flex-shrink"] = "0";
                 break;
         }
 
         return {
-            style
+            style,
+            innerStyle
         };
     }
 });
 </script>
+
+<style lang="scss" scoped>
+.fs-row {
+    display: flex;
+    align-items: flex-start;
+}
+
+.fs-row-inner {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: var(--g);
+}
+</style>

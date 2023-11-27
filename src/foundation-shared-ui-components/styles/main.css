@@ -1,0 +1,4 @@
+/* Remove the default hover effect on all buttons */
+.v-btn__overlay {
+    display: none;
+}

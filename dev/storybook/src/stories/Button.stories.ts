@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import Button from '@dative-gpi/foundation-shared-ui-components/components/FSButton.vue';
-import { FSButtonsProps } from "../../../../src/foundation-shared-ui-components/defaults/FSButtons";
+import Button from "@dative-gpi/foundation-shared-ui-components/components/FSButton.vue";
+
+import { FSButtonsProps } from "@dative-gpi/foundation-shared-ui-components/defaults/FSButtons";
 
 const meta = {
   title: 'Foundation/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {
-    backgroundColor: { control: 'color' },
-    onClick: { action: 'clicked' },
+    onClick: { action: 'clicked' }
   }
 } satisfies Meta<typeof Button>;
 

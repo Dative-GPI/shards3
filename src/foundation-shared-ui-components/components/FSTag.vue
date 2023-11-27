@@ -1,63 +1,58 @@
 <template>
     <FSRow
-        gap="8"
+        class="fs-tag"
         width="hug"
         height="hug"
-        :style="wrapperStyle"
+        :style="style"
+        v-bind="$attrs"
     >
-        <FSSpan :textFont="textFont">
+        <FSSpan>
             {{ label }}
         </FSSpan>
         <v-btn
             v-if="editable"
-            :elevation="0"
+            class="fs-tag-button"
             :ripple="false"
-            :style="contentStyle"
-            @mouseenter="onHover(true)"
-            @mouseleave="onHover(false)"
-            @mousedown="onActive(true)"
-            @mouseup="onActive(false)"
+            @click="emit('remove')"
         >
-            <v-icon v-if="editable" size="12">
+            <FSIcon size="s">
                 mdi-close
-            </v-icon>
+            </FSIcon>
         </v-btn>
     </FSRow>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, toRefs } from "vue";
 
-import { useColors, useMobile } from "@dative-gpi/foundation-shared-ui-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-ui-domain";
+import { useColors } from "@dative-gpi/foundation-shared-ui-components/composables";
+import { ColorBase } from "@dative-gpi/foundation-shared-ui-components/themes";
 
+import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
     name: "FSTag",
     components: {
-        FSSpan, FSRow
+        FSIcon,
+        FSSpan,
+        FSRow
     },
     props: {
         label: {
             type: String,
             required: true
         },
-        backgroundColor: {
-            type: String as PropType<ColorBase>,
+        full: {
+            type: Boolean,
             required: false,
-            default: ColorBase.PrimaryLight
+            default: true
         },
-        borderColor: {
+        color: {
             type: String as PropType<ColorBase>,
             required: false,
-            default: ColorBase.PrimaryLight
-        },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.PrimaryDark
+            default: ColorBase.Primary
         },
         editable: {
             type: Boolean,
@@ -65,61 +60,80 @@ export default defineComponent({
             default: true
         }
     },
-    setup(props) {
-        const colors = useColors().getButtonVariants(props.backgroundColor, props.borderColor, props.textColor);
+    emits: ["remove"],
+    setup(props, { emit }) {
+        const { label, full, color, editable } = toRefs(props);
 
-        const wrapperStyle = ref({
-            height: "28px",
-            padding: "0 8px",
-            borderRadius: "2px",
-            border: `1px solid ${colors.border}`,
-            backgroundColor: colors.backgroundBase,
-            color: colors.textBase
-        });
+        const colors = useColors().getVariants(color.value);
 
-        const contentStyle = ref({
-            minWidth: "20px",
-            height: "20px",
-            padding: "0",
-            borderRadius: "2px",
-            backgroundColor: colors.backgroundBase,
-            color: colors.textBase
-        });
-
-        const textFont = ref("text-body");
-
-        useMobile().startWatch([{
-            value: wrapperStyle,
-            property: "height",
-            web: "28px",
-            mobile: "24px"
-        }, {
-            value: contentStyle,
-            property: "height",
-            web: "20px",
-            mobile: "16px"
-        }]);
-
-        const onHover = (hover: boolean): void => {
-            contentStyle.value["backgroundColor"] = hover ? colors.backgroundHover : colors.backgroundBase;
-            contentStyle.value["color"] = hover ? colors.textHover : colors.textBase;
-        }
-
-        const onActive = (active: boolean): void => {
-            contentStyle.value["backgroundColor"] = active ? colors.backgroundActive : colors.backgroundHover;
-            contentStyle.value["color"] = active ? colors.textActive : colors.textHover;
-        }
+        const style = {
+            "--lc": full.value ? colors.base : colors.light,
+            "--bc": colors.base,
+            "--dc": colors.dark,
+            "--lt": full.value ? colors.light : colors.base,
+            "--bt": colors.light,
+            "--dt": colors.light
+        };
 
         return {
-            label: props.label,
-            textColor: props.textColor,
-            editable: props.editable,
-            wrapperStyle,
-            contentStyle,
-            textFont,
-            onHover,
-            onActive
+            label,
+            editable,
+            style,
+            emit
         };
     }
 });
 </script>
+
+<style lang="scss" scoped>
+@import "@dative-gpi/foundation-shared-ui-components/styles/breakpoints.scss";
+
+.fs-tag {
+    padding: 0 8px;
+    border-radius: 2px;
+    background-color: var(--lc);
+    color: var(--lt);
+
+    @include web {
+        height: 28px;
+    }
+
+    @include mobile {
+        height: 24px;
+    }
+}
+
+.fs-tag-button-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.fs-tag-button {
+    padding: 0;
+    border-radius: 2px;
+    box-shadow: none !important;
+    background-color: var(--lc);
+    color: var(--lt);
+
+    &:hover {
+        background-color: var(--bc);
+        color: var(--bt);
+    }
+
+    &:active {
+        background-color: var(--dc);
+        color: var(--dt);
+    }
+
+    @include web {
+        min-width: 20px !important;
+        height: 20px !important;
+    }
+
+    @include mobile {
+        min-width: 20px !important;
+        height: 16px !important;
+    }
+}
+</style>

@@ -1,38 +1,41 @@
 <template>
     <span
+        class="fs-span"
+        :class="font"
         v-bind="$attrs"
-        :class="fontClass"
     >
         <slot />
     </span>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
-
-import { useMobile } from "@dative-gpi/foundation-shared-ui-components/composables";
+import { defineComponent, PropType, toRefs } from "vue";
 
 export default defineComponent({
     name: "FSSpan",
     props: {
-        textFont: {
+        font: {
             type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline">,
             required: false,
             default: "text-body"
         }
     },
     setup(props) {
-        const fontClass = ref(`${props.textFont}-web`);
-
-        useMobile().startWatch({
-            value: fontClass,
-            web: `${props.textFont}-web`,
-            mobile: `${props.textFont}-mobile`
-        });
-
+        const { font } = toRefs(props);
+        
         return {
-            fontClass
+            font
         };
     }
 });
 </script>
+
+<style lang="scss" scoped>
+@import "@dative-gpi/foundation-shared-ui-components/styles/texts.scss";
+
+.fs-span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+</style>

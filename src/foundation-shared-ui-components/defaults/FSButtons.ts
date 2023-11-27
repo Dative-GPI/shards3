@@ -1,4 +1,4 @@
-import { ColorBase } from "@dative-gpi/foundation-shared-ui-domain";
+import { ColorBase } from "@dative-gpi/foundation-shared-ui-components/themes";
 
 import FSButton from "@dative-gpi/foundation-shared-ui-components/components/FSButton.vue";
 
@@ -15,53 +15,49 @@ export const FSButtonsProps = {
     FSButtonSearch: {
         icon: "mdi-magnify",
         label: "Search",
-        backgroundColor: ColorBase.PrimaryLight,
-        borderColor: ColorBase.PrimaryDark,
-        textColor: ColorBase.PrimaryDark
+        full: false,
+        color: ColorBase.Primary
     },
     FSButtonSearchMini: {
         icon: "mdi-magnify",
-        backgroundColor: ColorBase.PrimaryLight,
-        borderColor: ColorBase.PrimaryDark,
-        textColor: ColorBase.PrimaryDark
+        label: undefined,
+        full: false,
+        color: ColorBase.Primary
     },
     FSButtonRemove: {
         icon: "mdi-delete-outline",
         label: "Remove",
-        backgroundColor: ColorBase.ErrorLight,
-        borderColor: ColorBase.ErrorDark,
-        textColor: ColorBase.ErrorDark
+        full: false,
+        color: ColorBase.Error
     },
     FSButtonRemoveMini: {
         icon: "mdi-delete-outline",
-        backgroundColor: ColorBase.ErrorLight,
-        borderColor: ColorBase.ErrorDark,
-        textColor: ColorBase.ErrorDark
+        label: undefined,
+        full: false,
+        color: ColorBase.Error
     },
     FSButtonSave: {
         icon: "mdi-content-save-outline",
         label: "Save",
-        backgroundColor: ColorBase.SuccessLight,
-        borderColor: ColorBase.SuccessDark,
-        textColor: ColorBase.SuccessDark
+        full: false,
+        color: ColorBase.Success
     },
     FSButtonSaveMini: {
         icon: "mdi-content-save-outline",
-        backgroundColor: ColorBase.SuccessLight,
-        borderColor: ColorBase.SuccessDark,
-        textColor: ColorBase.SuccessDark
+        label: undefined,
+        full: false,
+        color: ColorBase.Success
     },
     FSButtonCancel: {
         icon: "mdi-cancel",
         label: "Cancel",
-        backgroundColor: ColorBase.WhiteLight,
-        borderColor: ColorBase.WhiteDark,
-        textColor: ColorBase.TextDark
+        full: false,
+        color: ColorBase.Light
     },
     FSButtonCancelMini: {
         icon: "mdi-cancel",
-        backgroundColor: ColorBase.WhiteLight,
-        borderColor: ColorBase.WhiteDark,
-        textColor: ColorBase.TextDark
+        label: undefined,
+        full: false,
+        color: ColorBase.Light
     }
 }
