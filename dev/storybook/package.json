@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@babel/types": "^7.21.4",
+    "color": "^4.2.3",
     "@dative-gpi/foundation-shared-ui-components": "*",
     "@dative-gpi/foundation-shared-ui-loader": "*",
     "@storybook/addon-essentials": "^7.4.0",
