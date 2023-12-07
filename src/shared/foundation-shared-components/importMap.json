@@ -1,0 +1,11 @@
+{
+    "components": {
+        "FSButton": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSButton.vue"
+        },
+        "FSSpan": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSSpan.vue"
+        }
+    },
+    "directives": []
+}

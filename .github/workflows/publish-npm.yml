@@ -28,15 +28,25 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Generate import map
+      - name: Generate shared import map
         run: |
-          cd src/foundation-shared-ui-components
+          cd src/shared/foundation-shared-components
           python importsGenerator.py
 
-      - name: Build foundation-shared-ui-loader
+      - name: Generate core import map
         run: |
-          npm install -w @dative-gpi/foundation-shared-ui-loader
-          npm run build -w @dative-gpi/foundation-shared-ui-loader
+          cd src/core/foundation-core-components
+          python importsGenerator.py
+
+      - name: Generate admin import map
+        run: |
+          cd src/admin/foundation-admin-components
+          python importsGenerator.py
+
+      - name: Build foundation-shared-loader
+        run: |
+          npm install -w @dative-gpi/foundation-shared-loader
+          npm run build -w @dative-gpi/foundation-shared-loader
 
       # Publishing with tag name as version
       - name: Publishing to npm 🚀

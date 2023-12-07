@@ -1,4 +1,4 @@
-import { OrganisationDetailsDTO } from "@dative-gpi/foundation-shared-ui-domain";
+import { OrganisationDetailsDTO } from "@dative-gpi/foundation-core-domain";
 
 export const organisation: OrganisationDetailsDTO = {
     id: "testId",

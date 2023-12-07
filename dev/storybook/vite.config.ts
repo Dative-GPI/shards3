@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
 
-import FoundationSharedAutoImport from '@dative-gpi/foundation-shared-ui-loader'
+import FoundationSharedAutoImport from '@dative-gpi/foundation-shared-loader'
 
 // https://vitejs.dev/config/
 export default defineConfig({
