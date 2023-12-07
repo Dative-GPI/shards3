@@ -4,10 +4,10 @@ import "vuetify/styles";
 
 import { createVuetify } from "vuetify";
 
-import "../../../../src/foundation-shared-ui-components/styles/main.css";
+import "../../../../src/shared/foundation-shared-components/styles/main.css";
 
-import { DefaultTheme } from "../../../../src/foundation-shared-ui-components/themes";
-import { FSButtonsAliases, FSButtonsProps } from "../../../../src/foundation-shared-ui-components/defaults/FSButtons";
+import { DefaultTheme } from "../../../../src/shared/foundation-shared-components/themes";
+import { FSButtonsAliases, FSButtonsProps } from "../../../../src/shared/foundation-shared-components/defaults/FSButtons";
 
 export default createVuetify({
   theme: {

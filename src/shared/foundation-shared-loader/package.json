@@ -1,0 +1,23 @@
+{
+  "name": "@dative-gpi/foundation-shared-loader",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npx tsc --resolveJsonModule"
+  },
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "vite-plugin"
+  ],
+  "description": "",
+  "devDependencies": {
+    "@dative-gpi/foundation-shared-components": "1.0.0",
+    "@babel/types": "^7.23.0",
+    "@types/node": "^20.8.9",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0"
+  }
+}

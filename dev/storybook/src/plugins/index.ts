@@ -11,7 +11,7 @@ import vuetify from './vuetify'
 // Types
 import type { App } from 'vue'
 
-import { ColorPlugin } from "../../../../src/foundation-shared-ui-components/plugins/colorPlugin";
+import { ColorPlugin } from "../../../../src/shared/foundation-shared-components/plugins/colorPlugin";
 
 export function registerPlugins (app: App) {
   loadFonts();

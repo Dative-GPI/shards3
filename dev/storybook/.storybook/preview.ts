@@ -9,7 +9,7 @@ import { mockApp } from '../src/plugins/axiosmock'
 
 import { withVuetifyTheme } from './withVuetifyTheme.decorator'
 
-import { ColorPlugin } from "../../../src/foundation-shared-ui-components/plugins/colorPlugin";
+import { ColorPlugin } from "../../../src/shared/foundation-shared-components/plugins/colorPlugin";
 
 const preview: Preview = {
   parameters: {

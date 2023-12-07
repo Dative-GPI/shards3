@@ -1,10 +1,16 @@
 {
   "private": true,
   "workspaces": [
-    "src/foundation-shared-ui-components",
-    "src/foundation-shared-ui-loader",
-    "src/foundation-shared-ui-domain",
-    "src/foundation-shared-ui-services",
+    "src/admin/foundation-admin-services",
+    "src/admin/foundation-admin-domain",
+    "src/admin/foundation-admin-components",
+    "src/core/foundation-core-services",
+    "src/core/foundation-core-domain",
+    "src/core/foundation-core-components",
+    "src/shared/foundation-shared-services",
+    "src/shared/foundation-shared-domain",
+    "src/shared/foundation-shared-components",
+    "src/shared/foundation-shared-loader",
     "dev/storybook"
   ],
   "dependencies": {
