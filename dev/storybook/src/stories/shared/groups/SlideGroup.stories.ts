@@ -4,7 +4,7 @@ import SlideGroup from "@dative-gpi/foundation-shared-components/components/FSSl
 import Button from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
 const meta = {
-  title: 'Foundation/Shared/SlideGroup',
+  title: 'Foundation/SlideGroup',
   component: SlideGroup,
   tags: ['autodocs'],
   argTypes: {

@@ -5,7 +5,7 @@ import Button from "@dative-gpi/foundation-shared-components/components/FSButton
 import { FSButtonsProps } from "@dative-gpi/foundation-shared-components/defaults/FSButtons";
 
 const meta = {
-  title: 'Foundation/Shared/Button',
+  title: 'Foundation/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {

@@ -2,7 +2,6 @@
     <FSRow
         class="fs-tag"
         width="hug"
-        height="hug"
         :style="style"
         v-bind="$attrs"
     >
@@ -23,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -66,14 +65,14 @@ export default defineComponent({
 
         const colors = useColors().getVariants(color.value);
 
-        const style = {
-            "--lc": full.value ? colors.base : colors.light,
-            "--bc": colors.base,
-            "--dc": colors.dark,
-            "--lt": full.value ? colors.light : colors.base,
-            "--bt": colors.light,
-            "--dt": colors.light
-        };
+        const style = computed(() => ({
+            "--fs-tag-light-color": full.value ? colors.base : colors.light,
+            "--fs-tag-base-color" : colors.base,
+            "--fs-tag-dark-color" : colors.dark,
+            "--fs-tag-light-text" : full.value ? colors.light : colors.base,
+            "--fs-tag-base-text"  : colors.light,
+            "--fs-tag-dark-text"  : colors.light
+        }));
 
         return {
             label,
@@ -84,51 +83,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-components/styles/main.scss";
-
-.fs-tag {
-    padding: 0 8px;
-    border-radius: 2px;
-    background-color: var(--lc);
-    color: var(--lt);
-
-    @include web {
-        height: 28px;
-    }
-
-    @include mobile {
-        height: 24px;
-    }
-}
-
-.fs-tag-button {
-    padding: 0;
-    margin: 4px 0;
-    border-radius: 2px;
-    box-shadow: none !important;
-    background-color: var(--lc);
-    color: var(--lt);
-
-    &:hover {
-        background-color: var(--bc);
-        color: var(--bt);
-    }
-
-    &:active {
-        background-color: var(--dc);
-        color: var(--dt);
-    }
-
-    @include web {
-        min-width: 20px !important;
-        height: 20px !important;
-    }
-
-    @include mobile {
-        min-width: 20px !important;
-        height: 16px !important;
-    }
-}
-</style>

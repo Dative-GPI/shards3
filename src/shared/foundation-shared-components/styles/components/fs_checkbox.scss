@@ -1,0 +1,15 @@
+.fs-checkbox {
+    cursor: var(--fs-checkbox-cursor) !important;
+    color: var(--fs-checkbox-base-color);
+}
+
+.fs-checkbox-label {
+    cursor: var(--fs-checkbox-cursor) !important;
+    color: var(--fs-checkbox-base-text);
+    height: 20px !important;
+    user-select: none;
+}
+
+.fs-checkbox-description {
+    color: var(--fs-checkbox-base-text);
+}

@@ -1,0 +1,12 @@
+
+@include clickscreen {
+    .fs-wrap-group {
+        & .v-slide-group__container .v-slide-group__content {
+            flex: 0 1 auto !important;
+
+            & .fs-row {
+                flex-wrap: wrap !important;
+            }
+        }
+    }
+}

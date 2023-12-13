@@ -1,6 +1,6 @@
 <template>
-    <v-app :theme="themeName" style="display: flex;">
-        <v-main style="display: flex;">
+    <v-app :theme="themeName">
+        <v-main>
             <slot name="story"></slot>
         </v-main>
     </v-app>

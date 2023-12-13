@@ -1,17 +1,19 @@
 <template>
     <FSCol width="hug" height="hug">
         <FSRow width="hug" height="hug">
-            <FSIcon
-                class="fs-checkbox"
-                size="checkbox"
+            <v-switch
+                class="fs-switch"
+                hide-details
+                inset
                 :style="style"
-                @click="onToggle"
-            >
-                {{ icon }}
-            </FSIcon>
+                :ripple="false"
+                :modelValue="$props.value"
+                @update:modelValue="onToggle"
+                v-bind="$attrs"
+            />
             <FSSpan
                 v-if="$props.label"
-                class="fs-checkbox-label"
+                class="fs-switch-label"
                 :style="style"
                 :font="font"
                 @click="onToggle"
@@ -21,7 +23,7 @@
         </FSRow>
         <FSSpan
             v-if="$props.description"
-            class="fs-checkbox-description"
+            class="fs-switch-description"
             font="text-overline"
             :style="style"
         >
@@ -36,15 +38,13 @@ import { computed, defineComponent, PropType, toRefs } from "vue";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
-import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
 import FSRow from "./FSRow.vue";
 import FSCol from "./FSCol.vue";
 
 export default defineComponent({
-    name: "FSCheckbox",
+    name: "FSSwitch",
     components: {
-        FSIcon,
         FSSpan,
         FSRow,
         FSCol
@@ -81,15 +81,16 @@ export default defineComponent({
         const { value, color, editable } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
+        const background = useColors().getBackground();
         const dark = useColors().getDark();
 
         const style = computed(() => ({
-            "--fs-checkbox-cursor"    : editable.value ? "pointer" : "default",
-            "--fs-checkbox-base-color": editable.value ? value.value ? colors.base : dark.base : dark.light,
-            "--fs-checkbox-base-text" : editable.value ? dark.base : dark.light
+            "--fs-switch-cursor"         : editable.value ? "pointer" : "default",
+            "--fs-switch-translate-x"    : value.value ? "8px" : "-8px",
+            "--fs-switch-base-color"     : value.value ? colors.base : editable.value ? dark.base : dark.light,
+            "--fs-switch-base-text"      : editable.value ? dark.base : dark.light,
+            "--fs-switch-base-background": background.base
         }));
-
-        const icon = computed(() => value.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
 
         const font = computed(() => value.value ? "text-button" : "text-body");
 
@@ -98,11 +99,11 @@ export default defineComponent({
                 return;
             }
             emit("update:value", !value.value);
-        };
+        }
 
         return {
+            editable,
             style,
-            icon,
             font,
             onToggle
         };

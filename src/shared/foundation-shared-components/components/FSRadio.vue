@@ -2,7 +2,7 @@
     <FSCol width="hug" height="hug">
         <FSRow width="hug" height="hug">
             <FSIcon
-                class="fs-checkbox"
+                class="fs-radio"
                 size="checkbox"
                 :style="style"
                 @click="onToggle"
@@ -11,7 +11,7 @@
             </FSIcon>
             <FSSpan
                 v-if="$props.label"
-                class="fs-checkbox-label"
+                class="fs-radio-label"
                 :style="style"
                 :font="font"
                 @click="onToggle"
@@ -21,7 +21,7 @@
         </FSRow>
         <FSSpan
             v-if="$props.description"
-            class="fs-checkbox-description"
+            class="fs-radio-description"
             font="text-overline"
             :style="style"
         >
@@ -42,7 +42,7 @@ import FSRow from "./FSRow.vue";
 import FSCol from "./FSCol.vue";
 
 export default defineComponent({
-    name: "FSCheckbox",
+    name: "FSRadio",
     components: {
         FSIcon,
         FSSpan,
@@ -61,6 +61,10 @@ export default defineComponent({
             default: null
         },
         value: {
+            type: [String, Boolean, Number],
+            required: true
+        },
+        selected: {
             type: Boolean,
             required: false,
             default: false
@@ -78,26 +82,29 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props, { emit }) {
-        const { value, color, editable } = toRefs(props);
+        const { value, selected, color, editable } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
         const dark = useColors().getDark();
 
         const style = computed(() => ({
-            "--fs-checkbox-cursor"    : editable.value ? "pointer" : "default",
-            "--fs-checkbox-base-color": editable.value ? value.value ? colors.base : dark.base : dark.light,
-            "--fs-checkbox-base-text" : editable.value ? dark.base : dark.light
+            "--fs-radio-cursor": (editable.value && !selected.value) ? "pointer" : "default",
+            "--fs-radio-base-color": editable.value ? selected.value ? colors.base : dark.base : dark.light,
+            "--fs-radio-base-text" : editable.value ? dark.base : dark.light
+
         }));
 
-        const icon = computed(() => value.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
+        const icon = computed(() => selected.value ? "mdi-radiobox-marked" : "mdi-radiobox-blank");
 
-        const font = computed(() => value.value ? "text-button" : "text-body");
+        const font = computed(() => selected.value ? "text-button" : "text-body");
 
         const onToggle = () => {
             if (!editable.value) {
                 return;
             }
-            emit("update:value", !value.value);
+            if (!selected.value) {
+                emit("update:value", value.value);
+            }
         };
 
         return {

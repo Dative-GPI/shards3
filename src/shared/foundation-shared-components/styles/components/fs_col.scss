@@ -1,0 +1,6 @@
+.fs-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--fs-col-gap)
+}

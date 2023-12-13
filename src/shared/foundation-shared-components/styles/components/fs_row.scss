@@ -1,0 +1,6 @@
+.fs-row {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: var(--fs-row-flex-wrap);
+    gap: var(--fs-row-gap);
+}

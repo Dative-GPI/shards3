@@ -1,7 +1,7 @@
 <template>
     <span
         class="fs-span"
-        :class="font"
+        :class="$props.font"
         v-bind="$attrs"
     >
         <slot />
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
     name: "FSSpan",
@@ -19,24 +19,6 @@ export default defineComponent({
             required: false,
             default: "text-body"
         }
-    },
-    setup(props) {
-        const { font } = toRefs(props);
-        
-        return {
-            font
-        };
     }
 });
 </script>
-
-<style lang="scss" scoped>
-.fs-span {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-</style>
