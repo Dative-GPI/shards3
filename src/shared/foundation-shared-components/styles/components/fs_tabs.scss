@@ -1,0 +1,63 @@
+.fs-tabs {
+    display: flex !important;
+    width: 100% !important;
+
+    @include web {
+        height: 48px !important;
+    }
+
+    @include mobile {
+        height: 40px !important;
+    }
+}
+
+.fs-tab {
+    display: flex;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--fs-group-light-text) !important;
+    color: var(--fs-group-light-text) !important;
+
+    & .fs-tab-label {
+        @extend .text-button;
+    }
+
+    &:hover {
+        border-bottom: 1px solid var(--fs-group-dark-text) !important;
+        color: var(--fs-group-dark-text) !important;
+    }
+
+    @include web {
+        height: 48px !important;
+    }
+
+    @include mobile {
+        height: 40px !important;
+    }
+}
+
+.fs-tab-active {
+    background-color: var(--fs-group-light-color) !important;
+    color: var(--fs-group-dark-text) !important;
+    border-bottom: 0 !important;
+
+    &:hover {
+        border-bottom: 0 !important;
+    }
+}
+
+.fs-tab-tag {
+    padding: 0 8px;
+    border-radius: 4px;
+    background-color: var(--fs-group-base-color);
+    color: var(--fs-group-light-color);
+
+    @include web {
+        min-width: 28px;
+        height: 28px;
+    }
+
+    @include mobile {
+        min-width: 24px;
+        height: 24px;
+    }
+}

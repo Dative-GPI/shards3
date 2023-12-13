@@ -1,7 +1,6 @@
 <template>
     <v-slide-group
-        class="fs-slide-group"
-        show-arrows
+        class="fs-wrap-group"
         :style="style"
         v-bind="$attrs"
     >
@@ -22,7 +21,7 @@ import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
-    name: "FSSlideGroup",
+    name: "FSWrapGroup",
     components: {
         FSRow
     },

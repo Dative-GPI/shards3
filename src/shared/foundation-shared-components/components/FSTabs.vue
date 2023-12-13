@@ -38,15 +38,15 @@ export default defineComponent({
         const { tab, color } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
-        const textColors = useColors().getText();
+        const dark = useColors().getDark();
 
         const style = {
-            "--lc": colors.light,
-            "--bc": colors.base,
-            "--dc": colors.dark,
-            "--lt": textColors.base,
-            "--bt": textColors.base,
-            "--dt": textColors.dark
+            "--fs-group-light-color"  : colors.light,
+            "--fs-group-base-color"   : colors.base,
+            "--fs-group-dark-color"   : colors.dark,
+            "--fs-group-light-text"   : dark.base,
+            "--fs-group-base-text"    : dark.base,
+            "--fs-group-dark-text"    : dark.dark
         };
 
         return {
@@ -58,45 +58,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-components/styles/main.scss";
-@import "@dative-gpi/foundation-shared-components/styles/main.scss";
-
-.fs-tabs {
-    display: flex;
-    width: 100%;
-
-    @include web {
-        height: 48px;
-    }
-
-    @include mobile {
-        height: 40px;
-    }
-}
-
-:deep(.v-slide-group__prev--disabled) {
-    color: var(--lt) !important;
-}
-
-:deep(.v-slide-group__prev),
-:deep(.v-slide-group__next) {
-    transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    flex: 1 1 0 !important;
-    color: var(--bt);
-
-    min-width: 24px !important;
-    width: 24px !important;
-
-    @include touchscreen {
-        display: none;
-    }
-}
-
-:deep(.v-slide-group__prev:hover),
-:deep(.v-slide-group__next:hover) {
-    background-color: var(--lc);
-    color: var(--dt);
-}
-</style>

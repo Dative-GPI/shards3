@@ -1,0 +1,45 @@
+.fs-tag {
+    padding: 0 8px !important;
+    border-radius: 2px !important;
+    background-color: var(--fs-tag-light-color) !important;
+    color: var(--fs-tag-light-text) !important;
+
+    @include web {
+        height: 28px !important;
+    }
+
+    @include mobile {
+        height: 24px !important;
+    }
+}
+
+.fs-tag-button {
+    padding: 0 !important;
+    margin: 4px 0 !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    background-color: var(--fs-tag-light-color) !important;
+    color: var(--fs-tag-light-text) !important;
+
+    &:hover {
+        background-color: var(--fs-tag-base-color) !important;
+        color: var(--fs-tag-base-text) !important;
+    }
+
+    &:active {
+        background-color: var(--fs-tag-dark-color) !important;
+        color: var(--fs-tag-dark-text) !important;
+    }
+
+    @include web {
+        min-width: 20px !important;
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    @include mobile {
+        min-width: 20px !important;
+        width: 20px !important;
+        height: 16px !important;
+    }
+}

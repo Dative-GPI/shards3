@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 export default defineComponent({
     name: "FSCol",
@@ -33,32 +33,33 @@ export default defineComponent({
     setup(props) {
         const { width, height, gap } = toRefs(props);
 
-        const style = {
-            "--g": `${gap.value}px`
-        };
-
-        switch (width.value) {
-            case "hug":
-                break;
-            case "fill":
-                style["align-self"] = "stretch";
-                break;
-            default:
-                style["width"] = width.value;
-                break;
-        }
-
-        switch (height.value) {
-            case "hug":
-                break;
-            case "fill":
-                style["flex"] = "1 0 0";
-                break;
-            default:
-                style["height"] = height.value;
-                style["flex-shrink"] = "0";
-                break;
-        }
+        const style = computed(() => {
+            const style = {
+                "--fs-col-gap": `${gap.value}px`
+            };
+            switch (width.value) {
+                case "hug":
+                    break;
+                case "fill":
+                    style["align-self"] = "stretch";
+                    break;
+                default:
+                    style["width"] = width.value;
+                    break;
+            }
+            switch (height.value) {
+                case "hug":
+                    break;
+                case "fill":
+                    style["flex"] = "1 0 0";
+                    break;
+                default:
+                    style["height"] = height.value;
+                    style["flex-shrink"] = "0";
+                    break;
+            }
+            return style;
+        });
 
         return {
             style
@@ -66,12 +67,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style lang="scss" scoped>
-.fs-col {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--g)
-}
-</style>

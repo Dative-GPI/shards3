@@ -28,25 +28,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style lang="scss" scoped>
-@import "@dative-gpi/foundation-shared-components/styles/main.scss";
-
-.fs-icon-s {
-    font-size: 12px !important;
-}
-
-.fs-icon-m {
-    @include mobile {
-        font-size: 18px !important;
-    }
-
-    @include web {
-        font-size: 24px !important;
-    }
-}
-
-.fs-icon-checkbox {
-    font-size: 22px !important;
-}
-</style>

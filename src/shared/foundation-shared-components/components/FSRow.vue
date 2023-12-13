@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 export default defineComponent({
     name: "FSRow",
@@ -24,6 +24,11 @@ export default defineComponent({
             required: false,
             default: "fill"
         },
+        wrap: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
         gap: {
             type: Number,
             required: false,
@@ -31,34 +36,36 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const { width, height, gap } = toRefs(props);
+        const { width, height, wrap, gap } = toRefs(props);
         
-        const style = {
-            "--g": `${gap.value}px`
-        };
-
-        switch (width.value) {
-            case "hug":
-                break;
-            case "fill":
-                style["flex"] = "1 0 0";
-                break;
-            default:
-                style["width"] = width.value;
-                break;
-        }
-
-        switch (height.value) {
-            case "hug":
-                break;
-            case "fill":
-                style["align-self"] = "stretch";
-                break;
-            default:
-                style["height"] = height.value;
-                style["flex-shrink"] = "0";
-                break;
-        }
+        const style = computed(() => {
+            const style = {
+                "--fs-row-flex-wrap": wrap.value ? "wrap" : "nowrap",
+                "--fs-row-gap": `${gap.value}px`
+            };
+            switch (width.value) {
+                case "hug":
+                    break;
+                case "fill":
+                    style["flex"] = "1 0 0";
+                    break;
+                default:
+                    style["width"] = width.value;
+                    break;
+            }
+            switch (height.value) {
+                case "hug":
+                    break;
+                case "fill":
+                    style["align-self"] = "stretch";
+                    break;
+                default:
+                    style["height"] = height.value;
+                    style["flex-shrink"] = "0";
+                    break;
+            }
+            return style;
+        });
 
         return {
             style
@@ -66,11 +73,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style lang="scss" scoped>
-.fs-row {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--g);
-}
-</style>

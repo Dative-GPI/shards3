@@ -1,0 +1,110 @@
+.text-h1 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal;
+    font-weight: 700;
+
+    @include web {
+        font-size: 36px;
+        line-height: 40px;
+        letter-spacing: -0.72px;
+    }
+
+    @include mobile {
+        font-size: 29px;
+        line-height: 32px;
+        letter-spacing: -1.45px;
+    }
+}
+
+.text-h2 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal;
+    font-weight: 600;
+
+    @include web {
+        font-size: 27px;
+        line-height: 32px;
+        letter-spacing: -0.81px;
+    }
+
+    @include mobile {
+        font-size: 22px;
+        line-height: 24px;
+        letter-spacing: -0.88px;
+    }
+}
+
+.text-h3 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal;
+    font-weight: 600;
+
+    @include web {
+        font-size: 21px;
+        line-height: 24px;
+        letter-spacing: -0.63px;
+    }
+
+    @include mobile {
+        font-size: 17px;
+        line-height: 20px;
+        letter-spacing: -0.51px;
+    }
+}
+
+.text-body {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+
+    @include web {
+        font-size: 16px !important;
+        line-height: 20px !important;
+        letter-spacing: -0.48px !important;
+    }
+
+    @include mobile {
+        font-size: 13px !important;
+        line-height: 16px !important;
+        letter-spacing: -0.39px !important;
+    }
+}
+
+.text-button {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+
+    @include web {
+        font-size: 16px !important;
+        line-height: 20px !important;
+        letter-spacing: -0.48px !important;
+    }
+
+    @include mobile {
+        font-size: 13px !important;
+        line-height: 16px !important;
+        letter-spacing: -0.39px !important;
+    }
+}
+
+.text-overline {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+
+    @include web {
+        font-size: 12px !important;
+        line-height: 16px !important;
+        letter-spacing: 0.08px !important;
+    }
+
+    @include mobile {
+        font-size: 10px !important;
+        line-height: 16px !important;
+        letter-spacing: 0.19px !important;
+    }
+}

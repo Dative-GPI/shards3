@@ -1,0 +1,28 @@
+.fs-button {
+    padding: var(--fs-button-padding) !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    border: 1px solid var(--fs-button-base-color) !important;
+    background-color: var(--fs-button-light-color) !important;
+    color: var(--fs-button-light-text) !important;
+
+    &:hover {
+        background-color: var(--fs-button-base-color) !important;
+        color: var(--fs-button-base-text) !important;
+    }
+
+    &:active {
+        border-color: var(--fs-button-dark-color) !important;
+        background-color: var(--fs-button-dark-color) !important;
+    }
+
+    @include web {
+        min-width: 48px !important;
+        height: 48px !important;
+    }
+
+    @include mobile {
+        min-width: 36px !important;
+        height: 36px !important;
+    }
+}

@@ -1,15 +1,17 @@
 <template>
     <v-window
         class="fs-window"
-        :modelValue="tab"
+        :modelValue="$props.tab"
         v-bind="$attrs"
     >
-        <slot />
+        <v-window-item v-for="(component, index) in $slots.default()" :key="index">
+            <component :is="component" />
+        </v-window-item>
     </v-window>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
     name: "FSWindow",
@@ -19,13 +21,6 @@ export default defineComponent({
             required: false,
             default: 0
         }
-    },
-    setup(props) {
-        const { tab } = toRefs(props);
-
-        return {
-            tab
-        };
     }
 });
 </script>

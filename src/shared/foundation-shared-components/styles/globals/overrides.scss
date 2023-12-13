@@ -1,0 +1,41 @@
+// No default hover effect on buttons
+.v-btn__overlay {
+    display: none;
+}
+
+// No default hover effect on switches and others
+.v-selection-control__input::before {
+    display: none;
+}
+
+/***** Applies to all slide groups (FSTabs, FSSlideGroup, FSWrapGroup) *****/
+
+// On touchscreen, hide arrows
+// Otherwise show small ones with base text color
+.v-slide-group__prev,
+.v-slide-group__next {
+    transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 24px !important;
+    width: 24px !important;
+    flex: 1 1 0 !important;
+    color: var(--fs-group-base-text);
+
+    @include touchscreen {
+        display: none !important;
+    }
+}
+
+// Light background color & dark text color on arrows when hovered
+.v-slide-group__prev:hover,
+.v-slide-group__next:hover {
+    background-color: var(--fs-group-light-color);
+    color: var(--fs-group-dark-text);
+}
+
+// Light text color on arrows when disabled
+.v-slide-group__prev--disabled,
+.v-slide-group__next--disabled {
+    color: var(--fs-group-light-text) !important;
+}
+
+/***************************************************************************/

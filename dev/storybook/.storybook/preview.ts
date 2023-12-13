@@ -1,22 +1,19 @@
-import  { type Preview , setup }  from '@storybook/vue3';
+import { withVuetifyTheme } from "./withVuetifyTheme.decorator";
+import { loadFonts } from "../src/plugins/webfontloader";
+import { type Preview, setup } from "@storybook/vue3";
+import { mockApp } from "../src/plugins/axiosmock";
+import type { App } from "vue";
 
-import type { App } from 'vue'
+import vuetify from "../src/plugins/vuetify";
 
-import vuetify from '../src/plugins/vuetify'
-
-import { loadFonts } from '../src/plugins/webfontloader'
-import { mockApp } from '../src/plugins/axiosmock'
-
-import { withVuetifyTheme } from './withVuetifyTheme.decorator'
-
-import { ColorPlugin } from "../../../src/shared/foundation-shared-components/plugins/colorPlugin";
+import { ColorPlugin } from "@dative-gpi/foundation-shared-components/plugins/colorPlugin";
 
 const preview: Preview = {
   parameters: {
     backgrounds: {
-      default: 'light',
+      default: "light",
     },
-    actions: { argTypesRegex: '^on[A-Z].*' },
+    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -25,7 +22,7 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Foundation-UI', 'Foundation', 'Pages'],
+        order: ["Foundation-UI", "Foundation", "Pages"],
       }
     }
   },
@@ -40,19 +37,19 @@ setup((app:App) => {
 })
 
 setup((app:App) => {
-  app.config.globalProperties.$XYZ = 'XYZ'
+  app.config.globalProperties.$XYZ = "XYZ"
 })
 
 export const globalTypes = {
   theme: {
-    name: 'Theme',
-    description: 'Global theme for components',
+    name: "Theme",
+    description: "Global theme for components",
     toolbar: {
-      icon: 'paintbrush',
+      icon: "paintbrush",
       // Array of plain string values or MenuItem shape
       items: [
-        { value: 'light', title: 'Light', left: '🌞' },
-        { value: 'dark', title: 'Dark', left: '🌛' },
+        { value: "light", title: "Light", left: "🌞" },
+        { value: "dark", title: "Dark", left: "🌛" },
       ],
       // Change title based on selected value
       dynamicTitle: true,

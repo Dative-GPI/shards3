@@ -1,0 +1,11 @@
+@mixin touchscreen {
+    @media (hover: none) {
+        @content;
+    }
+}
+
+@mixin clickscreen {
+    @media not all and (hover: none) {
+        @content;
+    }
+}

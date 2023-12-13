@@ -4,7 +4,7 @@ import Tabs from "@dative-gpi/foundation-shared-components/components/FSTabs.vue
 import Tab from "@dative-gpi/foundation-shared-components/components/FSTab.vue";
 
 const meta = {
-  title: 'Foundation/Shared/Tabs',
+  title: 'Foundation/Tabs',
   component: Tabs,
   tags: ['autodocs'],
   argTypes: {
@@ -82,7 +82,7 @@ export const ShowArrows: Story = {
     template: `
       <Tabs v-bind="args" v-model:tab="args.tab">
         <template #default="{ color }">
-          <Tab label="Tab 1: This tab has a long name" :value="0" :color="color" tag="First" />
+          <Tab label="Tab 1: This tab has a long name, but considering it's the first, it's even worst!" :value="0" :color="color" tag="First" />
           <Tab label="Tab 2: This tab has a long name" :value="1" :color="color" />
           <Tab label="Tab 3: This tab has a long name" :value="2" :color="color" />
           <Tab label="Tab 4: This tab has a long name" :value="3" :color="color" />

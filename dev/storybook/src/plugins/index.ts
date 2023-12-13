@@ -5,13 +5,13 @@
  */
 
 // Plugins
-import { loadFonts } from './webfontloader'
-import vuetify from './vuetify'
+import { loadFonts } from "./webfontloader";
+import vuetify from "./vuetify";
 
 // Types
-import type { App } from 'vue'
+import type { App } from "vue";
 
-import { ColorPlugin } from "../../../../src/shared/foundation-shared-components/plugins/colorPlugin";
+import { ColorPlugin } from "@dative-gpi/foundation-shared-components/plugins/colorPlugin";
 
 export function registerPlugins (app: App) {
   loadFonts();
