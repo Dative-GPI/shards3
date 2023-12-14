@@ -18,6 +18,8 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "axios": "1.6.2",
+    "axios-mock-adapter": "1.22.0",
     "@babel/types": "^7.21.4",
     "color": "^4.2.3",
     "@dative-gpi/foundation-admin-components": "*",
@@ -31,6 +33,7 @@
     "@storybook/testing-library": "^0.2.0",
     "@storybook/vue3": "^7.4.0",
     "@storybook/vue3-vite": "^7.4.0",
+    "@storybook/addon-storysource": "7.6.4",
     "@types/node": "^18.15.0",
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^4.0.0",
