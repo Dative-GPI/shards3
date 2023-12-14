@@ -1,7 +1,7 @@
 import os
 import json
 
-PROJECT = "@dative-gpi/foundation-admin-components"
+PROJECT = "@dative-gpi/foundation-extension-components"
 
 def find_vue_files(directory):
     """

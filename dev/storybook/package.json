@@ -24,6 +24,7 @@
     "color": "^4.2.3",
     "@dative-gpi/foundation-admin-components": "*",
     "@dative-gpi/foundation-core-components": "*",
+    "@dative-gpi/foundation-extension-components": "*",
     "@dative-gpi/foundation-shared-components": "*",
     "@dative-gpi/foundation-shared-loader": "*",
     "@storybook/addon-essentials": "^7.4.0",
