@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateImports = void 0;
 const getImports_1 = require("./getImports");
-function generateImports(source) {
-    const { imports, components, directives } = (0, getImports_1.getImports)(source);
+function generateImports(source, skipShared, skipCore, skipAdmin, skipExtension) {
+    const { imports, components, directives } = (0, getImports_1.getImports)(source, skipShared, skipCore, skipAdmin, skipExtension);
     let code = '';
     if (components.length || directives.length) {
         code += '\n\n/* Foundation */\n';

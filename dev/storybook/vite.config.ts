@@ -19,7 +19,7 @@ export default defineConfig({
     vuetify({
       autoImport: true
     }),
-    FoundationSharedAutoImport()
+    FoundationSharedAutoImport({ skipShared: false })
   ],
   define: { 'process.env': {} },
   resolve: {

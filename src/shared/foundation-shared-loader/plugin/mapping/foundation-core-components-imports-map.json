@@ -1,0 +1,8 @@
+{
+    "components": {
+        "FSCoreButton": {
+            "from": "@dative-gpi/foundation-core-components/components/FSCoreButton.vue"
+        }
+    },
+    "directives": []
+}
