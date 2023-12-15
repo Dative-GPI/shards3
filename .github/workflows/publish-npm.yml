@@ -28,19 +28,9 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Generate shared import map
+      - name: Generate imports map
         run: |
-          cd src/shared/foundation-shared-components
-          python importsGenerator.py
-
-      - name: Generate core import map
-        run: |
-          cd src/core/foundation-core-components
-          python importsGenerator.py
-
-      - name: Generate admin import map
-        run: |
-          cd src/admin/foundation-admin-components
+          cd src/shared/foundation-shared-loader
           python importsGenerator.py
 
       - name: Build foundation-shared-loader

@@ -1,0 +1,59 @@
+{
+    "components": {
+        "FSSwitch": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSSwitch.vue"
+        },
+        "FSTag": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSTag.vue"
+        },
+        "FSCol": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSCol.vue"
+        },
+        "FSWrapGroup": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSWrapGroup.vue"
+        },
+        "FSCheckbox": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue"
+        },
+        "FSRadio": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSRadio.vue"
+        },
+        "FSFadeOut": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue"
+        },
+        "FSButton": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSButton.vue"
+        },
+        "FSTabs": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSTabs.vue"
+        },
+        "FSRow": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSRow.vue"
+        },
+        "FSTextField": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSTextField.vue"
+        },
+        "FSSlideGroup": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue"
+        },
+        "FSSpan": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSSpan.vue"
+        },
+        "FSTab": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSTab.vue"
+        },
+        "FSBreadcrumbs": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSBreadcrumbs.vue"
+        },
+        "FSRadioGroup": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSRadioGroup.vue"
+        },
+        "FSIcon": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSIcon.vue"
+        },
+        "FSWindow": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSWindow.vue"
+        }
+    },
+    "directives": []
+}

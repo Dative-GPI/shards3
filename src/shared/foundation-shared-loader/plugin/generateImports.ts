@@ -1,7 +1,7 @@
 import { getImports } from './getImports'
 
-export function generateImports (source: string) {
-  const { imports, components, directives } = getImports(source)
+export function generateImports (source: string, skipShared: boolean, skipCore: boolean, skipAdmin: boolean, skipExtension: boolean) {
+  const { imports, components, directives } = getImports(source, skipShared, skipCore, skipAdmin, skipExtension)
 
   let code = ''
 
