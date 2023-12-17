@@ -34,28 +34,28 @@ export default defineComponent({
         const { width, height, gap } = toRefs(props);
 
         const style = computed(() => {
-            const style = {
+            const style : {[code: string]: string} & Partial<CSSStyleDeclaration> = {
                 "--fs-col-gap": `${gap.value}px`
             };
             switch (width.value) {
                 case "hug":
                     break;
                 case "fill":
-                    style["align-self"] = "stretch";
+                    style.alignSelf = "stretch";
                     break;
                 default:
-                    style["width"] = width.value;
+                    style.width = width.value;
                     break;
             }
             switch (height.value) {
                 case "hug":
                     break;
                 case "fill":
-                    style["flex"] = "1 0 0";
+                    style.flex = "1 0 0";
                     break;
                 default:
-                    style["height"] = height.value;
-                    style["flex-shrink"] = "0";
+                    style.heigth = height.value;
+                    style.flexShrink = "0";
                     break;
             }
             return style;

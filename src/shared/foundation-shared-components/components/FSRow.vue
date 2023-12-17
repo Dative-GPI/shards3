@@ -39,7 +39,7 @@ export default defineComponent({
         const { width, height, wrap, gap } = toRefs(props);
         
         const style = computed(() => {
-            const style = {
+            const style : {[code: string]: string} & Partial<CSSStyleDeclaration> = {
                 "--fs-row-flex-wrap": wrap.value ? "wrap" : "nowrap",
                 "--fs-row-gap": `${gap.value}px`
             };
@@ -47,21 +47,21 @@ export default defineComponent({
                 case "hug":
                     break;
                 case "fill":
-                    style["flex"] = "1 0 0";
+                    style.flex = "1 0 0";
                     break;
                 default:
-                    style["width"] = width.value;
+                    style.width = width.value;
                     break;
             }
             switch (height.value) {
                 case "hug":
                     break;
                 case "fill":
-                    style["align-self"] = "stretch";
+                    style.alignSelf = "stretch";
                     break;
                 default:
-                    style["height"] = height.value;
-                    style["flex-shrink"] = "0";
+                    style.height = height.value;
+                    style.flexShrink = "0";
                     break;
             }
             return style;
