@@ -1,0 +1,1 @@
+import{d as p,r as s,a as t}from"./chunk-UXHY756F-1ddf2e6e.js";import"./vue.esm-bundler-c3efb794.js";var e={renderer:"vue3"};export{p as applyDecorators,e as parameters,s as render,t as renderToCanvas};
