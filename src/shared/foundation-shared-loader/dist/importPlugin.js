@@ -11,7 +11,7 @@ function parseId(id) {
         path: pathname ?? id
     };
 }
-function importPlugin() {
+function importPlugin(skipShared, skipCore, skipAdmin, skipExtension) {
     return {
         name: 'foundation:import',
         configResolved(config) {
@@ -23,7 +23,7 @@ function importPlugin() {
             const { query, path } = parseId(id);
             if (((!query || !('vue' in query)) && (0, path_1.extname)(path) === '.vue' && !/^import { render as _sfc_render } from ".*"$/m.test(code)) ||
                 (query && 'vue' in query && (query.type === 'template' || (query.type === 'script' && query.setup === 'true')))) {
-                const { code: imports, source } = (0, generateImports_1.generateImports)(code);
+                const { code: imports, source } = (0, generateImports_1.generateImports)(code, skipShared, skipCore, skipAdmin, skipExtension);
                 return {
                     code: source + imports,
                     map: null,

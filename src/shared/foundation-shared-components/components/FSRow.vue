@@ -43,14 +43,14 @@ export default defineComponent({
     setup(props) {
         const { width, height, align, wrap, gap } = toRefs(props);
         
-        const style = computed(() => ({
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
             "--fs-row-flex-wrap": wrap.value ? "wrap" : "nowrap",
             "--fs-row-gap": `${gap.value}px`,
             "--fs-row-width": width.value,
             "--fs-row-height": height.value
         }));
 
-        const classes = computed(() => {
+        const classes = computed((): string => {
             let classes = "fs-row";
             switch (width.value) {
                 case "hug":

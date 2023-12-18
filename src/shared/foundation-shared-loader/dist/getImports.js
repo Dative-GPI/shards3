@@ -25,27 +25,36 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getImports = void 0;
 const parseTemplate_1 = require("./parseTemplate");
-const sharedImportMap = __importStar(require("@dative-gpi/foundation-shared-components/importMap.json"));
-const coreImportMap = __importStar(require("@dative-gpi/foundation-core-components/importMap.json"));
-const adminImportMap = __importStar(require("@dative-gpi/foundation-admin-components/importMap.json"));
-function getImports(source) {
+const sharedImportMap = __importStar(require("./mapping/foundation-shared-components-imports-map.json"));
+const coreImportMap = __importStar(require("./mapping/foundation-core-components-imports-map.json"));
+const adminImportMap = __importStar(require("./mapping/foundation-admin-components-imports-map.json"));
+const extensionImportMap = __importStar(require("./mapping/foundation-extension-components-imports-map.json"));
+function getImports(source, skipShared, skipCore, skipAdmin, skipExtension) {
     const { components, directives } = (0, parseTemplate_1.parseTemplate)(source);
     const resolvedComponents = [];
     const resolvedDirectives = [];
     const imports = new Map();
+    console.log('skipShared', skipShared);
+    console.log('skipCore', skipCore);
+    console.log('skipAdmin', skipAdmin);
+    console.log('skipExtension', skipExtension);
     if (components.size || directives.size) {
         components.forEach(component => {
-            if (component.name in sharedImportMap.components) {
+            if (!skipShared && component.name in sharedImportMap.components) {
                 resolvedComponents.push(component);
                 addImport(imports, component.name, component.symbol, sharedImportMap.components[component.name].from);
             }
-            else if (component.name in coreImportMap.components) {
+            else if (!skipCore && component.name in coreImportMap.components) {
                 resolvedComponents.push(component);
                 addImport(imports, component.name, component.symbol, coreImportMap.components[component.name].from);
             }
-            else if (component.name in adminImportMap.components) {
+            else if (!skipAdmin && component.name in adminImportMap.components) {
                 resolvedComponents.push(component);
                 addImport(imports, component.name, component.symbol, adminImportMap.components[component.name].from);
+            }
+            else if (!skipExtension && component.name in extensionImportMap.components) {
+                resolvedComponents.push(component);
+                addImport(imports, component.name, component.symbol, extensionImportMap.components[component.name].from);
             }
         });
         // directives.forEach(directive => {

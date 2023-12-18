@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <FButton label="Hello" />
+      <FSButton label="Hello" />
       <!-- <HelloWorld /> -->
     </v-main>
   </v-app>

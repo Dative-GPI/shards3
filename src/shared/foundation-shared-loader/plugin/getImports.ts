@@ -1,9 +1,10 @@
 import { parseTemplate, type TemplateMatch } from './parseTemplate'
-import * as sharedImportMap from '@dative-gpi/foundation-shared-components/importMap.json'
-import * as coreImportMap from '@dative-gpi/foundation-core-components/importMap.json'
-import * as adminImportMap from '@dative-gpi/foundation-admin-components/importMap.json'
+import * as sharedImportMap from './mapping/foundation-shared-components-imports-map.json'
+import * as coreImportMap from './mapping/foundation-core-components-imports-map.json'
+import * as adminImportMap from './mapping/foundation-admin-components-imports-map.json'
+import * as extensionImportMap from './mapping/foundation-extension-components-imports-map.json'
 
-export function getImports (source: string) {
+export function getImports (source: string, skipShared: boolean, skipCore: boolean, skipAdmin: boolean, skipExtension: boolean) {
   const { components, directives } = parseTemplate(source)
   const resolvedComponents: TemplateMatch[] = []
   const resolvedDirectives: TemplateMatch[] = []
@@ -11,17 +12,21 @@ export function getImports (source: string) {
 
   if (components.size || directives.size) {
     components.forEach(component => {
-      if (component.name in sharedImportMap.components) {
+      if (!skipShared && component.name in sharedImportMap.components) {
         resolvedComponents.push(component)
         addImport(imports, component.name, component.symbol, (sharedImportMap.components as any)[component.name].from)
       }
-      else if (component.name in coreImportMap.components) {
+      else if (!skipCore && component.name in coreImportMap.components) {
         resolvedComponents.push(component)
         addImport(imports, component.name, component.symbol, (coreImportMap.components as any)[component.name].from)
       }
-      else if (component.name in adminImportMap.components) {
+      else if (!skipAdmin && component.name in adminImportMap.components) {
         resolvedComponents.push(component)
         addImport(imports, component.name, component.symbol, (adminImportMap.components as any)[component.name].from)
+      }
+      else if (!skipExtension && component.name in extensionImportMap.components) {
+        resolvedComponents.push(component)
+        addImport(imports, component.name, component.symbol, (extensionImportMap.components as any)[component.name].from)
       }
     })
     // directives.forEach(directive => {

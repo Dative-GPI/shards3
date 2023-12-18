@@ -38,13 +38,13 @@ export default defineComponent({
     setup(props) {
         const { width, height, align, gap } = toRefs(props);
 
-        const style = computed(() => ({
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
             "--fs-col-gap": `${gap.value}px`,
             "--fs-col-width": width.value,
             "--fs-col-height": height.value
         }));
 
-        const classes = computed(() => {
+        const classes = computed((): string => {
             let classes = "fs-col";
             switch (width.value) {
                 case "hug":
