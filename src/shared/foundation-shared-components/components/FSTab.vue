@@ -2,39 +2,56 @@
     <v-tab
         class="fs-tab"
         :ripple="false"
-        :slider-color="sliderColor"
         v-bind="$attrs"
     >
         <slot>
-            <FSRow>
-                <FSSpan v-if="label" class="fs-tab-label" font="text-button">
-                    {{ label }}
-                </FSSpan>
+            <FSRow align="center-left">
+                <slot name="prepend">
+                    <FSIcon v-if="$props.prependIcon" size="m">
+                        {{ $props.prependIcon }}
+                    </FSIcon>
+                </slot>
+                <slot name="default">
+                    <FSSpan v-if="$props.label" font="text-button">
+                        {{ $props.label }}
+                    </FSSpan>
+                </slot>
                 <v-spacer />
-                <FSSpan v-if="tag" class="fs-tab-tag">
-                    {{ tag }}
-                </FSSpan>
+                <slot name="tag">
+                    <FSSpan v-if="$props.tag" class="fs-tab-tag">
+                        {{ $props.tag }}
+                    </FSSpan>
+                </slot>
+                <slot name="append">
+                    <FSIcon v-if="$props.appendIcon" size="m">
+                        {{ $props.appendIcon }}
+                    </FSIcon>
+                </slot>
             </FSRow>
         </slot>
     </v-tab>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
-
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { defineComponent } from "vue";
 
 import FSSpan from "./FSSpan.vue";
+import FSIcon from "./FSIcon.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
     name: "FSTab",
     components: {
         FSSpan,
+        FSIcon,
         FSRow
     },
     props: {
+        prependIcon: {
+            type: String,
+            required: false,
+            default: null
+        },
         label: {
             type: String,
             required: false,
@@ -45,21 +62,11 @@ export default defineComponent({
             required: false,
             default: null
         },
-        color: {
-            type: String as PropType<ColorBase>,
+        appendIcon: {
+            type: String,
             required: false,
-            default: ColorBase.Primary
+            default: null
         }
-    },
-    setup(props) {
-        const { label, color } = toRefs(props);
-
-        const colors = useColors().getVariants(color.value);
-
-        return {
-            label,
-            sliderColor: colors.base
-        };
     }
 });
 </script>

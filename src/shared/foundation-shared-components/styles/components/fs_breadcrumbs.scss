@@ -1,3 +1,20 @@
+.fs-breadcrumbs-label {
+    cursor: pointer;
+    color: var(--fs-breadcrumbs-base-text) !important;
+
+    &--disabled {
+        color: var(--fs-breadcrumbs-light-text) !important;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.fs-breadcrumbs-divider {
+    margin-bottom: 2px !important;
+}
+
 .v-breadcrumbs {
     padding: 0 !important;
     gap: 8px !important;
@@ -6,23 +23,19 @@
 .v-breadcrumbs-item {
     padding: 0 !important;
 
+    &--disabled {
+        opacity: 1 !important;
+        color: var(--fs-breadcrumbs-light-text) !important;
+    }
+
     &:last-child > .fs-breadcrumbs-label--disabled {
         @extend .text-button;
 
-        color: var(--fs-breadcrumbs-light-text) !important;
+        color: var(--fs-breadcrumbs-base-text) !important;
     }
 }
 
 .v-breadcrumbs-divider {
     padding: 0 !important;
     color: var(--fs-breadcrumbs-base-text) !important;
-}
-
-.fs-breadcrumbs-label {
-    cursor: pointer;
-    color: var(--fs-breadcrumbs-base-text) !important;
-
-    &:hover {
-        color: var(--fs-breadcrumbs-dark-text) !important;
-    }
 }

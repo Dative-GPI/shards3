@@ -1,7 +1,7 @@
 <template>
     <div
-        class="fs-col"
         :style="style"
+        :class="classes"
         v-bind="$attrs"
     >
         <slot />
@@ -22,7 +22,12 @@ export default defineComponent({
         height: {
             type: String as PropType<"hug" | "fill" | string>,
             required: false,
-            default: "fill"
+            default: "hug"
+        },
+        align: {
+            type: String as PropType<"top-left" | "top-center" | "top-right" | "center-left" | "center-center" | "center-right" | "bottom-left" | "bottom-center" | "bottom-right">,
+            required: false,
+            default: "top-left"
         },
         gap: {
             type: Number,
@@ -31,38 +36,73 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const { width, height, gap } = toRefs(props);
+        const { width, height, align, gap } = toRefs(props);
 
-        const style = computed(() => {
-            const style = {
-                "--fs-col-gap": `${gap.value}px`
-            };
+        const style = computed(() => ({
+            "--fs-col-gap": `${gap.value}px`,
+            "--fs-col-width": width.value,
+            "--fs-col-height": height.value
+        }));
+
+        const classes = computed(() => {
+            let classes = "fs-col";
             switch (width.value) {
                 case "hug":
+                    classes += " fs-col-width-hug";
                     break;
                 case "fill":
-                    style["align-self"] = "stretch";
+                    classes += " fs-col-width-fill";
                     break;
-                default:
-                    style["width"] = width.value;
+                default: 
+                    classes += " fs-col-width-fixed";
                     break;
             }
             switch (height.value) {
                 case "hug":
+                    classes += " fs-col-height-hug";
                     break;
                 case "fill":
-                    style["flex"] = "1 0 0";
+                    classes += " fs-col-height-fill";
                     break;
-                default:
-                    style["height"] = height.value;
-                    style["flex-shrink"] = "0";
+                default: 
+                    classes += " fs-col-height-fixed";
                     break;
             }
-            return style;
+            switch (align.value) {
+                case "top-left":
+                    classes += " fs-col-top-left";
+                    break;
+                case "top-center":
+                    classes += " fs-col-top-center";
+                    break;
+                case "top-right":
+                    classes += " fs-col-top-right";
+                    break;
+                case "center-left":
+                    classes += " fs-col-center-left";
+                    break;
+                case "center-center":
+                    classes += " fs-col-center-center";
+                    break;
+                case "center-right":
+                    classes += " fs-col-center-right";
+                    break;
+                case "bottom-left":
+                    classes += " fs-col-bottom-left";
+                    break;
+                case "bottom-center":
+                    classes += " fs-col-bottom-center";
+                    break;
+                case "bottom-right":
+                    classes += " fs-col-bottom-right";
+                    break;
+            }
+            return classes;
         });
 
         return {
-            style
+            style,
+            classes
         };
     }
 });

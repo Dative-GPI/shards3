@@ -1,6 +1,6 @@
 <template>
-    <FSCol width="hug" height="hug">
-        <FSRow width="hug" height="hug">
+    <FSCol width="hug">
+        <FSRow width="hug" align="center-left">
             <v-switch
                 class="fs-switch"
                 hide-details
@@ -11,24 +11,28 @@
                 @update:modelValue="onToggle"
                 v-bind="$attrs"
             />
-            <FSSpan
-                v-if="$props.label"
-                class="fs-switch-label"
-                :style="style"
-                :font="font"
-                @click="onToggle"
-            >
-                {{ $props.label }}
-            </FSSpan>
+            <slot name="default">
+                <FSSpan
+                    v-if="$props.label"
+                    class="fs-switch-label"
+                    :style="style"
+                    :font="font"
+                    @click="onToggle"
+                >
+                    {{ $props.label }}
+                </FSSpan>
+            </slot>
         </FSRow>
-        <FSSpan
-            v-if="$props.description"
-            class="fs-switch-description"
-            font="text-overline"
-            :style="style"
-        >
-            {{ $props.description }}
-        </FSSpan>
+        <slot name="description">
+            <FSSpan
+                v-if="$props.description"
+                class="fs-switch-description"
+                font="text-underline"
+                :style="style"
+            >
+                {{ $props.description }}
+            </FSSpan>
+        </slot>
     </FSCol>
 </template>
 
@@ -80,9 +84,9 @@ export default defineComponent({
     setup(props, { emit }) {
         const { value, color, editable } = toRefs(props);
 
-        const colors = useColors().getVariants(color.value);
         const background = useColors().getBackground();
-        const dark = useColors().getDark();
+        const colors = useColors().getVariants(color.value);
+        const dark = useColors().getVariants(ColorBase.Dark);
 
         const style = computed(() => ({
             "--fs-switch-cursor"         : editable.value ? "pointer" : "default",

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import Switch from "@dative-gpi/foundation-shared-components/components/FSSwitch.vue";
 
 const meta = {
-  title: 'Foundation/Switch',
+  title: 'Foundation/Shared/Switch',
   component: Switch,
   tags: ['autodocs'],
   argTypes: {

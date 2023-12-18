@@ -1,54 +1,54 @@
 .text-h1 {
     font-family: 'Montserrat', sans-serif !important;
-    font-style: normal;
-    font-weight: 700;
+    font-style: normal !important;
+    font-weight: 700 !important;
 
     @include web {
-        font-size: 36px;
-        line-height: 40px;
-        letter-spacing: -0.72px;
+        font-size: 36px !important;
+        line-height: 40px !important;
+        letter-spacing: -0.72px !important;
     }
 
     @include mobile {
-        font-size: 29px;
-        line-height: 32px;
-        letter-spacing: -1.45px;
+        font-size: 29px !important;
+        line-height: 32px !important;
+        letter-spacing: -1.45px !important;
     }
 }
 
 .text-h2 {
     font-family: 'Montserrat', sans-serif !important;
-    font-style: normal;
-    font-weight: 600;
+    font-style: normal !important;
+    font-weight: 600 !important;
 
     @include web {
-        font-size: 27px;
-        line-height: 32px;
-        letter-spacing: -0.81px;
+        font-size: 27px !important;
+        line-height: 32px !important;
+        letter-spacing: -0.81px !important;
     }
 
     @include mobile {
-        font-size: 22px;
-        line-height: 24px;
-        letter-spacing: -0.88px;
+        font-size: 22px !important;
+        line-height: 24px !important;
+        letter-spacing: -0.88px !important;
     }
 }
 
 .text-h3 {
     font-family: 'Montserrat', sans-serif !important;
-    font-style: normal;
-    font-weight: 600;
+    font-style: normal !important;
+    font-weight: 600 !important;
 
     @include web {
-        font-size: 21px;
-        line-height: 24px;
-        letter-spacing: -0.63px;
+        font-size: 21px !important;
+        line-height: 24px !important;
+        letter-spacing: -0.63px !important;
     }
 
     @include mobile {
-        font-size: 17px;
-        line-height: 20px;
-        letter-spacing: -0.51px;
+        font-size: 17px !important;
+        line-height: 20px !important;
+        letter-spacing: -0.51px !important;
     }
 }
 
@@ -91,6 +91,26 @@
 }
 
 .text-overline {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal !important;
+    text-transform: none !important;
+
+    @include web {
+        font-weight: 600 !important;
+        font-size: 12px !important;
+        line-height: 16px !important;
+        letter-spacing: 0.08px !important;
+    }
+
+    @include mobile {
+        font-weight: 500 !important;
+        font-size: 10px !important;
+        line-height: 16px !important;
+        letter-spacing: 0.19px !important;
+    }
+}
+
+.text-underline {
     font-family: 'Montserrat', sans-serif !important;
     font-style: normal !important;
     font-weight: 500 !important;

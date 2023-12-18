@@ -1,7 +1,6 @@
 <template>
     <span
-        class="fs-span"
-        :class="$props.font"
+        :class="'fs-span ' + $props.font"
         v-bind="$attrs"
     >
         <slot />
@@ -15,7 +14,7 @@ export default defineComponent({
     name: "FSSpan",
     props: {
         font: {
-            type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline">,
+            type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline" | "text-underline">,
             required: false,
             default: "text-body"
         }

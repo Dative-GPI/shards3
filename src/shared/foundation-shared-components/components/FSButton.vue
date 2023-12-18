@@ -1,25 +1,44 @@
 <template>
     <v-btn
-        class="fs-button"
+         v-if="!['icon'].includes($props.variant)"
         :ripple="false"
         :style="style"
+        :class="classes"
         v-bind="$attrs"
     >
-        <slot>
-            <FSRow width="hug">
-                <FSIcon v-if="icon" size="m">
-                    {{ icon }}
+        <FSRow>
+            <slot name="prepend">
+                <FSIcon v-if="$props.prependIcon" size="m">
+                    {{ $props.prependIcon }}
                 </FSIcon>
-                <FSSpan v-if="label" font="text-button">
-                    {{ label }}
+            </slot>
+            <slot name="default">
+                <FSSpan v-if="$props.label" font="text-button">
+                    {{ $props.label }}
                 </FSSpan>
-            </FSRow>
-        </slot>
+            </slot>
+            <slot name="append">
+                <FSIcon v-if="$props.appendIcon" size="m">
+                    {{ $props.appendIcon }}
+                </FSIcon>
+            </slot>
+        </FSRow>
     </v-btn>
+    <FSRow
+        v-else-if="$props.icon"
+        width="hug"
+        :style="style"
+        :class="classes"
+        v-bind="$attrs"
+    >
+        <FSIcon size="checkbox">
+            {{ $props.icon }}
+        </FSIcon>
+    </FSRow>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -36,7 +55,7 @@ export default defineComponent({
         FSRow
     },
     props: {
-        icon: {
+        prependIcon: {
             type: String,
             required: false,
             default: null
@@ -46,10 +65,20 @@ export default defineComponent({
             required: false,
             default: null
         },
-        full: {
-            type: Boolean,
+        appendIcon: {
+            type: String,
             required: false,
-            default: false
+            default: null
+        },
+        icon: {
+            type: String,
+            required: false,
+            default: null
+        },
+        variant: {
+            type: String as PropType<"standard" | "full" | "icon">,
+            required: false,
+            default: "standard"
         },
         color: {
             type: String as PropType<ColorBase>,
@@ -58,24 +87,53 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const { label, full, color } = toRefs(props);
+        const { label, variant, color } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
+        const slots = useSlots();
 
-        const style = computed(() => ({
-            "--fs-button-padding"    : label.value ? "0 16px" : "0",
-            "--fs-button-light-color": full.value ? colors.base : colors.light,
-            "--fs-button-base-color" : colors.base,
-            "--fs-button-dark-color" : colors.dark,
-            "--fs-button-light-text" : full.value ? colors.light : colors.base,
-            "--fs-button-base-text"  : colors.light,
-            "--fs-button-dark-text"  : colors.light
-        }));
+        const isEmpty = computed(() => {
+            return !slots.default && !label.value;
+        });
+
+        const style = computed(() => {
+            switch (variant.value) {
+                case "standard": return {
+                    "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
+                    "--fs-button-light-color": colors.light,
+                    "--fs-button-base-color" : colors.base,
+                    "--fs-button-dark-color" : colors.dark,
+                    "--fs-button-light-text" : colors.base,
+                    "--fs-button-base-text"  : colors.light,
+                    "--fs-button-dark-text"  : colors.light
+                };
+                case "full": return {
+                    "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
+                    "--fs-button-light-color": colors.base,
+                    "--fs-button-base-color" : colors.base,
+                    "--fs-button-dark-color" : colors.dark,
+                    "--fs-button-light-text" : colors.light,
+                    "--fs-button-base-text"  : colors.light,
+                    "--fs-button-dark-text"  : colors.light
+
+                };
+                case "icon": return {
+                    "--fs-button-light-text" : colors.base,
+                    "--fs-button-base-text"  : colors.dark
+                };
+            }
+        });
+
+        const classes = computed(() => {
+            switch (variant.value) {
+                case "icon": return "fs-button-icon";
+                default: return "fs-button";
+            }
+        });
 
         return {
-            icon: props.icon,
-            label,
-            style
+            style,
+            classes
         };
     }
 });

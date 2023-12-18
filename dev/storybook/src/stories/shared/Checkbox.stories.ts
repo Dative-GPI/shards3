@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import Checkbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 
 const meta = {
-  title: 'Foundation/Checkbox',
+  title: 'Foundation/Shared/Checkbox',
   component: Checkbox,
   tags: ['autodocs'],
   argTypes: {

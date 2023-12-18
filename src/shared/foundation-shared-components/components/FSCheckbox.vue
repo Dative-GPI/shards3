@@ -1,6 +1,6 @@
 <template>
-    <FSCol width="hug" height="hug">
-        <FSRow width="hug" height="hug">
+    <FSCol width="hug">
+        <FSRow width="hug" align="center-left">
             <FSIcon
                 class="fs-checkbox"
                 size="checkbox"
@@ -9,24 +9,28 @@
             >
                 {{ icon }}
             </FSIcon>
-            <FSSpan
-                v-if="$props.label"
-                class="fs-checkbox-label"
-                :style="style"
-                :font="font"
-                @click="onToggle"
-            >
-                {{ $props.label }}
-            </FSSpan>
+            <slot name="default">
+                <FSSpan
+                    v-if="$props.label"
+                    class="fs-checkbox-label"
+                    :style="style"
+                    :font="font"
+                    @click="onToggle"
+                >
+                    {{ $props.label }}
+                </FSSpan>
+            </slot>
         </FSRow>
-        <FSSpan
-            v-if="$props.description"
-            class="fs-checkbox-description"
-            font="text-overline"
-            :style="style"
-        >
-            {{ $props.description }}
-        </FSSpan>
+        <slot name="description">
+            <FSSpan
+                v-if="$props.description"
+                class="fs-checkbox-description"
+                font="text-underline"
+                :style="style"
+            >
+                {{ $props.description }}
+            </FSSpan>
+        </slot>
     </FSCol>
 </template>
 
@@ -81,7 +85,7 @@ export default defineComponent({
         const { value, color, editable } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getDark();
+        const dark = useColors().getVariants(ColorBase.Dark);
 
         const style = computed(() => ({
             "--fs-checkbox-cursor"    : editable.value ? "pointer" : "default",

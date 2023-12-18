@@ -6,9 +6,9 @@
         @scroll="onScroll"
     >
         <div class="fs-fade-out-top" />
-        <div class="fs-fade-out-inner">
+        <FSCol height="fill">
             <slot />
-        </div>
+        </FSCol>
         <div class="fs-fade-out-bottom" />
     </div>
 </template>
@@ -19,8 +19,13 @@ import { defineComponent, PropType, ref, toRefs } from "vue";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
+import FSCol from "./FSCol.vue";
+
 export default defineComponent({
     name: "FSFadeOut",
+    components: {
+        FSCol
+    },
     props: {
         maskHeight: {
             type: Number,

@@ -5,7 +5,7 @@
         :style="style"
         v-bind="$attrs"
     >
-        <FSRow height="hug">
+        <FSRow>
             <v-slide-group-item v-for="(component, index) in $slots.default()" :key="index">
                 <component :is="component" v-bind="{ color }" />
             </v-slide-group-item>
@@ -37,7 +37,7 @@ export default defineComponent({
         const { color } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getDark();
+        const dark = useColors().getVariants(ColorBase.Dark);
 
         const style = {
             "--fs-group-light-color"  : colors.light,
