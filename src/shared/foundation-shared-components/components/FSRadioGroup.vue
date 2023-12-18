@@ -1,5 +1,5 @@
 <template>
-    <FSCol width="hug" height="hug">
+    <FSCol width="hug">
         <FSRadio
             v-for="item in $props.values"
             :key="item.value"

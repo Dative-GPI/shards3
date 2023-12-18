@@ -2,22 +2,27 @@
     <FSRow
         class="fs-tag"
         width="hug"
+        align="center-left"
         :style="style"
         v-bind="$attrs"
     >
-        <FSSpan>
-            {{ label }}
-        </FSSpan>
-        <v-btn
-            v-if="editable"
-            class="fs-tag-button"
-            :ripple="false"
-            @click="emit('remove')"
-        >
-            <FSIcon size="s">
-                mdi-close
-            </FSIcon>
-        </v-btn>
+        <slot name="default">
+            <FSSpan class="fs-tag-label">
+                {{ $props.label }}
+            </FSSpan>
+        </slot>
+        <slot name="button">
+            <v-btn
+                v-if="editable"
+                class="fs-tag-button"
+                :ripple="false"
+                @click="$emit('remove')"
+            >
+                <FSIcon size="s">
+                    mdi-close
+                </FSIcon>
+            </v-btn>
+        </slot>
     </FSRow>
 </template>
 
@@ -60,8 +65,8 @@ export default defineComponent({
         }
     },
     emits: ["remove"],
-    setup(props, { emit }) {
-        const { label, full, color, editable } = toRefs(props);
+    setup(props) {
+        const { full, color, editable } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
 
@@ -75,10 +80,8 @@ export default defineComponent({
         }));
 
         return {
-            label,
             editable,
-            style,
-            emit
+            style
         };
     }
 });

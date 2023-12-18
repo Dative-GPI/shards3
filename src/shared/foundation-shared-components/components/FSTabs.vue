@@ -6,10 +6,13 @@
         grow
         :style="style"
         :modelValue="tab"
+        :slider-color="colors.base"
         @update:modelValue="(v) => emit('update:tab', v)"
         v-bind="$attrs"
     >
-        <slot v-bind="{ color }" />
+        <template v-for="(component, index) in $slots.default()" :key="index">
+            <component :is="component" />
+        </template>
     </v-tabs>
 </template>
 
@@ -38,20 +41,18 @@ export default defineComponent({
         const { tab, color } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getDark();
+        const dark = useColors().getVariants(ColorBase.Dark);
 
         const style = {
             "--fs-group-light-color"  : colors.light,
             "--fs-group-base-color"   : colors.base,
-            "--fs-group-dark-color"   : colors.dark,
             "--fs-group-light-text"   : dark.base,
-            "--fs-group-base-text"    : dark.base,
             "--fs-group-dark-text"    : dark.dark
         };
 
         return {
             tab,
-            color,
+            colors,
             style,
             emit
         };

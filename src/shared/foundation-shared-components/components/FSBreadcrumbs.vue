@@ -5,6 +5,11 @@
                 {{ item.title }}
             </FSSpan>
         </template>
+        <template #divider>
+            <FSIcon class="fs-breadcrumbs-divider" size="m">
+                mdi-chevron-right
+            </FSIcon>
+        </template>
     </v-breadcrumbs>
 </template>
 
@@ -12,10 +17,10 @@
 import { defineComponent, PropType } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
-import FSRow from "./FSRow.vue";
 
 export interface FSBreadcrumbItem {
     href: string | undefined
@@ -30,8 +35,7 @@ export default defineComponent({
     name: "FSBreadcrumbs",
     components: {
         FSSpan,
-        FSIcon,
-        FSRow
+        FSIcon
     },
     props: {
         items: {
@@ -40,17 +44,16 @@ export default defineComponent({
         }
     },
     setup() {
-        const dark = useColors().getDark();
+        const dark = useColors().getVariants(ColorBase.Dark);
 
         const style = {
             "--fs-breadcrumbs-light-text": dark.light,
-            "--fs-breadcrumbs-base-text" : dark.base,
-            "--fs-breadcrumbs-dark-text" : dark.dark
+            "--fs-breadcrumbs-base-text" : dark.base
         };
 
         const getClass = (item: FSBreadcrumbItem): string => {
             if (item.disabled) {
-                return "fs-breadcrumbs-label--disabled";
+                return "fs-breadcrumbs-label fs-breadcrumbs-label--disabled";
             }
             return "fs-breadcrumbs-label";
         };

@@ -4,7 +4,7 @@ import WrapGroup from "@dative-gpi/foundation-shared-components/components/FSWra
 import Button from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
 const meta = {
-  title: 'Foundation/WrapGroup',
+  title: 'Foundation/Shared/WrapGroup',
   component: WrapGroup,
   tags: ['autodocs'],
   argTypes: {

@@ -26,3 +26,29 @@
         height: 36px !important;
     }
 }
+
+.fs-button-icon {
+    & .v-icon {
+        transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        color: var(--fs-button-light-text) !important;
+        cursor: pointer !important;
+
+        &:hover {
+            color: var(--fs-button-base-text) !important;
+        }
+
+        &:active {
+            color: var(--fs-button-light-text) !important;
+        }
+    }
+
+    @include web {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    @include mobile {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}

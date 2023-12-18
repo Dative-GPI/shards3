@@ -19,33 +19,17 @@ export const useColors = () => {
         };
     }
 
-    const getLight = () => {
-        const base = new Color(theme.colors[ColorBase.Light]);
-        const light = base.value(Math.max(base.value() - 20, 0));
-        const dark = darken(base);
-
-        return {
-            light: light.hex(),
-            base: base.hex(),
-            dark: dark.hex()
-        };
-    };
-
-    const getDark = () => {
-        const base = new Color(theme.colors[ColorBase.Dark]);
-        const light = base.saturationv(Math.max(base.saturationv() - 80, 0)).value(Math.min(base.value() + 40, 100));
-        const dark = darken(base);
-
-        return {
-            light: light.hex(),
-            base: base.hex(),
-            dark: dark.hex()
-        };
+    const getLight = (color: ColorBase, base: Color): Color => {
+        switch (color) {
+            case ColorBase.Light: return base.value(Math.max(base.value() - 20, 0));
+            case ColorBase.Dark: return base.saturationv(Math.max(base.saturationv() - 80, 0)).value(Math.min(base.value() + 40, 100));
+            default: return lighten(base);
+        }
     };
 
     const getVariants = (color: ColorBase) => {
         const base = new Color(theme.colors[color]);
-        const light = lighten(base);
+        const light = getLight(color, base);
         const dark = darken(base);
 
         return {
@@ -57,8 +41,6 @@ export const useColors = () => {
 
     return {
         getBackground,
-        getLight,
-        getDark,
         getVariants
     };
 }

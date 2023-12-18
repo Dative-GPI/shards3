@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import RadioGroup from "@dative-gpi/foundation-shared-components/components/FSRadioGroup.vue";
 
 const meta = {
-  title: 'Foundation/RadioGroup',
+  title: 'Foundation/Shared/RadioGroup',
   component: RadioGroup,
   tags: ['autodocs'],
   argTypes: {

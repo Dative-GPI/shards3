@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import Breadcrumbs from "@dative-gpi/foundation-shared-components/components/FSBreadcrumbs.vue";
 
 const meta = {
-  title: 'Foundation/Breadcrumbs',
+  title: 'Foundation/Shared/Breadcrumbs',
   component: Breadcrumbs,
   tags: ['autodocs'],
   argTypes: {
@@ -19,8 +19,9 @@ export const Standard: Story = {
     args: {
         items: [
             { title: "First", disabled: false, active: false },
-            { title: "Second", disabled: false, active: false },
-            { title: "Third", disabled: true, active: true }
+            { title: "Second", disabled: true, active: false },
+            { title: "Third", disabled: false, active: false },
+            { title: "Last", disabled: true, active: true }
         ]
     }
   },

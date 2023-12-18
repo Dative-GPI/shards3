@@ -5,59 +5,89 @@ import FSButton from "@dative-gpi/foundation-shared-components/components/FSButt
 export const FSButtonsAliases = {
     FSButtonSearch: FSButton,
     FSButtonSearchMini: FSButton,
+    FSButtonSearchIcon: FSButton,
     FSButtonRemove: FSButton,
     FSButtonRemoveMini: FSButton,
+    FSButtonRemoveIcon: FSButton,
     FSButtonSave: FSButton,
-    FSButtonSaveMini: FSButton
+    FSButtonSaveMini: FSButton,
+    FSButtonSaveIcon: FSButton,
+    FSButtonCancel: FSButton,
+    FSButtonCancelMini: FSButton,
+    FSButtonCancelIcon: FSButton
 }
 
 export const FSButtonsProps = {
     FSButtonSearch: {
-        icon: "mdi-magnify",
+        prependIcon: "mdi-magnify",
         label: "Search",
-        full: false,
+        variant: "standard",
         color: ColorBase.Primary
     },
     FSButtonSearchMini: {
+        prependIcon: "mdi-magnify",
+        label: undefined,
+        variant: "standard",
+        color: ColorBase.Primary
+    },
+    FSButtonSearchIcon: {
         icon: "mdi-magnify",
         label: undefined,
-        full: false,
+        variant: "icon",
         color: ColorBase.Primary
     },
     FSButtonRemove: {
-        icon: "mdi-delete-outline",
+        prependIcon: "mdi-delete-outline",
         label: "Remove",
-        full: false,
+        variant: "standard",
         color: ColorBase.Error
     },
     FSButtonRemoveMini: {
+        prependIcon: "mdi-delete-outline",
+        label: undefined,
+        variant: "standard",
+        color: ColorBase.Error
+    },
+    FSButtonRemoveIcon: {
         icon: "mdi-delete-outline",
         label: undefined,
-        full: false,
+        variant: "icon",
         color: ColorBase.Error
     },
     FSButtonSave: {
-        icon: "mdi-content-save-outline",
+        prependIcon: "mdi-content-save-outline",
         label: "Save",
-        full: false,
+        variant: "standard",
         color: ColorBase.Success
     },
     FSButtonSaveMini: {
+        prependIcon: "mdi-content-save-outline",
+        label: undefined,
+        variant: "standard",
+        color: ColorBase.Success
+    },
+    FSButtonSaveIcon: {
         icon: "mdi-content-save-outline",
         label: undefined,
-        full: false,
+        variant: "icon",
         color: ColorBase.Success
     },
     FSButtonCancel: {
-        icon: "mdi-cancel",
+        prependIcon: "mdi-cancel",
         label: "Cancel",
-        full: false,
-        color: ColorBase.Light
+        variant: "standard",
+        color: ColorBase.Dark
     },
     FSButtonCancelMini: {
+        prependIcon: "mdi-cancel",
+        label: undefined,
+        variant: "standard",
+        color: ColorBase.Dark
+    },
+    FSButtonCancelIcon: {
         icon: "mdi-cancel",
         label: undefined,
-        full: false,
-        color: ColorBase.Light
+        variant: "icon",
+        color: ColorBase.Dark
     }
 }

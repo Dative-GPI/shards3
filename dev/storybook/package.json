@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@fontsource/montserrat": "^5.0.16",
     "@mdi/font": "7.0.96",
     "roboto-fontface": "*",
     "vue": "^3.2.0",
@@ -21,7 +22,6 @@
     "axios": "1.6.2",
     "axios-mock-adapter": "1.22.0",
     "@babel/types": "^7.21.4",
-    "color": "^4.2.3",
     "@dative-gpi/foundation-admin-components": "*",
     "@dative-gpi/foundation-core-components": "*",
     "@dative-gpi/foundation-extension-components": "*",
@@ -39,6 +39,7 @@
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
+    "color": "^4.2.3",
     "eslint": "^8.0.0",
     "eslint-plugin-storybook": "^0.6.13",
     "eslint-plugin-vue": "^9.0.0",
