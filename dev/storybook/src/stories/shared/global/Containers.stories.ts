@@ -3,6 +3,9 @@ import type { StoryObj } from '@storybook/vue3';
 import FSSlideGroup from "@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue";
 import FSWrapGroup from "@dative-gpi/foundation-shared-components/components/FSWrapGroup.vue";
 import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
+import FSColor from "@dative-gpi/foundation-shared-components/components/FSColor.vue";
+import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
@@ -145,5 +148,30 @@ export const SlideGroup: Story = {
       </div>
     </div>
     `,
+  })
+};
+
+export const Color: Story = {
+  render: () => ({
+    components: { FSColor, FSIcon, FSSpan },
+    template: `
+    <div style="display: flex; gap: 20px; margin-bottom: 80px;">
+      <FSColor color="primary" style="padding: 4px;">
+        <template #default="{ color, colors }">
+          <FSIcon> mdi-eye-outline </FSIcon>
+        </template>
+      </FSColor>
+      <FSColor color="#0000FF" style="padding: 4px;">
+        <template #default="{ color, colors }">
+          <FSSpan> Color not in theme </FSSpan>
+        </template>
+      </FSColor>
+      <FSColor color="#FF0000" style="padding: 4px;">
+        <template #default="{ color, colors }">
+          <FSIcon :color="colors.dark"> mdi-eye-outline </FSIcon>
+          <FSSpan> Dark for icon, base for text, light for background </FSSpan>
+        </template>
+      </FSColor>
+    </div>`
   })
 };

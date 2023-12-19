@@ -27,9 +27,11 @@ export const useColors = () => {
         }
     };
 
-    const getVariants = (color: ColorBase) => {
-        const base = new Color(theme.colors[color]);
-        const light = getLight(color, base);
+    const getVariants = (color: ColorBase | String) => {
+        const themed = (Object as any).values(ColorBase).includes(color);
+
+        const base = themed ? new Color(theme.colors[color as ColorBase]) : new Color(color);
+        const light = themed ? getLight(color as ColorBase, base) : lighten(base);
         const dark = darken(base);
 
         return {
