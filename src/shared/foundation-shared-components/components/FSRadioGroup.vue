@@ -54,11 +54,11 @@ export default defineComponent({
     setup(props, { emit }) {
         const { value, color, editable } = toRefs(props);
 
-        const isSelected = (item: String | Boolean | Number) => {
+        const isSelected = (item: String | Boolean | Number): boolean => {
             return item == value.value;
         };
 
-        const onToggle = (item: String | Boolean | Number) => {
+        const onToggle = (item: String | Boolean | Number): void => {
             if (item != value.value) {
                 emit("update:value", item);
             }

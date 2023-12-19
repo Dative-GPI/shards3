@@ -48,10 +48,10 @@ export default defineComponent({
             type: String,
             required: true
         },
-        full: {
-            type: Boolean,
+        variant: {
+            type: String as PropType<"standard" | "full">,
             required: false,
-            default: true
+            default: "full"
         },
         color: {
             type: String as PropType<ColorBase>,
@@ -66,15 +66,15 @@ export default defineComponent({
     },
     emits: ["remove"],
     setup(props) {
-        const { full, color, editable } = toRefs(props);
+        const { variant, color, editable } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
 
-        const style = computed(() => ({
-            "--fs-tag-light-color": full.value ? colors.base : colors.light,
+        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+            "--fs-tag-light-color": ["full"].includes(variant.value) ? colors.base : colors.light,
             "--fs-tag-base-color" : colors.base,
             "--fs-tag-dark-color" : colors.dark,
-            "--fs-tag-light-text" : full.value ? colors.light : colors.base,
+            "--fs-tag-light-text" : ["full"].includes(variant.value) ? colors.light : colors.base,
             "--fs-tag-base-text"  : colors.light,
             "--fs-tag-dark-text"  : colors.light
         }));

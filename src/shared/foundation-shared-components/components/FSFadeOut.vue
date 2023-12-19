@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs } from "vue";
+import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -43,13 +43,13 @@ export default defineComponent({
 
         const colors = useColors().getVariants(color.value);
 
-        const style = ref({
+        const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
             "--fs-fade-out-mask-color": colors.base,
             "--fs-fade-out-top-mask-height": "0px",
             "--fs-fade-out-bottom-mask-height": `${maskHeight.value}px`
         });
 
-        const onScroll = ({ target }) => {
+        const onScroll = ({ target }): void => {
             if (target.scrollHeight - target.scrollTop - target.clientHeight < 1) {
                 style.value["--fs-fade-out-bottom-mask-height"] = "0px";
             } else {

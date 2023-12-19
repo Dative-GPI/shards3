@@ -91,18 +91,18 @@ export default defineComponent({
         const colors = useColors().getVariants(color.value);
         const dark = useColors().getVariants(ColorBase.Dark);
 
-        const style = computed(() => ({
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
             "--fs-radio-cursor": (editable.value && !selected.value) ? "pointer" : "default",
             "--fs-radio-base-color": editable.value ? selected.value ? colors.base : dark.base : dark.light,
             "--fs-radio-base-text" : editable.value ? dark.base : dark.light
 
         }));
 
-        const icon = computed(() => selected.value ? "mdi-radiobox-marked" : "mdi-radiobox-blank");
+        const icon = computed((): string => selected.value ? "mdi-radiobox-marked" : "mdi-radiobox-blank");
 
-        const font = computed(() => selected.value ? "text-button" : "text-body");
+        const font = computed((): string => selected.value ? "text-button" : "text-body");
 
-        const onToggle = () => {
+        const onToggle = (): void => {
             if (!editable.value) {
                 return;
             }

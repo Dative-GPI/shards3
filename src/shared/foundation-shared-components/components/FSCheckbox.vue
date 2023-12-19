@@ -87,17 +87,17 @@ export default defineComponent({
         const colors = useColors().getVariants(color.value);
         const dark = useColors().getVariants(ColorBase.Dark);
 
-        const style = computed(() => ({
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
             "--fs-checkbox-cursor"    : editable.value ? "pointer" : "default",
             "--fs-checkbox-base-color": editable.value ? value.value ? colors.base : dark.base : dark.light,
             "--fs-checkbox-base-text" : editable.value ? dark.base : dark.light
         }));
 
-        const icon = computed(() => value.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
+        const icon = computed((): string => value.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
 
-        const font = computed(() => value.value ? "text-button" : "text-body");
+        const font = computed((): string => value.value ? "text-button" : "text-body");
 
-        const onToggle = () => {
+        const onToggle = (): void => {
             if (!editable.value) {
                 return;
             }

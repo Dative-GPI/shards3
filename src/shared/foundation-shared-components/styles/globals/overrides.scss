@@ -8,6 +8,15 @@
     display: none;
 }
 
+// Margin with prepend / append downgraded to default gap
+.v-input > .v-input__prepend {
+    margin-inline-end: 8px !important;
+}
+
+.v-input > .v-input__append {
+    margin-inline-start: 8px !important;
+}
+
 // No up / down buttons in input field of type number
 input[type=number] { 
     -moz-appearance: textfield;

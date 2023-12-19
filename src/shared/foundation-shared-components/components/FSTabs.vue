@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -43,12 +43,12 @@ export default defineComponent({
         const colors = useColors().getVariants(color.value);
         const dark = useColors().getVariants(ColorBase.Dark);
 
-        const style = {
+        const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
             "--fs-group-light-color"  : colors.light,
             "--fs-group-base-color"   : colors.base,
             "--fs-group-light-text"   : dark.base,
             "--fs-group-dark-text"    : dark.dark
-        };
+        });
 
         return {
             tab,
