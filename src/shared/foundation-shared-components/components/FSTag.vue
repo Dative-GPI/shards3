@@ -6,14 +6,14 @@
         :style="style"
         v-bind="$attrs"
     >
-        <slot name="default">
+        <slot name="default" :color="color" :colors="colors">>
             <FSSpan class="fs-tag-label">
                 {{ $props.label }}
             </FSSpan>
         </slot>
-        <slot name="button">
+        <slot name="button" :color="color" :colors="colors">>
             <v-btn
-                v-if="editable"
+                v-if="$props.editable"
                 class="fs-tag-button"
                 :ripple="false"
                 @click="$emit('remove')"
@@ -66,7 +66,7 @@ export default defineComponent({
     },
     emits: ["remove"],
     setup(props) {
-        const { variant, color, editable } = toRefs(props);
+        const { variant, color } = toRefs(props);
 
         const colors = useColors().getVariants(color.value);
 
@@ -80,7 +80,8 @@ export default defineComponent({
         }));
 
         return {
-            editable,
+            colors,
+            color,
             style
         };
     }

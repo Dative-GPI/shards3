@@ -8,7 +8,7 @@
         :gap="$props.gap"
         :style="style"
     >
-        <slot :color="color" :colors="colors" name="default" />
+        <slot name="default" :color="color" :colors="colors" />
     </FSRow>
 </template>
 

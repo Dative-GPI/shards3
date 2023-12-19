@@ -7,17 +7,17 @@
         v-bind="$attrs"
     >
         <FSRow :wrap="false">
-            <slot name="prepend">
+            <slot name="prepend" :color="color" :colors="colors">
                 <FSIcon v-if="$props.prependIcon" size="m">
                     {{ $props.prependIcon }}
                 </FSIcon>
             </slot>
-            <slot name="default">
+            <slot name="default" :color="color" :colors="colors">
                 <FSSpan v-if="$props.label" font="text-button">
                     {{ $props.label }}
                 </FSSpan>
             </slot>
-            <slot name="append">
+            <slot name="append" :color="color" :colors="colors">
                 <FSIcon v-if="$props.appendIcon" size="m">
                     {{ $props.appendIcon }}
                 </FSIcon>
@@ -132,6 +132,8 @@ export default defineComponent({
         });
 
         return {
+            colors,
+            color,
             style,
             classes
         };
