@@ -50,57 +50,57 @@ export default defineComponent({
             "--fs-row-height": height.value
         }));
 
-        const classes = computed((): string => {
-            let classes = "fs-row";
+        const classes = computed((): string[] => {
+            const classes = ["fs-row"];
             switch (width.value) {
                 case "hug":
-                    classes += " fs-row-width-hug";
+                    classes.push("fs-row-width-hug");
                     break;
                 case "fill":
-                    classes += " fs-row-width-fill";
+                    classes.push("fs-row-width-fill");
                     break;
                 default: 
-                    classes += " fs-row-width-fixed";
+                    classes.push("fs-row-width-fixed");
                     break;
             }
             switch (height.value) {
                 case "hug":
-                    classes += " fs-row-height-hug";
+                    classes.push("fs-row-height-hug");
                     break;
                 case "fill":
-                    classes += " fs-row-height-fill";
+                    classes.push("fs-row-height-fill");
                     break;
                 default: 
-                    classes += " fs-row-height-fixed";
+                    classes.push("fs-row-height-fixed");
                     break;
             }
             switch (align.value) {
                 case "top-left":
-                    classes += " fs-row-top-left";
+                    classes.push("fs-row-top-left");
                     break;
                 case "top-center":
-                    classes += " fs-row-top-center";
+                    classes.push("fs-row-top-center");
                     break;
                 case "top-right":
-                    classes += " fs-row-top-right";
+                    classes.push("fs-row-top-right");
                     break;
                 case "center-left":
-                    classes += " fs-row-center-left";
+                    classes.push("fs-row-center-left");
                     break;
                 case "center-center":
-                    classes += " fs-row-center-center";
+                    classes.push("fs-row-center-center");
                     break;
                 case "center-right":
-                    classes += " fs-row-center-right";
+                    classes.push("fs-row-center-right");
                     break;
                 case "bottom-left":
-                    classes += " fs-row-bottom-left";
+                    classes.push("fs-row-bottom-left");
                     break;
                 case "bottom-center":
-                    classes += " fs-row-bottom-center";
+                    classes.push("fs-row-bottom-center");
                     break;
                 case "bottom-right":
-                    classes += " fs-row-bottom-right";
+                    classes.push("fs-row-bottom-right");
                     break;
             }
             return classes;

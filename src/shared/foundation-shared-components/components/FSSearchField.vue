@@ -6,19 +6,18 @@
         :color="$props.color"
         :required="$props.required"
         :editable="$props.editable"
-        :value="$props.value"
-        @update:value="(value) => $emit('update:value', value)"
+        :value="innerValue"
+        @update:value="(value) => innerValue = value"
         v-bind="$attrs"
     >
-        <template #append-inner>
-            <FSIcon
-                class="fs-password-field-icon"
-                size="m"
-                :style="style"
-                @click="onToggle"
-            >
-                {{ icon }}
-            </FSIcon>
+        <template #append>
+            <FSButton
+                variant="standard"
+                :prependIcon="$props.buttonPrependIcon"
+                :label="$props.buttonLabel"
+                :color="$props.color"
+                @click="() => $emit('update:value', innerValue)"
+            />
         </template>
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
             <slot :name="name" v-bind="slotData" />
@@ -27,21 +26,32 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSTextField from "./FSTextField.vue";
+import FSButton from "./FSButton.vue";
 import FSIcon from "./FSIcon.vue";
 
 export default defineComponent({
-    name: "FSPasswordField",
+    name: "FSSearchField",
     components: {
         FSTextField,
+        FSButton,
         FSIcon
     },
     props: {
+        buttonPrependIcon: {
+            type: String,
+            required: false,
+            default: "mdi-magnify"
+        },
+        buttonLabel: {
+            type: String,
+            required: false,
+            default: null
+        },
         label: {
             type: String,
             required: false,
@@ -75,34 +85,10 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props) {
-        const { editable } = toRefs(props);
-
-        const stars = ref(true);
-
-        const dark = useColors().getVariants(ColorBase.Dark);
-
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-            "--fs-password-field-cursor"   : editable.value ? "pointer" : "default",
-            "--fs-password-field-base-text": editable.value ? dark.base : dark.light,
-            "--fs-password-field-dark-text": editable.value ? dark.dark : dark.light,
-        }));
-
-        const type = computed((): string => stars.value ? "password" : "text");
-
-        const icon = computed((): string => stars.value ? "mdi-eye-off-outline" : "mdi-eye-outline");
-
-        const onToggle = (): void => {
-            if (!editable.value) {
-                return;
-            }
-            stars.value = !stars.value;
-        };
+        const innerValue = ref(props.value);
 
         return {
-            type,
-            icon,
-            style,
-            onToggle
+            innerValue
         };
     }
 });

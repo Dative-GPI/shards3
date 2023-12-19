@@ -88,17 +88,17 @@ export default defineComponent({
         const colors = useColors().getVariants(color.value);
         const dark = useColors().getVariants(ColorBase.Dark);
 
-        const style = computed(() => ({
+        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
             "--fs-switch-cursor"         : editable.value ? "pointer" : "default",
             "--fs-switch-translate-x"    : value.value ? "8px" : "-8px",
-            "--fs-switch-base-color"     : value.value ? colors.base : editable.value ? dark.base : dark.light,
+            "--fs-switch-base-color"     : editable.value ? value.value ? colors.base : dark.base : dark.light,
             "--fs-switch-base-text"      : editable.value ? dark.base : dark.light,
             "--fs-switch-base-background": background.base
         }));
 
-        const font = computed(() => value.value ? "text-button" : "text-body");
+        const font = computed((): string => value.value ? "text-button" : "text-body");
 
-        const onToggle = () => {
+        const onToggle = (): void => {
             if (!editable.value) {
                 return;
             }

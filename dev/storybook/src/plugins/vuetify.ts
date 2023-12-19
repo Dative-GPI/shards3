@@ -8,7 +8,7 @@ import "@dative-gpi/foundation-shared-components/styles/main.scss";
 import "@fontsource/montserrat";
 
 import { DefaultTheme } from "@dative-gpi/foundation-shared-components/themes";
-import { FSButtonsAliases, FSButtonsProps } from "@dative-gpi/foundation-shared-components/defaults/FSButtons";
+import { FSButtonsAliases, FSButtonsProps } from "@dative-gpi/foundation-shared-components/models/FSButtons";
 
 export default createVuetify({
   theme: {

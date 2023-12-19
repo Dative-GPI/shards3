@@ -6,7 +6,7 @@
         :class="classes"
         v-bind="$attrs"
     >
-        <FSRow>
+        <FSRow :wrap="false">
             <slot name="prepend">
                 <FSIcon v-if="$props.prependIcon" size="m">
                     {{ $props.prependIcon }}
@@ -96,7 +96,7 @@ export default defineComponent({
             return !slots.default && !label.value;
         });
 
-        const style = computed(() => {
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
             switch (variant.value) {
                 case "standard": return {
                     "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
@@ -124,10 +124,10 @@ export default defineComponent({
             }
         });
 
-        const classes = computed(() => {
+        const classes = computed((): string[] => {
             switch (variant.value) {
-                case "icon": return "fs-button-icon";
-                default: return "fs-button";
+                case "icon": return ["fs-button-icon"];
+                default: return ["fs-button"];
             }
         });
 

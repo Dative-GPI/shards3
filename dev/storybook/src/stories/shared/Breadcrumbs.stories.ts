@@ -18,10 +18,10 @@ export const Standard: Story = {
   args: {
     args: {
         items: [
-            { title: "First", disabled: false, active: false },
-            { title: "Second", disabled: true, active: false },
-            { title: "Third", disabled: false, active: false },
-            { title: "Last", disabled: true, active: true }
+            { title: "First (clickable)", disabled: false, active: false },
+            { title: "Second (disabled)", disabled: true, active: false },
+            { title: "Third (clickable)", disabled: false, active: false },
+            { title: "Last (active)", disabled: true, active: true }
         ]
     }
   },
