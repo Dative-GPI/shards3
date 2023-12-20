@@ -4,6 +4,7 @@
         :description="$props.description"
         :type="type"
         :color="$props.color"
+        :textColor="$props.textColor"
         :required="$props.required"
         :editable="$props.editable"
         :value="innerValue"
@@ -15,8 +16,11 @@
                 variant="standard"
                 :prependIcon="$props.buttonPrependIcon"
                 :label="$props.buttonLabel"
-                :color="$props.color"
-                @click="() => $emit('update:value', innerValue)"
+                :appendIcon="$props.buttonAppendIcon"
+                :color="$props.buttonColor"
+                :textColor="$props.buttonTextColor"
+                :editable="$props.editable"
+                @click="onUpdate"
             />
         </template>
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
@@ -26,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
 
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
@@ -42,6 +46,16 @@ export default defineComponent({
         FSIcon
     },
     props: {
+        label: {
+            type: String,
+            required: false,
+            default: null
+        },
+        description: {
+            type: String,
+            required: false,
+            default: null
+        },
         buttonPrependIcon: {
             type: String,
             required: false,
@@ -52,12 +66,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        label: {
-            type: String,
-            required: false,
-            default: null
-        },
-        description: {
+        buttonAppendIcon: {
             type: String,
             required: false,
             default: null
@@ -72,6 +81,21 @@ export default defineComponent({
             required: false,
             default: ColorBase.Dark
         },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
+        },
+        buttonColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Primary
+        },
+        buttonTextColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: null
+        },
         required: {
             type: Boolean,
             required: false,
@@ -84,11 +108,21 @@ export default defineComponent({
         }
     },
     emits: ["update:value"],
-    setup(props) {
-        const innerValue = ref(props.value);
+    setup(props, { emit }) {
+        const { editable } = toRefs(props);
+
+        const innerValue: Ref<String> = ref(props.value);
+
+        const onUpdate = (): void => {
+            if (!editable.value) {
+                return;
+            }
+            emit("update:value", innerValue.value);
+        };
 
         return {
-            innerValue
+            innerValue,
+            onUpdate
         };
     }
 });

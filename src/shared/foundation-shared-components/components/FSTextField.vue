@@ -80,6 +80,11 @@ export default defineComponent({
             required: false,
             default: ColorBase.Dark
         },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
+        },
         required: {
             type: Boolean,
             required: false,
@@ -93,17 +98,30 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props) {
-        const { color, editable } = toRefs(props);
+        const { color, textColor, editable } = toRefs(props);
 
+        const textColors = useColors().getVariants(textColor?.value ?? color.value);
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
 
-        const style = computed(() => ({
-            "--fs-text-field-cursor"    : editable.value ? "text" : "default",
-            "--fs-text-field-base-color": editable.value ? dark.base : dark.light,
-            "--fs-text-field-dark-color": editable.value ? colors.dark: dark.light,
-            "--fs-text-field-base-text" : editable.value ? dark.base : dark.light
-        }));
+        const lights = useColors().getVariants(ColorBase.Light);
+        const darks = useColors().getVariants(ColorBase.Dark);
+
+        const style = computed(() => {
+            if (!editable.value) {
+                return {
+                    "--fs-text-field-cursor"    : "default",
+                    "--fs-text-field-base-color": lights.base,
+                    "--fs-text-field-dark-color": lights.base,
+                    "--fs-text-field-base-text" : darks.light
+                };
+            }
+            return {
+                "--fs-text-field-cursor"    : "text",
+                "--fs-text-field-base-color": colors.base,
+                "--fs-text-field-dark-color": colors.dark,
+                "--fs-text-field-base-text" : textColors.base
+            };
+        });
 
         return {
             style

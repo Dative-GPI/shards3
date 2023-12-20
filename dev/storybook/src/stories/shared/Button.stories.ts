@@ -25,36 +25,27 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <div style="display: flex; gap: 10px;">
         <FSButton color="primary">
-            <template #prepend>
-                <FSIcon size="m">
-                    mdi-plus-circle-outline
-                </FSIcon>
-            </template>
-            <FSSpan font="text-button">
-                Create
-            </FSSpan>
+          <template #prepend>
+            <FSIcon> mdi-plus-circle-outline </FSIcon>
+          </template>
+          <FSSpan> Create </FSSpan>
         </FSButton>
         <FSButton color="warning">
-            <FSSpan font="text-button">
-                Disable
-            </FSSpan>
+          <FSSpan> Disable </FSSpan>
         </FSButton>
         <FSButton color="error">
-            <FSSpan font="text-button">
-                Remove
-            </FSSpan>
-            <template #append>
-                <FSIcon size="m">
-                    mdi-minus-circle-outline
-                </FSIcon>
-            </template>
+          <FSSpan> Remove </FSSpan>
+          <template #append>
+            <FSIcon> mdi-minus-circle-outline </FSIcon>
+          </template>
         </FSButton>
         <FSButton color="success">
-            <template #prepend>
-                <FSIcon size="m">
-                    mdi-pencil
-                </FSIcon>
-            </template>
+          <template #prepend>
+            <FSIcon> mdi-pencil </FSIcon>
+          </template>
+        </FSButton>
+        <FSButton :editable="false">
+          <FSSpan> Enable </FSSpan>
         </FSButton>
       </div>
       <div style="display: flex; gap: 10px;">
@@ -80,6 +71,11 @@ export const Variations: Story = {
           variant="full"
           prependIcon="mdi-pencil"
         />
+        <FSButton
+          variant="full"
+          label="Enable"
+          :editable="false"
+        />
       </div>
       <div style="display: flex; gap: 10px;">
         <FSButton
@@ -101,6 +97,11 @@ export const Variations: Story = {
           color="success"
           variant="icon"
           icon="mdi-pencil"
+        />
+        <FSButton
+          variant="icon"
+          icon="mdi-cancel"
+          :editable="false"
         />
       </div>
     </div>`
@@ -153,4 +154,16 @@ export const RemoveMini: Story = {
 
 export const RemoveIcon: Story = {
   args: FSButtonsProps.FSButtonRemoveIcon
+}
+
+export const Documentation: Story = {
+  args: FSButtonsProps.FSButtonDocumentation
+}
+
+export const DocumentationMini: Story = {
+  args: FSButtonsProps.FSButtonDocumentationMini
+}
+
+export const DocumentationIcon: Story = {
+  args: FSButtonsProps.FSButtonDocumentationIcon
 }

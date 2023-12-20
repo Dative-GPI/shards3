@@ -6,14 +6,19 @@
     background-color: var(--fs-button-light-color) !important;
     color: var(--fs-button-light-text) !important;
 
-    &:hover {
+    &.fs-button--disabled {
+        cursor: default !important;
+    }
+
+    &:not(.fs-button--disabled):hover {
         background-color: var(--fs-button-base-color) !important;
         color: var(--fs-button-base-text) !important;
     }
 
-    &:active {
+    &:not(.fs-button--disabled):active {
         border-color: var(--fs-button-dark-color) !important;
         background-color: var(--fs-button-dark-color) !important;
+        color: var(--fs-button-dark-text) !important;
     }
 
     @include web {
@@ -28,18 +33,12 @@
 }
 
 .fs-button-icon {
-    & .v-icon {
-        transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        color: var(--fs-button-light-text) !important;
+    transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    color: var(--fs-button-light-text) !important;
+
+    &:not(.fs-button--disabled):hover {
+        color: var(--fs-button-base-text) !important;
         cursor: pointer !important;
-
-        &:hover {
-            color: var(--fs-button-base-text) !important;
-        }
-
-        &:active {
-            color: var(--fs-button-light-text) !important;
-        }
     }
 
     @include web {

@@ -34,20 +34,25 @@ export default defineComponent({
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
+        },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
         }
     },
     emits: ["update:tab"],
     setup(props, { emit }) {
-        const { tab, color } = toRefs(props);
+        const { tab, color, textColor } = toRefs(props);
 
+        const textColors = useColors().getVariants(textColor?.value ?? color.value);
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
 
         const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
             "--fs-group-light-color"  : colors.light,
             "--fs-group-base-color"   : colors.base,
-            "--fs-group-light-text"   : dark.base,
-            "--fs-group-dark-text"    : dark.dark
+            "--fs-group-light-text"   : textColors.base,
+            "--fs-group-dark-text"    : textColors.dark
         });
 
         return {

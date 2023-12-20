@@ -74,6 +74,11 @@ export default defineComponent({
             required: false,
             default: ColorBase.Primary
         },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
+        },
         editable: {
             type: Boolean,
             required: false,
@@ -82,16 +87,28 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props, { emit }) {
-        const { value, color, editable } = toRefs(props);
+        const { value, color, textColor, editable } = toRefs(props);
 
+        const textColors = useColors().getVariants(textColor?.value ?? color.value);
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
 
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-            "--fs-checkbox-cursor"    : editable.value ? "pointer" : "default",
-            "--fs-checkbox-base-color": editable.value ? value.value ? colors.base : dark.base : dark.light,
-            "--fs-checkbox-base-text" : editable.value ? dark.base : dark.light
-        }));
+        const lights = useColors().getVariants(ColorBase.Light);
+        const darks = useColors().getVariants(ColorBase.Dark);
+
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-checkbox-cursor"    : "default",
+                    "--fs-checkbox-base-color": lights.base,
+                    "--fs-checkbox-base-text" : darks.light
+                };
+            }
+            return {
+                "--fs-checkbox-cursor"    : "pointer",
+                "--fs-checkbox-base-color": value.value ? colors.base : textColors.base,
+                "--fs-checkbox-base-text" : textColors.base
+            }
+        });
 
         const icon = computed((): string => value.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
 

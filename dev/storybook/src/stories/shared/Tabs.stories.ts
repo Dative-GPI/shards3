@@ -40,7 +40,7 @@ export const Variations: Story = {
           <FSTab label="Tab 5" :value="4" />
         </FSTabs>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-        <FSTabs v-model:tab="args.tab2" color="secondary">
+        <FSTabs v-model:tab="args.tab2" color="warning">
           <FSTab label="Tab 1" :value="0" tag="1" />
           <FSTab label="Tab 2" :value="1" tag="2" />
           <FSTab label="Tab 3" :value="2" tag="3" />

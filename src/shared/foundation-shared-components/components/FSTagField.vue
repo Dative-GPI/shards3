@@ -5,6 +5,7 @@
             :description="$props.description"
             :type="type"
             :color="$props.color"
+            :textColor="$props.textColor"
             :required="$props.required"
             :editable="$props.editable"
             :value="innerValue"
@@ -29,7 +30,8 @@
         <FSTagGroup
             :tags="$props.value"
             :variant="$props.variant"
-            :color="$props.color"
+            :color="$props.tagColor"
+            :textColor="$props.tagTextColor"
             :editable="$props.editable"
             @remove="onRemove"
         />
@@ -78,6 +80,21 @@ export default defineComponent({
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
+        },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
+        },
+        tagColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Primary
+        },
+        tagTextColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: null
         },
         required: {
             type: Boolean,

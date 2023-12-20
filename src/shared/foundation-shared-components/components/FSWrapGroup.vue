@@ -6,7 +6,7 @@
     >
         <FSRow>
             <v-slide-group-item v-for="(component, index) in $slots.default()" :key="index">
-                <component :is="component" v-bind="{ color }" />
+                <component :is="component" v-bind="{ color, colors, textColor, textColors }" />
             </v-slide-group-item>
         </FSRow>
     </v-slide-group>
@@ -30,25 +30,33 @@ export default defineComponent({
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
+        },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
         }
     },
     setup(props) {
-        const { color } = toRefs(props);
+        const { color, textColor } = toRefs(props);
 
+        const textColors = useColors().getVariants(textColor?.value ?? color.value);
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
 
         const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
             "--fs-group-light-color"  : colors.light,
             "--fs-group-base-color"   : colors.base,
             "--fs-group-dark-color"   : colors.dark,
-            "--fs-group-light-text"   : dark.base,
-            "--fs-group-base-text"    : dark.base,
-            "--fs-group-dark-text"    : dark.dark
+            "--fs-group-light-text"   : textColors.base,
+            "--fs-group-base-text"    : textColors.base,
+            "--fs-group-dark-text"    : textColors.dark
         });
 
         return {
             color,
+            colors,
+            textColor,
+            textColors,
             style
         };
     }

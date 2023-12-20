@@ -4,6 +4,7 @@
         :ripple="false"
         :style="style"
         :class="classes"
+        @click="onClick"
         v-bind="$attrs"
     >
         <FSRow :wrap="false">
@@ -13,7 +14,7 @@
                 </FSIcon>
             </slot>
             <slot name="default" :color="color" :colors="colors">
-                <FSSpan v-if="$props.label" font="text-button">
+                <FSSpan v-if="$props.label" font="text-body">
                     {{ $props.label }}
                 </FSSpan>
             </slot>
@@ -29,6 +30,7 @@
         width="hug"
         :style="style"
         :class="classes"
+        @click="onClick"
         v-bind="$attrs"
     >
         <FSIcon size="checkbox">
@@ -84,58 +86,99 @@ export default defineComponent({
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
+        },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: null
+        },
+        editable: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
-    setup(props) {
-        const { label, variant, color } = toRefs(props);
+    emts: ["click"],
+    setup(props, { emit }) {
+        const { label, variant, color, textColor, editable } = toRefs(props);
 
+        const textColors = useColors().getTexts(color.value, (textColor?.value ?? color.value));
         const colors = useColors().getVariants(color.value);
         const slots = useSlots();
+
+        const lights = useColors().getVariants(ColorBase.Light);
+        const darks = useColors().getVariants(ColorBase.Dark);
 
         const isEmpty = computed(() => {
             return !slots.default && !label.value;
         });
 
         const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
+                    "--fs-button-light-color": lights.base,
+                    "--fs-button-base-color" : lights.base,
+                    "--fs-button-light-text" : darks.light,
+                    "--fs-button-base-text"  : darks.light
+                };
+            }
             switch (variant.value) {
                 case "standard": return {
                     "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
                     "--fs-button-light-color": colors.light,
                     "--fs-button-base-color" : colors.base,
                     "--fs-button-dark-color" : colors.dark,
-                    "--fs-button-light-text" : colors.base,
-                    "--fs-button-base-text"  : colors.light,
-                    "--fs-button-dark-text"  : colors.light
+                    "--fs-button-light-text" : textColors.light,
+                    "--fs-button-base-text"  : textColors.base,
+                    "--fs-button-dark-text"  : textColors.dark
                 };
                 case "full": return {
                     "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
                     "--fs-button-light-color": colors.base,
                     "--fs-button-base-color" : colors.base,
                     "--fs-button-dark-color" : colors.dark,
-                    "--fs-button-light-text" : colors.light,
-                    "--fs-button-base-text"  : colors.light,
-                    "--fs-button-dark-text"  : colors.light
+                    "--fs-button-light-text" : textColors.base,
+                    "--fs-button-base-text"  : textColors.base,
+                    "--fs-button-dark-text"  : textColors.dark
 
                 };
                 case "icon": return {
-                    "--fs-button-light-text" : colors.base,
-                    "--fs-button-base-text"  : colors.dark
+                    "--fs-button-light-text": colors.base,
+                    "--fs-button-base-text" : colors.dark
                 };
             }
         });
 
         const classes = computed((): string[] => {
-            switch (variant.value) {
-                case "icon": return ["fs-button-icon"];
-                default: return ["fs-button"];
+            const classes = [];
+            if (!editable.value) {
+                classes.push("fs-button--disabled");
             }
+            switch (variant.value) {
+                case "icon":
+                    classes.push("fs-button-icon");
+                    break;
+                default:
+                    classes.push("fs-button");
+                    break;
+            }
+            return classes;
         });
+
+        const onClick = () => {
+            if (!editable.value) {
+                return;
+            }
+            emit("click");
+        }
 
         return {
             colors,
             color,
             style,
-            classes
+            classes,
+            onClick
         };
     }
 });

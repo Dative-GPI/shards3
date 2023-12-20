@@ -74,6 +74,11 @@ export default defineComponent({
             required: false,
             default: ColorBase.Primary
         },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
+        },
         editable: {
             type: Boolean,
             required: false,
@@ -82,19 +87,33 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props, { emit }) {
-        const { value, color, editable } = toRefs(props);
+        const { value, color, textColor, editable } = toRefs(props);
 
-        const background = useColors().getBackground();
+        const textColors = useColors().getVariants(textColor?.value ?? color.value);
         const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
 
-        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
-            "--fs-switch-cursor"         : editable.value ? "pointer" : "default",
-            "--fs-switch-translate-x"    : value.value ? "8px" : "-8px",
-            "--fs-switch-base-color"     : editable.value ? value.value ? colors.base : dark.base : dark.light,
-            "--fs-switch-base-text"      : editable.value ? dark.base : dark.light,
-            "--fs-switch-base-background": background.base
-        }));
+        const backgroundColors = useColors().getVariants(ColorBase.Background);
+        const lights = useColors().getVariants(ColorBase.Light);
+        const darks = useColors().getVariants(ColorBase.Dark);
+
+        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-switch-translate-x": value.value ? "8px" : "-8px",
+                    "--fs-switch-cursor"     : "default",
+                    "--fs-switch-base-color" : lights.base,
+                    "--fs-switch-base-text"  : darks.light,
+                    "--fs-switch-background" : backgroundColors.base
+                };
+            }
+            return {
+                "--fs-switch-translate-x": value.value ? "8px" : "-8px",
+                "--fs-switch-cursor"     : "pointer",
+                "--fs-switch-base-color" : value.value ? colors.base : textColors.base,
+                "--fs-switch-base-text"  : textColors.base,
+                "--fs-switch-background" : backgroundColors.base
+            };
+        });
 
         const font = computed((): string => value.value ? "text-button" : "text-body");
 

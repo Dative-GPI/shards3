@@ -48,8 +48,8 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <FSSpan> First set of options </FSSpan>
       <FSRadioGroup :values="args.options1" v-model:value="args.value1" />
-      <FSSpan> Second set of options (secondary color) </FSSpan>
-      <FSRadioGroup :values="args.options2" v-model:value="args.value2" color="secondary" />
+      <FSSpan> Second set of options (warning color) </FSSpan>
+      <FSRadioGroup :values="args.options2" v-model:value="args.value2" color="warning" />
       <FSSpan> Third set of options (disabled) </FSSpan>
       <FSRadioGroup :values="args.options3" v-model:value="args.value3" :editable="false" />
     </div>`

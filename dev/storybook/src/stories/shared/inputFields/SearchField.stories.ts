@@ -14,7 +14,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Editable: Story = {
+export const Variations: Story = {
   args: {
     args: {
       value1: null,
@@ -35,7 +35,7 @@ export const Editable: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSearchField v-model:value="args.value2" buttonLabel="Search" label="Search - primary color" color="primary" />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSSearchField v-model:value="args.value3" buttonLabel="I'm feeling lucky" buttonPrependIcon="mdi-clover" label="Search password - warning color" color="warning" :required="true" description="Description for this field" />
+      <FSSearchField v-model:value="args.value3" buttonLabel="I'm feeling lucky" buttonPrependIcon="mdi-clover" buttonColor="warning" label="Search password - warning color" color="warning" :required="true" description="Description for this field" />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSearchField v-model:value="args.value4" label="Uneditable" :editable="false" />
     </div>`

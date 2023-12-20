@@ -7,8 +7,9 @@
             :description="item.description"
             :value="item.value"
             :selected="isSelected(item.value)"
-            :color="color"
-            :editable="editable"
+            :color="$props.color"
+            :textColor="$props.textColor"
+            :editable="$props.editable"
             @update:value="onToggle"
         />
     </FSCol>
@@ -44,6 +45,11 @@ export default defineComponent({
             required: false,
             default: ColorBase.Primary
         },
+        textColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
+        },
         editable: {
             type: Boolean,
             required: false,
@@ -52,7 +58,7 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props, { emit }) {
-        const { value, color, editable } = toRefs(props);
+        const { value } = toRefs(props);
 
         const isSelected = (item: String | Boolean | Number): boolean => {
             return item == value.value;
@@ -65,8 +71,6 @@ export default defineComponent({
         };
 
         return {
-            color,
-            editable,
             isSelected,
             onToggle
         };

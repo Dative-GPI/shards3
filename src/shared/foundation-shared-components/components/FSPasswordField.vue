@@ -4,6 +4,7 @@
         :description="$props.description"
         :type="type"
         :color="$props.color"
+        :textColor="$props.textColor"
         :required="$props.required"
         :editable="$props.editable"
         :value="$props.value"
@@ -58,6 +59,11 @@ export default defineComponent({
             default: null
         },
         color: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
+        },
+        textColor: {
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Dark

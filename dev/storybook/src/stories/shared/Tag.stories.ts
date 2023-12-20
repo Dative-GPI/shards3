@@ -25,7 +25,7 @@ export const Variations: Story = {
         <FSTag color="primary">
           <FSSpan> With slot </FSSpan>
         </FSTag>
-        <FSTag color="secondary">
+        <FSTag color="warning">
           <FSSpan> With slot </FSSpan>
           <template #button>
             <FSIcon style="cursor: pointer;"> mdi-emoticon-cool-outline </FSIcon>
@@ -34,11 +34,15 @@ export const Variations: Story = {
         <FSTag color="error" :editable="false">
           <FSSpan> With slot </FSSpan>
         </FSTag>
+        <FSTag color="light" textColor="dark" :editable="false">
+          <FSSpan> With slot </FSSpan>
+        </FSTag>
       </div>
       <div style="display: flex; gap: 10px;">
-        <FSTag color="primary"   variant="standard" label="With props" />
-        <FSTag color="secondary" variant="standard" label="With props" />
-        <FSTag color="error"     variant="standard" label="With props" :editable="false" />
+        <FSTag color="primary" variant="standard" label="With props" />
+        <FSTag color="warning" variant="standard" label="With props" />
+        <FSTag color="error"   variant="standard" label="With props" :editable="false" />
+        <FSTag color="light"   textColor="dark" variant="standard" label="With props" :editable="false" />
       </div>
     </div>`
   })
