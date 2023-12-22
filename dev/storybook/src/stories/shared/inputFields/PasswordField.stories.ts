@@ -37,7 +37,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSPasswordField v-model:value="args.value3" label="Required password - warning color" color="warning" :required="true" description="Description for this field" />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSPasswordField v-model:value="args.value4" label="Uneditable" :editable="false" />
+      <FSPasswordField v-model:value="args.value4" label="Uneditable" description="Uneditable description" :editable="false" />
     </div>`
   })
 }

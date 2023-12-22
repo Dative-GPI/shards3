@@ -88,15 +88,25 @@ export default defineComponent({
     setup(props, { emit }) {
         const { value, selected, color, editable } = toRefs(props);
 
-        const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
+        const colors = useColors().getColors(color.value);
 
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-            "--fs-radio-cursor": (editable.value && !selected.value) ? "pointer" : "default",
-            "--fs-radio-base-color": editable.value ? selected.value ? colors.base : dark.base : dark.light,
-            "--fs-radio-base-text" : editable.value ? dark.base : dark.light
+        const lights = useColors().getColors(ColorBase.Light);
+        const darks = useColors().getColors(ColorBase.Dark);
 
-        }));
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-radio-cursor": "default",
+                    "--fs-radio-radio-color": lights.dark,
+                    "--fs-radio-color": lights.dark
+                };
+            }
+            return {
+                "--fs-radio-cursor": selected.value ? "default" : "pointer",
+                "--fs-radio-radio-color": selected.value ? colors.base : darks.base,
+                "--fs-radio-color" : darks.base
+            };
+        });
 
         const icon = computed((): string => selected.value ? "mdi-radiobox-marked" : "mdi-radiobox-blank");
 

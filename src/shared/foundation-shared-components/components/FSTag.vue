@@ -6,14 +6,14 @@
         :style="style"
         v-bind="$attrs"
     >
-        <slot name="default">
+        <slot name="default" v-bind="{ color, colors }">
             <FSSpan class="fs-tag-label">
                 {{ $props.label }}
             </FSSpan>
         </slot>
-        <slot name="button">
+        <slot name="button" v-bind="{ color, colors }">
             <v-btn
-                v-if="editable"
+                v-if="$props.editable"
                 class="fs-tag-button"
                 :ripple="false"
                 @click="$emit('remove')"
@@ -66,21 +66,35 @@ export default defineComponent({
     },
     emits: ["remove"],
     setup(props) {
-        const { variant, color, editable } = toRefs(props);
+        const { variant, color } = toRefs(props);
 
-        const colors = useColors().getVariants(color.value);
+        const textColors = useColors().getContrasts(color.value);
+        const colors = useColors().getColors(color.value);
 
-        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
-            "--fs-tag-light-color": ["full"].includes(variant.value) ? colors.base : colors.light,
-            "--fs-tag-base-color" : colors.base,
-            "--fs-tag-dark-color" : colors.dark,
-            "--fs-tag-light-text" : ["full"].includes(variant.value) ? colors.light : colors.base,
-            "--fs-tag-base-text"  : colors.light,
-            "--fs-tag-dark-text"  : colors.light
-        }));
+        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+            switch (variant.value) {
+                case "standard": return {
+                    "--fs-tag-background-color": colors.light,
+                    "--fs-tag-color": textColors.base,
+                    "--fs-tag-hover-background-color": colors.base,
+                    "--fs-tag-hover-color": textColors.light,
+                    "--fs-tag-active-background-color": colors.dark,
+                    "--fs-tag-active-color": textColors.light
+                };
+                case "full": return {
+                    "--fs-tag-background-color": colors.base,
+                    "--fs-tag-color": textColors.light,
+                    "--fs-tag-hover-background-color": colors.base,
+                    "--fs-tag-hover-color": textColors.light,
+                    "--fs-tag-active-background-color": colors.dark,
+                    "--fs-tag-active-color": textColors.light
+                };
+            }
+        });
 
         return {
-            editable,
+            colors,
+            color,
             style
         };
     }

@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import { VForm } from 'vuetify/lib/components/index.mjs';
+
 import FSNumberField from "@dative-gpi/foundation-shared-components/components/FSNumberField.vue";
+import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+
+import { NumberRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/NumberField',
@@ -43,7 +48,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSNumberField v-model:value="args.value3" label="Required number - warning color" color="warning" :required="true" description="Description for this field" />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSNumberField v-model:value="args.value4" label="Uneditable" :editable="false" />
+      <FSNumberField v-model:value="args.value4" label="Uneditable" description="Uneditable description" :editable="false" />
     </div>`
   })
 }

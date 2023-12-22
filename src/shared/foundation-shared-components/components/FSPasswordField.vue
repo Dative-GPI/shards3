@@ -79,13 +79,23 @@ export default defineComponent({
 
         const stars = ref(true);
 
-        const dark = useColors().getVariants(ColorBase.Dark);
+        const lights = useColors().getColors(ColorBase.Light);
+        const darks = useColors().getColors(ColorBase.Dark);
 
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-            "--fs-password-field-cursor"   : editable.value ? "pointer" : "default",
-            "--fs-password-field-base-text": editable.value ? dark.base : dark.light,
-            "--fs-password-field-dark-text": editable.value ? dark.dark : dark.light,
-        }));
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-password-field-cursor"   : "default",
+                    "--fs-password-field-base-text": lights.dark,
+                    "--fs-password-field-dark-text": lights.dark
+                };
+            }
+            return {
+                "--fs-password-field-cursor"   : "pointer",
+                "--fs-password-field-base-text": darks.base,
+                "--fs-password-field-dark-text": darks.dark
+            };
+        });
 
         const type = computed((): string => stars.value ? "password" : "text");
 

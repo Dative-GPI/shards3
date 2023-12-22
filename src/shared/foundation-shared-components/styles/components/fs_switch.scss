@@ -29,23 +29,23 @@
 
 .fs-switch-label {
     cursor: var(--fs-switch-cursor) !important;
-    color: var(--fs-switch-base-text);
+    color: var(--fs-switch-color) !important;
     user-select: none;
 }
 
 .fs-switch-description {
-    color: var(--fs-switch-base-text);
+    color: var(--fs-switch-color) !important;
 }
 
 .v-switch__track {
     width: 40px !important;
     height: 24px !important;
-    background-color: var(--fs-switch-base-color) !important;
+    background-color: var(--fs-switch-track-color) !important;
 
 }
 
 .v-switch__thumb {
     width: 16px !important;
     height: 16px !important;
-    background-color: var(--fs-switch-base-background) !important;
+    background-color: var(--fs-switch-thumb-color) !important;
 }

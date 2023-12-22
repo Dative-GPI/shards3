@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSTabs from "@dative-gpi/foundation-shared-components/components/FSTabs.vue";
 import FSTab from "@dative-gpi/foundation-shared-components/components/FSTab.vue";
 
@@ -25,13 +26,14 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSTabs, FSTab },
+    components: { FSTabs, FSTab, FSText },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 30px;">
+        <FSText> Primary color, labels only </FSText>
         <FSTabs v-model:tab="args.tab1">
           <FSTab label="Tab 1" :value="0" />
           <FSTab label="Tab 2" :value="1" />
@@ -40,7 +42,8 @@ export const Variations: Story = {
           <FSTab label="Tab 5" :value="4" />
         </FSTabs>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-        <FSTabs v-model:tab="args.tab2" color="secondary">
+        <FSText> Warning color, labels & tags </FSText>
+        <FSTabs v-model:tab="args.tab2" color="warning">
           <FSTab label="Tab 1" :value="0" tag="1" />
           <FSTab label="Tab 2" :value="1" tag="2" />
           <FSTab label="Tab 3" :value="2" tag="3" />
@@ -48,6 +51,7 @@ export const Variations: Story = {
           <FSTab label="Tab 5" :value="4" tag="5" />
         </FSTabs>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Error color, prepend icons & large labels </FSText>
         <FSTabs v-model:tab="args.tab3" color="error">
           <FSTab label="Tab with a really really long name (and an icon) 1" :value="0" prependIcon="mdi-numeric-1-circle-outline" />
           <FSTab label="Tab with a really really long name (and an icon) 2" :value="1" prependIcon="mdi-numeric-2-circle-outline" />
@@ -56,6 +60,7 @@ export const Variations: Story = {
           <FSTab label="Tab with a really really long name (and an icon) 5" :value="4" prependIcon="mdi-numeric-5-circle-outline" />
         </FSTabs>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Success color, prepend icons, labels, tags, append icons </FSText>
         <FSTabs v-model:tab="args.tab4" color="success">
           <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
           <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />

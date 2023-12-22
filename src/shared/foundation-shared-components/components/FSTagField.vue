@@ -29,7 +29,7 @@
         <FSTagGroup
             :tags="$props.value"
             :variant="$props.variant"
-            :color="$props.color"
+            :color="$props.tagColor"
             :editable="$props.editable"
             @remove="onRemove"
         />
@@ -79,6 +79,11 @@ export default defineComponent({
             required: false,
             default: ColorBase.Primary
         },
+        tagColor: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Primary
+        },
         required: {
             type: Boolean,
             required: false,
@@ -96,22 +101,28 @@ export default defineComponent({
 
         const innerValue = ref("");
 
-        const dark = useColors().getVariants(ColorBase.Dark);
+        const darks = useColors().getColors(ColorBase.Dark);
 
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-            "--fs-tag-field-cursor"   : editable.value ? "pointer" : "default",
-            "--fs-tag-field-base-text": editable.value ? dark.base : dark.light,
-            "--fs-tag-field-dark-text": editable.value ? dark.dark : dark.light,
-        }));
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-tag-field-cursor"   : "default",
+                    "--fs-tag-field-base-text": darks.light,
+                    "--fs-tag-field-dark-text": darks.light
+                };
+            }
+            return {
+                "--fs-tag-field-cursor"   : "pointer",
+                "--fs-tag-field-base-text": darks.base,
+                "--fs-tag-field-dark-text": darks.dark
+            };
+        });
 
         const onAdd = (): void => {
             if (!editable.value) {
                 return;
             }
             const tags = value.value ?? [];
-
-            console.log(tags);
-
             if (!innerValue.value.length || tags.includes(innerValue.value)) {
                 return;
             }

@@ -58,36 +58,54 @@ export const FSButtonsProps = {
         prependIcon: "mdi-content-save-outline",
         label: "Save",
         variant: "standard",
-        color: ColorBase.Success
+        color: ColorBase.Primary
     },
     FSButtonSaveMini: {
         prependIcon: "mdi-content-save-outline",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Success
+        color: ColorBase.Primary
     },
     FSButtonSaveIcon: {
         icon: "mdi-content-save-outline",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Success
+        color: ColorBase.Primary
     },
     FSButtonCancel: {
         prependIcon: "mdi-cancel",
         label: "Cancel",
         variant: "standard",
-        color: ColorBase.Dark
+        color: ColorBase.Light
     },
     FSButtonCancelMini: {
         prependIcon: "mdi-cancel",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Dark
+        color: ColorBase.Light
     },
     FSButtonCancelIcon: {
         icon: "mdi-cancel",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Dark
+        color: ColorBase.Light
+    },
+    FSButtonDocumentation: {
+        prependIcon: "mdi-file-document-outline",
+        label: "Documentation",
+        variant: "standard",
+        color: ColorBase.Light
+    },
+    FSButtonDocumentationMini: {
+        prependIcon: "mdi-file-document-outline",
+        label: undefined,
+        variant: "standard",
+        color: ColorBase.Light
+    },
+    FSButtonDocumentationIcon: {
+        icon: "mdi-file-document-outline",
+        label: undefined,
+        variant: "icon",
+        color: ColorBase.Light
     }
 }

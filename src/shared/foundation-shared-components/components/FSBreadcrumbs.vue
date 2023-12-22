@@ -44,11 +44,12 @@ export default defineComponent({
         }
     },
     setup() {
-        const dark = useColors().getVariants(ColorBase.Dark);
+        const darks = useColors().getColors(ColorBase.Dark);
 
         const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
-            "--fs-breadcrumbs-light-text": dark.light,
-            "--fs-breadcrumbs-base-text" : dark.base
+            "--fs-breadcrumbs-color": darks.dark,
+            "--fs-breadcrumbs-active-color": darks.base,
+            "--fs-breadcrumbs-disabled-color": darks.light
         });
 
         const classes = (item: FSBreadcrumbItem): string[] => {

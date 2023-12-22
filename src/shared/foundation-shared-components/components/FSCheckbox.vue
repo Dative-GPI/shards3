@@ -84,14 +84,25 @@ export default defineComponent({
     setup(props, { emit }) {
         const { value, color, editable } = toRefs(props);
 
-        const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
+        const colors = useColors().getColors(color.value);
 
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-            "--fs-checkbox-cursor"    : editable.value ? "pointer" : "default",
-            "--fs-checkbox-base-color": editable.value ? value.value ? colors.base : dark.base : dark.light,
-            "--fs-checkbox-base-text" : editable.value ? dark.base : dark.light
-        }));
+        const lights = useColors().getColors(ColorBase.Light);
+        const darks = useColors().getColors(ColorBase.Dark);
+
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-checkbox-cursor": "default",
+                    "--fs-checkbox-checkbox-color": lights.dark,
+                    "--fs-checkbox-color": lights.dark
+                };
+            }
+            return {
+                "--fs-checkbox-cursor": "pointer",
+                "--fs-checkbox-checkbox-color": value.value ? colors.base : darks.base,
+                "--fs-checkbox-color": darks.base
+            }
+        });
 
         const icon = computed((): string => value.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
 

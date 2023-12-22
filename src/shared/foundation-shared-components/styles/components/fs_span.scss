@@ -1,8 +1,13 @@
 .fs-span {
     padding-inline-end: 2px;
-    display: flex;
-    align-items: center;
+}
+
+.fs-span-ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.fs-span-pre-wrap {
+    white-space: pre-wrap;
 }

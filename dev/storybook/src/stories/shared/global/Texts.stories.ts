@@ -1,38 +1,52 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import Span from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import Col from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
   title: 'Foundation/Shared/Global/Texts',
-  component: Span,
+  component: FSSpan,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   }
-} satisfies Meta<typeof Span>;
+} satisfies Meta<typeof FSSpan>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const AllFonts: Story = {
-  args: {
-  },
-  render: (args, { argTypes }) => ({
-    components: { Span, Col },
-    props: Object.keys(argTypes),
-    setup() {
-      return { ...args };
-    },
+  render: () => ({
+    components: { FSSpan, FSCol },
     template: `
-      <Col>
-        <Span font="text-h1"> text-h1</Span>
-        <Span font="text-h2"> text-h2 </Span>
-        <Span font="text-h3"> text-h3 </Span>
-        <Span font="text-body"> text-body </Span>
-        <Span font="text-button"> text-button </Span>
-        <Span font="text-overline"> text-overline </Span>
-        <Span font="text-underline"> text-underline </Span>
-      </Col>`
+      <FSCol>
+        <FSSpan font="text-h1"> text-h1</FSSpan>
+        <FSSpan font="text-h2"> text-h2 </FSSpan>
+        <FSSpan font="text-h3"> text-h3 </FSSpan>
+        <FSSpan font="text-body"> text-body </FSSpan>
+        <FSSpan font="text-button"> text-button </FSSpan>
+        <FSSpan font="text-overline"> text-overline </FSSpan>
+        <FSSpan font="text-underline"> text-underline </FSSpan>
+      </FSCol>`
+  })
+}
+
+export const VTextDirective: Story = {
+  render: () => ({
+    components: { FSSpan, FSCol },
+    template: `
+      <FSCol>
+        <pre>&lt;FSSpan font="text-body"&gt;
+  Jumped a line
+  Again Tabulated   3 Spaces
+&lt;/FSSpan&gt;</pre>
+        <FSSpan style="border: 2px dotted black" font="text-body">
+          Jumped a line
+          Again Tabulated   3 Spaces
+        </FSSpan>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <pre>&lt;FSSpan font="text-body" v-text="'\\r\\nJumped a line\\r\\nAgain\\tTabulated   3 Spaces'" /&gt;</pre>
+        <FSSpan style="border: 2px dotted black" font="text-body" v-text="'\\r\\nJumped a line\\r\\nAgain\\tTabulated   3 Spaces'" />
+      </FSCol>`
   })
 }

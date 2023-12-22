@@ -3,16 +3,16 @@
     width: 100%;
 
     & > .v-input__control > .v-field {
-        border: 1px solid var(--fs-text-field-base-color) !important;
+        border: 1px solid var(--fs-text-field-border-color) !important;
         border-radius: 4px !important;
         padding: 0 16px !important;
 
         &--error {
-            border-bottom: 2px solid var(--fs-text-field-base-error) !important;
+            border-color: var(--fs-text-field-error-border-color) !important;
         }
 
-        &:focus-within {
-            border-color: var(--fs-text-field-dark-color) !important;
+        &:not(.v-field--error):focus-within {
+            border-color: var(--fs-text-field-active-border-color) !important;
         }
 
         & > .v-field__outline {
@@ -24,7 +24,7 @@
         
             padding-inline: 0 !important;
             cursor: var(--fs-text-field-cursor) !important;
-            color: var(--fs-text-field-base-text);
+            color: var(--fs-text-field-color);
         
             @include web {
                 min-height: 46px !important;
@@ -40,9 +40,14 @@
 }
 
 .fs-text-field-label {
-    color: var(--fs-text-field-base-text);
+    color: var(--fs-text-field-color);
+}
+
+.fs-text-field-messages {
+    align-self: stretch;
+    color: var(--fs-text-field-error-color);
 }
 
 .fs-text-field-description {
-    color: var(--fs-text-field-base-text);
+    color: var(--fs-text-field-color);
 }

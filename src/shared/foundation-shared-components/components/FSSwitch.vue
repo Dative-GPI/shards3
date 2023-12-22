@@ -84,17 +84,30 @@ export default defineComponent({
     setup(props, { emit }) {
         const { value, color, editable } = toRefs(props);
 
-        const background = useColors().getBackground();
-        const colors = useColors().getVariants(color.value);
-        const dark = useColors().getVariants(ColorBase.Dark);
+        const colors = useColors().getColors(color.value);
 
-        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
-            "--fs-switch-cursor"         : editable.value ? "pointer" : "default",
-            "--fs-switch-translate-x"    : value.value ? "8px" : "-8px",
-            "--fs-switch-base-color"     : editable.value ? value.value ? colors.base : dark.base : dark.light,
-            "--fs-switch-base-text"      : editable.value ? dark.base : dark.light,
-            "--fs-switch-base-background": background.base
-        }));
+        const backgrounds = useColors().getColors(ColorBase.Background);
+        const lights = useColors().getColors(ColorBase.Light);
+        const darks = useColors().getColors(ColorBase.Dark);
+
+        const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-switch-translate-x": value.value ? "8px" : "-8px",
+                    "--fs-switch-cursor": "default",
+                    "--fs-switch-track-color": lights.dark,
+                    "--fs-switch-thumb-color": backgrounds.base,
+                    "--fs-switch-color": lights.dark
+                };
+            }
+            return {
+                "--fs-switch-translate-x": value.value ? "8px" : "-8px",
+                "--fs-switch-cursor": "pointer",
+                "--fs-switch-track-color": value.value ? colors.base : darks.base,
+                "--fs-switch-thumb-color": backgrounds.base,
+                "--fs-switch-color": darks.base
+            };
+        });
 
         const font = computed((): string => value.value ? "text-button" : "text-body");
 

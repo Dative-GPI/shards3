@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { defineComponent, PropType } from "vue";
 
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 

@@ -16,7 +16,7 @@
                         {{ $props.label }}
                     </FSSpan>
                 </slot>
-                <v-spacer />
+                <v-spacer v-if="$props.tag" />
                 <slot name="tag">
                     <FSSpan v-if="$props.tag" class="fs-tab-tag">
                         {{ $props.tag }}
@@ -33,7 +33,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+
+import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
@@ -66,6 +68,11 @@ export default defineComponent({
             type: String,
             required: false,
             default: null
+        },
+        color: {
+            type: String as PropType<ColorBase>,
+            required: false,
+            default: ColorBase.Dark
         }
     }
 });

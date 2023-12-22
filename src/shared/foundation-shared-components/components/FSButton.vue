@@ -4,20 +4,21 @@
         :ripple="false"
         :style="style"
         :class="classes"
+        @click="onClick"
         v-bind="$attrs"
     >
         <FSRow :wrap="false">
-            <slot name="prepend">
+            <slot name="prepend" v-bind="{ color, colors }">
                 <FSIcon v-if="$props.prependIcon" size="m">
                     {{ $props.prependIcon }}
                 </FSIcon>
             </slot>
-            <slot name="default">
-                <FSSpan v-if="$props.label" font="text-button">
+            <slot name="default" v-bind="{ color, colors }">
+                <FSSpan v-if="$props.label" font="text-body">
                     {{ $props.label }}
                 </FSSpan>
             </slot>
-            <slot name="append">
+            <slot name="append" v-bind="{ color, colors }">
                 <FSIcon v-if="$props.appendIcon" size="m">
                     {{ $props.appendIcon }}
                 </FSIcon>
@@ -29,6 +30,7 @@
         width="hug"
         :style="style"
         :class="classes"
+        @click="onClick"
         v-bind="$attrs"
     >
         <FSIcon size="checkbox">
@@ -83,57 +85,105 @@ export default defineComponent({
         color: {
             type: String as PropType<ColorBase>,
             required: false,
-            default: ColorBase.Primary
+            default: ColorBase.Dark
+        },
+        editable: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
-    setup(props) {
-        const { label, variant, color } = toRefs(props);
+    emts: ["click"],
+    setup(props, { emit }) {
+        const { label, variant, color, editable } = toRefs(props);
 
-        const colors = useColors().getVariants(color.value);
+        const textColors = useColors().getContrasts(color.value);
+        const colors = useColors().getColors(color.value);
         const slots = useSlots();
+
+        const lights = useColors().getColors(ColorBase.Light);
 
         const isEmpty = computed(() => {
             return !slots.default && !label.value;
         });
 
         const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                switch (variant.value) {
+                    case "standard":
+                    case "full": return {
+                        "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+                        "--fs-button-background-color": lights.base,
+                        "--fs-button-border-color": lights.dark,
+                        "--fs-button-color": lights.dark
+                    }
+                    case "icon": return {
+                        "--fs-button-color": lights.dark
+                    }
+                }
+            }
             switch (variant.value) {
                 case "standard": return {
-                    "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
-                    "--fs-button-light-color": colors.light,
-                    "--fs-button-base-color" : colors.base,
-                    "--fs-button-dark-color" : colors.dark,
-                    "--fs-button-light-text" : colors.base,
-                    "--fs-button-base-text"  : colors.light,
-                    "--fs-button-dark-text"  : colors.light
+                    "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+                    "--fs-button-background-color": colors.light,
+                    "--fs-button-border-color": colors.base,
+                    "--fs-button-color": textColors.base,
+                    "--fs-button-hover-background-color": colors.base,
+                    "--fs-button-hover-border-color": colors.base,
+                    "--fs-button-hover-color": textColors.light,
+                    "--fs-button-active-background-color": colors.dark,
+                    "--fs-button-active-border-color": colors.dark,
+                    "--fs-button-active-color": textColors.light
                 };
                 case "full": return {
                     "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
-                    "--fs-button-light-color": colors.base,
-                    "--fs-button-base-color" : colors.base,
-                    "--fs-button-dark-color" : colors.dark,
-                    "--fs-button-light-text" : colors.light,
-                    "--fs-button-base-text"  : colors.light,
-                    "--fs-button-dark-text"  : colors.light
+                    "--fs-button-background-color": colors.base,
+                    "--fs-button-border-color": colors.base,
+                    "--fs-button-color": textColors.light,
+                    "--fs-button-hover-background-color": colors.base,
+                    "--fs-button-hover-border-color": colors.base,
+                    "--fs-button-hover-color": textColors.light,
+                    "--fs-button-active-background-color": colors.dark,
+                    "--fs-button-active-border-color": colors.dark,
+                    "--fs-button-active-color": textColors.light
 
                 };
                 case "icon": return {
-                    "--fs-button-light-text" : colors.base,
-                    "--fs-button-base-text"  : colors.dark
+                    "--fs-button-color": textColors.base,
+                    "--fs-button-hover-color" : textColors.dark
                 };
             }
         });
 
         const classes = computed((): string[] => {
-            switch (variant.value) {
-                case "icon": return ["fs-button-icon"];
-                default: return ["fs-button"];
+            const classes = [];
+            if (!editable.value) {
+                classes.push("fs-button--disabled");
             }
+            switch (variant.value) {
+                case "icon":
+                    classes.push("fs-button-icon");
+                    break;
+                default:
+                    classes.push("fs-button");
+                    break;
+            }
+            return classes;
         });
 
+        const onClick = () => {
+            if (!editable.value) {
+                return;
+            }
+            emit("click");
+        }
+
         return {
+            colors,
+            color,
             style,
-            classes
+            classes,
+            onClick
         };
     }
 });

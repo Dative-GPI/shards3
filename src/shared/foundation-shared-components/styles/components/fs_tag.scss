@@ -1,8 +1,8 @@
 .fs-tag {
     padding: 0 8px !important;
     border-radius: 2px !important;
-    background-color: var(--fs-tag-light-color) !important;
-    color: var(--fs-tag-light-text) !important;
+    background-color: var(--fs-tag-background-color) !important;
+    color: var(--fs-tag-color) !important;
 
     @include web {
         height: 28px !important;
@@ -18,17 +18,17 @@
     margin: 4px 0 !important;
     border-radius: 2px !important;
     box-shadow: none !important;
-    background-color: var(--fs-tag-light-color) !important;
-    color: var(--fs-tag-light-text) !important;
+    background-color: var(--fs-tag-background-color) !important;
+    color: var(--fs-tag-color) !important;
 
     &:hover {
-        background-color: var(--fs-tag-base-color) !important;
-        color: var(--fs-tag-base-text) !important;
+        background-color: var(--fs-tag-hover-background-color) !important;
+        color: var(--fs-tag-hover-color) !important;
     }
 
     &:active {
-        background-color: var(--fs-tag-dark-color) !important;
-        color: var(--fs-tag-dark-text) !important;
+        background-color: var(--fs-tag-active-background-color) !important;
+        color: var(--fs-tag-active-color) !important;
     }
 
     @include web {

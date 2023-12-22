@@ -41,7 +41,7 @@ export default defineComponent({
     setup(props) {
         const { maskHeight, color } = toRefs(props);
 
-        const colors = useColors().getVariants(color.value);
+        const colors = useColors().getColors(color.value);
 
         const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
             "--fs-fade-out-mask-color": colors.base,
