@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -31,12 +31,18 @@ export default defineComponent({
             type: String as PropType<"base" | "light" | "dark">,
             required: false,
             default: "dark"
+        },
+        ellipsis: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     setup(props) {
         const { color, font, variant } = toRefs(props);
 
         const colors = useColors().getColors(color.value);
+        const slots = useSlots();
 
         const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
             switch (variant.value) {
@@ -52,7 +58,16 @@ export default defineComponent({
             }
         });
 
-        const classes = computed((): string[] => ["fs-text", font.value]);
+        const classes = computed((): string[] => {
+            const classes = ["fs-text", font.value];
+            if (props.ellipsis) {
+                classes.push("fs-span-ellipsis");
+            }
+            if (!slots.default) {
+                classes.push("fs-span-pre-wrap");
+            }
+            return classes;
+        });
 
         return {
             classes,

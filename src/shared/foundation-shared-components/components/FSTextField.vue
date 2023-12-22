@@ -1,14 +1,35 @@
 <template>
     <FSCol>
         <slot name="label">
-            <FSSpan
-                v-if="$props.label"
-                class="fs-text-field-label"
-                font="text-overline"
-                :style="style"
-            >
-                {{ $props.label }}{{ $props.required ? "*" : "" }}
-            </FSSpan>
+            <FSRow :wrap="false">
+                <FSSpan
+                    v-if="$props.label"
+                    class="fs-text-field-label"
+                    font="text-overline"
+                    :style="style"
+                >
+                    {{ $props.label }}
+                </FSSpan>
+                <FSSpan
+                    v-if="$props.label && $props.required"
+                    class="fs-text-field-label"
+                    style="margin-left: -8px;"
+                    font="text-overline"
+                    :ellipsis="false"
+                    :style="style"
+                >
+                    *
+                </FSSpan>
+                <v-spacer style="min-width: 40px;" />
+                <FSSpan
+                    v-if="messages.length > 0"
+                    class="fs-text-field-messages"
+                    font="text-overline"
+                    :style="style"
+                >
+                    {{ messages.join(", ") }}
+                </FSSpan>
+            </FSRow>
         </slot>
         <v-text-field
             class="fs-text-field"
@@ -16,6 +37,7 @@
             hide-details
             :style="style"
             :type="$props.type"
+            :rules="$props.rules"
             :readonly="!$props.editable"
             :modelValue="$props.value"
             @update:modelValue="(value) => $emit('update:value', value)"
@@ -46,18 +68,20 @@ import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
     name: "FSTextField",
     components: {
         FSSpan,
-        FSCol
+        FSCol,
+        FSRow
     },
     inheritAttrs: false,
     props: {
         label: {
             type: String,
-            required: false,
+            required: true,
             default: null
         },
         description: {
@@ -85,6 +109,11 @@ export default defineComponent({
             required: false,
             default: false
         },
+        rules: {
+            type: Array as PropType<Function[]>,
+            required: false,
+            default: () => []
+        },
         editable: {
             type: Boolean,
             required: false,
@@ -97,6 +126,7 @@ export default defineComponent({
 
         const colors = useColors().getColors(color.value);
 
+        const errors = useColors().getColors(ColorBase.Error);
         const lights = useColors().getColors(ColorBase.Light);
         const darks = useColors().getColors(ColorBase.Dark);
 
@@ -113,11 +143,25 @@ export default defineComponent({
                 "--fs-text-field-cursor"             : "text",
                 "--fs-text-field-border-color"       : colors.base,
                 "--fs-text-field-color"              : darks.base,
-                "--fs-text-field-active-border-color": colors.dark
+                "--fs-text-field-active-border-color": colors.dark,
+                "--fs-text-field-error-color"        : errors.base,
+                "--fs-text-field-error-border-color" : errors.base
             };
         });
 
+        const messages = computed(() => {
+            const messages = [];
+            for (const rule of props.rules) {
+                const message = rule(props.value);
+                if (typeof(message) === "string") {
+                    messages.push(message);
+                }
+            }
+            return messages;
+        });
+
         return {
+            messages,
             style
         };
     }

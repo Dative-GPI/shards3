@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import { VForm } from 'vuetify/lib/components/index.mjs';
+
 import FSNumberField from "@dative-gpi/foundation-shared-components/components/FSNumberField.vue";
+import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+
+import { NumberRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/NumberField',

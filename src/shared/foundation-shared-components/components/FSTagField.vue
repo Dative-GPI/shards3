@@ -123,9 +123,6 @@ export default defineComponent({
                 return;
             }
             const tags = value.value ?? [];
-
-            console.log(tags);
-
             if (!innerValue.value.length || tags.includes(innerValue.value)) {
                 return;
             }
