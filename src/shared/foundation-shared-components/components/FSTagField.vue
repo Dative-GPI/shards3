@@ -5,7 +5,6 @@
             :description="$props.description"
             :type="type"
             :color="$props.color"
-            :textColor="$props.textColor"
             :required="$props.required"
             :editable="$props.editable"
             :value="innerValue"
@@ -31,7 +30,6 @@
             :tags="$props.value"
             :variant="$props.variant"
             :color="$props.tagColor"
-            :textColor="$props.tagTextColor"
             :editable="$props.editable"
             @remove="onRemove"
         />
@@ -81,20 +79,10 @@ export default defineComponent({
             required: false,
             default: ColorBase.Primary
         },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
         tagColor: {
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
-        },
-        tagTextColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: null
         },
         required: {
             type: Boolean,
@@ -113,13 +101,22 @@ export default defineComponent({
 
         const innerValue = ref("");
 
-        const dark = useColors().getVariants(ColorBase.Dark);
+        const darks = useColors().getColors(ColorBase.Dark);
 
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-            "--fs-tag-field-cursor"   : editable.value ? "pointer" : "default",
-            "--fs-tag-field-base-text": editable.value ? dark.base : dark.light,
-            "--fs-tag-field-dark-text": editable.value ? dark.dark : dark.light,
-        }));
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+            if (!editable.value) {
+                return {
+                    "--fs-tag-field-cursor"   : "default",
+                    "--fs-tag-field-base-text": darks.light,
+                    "--fs-tag-field-dark-text": darks.light
+                };
+            }
+            return {
+                "--fs-tag-field-cursor"   : "pointer",
+                "--fs-tag-field-base-text": darks.base,
+                "--fs-tag-field-dark-text": darks.dark
+            };
+        });
 
         const onAdd = (): void => {
             if (!editable.value) {

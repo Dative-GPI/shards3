@@ -4,7 +4,6 @@
         :description="$props.description"
         :type="type"
         :color="$props.color"
-        :textColor="$props.textColor"
         :required="$props.required"
         :editable="$props.editable"
         :value="innerValue"
@@ -13,12 +12,11 @@
     >
         <template #append>
             <FSButton
-                variant="standard"
                 :prependIcon="$props.buttonPrependIcon"
                 :label="$props.buttonLabel"
                 :appendIcon="$props.buttonAppendIcon"
+                :variant="$props.buttonVariant"
                 :color="$props.buttonColor"
-                :textColor="$props.buttonTextColor"
                 :editable="$props.editable"
                 @click="onUpdate"
             />
@@ -71,6 +69,11 @@ export default defineComponent({
             required: false,
             default: null
         },
+        buttonVariant: {
+            type: String as PropType<"standard" | "full" | "icon">,
+            required: false,
+            default: "standard"
+        },
         value: {
             type: String,
             required: false,
@@ -81,20 +84,10 @@ export default defineComponent({
             required: false,
             default: ColorBase.Dark
         },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
         buttonColor: {
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
-        },
-        buttonTextColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: null
         },
         required: {
             type: Boolean,

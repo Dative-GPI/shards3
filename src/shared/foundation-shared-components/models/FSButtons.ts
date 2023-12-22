@@ -22,105 +22,90 @@ export const FSButtonsProps = {
         prependIcon: "mdi-magnify",
         label: "Search",
         variant: "standard",
-        color: ColorBase.Primary,
-        textColor: ColorBase.Primary
+        color: ColorBase.Primary
     },
     FSButtonSearchMini: {
         prependIcon: "mdi-magnify",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Primary,
-        textColor: ColorBase.Primary
+        color: ColorBase.Primary
     },
     FSButtonSearchIcon: {
         icon: "mdi-magnify",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Primary,
-        textColor: ColorBase.Primary
+        color: ColorBase.Primary
     },
     FSButtonRemove: {
         prependIcon: "mdi-delete-outline",
         label: "Remove",
         variant: "standard",
-        color: ColorBase.Error,
-        textColor: ColorBase.Error
+        color: ColorBase.Error
     },
     FSButtonRemoveMini: {
         prependIcon: "mdi-delete-outline",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Error,
-        textColor: ColorBase.Error
+        color: ColorBase.Error
     },
     FSButtonRemoveIcon: {
         icon: "mdi-delete-outline",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Error,
-        textColor: ColorBase.Error
+        color: ColorBase.Error
     },
     FSButtonSave: {
         prependIcon: "mdi-content-save-outline",
         label: "Save",
         variant: "standard",
-        color: ColorBase.Primary,
-        textColor: ColorBase.Primary
+        color: ColorBase.Primary
     },
     FSButtonSaveMini: {
         prependIcon: "mdi-content-save-outline",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Primary,
-        textColor: ColorBase.Primary
+        color: ColorBase.Primary
     },
     FSButtonSaveIcon: {
         icon: "mdi-content-save-outline",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Primary,
-        textColor: ColorBase.Primary
+        color: ColorBase.Primary
     },
     FSButtonCancel: {
         prependIcon: "mdi-cancel",
         label: "Cancel",
         variant: "standard",
-        color: ColorBase.Light,
-        textColor: ColorBase.Dark
+        color: ColorBase.Light
     },
     FSButtonCancelMini: {
         prependIcon: "mdi-cancel",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Light,
-        textColor: ColorBase.Dark
+        color: ColorBase.Light
     },
     FSButtonCancelIcon: {
         icon: "mdi-cancel",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Light,
-        textColor: ColorBase.Dark
+        color: ColorBase.Light
     },
     FSButtonDocumentation: {
         prependIcon: "mdi-file-document-outline",
         label: "Documentation",
         variant: "standard",
-        color: ColorBase.Light,
-        textColor: ColorBase.Dark
+        color: ColorBase.Light
     },
     FSButtonDocumentationMini: {
         prependIcon: "mdi-file-document-outline",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Light,
-        textColor: ColorBase.Dark
+        color: ColorBase.Light
     },
     FSButtonDocumentationIcon: {
         icon: "mdi-file-document-outline",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Light,
-        textColor: ColorBase.Dark
+        color: ColorBase.Light
     }
 }

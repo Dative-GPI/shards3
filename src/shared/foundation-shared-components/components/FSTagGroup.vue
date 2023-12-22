@@ -6,7 +6,6 @@
             :label="tag"
             :variant="$props.variant"
             :color="$props.color"
-            :textColor="$props.textColor"
             :editable="$props.editable"
             @remove="() => $emit('remove', tag)"
         />
@@ -50,11 +49,6 @@ export default defineComponent({
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
-        },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: null
         },
         editable: {
             type: Boolean,

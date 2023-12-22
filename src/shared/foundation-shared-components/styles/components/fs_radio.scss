@@ -1,15 +1,14 @@
 .fs-radio {
     cursor: var(--fs-radio-cursor) !important;
-    color: var(--fs-radio-base-color) !important;
+    color: var(--fs-radio-radio-color) !important;
 }
 
 .fs-radio-label {
     cursor: var(--fs-radio-cursor) !important;
-    color: var(--fs-radio-base-text);
-    height: 20px !important;
+    color: var(--fs-radio-color) !important;
     user-select: none;
 }
 
 .fs-radio-description {
-    color: var(--fs-radio-base-text);
+    color: var(--fs-radio-color) !important;
 }

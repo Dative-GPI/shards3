@@ -1,6 +1,6 @@
 <template>
     <v-icon
-        :class="size"
+        :class="classes"
         v-bind="$attrs"
     >
         <slot />
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 export default defineComponent({
     name: "FSIcon",
@@ -22,8 +22,10 @@ export default defineComponent({
     setup(props) {
         const { size } = toRefs(props);
 
+        const classes = computed((): string[] => ["fs-icon", `fs-icon-${size.value}`]);
+
         return {
-            size: `fs-icon-${size.value}`
+            classes
         };
     }
 });

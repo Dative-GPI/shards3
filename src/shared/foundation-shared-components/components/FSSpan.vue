@@ -1,6 +1,6 @@
 <template>
     <span
-        :class="'fs-span ' + $props.font"
+        :class="classes"
         v-bind="$attrs"
     >
         <slot />
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 export default defineComponent({
     name: "FSSpan",
@@ -18,6 +18,15 @@ export default defineComponent({
             required: false,
             default: "text-body"
         }
+    },
+    setup(props) {
+        const { font } = toRefs(props);
+
+        const classes = computed((): string[] => ["fs-span", font.value]);
+
+        return {
+            classes
+        };
     }
 });
 </script>

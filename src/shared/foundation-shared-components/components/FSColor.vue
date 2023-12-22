@@ -8,7 +8,7 @@
         :gap="$props.gap"
         :style="style"
     >
-        <slot name="default" :color="color" :colors="colors" />
+        <slot name="default" v-bind="{ color, colors }" />
     </FSRow>
 </template>
 
@@ -60,12 +60,14 @@ export default defineComponent({
     setup(props) {
         const { color } = toRefs(props);
 
-        const colors = useColors().getVariants(color.value);
+        const colors = useColors().getColors(color.value);
 
         const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
-            "--fs-color-light-color"  : colors.light,
-            "--fs-color-base-color"   : colors.base,
-            "--fs-color-dark-color"   : colors.dark
+            "--fs-color-background-color": colors.light,
+            "--fs-color-color": colors.base,
+            "--fs-color-light": colors.light,
+            "--fs-color-base": colors.base,
+            "--fs-color-dark": colors.dark
         });
 
         return {

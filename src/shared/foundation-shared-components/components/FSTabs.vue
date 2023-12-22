@@ -11,7 +11,7 @@
         v-bind="$attrs"
     >
         <template v-for="(component, index) in $slots.default()" :key="index">
-            <component :is="component" />
+            <component :is="component" v-bind="{ color, colors, style }" />
         </template>
     </v-tabs>
 </template>
@@ -34,29 +34,32 @@ export default defineComponent({
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
-        },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
         }
     },
     emits: ["update:tab"],
     setup(props, { emit }) {
-        const { tab, color, textColor } = toRefs(props);
+        const { tab, color } = toRefs(props);
 
-        const textColors = useColors().getVariants(textColor?.value ?? color.value);
-        const colors = useColors().getVariants(color.value);
+        const textColors = useColors().getContrasts(color.value);
+        const colors = useColors().getColors(color.value);
+
+        const darks = useColors().getColors(ColorBase.Dark);
 
         const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
-            "--fs-group-light-color"  : colors.light,
-            "--fs-group-base-color"   : colors.base,
-            "--fs-group-light-text"   : textColors.base,
-            "--fs-group-dark-text"    : textColors.dark
+            "--fs-group-color": darks.base,
+            "--fs-group-hover-background-color": colors.light,
+            "--fs-group-hover-color": darks.dark,
+            "--fs-group-disabled-color": darks.light,
+            "--fs-group-light": colors.light,
+            "--fs-group-base": colors.base,
+            "--fs-group-dark": colors.dark,
+            "--fs-tab-tag-background-color": colors.base,
+            "--fs-tab-tag-color": textColors.light
         });
 
         return {
             tab,
+            color,
             colors,
             style,
             emit

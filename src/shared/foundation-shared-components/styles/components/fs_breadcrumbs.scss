@@ -1,13 +1,18 @@
 .fs-breadcrumbs-label {
     cursor: pointer;
-    color: var(--fs-breadcrumbs-base-text) !important;
+    user-select: none;
+    color: var(--fs-breadcrumbs-color);
 
     &--disabled {
-        color: var(--fs-breadcrumbs-light-text) !important;
+        color: var(--fs-breadcrumbs-disabled-color) !important;
     }
 
     &:hover {
         text-decoration: underline;
+    }
+
+    &:active {
+        color: var(--fs-breadcrumbs-active-color) !important;
     }
 }
 
@@ -25,17 +30,17 @@
 
     &--disabled {
         opacity: 1 !important;
-        color: var(--fs-breadcrumbs-light-text) !important;
+        color: var(--fs-breadcrumbs-disabled-color) !important;
     }
 
     &:last-child > .fs-breadcrumbs-label--disabled {
         @extend .text-button;
 
-        color: var(--fs-breadcrumbs-base-text) !important;
+        color: var(--fs-breadcrumbs-active-color) !important;
     }
 }
 
 .v-breadcrumbs-divider {
     padding: 0 !important;
-    color: var(--fs-breadcrumbs-base-text) !important;
+    color: var(--fs-breadcrumbs-color) !important;
 }

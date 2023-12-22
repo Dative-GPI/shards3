@@ -4,7 +4,6 @@
         :label="$props.label"
         :description="$props.description"
         :color="$props.color"
-        :textColor="$props.textColor"
         :required="$props.required"
         :editable="$props.editable"
         :value="$props.value?.toString()"
@@ -18,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { defineComponent, PropType } from "vue";
 
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
@@ -46,11 +45,6 @@ export default defineComponent({
             default: null
         },
         color: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
-        textColor: {
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Dark

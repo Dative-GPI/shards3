@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
+import { defineComponent, PropType, Ref, ref } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -41,21 +41,15 @@ export default defineComponent({
         items: {
             type: Array as PropType<Array<FSBreadcrumbItem>>,
             required: true,
-        },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
         }
     },
-    setup(props) {
-        const { textColor } = toRefs(props);
-
-        const textColors = useColors().getVariants(textColor.value);
+    setup() {
+        const darks = useColors().getColors(ColorBase.Dark);
 
         const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
-            "--fs-breadcrumbs-light-text": textColors.light,
-            "--fs-breadcrumbs-base-text" : textColors.base
+            "--fs-breadcrumbs-color": darks.dark,
+            "--fs-breadcrumbs-active-color": darks.base,
+            "--fs-breadcrumbs-disabled-color": darks.light
         });
 
         const classes = (item: FSBreadcrumbItem): string[] => {

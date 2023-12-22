@@ -40,7 +40,7 @@ input[type=number]::-webkit-outer-spin-button {
     min-width: 24px !important;
     width: 24px !important;
     flex: 1 1 0 !important;
-    color: var(--fs-group-base-text);
+    color: var(--fs-group-color);
 
     @include touchscreen {
         display: none !important;
@@ -50,14 +50,14 @@ input[type=number]::-webkit-outer-spin-button {
 // Light background color & dark text color on arrows when hovered
 .v-slide-group__prev:hover,
 .v-slide-group__next:hover {
-    background-color: var(--fs-group-light-color);
-    color: var(--fs-group-dark-text);
+    background-color: var(--fs-group-hover-background-color);
+    color: var(--fs-group-hover-color);
 }
 
 // Light text color on arrows when disabled
 .v-slide-group__prev--disabled,
 .v-slide-group__next--disabled {
-    color: var(--fs-group-light-text) !important;
+    color: var(--fs-group-disabled-color) !important;
 }
 
 /***************************************************************************/

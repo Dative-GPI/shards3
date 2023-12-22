@@ -74,11 +74,6 @@ export default defineComponent({
             required: false,
             default: ColorBase.Primary
         },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
         editable: {
             type: Boolean,
             required: false,
@@ -87,26 +82,25 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props, { emit }) {
-        const { value, color, textColor, editable } = toRefs(props);
+        const { value, color, editable } = toRefs(props);
 
-        const textColors = useColors().getVariants(textColor?.value ?? color.value);
-        const colors = useColors().getVariants(color.value);
+        const colors = useColors().getColors(color.value);
 
-        const lights = useColors().getVariants(ColorBase.Light);
-        const darks = useColors().getVariants(ColorBase.Dark);
+        const lights = useColors().getColors(ColorBase.Light);
+        const darks = useColors().getColors(ColorBase.Dark);
 
         const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
             if (!editable.value) {
                 return {
-                    "--fs-checkbox-cursor"    : "default",
-                    "--fs-checkbox-base-color": lights.base,
-                    "--fs-checkbox-base-text" : darks.light
+                    "--fs-checkbox-cursor": "default",
+                    "--fs-checkbox-checkbox-color": lights.dark,
+                    "--fs-checkbox-color": lights.dark
                 };
             }
             return {
-                "--fs-checkbox-cursor"    : "pointer",
-                "--fs-checkbox-base-color": value.value ? colors.base : textColors.base,
-                "--fs-checkbox-base-text" : textColors.base
+                "--fs-checkbox-cursor": "pointer",
+                "--fs-checkbox-checkbox-color": value.value ? colors.base : darks.base,
+                "--fs-checkbox-color": darks.base
             }
         });
 

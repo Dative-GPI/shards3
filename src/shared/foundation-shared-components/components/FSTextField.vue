@@ -80,11 +80,6 @@ export default defineComponent({
             required: false,
             default: ColorBase.Dark
         },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
         required: {
             type: Boolean,
             required: false,
@@ -98,28 +93,27 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props) {
-        const { color, textColor, editable } = toRefs(props);
+        const { color, editable } = toRefs(props);
 
-        const textColors = useColors().getVariants(textColor?.value ?? color.value);
-        const colors = useColors().getVariants(color.value);
+        const colors = useColors().getColors(color.value);
 
-        const lights = useColors().getVariants(ColorBase.Light);
-        const darks = useColors().getVariants(ColorBase.Dark);
+        const lights = useColors().getColors(ColorBase.Light);
+        const darks = useColors().getColors(ColorBase.Dark);
 
-        const style = computed(() => {
+        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
             if (!editable.value) {
                 return {
-                    "--fs-text-field-cursor"    : "default",
-                    "--fs-text-field-base-color": lights.base,
-                    "--fs-text-field-dark-color": lights.base,
-                    "--fs-text-field-base-text" : darks.light
+                    "--fs-text-field-cursor"             : "default",
+                    "--fs-text-field-border-color"       : lights.base,
+                    "--fs-text-field-color"              : lights.dark,
+                    "--fs-text-field-active-border-color": lights.base
                 };
             }
             return {
-                "--fs-text-field-cursor"    : "text",
-                "--fs-text-field-base-color": colors.base,
-                "--fs-text-field-dark-color": colors.dark,
-                "--fs-text-field-base-text" : textColors.base
+                "--fs-text-field-cursor"             : "text",
+                "--fs-text-field-border-color"       : colors.base,
+                "--fs-text-field-color"              : darks.base,
+                "--fs-text-field-active-border-color": colors.dark
             };
         });
 

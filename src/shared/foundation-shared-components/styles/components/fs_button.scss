@@ -1,24 +1,26 @@
 .fs-button {
     padding: var(--fs-button-padding) !important;
     border-radius: 4px !important;
+    border: 1px solid !important;
     box-shadow: none !important;
-    border: 1px solid var(--fs-button-base-color) !important;
-    background-color: var(--fs-button-light-color) !important;
-    color: var(--fs-button-light-text) !important;
+    
+    background-color: var(--fs-button-background-color) !important;
+    border-color: var(--fs-button-border-color) !important;
+    color: var(--fs-button-color) !important;
 
     &.fs-button--disabled {
         cursor: default !important;
     }
 
     &:not(.fs-button--disabled):hover {
-        background-color: var(--fs-button-base-color) !important;
-        color: var(--fs-button-base-text) !important;
+        background-color: var(--fs-button-hover-background-color) !important;
+        color: var(--fs-button-hover-color) !important;
     }
 
     &:not(.fs-button--disabled):active {
-        border-color: var(--fs-button-dark-color) !important;
-        background-color: var(--fs-button-dark-color) !important;
-        color: var(--fs-button-dark-text) !important;
+        background-color: var(--fs-button-active-background-color) !important;
+        border-color: var(--fs-button-active-border-color) !important;
+        color: var(--fs-button-active-color) !important;
     }
 
     @include web {
@@ -34,10 +36,10 @@
 
 .fs-button-icon {
     transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    color: var(--fs-button-light-text) !important;
+    color: var(--fs-button-color) !important;
 
     &:not(.fs-button--disabled):hover {
-        color: var(--fs-button-base-text) !important;
+        color: var(--fs-button-hover-color) !important;
         cursor: pointer !important;
     }
 

@@ -8,7 +8,6 @@
             :value="item.value"
             :selected="isSelected(item.value)"
             :color="$props.color"
-            :textColor="$props.textColor"
             :editable="$props.editable"
             @update:value="onToggle"
         />
@@ -44,11 +43,6 @@ export default defineComponent({
             type: String as PropType<ColorBase>,
             required: false,
             default: ColorBase.Primary
-        },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
         },
         editable: {
             type: Boolean,

@@ -13,16 +13,16 @@
 
 .fs-tab {
     padding: 0 16px;
-    border-bottom: 1px solid var(--fs-group-light-text) !important;
-    color: var(--fs-group-light-text) !important;
+    border-bottom: 1px solid var(--fs-group-color) !important;
+    color: var(--fs-group-color) !important;
 
     & .fs-tab-label {
         @extend .text-button;
     }
 
     &:hover {
-        border-bottom: 1px solid var(--fs-group-dark-text) !important;
-        color: var(--fs-group-dark-text) !important;
+        border-bottom: 1px solid var(--fs-group-hover-color) !important;
+        color: var(--fs-group-hover-color) !important;
     }
 
     @include web {
@@ -35,8 +35,8 @@
 }
 
 .fs-tab-active {
-    background-color: var(--fs-group-light-color) !important;
-    color: var(--fs-group-dark-text) !important;
+    background-color: var(--fs-group-hover-background-color) !important;
+    color: var(--fs-group-hover-color) !important;
     border-bottom: 0 !important;
 
     &:hover {
@@ -47,8 +47,8 @@
 .fs-tab-tag {
     padding: 0 8px;
     border-radius: 4px;
-    background-color: var(--fs-group-base-color);
-    color: var(--fs-group-light-color);
+    background-color: var(--fs-tab-tag-background-color);
+    color: var(--fs-tab-tag-color);
 
     @include web {
         min-width: 28px;

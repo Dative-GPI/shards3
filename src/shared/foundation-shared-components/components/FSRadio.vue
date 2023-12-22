@@ -78,11 +78,6 @@ export default defineComponent({
             required: false,
             default: ColorBase.Primary
         },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
         editable: {
             type: Boolean,
             required: false,
@@ -91,26 +86,25 @@ export default defineComponent({
     },
     emits: ["update:value"],
     setup(props, { emit }) {
-        const { value, selected, color, textColor, editable } = toRefs(props);
+        const { value, selected, color, editable } = toRefs(props);
 
-        const textColors = useColors().getVariants(textColor?.value ?? color.value);
-        const colors = useColors().getVariants(color.value);
+        const colors = useColors().getColors(color.value);
 
-        const lights = useColors().getVariants(ColorBase.Light);
-        const darks = useColors().getVariants(ColorBase.Dark);
+        const lights = useColors().getColors(ColorBase.Light);
+        const darks = useColors().getColors(ColorBase.Dark);
 
         const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
             if (!editable.value) {
                 return {
-                    "--fs-radio-cursor"    : "default",
-                    "--fs-radio-base-color": lights.base,
-                    "--fs-radio-base-text" : darks.light
+                    "--fs-radio-cursor": "default",
+                    "--fs-radio-radio-color": lights.dark,
+                    "--fs-radio-color": lights.dark
                 };
             }
             return {
                 "--fs-radio-cursor": selected.value ? "default" : "pointer",
-                "--fs-radio-base-color": selected.value ? colors.base : textColors.base,
-                "--fs-radio-base-text" : textColors.base
+                "--fs-radio-radio-color": selected.value ? colors.base : darks.base,
+                "--fs-radio-color" : darks.base
             };
         });
 

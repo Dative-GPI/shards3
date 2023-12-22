@@ -8,17 +8,17 @@
         v-bind="$attrs"
     >
         <FSRow :wrap="false">
-            <slot name="prepend" :color="color" :colors="colors">
+            <slot name="prepend" v-bind="{ color, colors }">
                 <FSIcon v-if="$props.prependIcon" size="m">
                     {{ $props.prependIcon }}
                 </FSIcon>
             </slot>
-            <slot name="default" :color="color" :colors="colors">
+            <slot name="default" v-bind="{ color, colors }">
                 <FSSpan v-if="$props.label" font="text-body">
                     {{ $props.label }}
                 </FSSpan>
             </slot>
-            <slot name="append" :color="color" :colors="colors">
+            <slot name="append" v-bind="{ color, colors }">
                 <FSIcon v-if="$props.appendIcon" size="m">
                     {{ $props.appendIcon }}
                 </FSIcon>
@@ -85,12 +85,7 @@ export default defineComponent({
         color: {
             type: String as PropType<ColorBase>,
             required: false,
-            default: ColorBase.Primary
-        },
-        textColor: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: null
+            default: ColorBase.Dark
         },
         editable: {
             type: Boolean,
@@ -100,14 +95,13 @@ export default defineComponent({
     },
     emts: ["click"],
     setup(props, { emit }) {
-        const { label, variant, color, textColor, editable } = toRefs(props);
+        const { label, variant, color, editable } = toRefs(props);
 
-        const textColors = useColors().getTexts(color.value, (textColor?.value ?? color.value));
-        const colors = useColors().getVariants(color.value);
+        const textColors = useColors().getContrasts(color.value);
+        const colors = useColors().getColors(color.value);
         const slots = useSlots();
 
-        const lights = useColors().getVariants(ColorBase.Light);
-        const darks = useColors().getVariants(ColorBase.Dark);
+        const lights = useColors().getColors(ColorBase.Light);
 
         const isEmpty = computed(() => {
             return !slots.default && !label.value;
@@ -115,37 +109,48 @@ export default defineComponent({
 
         const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
             if (!editable.value) {
-                return {
-                    "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
-                    "--fs-button-light-color": lights.base,
-                    "--fs-button-base-color" : lights.base,
-                    "--fs-button-light-text" : darks.light,
-                    "--fs-button-base-text"  : darks.light
-                };
+                switch (variant.value) {
+                    case "standard":
+                    case "full": return {
+                        "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+                        "--fs-button-background-color": lights.base,
+                        "--fs-button-border-color": lights.dark,
+                        "--fs-button-color": lights.dark
+                    }
+                    case "icon": return {
+                        "--fs-button-color": lights.dark
+                    }
+                }
             }
             switch (variant.value) {
                 case "standard": return {
-                    "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
-                    "--fs-button-light-color": colors.light,
-                    "--fs-button-base-color" : colors.base,
-                    "--fs-button-dark-color" : colors.dark,
-                    "--fs-button-light-text" : textColors.light,
-                    "--fs-button-base-text"  : textColors.base,
-                    "--fs-button-dark-text"  : textColors.dark
+                    "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+                    "--fs-button-background-color": colors.light,
+                    "--fs-button-border-color": colors.base,
+                    "--fs-button-color": textColors.base,
+                    "--fs-button-hover-background-color": colors.base,
+                    "--fs-button-hover-border-color": colors.base,
+                    "--fs-button-hover-color": textColors.light,
+                    "--fs-button-active-background-color": colors.dark,
+                    "--fs-button-active-border-color": colors.dark,
+                    "--fs-button-active-color": textColors.light
                 };
                 case "full": return {
                     "--fs-button-padding"    : !isEmpty.value ? "0 16px" : "0",
-                    "--fs-button-light-color": colors.base,
-                    "--fs-button-base-color" : colors.base,
-                    "--fs-button-dark-color" : colors.dark,
-                    "--fs-button-light-text" : textColors.base,
-                    "--fs-button-base-text"  : textColors.base,
-                    "--fs-button-dark-text"  : textColors.dark
+                    "--fs-button-background-color": colors.base,
+                    "--fs-button-border-color": colors.base,
+                    "--fs-button-color": textColors.light,
+                    "--fs-button-hover-background-color": colors.base,
+                    "--fs-button-hover-border-color": colors.base,
+                    "--fs-button-hover-color": textColors.light,
+                    "--fs-button-active-background-color": colors.dark,
+                    "--fs-button-active-border-color": colors.dark,
+                    "--fs-button-active-color": textColors.light
 
                 };
                 case "icon": return {
-                    "--fs-button-light-text": colors.base,
-                    "--fs-button-base-text" : colors.dark
+                    "--fs-button-color": textColors.base,
+                    "--fs-button-hover-color" : textColors.dark
                 };
             }
         });

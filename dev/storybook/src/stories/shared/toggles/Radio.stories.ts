@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSRadioGroup from "@dative-gpi/foundation-shared-components/components/FSRadioGroup.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 
 const meta = {
   title: 'Foundation/Shared/Toggles/Radio',
@@ -39,18 +39,20 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSRadioGroup, FSSpan },
+    components: { FSRadioGroup, FSText },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <FSSpan> First set of options </FSSpan>
+    <div style="display: flex; flex-direction: column; gap: 30px;">
+      <FSText> Primary color </FSText>
       <FSRadioGroup :values="args.options1" v-model:value="args.value1" />
-      <FSSpan> Second set of options (warning color) </FSSpan>
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSText> Warning color </FSText>
       <FSRadioGroup :values="args.options2" v-model:value="args.value2" color="warning" />
-      <FSSpan> Third set of options (disabled) </FSSpan>
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSText> Primary color, uneditable </FSText>
       <FSRadioGroup :values="args.options3" v-model:value="args.value3" :editable="false" />
     </div>`
   })
