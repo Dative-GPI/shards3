@@ -4,6 +4,7 @@ import { VForm } from 'vuetify/lib/components/index.mjs';
 
 import FSTextField from "@dative-gpi/foundation-shared-components/components/FSTextField.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 import { TextRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
 
@@ -29,21 +30,38 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSTextField },
+    components: { FSTextField, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <FSTextField v-model:value="args.value1" label="Text - dark color" />
+    <FSCol>
+      <FSTextField
+        label="Text - dark color"
+        v-model:value="args.value1"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSTextField v-model:value="args.value2" label="Text - primary color" color="primary" />
+      <FSTextField
+        color="primary"
+        label="Text - primary color"
+        v-model:value="args.value2"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSTextField v-model:value="args.value3" label="Required text - warning color" color="warning" :required="true" description="Description for this field" />
+      <FSTextField
+        color="warning" :required="true"
+        label="Required text - warning color"
+        description="Description for this field"
+        v-model:value="args.value3"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSTextField v-model:value="args.value4" label="Uneditable" description="Uneditable description" :editable="false" />
-    </div>`
+      <FSTextField
+        label="Uneditable"
+        description="Uneditable description"
+        :editable="false"
+        v-model:value="args.value4"
+      />
+    </FSCol>`
   })
 }
 
@@ -58,37 +76,41 @@ export const Rules: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { VForm, FSTextField, FSCol },
+    components: { VForm, FSTextField, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <v-form v-model="valid" v-lazy>
-        <FSCol>
-          <FSTextField
-            label="Rules: required & min 10 characters"
-            :rules="[args.rules.required(), args.rules.minLength(10)]"
-            :required="true"
-            v-model:value="args.value1"
-          />
-          <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-          <FSTextField
-            label="Rules: max 10 characters"
-            :rules="[args.rules.maxLength(10)]"
-            :required="true"
-            v-model:value="args.value2"
-          />
-          <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-          <FSTextField
-            label="Rules: required & max 10 characters & min 10 characters & at least one uppercase & at least one lowercase & at least one digit"
-            :rules="[args.rules.required(), args.rules.minLength(10), args.rules.maxLength(10), args.rules.uppercase(), args.rules.lowercase(), args.rules.digit()]"
-            :required="true"
-            v-model:value="args.value3"
-          />
-        </FSCol>
-      </v-form>
-    </div>`
+    <v-form v-model="args.valid" v-lazy>
+      <FSCol>
+        <FSRow>
+          <div class="text-body">
+            Form validity: {{ args.valid ?? "false" }}
+          </div>
+        </FSRow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSTextField
+          label="Rules: required & min 10 characters"
+          :rules="[args.rules.required(), args.rules.min(10)]"
+          :required="true"
+          v-model:value="args.value1"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSTextField
+          label="Rules: max 10 characters"
+          :rules="[args.rules.max(10)]"
+          :required="true"
+          v-model:value="args.value2"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSTextField
+          label="Rules: required & min 10 characters & at least one special & at least one uppercase & at least one lowercase & at least one digit"
+          :rules="[args.rules.required(), args.rules.min(10), args.rules.special(), args.rules.uppercase(), args.rules.lowercase(), args.rules.digit()]"
+          :required="true"
+          v-model:value="args.value3"
+        />
+      </FSCol>
+    </v-form>`
   })
 }

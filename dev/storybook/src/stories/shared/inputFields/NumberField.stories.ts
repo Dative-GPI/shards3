@@ -4,6 +4,7 @@ import { VForm } from 'vuetify/lib/components/index.mjs';
 
 import FSNumberField from "@dative-gpi/foundation-shared-components/components/FSNumberField.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 import { NumberRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
 
@@ -19,12 +20,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const template = `
-<v-container fluid class="pa-0 ma-0" style="display: flex;">
-  <NumberField v-bind="args" v-model:value="args.value" />
-</v-container>
-`;
-
 export const Variations: Story = {
   args: {
     args: {
@@ -35,20 +30,88 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSNumberField },
+    components: { FSNumberField, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <FSNumberField v-model:value="args.value1" />
+    <FSCol>
+      <FSNumberField
+        label="Number - dark color"
+        v-model:value="args.value1"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSNumberField v-model:value="args.value2" label="Number - primary color" color="primary" />
+      <FSNumberField
+        color="primary"
+        label="Number - primary color"
+        v-model:value="args.value2"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSNumberField v-model:value="args.value3" label="Required number - warning color" color="warning" :required="true" description="Description for this field" />
+      <FSNumberField
+        color="warning"
+        label="Required number - warning color"
+        description="Description for this field"
+        :required="true"
+        v-model:value="args.value3"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSNumberField v-model:value="args.value4" label="Uneditable" description="Uneditable description" :editable="false" />
-    </div>`
+      <FSNumberField
+        label="Uneditable"
+        description="Uneditable description"
+        :editable="false"
+        v-model:value="args.value4"
+      />
+    </FSCol>`
+  })
+}
+
+export const Rules: Story = {
+  args: {
+    args: {
+      valid: false,
+      value1: "",
+      value2: "",
+      value3: "",
+      rules: NumberRules
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { VForm, FSNumberField, FSCol, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <v-form v-model="args.valid" v-lazy>
+      <FSCol>
+        <FSRow>
+          <div class="text-body">
+            Form validity: {{ args.valid ?? "false" }}
+          </div>
+        </FSRow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSNumberField
+          label="Rules: required & min 10"
+          :rules="[args.rules.required(), args.rules.min(10)]"
+          :required="true"
+          v-model:value="args.value1"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSNumberField
+          label="Rules: max 10"
+          :rules="[args.rules.max(10)]"
+          :required="true"
+          v-model:value="args.value2"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSNumberField
+          label="Rules: required & min 10 & integer"
+          :rules="[args.rules.required(), args.rules.min(10), args.rules.integer()]"
+          :required="true"
+          v-model:value="args.value3"
+        />
+      </FSCol>
+    </v-form>`
   })
 }

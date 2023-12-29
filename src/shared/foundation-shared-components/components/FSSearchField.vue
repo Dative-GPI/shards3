@@ -11,15 +11,17 @@
         v-bind="$attrs"
     >
         <template #append>
-            <FSButton
-                :prependIcon="$props.buttonPrependIcon"
-                :label="$props.buttonLabel"
-                :appendIcon="$props.buttonAppendIcon"
-                :variant="$props.buttonVariant"
-                :color="$props.buttonColor"
-                :editable="$props.editable"
-                @click="onUpdate"
-            />
+            <slot name="append">
+                <FSButton
+                    :prependIcon="$props.buttonPrependIcon"
+                    :label="$props.buttonLabel"
+                    :appendIcon="$props.buttonAppendIcon"
+                    :variant="$props.buttonVariant"
+                    :color="$props.buttonColor"
+                    :editable="$props.editable"
+                    @click="onUpdate"
+                />
+            </slot>
         </template>
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
             <slot :name="name" v-bind="slotData" />

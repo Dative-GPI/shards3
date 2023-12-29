@@ -11,14 +11,16 @@
         v-bind="$attrs"
     >
         <template #append-inner>
-            <FSIcon
-                class="fs-password-field-icon"
-                size="m"
-                :style="style"
-                @click="onToggle"
-            >
-                {{ icon }}
-            </FSIcon>
+            <slot name="append-inner">
+                <FSIcon
+                    class="fs-password-field-icon"
+                    size="m"
+                    :style="style"
+                    @click="onToggle"
+                >
+                    {{ icon }}
+                </FSIcon>
+            </slot>
         </template>
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
             <slot :name="name" v-bind="slotData" />
