@@ -39,13 +39,13 @@ export const Variations: Story = {
     <FSCol>
       <FSNumberField
         label="Number - dark color"
-        v-model:value="args.value1"
+        v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSNumberField
         color="primary"
         label="Number - primary color"
-        v-model:value="args.value2"
+        v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSNumberField
@@ -53,14 +53,14 @@ export const Variations: Story = {
         label="Required number - warning color"
         description="Description for this field"
         :required="true"
-        v-model:value="args.value3"
+        v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSNumberField
         label="Uneditable"
         description="Uneditable description"
         :editable="false"
-        v-model:value="args.value4"
+        v-model="args.value4"
       />
     </FSCol>`
   })
@@ -95,21 +95,21 @@ export const Rules: Story = {
           label="Rules: required & min 10"
           :rules="[args.rules.required(), args.rules.min(10)]"
           :required="true"
-          v-model:value="args.value1"
+          v-model="args.value1"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSNumberField
           label="Rules: max 10"
           :rules="[args.rules.max(10)]"
           :required="true"
-          v-model:value="args.value2"
+          v-model="args.value2"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSNumberField
           label="Rules: required & min 10 & integer"
           :rules="[args.rules.required(), args.rules.min(10), args.rules.integer()]"
           :required="true"
-          v-model:value="args.value3"
+          v-model="args.value3"
         />
       </FSCol>
     </v-form>`

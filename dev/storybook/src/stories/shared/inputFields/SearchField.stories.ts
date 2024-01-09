@@ -34,14 +34,14 @@ export const Variations: Story = {
     <FSCol>
       <FSSearchField
         label="Search - dark color, primary button color, no button label"
-        v-model:value="args.value1"
+        v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSearchField
         buttonLabel="Search"
         color="primary"
         label="Search - primary color, button label"
-        v-model:value="args.value2"
+        v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSearchField
@@ -52,14 +52,14 @@ export const Variations: Story = {
         label="Search - required - warning color, button label & icon"
         description="Description for this field"
         :required="true"
-        v-model:value="args.value3"
+        v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSearchField
         label="Uneditable"
         description="Uneditable description"
         :editable="false"
-        v-model:value="args.value4"
+        v-model="args.value4"
       />
     </FSCol>`
   })

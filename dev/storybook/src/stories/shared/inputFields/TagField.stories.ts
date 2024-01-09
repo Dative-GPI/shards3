@@ -39,14 +39,14 @@ export const Variations: Story = {
     <FSCol>
       <FSTagField
         label="Tag - full - dark color, primary tag color"
-        v-model:value="args.value1"
+        v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
         color="primary"
         tagVariant="standard"
         label="Tag - standard - primary color"
-        v-model:value="args.value2"
+        v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
@@ -55,7 +55,7 @@ export const Variations: Story = {
         label="Required tag - full - warning color"
         description="Description for this field"
         :required="true"
-        v-model:value="args.value3"
+        v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
@@ -64,7 +64,7 @@ export const Variations: Story = {
         label="Uneditable - full - error color"
         description="Uneditable description"
         :editable="false"
-        v-model:value="args.value4"
+        v-model="args.value4"
       />
     </FSCol>`
   })
@@ -99,21 +99,21 @@ export const Rules: Story = {
           label="Rules: required & min 2 tags"
           :rules="[args.rules.required(), args.rules.min(2)]"
           :required="true"
-          v-model:value="args.value1"
+          v-model="args.value1"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTagField
           label="Rules: max 5 tags"
           :rules="[args.rules.max(5)]"
           :required="true"
-          v-model:value="args.value2"
+          v-model="args.value2"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTagField
           label="Rules: required & max 10 tags & min 5 tags"
           :rules="[args.rules.required(), args.rules.min(5), args.rules.max(10)]"
           :required="true"
-          v-model:value="args.value3"
+          v-model="args.value3"
         />
       </FSCol>
     </v-form>`

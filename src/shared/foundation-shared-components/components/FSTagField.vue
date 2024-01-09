@@ -8,8 +8,8 @@
             :required="$props.required"
             :editable="$props.editable"
             :error="messages.length > 0"
-            :value="innerValue"
-            @update:value="(value) => innerValue = value"
+            :modelValue="innerValue"
+            @update:modelValue="(value) => innerValue = value"
             @keydown.enter="onAdd"
             v-bind="$attrs"
         >
@@ -41,7 +41,7 @@
                             font="text-overline"
                             :style="style"
                         >
-                            {{ messages.join(", ") }}
+                            {{ messages.join(", ") + " KEKE KEKEs" }}
                         </FSSpan>
                     </FSRow>
                 </slot>
@@ -63,7 +63,7 @@
             </template>
         </FSTextField>
         <FSTagGroup
-            :tags="$props.value"
+            :tags="$props.modelValue"
             :variant="$props.tagVariant"
             :color="$props.tagColor"
             :editable="$props.editable"
@@ -104,7 +104,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        value: {
+        modelValue: {
             type: Array as PropType<string[]>,
             required: false,
             default: () => []
@@ -140,9 +140,9 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props, { emit }) {
-        const { value, rules, editable } = toRefs(props);
+        const { modelValue, rules, editable } = toRefs(props);
 
         const innerValue = ref("");
 
@@ -168,7 +168,7 @@ export default defineComponent({
         const messages = computed((): string[] => {
             const messages = [];
             for (const rule of rules.value) {
-                const message = rule(props.value);
+                const message = rule(props.modelValue);
                 if (typeof(message) === "string") {
                     messages.push(message);
                 }
@@ -180,11 +180,11 @@ export default defineComponent({
             if (!editable.value) {
                 return;
             }
-            const tags = value.value ?? [];
+            const tags = modelValue.value ?? [];
             if (!innerValue.value.length || tags.includes(innerValue.value)) {
                 return;
             }
-            emit("update:value", tags.concat(innerValue.value));
+            emit("update:modelValue", tags.concat(innerValue.value));
             innerValue.value = "";
         }
 
@@ -192,11 +192,11 @@ export default defineComponent({
             if (!editable.value) {
                 return;
             }
-            const tags = value.value ?? [];
+            const tags = modelValue.value ?? [];
             if (!tags.length || !tags.includes(label)) {
                 return;
             }
-            emit("update:value", tags.filter(t => t !== label));
+            emit("update:modelValue", tags.filter(t => t !== label));
         }
 
         return {

@@ -39,11 +39,11 @@
             :type="$props.type"
             :rules="$props.rules"
             :readonly="!$props.editable"
-            :modelValue="$props.value"
-            @update:modelValue="(value) => $emit('update:value', value)"
+            :modelValue="$props.modelValue"
+            @update:modelValue="(value) => $emit('update:modelValue', value)"
             v-bind="$attrs"
         >
-            <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+            <template v-for="(_, name) in slots" v-slot:[name]="slotData">
                 <slot :name="name" v-bind="slotData" />
             </template>
         </v-text-field>
@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -94,7 +94,7 @@ export default defineComponent({
             required: false,
             default: "text"
         },
-        value: {
+        modelValue: {
             type: String,
             required: false,
             default: null
@@ -120,9 +120,13 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props) {
         const { color, rules, editable } = toRefs(props);
+        
+        const slots = { ...useSlots() };
+        delete slots.label;
+        delete slots.description;
 
         const colors = useColors().getColors(color.value);
 
@@ -152,7 +156,7 @@ export default defineComponent({
         const messages = computed((): string[] => {
             const messages = [];
             for (const rule of rules.value) {
-                const message = rule(props.value);
+                const message = rule(props.modelValue ?? "");
                 if (typeof(message) === "string") {
                     messages.push(message);
                 }
@@ -162,6 +166,7 @@ export default defineComponent({
 
         return {
             messages,
+            slots,
             style
         };
     }

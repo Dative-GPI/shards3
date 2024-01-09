@@ -39,7 +39,7 @@ export const Variations: Story = {
     <FSCol>
       <FSTextArea
         label="Text - dark color - 1 row, resizeable"
-        v-model:value="args.value1"
+        v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
@@ -47,7 +47,7 @@ export const Variations: Story = {
         label="Text - primary color - 2 rows, non resizeable"
         :rows="2"
         :resize="false"
-        v-model:value="args.value2"
+        v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
@@ -56,14 +56,14 @@ export const Variations: Story = {
         description="Description for this field"
         :required="true"
         :autoGrow="true"
-        v-model:value="args.value3"
+        v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
         label="Uneditable - 1 row, resizeable"
         description="Uneditable description"
         :editable="false"
-        v-model:value="args.value4"
+        v-model="args.value4"
       />
     </FSCol>`
   })
@@ -98,21 +98,21 @@ export const Rules: Story = {
           label="Rules: required & min 10 characters"
           :rules="[args.rules.required(), args.rules.min(10)]"
           :required="true"
-          v-model:value="args.value1"
+          v-model="args.value1"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTextArea
           label="Rules: max 10 characters"
           :rules="[args.rules.max(10)]"
           :required="true"
-          v-model:value="args.value2"
+          v-model="args.value2"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTextArea
           label="Rules: required & min 10 characters & at least one special & at least one uppercase & at least one lowercase & at least one digit"
           :rules="[args.rules.required(), args.rules.min(10), args.rules.special(), args.rules.uppercase(), args.rules.lowercase(), args.rules.digit()]"
           :required="true"
-          v-model:value="args.value3"
+          v-model="args.value3"
         />
       </FSCol>
     </v-form>`

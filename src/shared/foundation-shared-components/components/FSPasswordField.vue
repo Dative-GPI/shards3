@@ -6,8 +6,8 @@
         :color="$props.color"
         :required="$props.required"
         :editable="$props.editable"
-        :value="$props.value"
-        @update:value="(value) => $emit('update:value', value)"
+        :modelValue="$props.modelValue"
+        @update:modelValue="(value) => $emit('update:modelValue', value)"
         v-bind="$attrs"
     >
         <template #append-inner>
@@ -54,7 +54,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        value: {
+        modelValue: {
             type: String,
             required: false,
             default: null
@@ -75,7 +75,7 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props) {
         const { editable } = toRefs(props);
 

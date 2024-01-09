@@ -41,8 +41,8 @@
             :noResize="!$props.resize"
             :autoGrow="$props.autoGrow"
             :readonly="!$props.editable"
-            :modelValue="$props.value"
-            @update:modelValue="(value) => $emit('update:value', value)"
+            :modelValue="$props.modelValue"
+            @update:modelValue="(value) => $emit('update:modelValue', value)"
             v-bind="$attrs"
         >
             <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
@@ -91,7 +91,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        value: {
+        modelValue: {
             type: String,
             required: false,
             default: null
@@ -132,7 +132,7 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props) {
         const { color, rows, autoGrow, editable } = toRefs(props);
 
@@ -181,7 +181,7 @@ export default defineComponent({
         const messages = computed(() => {
             const messages = [];
             for (const rule of props.rules) {
-                const message = rule(props.value);
+                const message = rule(props.modelValue);
                 if (typeof(message) === "string") {
                     messages.push(message);
                 }
