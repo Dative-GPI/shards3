@@ -1,0 +1,171 @@
+<template>
+  <FSCol>
+    <FSRow>
+      <FSSpan
+        v-if="$props.label"
+        class="fs-calendar-label"
+        font="text-overline"
+      >
+        {{ $props.label }}
+      </FSSpan>
+    </FSRow>
+    <FSCol
+      class="fs-calendar"
+      :style="style"
+    >
+      <FSRow
+        class="fs-calendar-header"
+        align="center-center"
+      >
+        <FSButton
+          size="l"
+          variant="icon"
+          icon="mdi-chevron-left"
+          @click="onClickPrevious"
+        />
+        <FSSpan
+          class="fs-calendar-text"
+          font="text-h3"
+        >
+          {{ text }}
+        </FSSpan>
+        <FSButton
+          size="l"
+          variant="icon"
+          icon="mdi-chevron-right"
+          @click="onClickNext"
+        />
+      </FSRow>
+      <div
+        class="fs-calendar-divider"
+        :style="style"
+      />
+      <v-locale-provider :locale="languageCode">
+        <v-date-picker-month
+          :month="innerMonth"
+          :year="innerYear"
+          :multiple="false"
+          :showAdjacentMonths="true"
+          :modelValue="datesTools.epochToPicker($props.modelValue)"
+          @update:modelValue="(value) => $emit('update:modelValue', datesTools.pickerToEpoch(value))"
+          @update:month="null"
+          @update:year="null"
+        />
+      </v-locale-provider>
+    </FSCol>
+  </FSCol>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { useDate as useAdapter } from "vuetify/lib/composables/date/index.mjs";
+
+import { useColors, useDates } from "@dative-gpi/foundation-shared-components/composables";
+import { useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+
+import FSButton from "./FSButton.vue";
+import FSSpan from "./FSSpan.vue";
+import FSCol from "./FSCol.vue";
+import FSRow from "./FSRow.vue";
+
+export default defineComponent({
+  name: "FSCalendar",
+  components: {
+    FSButton,
+    FSSpan,
+    FSCol,
+    FSRow
+  },
+  props: {
+    label: {
+      type: String,
+      required: false,
+      default: null
+    },
+    modelValue: {
+      type: Array as PropType<Array<number>>,
+      required: false,
+      default: null
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorBase.Dark
+    },
+    buttonColor: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorBase.Primary
+    }
+  },
+  setup(props) {
+    const { modelValue, color, buttonColor } = toRefs(props);
+
+    const languageCode = useLanguageCode().languageCode;
+    const datesTools = useDates();
+    const adapter = useAdapter();
+
+    const colors = useColors().getColors(color.value);
+    const buttonColors = useColors().getColors(buttonColor.value);
+
+    const backgrounds = useColors().getColors(ColorBase.Background);
+    
+    const innerMonth = ref(modelValue.value.length ? datesTools.epochToPicker(modelValue.value)[0].getMonth() : new Date().getMonth());
+    const innerYear = ref(modelValue.value.length ? datesTools.epochToPicker(modelValue.value)[0].getFullYear() : new Date().getFullYear());
+
+    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+      return {
+        "--fs-calendar-background-color"       : backgrounds.base,
+        "--fs-calendar-hover-background-color" : buttonColors.light,
+        "--fs-calendar-active-background-color": buttonColors.base,
+        "--fs-calendar-border-color"           : colors.base,
+        "--fs-calendar-hover-border-color"     : buttonColors.base,
+        "--fs-calendar-active-border-color"    : buttonColors.base,
+        "--fs-calendar-color"                  : colors.base,
+        "--fs-calendar-hover-color"            : buttonColors.base,
+        "--fs-calendar-active-color"           : buttonColors.light
+      };
+    });
+
+    const text = computed(() => {
+      adapter.locale = languageCode;
+      return adapter.format(
+        adapter.setYear(adapter.setMonth(adapter.date(), innerMonth.value), innerYear.value),
+        'monthAndYear',
+      );
+    });
+
+    const onClickPrevious = (): void => {
+      if (innerMonth.value > 0) {
+        innerMonth.value--;
+      }
+      else {
+        innerYear.value--;
+        innerMonth.value = 11;
+      }
+    };
+
+    const onClickNext = (): void => {
+      if (innerMonth.value < 11) {
+        innerMonth.value++;
+      }
+      else {
+        innerYear.value++;
+        innerMonth.value = 0;
+      }
+    };
+
+    return {
+      languageCode,
+      style,
+      text,
+      innerMonth,
+      innerYear,
+      datesTools,
+      onClickPrevious,
+      onClickNext
+    };
+  }
+});
+</script>

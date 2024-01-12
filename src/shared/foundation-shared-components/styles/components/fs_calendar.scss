@@ -1,0 +1,115 @@
+.fs-calendar {
+    background-color: var(--fs-calendar-background-color) !important;
+    color: var(--fs-calendar-color) !important;
+    
+    border: 1px solid var(--fs-calendar-border-color) !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+
+    & > .v-locale-provider > .v-date-picker-month {
+        padding: 0 !important;
+    }
+}
+
+.fs-calendar-header {
+    justify-content: space-between !important;
+    padding: 8px 0 !important;
+}
+
+.fs-calendar-text {
+    text-transform: capitalize !important;
+}
+
+.fs-calendar-divider {
+    border-bottom: 1px solid var(--fs-calendar-border-color) !important;
+    width: 100% !important;
+}
+
+.v-date-picker-month__day > button {
+    @extend .text-body;
+
+    border-radius: 4px !important;
+    height: 48px !important;
+    width: 48px !important;
+}
+
+.v-date-picker-month__days {
+    gap: 4px !important;
+}
+
+.v-date-picker-month__day:not(.v-date-picker-month__day--selected) > button {
+    background-color: var(--fs-calendar-background-color);
+    border-color: transparent;
+    border: none;
+
+    &.v-btn--variant-outlined {
+        border: 1px solid var(--fs-calendar-hover-border-color);
+    }
+}
+
+.v-date-picker-month__day:not(.v-date-picker-month__day--selected):hover > button {
+    background-color: var(--fs-calendar-hover-background-color);
+    border: 1px solid var(--fs-calendar-hover-border-color);
+    color: var(--fs-calendar-hover-color);
+}
+
+.v-date-picker-month__day--selected > button {
+    background-color: var(--fs-calendar-active-background-color) !important;
+    border: 1px solid var(--fs-calendar-active-border-color) !important;
+    color: var(--fs-calendar-active-color) !important;
+}
+
+.fs-calendar-full {
+    & .v-date-picker-month__day > button {
+        background-color: var(--fs-calendar-hover-background-color);
+        border: 1px solid var(--fs-calendar-hover-border-color);
+        color: var(--fs-calendar-hover-color);
+    }
+}
+
+.fs-calendar-start {
+    & .v-date-picker-month__day--selected ~ .v-date-picker-month__day > button {
+        background-color: var(--fs-calendar-hover-background-color);
+        border: 1px solid var(--fs-calendar-hover-border-color);
+        color: var(--fs-calendar-hover-color);
+    }
+}
+
+.fs-calendar-end {
+    & .v-date-picker-month__day > button {
+        background-color: var(--fs-calendar-hover-background-color);
+        border: 1px solid var(--fs-calendar-hover-border-color);
+        color: var(--fs-calendar-hover-color);
+    }
+
+    & .v-date-picker-month__day--selected ~ .v-date-picker-month__day > button {
+        background-color: var(--fs-calendar-background-color);
+        border-color: transparent;
+        border: none;
+        color: var(--fs-calendar-color);
+    
+        &.v-btn--variant-outlined {
+            border: 1px solid var(--fs-calendar-hover-border-color);
+        }
+    }
+}
+
+.fs-calendar-part {
+    & .v-date-picker-month__day--selected ~ .v-date-picker-month__day--selected ~ .v-date-picker-month__day > button {
+        background-color: var(--fs-calendar-background-color);
+        border-color: transparent;
+        border: none;
+        color: var(--fs-calendar-color);
+    
+        &.v-btn--variant-outlined {
+            border: 1px solid var(--fs-calendar-hover-border-color);
+        }
+    }
+
+    & .v-date-picker-month__day--selected ~ .v-date-picker-month__day > button,
+    .v-date-picker-month__day--selected ~ .v-date-picker-month__day--selected ~ .v-date-picker-month__day:hover > button {
+        background-color: var(--fs-calendar-hover-background-color);
+        border: 1px solid var(--fs-calendar-hover-border-color);
+        color: var(--fs-calendar-hover-color);
+    }
+}

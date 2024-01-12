@@ -4,7 +4,7 @@
       <FSRow :wrap="false">
         <FSSpan
           v-if="$props.label"
-          class="fs-text-field-label"
+          class="fs-slider-label"
           font="text-overline"
           :style="style"
         >
@@ -12,7 +12,7 @@
         </FSSpan>
         <FSSpan
           v-if="$props.label && $props.required"
-          class="fs-text-field-label"
+          class="fs-slider-label"
           style="margin-left: -8px;"
           font="text-overline"
           :ellipsis="false"
@@ -20,37 +20,24 @@
         >
           *
         </FSSpan>
-        <v-spacer style="min-width: 40px;" />
-        <FSSpan
-          v-if="messages.length > 0"
-          class="fs-text-field-messages"
-          font="text-overline"
-          :style="style"
-        >
-          {{ messages.join(", ") }}
-        </FSSpan>
       </FSRow>
     </slot>
-    <v-text-field
-      class="fs-text-field"
-      variant="outlined"
-      hide-details
+    <v-slider
+      class="fs-slider"
+      :ripple="false"
       :style="style"
-      :type="$props.type"
-      :rules="$props.rules"
-      :readonly="!$props.editable"
-      :modelValue="$props.modelValue"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
+      :elevation="0"
+      no-details
       v-bind="$attrs"
     >
       <template v-for="(_, name) in slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
       </template>
-    </v-text-field>
+    </v-slider>
     <slot name="description">
       <FSSpan
         v-if="$props.description"
-        class="fs-text-field-description"
+        class="fs-slider-description"
         font="text-underline"
         :style="style"
       >
@@ -61,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -71,14 +58,13 @@ import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
-  name: "FSTextField",
-  components: {
+   name: "FSSlider",
+   components: {
     FSSpan,
     FSCol,
     FSRow
-  },
-  inheritAttrs: false,
-  props: {
+   },
+   props: {
     label: {
       type: String,
       required: true,
@@ -88,11 +74,6 @@ export default defineComponent({
       type: String,
       required: false,
       default: null
-    },
-    type: {
-      type: String as PropType<"text" | "password" | "number">,
-      required: false,
-      default: "text"
     },
     modelValue: {
       type: String,
@@ -109,24 +90,14 @@ export default defineComponent({
       required: false,
       default: false
     },
-    rules: {
-      type: Array as PropType<Function[]>,
-      required: false,
-      default: () => []
-    },
     editable: {
       type: Boolean,
       required: false,
       default: true
     }
-  },
-  emits: ["update:modelValue"],
-  setup(props) {
-    const { color, rules, editable } = toRefs(props);
-    
-    const slots = { ...useSlots() };
-    delete slots.label;
-    delete slots.description;
+   },
+   setup(props) {
+    const { color, editable } = toRefs(props);
 
     const colors = useColors().getColors(color.value);
 
@@ -153,22 +124,9 @@ export default defineComponent({
       };
     });
 
-    const messages = computed((): string[] => {
-      const messages = [];
-      for (const rule of rules.value) {
-        const message = rule(props.modelValue ?? "");
-        if (typeof(message) === "string") {
-          messages.push(message);
-        }
-      }
-      return messages;
-    });
-
     return {
-      messages,
-      slots,
       style
     };
-  }
+   } 
 });
 </script>

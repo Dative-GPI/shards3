@@ -380,7 +380,6 @@ export default defineComponent({
       editorState.read(() => {
         updateToolbar();
         emit("update:modelValue", JSON.stringify(editorState.toJSON()));
-        console.log(JSON.stringify(editorState.toJSON()));
       });
     });
 
