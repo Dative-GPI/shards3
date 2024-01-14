@@ -8,3 +8,12 @@
         color: var(--fs-tag-field-dark-text) !important;
     }
 }
+
+.fs-tag-field-label {
+    color: var(--fs-tag-field-color);
+}
+
+.fs-tag-field-messages {
+    align-self: stretch;
+    color: var(--fs-tag-field-error-color);
+}

@@ -33,7 +33,7 @@
     @click="onClick"
     v-bind="$attrs"
   >
-    <FSIcon size="checkbox">
+    <FSIcon size="m">
       {{ $props.icon }}
     </FSIcon>
   </FSRow>
@@ -93,7 +93,7 @@ export default defineComponent({
       default: true,
     },
   },
-  emts: ["click"],
+  emits: ["click"],
   setup(props, { emit }) {
     const { label, variant, color, editable } = toRefs(props);
 
@@ -162,7 +162,7 @@ export default defineComponent({
     );
 
     const classes = computed((): string[] => {
-      const classes = [];
+      const classes: string[] = [];
       if (!editable.value) {
         classes.push("fs-button--disabled");
       }

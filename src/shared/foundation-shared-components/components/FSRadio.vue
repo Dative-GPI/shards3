@@ -3,7 +3,6 @@
         <FSRow width="hug" align="center-left">
             <FSIcon
                 class="fs-radio"
-                size="checkbox"
                 :style="style"
                 @click="onToggle"
             >

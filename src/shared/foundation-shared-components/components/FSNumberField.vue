@@ -6,8 +6,8 @@
         :color="$props.color"
         :required="$props.required"
         :editable="$props.editable"
-        :value="$props.value?.toString()"
-        @update:value="(value) => $emit('update:value', isNaN(parseFloat(value)) ? 0 : parseFloat(value))"
+        :modelValue="$props.modelValue?.toString()"
+        @update:modelValue="(value) => $emit('update:modelValue', isNaN(parseFloat(value)) ? 0 : parseFloat(value))"
         v-bind="$attrs"
     >
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
@@ -39,7 +39,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        value: {
+        modelValue: {
             type: Number,
             required: false,
             default: null
@@ -60,6 +60,6 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"]
+    emits: ["update:modelValue"]
 });
 </script>

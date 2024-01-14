@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSSearchField from "@dative-gpi/foundation-shared-components/components/FSSearchField.vue";
+import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/SearchField',
@@ -24,20 +25,42 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSSearchField },
+    components: { FSSearchField, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <FSSearchField v-model:value="args.value1" />
+    <FSCol>
+      <FSSearchField
+        label="Search - dark color, primary button color, no button label"
+        v-model="args.value1"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSSearchField v-model:value="args.value2" buttonLabel="Search" label="Search - primary color" color="primary" />
+      <FSSearchField
+        buttonLabel="Search"
+        color="primary"
+        label="Search - primary color, button label"
+        v-model="args.value2"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSSearchField v-model:value="args.value3" buttonLabel="I'm feeling lucky" buttonPrependIcon="mdi-clover" buttonColor="warning" label="Search password - warning color" color="warning" :required="true" description="Description for this field" />
+      <FSSearchField
+        buttonColor="warning"
+        buttonPrependIcon="mdi-clover"
+        buttonLabel="I'm feeling lucky"
+        color="warning"
+        label="Search - required - warning color, button label & icon"
+        description="Description for this field"
+        :required="true"
+        v-model="args.value3"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSSearchField v-model:value="args.value4" label="Uneditable" :editable="false" />
-    </div>`
+      <FSSearchField
+        label="Uneditable"
+        description="Uneditable description"
+        :editable="false"
+        v-model="args.value4"
+      />
+    </FSCol>`
   })
 }

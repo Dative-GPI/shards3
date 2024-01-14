@@ -47,13 +47,13 @@ export const Variations: Story = {
     template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
       <FSText> Primary color </FSText>
-      <FSRadioGroup :values="args.options1" v-model:value="args.value1" />
+      <FSRadioGroup :values="args.options1" v-model="args.value1" />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSText> Warning color </FSText>
-      <FSRadioGroup :values="args.options2" v-model:value="args.value2" color="warning" />
+      <FSRadioGroup :values="args.options2" v-model="args.value2" color="warning" />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSText> Primary color, uneditable </FSText>
-      <FSRadioGroup :values="args.options3" v-model:value="args.value3" :editable="false" />
+      <FSRadioGroup :values="args.options3" v-model="args.value3" :editable="false" />
     </div>`
   })
 }

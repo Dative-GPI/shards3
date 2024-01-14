@@ -7,7 +7,7 @@
                 inset
                 :style="style"
                 :ripple="false"
-                :modelValue="$props.value"
+                :modelValue="$props.modelValue"
                 @update:modelValue="onToggle"
                 v-bind="$attrs"
             />
@@ -64,7 +64,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        value: {
+        modelValue: {
             type: Boolean,
             required: false,
             default: false
@@ -80,9 +80,9 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props, { emit }) {
-        const { value, color, editable } = toRefs(props);
+        const { modelValue, color, editable } = toRefs(props);
 
         const colors = useColors().getColors(color.value);
 
@@ -93,7 +93,7 @@ export default defineComponent({
         const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
             if (!editable.value) {
                 return {
-                    "--fs-switch-translate-x": value.value ? "8px" : "-8px",
+                    "--fs-switch-translate-x": modelValue.value ? "8px" : "-8px",
                     "--fs-switch-cursor": "default",
                     "--fs-switch-track-color": lights.dark,
                     "--fs-switch-thumb-color": backgrounds.base,
@@ -101,21 +101,21 @@ export default defineComponent({
                 };
             }
             return {
-                "--fs-switch-translate-x": value.value ? "8px" : "-8px",
+                "--fs-switch-translate-x": modelValue.value ? "8px" : "-8px",
                 "--fs-switch-cursor": "pointer",
-                "--fs-switch-track-color": value.value ? colors.base : darks.base,
+                "--fs-switch-track-color": modelValue.value ? colors.base : darks.base,
                 "--fs-switch-thumb-color": backgrounds.base,
                 "--fs-switch-color": darks.base
             };
         });
 
-        const font = computed((): string => value.value ? "text-button" : "text-body");
+        const font = computed((): string => modelValue.value ? "text-button" : "text-body");
 
         const onToggle = (): void => {
             if (!editable.value) {
                 return;
             }
-            emit("update:value", !value.value);
+            emit("update:modelValue", !modelValue.value);
         }
 
         return {

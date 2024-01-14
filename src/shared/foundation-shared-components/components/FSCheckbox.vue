@@ -3,7 +3,6 @@
         <FSRow width="hug" align="center-left">
             <FSIcon
                 class="fs-checkbox"
-                size="checkbox"
                 :style="style"
                 @click="onToggle"
             >
@@ -64,7 +63,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        value: {
+        modelValue: {
             type: Boolean,
             required: false,
             default: false
@@ -80,9 +79,9 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props, { emit }) {
-        const { value, color, editable } = toRefs(props);
+        const { modelValue, color, editable } = toRefs(props);
 
         const colors = useColors().getColors(color.value);
 
@@ -99,20 +98,20 @@ export default defineComponent({
             }
             return {
                 "--fs-checkbox-cursor": "pointer",
-                "--fs-checkbox-checkbox-color": value.value ? colors.base : darks.base,
+                "--fs-checkbox-checkbox-color": modelValue.value ? colors.base : darks.base,
                 "--fs-checkbox-color": darks.base
             }
         });
 
-        const icon = computed((): string => value.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
+        const icon = computed((): string => modelValue.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
 
-        const font = computed((): string => value.value ? "text-button" : "text-body");
+        const font = computed((): string => modelValue.value ? "text-button" : "text-body");
 
         const onToggle = (): void => {
             if (!editable.value) {
                 return;
             }
-            emit("update:value", !value.value);
+            emit("update:modelValue", !modelValue.value);
         };
 
         return {

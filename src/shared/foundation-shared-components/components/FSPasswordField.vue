@@ -6,19 +6,21 @@
         :color="$props.color"
         :required="$props.required"
         :editable="$props.editable"
-        :value="$props.value"
-        @update:value="(value) => $emit('update:value', value)"
+        :modelValue="$props.modelValue"
+        @update:modelValue="(value) => $emit('update:modelValue', value)"
         v-bind="$attrs"
     >
         <template #append-inner>
-            <FSIcon
-                class="fs-password-field-icon"
-                size="m"
-                :style="style"
-                @click="onToggle"
-            >
-                {{ icon }}
-            </FSIcon>
+            <slot name="append-inner">
+                <FSIcon
+                    class="fs-password-field-icon"
+                    size="m"
+                    :style="style"
+                    @click="onToggle"
+                >
+                    {{ icon }}
+                </FSIcon>
+            </slot>
         </template>
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
             <slot :name="name" v-bind="slotData" />
@@ -52,7 +54,7 @@ export default defineComponent({
             required: false,
             default: null
         },
-        value: {
+        modelValue: {
             type: String,
             required: false,
             default: null
@@ -73,7 +75,7 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props) {
         const { editable } = toRefs(props);
 

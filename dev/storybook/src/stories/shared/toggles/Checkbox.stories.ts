@@ -36,23 +36,23 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 30px;">
       <FSText> Primary color </FSText>
       <div style="display: flex; flex-direction: column; gap: 8px;">
-        <FSCheckbox v-model:value="args.value1" />
-        <FSCheckbox v-model:value="args.value2" label="Second checkbox" />
-        <FSCheckbox v-model:value="args.value3" label="Third checkbox"  description="Description of the third checkbox" />
+        <FSCheckbox v-model="args.value1" />
+        <FSCheckbox v-model="args.value2" label="Second checkbox" />
+        <FSCheckbox v-model="args.value3" label="Third checkbox"  description="Description of the third checkbox" />
       </div>
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSText> Error color </FSText>
       <div style="display: flex; flex-direction: column; gap: 8px;">
-        <FSCheckbox v-model:value="args.value4" color="error" />
-        <FSCheckbox v-model:value="args.value5" color="error" label="Second checkbox" />
-        <FSCheckbox v-model:value="args.value6" color="error" label="Third checkbox"  description="Description of the third checkbox" />
+        <FSCheckbox v-model="args.value4" color="error" />
+        <FSCheckbox v-model="args.value5" color="error" label="Second checkbox" />
+        <FSCheckbox v-model="args.value6" color="error" label="Third checkbox"  description="Description of the third checkbox" />
       </div>
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSText> Primary color, uneditable </FSText>
       <div style="display: flex; flex-direction: column; gap: 8px;">
-        <FSCheckbox :value="false" :editable="false" />
-        <FSCheckbox :value="true"  :editable="false" label="Second checkbox (disabled)" />
-        <FSCheckbox :value="false" :editable="false" label="Third checkbox (disabled)" description="Description of the third checkbox" />
+        <FSCheckbox :modelValue="false" :editable="false" />
+        <FSCheckbox :modelValue="true"  :editable="false" label="Second checkbox (disabled)" />
+        <FSCheckbox :modelValue="false" :editable="false" label="Third checkbox (disabled)" description="Description of the third checkbox" />
       </div>
     </div>`
   })

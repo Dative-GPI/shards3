@@ -1,0 +1,20 @@
+.fs-slider {
+    padding: 0px !important;
+    width: 100%;
+}
+
+.fs-slider-label {
+    color: var(--fs-slider-color);
+}
+
+.fs-slider-description {
+    color: var(--fs-slider-color);
+}
+
+.v-slider-thumb__ripple {
+    display: none;
+}
+
+.v-slider-thumb__surface:after {
+    content: none;
+}

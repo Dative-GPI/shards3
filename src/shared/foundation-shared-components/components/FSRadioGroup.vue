@@ -34,7 +34,7 @@ export default defineComponent({
             required: true,
             default: false
         },
-        value: {
+        modelValue: {
             type: [String, Boolean, Number],
             required: false,
             default: 0
@@ -50,17 +50,17 @@ export default defineComponent({
             default: true
         }
     },
-    emits: ["update:value"],
+    emits: ["update:modelValue"],
     setup(props, { emit }) {
-        const { value } = toRefs(props);
+        const { modelValue } = toRefs(props);
 
         const isSelected = (item: String | Boolean | Number): boolean => {
-            return item == value.value;
+            return item == modelValue.value;
         };
 
         const onToggle = (item: String | Boolean | Number): void => {
-            if (item != value.value) {
-                emit("update:value", item);
+            if (item != modelValue.value) {
+                emit("update:modelValue", item);
             }
         };
 

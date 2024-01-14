@@ -14,7 +14,7 @@ export default defineComponent({
     name: "FSIcon",
     props: {
         size: {
-            type: String as PropType<"s" | "m" | "checkbox">,
+            type: String as PropType<"s" | "m" | "l">,
             required: false,
             default: "m"
         }
