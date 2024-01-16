@@ -1,4 +1,4 @@
-import { LanguageDetails, LanguageDetailsDTO, LanguageFilters, LanguageInfos, LanguageInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { LanguageDetails, LanguageDetailsDTO, LanguageFilters, LanguageInfos, LanguageInfosDTO } from "@dative-gpi/foundation-shared-domain";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { LANGUAGES_URL, LANGUAGE_URL } from "../../config/urls";

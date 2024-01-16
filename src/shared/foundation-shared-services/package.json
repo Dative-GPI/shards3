@@ -12,6 +12,7 @@
     "@dative-gpi/bones-ui": "^0.0.50",
     "@dative-gpi/foundation-shared-domain": "1.0.0",
     "@microsoft/signalr": "^8.0.0",
+    "date-fns": "^3.2.0",
     "vue": "^3.2.0",
     "vue-router": "^4.2.5"
   }

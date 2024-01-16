@@ -8,10 +8,6 @@
     border-color: var(--fs-button-border-color) !important;
     color: var(--fs-button-color) !important;
 
-    &.fs-button--disabled {
-        cursor: default !important;
-    }
-
     &:not(.fs-button--disabled):hover {
         background-color: var(--fs-button-hover-background-color) !important;
         color: var(--fs-button-hover-color) !important;

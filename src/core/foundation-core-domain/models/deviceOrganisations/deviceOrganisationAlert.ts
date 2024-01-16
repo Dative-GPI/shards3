@@ -1,3 +1,5 @@
+import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
+
 import { AlertStatus, Criticity } from "../enums/alertEnums";
 
 export class DeviceOrganisationAlert {
@@ -13,8 +15,8 @@ export class DeviceOrganisationAlert {
     this.label = params.label;
     this.status = params.status;
     this.criticity = params.criticity;
-    this.sourceTimestamp = params.sourceTimestamp;
-    this.enqueuedTimestamp = params.enqueuedTimestamp;
+    this.sourceTimestamp = params.sourceTimestamp ? DatesTools.utcToEpoch(params.sourceTimestamp) : undefined;
+    this.enqueuedTimestamp = params.enqueuedTimestamp ? DatesTools.utcToEpoch(params.enqueuedTimestamp) : undefined;
   }
 }
 
@@ -23,6 +25,6 @@ export interface DeviceOrganisationAlertDTO {
   label: string;
   status: AlertStatus;
   criticity: Criticity;
-  sourceTimestamp?: number;
-  enqueuedTimestamp?: number;
+  sourceTimestamp?: string;
+  enqueuedTimestamp?: string;
 }

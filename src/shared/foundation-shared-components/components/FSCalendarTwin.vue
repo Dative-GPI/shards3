@@ -94,8 +94,8 @@
 import { computed, defineComponent, onMounted, PropType, ref, toRefs } from "vue";
 import { useDate as useAdapter } from "vuetify/lib/composables/date/index.mjs";
 
-import { useColors, useDates } from "@dative-gpi/foundation-shared-components/composables";
-import { useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSButton from "./FSButton.vue";
@@ -138,7 +138,7 @@ export default defineComponent({
     const { modelValue, color, buttonColor } = toRefs(props);
 
     const languageCode = useLanguageCode().languageCode;
-    const datesTools = useDates();
+    const datesTools = useTimeZone();
     const adapter = useAdapter();
 
     const colors = useColors().getColors(color.value);
@@ -332,7 +332,7 @@ export default defineComponent({
     };
 
     const onClickLeft = (value: Date[]): void => {
-      const clicked = datesTools.pickerToEpoch([value[value.length - 1]])[0];
+      const clicked = datesTools.pickerToEpoch(value[value.length - 1]);
       if (modelValue.value.length === 0) {
         emit("update:modelValue", [clicked, clicked]);
       }
@@ -351,7 +351,7 @@ export default defineComponent({
     };
 
     const onClickRight = (value: Date[]): void => {
-      const clicked = datesTools.pickerToEpoch([value[value.length - 1]])[0];
+      const clicked = datesTools.pickerToEpoch(value[value.length - 1]);
       if (modelValue.value.length === 0) {
         emit("update:modelValue", [clicked, clicked]);
       }

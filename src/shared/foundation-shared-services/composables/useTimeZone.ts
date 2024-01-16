@@ -66,6 +66,24 @@ export const useTimeZone = () => {
         return 0;
     };
 
+    const pickerToEpoch = (value: Date): number => {
+        // FSCalendar is always in machine time zone, so we need to convert it to user time zone
+        return value.getTime() + getMachineOffsetMillis() - getUserOffsetMillis();
+    };
+
+    const epochToPicker = (value: number): Date => {
+        // Epoch is always without time zone, so we need to convert it to user time zone
+        const date = new Date(0);
+        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        return date;
+    };
+
+    const epochToPickerHeader = (value: number): { d: number, m: number, y: number } => {
+        const date = new Date(0);
+        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        return { d: date.getDate(), m: date.getMonth(), y: date.getFullYear() };
+    };
+
     if (!initialized) {
         provide(TIME_ZONE, timeZone);
 
@@ -104,6 +122,9 @@ export const useTimeZone = () => {
         getUserOffset,
         getMachineOffset,
         getUserOffsetMillis,
-        getMachineOffsetMillis
+        getMachineOffsetMillis,
+        pickerToEpoch,
+        epochToPicker,
+        epochToPickerHeader
     };
 }

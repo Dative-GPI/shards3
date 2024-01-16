@@ -10,6 +10,7 @@
         :editable="$props.editable"
         :error="messages.length > 0"
         :readonly="true"
+        v-bind="props"
       >
         <template #label>
           <slot name="label">
@@ -51,27 +52,12 @@
             </FSIcon>
           </slot>
         </template>
-        <template #append>
-          <slot name="append">
-            <FSButton
-              :prependIcon="$props.buttonPrependIcon"
-              :label="$props.buttonLabel"
-              :appendIcon="$props.buttonAppendIcon"
-              :variant="$props.buttonVariant"
-              :color="$props.buttonColor"
-              :editable="$props.editable"
-              v-bind="props"
-            />
-          </slot>
-        </template>
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
           <slot :name="name" v-bind="slotData" />
         </template>
       </FSTextField>
     </template>
-    <FSCol>
       <FSCalendar
-        label="test"
         :color="$props.color"
         :buttonColor="$props.buttonColor"
         :modelValue="$props.modelValue"
@@ -80,10 +66,7 @@
       <FSClock
         :color="$props.color"
         :buttonColor="$props.buttonColor"
-        :modelValue="$props.modelValue"
-        @update:modelValue="(value) => $emit('update:modelValue', value)"
       />
-    </FSCol>
   </v-menu>
 </template>
 
@@ -94,7 +77,7 @@ import { useColors } from "@dative-gpi/foundation-shared-components/composables"
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSTextField from "./FSTextField.vue";
-import FSCalendar from "./FSCalendarTwin.vue";
+import FSCalendar from "./FSCalendar.vue";
 import FSButton from "./FSButton.vue";
 import FSClock from "./FSClock.vue";
 import FSIcon from "./FSIcon.vue";
@@ -147,7 +130,7 @@ export default defineComponent({
       default: "standard"
     },
     modelValue: {
-      type: Array as PropType<Array<number>>,
+      type: Number,
       required: false,
       default: null
     },
@@ -178,7 +161,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { color, rules, editable } = toRefs(props);
+    const { modelValue, color, rules, editable } = toRefs(props);
 
     const colors = useColors().getColors(color.value);
 
@@ -215,6 +198,12 @@ export default defineComponent({
       }
       return messages;
     });
+
+    const onChangeDate = (value: number[]): void => {
+    };
+
+    const onChangeHour = (value: number): void => {
+    };
 
     return {
       prependColor,

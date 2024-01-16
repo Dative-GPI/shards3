@@ -1,3 +1,5 @@
+import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
+
 import { AlertDataDefinition, AlertDataDefinitionDTO } from "./alertDataDefinition";
 import { AlertStatus } from "../enums/alertEnums";
 
@@ -12,9 +14,9 @@ export class AlertState {
     constructor(params: AlertStateDTO) {
         this.id = params.id;
         this.status = params.status;
-        this.sourceTimestamp = params.sourceTimestamp;
-        this.enqueuedTimestamp = params.enqueuedTimestamp;
-        this.processedTimestamp = params.processedTimestamp;
+        this.sourceTimestamp = DatesTools.utcToEpoch(params.sourceTimestamp);
+        this.enqueuedTimestamp = DatesTools.utcToEpoch(params.enqueuedTimestamp);
+        this.processedTimestamp = DatesTools.utcToEpoch(params.processedTimestamp);
         this.metadataValues = params.metadataValues?.map(dto => new AlertDataDefinition(dto));
     }
 }
@@ -22,8 +24,8 @@ export class AlertState {
 export interface AlertStateDTO {
     id: string;
     status: AlertStatus;
-    sourceTimestamp: number;
-    enqueuedTimestamp: number;
-    processedTimestamp: number;
+    sourceTimestamp: string;
+    enqueuedTimestamp: string;
+    processedTimestamp: string;
     metadataValues?: AlertDataDefinitionDTO[];
 }

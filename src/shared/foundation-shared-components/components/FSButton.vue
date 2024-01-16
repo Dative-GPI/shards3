@@ -4,6 +4,7 @@
     :ripple="false"
     :style="style"
     :class="classes"
+    :disabled="!$props.editable"
     v-bind="$attrs"
   >
     <FSRow :wrap="false">

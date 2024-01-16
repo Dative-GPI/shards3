@@ -24,10 +24,14 @@
     </slot>
     <v-slider
       class="fs-slider"
-      :ripple="false"
+      hide-details
+      :tickSize="4"
       :style="style"
       :elevation="0"
-      no-details
+      :ripple="false"
+      :disabled="!$props.editable"
+      :modelValue="$props.modelValue"
+      @update:modelValue="(value) => $emit('update:modelValue', value)"
       v-bind="$attrs"
     >
       <template v-for="(_, name) in slots" v-slot:[name]="slotData">
@@ -101,26 +105,23 @@ export default defineComponent({
 
     const colors = useColors().getColors(color.value);
 
-    const errors = useColors().getColors(ColorBase.Error);
     const lights = useColors().getColors(ColorBase.Light);
     const darks = useColors().getColors(ColorBase.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {
         return {
-          "--fs-text-field-cursor"             : "default",
-          "--fs-text-field-border-color"       : lights.base,
-          "--fs-text-field-color"              : lights.dark,
-          "--fs-text-field-active-border-color": lights.base
+          "--fs-slider-cursor"     : "default",
+          "--fs-slider-track-color": lights.base,
+          "--fs-slider-thumb-color": lights.base,
+          "--fs-slider-color"      : lights.dark
         };
       }
       return {
-        "--fs-text-field-cursor"             : "text",
-        "--fs-text-field-border-color"       : colors.base,
-        "--fs-text-field-color"              : darks.base,
-        "--fs-text-field-active-border-color": colors.dark,
-        "--fs-text-field-error-color"        : errors.base,
-        "--fs-text-field-error-border-color" : errors.base
+          "--fs-slider-cursor"     : "pointer",
+          "--fs-slider-track-color": colors.light,
+          "--fs-slider-thumb-color": colors.base,
+          "--fs-slider-color"      : darks.base
       };
     });
 

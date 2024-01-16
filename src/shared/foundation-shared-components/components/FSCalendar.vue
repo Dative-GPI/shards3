@@ -1,5 +1,5 @@
 <template>
-  <FSCol>
+  <FSCol width="hug">
     <FSRow>
       <FSSpan
         v-if="$props.label"
@@ -11,6 +11,7 @@
     </FSRow>
     <FSCol
       class="fs-calendar"
+      width="hug"
       :style="style"
     >
       <FSRow
@@ -47,7 +48,7 @@
           :multiple="false"
           :showAdjacentMonths="true"
           :modelValue="datesTools.epochToPicker($props.modelValue)"
-          @update:modelValue="(value) => $emit('update:modelValue', datesTools.pickerToEpoch(value))"
+          @update:modelValue="(value) => $emit('update:modelValue', datesTools.pickerToEpoch(value[0]))"
           @update:month="null"
           @update:year="null"
         />
@@ -60,8 +61,8 @@
 import { computed, defineComponent, PropType, ref, toRefs } from "vue";
 import { useDate as useAdapter } from "vuetify/lib/composables/date/index.mjs";
 
-import { useColors, useDates } from "@dative-gpi/foundation-shared-components/composables";
-import { useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSButton from "./FSButton.vue";
@@ -84,7 +85,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Array as PropType<Array<number>>,
+      type: Number,
       required: false,
       default: null
     },
@@ -103,7 +104,7 @@ export default defineComponent({
     const { modelValue, color, buttonColor } = toRefs(props);
 
     const languageCode = useLanguageCode().languageCode;
-    const datesTools = useDates();
+    const datesTools = useTimeZone();
     const adapter = useAdapter();
 
     const colors = useColors().getColors(color.value);
@@ -111,8 +112,8 @@ export default defineComponent({
 
     const backgrounds = useColors().getColors(ColorBase.Background);
     
-    const innerMonth = ref(modelValue.value.length ? datesTools.epochToPicker(modelValue.value)[0].getMonth() : new Date().getMonth());
-    const innerYear = ref(modelValue.value.length ? datesTools.epochToPicker(modelValue.value)[0].getFullYear() : new Date().getFullYear());
+    const innerMonth = ref(modelValue.value ? datesTools.epochToPicker(modelValue.value).getMonth() : new Date().getMonth());
+    const innerYear = ref(modelValue.value ? datesTools.epochToPicker(modelValue.value).getFullYear() : new Date().getFullYear());
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {

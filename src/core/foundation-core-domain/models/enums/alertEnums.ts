@@ -1,5 +1,4 @@
-export enum AlertStatus
-{
+export enum AlertStatus {
   None = 0,
   Pending = 1,
   Untriggered = 2,
