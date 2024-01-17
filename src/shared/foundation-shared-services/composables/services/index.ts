@@ -1,6 +1,7 @@
 export * from "./useApplications";
 export * from "./useAuthTokens";
 export * from "./useFrequentlyAskedQuestions";
+export * from "./useImages";
 export * from "./useLandingPages";
 export * from "./useLayoutPages";
 export * from "./useLegalInformations";

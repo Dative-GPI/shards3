@@ -1,1 +1,2 @@
-export * from './organisation.mock';
+export * from "./images.mock";
+export * from './translations.mock';

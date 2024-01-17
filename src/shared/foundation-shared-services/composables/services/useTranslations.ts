@@ -20,7 +20,7 @@ export const useTranslations = () => {
     const service = TranslationServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<TranslationInfos[] | null>(null) as Ref<TranslationInfos[] | null>;
+    const fetched = ref<TranslationInfos[]>([]) as Ref<TranslationInfos[]>;
 
     const fetch = async (languageCode: string) => {
         fetching.value = true;

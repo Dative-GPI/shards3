@@ -7,3 +7,6 @@ export const IMAGE_RAW_URL = (imageId: string) => `${IMAGES_RAW_URL}/${encodeURI
 
 export const IMAGES_THUMBNAIL_URL = `${IMAGES_URL}/thumbnail`;
 export const IMAGE_THUMBNAIL_URL = (imageId: string) => `${IMAGES_THUMBNAIL_URL}/${encodeURIComponent(imageId)}`;
+
+export const IMAGES_BLURHASH_URL = `${IMAGES_URL}/blurHash`;
+export const IMAGE_BLURHASH_URL = (imageId: string) => `${IMAGES_BLURHASH_URL}/${encodeURIComponent(imageId)}`;

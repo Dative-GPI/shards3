@@ -53,11 +53,11 @@ export default defineComponent({
         });
 
         const classes = (item: FSBreadcrumbItem): string[] => {
-            const classes = ["fs-breadcrumbs-label"];
+            const classNames = ["fs-breadcrumbs-label"];
             if (item.disabled) {
-                classes.push("fs-breadcrumbs-label--disabled");
+                classNames.push("fs-breadcrumbs-label--disabled");
             }
-            return classes;
+            return classNames;
         };
 
         return {

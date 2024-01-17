@@ -8,7 +8,7 @@ let initialized = false;
 
 const timeZone = ref<TimeZoneInfos | null>({
     id: "UTC",
-    offset: "UTC +03:00:00"
+    offset: "UTC +00:00:00"
 });
 
 export const useTimeZone = () => {

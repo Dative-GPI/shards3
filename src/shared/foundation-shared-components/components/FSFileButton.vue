@@ -1,45 +1,57 @@
 <template>
-  <v-btn
-    v-if="!['icon'].includes($props.variant)"
-    :ripple="false"
-    :style="style"
-    :class="classes"
-    :disabled="!$props.editable"
-    v-bind="$attrs"
-  >
-    <FSRow :wrap="false">
-      <slot name="prepend" v-bind="{ color, colors }">
-        <FSIcon v-if="$props.prependIcon" size="m">
-          {{ $props.prependIcon }}
-        </FSIcon>
-      </slot>
-      <slot name="default" v-bind="{ color, colors }">
-        <FSSpan v-if="$props.label" font="text-body">
-          {{ $props.label }}
-        </FSSpan>
-      </slot>
-      <slot name="append" v-bind="{ color, colors }">
-        <FSIcon v-if="$props.appendIcon" size="m">
-          {{ $props.appendIcon }}
-        </FSIcon>
-      </slot>
+  <div>
+    <v-btn
+      v-if="!['icon'].includes($props.variant)"
+      :ripple="false"
+      :style="style"
+      :class="classes"
+      :disabled="!$props.editable"
+      @click="onClick"
+      v-bind="$attrs"
+    >
+      <FSRow :wrap="false">
+        <slot name="prepend" v-bind="{ color, colors }">
+          <FSIcon v-if="$props.prependIcon" size="m">
+            {{ $props.prependIcon }}
+          </FSIcon>
+        </slot>
+        <slot name="default" v-bind="{ color, colors }">
+          <FSSpan v-if="$props.label" font="text-body">
+            {{ $props.label }}
+          </FSSpan>
+        </slot>
+        <slot name="append" v-bind="{ color, colors }">
+          <FSIcon v-if="$props.appendIcon" size="m">
+            {{ $props.appendIcon }}
+          </FSIcon>
+        </slot>
+      </FSRow>
+    </v-btn>
+    <FSRow
+      v-else-if="$props.icon"
+      width="hug"
+      :style="style"
+      :class="classes"
+      v-bind="$attrs"
+    >
+      <FSIcon :size="$props.size">
+        {{ $props.icon }}
+      </FSIcon>
     </FSRow>
-  </v-btn>
-  <FSRow
-    v-else-if="$props.icon"
-    width="hug"
-    :style="style"
-    :class="classes"
-    v-bind="$attrs"
-  >
-    <FSIcon :size="$props.size">
-      {{ $props.icon }}
-    </FSIcon>
-  </FSRow>
+    <form>
+      <input
+        v-show="false"
+        type="file"
+        ref="input"
+        :accept="$props.accept"
+        @input="onInput"
+      />
+    </form>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType, ref, toRefs, useSlots } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -49,13 +61,23 @@ import FSIcon from "./FSIcon.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
-  name: "FSButton",
+  name: "FSButtonFile",
   components: {
     FSSpan,
     FSIcon,
     FSRow
   },
   props: {
+    accept: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    readFile: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     prependIcon: {
       type: String,
       required: false,
@@ -97,8 +119,11 @@ export default defineComponent({
       default: true
     }
   },
-  setup(props) {
-    const { label, variant, color, editable } = toRefs(props);
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const { readFile, label, variant, color, editable } = toRefs(props);
+    
+    const input = ref(null);
 
     const textColors = useColors().getContrasts(color.value);
     const colors = useColors().getColors(color.value);
@@ -158,27 +183,60 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      const classNames = [];
+      const classes = [];
       if (!editable.value) {
-        classNames.push("fs-button--disabled");
+        classes.push("fs-button--disabled");
       }
       switch (variant.value) {
         case "icon":
-          classNames.push("fs-button-icon");
+          classes.push("fs-button-icon");
           break;
         default:
-          classNames.push("fs-button");
+          classes.push("fs-button");
           break;
       }
-      return classNames;
+      return classes;
     });
+
+    const clear = () => {
+      input.value!.form && input.value!.form.reset();
+    };
+
+    const onClick = () => {
+      input.value!.click();
+    }
+
+    const onInput = () => {
+      const file = input.value!.files && input.value!.files[0];
+      if (!file) {
+        return;
+      }
+      if (!readFile.value) {
+        emit("update:modelValue", file);
+        console.log(file);
+        clear();
+      }
+      else {
+        const reader = new FileReader();
+        reader.addEventListener("load", (fileEv) => {
+          emit("update:modelValue", fileEv.target && fileEv.target.result);
+          clear();
+        });
+        reader.readAsDataURL(file);
+      }
+    };
 
     return {
       colors,
       color,
       style,
-      classes
+      classes,
+      input,
+      onClick,
+      onInput
     };
   }
 });
 </script>
+
+<style scoped></style>

@@ -6,12 +6,24 @@
     </v-app>
 </template>
   
-<script>
-export default {
-    props: {
-        themeName: String
-    }
-};
+<script lang="ts">
+import { defineComponent } from "vue";
+
+import { useShared } from "@dative-gpi/foundation-shared-services";
+
+export default defineComponent({
+  name: "VuetifyAppWrapper",
+  props: {
+    themeName: String
+  },
+  setup() {
+    const { ready } = useShared();
+
+    return {
+      ready
+    };
+  }
+});
 </script>
 
 <style>

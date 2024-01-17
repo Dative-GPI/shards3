@@ -59,7 +59,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, toRefs } from "vue";
-import { useDate as useAdapter } from "vuetify/lib/composables/date/index.mjs";
 
 import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -103,9 +102,8 @@ export default defineComponent({
   setup(props) {
     const { modelValue, color, buttonColor } = toRefs(props);
 
-    const languageCode = useLanguageCode().languageCode;
+    const { languageCode } = useLanguageCode();
     const datesTools = useTimeZone();
-    const adapter = useAdapter();
 
     const colors = useColors().getColors(color.value);
     const buttonColors = useColors().getColors(buttonColor.value);
@@ -129,12 +127,11 @@ export default defineComponent({
       };
     });
 
-    const text = computed(() => {
-      adapter.locale = languageCode;
-      return adapter.format(
-        adapter.setYear(adapter.setMonth(adapter.date(), innerMonth.value), innerYear.value),
-        'monthAndYear',
-      );
+    const text = computed((): string => {
+      const date = new Date(0);
+      date.setMonth(innerMonth.value);
+      date.setFullYear(innerYear.value);
+      return new Intl.DateTimeFormat(languageCode.value, { month: "long", year: "numeric" }).format(date);
     });
 
     const onClickPrevious = (): void => {

@@ -15,6 +15,8 @@
     padding: 0 16px;
     border-bottom: 1px solid var(--fs-group-color) !important;
     color: var(--fs-group-color) !important;
+    display: flex;
+    align-items: center;
 
     & .fs-tab-label {
         @extend .text-button;
@@ -49,6 +51,8 @@
     border-radius: 4px;
     background-color: var(--fs-tab-tag-background-color);
     color: var(--fs-tab-tag-color);
+    display: flex;
+    align-items: center;
 
     @include web {
         min-width: 28px;

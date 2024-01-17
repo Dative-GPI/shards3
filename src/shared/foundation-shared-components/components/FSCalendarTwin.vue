@@ -92,7 +92,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, PropType, ref, toRefs } from "vue";
-import { useDate as useAdapter } from "vuetify/lib/composables/date/index.mjs";
 
 import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -139,7 +138,6 @@ export default defineComponent({
 
     const languageCode = useLanguageCode().languageCode;
     const datesTools = useTimeZone();
-    const adapter = useAdapter();
 
     const colors = useColors().getColors(color.value);
     const buttonColors = useColors().getColors(buttonColor.value);
@@ -236,65 +234,63 @@ export default defineComponent({
     });
 
     const leftText = computed(() => {
-      adapter.locale = languageCode;
-      return adapter.format(
-        adapter.setYear(adapter.setMonth(adapter.date(), innerLeftMonth.value), innerLeftYear.value),
-        'monthAndYear',
-      );
+      const date = new Date(0);
+      date.setMonth(innerLeftMonth.value);
+      date.setFullYear(innerLeftYear.value);
+      return new Intl.DateTimeFormat(languageCode.value, { month: "long", year: "numeric" }).format(date);
     });
 
     const rightText = computed(() => {
-      adapter.locale = languageCode;
-      return adapter.format(
-        adapter.setYear(adapter.setMonth(adapter.date(), innerRightMonth.value), innerRightYear.value),
-        'monthAndYear',
-      );
+      const date = new Date(0);
+      date.setMonth(innerRightMonth.value);
+      date.setFullYear(innerRightYear.value);
+      return new Intl.DateTimeFormat(languageCode.value, { month: "long", year: "numeric" }).format(date);
     });
 
     const leftClasses = computed((): string[] => {
-      const classes = ["fs-calendar", "fs-calendar-left"];
+      const classNames = ["fs-calendar", "fs-calendar-left"];
       if (modelValue.value.length > 1) {
         const first = datesTools.epochToPickerHeader(modelValue.value[0]);
         const last = datesTools.epochToPickerHeader(modelValue.value[1]);
         if (compare("before", "left", first) && compare("after", "left", last)) {
-          classes.push("fs-calendar-full");
+          classNames.push("fs-calendar-full");
         }
         else if (compare("during", "left", first) && compare("during", "left", last)) {
           if (first.d !== last.d) {
-            classes.push("fs-calendar-part");
+            classNames.push("fs-calendar-part");
           }
         }
         else if (compare("during", "left", first)) {
-          classes.push("fs-calendar-start");
+          classNames.push("fs-calendar-start");
         }
         else if (compare("during", "left", last)) {
-          classes.push("fs-calendar-end");
+          classNames.push("fs-calendar-end");
         }
       }
-      return classes;
+      return classNames;
     });
 
     const rightClasses = computed((): string[] => {
-      const classes = ["fs-calendar", "fs-calendar-right"];
+      const classNames = ["fs-calendar", "fs-calendar-right"];
       if (modelValue.value.length > 1) {
         const first = datesTools.epochToPickerHeader(modelValue.value[0]);
         const last = datesTools.epochToPickerHeader(modelValue.value[1]);
         if (compare("before", "right", first) && compare("after", "right", last)) {
-          classes.push("fs-calendar-full");
+          classNames.push("fs-calendar-full");
         }
         else if (compare("during", "right", first) && compare("during", "right", last)) {
           if (first.d !== last.d) {
-            classes.push("fs-calendar-part");
+            classNames.push("fs-calendar-part");
           }
         }
         else if (compare("during", "right", first)) {
-          classes.push("fs-calendar-start");
+          classNames.push("fs-calendar-start");
         }
         else if (compare("during", "right", last)) {
-          classes.push("fs-calendar-end");
+          classNames.push("fs-calendar-end");
         }
       }
-      return classes;
+      return classNames;
     });
 
     const onClickPrevious = (): void => {

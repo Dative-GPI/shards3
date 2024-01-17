@@ -2,6 +2,7 @@ export * from "./applications";
 export * from "./authTokens";
 export * from "./enums";                    // No service
 export * from "./frequentlyAskedQuestions";
+export * from "./images";
 export * from "./landingPages";
 export * from "./languages";                // No service
 export * from "./layoutPages";
