@@ -30,9 +30,10 @@
     width="hug"
     :style="style"
     :class="classes"
+    @click="onClick"
     v-bind="$attrs"
   >
-    <FSIcon :size="$props.size">
+    <FSIcon size="m">
       {{ $props.icon }}
     </FSIcon>
   </FSRow>
@@ -53,51 +54,47 @@ export default defineComponent({
   components: {
     FSSpan,
     FSIcon,
-    FSRow
+    FSRow,
   },
   props: {
     prependIcon: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     label: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     appendIcon: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     icon: {
       type: String,
       required: false,
-      default: null
-    },
-    size: {
-      type: String as PropType<"s" | "m" | "l">,
-      required: false,
-      default: "m"
+      default: null,
     },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,
       required: false,
-      default: "standard"
+      default: "standard",
     },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorBase.Dark,
     },
     editable: {
       type: Boolean,
       required: false,
-      default: true
-    }
+      default: true,
+    },
   },
-  setup(props) {
+  emits: ["click"],
+  setup(props, { emit }) {
     const { label, variant, color, editable } = toRefs(props);
 
     const textColors = useColors().getContrasts(color.value);
@@ -110,55 +107,62 @@ export default defineComponent({
       return !slots.default && !label.value;
     });
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
-        switch (variant.value) {
-          case "standard":
-          case "full": return {
-            "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
-            "--fs-button-background-color": lights.base,
-            "--fs-button-border-color": lights.dark,
-            "--fs-button-color": lights.dark
-          }
-          case "icon": return {
-            "--fs-button-color": lights.dark
+    const style = computed(
+      (): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+        if (!editable.value) {
+          switch (variant.value) {
+            case "standard":
+            case "full":
+              return {
+                "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+                "--fs-button-background-color": lights.base,
+                "--fs-button-border-color": lights.dark,
+                "--fs-button-color": lights.dark,
+              };
+            case "icon":
+              return {
+                "--fs-button-color": lights.dark,
+              };
           }
         }
+        switch (variant.value) {
+          case "standard":
+            return {
+              "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+              "--fs-button-background-color": colors.light,
+              "--fs-button-border-color": colors.base,
+              "--fs-button-color": textColors.base,
+              "--fs-button-hover-background-color": colors.base,
+              "--fs-button-hover-border-color": colors.base,
+              "--fs-button-hover-color": textColors.light,
+              "--fs-button-active-background-color": colors.dark,
+              "--fs-button-active-border-color": colors.dark,
+              "--fs-button-active-color": textColors.light,
+            };
+          case "full":
+            return {
+              "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+              "--fs-button-background-color": colors.base,
+              "--fs-button-border-color": colors.base,
+              "--fs-button-color": textColors.light,
+              "--fs-button-hover-background-color": colors.base,
+              "--fs-button-hover-border-color": colors.base,
+              "--fs-button-hover-color": textColors.light,
+              "--fs-button-active-background-color": colors.dark,
+              "--fs-button-active-border-color": colors.dark,
+              "--fs-button-active-color": textColors.light,
+            };
+          case "icon":
+            return {
+              "--fs-button-color": textColors.base,
+              "--fs-button-hover-color": textColors.dark,
+            };
+        }
       }
-      switch (variant.value) {
-        case "standard": return {
-          "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color"       : colors.light,
-          "--fs-button-border-color"           : colors.base,
-          "--fs-button-color"                  : textColors.base,
-          "--fs-button-hover-background-color" : colors.base,
-          "--fs-button-hover-border-color"     : colors.base,
-          "--fs-button-hover-color"            : textColors.light,
-          "--fs-button-active-background-color": colors.dark,
-          "--fs-button-active-border-color"    : colors.dark,
-          "--fs-button-active-color"           : textColors.light
-        };
-        case "full": return {
-          "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color"       : colors.base,
-          "--fs-button-border-color"           : colors.base,
-          "--fs-button-color"                  : textColors.light,
-          "--fs-button-hover-background-color" : colors.base,
-          "--fs-button-hover-border-color"     : colors.base,
-          "--fs-button-hover-color"            : textColors.light,
-          "--fs-button-active-background-color": colors.dark,
-          "--fs-button-active-border-color"    : colors.dark,
-          "--fs-button-active-color"           : textColors.light
-        };
-        case "icon": return {
-          "--fs-button-color"      : textColors.base,
-          "--fs-button-hover-color": textColors.dark
-        };
-      }
-    });
+    );
 
     const classes = computed((): string[] => {
-      const classNames = [];
+      const classNames: string[] = [];
       if (!editable.value) {
         classNames.push("fs-button--disabled");
       }
@@ -173,12 +177,20 @@ export default defineComponent({
       return classNames;
     });
 
+    const onClick = () => {
+      if (!editable.value) {
+        return;
+      }
+      emit("click");
+    };
+
     return {
       colors,
       color,
       style,
-      classes
+      classes,
+      onClick,
     };
-  }
+  },
 });
 </script>
