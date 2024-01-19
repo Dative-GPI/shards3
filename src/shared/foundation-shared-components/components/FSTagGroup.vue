@@ -9,7 +9,7 @@
             :editable="$props.editable"
             @remove="() => $emit('remove', tag)"
         />
-        <slot name="default" />
+        <slot />
     </FSWrapGroup>
 </template>
 
@@ -20,13 +20,6 @@ import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSWrapGroup from "./FSWrapGroup.vue";
 import FSTag from "./FSTag.vue";
-
-export interface FSTagItem {
-    label: string,
-    variant: "standard" | "full",
-    color: ColorBase,
-    editable: boolean
-}
 
 export default defineComponent({
     name: "FSTagGroup",

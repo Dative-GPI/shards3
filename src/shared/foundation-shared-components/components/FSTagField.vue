@@ -4,7 +4,6 @@
       :label="$props.label"
       :description="$props.description"
       :type="type"
-      :color="$props.color"
       :required="$props.required"
       :editable="$props.editable"
       :error="messages.length > 0"
@@ -109,11 +108,6 @@ export default defineComponent({
       required: false,
       default: () => []
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorBase.Dark
-    },
     tagVariant: {
       type: String as PropType<"standard" | "full">,
       required: false,
@@ -152,15 +146,15 @@ export default defineComponent({
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {
         return {
-          "--fs-tag-field-cursor"   : "default",
-          "--fs-tag-field-base-text": darks.light,
-          "--fs-tag-field-dark-text": darks.light
+          "--fs-tag-field-cursor"     : "default",
+          "--fs-tag-field-color"      : darks.light,
+          "--fs-tag-field-hover-color": darks.light
         };
       }
       return {
         "--fs-tag-field-cursor"     : "pointer",
-        "--fs-tag-field-base-text"  : darks.base,
-        "--fs-tag-field-dark-text"  : darks.dark,
+        "--fs-tag-field-color"      : darks.base,
+        "--fs-tag-field-hover-color": darks.dark,
         "--fs-tag-field-error-color": errors.base
       };
     });

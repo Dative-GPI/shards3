@@ -21,5 +21,6 @@ export * from "./usePermissionCategories";
 export * from "./usePermissions";
 export * from "./useRoleOrganisations";
 export * from "./useRoleOrganisationTypes";
+export * from "./useUserOrganisationDispositions";
 export * from "./useUserOrganisations";
 export * from "./useUsers";

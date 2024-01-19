@@ -14,7 +14,7 @@ export const useOrganisationId = () => {
 
         const router = useRouter();
 
-        watch(router.currentRoute, () => {
+        watch(router, () => {
             organisationId.value = router.currentRoute.value.params[ORGANISATION_ID] as string | null;
             setOrganisationId(organisationId);
         });
@@ -23,8 +23,13 @@ export const useOrganisationId = () => {
             if (organisationId.value) {
                 return;
             }
-            organisationId.value = router.currentRoute.value.params[ORGANISATION_ID] as string | null;
-            setOrganisationId(organisationId);
+            try {
+                organisationId.value = router.currentRoute.value.params[ORGANISATION_ID] as string | null;
+                setOrganisationId(organisationId);
+            }
+            catch {
+                // Do nothing
+            }
         });
     }
 
@@ -43,8 +48,15 @@ export const useOrganisationId = () => {
         }
     });
 
+    const force = (forceId: string): void => {
+        initialized = true;
+        organisationId.value = forceId;
+        setOrganisationId(organisationId);
+    }
+
     return {
         ready,
         organisationId,
+        force
     };
 }

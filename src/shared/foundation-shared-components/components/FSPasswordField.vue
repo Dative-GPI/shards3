@@ -3,7 +3,6 @@
         :label="$props.label"
         :description="$props.description"
         :type="type"
-        :color="$props.color"
         :required="$props.required"
         :editable="$props.editable"
         :modelValue="$props.modelValue"
@@ -29,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, ref, toRefs } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
@@ -59,11 +58,6 @@ export default defineComponent({
             required: false,
             default: null
         },
-        color: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
         required: {
             type: Boolean,
             required: false,
@@ -88,14 +82,14 @@ export default defineComponent({
             if (!editable.value) {
                 return {
                     "--fs-password-field-cursor"   : "default",
-                    "--fs-password-field-base-text": lights.dark,
-                    "--fs-password-field-dark-text": lights.dark
+                    "--fs-password-field-color": lights.dark,
+                    "--fs-password-field-hover-color": lights.dark
                 };
             }
             return {
                 "--fs-password-field-cursor"   : "pointer",
-                "--fs-password-field-base-text": darks.base,
-                "--fs-password-field-dark-text": darks.dark
+                "--fs-password-field-color": darks.base,
+                "--fs-password-field-hover-color": darks.dark
             };
         });
 

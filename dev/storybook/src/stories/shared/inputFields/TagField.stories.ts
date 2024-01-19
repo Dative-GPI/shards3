@@ -6,7 +6,7 @@ import FSTagField from "@dative-gpi/foundation-shared-components/components/FSTa
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
-import { TagRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
+import { TagRules } from "@dative-gpi/foundation-shared-components/models";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/TagField',

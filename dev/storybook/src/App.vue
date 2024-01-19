@@ -1,23 +1,32 @@
 <template>
   <v-app>
-    <v-main v-if="ready">
+    <v-main v-if="sharedReady && coreReady">
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 
+import { useCore, useOrganisationId } from "@dative-gpi/foundation-core-services";
 import { useShared } from "@dative-gpi/foundation-shared-services";
 
 export default defineComponent({
   name: "App",
   components: {},
   setup() {
-    const { ready } = useShared();
+    const { ready: sharedReady } = useShared();
+    const { ready: coreReady } = useCore();
+
+    const { force: forceOrganisationId } = useOrganisationId();
+    
+    onMounted(async () => {
+      forceOrganisationId("dative");
+    });
 
     return {
-      ready
+      sharedReady,
+      coreReady
     };
   }
 });

@@ -1,4 +1,4 @@
-export class ModelStatus {
+export class ModelStatusInfos {
     id: string;
     modelId: string;
     dataCategoryId: string;
@@ -15,7 +15,7 @@ export class ModelStatus {
     iconDefault: string;
     colorDefault: string;
   
-    constructor(params: ModelStatusDTO) {
+    constructor(params: ModelStatusInfosDTO) {
         this.id = params.id;
         this.modelId = params.modelId;
         this.dataCategoryId = params.dataCategoryId;
@@ -34,7 +34,7 @@ export class ModelStatus {
     }
 }
   
-export interface ModelStatusDTO {
+export interface ModelStatusInfosDTO {
     id: string;
     modelId: string;
     dataCategoryId: string;
@@ -50,4 +50,9 @@ export interface ModelStatusDTO {
     showDefault: boolean;
     iconDefault: string;
     colorDefault: string;
+}
+
+export interface ModelStatusFilters {
+    modelId?: string;
+    search?: string;
 }

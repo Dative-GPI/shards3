@@ -2,6 +2,13 @@
     padding-inline-end: 2px;
 }
 
+.fs-span-line-clamp {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
 .fs-span-ellipsis {
     overflow: hidden;
     white-space: nowrap;

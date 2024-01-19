@@ -96,11 +96,6 @@ export default defineComponent({
             required: false,
             default: null
         },
-        color: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Dark
-        },
         required: {
             type: Boolean,
             required: false,
@@ -134,9 +129,7 @@ export default defineComponent({
     },
     emits: ["update:modelValue"],
     setup(props) {
-        const { color, rows, autoGrow, editable } = toRefs(props);
-
-        const colors = useColors().getColors(color.value);
+        const { rows, autoGrow, editable } = toRefs(props);
 
         const errors = useColors().getColors(ColorBase.Error);
         const lights = useColors().getColors(ColorBase.Light);
@@ -168,9 +161,9 @@ export default defineComponent({
             }
             return {
                 "--fs-text-area-cursor"             : "text",
-                "--fs-text-area-border-color"       : colors.base,
+                "--fs-text-area-border-color"       : lights.dark,
                 "--fs-text-area-color"              : darks.base,
-                "--fs-text-area-active-border-color": colors.dark,
+                "--fs-text-area-active-border-color": darks.dark,
                 "--fs-text-area-error-color"        : errors.base,
                 "--fs-text-area-error-border-color" : errors.base,
                 "--fs-text-area-min-height"         : minHeight,

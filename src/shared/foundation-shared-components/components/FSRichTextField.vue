@@ -199,11 +199,6 @@ export default defineComponent({
       required: false,
       default: null
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorBase.Dark
-    },
     linkColor: {
       type: String as PropType<ColorBase>,
       required: false,
@@ -232,9 +227,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, linkColor, rows, variant, editable } = toRefs(props);
+    const { modelValue, linkColor, rows, variant, editable } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
     const linkColors = useColors().getColors(linkColor.value);
 
     const lights = useColors().getColors(ColorBase.Light);
@@ -324,9 +318,9 @@ export default defineComponent({
             return {
               "--fs-rich-text-field-undo-cursor"        : canUndo ? "pointer" : "default",
               "--fs-rich-text-field-icon-cursor"        : "pointer",
-              "--fs-rich-text-field-border-color"       : colors.base,
+              "--fs-rich-text-field-border-color"       : lights.dark,
               "--fs-rich-text-field-color"              : darks.base,
-              "--fs-rich-text-field-active-border-color": colors.dark,
+              "--fs-rich-text-field-active-border-color": darks.dark,
               "--fs-rich-text-field-link-color"         : linkColors.dark,
               "--fs-rich-text-field-min-height"         : minHeight
             };

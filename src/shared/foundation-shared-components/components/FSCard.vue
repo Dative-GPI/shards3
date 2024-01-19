@@ -1,7 +1,8 @@
 <template>
-  <div
+  <FSContainer
     class="fs-card"
     :style="style"
+    v-bind="$attrs"
   >
     <slot name="default">
       <FSCol>
@@ -16,42 +17,42 @@
         </FSRow>
       </FSCol>
     </slot>
-  </div>
+  </FSContainer>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, toRefs } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
-
+import FSContainer from "./FSContainer.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSCard",
   components: {
+    FSContainer,
     FSCol,
     FSRow
   },
   props: {
-    color: {
-      type: String as PropType<ColorBase>,
+    width: {
+      type: Number,
       required: false,
-      default: ColorBase.Dark
+      default: null
     },
+    height: {
+      type: Number,
+      required: false,
+      default: null
+    }
   },
   setup(props) {
-    const { color } = toRefs(props);
-
-    const colors = useColors().getColors(color.value);
-
-    const backgrounds = useColors().getColors(ColorBase.Background);
+    const { width, height } = toRefs(props);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-card-background-color": backgrounds.base,
-        "--fs-card-border-color"    : colors.base
+        "--fs-card-width": width.value ? `${width.value}px` : "auto",
+        "--fs-card-height": height.value ? `${height.value}px` : "auto"
       };
     });
 

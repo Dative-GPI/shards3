@@ -35,7 +35,7 @@ export const Variations: Story = {
       return { ...args };
     },
     template: `
-    <div style="display: flex; gap: 8px;">
+    <div style="display: flex; gap: 10px;">
       <FSButton
         color="primary"
         label="Dialog - primary color - header, body"
@@ -113,7 +113,7 @@ export const Submit: Story = {
       return { ...args };
     },
     template: `
-    <div style="display: flex; gap: 8px;">
+    <div style="display: flex; gap: 10px;">
       <FSButton
         color="primary"
         label="Dialog - primary color - title, subtitle"

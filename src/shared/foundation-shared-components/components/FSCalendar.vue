@@ -47,8 +47,8 @@
           :year="innerYear"
           :multiple="false"
           :showAdjacentMonths="true"
-          :modelValue="datesTools.epochToPicker($props.modelValue)"
-          @update:modelValue="(value) => $emit('update:modelValue', datesTools.pickerToEpoch(value[0]))"
+          :modelValue="epochToPicker($props.modelValue)"
+          @update:modelValue="(value) => $emit('update:modelValue', pickerToEpoch(value[0]))"
           @update:month="null"
           @update:year="null"
         />
@@ -102,16 +102,16 @@ export default defineComponent({
   setup(props) {
     const { modelValue, color, buttonColor } = toRefs(props);
 
+    const {epochToPicker, pickerToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
-    const datesTools = useTimeZone();
 
     const colors = useColors().getColors(color.value);
     const buttonColors = useColors().getColors(buttonColor.value);
 
     const backgrounds = useColors().getColors(ColorBase.Background);
     
-    const innerMonth = ref(modelValue.value ? datesTools.epochToPicker(modelValue.value).getMonth() : new Date().getMonth());
-    const innerYear = ref(modelValue.value ? datesTools.epochToPicker(modelValue.value).getFullYear() : new Date().getFullYear());
+    const innerMonth = ref(modelValue.value ? epochToPicker(modelValue.value).getMonth() : new Date().getMonth());
+    const innerYear = ref(modelValue.value ? epochToPicker(modelValue.value).getFullYear() : new Date().getFullYear());
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
@@ -160,7 +160,8 @@ export default defineComponent({
       text,
       innerMonth,
       innerYear,
-      datesTools,
+      epochToPicker,
+      pickerToEpoch,
       onClickPrevious,
       onClickNext
     };

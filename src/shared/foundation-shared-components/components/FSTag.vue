@@ -4,6 +4,7 @@
         width="hug"
         align="center-left"
         :style="style"
+        :wrap="false"
         v-bind="$attrs"
     >
         <slot name="default" v-bind="{ color, colors }">

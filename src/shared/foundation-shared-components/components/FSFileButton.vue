@@ -122,14 +122,15 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { readFile, label, variant, color, editable } = toRefs(props);
-    
-    const input = ref(null);
 
     const textColors = useColors().getContrasts(color.value);
     const colors = useColors().getColors(color.value);
-    const slots = useSlots();
 
     const lights = useColors().getColors(ColorBase.Light);
+
+    const slots = useSlots();
+    
+    const input = ref(null);
 
     const isEmpty = computed(() => {
       return !slots.default && !label.value;
@@ -213,7 +214,6 @@ export default defineComponent({
       }
       if (!readFile.value) {
         emit("update:modelValue", file);
-        console.log(file);
         clear();
       }
       else {

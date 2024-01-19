@@ -6,7 +6,7 @@ import FSNumberField from "@dative-gpi/foundation-shared-components/components/F
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
-import { NumberRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
+import { NumberRules } from "@dative-gpi/foundation-shared-components/models";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/NumberField',

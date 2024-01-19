@@ -41,7 +41,7 @@
             :month="innerLeftMonth"
             :year="innerLeftYear"
             :multiple="true"
-            :modelValue="datesTools.epochToPicker(innerLeftValue)"
+            :modelValue="epochToPicker(innerLeftValue)"
             @update:modelValue="onClickLeft"
             @update:month="null"
             @update:year="null"
@@ -79,7 +79,7 @@
             :month="innerRightMonth"
             :year="innerRightYear"
             :multiple="true"
-            :modelValue="datesTools.epochToPicker(innerRightValue)"
+            :modelValue="epochToPicker(innerRightValue)"
             @update:modelValue="onClickRight"
             @update:month="null"
             @update:year="null"
@@ -136,8 +136,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const { modelValue, color, buttonColor } = toRefs(props);
 
-    const languageCode = useLanguageCode().languageCode;
-    const datesTools = useTimeZone();
+    const { epochToPicker, epochToPickerHeader, pickerToEpoch } = useTimeZone();
+    const { languageCode } = useLanguageCode();
 
     const colors = useColors().getColors(color.value);
     const buttonColors = useColors().getColors(buttonColor.value);
@@ -167,8 +167,8 @@ export default defineComponent({
           }
           break;
         default:
-          innerLeftMonth.value = datesTools.epochToPickerHeader(modelValue.value[0]).m;
-          innerLeftYear.value = datesTools.epochToPickerHeader(modelValue.value[0]).y;
+          innerLeftMonth.value = epochToPickerHeader(modelValue.value[0]).m;
+          innerLeftYear.value = epochToPickerHeader(modelValue.value[0]).y;
           if (innerLeftMonth.value < 11) {
             innerRightMonth.value = innerLeftMonth.value + 1;
             innerRightYear.value = innerLeftYear.value;
@@ -223,13 +223,13 @@ export default defineComponent({
 
     const innerLeftValue = computed((): number[] => {
       return modelValue.value.filter(value =>
-        compare("during", "left", datesTools.epochToPickerHeader(value)) || compare("before", "left", datesTools.epochToPickerHeader(value))
+        compare("during", "left", epochToPickerHeader(value)) || compare("before", "left", epochToPickerHeader(value))
       );
     });
 
     const innerRightValue = computed((): number[] => {
       return modelValue.value.filter(value =>
-        compare("during", "right", datesTools.epochToPickerHeader(value)) || compare("after", "right", datesTools.epochToPickerHeader(value))
+        compare("during", "right", epochToPickerHeader(value)) || compare("after", "right", epochToPickerHeader(value))
       );
     });
 
@@ -250,8 +250,8 @@ export default defineComponent({
     const leftClasses = computed((): string[] => {
       const classNames = ["fs-calendar", "fs-calendar-left"];
       if (modelValue.value.length > 1) {
-        const first = datesTools.epochToPickerHeader(modelValue.value[0]);
-        const last = datesTools.epochToPickerHeader(modelValue.value[1]);
+        const first = epochToPickerHeader(modelValue.value[0]);
+        const last = epochToPickerHeader(modelValue.value[1]);
         if (compare("before", "left", first) && compare("after", "left", last)) {
           classNames.push("fs-calendar-full");
         }
@@ -273,8 +273,8 @@ export default defineComponent({
     const rightClasses = computed((): string[] => {
       const classNames = ["fs-calendar", "fs-calendar-right"];
       if (modelValue.value.length > 1) {
-        const first = datesTools.epochToPickerHeader(modelValue.value[0]);
-        const last = datesTools.epochToPickerHeader(modelValue.value[1]);
+        const first = epochToPickerHeader(modelValue.value[0]);
+        const last = epochToPickerHeader(modelValue.value[1]);
         if (compare("before", "right", first) && compare("after", "right", last)) {
           classNames.push("fs-calendar-full");
         }
@@ -328,7 +328,7 @@ export default defineComponent({
     };
 
     const onClickLeft = (value: Date[]): void => {
-      const clicked = datesTools.pickerToEpoch(value[value.length - 1]);
+      const clicked = pickerToEpoch(value[value.length - 1]);
       if (modelValue.value.length === 0) {
         emit("update:modelValue", [clicked, clicked]);
       }
@@ -347,7 +347,7 @@ export default defineComponent({
     };
 
     const onClickRight = (value: Date[]): void => {
-      const clicked = datesTools.pickerToEpoch(value[value.length - 1]);
+      const clicked = pickerToEpoch(value[value.length - 1]);
       if (modelValue.value.length === 0) {
         emit("update:modelValue", [clicked, clicked]);
       }
@@ -379,7 +379,7 @@ export default defineComponent({
       innerRightMonth,
       innerRightYear,
       innerRightValue,
-      datesTools,
+      epochToPicker,
       onClickPrevious,
       onClickNext,
       onClickLeft,

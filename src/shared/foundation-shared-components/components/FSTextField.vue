@@ -99,11 +99,6 @@ export default defineComponent({
       required: false,
       default: null
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorBase.Dark
-    },
     required: {
       type: Boolean,
       required: false,
@@ -122,13 +117,11 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { color, rules, editable } = toRefs(props);
+    const { rules, editable } = toRefs(props);
     
     const slots = { ...useSlots() };
     delete slots.label;
     delete slots.description;
-
-    const colors = useColors().getColors(color.value);
 
     const errors = useColors().getColors(ColorBase.Error);
     const lights = useColors().getColors(ColorBase.Light);
@@ -145,9 +138,9 @@ export default defineComponent({
       }
       return {
         "--fs-text-field-cursor"             : "text",
-        "--fs-text-field-border-color"       : colors.base,
+        "--fs-text-field-border-color"       : lights.dark,
         "--fs-text-field-color"              : darks.base,
-        "--fs-text-field-active-border-color": colors.dark,
+        "--fs-text-field-active-border-color": darks.dark,
         "--fs-text-field-error-color"        : errors.base,
         "--fs-text-field-error-border-color" : errors.base
       };

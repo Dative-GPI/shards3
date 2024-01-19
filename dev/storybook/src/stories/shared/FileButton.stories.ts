@@ -31,17 +31,17 @@ export const Variations: Story = {
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <FSCol>
-        <FSRow>
-          <div class="text-body">
-            Uploaded file: {{ args.value ? args.value.name : 'None' }}
-          </div>
-        </FSRow>
         <FSFileButton
           color="primary"
           prependIcon="mdi-upload-outline"
           :readFile="false"
           @update:modelValue="value => args.value = value"
         />
+        <FSRow>
+          <div class="text-body">
+            Uploaded file: {{ args.value ? args.value.name : 'None' }}
+          </div>
+        </FSRow>
       </FSCol>
     </div>`
   })

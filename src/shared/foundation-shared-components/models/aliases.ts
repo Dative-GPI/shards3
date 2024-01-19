@@ -1,6 +1,9 @@
+import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
+
+const { $tr } = useTranslationsProvider();
 
 export const FSButtonsAliases = {
     FSButtonSearch: FSButton,
@@ -20,7 +23,7 @@ export const FSButtonsAliases = {
 export const FSButtonsProps = {
     FSButtonSearch: {
         prependIcon: "mdi-magnify",
-        label: "Search",
+        label: $tr("ui.shared.button.search", "Search"),
         variant: "standard",
         color: ColorBase.Primary
     },
@@ -38,7 +41,7 @@ export const FSButtonsProps = {
     },
     FSButtonRemove: {
         prependIcon: "mdi-delete-outline",
-        label: "Remove",
+        label: $tr("ui.shared.button.remove", "Remove"),
         variant: "standard",
         color: ColorBase.Error
     },
@@ -56,7 +59,7 @@ export const FSButtonsProps = {
     },
     FSButtonSave: {
         prependIcon: "mdi-content-save-outline",
-        label: "Save",
+        label: $tr("ui.shared.button.save", "Save"),
         variant: "standard",
         color: ColorBase.Primary
     },
@@ -74,7 +77,7 @@ export const FSButtonsProps = {
     },
     FSButtonCancel: {
         prependIcon: "mdi-cancel",
-        label: "Cancel",
+        label: $tr("ui.shared.button.cancel", "Cancel"),
         variant: "standard",
         color: ColorBase.Light
     },
@@ -92,7 +95,7 @@ export const FSButtonsProps = {
     },
     FSButtonDocumentation: {
         prependIcon: "mdi-file-document-outline",
-        label: "Documentation",
+        label: $tr("ui.shared.button.documentation", "Documentation"),
         variant: "standard",
         color: ColorBase.Light
     },

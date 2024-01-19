@@ -6,7 +6,7 @@ import FSTextField from "@dative-gpi/foundation-shared-components/components/FST
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
-import { TextRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
+import { TextRules } from "@dative-gpi/foundation-shared-components/models";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/TextField',

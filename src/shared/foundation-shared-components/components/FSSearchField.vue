@@ -7,6 +7,7 @@
       :editable="$props.editable"
       :modelValue="innerValue"
       @update:modelValue="(value) => innerValue = value"
+      @keydown.enter="onUpdate"
       v-bind="$attrs"
   >
     <template #append>

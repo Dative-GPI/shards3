@@ -54,112 +54,105 @@ export default defineComponent({
   components: {
     FSSpan,
     FSIcon,
-    FSRow,
+    FSRow
   },
   props: {
     prependIcon: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
     label: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
     appendIcon: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
     icon: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,
       required: false,
-      default: "standard",
+      default: "standard"
     },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark,
+      default: ColorBase.Primary
     },
     editable: {
       type: Boolean,
       required: false,
-      default: true,
-    },
+      default: true
+    }
   },
-  emits: ["click"],
-  setup(props, { emit }) {
+  setup(props) {
     const { label, variant, color, editable } = toRefs(props);
 
     const textColors = useColors().getContrasts(color.value);
     const colors = useColors().getColors(color.value);
-    const slots = useSlots();
 
     const lights = useColors().getColors(ColorBase.Light);
+
+    const slots = useSlots();
 
     const isEmpty = computed(() => {
       return !slots.default && !label.value;
     });
 
-    const style = computed(
-      (): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-        if (!editable.value) {
-          switch (variant.value) {
-            case "standard":
-            case "full":
-              return {
-                "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
-                "--fs-button-background-color": lights.base,
-                "--fs-button-border-color": lights.dark,
-                "--fs-button-color": lights.dark,
-              };
-            case "icon":
-              return {
-                "--fs-button-color": lights.dark,
-              };
-          }
-        }
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+      if (!editable.value) {
         switch (variant.value) {
           case "standard":
-            return {
-              "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
-              "--fs-button-background-color": colors.light,
-              "--fs-button-border-color": colors.base,
-              "--fs-button-color": textColors.base,
-              "--fs-button-hover-background-color": colors.base,
-              "--fs-button-hover-border-color": colors.base,
-              "--fs-button-hover-color": textColors.light,
-              "--fs-button-active-background-color": colors.dark,
-              "--fs-button-active-border-color": colors.dark,
-              "--fs-button-active-color": textColors.light,
-            };
-          case "full":
-            return {
-              "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
-              "--fs-button-background-color": colors.base,
-              "--fs-button-border-color": colors.base,
-              "--fs-button-color": textColors.light,
-              "--fs-button-hover-background-color": colors.base,
-              "--fs-button-hover-border-color": colors.base,
-              "--fs-button-hover-color": textColors.light,
-              "--fs-button-active-background-color": colors.dark,
-              "--fs-button-active-border-color": colors.dark,
-              "--fs-button-active-color": textColors.light,
-            };
-          case "icon":
-            return {
-              "--fs-button-color": textColors.base,
-              "--fs-button-hover-color": textColors.dark,
-            };
+          case "full": return {
+            "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+            "--fs-button-background-color": lights.base,
+            "--fs-button-border-color": lights.dark,
+            "--fs-button-color": lights.dark,
+          };
+          case "icon": return {
+            "--fs-button-color": lights.dark,
+          };
         }
       }
-    );
+      switch (variant.value) {
+        case "standard": return {
+          "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+          "--fs-button-background-color": colors.light,
+          "--fs-button-border-color": colors.base,
+          "--fs-button-color": textColors.base,
+          "--fs-button-hover-background-color": colors.base,
+          "--fs-button-hover-border-color": colors.base,
+          "--fs-button-hover-color": textColors.light,
+          "--fs-button-active-background-color": colors.dark,
+          "--fs-button-active-border-color": colors.dark,
+          "--fs-button-active-color": textColors.light,
+        };
+        case "full": return {
+          "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+          "--fs-button-background-color": colors.base,
+          "--fs-button-border-color": colors.base,
+          "--fs-button-color": textColors.light,
+          "--fs-button-hover-background-color": colors.base,
+          "--fs-button-hover-border-color": colors.base,
+          "--fs-button-hover-color": textColors.light,
+          "--fs-button-active-background-color": colors.dark,
+          "--fs-button-active-border-color": colors.dark,
+          "--fs-button-active-color": textColors.light,
+        };
+        case "icon": return {
+          "--fs-button-color": textColors.base,
+          "--fs-button-hover-color": textColors.dark,
+        };
+      }
+    });
 
     const classes = computed((): string[] => {
       const classNames: string[] = [];
@@ -177,20 +170,12 @@ export default defineComponent({
       return classNames;
     });
 
-    const onClick = () => {
-      if (!editable.value) {
-        return;
-      }
-      emit("click");
-    };
-
     return {
       colors,
       color,
       style,
-      classes,
-      onClick,
+      classes
     };
-  },
+  }
 });
 </script>
