@@ -3,13 +3,14 @@
     class="fs-image"
     :src="source"
     :cover="$props.cover"
-    :width="$props.width"
-    :height="$props.height"
-    :aspectRatio="$props.aspectRatio"
+    :width="computedWidth"
+    :height="computedHeight"
     v-bind="$attrs"
   >
     <template #placeholder>
-      <v-skeleton-loader type="image" />
+      <v-skeleton-loader
+        type="image"
+      />
     </template>
   </v-img>
 </template>
@@ -85,6 +86,22 @@ export default defineComponent({
       return 0;
     });
 
+    const source = computed((): string | null => {
+      if (fetchingRaw.value) {
+        return null;
+      }
+      if (image.value) {
+        return image.value;
+      }
+      if (fetchingBlurHash.value) {
+        return null;
+      }
+      if (blurHash.value) {
+        return blurHash.value.blurHash;
+      }
+      return null;
+    });
+
     // const pixels = () => {
     //   if (this.value && this.isValid)
     //     return decode(this.value, this.width, this.height, this.punch);
@@ -106,27 +123,16 @@ export default defineComponent({
     //   });
     // }
 
-    onMounted(async () => {
+    onMounted(() => {
+      fetch();
+    });
+
+    const fetch = async () => {
       await fetchRaw(imageId.value);
       if (!image.value) {
         await fetchBlurHash(imageId.value);
       }
-    });
-
-    const source = computed((): string | null => {
-      if (fetchingRaw.value) {
-        return null;
-      }
-      if (image.value) {
-        return image.value;
-      }
-      if (fetchingBlurHash.value) {
-        return null;
-      }
-      if (blurHash.value) {
-        return blurHash.value.blurHash;
-      }
-    });
+    }
 
     return {
       source,

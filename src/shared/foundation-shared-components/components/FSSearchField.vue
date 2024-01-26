@@ -32,18 +32,16 @@
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
 
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
 import FSButton from "./FSButton.vue";
-import FSIcon from "./FSIcon.vue";
 
 export default defineComponent({
   name: "FSSearchField",
   components: {
     FSTextField,
-    FSButton,
-    FSIcon
+    FSButton
   },
   props: {
     label: {
@@ -84,12 +82,12 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     buttonColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     required: {
       type: Boolean,

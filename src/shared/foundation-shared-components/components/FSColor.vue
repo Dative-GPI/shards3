@@ -15,8 +15,8 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, Ref, toRefs } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSRow from "./FSRow.vue";
 
@@ -52,9 +52,9 @@ export default defineComponent({
       default: 8
     },
     color: {
-      type: String as PropType<ColorBase | String>,
+      type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     }
   },
   setup(props) {

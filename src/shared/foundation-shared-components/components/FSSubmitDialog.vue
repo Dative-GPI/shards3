@@ -60,8 +60,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSDialog from "./FSDialog.vue";
 
@@ -134,17 +134,17 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     leftButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Light
+      default: ColorEnum.Light
     },
     rightButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     editable: {
       type: Boolean,
@@ -153,9 +153,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { actions, leftButtonLabel, rightButtonLabel } = toRefs(props);
-
-    const slots = useSlots();
+    const { leftButtonLabel, rightButtonLabel } = toRefs(props);
 
     const { $tr } = useTranslationsProvider();
 

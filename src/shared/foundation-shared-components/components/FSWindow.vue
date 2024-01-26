@@ -1,26 +1,38 @@
 <template>
-    <v-window
-        class="fs-window"
-        :modelValue="$props.tab"
-        v-bind="$attrs"
+  <v-window
+    class="fs-window"
+    v-bind="$attrs"
+  >
+    <v-window-item
+      v-for="(component, index) in getChildren()"
+      :value="value(component, index)"
+      :key="index"
     >
-        <v-window-item v-for="(component, index) in $slots.default()" :key="index">
-            <component :is="component" />
-        </v-window-item>
-    </v-window>
+      <component
+        :is="component"
+      />
+    </v-window-item>
+  </v-window>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, VNode } from "vue";
+
+import { useDefaultSlot } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
-    name: "FSWindow",
-    props: {
-        tab: {
-            type: Number,
-            required: false,
-            default: 0
-        }
+  name: "FSWindow",
+  setup() {
+    const { getChildren } = useDefaultSlot();
+
+    const value = (component: VNode, index: number): any => {
+      return component?.props?.value ?? index;
+    };
+
+    return {
+      getChildren,
+      value
     }
+  }
 });
 </script>

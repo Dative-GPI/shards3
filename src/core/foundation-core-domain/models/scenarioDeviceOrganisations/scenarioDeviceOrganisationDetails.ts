@@ -1,5 +1,5 @@
 import { ScenarioDeviceOrganisationInfos, ScenarioDeviceOrganisationInfosDTO } from "./scenarioDeviceOrganisationInfos";
-import { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
+import { CreateTimeRangeDTO } from "../shared/timeRange";
 import { SelectedEntities } from "../enums/sharedEnums";
 
 export class ScenarioDeviceOrganisationDetails extends ScenarioDeviceOrganisationInfos {

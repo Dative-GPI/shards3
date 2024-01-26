@@ -1,14 +1,3 @@
-.fs-tag-field-icon {
-    opacity: 1 !important;
-    cursor: var(--fs-tag-field-cursor) !important;
-    color: var(--fs-tag-field-color) !important;
-    transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &:hover {
-        color: var(--fs-tag-field-hover-color) !important;
-    }
-}
-
 .fs-tag-field-label {
     color: var(--fs-tag-field-color);
 }

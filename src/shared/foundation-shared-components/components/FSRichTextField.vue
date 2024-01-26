@@ -168,7 +168,7 @@ import { $wrapNodes } from "@lexical/selection";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
 import FSIcon from "./FSIcon.vue";
@@ -202,7 +202,7 @@ export default defineComponent({
     linkColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     required: {
       type: Boolean,
@@ -229,10 +229,12 @@ export default defineComponent({
   setup(props, { emit }) {
     const { modelValue, linkColor, rows, variant, editable } = toRefs(props);
 
+    const { isMobileSized } = useBreakpoints();
+
     const linkColors = useColors().getColors(linkColor.value);
 
-    const lights = useColors().getColors(ColorBase.Light);
-    const darks = useColors().getColors(ColorBase.Dark);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const canUndo = ref(false);
     const isLink = ref(false);
@@ -292,8 +294,8 @@ export default defineComponent({
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       let minHeight: string | undefined = undefined;
-      const base = useBreakpoints().isMobileSized() ? 30 : 42;
-      const row = useBreakpoints().isMobileSized() ? 16 : 20;
+      const base = isMobileSized.value ? 30 : 42;
+      const row = isMobileSized.value ? 16 : 20;
       if (rows.value > 1) {
         minHeight = `${base + (rows.value - 1) * row}px`;
       }

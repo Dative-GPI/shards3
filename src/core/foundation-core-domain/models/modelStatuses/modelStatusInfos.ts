@@ -5,15 +5,16 @@ export class ModelStatusInfos {
     dataCategoryLabel: string;
     dataDefinitionId: string;
     dataDefinitionLabel: string;
-    groupById: string;
-    groupByLabel: string;
+    groupById?: string;
+    groupByLabel?: string;
     label: string;
+    inline: boolean;
     index: number;
     lifetime: number;
     timeToLive: number;
     showDefault: boolean;
-    iconDefault: string;
-    colorDefault: string;
+    iconDefault?: string;
+    colorDefault?: string;
   
     constructor(params: ModelStatusInfosDTO) {
         this.id = params.id;
@@ -25,6 +26,7 @@ export class ModelStatusInfos {
         this.groupById = params.groupById;
         this.groupByLabel = params.groupByLabel;
         this.label = params.label;
+        this.inline = params.inline;
         this.index = params.index;
         this.lifetime = params.lifetime;
         this.timeToLive = params.timeToLive;
@@ -41,15 +43,16 @@ export interface ModelStatusInfosDTO {
     dataCategoryLabel: string;
     dataDefinitionId: string;
     dataDefinitionLabel: string;
-    groupById: string;
-    groupByLabel: string;
+    groupById?: string;
+    groupByLabel?: string;
     label: string;
+    inline: boolean;
     index: number;
     lifetime: number;
     timeToLive: number;
     showDefault: boolean;
-    iconDefault: string;
-    colorDefault: string;
+    iconDefault?: string;
+    colorDefault?: string;
 }
 
 export interface ModelStatusFilters {

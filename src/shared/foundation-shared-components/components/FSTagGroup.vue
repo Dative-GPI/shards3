@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSWrapGroup from "./FSWrapGroup.vue";
 import FSTag from "./FSTag.vue";
@@ -41,7 +41,7 @@ export default defineComponent({
         color: {
             type: String as PropType<ColorBase>,
             required: false,
-            default: ColorBase.Primary
+            default: ColorEnum.Primary
         },
         editable: {
             type: Boolean,

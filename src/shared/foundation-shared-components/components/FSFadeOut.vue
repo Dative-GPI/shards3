@@ -17,7 +17,7 @@
 import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCol from "./FSCol.vue";
 
@@ -35,7 +35,7 @@ export default defineComponent({
         color: {
             type: String as PropType<ColorBase>,
             required: false,
-            default: ColorBase.Background
+            default: ColorEnum.Background
         }
     },
     setup(props) {

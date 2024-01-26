@@ -9,19 +9,31 @@
       @click="onClick"
       v-bind="$attrs"
     >
-      <FSRow :wrap="false">
+      <FSRow
+        align="center-center"
+        :wrap="false"
+      >
         <slot name="prepend" v-bind="{ color, colors }">
-          <FSIcon v-if="$props.prependIcon" size="m">
+          <FSIcon
+            v-if="$props.prependIcon"
+            size="l"
+          >
             {{ $props.prependIcon }}
           </FSIcon>
         </slot>
         <slot name="default" v-bind="{ color, colors }">
-          <FSSpan v-if="$props.label" font="text-body">
+          <FSSpan
+            v-if="$props.label"
+            font="text-body"
+          >
             {{ $props.label }}
           </FSSpan>
         </slot>
         <slot name="append" v-bind="{ color, colors }">
-          <FSIcon v-if="$props.appendIcon" size="m">
+          <FSIcon
+            v-if="$props.appendIcon"
+            size="l"
+          >
             {{ $props.appendIcon }}
           </FSIcon>
         </slot>
@@ -34,7 +46,9 @@
       :class="classes"
       v-bind="$attrs"
     >
-      <FSIcon :size="$props.size">
+      <FSIcon
+        size="l"
+      >
         {{ $props.icon }}
       </FSIcon>
     </FSRow>
@@ -53,8 +67,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, toRefs, useSlots } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
@@ -98,11 +112,6 @@ export default defineComponent({
       required: false,
       default: null
     },
-    size: {
-      type: String as PropType<"s" | "m" | "l">,
-      required: false,
-      default: "m"
-    },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,
       required: false,
@@ -111,7 +120,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     editable: {
       type: Boolean,
@@ -126,7 +135,7 @@ export default defineComponent({
     const textColors = useColors().getContrasts(color.value);
     const colors = useColors().getColors(color.value);
 
-    const lights = useColors().getColors(ColorBase.Light);
+    const lights = useColors().getColors(ColorEnum.Light);
 
     const slots = useSlots();
     

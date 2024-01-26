@@ -47,14 +47,13 @@
       </template>
       <template #append-inner>
         <slot name="append-inner">
-          <FSIcon
-            class="fs-tag-field-icon"
-            size="m"
-            :style="style"
+          <FSButton
+            variant="icon"
+            icon="mdi-tag-outline"
+            :editable="$props.editable"
+            :color="ColorEnum.Dark"
             @click="onAdd"
-          >
-            mdi-tag-outline
-          </FSIcon>
+          />
         </slot>
       </template>
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
@@ -74,11 +73,12 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, toRefs } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSTextField from "./FSTextField.vue";
 import FSTagGroup from "./FSTagGroup.vue";
+import FSButton from "./FSButton.vue";
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
@@ -88,6 +88,7 @@ export default defineComponent({
   components: {
     FSTextField,
     FSTagGroup,
+    FSButton,
     FSSpan,
     FSCol,
     FSRow
@@ -116,7 +117,7 @@ export default defineComponent({
     tagColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     required: {
       type: Boolean,
@@ -140,8 +141,8 @@ export default defineComponent({
 
     const innerValue = ref("");
 
-    const errors = useColors().getColors(ColorBase.Error);
-    const darks = useColors().getColors(ColorBase.Dark);
+    const errors = useColors().getColors(ColorEnum.Error);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {
@@ -194,6 +195,7 @@ export default defineComponent({
     }
 
     return {
+      ColorEnum,
       innerValue,
       messages,
       style,

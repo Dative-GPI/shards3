@@ -34,7 +34,10 @@
         >
           <template #item="{ element }">
             <FSRow v-if="element.label.includes(search)">
-              <FSIcon class="fs-disposition-button-icon">
+              <FSIcon
+                class="fs-disposition-button-icon"
+                size="l"
+              >
                 mdi-drag
               </FSIcon>
               <FSCheckbox
@@ -54,9 +57,8 @@
 import { computed, defineComponent, PropType, ref, toRefs, watch } from "vue";
 import draggable from "vuedraggable";
 
-import { FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
+import { ColorBase, ColorEnum, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 import { useUpdateTable } from "@dative-gpi/foundation-core-services/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSearchField from "@dative-gpi/foundation-shared-components/components/FSSearchField.vue";
 import FSContainer from "@dative-gpi/foundation-shared-components/components/FSContainer.vue";
@@ -96,7 +98,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     searchable: {
       type: Boolean,

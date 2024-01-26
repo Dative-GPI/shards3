@@ -94,8 +94,8 @@
 import { computed, defineComponent, onMounted, PropType, ref, toRefs } from "vue";
 
 import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSButton from "./FSButton.vue";
 import FSSpan from "./FSSpan.vue";
@@ -124,12 +124,12 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     buttonColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     }
   },
   emits: ["update:modelValue"],
@@ -142,7 +142,7 @@ export default defineComponent({
     const colors = useColors().getColors(color.value);
     const buttonColors = useColors().getColors(buttonColor.value);
 
-    const backgrounds = useColors().getColors(ColorBase.Background);
+    const backgrounds = useColors().getColors(ColorEnum.Background);
     
     const innerLeftMonth = ref(new Date().getMonth());
     const innerLeftYear = ref(new Date().getFullYear());

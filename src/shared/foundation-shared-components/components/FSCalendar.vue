@@ -61,8 +61,8 @@
 import { computed, defineComponent, PropType, ref, toRefs } from "vue";
 
 import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSButton from "./FSButton.vue";
 import FSSpan from "./FSSpan.vue";
@@ -91,24 +91,24 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     buttonColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     }
   },
   setup(props) {
     const { modelValue, color, buttonColor } = toRefs(props);
 
-    const {epochToPicker, pickerToEpoch } = useTimeZone();
+    const { epochToPicker, pickerToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
 
     const colors = useColors().getColors(color.value);
     const buttonColors = useColors().getColors(buttonColor.value);
 
-    const backgrounds = useColors().getColors(ColorBase.Background);
+    const backgrounds = useColors().getColors(ColorEnum.Background);
     
     const innerMonth = ref(modelValue.value ? epochToPicker(modelValue.value).getMonth() : new Date().getMonth());
     const innerYear = ref(modelValue.value ? epochToPicker(modelValue.value).getFullYear() : new Date().getFullYear());

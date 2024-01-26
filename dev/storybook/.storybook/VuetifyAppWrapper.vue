@@ -22,7 +22,7 @@ export default defineComponent({
     const { ready: coreReady } = useCore();
 
     const { force: forceOrganisationId } = useOrganisationId();
-    
+
     onMounted(async () => {
       forceOrganisationId("dative");
     });

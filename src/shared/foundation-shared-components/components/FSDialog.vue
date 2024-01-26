@@ -3,7 +3,7 @@
     :width="$props.width"
     v-bind="$attrs"
   >
-    <slot name="default">
+    <slot>
       <FSCard
         :class="$props.cardClasses"
         :color="$props.color"
@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCard from "./FSCard.vue";
 
@@ -37,7 +37,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     cardClasses: {
       type: Array<String>,

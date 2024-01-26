@@ -1,7 +1,7 @@
+import { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
 import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
 
 import { AlertDataDefinition, AlertDataDefinitionDTO } from "./alertDataDefinition";
-import { AlertStatus } from "../enums/alertEnums";
 
 export class AlertState {
     id: string;

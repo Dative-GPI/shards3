@@ -34,6 +34,11 @@ export default defineComponent({
             required: false,
             default: true
         },
+        padding: {
+            type: [String, Number],
+            required: false,
+            default: 0
+        },
         gap: {
             type: Number,
             required: false,
@@ -41,13 +46,14 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const { width, height, align, wrap, gap } = toRefs(props);
+        const { width, height, align, wrap, padding, gap } = toRefs(props);
         
         const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
+            "--fs-row-padding"  : typeof(padding.value) === "string" ? padding.value : `${padding.value}px`,
             "--fs-row-flex-wrap": wrap.value ? "wrap" : "nowrap",
-            "--fs-row-gap": `${gap.value}px`,
-            "--fs-row-width": width.value,
-            "--fs-row-height": height.value
+            "--fs-row-gap"      : `${gap.value}px`,
+            "--fs-row-width"    : width.value,
+            "--fs-row-height"   : height.value
         }));
 
         const classes = computed((): string[] => {

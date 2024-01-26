@@ -1,7 +1,7 @@
+import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
 import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
 
 import { AlertDataDefinition, AlertDataDefinitionDTO } from "./alertDataDefinition";
-import { AlertStatus, Criticity } from "../enums/alertEnums";
 import { AlertState, AlertStateDTO } from "./alertState";
 import { SelectedEntities } from "../enums/sharedEnums";
 import { DateVariable } from "../shared/dateVariable";

@@ -4,7 +4,7 @@
     :style="style"
     v-bind="$attrs"
   >
-    <slot name="default">
+    <slot>
       <FSCol>
         <FSRow v-if="$slots.header">
           <slot name="header" />

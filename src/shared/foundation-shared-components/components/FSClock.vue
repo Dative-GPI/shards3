@@ -22,8 +22,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSlider from "./FSSlider.vue";
 import FSCol from "./FSCol.vue";
@@ -45,12 +45,12 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     buttonColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     }
   },
   emits: ["update:modelValue"],

@@ -1,43 +1,49 @@
 <template>
-    <FSCol width="hug">
-        <FSRow width="hug" align="center-left">
-            <FSIcon
-                class="fs-checkbox"
-                :style="style"
-                @click="onToggle"
-            >
-                {{ icon }}
-            </FSIcon>
-            <slot name="default">
-                <FSSpan
-                    v-if="$props.label"
-                    class="fs-checkbox-label"
-                    :style="style"
-                    :font="font"
-                    @click="onToggle"
-                >
-                    {{ $props.label }}
-                </FSSpan>
-            </slot>
-        </FSRow>
-        <slot name="description">
-            <FSSpan
-                v-if="$props.description"
-                class="fs-checkbox-description"
-                font="text-underline"
-                :style="style"
-            >
-                {{ $props.description }}
-            </FSSpan>
-        </slot>
-    </FSCol>
+  <FSCol
+    width="hug"
+  >
+    <FSRow
+      width="hug"
+      align="center-left"
+    >
+      <FSIcon
+        class="fs-checkbox"
+        size="l"
+        :style="style"
+        @click="onToggle"
+      >
+        {{ icon }}
+      </FSIcon>
+      <slot>
+        <FSSpan
+          v-if="$props.label"
+          class="fs-checkbox-label"
+          :style="style"
+          :font="font"
+          @click="onToggle"
+        >
+          {{ $props.label }}
+        </FSSpan>
+      </slot>
+    </FSRow>
+    <slot name="description">
+      <FSSpan
+        v-if="$props.description"
+        class="fs-checkbox-description"
+        font="text-underline"
+        :style="style"
+      >
+        {{ $props.description }}
+      </FSSpan>
+    </slot>
+  </FSCol>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
@@ -45,81 +51,81 @@ import FSRow from "./FSRow.vue";
 import FSCol from "./FSCol.vue";
 
 export default defineComponent({
-    name: "FSCheckbox",
-    components: {
-        FSIcon,
-        FSSpan,
-        FSRow,
-        FSCol
+  name: "FSCheckbox",
+  components: {
+    FSIcon,
+    FSSpan,
+    FSRow,
+    FSCol
+  },
+  props: {
+    label: {
+      type: String,
+      required: false,
+      default: null
     },
-    props: {
-        label: {
-            type: String,
-            required: false,
-            default: null
-        },
-        description: {
-            type: String,
-            required: false,
-            default: null
-        },
-        modelValue: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        color: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Primary
-        },
-        editable: {
-            type: Boolean,
-            required: false,
-            default: true
-        }
+    description: {
+      type: String,
+      required: false,
+      default: null
     },
-    emits: ["update:modelValue"],
-    setup(props, { emit }) {
-        const { modelValue, color, editable } = toRefs(props);
-
-        const colors = useColors().getColors(color.value);
-
-        const lights = useColors().getColors(ColorBase.Light);
-        const darks = useColors().getColors(ColorBase.Dark);
-
-        const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-            if (!editable.value) {
-                return {
-                    "--fs-checkbox-cursor": "default",
-                    "--fs-checkbox-checkbox-color": lights.dark,
-                    "--fs-checkbox-color": lights.dark
-                };
-            }
-            return {
-                "--fs-checkbox-cursor": "pointer",
-                "--fs-checkbox-checkbox-color": modelValue.value ? colors.base : darks.base,
-                "--fs-checkbox-color": darks.base
-            }
-        });
-
-        const icon = computed((): string => modelValue.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
-
-        const font = computed((): string => modelValue.value ? "text-button" : "text-body");
-
-        const onToggle = (): void => {
-            if (!editable.value) {
-                return;
-            }
-            emit("update:modelValue", !modelValue.value);
-        };
-
-        return {
-            style,
-            icon,
-            font,
-            onToggle
-        };
+    modelValue: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Primary
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
     }
+  },
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const { modelValue, color, editable } = toRefs(props);
+
+    const colors = useColors().getColors(color.value);
+
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
+
+    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+      if (!editable.value) {
+        return {
+          "--fs-checkbox-cursor": "default",
+          "--fs-checkbox-checkbox-color": lights.dark,
+          "--fs-checkbox-color": lights.dark
+        };
+      }
+      return {
+        "--fs-checkbox-cursor": "pointer",
+        "--fs-checkbox-checkbox-color": modelValue.value ? colors.base : darks.base,
+        "--fs-checkbox-color": darks.base
+      }
+    });
+
+    const icon = computed((): string => modelValue.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
+
+    const font = computed((): string => modelValue.value ? "text-button" : "text-body");
+
+    const onToggle = (): void => {
+      if (!editable.value) {
+        return;
+      }
+      emit("update:modelValue", !modelValue.value);
+    };
+
+    return {
+      style,
+      icon,
+      font,
+      onToggle
+    };
+  }
 });
 </script>

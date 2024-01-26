@@ -1,6 +1,5 @@
+import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
 import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
-
-import { AlertStatus, Criticity } from "../enums/alertEnums";
 
 export class DeviceOrganisationAlert {
     id: string;

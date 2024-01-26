@@ -11,13 +11,13 @@
 import { computed, defineComponent, toRefs } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
   name: "FSContainer",
   props: {
     padding: {
-      type: Number,
+      type: [String, Number],
       required: false,
       default: 8
     },
@@ -30,13 +30,13 @@ export default defineComponent({
   setup(props) {
     const { padding, border } = toRefs(props);
 
-    const lights = useColors().getColors(ColorBase.Light);
+    const lights = useColors().getColors(ColorEnum.Light);
 
-    const backgrounds = useColors().getColors(ColorBase.Background);
+    const backgrounds = useColors().getColors(ColorEnum.Background);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-container-padding"         : `${padding.value}px`,
+        "--fs-container-padding"         : typeof(padding.value) === "string" ? padding.value : `${padding.value}px`,
         "--fs-container-background-color": backgrounds.base,
         "--fs-container-border-color"    : lights.dark
       };

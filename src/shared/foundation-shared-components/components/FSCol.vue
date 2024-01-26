@@ -29,6 +29,11 @@ export default defineComponent({
             required: false,
             default: "top-left"
         },
+        padding: {
+            type: [String, Number],
+            required: false,
+            default: 0
+        },
         gap: {
             type: Number,
             required: false,
@@ -36,9 +41,10 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const { width, height, align, gap } = toRefs(props);
+        const { width, height, align, padding, gap } = toRefs(props);
 
         const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
+            "--fs-col-padding"  : typeof(padding.value) === "string" ? padding.value : `${padding.value}px`,
             "--fs-col-gap": `${gap.value}px`,
             "--fs-col-width": width.value,
             "--fs-col-height": height.value

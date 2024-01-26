@@ -1,6 +1,7 @@
 .fs-col {
     display: flex;
     flex-direction: column;
+    padding: var(--fs-col-padding);
     gap: var(--fs-col-gap);
 
     &-top-left {

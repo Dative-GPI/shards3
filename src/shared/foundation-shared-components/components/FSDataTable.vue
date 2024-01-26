@@ -52,24 +52,7 @@
                   {{ header.text }}
                 </span>
               </slot>
-
-              <FSButton
-                v-if="header.configurable"
-                @click="
-                  configured === header.value
-                    ? (configured = null)
-                    : (configured = header.value?.toString()!)
-                "
-              >
-                <FSIcon
-                  small
-                  :color="
-                    configured === header.value ? 'alert-orange' : 'grey-1'
-                  "
-                >
-                  {{ configurationIcon }}
-                </FSIcon>
-              </FSButton>
+              
               <slot :name="`header.${header.value}-left-append`" />
               <template v-if="header.sortable || header.canBeFiltered">
                 <v-spacer />

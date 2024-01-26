@@ -11,8 +11,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 export default defineComponent({
   name: "FSText",
@@ -35,7 +35,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     variant: {
       type: String as PropType<"base" | "light" | "dark">,

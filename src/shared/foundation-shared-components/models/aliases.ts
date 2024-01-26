@@ -1,5 +1,5 @@
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorEnum } from "./colors";
 
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
@@ -25,90 +25,90 @@ export const FSButtonsProps = {
         prependIcon: "mdi-magnify",
         label: $tr("ui.shared.button.search", "Search"),
         variant: "standard",
-        color: ColorBase.Primary
+        color: ColorEnum.Primary
     },
     FSButtonSearchMini: {
         prependIcon: "mdi-magnify",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Primary
+        color: ColorEnum.Primary
     },
     FSButtonSearchIcon: {
         icon: "mdi-magnify",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Primary
+        color: ColorEnum.Primary
     },
     FSButtonRemove: {
         prependIcon: "mdi-delete-outline",
         label: $tr("ui.shared.button.remove", "Remove"),
         variant: "standard",
-        color: ColorBase.Error
+        color: ColorEnum.Error
     },
     FSButtonRemoveMini: {
         prependIcon: "mdi-delete-outline",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Error
+        color: ColorEnum.Error
     },
     FSButtonRemoveIcon: {
         icon: "mdi-delete-outline",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Error
+        color: ColorEnum.Error
     },
     FSButtonSave: {
         prependIcon: "mdi-content-save-outline",
         label: $tr("ui.shared.button.save", "Save"),
         variant: "standard",
-        color: ColorBase.Primary
+        color: ColorEnum.Primary
     },
     FSButtonSaveMini: {
         prependIcon: "mdi-content-save-outline",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Primary
+        color: ColorEnum.Primary
     },
     FSButtonSaveIcon: {
         icon: "mdi-content-save-outline",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Primary
+        color: ColorEnum.Primary
     },
     FSButtonCancel: {
         prependIcon: "mdi-cancel",
         label: $tr("ui.shared.button.cancel", "Cancel"),
         variant: "standard",
-        color: ColorBase.Light
+        color: ColorEnum.Light
     },
     FSButtonCancelMini: {
         prependIcon: "mdi-cancel",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Light
+        color: ColorEnum.Light
     },
     FSButtonCancelIcon: {
         icon: "mdi-cancel",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Light
+        color: ColorEnum.Light
     },
     FSButtonDocumentation: {
         prependIcon: "mdi-file-document-outline",
         label: $tr("ui.shared.button.documentation", "Documentation"),
         variant: "standard",
-        color: ColorBase.Light
+        color: ColorEnum.Light
     },
     FSButtonDocumentationMini: {
         prependIcon: "mdi-file-document-outline",
         label: undefined,
         variant: "standard",
-        color: ColorBase.Light
+        color: ColorEnum.Light
     },
     FSButtonDocumentationIcon: {
         icon: "mdi-file-document-outline",
         label: undefined,
         variant: "icon",
-        color: ColorBase.Light
+        color: ColorEnum.Light
     }
 }

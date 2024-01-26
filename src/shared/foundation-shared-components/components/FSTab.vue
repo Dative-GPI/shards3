@@ -4,14 +4,14 @@
     :ripple="false"
     v-bind="$attrs"
   >
-    <slot name="default">
+    <slot>
       <FSRow align="center-left">
         <slot name="prepend">
           <FSIcon v-if="$props.prependIcon" size="m">
             {{ $props.prependIcon }}
           </FSIcon>
         </slot>
-        <slot name="default">
+        <slot>
           <FSSpan v-if="$props.label" font="text-button">
             {{ $props.label }}
           </FSSpan>
@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
@@ -72,7 +72,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     }
   }
 });

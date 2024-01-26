@@ -64,7 +64,7 @@
 import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
@@ -123,9 +123,9 @@ export default defineComponent({
     delete slots.label;
     delete slots.description;
 
-    const errors = useColors().getColors(ColorBase.Error);
-    const lights = useColors().getColors(ColorBase.Light);
-    const darks = useColors().getColors(ColorBase.Dark);
+    const errors = useColors().getColors(ColorEnum.Error);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {

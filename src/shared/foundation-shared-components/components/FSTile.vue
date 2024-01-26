@@ -1,9 +1,10 @@
 <template>
   <FSCard
     class="fs-tile"
-    :color="$props.color"
+    padding="12px"
     :style="style"
-    :padding="12"
+    :width="width"
+    :height="height"
   >
     <slot />
     <FSContainer
@@ -16,14 +17,18 @@
         @update:modelValue="() => $emit('update:modelValue', !$props.modelValue)"
       />
     </FSContainer>
+      <div
+        class="fs-tile-bottom"
+        :style="style"
+      />
   </FSCard>  
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSContainer from "./FSContainer.vue";
 import FSCheckbox from "./FSCheckbox.vue";
@@ -42,15 +47,10 @@ export default defineComponent({
       required: false,
       default: false
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorBase.Dark
-    },
     bottomColor: {
-      type: String as PropType<ColorBase>,
+      type: [String, Array] as PropType<ColorBase | ColorBase[]>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     editable: {
       type: Boolean,
@@ -61,7 +61,9 @@ export default defineComponent({
   setup(props) {
     const { bottomColor } = toRefs(props);
 
-    const bottomColors = useColors().getColors(bottomColor.value);
+    const { isMobileSized } = useBreakpoints();
+
+    const bottomColors = useColors().getGradients(bottomColor.value);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
@@ -69,10 +71,19 @@ export default defineComponent({
       };
     });
 
+    const width = computed(() => {
+      return isMobileSized.value ? 336 : 352;
+    });
+
+    const height = computed(() => {
+      return isMobileSized.value ? 156 : 170;
+    });
+
     return {
-      style
+      style,
+      width,
+      height
     };
   }
-})
-
+});
 </script>

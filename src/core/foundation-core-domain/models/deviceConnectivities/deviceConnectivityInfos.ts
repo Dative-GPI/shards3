@@ -1,6 +1,5 @@
+import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
 import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
-
-import { ConnectivityStatus } from "../enums/deviceEnums";
 
 export class DeviceConnectivityInfos {
     id: string;

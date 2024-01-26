@@ -17,7 +17,7 @@
 <script lang="ts">
 import { defineComponent, PropType, toRefs } from "vue";
 
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSRadio from "./FSRadio.vue";
 import FSCol from "./FSCol.vue";
@@ -42,7 +42,7 @@ export default defineComponent({
         color: {
             type: String as PropType<ColorBase>,
             required: false,
-            default: ColorBase.Primary
+            default: ColorEnum.Primary
         },
         editable: {
             type: Boolean,

@@ -7,19 +7,31 @@
     :disabled="!$props.editable"
     v-bind="$attrs"
   >
-    <FSRow :wrap="false">
+    <FSRow
+      align="center-center"
+      :wrap="false"
+    >
       <slot name="prepend" v-bind="{ color, colors }">
-        <FSIcon v-if="$props.prependIcon" size="m">
+        <FSIcon
+          v-if="$props.prependIcon"
+          size="l"
+        >
           {{ $props.prependIcon }}
         </FSIcon>
       </slot>
       <slot name="default" v-bind="{ color, colors }">
-        <FSSpan v-if="$props.label" font="text-body">
+        <FSSpan
+          v-if="$props.label"
+          font="text-body"
+        >
           {{ $props.label }}
         </FSSpan>
       </slot>
       <slot name="append" v-bind="{ color, colors }">
-        <FSIcon v-if="$props.appendIcon" size="m">
+        <FSIcon
+          v-if="$props.appendIcon"
+          size="l"
+        >
           {{ $props.appendIcon }}
         </FSIcon>
       </slot>
@@ -33,7 +45,9 @@
     @click="onClick"
     v-bind="$attrs"
   >
-    <FSIcon size="m">
+    <FSIcon
+      size="l"
+    >
       {{ $props.icon }}
     </FSIcon>
   </FSRow>
@@ -42,8 +56,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
@@ -85,7 +99,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     editable: {
       type: Boolean,
@@ -99,7 +113,7 @@ export default defineComponent({
     const textColors = useColors().getContrasts(color.value);
     const colors = useColors().getColors(color.value);
 
-    const lights = useColors().getColors(ColorBase.Light);
+    const lights = useColors().getColors(ColorEnum.Light);
 
     const slots = useSlots();
 
@@ -147,10 +161,16 @@ export default defineComponent({
           "--fs-button-active-border-color": colors.dark,
           "--fs-button-active-color": textColors.light,
         };
-        case "icon": return {
-          "--fs-button-color": textColors.base,
-          "--fs-button-hover-color": textColors.dark,
-        };
+        case "icon": switch (color.value) {
+          case ColorEnum.Dark: return {
+            "--fs-button-color": colors.light,
+            "--fs-button-hover-color": colors.dark,
+          };
+          default: return {
+            "--fs-button-color": colors.base,
+            "--fs-button-hover-color": colors.dark,
+          };
+        }
       }
     });
 

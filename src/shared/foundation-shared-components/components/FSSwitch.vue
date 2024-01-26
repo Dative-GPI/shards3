@@ -11,7 +11,7 @@
         @update:modelValue="onToggle"
         v-bind="$attrs"
       />
-      <slot name="default">
+      <slot>
         <FSSpan
             v-if="$props.label"
             class="fs-switch-label"
@@ -39,8 +39,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSSpan from "./FSSpan.vue";
 import FSRow from "./FSRow.vue";
@@ -72,7 +72,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     editable: {
       type: Boolean,
@@ -86,9 +86,9 @@ export default defineComponent({
 
     const colors = useColors().getColors(color.value);
 
-    const backgrounds = useColors().getColors(ColorBase.Background);
-    const lights = useColors().getColors(ColorBase.Light);
-    const darks = useColors().getColors(ColorBase.Dark);
+    const backgrounds = useColors().getColors(ColorEnum.Background);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {

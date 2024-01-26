@@ -1,7 +1,8 @@
+import { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
+
 import { ScenarioOrganisationTypeInfos, ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
 import { CreateTimeRangeDTO, TimeRange, TimeRangeDTO } from "../shared/timeRange";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
-import { ResolveOn, TriggerOn } from "../enums/alertEnums";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
 import { AutoRefresh } from "../enums/dashboardEnums";

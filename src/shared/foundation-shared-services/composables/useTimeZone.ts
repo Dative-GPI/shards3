@@ -1,7 +1,12 @@
 import { onMounted, provide, ref, watch } from "vue";
 
+import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
+import { format, subDays } from "date-fns";
+
 import { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 
+import { useTranslationsProvider } from "./useTranslationsProvider";
+import { useLanguageCode } from "./useLanguageCode";
 import { TIME_ZONE } from "../config/literals";
 
 let initialized = false;
@@ -12,6 +17,9 @@ const timeZone = ref<TimeZoneInfos | null>({
 });
 
 export const useTimeZone = () => {
+    const { languageCode } = useLanguageCode();
+    const { $tr } = useTranslationsProvider();
+
     const setTimeZone = (payload: TimeZoneInfos) => {
         timeZone.value = payload;
     };
@@ -84,6 +92,45 @@ export const useTimeZone = () => {
         return { d: date.getDate(), m: date.getMonth(), y: date.getFullYear() };
     };
 
+    const epochToLongFormat = (value: number): string => {
+        if (value == null || !isFinite(value)) {
+            return "";
+        }
+        const date = new Date(0);
+        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        return format(date, overrideFormat(date, "EEE dd LLL yyyy HH:mm:ss"), { locale: getLocale() })
+    };
+
+    const todayTimeFormat = (): string => {
+        return `'${$tr("ui.shared.time-zone.today-at", "Today at")?.replaceAll("'", "''")}' HH:mm:ss`;
+    }
+    
+    const yesterdayTimeFormat = (): string => {
+        return `'${$tr("ui.shared.time-zone.yesterday-at", "Yesterday at")?.replaceAll("'", "''")}' HH:mm:ss`;
+    }
+      
+    const overrideFormat = (date: Date, askedFormat: string): string => {
+        let now = new Date();
+        if (date.toDateString() === now.toDateString()) {
+            return todayTimeFormat();
+        }
+        if (date.toDateString() === subDays(now, 1).toDateString()) {
+            return yesterdayTimeFormat();
+        }
+        return askedFormat;
+    }
+
+    const getLocale = (): Locale => {
+        switch (languageCode.value) {
+            case "fr-FR": return fr;
+            case "es-ES": return es;
+            case "it-IT": return it;
+            case "en-GB": return enGB;
+            case "de-DE": return de;
+            default: return enUS;
+        }
+    }
+
     if (!initialized) {
         provide(TIME_ZONE, timeZone);
 
@@ -125,6 +172,7 @@ export const useTimeZone = () => {
         getMachineOffsetMillis,
         pickerToEpoch,
         epochToPicker,
-        epochToPickerHeader
+        epochToPickerHeader,
+        epochToLongFormat
     };
 }
