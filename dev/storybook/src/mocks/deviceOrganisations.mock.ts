@@ -1,4 +1,4 @@
-import { DeviceConnectivityDetailsDTO, DeviceOrganisationAlertDTO, DeviceOrganisationDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import { DeviceConnectivityDetailsDTO, DeviceOrganisationAlertDTO, DeviceOrganisationDetailsDTO, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { ORGANISATIONS } from "./organisations.mock";
 import { MANUFACTURERS } from "./manufacturers.mock";
@@ -52,6 +52,122 @@ const DEVICEALERTS: DeviceOrganisationAlertDTO[] = [{
     criticity: 3
 }];
 
+const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
+    id: "1",
+    statuses: [{
+        modelStatusId: MODELSTATUSES[0].id,
+        statusGroups: [{
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            value: "On",
+            label: "Status",
+            icon: "mdi-power-standby",
+            color: "#33FF33"
+        }]
+    }, {
+        modelStatusId: MODELSTATUSES[1].id,
+        statusGroups: [{
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "1",
+            value: "240",
+            unit: "°C",
+            label: "Temperature",
+            icon: "mdi-thermometer",
+            color: "#FF3333"
+        }, {
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "2",
+            value: "240",
+            unit: "°C",
+            label: "Temperature",
+            icon: "mdi-thermometer",
+            color: "#FF3333"
+        }, {
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "3",
+            value: "120",
+            unit: "°C",
+            label: "Temperature",
+            icon: "mdi-thermometer",
+            color: "#999933"
+        }, {
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "4",
+            value: "120",
+            unit: "°C",
+            label: "Temperature",
+            icon: "mdi-thermometer",
+            color: "#999933"
+        }]
+    }, {
+        modelStatusId: MODELSTATUSES[2].id,
+        statusGroups: [{
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "1",
+            value: "2400",
+            unit: "W",
+            label: "Energy",
+            icon: "mdi-power-plug",
+            color: "#33FF33"
+        }, {
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "2",
+            value: "2400",
+            unit: "W",
+            label: "Energy",
+            icon: "mdi-power-plug",
+            color: "#33FF33"
+        }, {
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "3",
+            value: "800",
+            unit: "W",
+            label: "Energy",
+            icon: "mdi-power-plug",
+            color: "#999933"
+        }, {
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            groupByValue: "4",
+            value: "800",
+            unit: "W",
+            label: "Energy",
+            icon: "mdi-power-plug",
+            color: "#999933"
+        }]
+    }]
+}, {
+    id: "2",
+    statuses: [{
+        modelStatusId: MODELSTATUSES[0].id,
+        statusGroups: [{
+            sourceTimestamp: ONLINE_DEVICE.toISOString(),
+            enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
+            processedTimestamp: ONLINE_PROCESSED.toISOString(),
+            value: "Stand-by",
+            label: "Status",
+            icon: "mdi-power-standby",
+            color: "#999933"
+        }]
+    }]
+}];
+
 export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     id: "1",
     deviceId: "1",
@@ -70,6 +186,7 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     online: 1,
     meta: {},
     modelStatuses: MODELSTATUSES.slice(),
+    status: DEVICESTATUS[0],
     connectivity: DEVICECONNECTIVITIES[0],
     alerts: [],
     articleCode: ARTICLES[0].code,
@@ -96,6 +213,7 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     online: 2,
     meta: {},
     modelStatuses: MODELSTATUSES.slice(),
+    status: DEVICESTATUS[1],
     connectivity: DEVICECONNECTIVITIES[1],
     alerts: [],
     articleCode: ARTICLES[0].code,
@@ -123,7 +241,8 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     meta: {},
     modelStatuses: MODELSTATUSES.slice(),
     connectivity: DEVICECONNECTIVITIES[2],
-    alerts: DEVICEALERTS.slice(),
+    worstAlert: DEVICEALERTS[0],
+    alerts: [],
     articleCode: ARTICLES[0].code,
     familyId: ARTICLES[0].familyId,
     familyLabel: ARTICLES[0].familyLabel,

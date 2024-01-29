@@ -44,32 +44,36 @@
             {{ statusLabel }}
           </FSSpan>
         </FSCol>
-        <FSDivider />
-        <FSCol
-          align="center-center"
-          gap="2"
-        >
-          <FSRow
-            width="hug"
+        <template v-if="cloudTimestamp || deviceTimestamp">
+          <FSDivider />
+          <FSCol
+            align="center-center"
+            gap="2"
           >
-            <FSIcon>
-              mdi-cloud-outline
-            </FSIcon>
-            <FSSpan>
-              {{ cloudTimestamp }}
-            </FSSpan>
-          </FSRow>
-          <FSRow
-            width="hug"
-          >
-            <FSIcon>
-              mdi-widgets-outline
-            </FSIcon>
-            <FSSpan>
-              {{ deviceTimestamp }}
-            </FSSpan>
-          </FSRow>
-        </FSCol>
+            <FSRow
+              v-if="cloudTimestamp"
+              width="hug"
+            >
+              <FSIcon>
+                mdi-cloud-outline
+              </FSIcon>
+              <FSSpan>
+                {{ cloudTimestamp }}
+              </FSSpan>
+            </FSRow>
+            <FSRow
+              v-if="deviceTimestamp"
+              width="hug"
+            >
+              <FSIcon>
+                mdi-widgets-outline
+              </FSIcon>
+              <FSSpan>
+                {{ deviceTimestamp }}
+              </FSSpan>
+            </FSRow>
+          </FSCol>
+        </template>
       </FSCol>
     </FSCard>
   </FSTooltip>
@@ -156,13 +160,13 @@ export default defineComponent({
     });
 
     const badgeLabel = computed((): string | null => {
-      if (deviceAlerts.value === 0) {
+      if (deviceAlerts.value < 1) {
         return null;
       }
-      if (deviceAlerts.value > 9) {
+      if (deviceAlerts.value > 8) {
         return "9+";
       }
-      return deviceAlerts.value.toString();
+      return (deviceAlerts.value + 1).toString();
     })
 
     const cloudTimestamp = computed((): string => {

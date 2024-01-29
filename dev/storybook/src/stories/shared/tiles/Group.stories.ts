@@ -21,9 +21,33 @@ export const Variations: Story = {
           id: "1",
           label: "Can't hold us",
           code: "Macklemore & Ryan Lewis",
-          imageId: "1"
+          imageId: "1",
+          recursiveGroupsIds: [],
+          recursiveDeviceOrganisationsIds: []
+        }, {
+          id: "2",
+          label: "Paint the town red",
+          code: "Doja Cat",
+          imageId: "1",
+          recursiveGroupsIds: Array.from(Array(4).keys()).map((i) => i.toString()),
+          recursiveDeviceOrganisationsIds: Array.from(Array(8).keys()).map((i) => i.toString()),
+        }, {
+          id: "3",
+          label: "Who's ready for tomorrow",
+          code: "Rat Boy",
+          imageId: "1",
+          recursiveGroupsIds: Array.from(Array(4).keys()).map((i) => i.toString()),
+          recursiveDeviceOrganisationsIds: Array.from(Array(16).keys()).map((i) => i.toString()),
+        }, {
+          id: "4",
+          label: "Dynasties & Dystopia",
+          code: "Denzel Curry featuring Gizzle and Bren Joy",
+          imageId: "1",
+          recursiveGroupsIds: Array.from(Array(100).keys()).map((i) => i.toString()),
+          recursiveDeviceOrganisationsIds: Array.from(Array(100).keys()).map((i) => i.toString()),
         }],
         selected: [
+          false,
           false
         ]
       }
@@ -42,6 +66,8 @@ export const Variations: Story = {
         :imageId="group.imageId"
         :label="group.label"
         :code="group.code"
+        :recursiveGroupsIds="group.recursiveGroupsIds"
+        :recursiveDeviceOrganisationsIds="group.recursiveDeviceOrganisationsIds"
         v-model="args.selected[index]"
       />
     </div>`

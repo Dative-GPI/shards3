@@ -19,10 +19,10 @@
           gap="12"
         >
           <FSCol
+            width="fill"
             gap="6"
           >
             <FSSpan
-              lineClamp="2"
               font="text-button"
             >
               {{ $props.label }}
@@ -48,7 +48,7 @@
                 <FSText
                   font="text-overline"
                 >
-                  {{ $props.recursiveGroupsIds.length }}
+                  {{ groupsLabel }}
                 </FSText>
               </FSColor>
               <FSSpan
@@ -69,7 +69,7 @@
                 <FSText
                   font="text-overline"
                 >
-                  {{ $props.recursiveDeviceOrganisationsIds.length }}
+                  {{ deviceOrganisationsLabel }}
                 </FSText>
               </FSColor>
               <FSSpan
@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -151,15 +151,26 @@ export default defineComponent({
       default: true
     }
   },
-  setup() {
+  setup(props) {
+    const { recursiveGroupsIds, recursiveDeviceOrganisationsIds} = toRefs(props);
+
     const { isMobileSized } = useBreakpoints();
+
+    const groupsLabel = computed((): string => {
+      return recursiveGroupsIds.value.length > 99 ? "99+" : recursiveGroupsIds.value.length.toString();
+    });
+
+    const deviceOrganisationsLabel = computed((): string => {
+      return recursiveDeviceOrganisationsIds.value.length > 99 ? "99+" : recursiveDeviceOrganisationsIds.value.length.toString();
+    });
 
     const imageSize = computed((): number => {
       return isMobileSized.value ? 90 : 100;
     });
-
     return {
       ColorEnum,
+      groupsLabel,
+      deviceOrganisationsLabel,
       imageSize
     };
   }

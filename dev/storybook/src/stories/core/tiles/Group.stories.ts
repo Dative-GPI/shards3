@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSDeviceOrganisationTile from "@dative-gpi/foundation-core-components/components/tiles/FSDeviceOrganisationTile.vue";
+import FSGroupTile from "@dative-gpi/foundation-core-components/components/tiles/FSGroupTile.vue";
 
 const meta = {
-  title: 'Foundation/Core/Tiles/DeviceOrganisation',
-  component: FSDeviceOrganisationTile,
+  title: 'Foundation/Core/Tiles/Group',
+  component: FSGroupTile,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   },
-} satisfies Meta<typeof FSDeviceOrganisationTile>;
+} satisfies Meta<typeof FSGroupTile>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -19,28 +19,26 @@ export const Variations: Story = {
     args: {
       values: [
           "1",
-          "2",
-          "3"
+          "2"
       ],
       selected: [
-        false,
         false,
         false
       ]
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSDeviceOrganisationTile },
+    components: { FSGroupTile },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
     <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
-      <FSDeviceOrganisationTile
-        v-for="(deviceOrganisationId, index) in args.values"
+      <FSGroupTile
+        v-for="(groupId, index) in args.values"
         :key="index"
-        :deviceOrganisationId="deviceOrganisationId"
+        :groupId="groupId"
         v-model="args.selected[index]"
       />
     </div>`

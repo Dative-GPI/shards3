@@ -35,7 +35,7 @@
             </FSText>
           </FSRow>
           <FSRow
-            v-if="$props.modelStatus.groupById"
+            v-if="$props.modelStatus.groupById && $props.statusGroup.groupByValue"
             width="hug"
           >
             <FSSpan>
@@ -43,6 +43,7 @@
             </FSSpan>
           </FSRow>
           <FSRow
+            v-if="$props.statusGroup.value"
             width="hug"
           >
             <FSText

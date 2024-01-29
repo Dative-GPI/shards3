@@ -1,8 +1,8 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
-import { IMAGES, TRANSLATIONS } from '@/mocks';
-import { DEVICEORGANISATIONS } from '@/mocks/deviceOrganisations.mock';
+
+import { DEVICEORGANISATIONS, GROUPS, IMAGES, TRANSLATIONS } from '@/mocks';
 
 export function mockApp() {
     const mock = new MockAdapter(ServiceFactory.http, { delayResponse: 2000 });
@@ -11,4 +11,6 @@ export function mockApp() {
     mock.onGet("/api/core/v1/organisations/dative/device-organisations/1").reply(200, DEVICEORGANISATIONS[0]);
     mock.onGet("/api/core/v1/organisations/dative/device-organisations/2").reply(200, DEVICEORGANISATIONS[1]);
     mock.onGet("/api/core/v1/organisations/dative/device-organisations/3").reply(200, DEVICEORGANISATIONS[2]);
+    mock.onGet("/api/core/v1/organisations/dative/groups/1").reply(200, GROUPS[0]);
+    mock.onGet("/api/core/v1/organisations/dative/groups/2").reply(200, GROUPS[1]);
 }

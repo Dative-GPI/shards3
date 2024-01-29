@@ -24,9 +24,9 @@ export class DeviceStatusGroup {
   sourceTimestamp?: number;
   enqueuedTimestamp?: number;
   processedTimestamp?: number;
-  groupByValue: string;
+  groupByValue?: string;
   value: string;
-  unit: string;
+  unit?: string;
   label: string;
   icon: string;
   color: string;
@@ -58,9 +58,9 @@ export interface DeviceStatusGroupDTO {
   sourceTimestamp?: string;
   enqueuedTimestamp?: string;
   processedTimestamp?: string;
-  groupByValue: string;
+  groupByValue?: string;
   value: string;
-  unit: string;
+  unit?: string;
   label: string;
   icon: string;
   color: string;

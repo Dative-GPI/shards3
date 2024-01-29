@@ -38,32 +38,36 @@
             {{ $tr("ui.shared.device-connectivity.last-message", "Last message") }}
           </FSText>
         </FSCol>
-        <FSDivider />
-        <FSCol
-          align="center-center"
-          gap="2"
-        >
-          <FSRow
-            width="hug"
+        <template v-if="cloudTimestamp || deviceTimestamp">
+          <FSDivider />
+          <FSCol
+            align="center-center"
+            gap="2"
           >
-            <FSIcon>
-              mdi-cloud-outline
-            </FSIcon>
-            <FSSpan>
-              {{ cloudTimestamp }}
-            </FSSpan>
-          </FSRow>
-          <FSRow
-            width="hug"
-          >
-            <FSIcon>
-              mdi-widgets-outline
-            </FSIcon>
-            <FSSpan>
-              {{ deviceTimestamp }}
-            </FSSpan>
-          </FSRow>
-        </FSCol>
+            <FSRow
+              v-if="cloudTimestamp"
+              width="hug"
+            >
+              <FSIcon>
+                mdi-cloud-outline
+              </FSIcon>
+              <FSSpan>
+                {{ cloudTimestamp }}
+              </FSSpan>
+            </FSRow>
+            <FSRow
+              v-if="deviceTimestamp"
+              width="hug"
+            >
+              <FSIcon>
+                mdi-widgets-outline
+              </FSIcon>
+              <FSSpan>
+                {{ deviceTimestamp }}
+              </FSSpan>
+            </FSRow>
+          </FSCol>
+        </template>
       </FSCol>
     </FSCard>
   </FSTooltip>

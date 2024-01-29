@@ -2,6 +2,7 @@
   <FSCarousel>
     <template #prev="{ props }">
       <FSButton
+        v-if="$props.modelStatuses.length > 1"
         variant="icon"
         icon="mdi-chevron-left"
         :color="ColorEnum.Dark"
@@ -10,6 +11,7 @@
     </template>
     <template #next="{ props }">
       <FSButton
+        v-if="$props.modelStatuses.length > 1"
         variant="icon"
         icon="mdi-chevron-right"
         :color="ColorEnum.Dark"

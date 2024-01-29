@@ -48,5 +48,7 @@ export const MODELSTATUSES: ModelStatusInfosDTO[] = [{
     index: 1,
     lifetime: 24 * 3600,
     timeToLive: 7 * 24 * 3600,
-    showDefault: false
+    showDefault: true,
+    iconDefault: "mdi-power-plug",
+    colorDefault: "#E3E3E3"
 }];

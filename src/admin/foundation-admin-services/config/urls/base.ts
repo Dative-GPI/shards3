@@ -1,1 +1,1 @@
-export const ADMIN_URL = `/api/admin/v1`;
+export const ADMIN_URL = () => `/api/admin/v1`;

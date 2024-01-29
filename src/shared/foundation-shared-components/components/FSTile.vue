@@ -13,6 +13,7 @@
       :border="false"
     >
       <FSCheckbox
+        :color="ColorEnum.Dark"
         :modelValue="$props.modelValue"
         @update:modelValue="() => $emit('update:modelValue', !$props.modelValue)"
       />
@@ -80,6 +81,7 @@ export default defineComponent({
     });
 
     return {
+      ColorEnum,
       style,
       width,
       height

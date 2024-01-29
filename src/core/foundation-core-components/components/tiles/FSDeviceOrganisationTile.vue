@@ -14,7 +14,7 @@
     :deviceWorstAlert="entity.worstAlert"
     :deviceAlerts="entity.alerts"
     :modelStatuses="entity.modelStatuses"
-    :deviceStatuses="entity.status"
+    :deviceStatuses="entity.status?.statuses"
     :editable="$props.editable"
     :modelValue="modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"

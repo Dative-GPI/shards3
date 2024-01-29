@@ -1,1 +1,1 @@
-export const GATEWAY_URL = "/api/shared/v1";
+export const GATEWAY_URL = () => "/api/shared/v1";
