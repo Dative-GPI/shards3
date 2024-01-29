@@ -42,17 +42,27 @@ export const useColors = () => {
     };
 
     const getContrasts = (color: ColorBase): ColorVariations => {
-        switch (color) {
-            case ColorEnum.Light:
-                const base = new Color(theme.colors[ColorEnum.Dark]);
-                return {
-                    light: base.hex(),
-                    base: base.hex(),
-                    dark: base.hex()
-                };
-            default:
-                return getColors(color);
+        const themed = (Object as any).values(ColorEnum).includes(color);
+
+        const base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
+
+        if (isGrayScale(base)) {
+            switch (color) {
+                case ColorEnum.Light:
+                    return getColors(ColorEnum.Dark);
+                case ColorEnum.Dark:
+                    return getColors(ColorEnum.Light);
+                default:
+                    if (base.value() > 50) {
+                        base.value(Math.max(base.value() - 65, 0));
+                    }
+                    else {
+                        base.value(Math.min(base.value() + 65, 100));
+                    }
+                    break;
+            }
         }
+        return getColors(color);
     };
 
     const getGradients = (colors: ColorBase | ColorBase[]): ColorVariations => {

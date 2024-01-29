@@ -8,7 +8,9 @@
     v-bind="$attrs"
   >
     <slot name="default" v-bind="{ color, colors }">
-      <FSSpan class="fs-tag-label">
+      <FSSpan
+        class="fs-tag-label"
+      >
         {{ $props.label }}
       </FSSpan>
     </slot>
@@ -19,7 +21,9 @@
         :ripple="false"
         @click="$emit('remove')"
       >
-        <FSIcon size="s">
+        <FSIcon
+          size="s"
+        >
           mdi-close
         </FSIcon>
       </v-btn>

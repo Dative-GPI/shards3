@@ -9,6 +9,7 @@
   >
     <FSRow
       align="center-center"
+      width="hug"
       :wrap="false"
     >
       <slot name="prepend" v-bind="{ color, colors }">
@@ -22,7 +23,6 @@
       <slot name="default" v-bind="{ color, colors }">
         <FSSpan
           v-if="$props.label"
-          font="text-body"
         >
           {{ $props.label }}
         </FSSpan>
@@ -112,7 +112,6 @@ export default defineComponent({
 
     const textColors = useColors().getContrasts(color.value);
     const colors = useColors().getColors(color.value);
-
     const lights = useColors().getColors(ColorEnum.Light);
 
     const slots = useSlots();
