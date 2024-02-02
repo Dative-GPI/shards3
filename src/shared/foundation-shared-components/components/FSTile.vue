@@ -64,11 +64,11 @@ export default defineComponent({
 
     const { isMobileSized } = useBreakpoints();
 
-    const bottomColors = useColors().getGradients(bottomColor.value);
+    const bottomColors = computed(() => useColors().getGradients(bottomColor.value));
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-tile-border-color": bottomColors.base
+        "--fs-tile-border-color": bottomColors.value.base
       };
     });
 

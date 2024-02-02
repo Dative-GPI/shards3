@@ -84,8 +84,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { modelValue, color, editable } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
-
+    const colors = computed(() => useColors().getColors(color.value));
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
@@ -94,18 +93,18 @@ export default defineComponent({
       if (!editable.value) {
         return {
           "--fs-switch-translate-x": modelValue.value ? "8px" : "-8px",
-          "--fs-switch-cursor": "default",
+          "--fs-switch-cursor"     : "default",
           "--fs-switch-track-color": lights.dark,
           "--fs-switch-thumb-color": backgrounds.base,
-          "--fs-switch-color": lights.dark
+          "--fs-switch-color"      : lights.dark
         };
       }
       return {
         "--fs-switch-translate-x": modelValue.value ? "8px" : "-8px",
-        "--fs-switch-cursor": "pointer",
-        "--fs-switch-track-color": modelValue.value ? colors.base : darks.base,
+        "--fs-switch-cursor"     : "pointer",
+        "--fs-switch-track-color": modelValue.value ? colors.value.base : darks.base,
         "--fs-switch-thumb-color": backgrounds.base,
-        "--fs-switch-color": darks.base
+        "--fs-switch-color"      : darks.base
       };
     });
 

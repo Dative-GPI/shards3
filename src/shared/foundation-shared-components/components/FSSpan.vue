@@ -9,7 +9,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
+
+import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSSpan",
@@ -33,7 +35,7 @@ export default defineComponent({
   setup(props) {
     const { font, lineClamp, ellipsis } = toRefs(props);
     
-    const slots = useSlots();
+    const { slots } = useSlots();
 
     const classes = computed((): string[] => {
       const classes = ["fs-span", font.value];

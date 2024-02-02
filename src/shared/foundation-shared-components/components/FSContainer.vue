@@ -30,9 +30,8 @@ export default defineComponent({
   setup(props) {
     const { padding, border } = toRefs(props);
 
-    const lights = useColors().getColors(ColorEnum.Light);
-
     const backgrounds = useColors().getColors(ColorEnum.Background);
+    const lights = useColors().getColors(ColorEnum.Light);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {

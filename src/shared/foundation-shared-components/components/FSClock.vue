@@ -23,7 +23,6 @@
 import { computed, defineComponent, PropType, toRefs } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSlider from "./FSSlider.vue";
 import FSCol from "./FSCol.vue";
@@ -55,10 +54,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, buttonColor } = toRefs(props);
-
-    const colors = useColors().getColors(color.value);
-    const buttonColors = useColors().getColors(buttonColor.value);
+    const { modelValue } = toRefs(props);
 
     const hour = computed((): number => {
       if (modelValue.value != null && modelValue.value[0] != null) {

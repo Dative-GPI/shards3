@@ -1,5 +1,7 @@
 <template>
-  <FSCarousel>
+  <FSCarousel
+    :height="height"
+  >
     <template #prev="{ props }">
       <FSButton
         v-if="$props.modelStatuses.length > 1"
@@ -22,7 +24,7 @@
       v-for="(modelStatus, index) in $props.modelStatuses"
       align="center-center"
       width="hug"
-      gap="4"
+      :gap="4"
       :key="index"
       :wrap="false"
     >
@@ -37,9 +39,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref, toRefs } from "vue";
 
 import { FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
+import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCarousel from "../FSCarousel.vue";
@@ -68,7 +71,13 @@ export default defineComponent({
   setup(props) {
     const { deviceStatuses } = toRefs(props);
 
+    const { isMobileSized } = useBreakpoints();
+
     const tab = ref(0);
+
+    const height = computed((): number => {
+      return isMobileSized.value ? 20 : 26;
+    });
 
     const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup[] => {
       const deviceStatus = deviceStatuses.value
@@ -88,8 +97,9 @@ export default defineComponent({
     }
 
     return {
-      tab,
       ColorEnum,
+      height,
+      tab,
       deviceStatus
     };
   }

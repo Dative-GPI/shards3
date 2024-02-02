@@ -1,11 +1,6 @@
-.fs-wrap-group {
+.fs-slide-group {
     & > .v-slide-group__container > .v-slide-group__content {
         padding: var(--fs-group-padding);
         gap: var(--fs-group-gap);
-
-        @include clickscreen {
-            flex: 0 1 auto;
-            flex-wrap: wrap;
-        }
     }
 }

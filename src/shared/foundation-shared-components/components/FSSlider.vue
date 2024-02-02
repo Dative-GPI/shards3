@@ -62,72 +62,71 @@ import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
-   name: "FSSlider",
-   components: {
-    FSSpan,
-    FSCol,
-    FSRow
-   },
-   props: {
-    label: {
-      type: String,
-      required: true,
-      default: null
-    },
-    description: {
-      type: String,
-      required: false,
-      default: null
-    },
-    modelValue: {
-      type: String,
-      required: false,
-      default: null
-    },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Dark
-    },
-    required: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    editable: {
-      type: Boolean,
-      required: false,
-      default: true
-    }
-   },
-   setup(props) {
-    const { color, editable } = toRefs(props);
+  name: "FSSlider",
+  components: {
+  FSSpan,
+  FSCol,
+  FSRow
+  },
+  props: {
+  label: {
+    type: String,
+    required: true,
+    default: null
+  },
+  description: {
+    type: String,
+    required: false,
+    default: null
+  },
+  modelValue: {
+    type: String,
+    required: false,
+    default: null
+  },
+  color: {
+    type: String as PropType<ColorBase>,
+    required: false,
+    default: ColorEnum.Dark
+  },
+  required: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  editable: {
+    type: Boolean,
+    required: false,
+    default: true
+  }
+  },
+  setup(props) {
+  const { color, editable } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
+  const colors = computed(() => useColors().getColors(color.value));
+  const lights = useColors().getColors(ColorEnum.Light);
+  const darks = useColors().getColors(ColorEnum.Dark);
 
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
-
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
-        return {
-          "--fs-slider-cursor"     : "default",
-          "--fs-slider-track-color": lights.base,
-          "--fs-slider-thumb-color": lights.base,
-          "--fs-slider-color"      : lights.dark
-        };
-      }
+  const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    if (!editable.value) {
       return {
-          "--fs-slider-cursor"     : "pointer",
-          "--fs-slider-track-color": colors.light,
-          "--fs-slider-thumb-color": colors.base,
-          "--fs-slider-color"      : darks.base
+        "--fs-slider-cursor"     : "default",
+        "--fs-slider-track-color": lights.base,
+        "--fs-slider-thumb-color": lights.base,
+        "--fs-slider-color"      : lights.dark
       };
-    });
-
+    }
     return {
-      style
+        "--fs-slider-cursor"     : "pointer",
+        "--fs-slider-track-color": colors.value.light,
+        "--fs-slider-thumb-color": colors.value.base,
+        "--fs-slider-color"      : darks.base
     };
-   } 
+  });
+
+  return {
+    style
+  };
+  } 
 });
 </script>

@@ -25,8 +25,7 @@ export const Variations: Story = {
     args: {
       value1: null,
       value2: "Hello there",
-      value3: null,
-      value4: "General Kenobi"
+      value3: "General Kenobi"
     }
   },
   render: (args, { argTypes }) => ({
@@ -38,28 +37,22 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTextField
-        label="Text - dark color"
+        label="Text"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextField
-        color="primary"
-        label="Text - primary color"
+        label="Required text, with description"
+        description="Description for this field"
+        :required="true"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextField
-        color="warning" :required="true"
-        label="Required text - warning color"
-        description="Description for this field"
-        v-model="args.value3"
-      />
-      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSTextField
-        label="Uneditable"
+        label="Uneditable text, with description"
         description="Uneditable description"
         :editable="false"
-        v-model="args.value4"
+        v-model="args.value3"
       />
     </FSCol>`
   })

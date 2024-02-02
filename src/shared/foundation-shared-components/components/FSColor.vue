@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, Ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref, Ref, toRefs } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -60,14 +60,14 @@ export default defineComponent({
   setup(props) {
     const { color } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
+    const colors = computed(() => useColors().getColors(color.value));
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
-      "--fs-color-background-color": colors.light,
-      "--fs-color-color": colors.base,
-      "--fs-color-light": colors.light,
-      "--fs-color-base": colors.base,
-      "--fs-color-dark": colors.dark
+      "--fs-color-background-color": colors.value.light,
+      "--fs-color-color"           : colors.value.base,
+      "--fs-color-light"           : colors.value.light,
+      "--fs-color-base"            : colors.value.base,
+      "--fs-color-dark"            : colors.value.dark
     });
 
     return {

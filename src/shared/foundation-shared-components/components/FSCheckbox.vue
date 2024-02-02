@@ -89,23 +89,22 @@ export default defineComponent({
   setup(props, { emit }) {
     const { modelValue, color, editable } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
-
+    const colors = computed(() => useColors().getColors(color.value));
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {
         return {
-          "--fs-checkbox-cursor": "default",
+          "--fs-checkbox-cursor"        : "default",
           "--fs-checkbox-checkbox-color": lights.dark,
-          "--fs-checkbox-color": lights.dark
+          "--fs-checkbox-color"         : lights.dark
         };
       }
       return {
-        "--fs-checkbox-cursor": "pointer",
-        "--fs-checkbox-checkbox-color": modelValue.value ? colors.base : darks.base,
-        "--fs-checkbox-color": darks.base
+        "--fs-checkbox-cursor"        : "pointer",
+        "--fs-checkbox-checkbox-color": modelValue.value ? colors.value.base : darks.base,
+        "--fs-checkbox-color"         : darks.base
       }
     });
 

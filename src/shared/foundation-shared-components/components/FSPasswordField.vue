@@ -72,10 +72,10 @@ export default defineComponent({
   setup(props) {
     const { editable } = toRefs(props);
 
-    const stars = ref(true);
-
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
+
+    const stars = ref(true);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {

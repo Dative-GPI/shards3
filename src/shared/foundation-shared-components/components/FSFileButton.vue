@@ -21,7 +21,7 @@
             {{ $props.prependIcon }}
           </FSIcon>
         </slot>
-        <slot name="default" v-bind="{ color, colors }">
+        <slot v-bind="{ color, colors }">
           <FSSpan
             v-if="$props.label"
             font="text-body"
@@ -65,10 +65,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType, ref, toRefs } from "vue";
 
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
@@ -132,12 +132,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const { readFile, label, variant, color, editable } = toRefs(props);
 
-    const textColors = useColors().getContrasts(color.value);
-    const colors = useColors().getColors(color.value);
-
+    const textColors = computed(() => useColors().getContrasts(color.value));
+    const colors = computed(() => useColors().getColors(color.value));
     const lights = useColors().getColors(ColorEnum.Light);
 
-    const slots = useSlots();
+    const { slots } = useSlots();
     
     const input = ref(null);
 
@@ -163,31 +162,31 @@ export default defineComponent({
       switch (variant.value) {
         case "standard": return {
           "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color"       : colors.light,
-          "--fs-button-border-color"           : colors.base,
-          "--fs-button-color"                  : textColors.base,
-          "--fs-button-hover-background-color" : colors.base,
-          "--fs-button-hover-border-color"     : colors.base,
-          "--fs-button-hover-color"            : textColors.light,
-          "--fs-button-active-background-color": colors.dark,
-          "--fs-button-active-border-color"    : colors.dark,
-          "--fs-button-active-color"           : textColors.light
+          "--fs-button-background-color"       : colors.value.light,
+          "--fs-button-border-color"           : colors.value.base,
+          "--fs-button-color"                  : textColors.value.base,
+          "--fs-button-hover-background-color" : colors.value.base,
+          "--fs-button-hover-border-color"     : colors.value.base,
+          "--fs-button-hover-color"            : textColors.value.light,
+          "--fs-button-active-background-color": colors.value.dark,
+          "--fs-button-active-border-color"    : colors.value.dark,
+          "--fs-button-active-color"           : textColors.value.light
         };
         case "full": return {
           "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color"       : colors.base,
-          "--fs-button-border-color"           : colors.base,
-          "--fs-button-color"                  : textColors.light,
-          "--fs-button-hover-background-color" : colors.base,
-          "--fs-button-hover-border-color"     : colors.base,
-          "--fs-button-hover-color"            : textColors.light,
-          "--fs-button-active-background-color": colors.dark,
-          "--fs-button-active-border-color"    : colors.dark,
-          "--fs-button-active-color"           : textColors.light
+          "--fs-button-background-color"       : colors.value.base,
+          "--fs-button-border-color"           : colors.value.base,
+          "--fs-button-color"                  : textColors.value.light,
+          "--fs-button-hover-background-color" : colors.value.base,
+          "--fs-button-hover-border-color"     : colors.value.base,
+          "--fs-button-hover-color"            : textColors.value.light,
+          "--fs-button-active-background-color": colors.value.dark,
+          "--fs-button-active-border-color"    : colors.value.dark,
+          "--fs-button-active-color"           : textColors.value.light
         };
         case "icon": return {
-          "--fs-button-color"      : textColors.base,
-          "--fs-button-hover-color": textColors.dark
+          "--fs-button-color"      : textColors.value.base,
+          "--fs-button-hover-color": textColors.value.dark
         };
       }
     });

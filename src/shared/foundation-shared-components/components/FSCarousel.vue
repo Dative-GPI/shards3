@@ -9,7 +9,7 @@
       <slot :name="name" v-bind="slotData" />
     </template>
     <v-carousel-item
-      v-for="(component, index) in getChildren()"
+      v-for="(component, index) in getChildren('default')"
       :value="value(component, index)"
       :key="index"
     >
@@ -21,23 +21,31 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, useSlots, VNode } from "vue";
+import { computed, defineComponent, toRefs, VNode } from "vue";
 
-import { useColors, useDefaultSlot } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
   name: "FSCarousel",
-  setup() {
-    const slots = { ...useSlots() };
-    delete slots.default;
+  props: {
+    height: {
+      type: [String, Number],
+      required: false,
+      default: "100%"
+    }
+  },
+  setup(props) {
+    const { height } = toRefs(props);
 
-    const { getChildren } = useDefaultSlot();
+    const { slots, getChildren } = useSlots();
+    delete slots.default;
 
     const backgrounds = useColors().getColors(ColorEnum.Background);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
+        "--fs-carousel-height"          : typeof(height.value) === "string" ? height.value : `${height.value}px`,
         "--fs-carousel-background-color": backgrounds.base
       };
     });

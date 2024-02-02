@@ -4,65 +4,54 @@
     :style="style"
     v-bind="$attrs"
   >
-    <FSRow>
-      <v-slide-group-item
-        v-for="(component, index) in getChildren()"
-        :key="index"
-      >
-        <component
-          :is="component"
-          v-bind="{ color, colors, style }"
-        />
-      </v-slide-group-item>
-    </FSRow>
+    <v-slide-group-item
+      v-for="(component, index) in getChildren()"
+      :key="index"
+    >
+      <component :is="component" />
+    </v-slide-group-item>
   </v-slide-group>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, toRefs } from "vue";
 
-import { useColors, useDefaultSlot } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-
-import FSRow from "./FSRow.vue";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
   name: "FSWrapGroup",
-  components: {
-    FSRow
-  },
   props: {
-    color: {
-      type: String as PropType<ColorBase>,
+    padding: {
+      type: [String, Number],
       required: false,
-      default: ColorEnum.Primary
+      default: 0
+    },
+    gap: {
+      type: Number,
+      required: false,
+      default: 8
     }
   },
   setup(props) {
-    const { color } = toRefs(props);
+    const { padding, gap } = toRefs(props);
 
-    const { getChildren } = useDefaultSlot();
+    const { getChildren } = useSlots();
 
-    const colors = useColors().getColors(color.value);
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-group-color"                 : darks.base,
-        "--fs-group-hover-background-color": colors.light,
-        "--fs-group-hover-color"           : darks.dark,
-        "--fs-group-disabled-color"        : darks.light,
-        "--fs-group-light"                 : colors.light,
-        "--fs-group-base"                  : colors.base,
-        "--fs-group-dark"                  : colors.dark
+        "--fs-group-padding"    : typeof(padding.value) === "string" ? padding.value : `${padding.value}px`,
+        "--fs-group-gap"        : `${gap.value}px`,
+        "--fs-group-color"      : darks.light,
+        "--fs-group-hover-color": darks.dark
       }
     });
 
     return {
-      getChildren,
-      color,
-      colors,
-      style
+      style,
+      getChildren
     };
   }
 });

@@ -61,9 +61,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
@@ -119,7 +119,7 @@ export default defineComponent({
   setup(props) {
     const { rules, editable } = toRefs(props);
     
-    const slots = { ...useSlots() };
+    const { slots } = useSlots();
     delete slots.label;
     delete slots.description;
 

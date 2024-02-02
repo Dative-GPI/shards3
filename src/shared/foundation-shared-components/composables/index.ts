@@ -1,3 +1,3 @@
 export * from "./useBreakpoints";
 export * from "./useColors";
-export * from "./useDefaultSlot";
+export * from "./useSlots";

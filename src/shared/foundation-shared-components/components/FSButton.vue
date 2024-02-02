@@ -20,7 +20,7 @@
           {{ $props.prependIcon }}
         </FSIcon>
       </slot>
-      <slot name="default" v-bind="{ color, colors }">
+      <slot v-bind="{ color, colors }">
         <FSSpan
           v-if="$props.label"
         >
@@ -42,7 +42,6 @@
     width="hug"
     :style="style"
     :class="classes"
-    @click="onClick"
     v-bind="$attrs"
   >
     <FSIcon
@@ -54,10 +53,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
@@ -110,11 +109,11 @@ export default defineComponent({
   setup(props) {
     const { label, variant, color, editable } = toRefs(props);
 
-    const textColors = useColors().getContrasts(color.value);
-    const colors = useColors().getColors(color.value);
+    const textColors = computed(() => useColors().getContrasts(color.value));
+    const colors = computed(() => useColors().getColors(color.value));
     const lights = useColors().getColors(ColorEnum.Light);
 
-    const slots = useSlots();
+    const { slots } = useSlots();
 
     const isEmpty = computed(() => {
       return !slots.default && !label.value;
@@ -125,10 +124,10 @@ export default defineComponent({
         switch (variant.value) {
           case "standard":
           case "full": return {
-            "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
+            "--fs-button-padding"         : !isEmpty.value ? "0 16px" : "0",
             "--fs-button-background-color": lights.base,
-            "--fs-button-border-color": lights.dark,
-            "--fs-button-color": lights.dark,
+            "--fs-button-border-color"    : lights.dark,
+            "--fs-button-color"           : lights.dark,
           };
           case "icon": return {
             "--fs-button-color": lights.dark,
@@ -137,37 +136,37 @@ export default defineComponent({
       }
       switch (variant.value) {
         case "standard": return {
-          "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color": colors.light,
-          "--fs-button-border-color": colors.base,
-          "--fs-button-color": textColors.base,
-          "--fs-button-hover-background-color": colors.base,
-          "--fs-button-hover-border-color": colors.base,
-          "--fs-button-hover-color": textColors.light,
-          "--fs-button-active-background-color": colors.dark,
-          "--fs-button-active-border-color": colors.dark,
-          "--fs-button-active-color": textColors.light,
+          "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
+          "--fs-button-background-color"       : colors.value.light,
+          "--fs-button-border-color"           : colors.value.base,
+          "--fs-button-color"                  : textColors.value.base,
+          "--fs-button-hover-background-color" : colors.value.base,
+          "--fs-button-hover-border-color"     : colors.value.base,
+          "--fs-button-hover-color"            : textColors.value.light,
+          "--fs-button-active-background-color": colors.value.dark,
+          "--fs-button-active-border-color"    : colors.value.dark,
+          "--fs-button-active-color"           : textColors.value.light,
         };
         case "full": return {
-          "--fs-button-padding": !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color": colors.base,
-          "--fs-button-border-color": colors.base,
-          "--fs-button-color": textColors.light,
-          "--fs-button-hover-background-color": colors.base,
-          "--fs-button-hover-border-color": colors.base,
-          "--fs-button-hover-color": textColors.light,
-          "--fs-button-active-background-color": colors.dark,
-          "--fs-button-active-border-color": colors.dark,
-          "--fs-button-active-color": textColors.light,
+          "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
+          "--fs-button-background-color"       : colors.value.base,
+          "--fs-button-border-color"           : colors.value.base,
+          "--fs-button-color"                  : textColors.value.light,
+          "--fs-button-hover-background-color" : colors.value.base,
+          "--fs-button-hover-border-color"     : colors.value.base,
+          "--fs-button-hover-color"            : textColors.value.light,
+          "--fs-button-active-background-color": colors.value.dark,
+          "--fs-button-active-border-color"    : colors.value.dark,
+          "--fs-button-active-color"           : textColors.value.light,
         };
         case "icon": switch (color.value) {
           case ColorEnum.Dark: return {
-            "--fs-button-color": colors.light,
-            "--fs-button-hover-color": colors.dark,
+            "--fs-button-color"      : colors.value.light,
+            "--fs-button-hover-color": colors.value.dark,
           };
           default: return {
-            "--fs-button-color": colors.base,
-            "--fs-button-hover-color": colors.dark,
+            "--fs-button-color"      : colors.value.base,
+            "--fs-button-hover-color": colors.value.dark,
           };
         }
       }

@@ -231,8 +231,7 @@ export default defineComponent({
 
     const { isMobileSized } = useBreakpoints();
 
-    const linkColors = useColors().getColors(linkColor.value);
-
+    const linkColors = computed(()=> useColors().getColors(linkColor.value));
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
@@ -312,7 +311,7 @@ export default defineComponent({
               "--fs-rich-text-field-border-color"       : lights.base,
               "--fs-rich-text-field-color"              : lights.dark,
               "--fs-rich-text-field-active-border-color": lights.base,
-              "--fs-rich-text-field-link-color"         : linkColors.light,
+              "--fs-rich-text-field-link-color"         : linkColors.value.light,
               "--fs-rich-text-field-min-height"         : minHeight
             };
           }
@@ -323,7 +322,7 @@ export default defineComponent({
               "--fs-rich-text-field-border-color"       : lights.dark,
               "--fs-rich-text-field-color"              : darks.base,
               "--fs-rich-text-field-active-border-color": darks.dark,
-              "--fs-rich-text-field-link-color"         : linkColors.dark,
+              "--fs-rich-text-field-link-color"         : linkColors.value.dark,
               "--fs-rich-text-field-min-height"         : minHeight
             };
           }
@@ -332,7 +331,7 @@ export default defineComponent({
             "--fs-rich-text-field-border-color"       : "transparent",
             "--fs-rich-text-field-color"              : darks.base,
             "--fs-rich-text-field-active-border-color": "transparent",
-            "--fs-rich-text-field-link-color"         : linkColors.dark,
+            "--fs-rich-text-field-link-color"         : linkColors.value.dark,
             "--fs-rich-text-field-min-height"         : minHeight
         }
       }

@@ -7,20 +7,21 @@
   >
     <FSCol
       align="center-center"
-      gap="8"
+      width="fill"
+      :gap="8"
     >
       <FSRow
         align="center-center"
-        gap="24"
+        :gap="24"
         :wrap="false"
+        :height="infoHeight"
       >
         <FSCol
-          width="194px"
-          gap="12"
+          :gap="12"
         >
           <FSCol
-            width="fill"
-            gap="6"
+            :gap="6"
+            :width="infoWidth"
           >
             <FSSpan
               font="text-button"
@@ -34,7 +35,7 @@
             </FSSpan>
           </FSCol>
           <FSCol
-            gap="6"
+            :gap="6"
           >
             <FSRow
               align="center-left"
@@ -81,6 +82,7 @@
           </FSCol>
         </FSCol>
         <FSImage
+          v-if="$props.imageId"
           :imageId="$props.imageId"
           :width="imageSize"
         />
@@ -152,7 +154,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { recursiveGroupsIds, recursiveDeviceOrganisationsIds} = toRefs(props);
+    const { imageId, recursiveGroupsIds, recursiveDeviceOrganisationsIds} = toRefs(props);
 
     const { isMobileSized } = useBreakpoints();
 
@@ -167,11 +169,26 @@ export default defineComponent({
     const imageSize = computed((): number => {
       return isMobileSized.value ? 90 : 100;
     });
+
+    const infoWidth = computed((): string => {
+      let width = isMobileSized.value ? 288 : 304;
+      if (imageId.value) {
+        width -= imageSize.value;
+      }
+      return `${width}px`;
+    });
+
+    const infoHeight = computed((): string => {
+      return `${imageSize.value}px`;
+    });
+
     return {
       ColorEnum,
       groupsLabel,
       deviceOrganisationsLabel,
-      imageSize
+      imageSize,
+      infoWidth,
+      infoHeight
     };
   }
 });

@@ -5,7 +5,7 @@
     :grow="true"
     :style="style"
     :showArrows="true"
-    :sliderColor="colors.base"
+    :sliderColor="$props.color"
     :modelValue="tab"
     @update:modelValue="(v) => $emit('update:tab', v)"
     v-bind="$attrs"
@@ -14,18 +14,15 @@
       v-for="(component, index) in getChildren()"
       :key="index"
     >
-      <component
-        :is="component"
-        v-bind="{ color, colors, style }"
-      />
+      <component :is="component" />
     </template>
   </v-tabs>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, Ref, ref, toRefs } from "vue";
 
-import { useColors, useDefaultSlot } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
@@ -45,30 +42,28 @@ export default defineComponent({
   setup(props) {
     const { tab, color } = toRefs(props);
 
-    const { getChildren } = useDefaultSlot();
+    const { getChildren } = useSlots();
 
-    const textColors = useColors().getContrasts(color.value);
-    const colors = useColors().getColors(color.value);
+    const textColors = computed(() => useColors().getContrasts(color.value));
+    const colors = computed(() => useColors().getColors(color.value));
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
       "--fs-group-color"                 : darks.base,
-      "--fs-group-hover-background-color": colors.light,
+      "--fs-group-hover-background-color": colors.value.light,
       "--fs-group-hover-color"           : darks.dark,
       "--fs-group-disabled-color"        : darks.light,
-      "--fs-group-light"                 : colors.light,
-      "--fs-group-base"                  : colors.base,
-      "--fs-group-dark"                  : colors.dark,
-      "--fs-tab-tag-background-color"    : colors.base,
-      "--fs-tab-tag-color"               : textColors.light
+      "--fs-group-light"                 : colors.value.light,
+      "--fs-group-base"                  : colors.value.base,
+      "--fs-group-dark"                  : colors.value.dark,
+      "--fs-tab-tag-background-color"    : colors.value.base,
+      "--fs-tab-tag-color"               : textColors.value.light
     });
 
     return {
-      getChildren,
       tab,
-      color,
-      colors,
-      style
+      style,
+      getChildren
     };
   }
 });

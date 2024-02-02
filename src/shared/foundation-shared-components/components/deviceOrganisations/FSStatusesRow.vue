@@ -3,7 +3,7 @@
     v-for="(modelStatus, index) in $props.modelStatuses"
     align="center-center"
     width="hug"
-    gap="4"
+    :gap="4"
     :key="index"
     :wrap="false"
   >

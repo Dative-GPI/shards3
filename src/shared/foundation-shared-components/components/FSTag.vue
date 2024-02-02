@@ -7,7 +7,7 @@
     :wrap="false"
     v-bind="$attrs"
   >
-    <slot name="default" v-bind="{ color, colors }">
+    <slot v-bind="{ color, colors }">
       <FSSpan
         class="fs-tag-label"
       >
@@ -73,26 +73,26 @@ export default defineComponent({
   setup(props) {
     const { variant, color } = toRefs(props);
 
-    const textColors = useColors().getContrasts(color.value);
-    const colors = useColors().getColors(color.value);
+    const textColors = computed(() => useColors().getContrasts(color.value));
+    const colors = computed(() => useColors().getColors(color.value));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (variant.value) {
         case "standard": return {
-          "--fs-tag-background-color": colors.light,
-          "--fs-tag-color": textColors.base,
-          "--fs-tag-hover-background-color": colors.base,
-          "--fs-tag-hover-color": textColors.light,
-          "--fs-tag-active-background-color": colors.dark,
-          "--fs-tag-active-color": textColors.light
+          "--fs-tag-background-color"       : colors.value.light,
+          "--fs-tag-color"                  : textColors.value.base,
+          "--fs-tag-hover-background-color" : colors.value.base,
+          "--fs-tag-hover-color"            : textColors.value.light,
+          "--fs-tag-active-background-color": colors.value.dark,
+          "--fs-tag-active-color"           : textColors.value.light
         };
         case "full": return {
-          "--fs-tag-background-color": colors.base,
-          "--fs-tag-color": textColors.light,
-          "--fs-tag-hover-background-color": colors.base,
-          "--fs-tag-hover-color": textColors.light,
-          "--fs-tag-active-background-color": colors.dark,
-          "--fs-tag-active-color": textColors.light
+          "--fs-tag-background-color"       : colors.value.base,
+          "--fs-tag-color"                  : textColors.value.light,
+          "--fs-tag-hover-background-color" : colors.value.base,
+          "--fs-tag-hover-color"            : textColors.value.light,
+          "--fs-tag-active-background-color": colors.value.dark,
+          "--fs-tag-active-color"           : textColors.value.light
         };
       }
     });

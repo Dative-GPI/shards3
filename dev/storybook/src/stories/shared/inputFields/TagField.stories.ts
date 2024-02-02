@@ -38,31 +38,28 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTagField
-        label="Tag - full - dark color, primary tag color"
+        label="Tag, full, primary color"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
-        color="primary"
+        label="Tag, standard, primary color"
         tagVariant="standard"
-        label="Tag - standard - primary color"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
-        color="warning"
-        tagColor="warning"
-        label="Required tag - full - warning color"
+        label="Required tag, full, warning color, with description"
         description="Description for this field"
+        tagColor="warning"
         :required="true"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
-        color="error"
-        tagColor="error"
-        label="Uneditable - full - error color"
+        label="Uneditable tag, full, error color, width description"
         description="Uneditable description"
+        tagColor="error"
         :editable="false"
         v-model="args.value4"
       />

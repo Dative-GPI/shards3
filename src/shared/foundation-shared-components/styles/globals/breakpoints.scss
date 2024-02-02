@@ -8,7 +8,7 @@ $mobile-breakpoint: 1264px;
 }
 
 @mixin mobile {
-    @media only screen and (max-width: $mobile-breakpoint) and (min-width: ($extra-small-breakpoint + 1)) {
+    @media only screen and (max-width: $mobile-breakpoint) {
         @content;
     }
 }

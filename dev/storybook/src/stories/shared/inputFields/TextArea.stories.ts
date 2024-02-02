@@ -38,21 +38,19 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTextArea
-        label="Text - dark color - 1 row, resizeable"
+        label="Text, 1 row, resizeable"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
-        color="primary"
-        label="Text - primary color - 2 rows, non resizeable"
+        label="Text, 2 rows, non resizeable"
         :rows="2"
         :resize="false"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
-        color="warning"
-        label="Required text - warning color - auto grow (does not allow to set a base height)"
+        label="Required text, auto grow (does not allow to set a base height)"
         description="Description for this field"
         :required="true"
         :autoGrow="true"
@@ -60,7 +58,7 @@ export const Variations: Story = {
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
-        label="Uneditable - 1 row, resizeable"
+        label="Uneditable text, 1 row, resizeable"
         description="Uneditable description"
         :editable="false"
         v-model="args.value4"

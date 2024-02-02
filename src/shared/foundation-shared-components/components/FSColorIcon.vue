@@ -37,12 +37,12 @@ export default defineComponent({
   setup(props) {
     const { size, variant, color } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
+    const colors = computed(() => useColors().getColors(color.value));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (variant.value) {
         case "fill": return {
-          "--fs-icon-background-color": colors.light
+          "--fs-icon-background-color": colors.value.light
         };
         default: return {
           "--fs-icon-background-color": "transparent"

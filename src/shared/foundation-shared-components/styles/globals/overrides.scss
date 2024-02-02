@@ -40,28 +40,26 @@ input[type=number]::-webkit-outer-spin-button {
 // Otherwise show small ones with base text color
 .v-slide-group__prev,
 .v-slide-group__next {
-    transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--fs-group-color);
     min-width: 24px !important;
     width: 24px !important;
     flex: 1 1 0 !important;
-    color: var(--fs-group-color);
 
     @include touchscreen {
         display: none !important;
     }
 }
 
-// Light background color & dark text color on arrows when hovered
+// Change color on arrows when hovered
 .v-slide-group__prev:hover,
 .v-slide-group__next:hover {
-    background-color: var(--fs-group-hover-background-color);
     color: var(--fs-group-hover-color);
 }
 
-// Light text color on arrows when disabled
+// remove arrows when disabled
 .v-slide-group__prev--disabled,
 .v-slide-group__next--disabled {
-    color: var(--fs-group-disabled-color) !important;
+    display: none !important;
 }
 
 // Badges are totally overriden

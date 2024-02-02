@@ -22,7 +22,7 @@
       <FSCol>
         <FSCol
           align="center-center"
-          gap="2"
+          :gap="2"
         >
           <FSRow
             width="hug"
@@ -48,7 +48,7 @@
           <FSDivider />
           <FSCol
             align="center-center"
-            gap="2"
+            :gap="2"
           >
             <FSRow
               v-if="cloudTimestamp"

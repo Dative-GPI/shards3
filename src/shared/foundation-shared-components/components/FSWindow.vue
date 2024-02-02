@@ -8,9 +8,7 @@
       :value="value(component, index)"
       :key="index"
     >
-      <component
-        :is="component"
-      />
+      <component :is="component" />
     </v-window-item>
   </v-window>
 </template>
@@ -18,12 +16,12 @@
 <script lang="ts">
 import { defineComponent, VNode } from "vue";
 
-import { useDefaultSlot } from "@dative-gpi/foundation-shared-components/composables";
+import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSWindow",
   setup() {
-    const { getChildren } = useDefaultSlot();
+    const { getChildren } = useSlots();
 
     const value = (component: VNode, index: number): any => {
       return component?.props?.value ?? index;

@@ -73,3 +73,58 @@ export const Variations: Story = {
     </div>`
   })
 }
+
+export const Imageless: Story = {
+  args: {
+    args: {
+      values: [{
+        id: "1",
+        label: "Can't hold us",
+        code: "Macklemore & Ryan Lewis",
+        recursiveGroupsIds: [],
+        recursiveDeviceOrganisationsIds: []
+      }, {
+        id: "2",
+        label: "Paint the town red",
+        code: "Doja Cat",
+        recursiveGroupsIds: Array.from(Array(4).keys()).map((i) => i.toString()),
+        recursiveDeviceOrganisationsIds: Array.from(Array(8).keys()).map((i) => i.toString()),
+      }, {
+        id: "3",
+        label: "Who's ready for tomorrow",
+        code: "Rat Boy",
+        recursiveGroupsIds: Array.from(Array(4).keys()).map((i) => i.toString()),
+        recursiveDeviceOrganisationsIds: Array.from(Array(16).keys()).map((i) => i.toString()),
+      }, {
+        id: "4",
+        label: "Dynasties & Dystopia",
+        code: "Denzel Curry featuring Gizzle and Bren Joy",
+        recursiveGroupsIds: Array.from(Array(100).keys()).map((i) => i.toString()),
+        recursiveDeviceOrganisationsIds: Array.from(Array(100).keys()).map((i) => i.toString()),
+      }],
+      selected: [
+        false,
+        false
+      ]
+    }
+  },
+  render: (args, { argTypes }) => ({
+  components: { FSGroupTileUI },
+  props: Object.keys(argTypes),
+  setup() {
+    return { ...args };
+  },
+  template: `
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
+    <FSGroupTileUI
+      v-for="(group, index) in args.values"
+      :key="index"
+      :label="group.label"
+      :code="group.code"
+      :recursiveGroupsIds="group.recursiveGroupsIds"
+      :recursiveDeviceOrganisationsIds="group.recursiveDeviceOrganisationsIds"
+      v-model="args.selected[index]"
+    />
+  </div>`
+})
+}

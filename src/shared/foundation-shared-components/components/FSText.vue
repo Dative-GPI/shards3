@@ -9,10 +9,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSText",
@@ -46,9 +46,9 @@ export default defineComponent({
   setup(props) {
     const { font, lineClamp, ellipsis, color, variant } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
+    const colors = computed(() => useColors().getColors(color.value));
     
-    const slots = useSlots();
+    const { slots } = useSlots();
 
     const classes = computed((): string[] => {
       const classes = ["fs-text", font.value];
@@ -68,15 +68,15 @@ export default defineComponent({
       switch (variant.value) {
         case "base": return {
           "--fs-span-line-clamp": lineClamp.value.toString(),
-          "--fs-text-color": colors.base
+          "--fs-text-color"     : colors.value.base
         };
         case "light": return {
           "--fs-span-line-clamp": lineClamp.value.toString(),
-          "--fs-text-color": colors.light
+          "--fs-text-color"     : colors.value.light
         };
         case "dark": return {
           "--fs-span-line-clamp": lineClamp.value.toString(),
-          "--fs-text-color": colors.dark
+          "--fs-text-color"     : colors.value.dark
         };
       }
     });

@@ -237,7 +237,7 @@ export const Variations: Story = {
         values: [{
           id: "1",
           label: "Bakery Almeida Guerra",
-          code: "9300000000099200",
+          code: "930000000009920093000000000992009300000000099200",
           imageId: "1",
           deviceConnectivity: null,
           deviceWorstAlert: null,
@@ -383,4 +383,146 @@ export const Variations: Story = {
       />
     </div>`
   })
+}
+
+export const Imageless: Story = {
+  args: {
+    args: {
+      values: [{
+        id: "1",
+        label: "Bakery Almeida Guerra",
+        code: "9300000000099200",
+        deviceConnectivity: null,
+        deviceWorstAlert: null,
+        deviceAlerts: [],
+        modelStatuses: [],
+        deviceStatuses: []
+      }, {
+        id: "2",
+        label: "Bakery João Coelho",
+        code: "9300000000099201",
+        deviceConnectivity: connectivities[0],
+        deviceWorstAlert: null,
+        deviceAlerts: [],
+        modelStatuses: [],
+        deviceStatuses: []
+      }, {
+        id: "3",
+        label: "Bakery Estevão Mendes",
+        code: "9300000000099202",
+        deviceConnectivity: connectivities[0],
+        deviceWorstAlert: alerts[0],
+        deviceAlerts: [],
+        modelStatuses: [],
+        deviceStatuses: []
+      }, {
+        id: "4",
+        label: "Bakery Rosária Corte-Real",
+        code: "9300000000099203",
+        deviceConnectivity: connectivities[0],
+        deviceWorstAlert: alerts[0],
+        deviceAlerts: alerts,
+        modelStatuses: [],
+        deviceStatuses: []
+      }, {
+        id: "5",
+        label: "Bakery Eleuterio Caetano de Sousa e Melo de Cabral de la Cruz",
+        code: "9300000000099204",
+        deviceConnectivity: connectivities[0],
+        deviceWorstAlert: alerts[0],
+        deviceAlerts: alerts,
+        modelStatuses: [modelStatuses[0], modelStatuses[1], modelStatuses[2], modelStatuses[3]],
+        deviceStatuses: []
+      }, {
+        id: "6",
+        label: "Bakery Luís Castro",
+        code: "9300000000099205",
+        deviceConnectivity: connectivities[0],
+        deviceWorstAlert: alerts[0],
+        deviceAlerts: alerts,
+        modelStatuses: modelStatuses,
+        deviceStatuses: []
+      }, {
+        id: "7",
+        label: "Bakery Guiomar Hernandes de Medeiros",
+        code: "9300000000099206",
+        deviceConnectivity: connectivities[0],
+        deviceWorstAlert: alerts[0],
+        deviceAlerts: alerts,
+        modelStatuses: modelStatuses,
+        deviceStatuses: deviceStatuses
+      }, {
+        id: "8",
+        label: "Bakery Rubem Garriço",
+        code: "9300000000099207",
+        deviceConnectivity: null,
+        deviceWorstAlert: alerts[0],
+        deviceAlerts: alerts,
+        modelStatuses: modelStatuses,
+        deviceStatuses: deviceStatuses
+      }, {
+        id: "9",
+        label: "Bakery Tiburcio Furtado Rosa",
+        code: "9300000000099208",
+        deviceConnectivity: null,
+        deviceWorstAlert: null,
+        deviceAlerts: [],
+        modelStatuses: modelStatuses,
+        deviceStatuses: deviceStatuses
+      }, {
+        id: "10",
+        label: "Bakery Naiara Mascarenhas Bento",
+        code: "9300000000099209",
+        deviceConnectivity: null,
+        deviceWorstAlert: null,
+        deviceAlerts: [],
+        modelStatuses: [modelStatuses[0], modelStatuses[1], modelStatuses[2], modelStatuses[3]],
+        deviceStatuses: deviceStatuses
+      }, {
+        id: "11",
+        label: "Bakery Nelinha Ribeiro",
+        code: "9300000000099209",
+        deviceConnectivity: null,
+        deviceWorstAlert: null,
+        deviceAlerts: [],
+        modelStatuses: [modelStatuses[0], modelStatuses[1], modelStatuses[2], modelStatuses[3]],
+        deviceStatuses: []
+      }],
+      selected: [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  render: (args, { argTypes }) => ({
+  components: { FSDeviceOrganisationTileUI },
+  props: Object.keys(argTypes),
+  setup() {
+    return { ...args };
+  },
+  template: `
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
+    <FSDeviceOrganisationTileUI
+      v-for="(deviceOrganisation, index) in args.values"
+      :key="index"
+      :label="deviceOrganisation.label"
+      :code="deviceOrganisation.code"
+      :deviceConnectivity="deviceOrganisation.deviceConnectivity"
+      :deviceWorstAlert="deviceOrganisation.deviceWorstAlert"
+      :deviceAlerts="deviceOrganisation.deviceAlerts"
+      :modelStatuses="deviceOrganisation.modelStatuses"
+      :deviceStatuses="deviceOrganisation.deviceStatuses"
+      v-model="args.selected[index]"
+    />
+  </div>`
+})
 }

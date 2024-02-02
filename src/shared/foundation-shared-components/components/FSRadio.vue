@@ -88,23 +88,22 @@ export default defineComponent({
   setup(props, { emit }) {
     const { value, selected, color, editable } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
-
+    const colors = computed(() => useColors().getColors(color.value));
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {
         return {
-          "--fs-radio-cursor": "default",
+          "--fs-radio-cursor"     : "default",
           "--fs-radio-radio-color": lights.dark,
-          "--fs-radio-color": lights.dark
+          "--fs-radio-color"      : lights.dark
         };
       }
       return {
-        "--fs-radio-cursor": selected.value ? "default" : "pointer",
-        "--fs-radio-radio-color": selected.value ? colors.base : darks.base,
-        "--fs-radio-color" : darks.base
+        "--fs-radio-cursor"     : selected.value ? "default" : "pointer",
+        "--fs-radio-radio-color": selected.value ? colors.value.base : darks.base,
+        "--fs-radio-color"      : darks.base
       };
     });
 

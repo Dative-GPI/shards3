@@ -15,7 +15,7 @@
         {{ $props.prependIcon }}
       </FSIcon>
     </slot>
-    <slot name="default" v-bind="{ color, colors }">
+    <slot v-bind="{ color, colors }">
       <FSSpan
         font="text-overline"
         class="fs-chip-label"
@@ -91,12 +91,12 @@ export default defineComponent({
   setup(props) {
     const { variant, color, editable } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
+    const colors = computed(() => useColors().getColors(color.value));
     const backgrounds = useColors().getColors(ColorEnum.Background);
 
     const textColors = computed(() => {
       switch (variant.value) {
-        case "standard": return colors;
+        case "standard": return colors.value;
         case "full": return useColors().getContrasts(color.value);
       }
     });
@@ -104,26 +104,26 @@ export default defineComponent({
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (variant.value) {
         case "standard": return {
-          "--fs-chip-background-color": backgrounds.base,
-          "--fs-chip-border-color": colors.base,
-          "--fs-chip-color": textColors.value.base,
-          "--fs-chip-hover-background-color": backgrounds.base,
-          "--fs-chip-hover-border-color": colors.base,
-          "--fs-chip-hover-color": textColors.value.base,
+          "--fs-chip-background-color"       : backgrounds.base,
+          "--fs-chip-border-color"           : colors.value.base,
+          "--fs-chip-color"                  : textColors.value.base,
+          "--fs-chip-hover-background-color" : backgrounds.base,
+          "--fs-chip-hover-border-color"     : colors.value.base,
+          "--fs-chip-hover-color"            : textColors.value.base,
           "--fs-chip-active-background-color": backgrounds.base,
-          "--fs-chip-active-border-color": colors.dark,
-          "--fs-chip-active-color": textColors.value.dark
+          "--fs-chip-active-border-color"    : colors.value.dark,
+          "--fs-chip-active-color"           : textColors.value.dark
         };
         case "full": return {
-          "--fs-chip-background-color": colors.base,
-          "--fs-chip-border-color": colors.base,
-          "--fs-chip-color": textColors.value.light,
-          "--fs-chip-hover-background-color": colors.base,
-          "--fs-chip-hover-border-color": colors.base,
-          "--fs-chip-hover-color": textColors.value.light,
-          "--fs-chip-active-background-color": colors.dark,
-          "--fs-chip-active-border-color": colors.dark,
-          "--fs-chip-active-color": textColors.value.light
+          "--fs-chip-background-color"       : colors.value.base,
+          "--fs-chip-border-color"           : colors.value.base,
+          "--fs-chip-color"                  : textColors.value.light,
+          "--fs-chip-hover-background-color" : colors.value.base,
+          "--fs-chip-hover-border-color"     : colors.value.base,
+          "--fs-chip-hover-color"            : textColors.value.light,
+          "--fs-chip-active-background-color": colors.value.dark,
+          "--fs-chip-active-border-color"    : colors.value.dark,
+          "--fs-chip-active-color"           : textColors.value.light
         };
       }
     });

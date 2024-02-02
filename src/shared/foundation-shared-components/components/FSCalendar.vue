@@ -105,9 +105,8 @@ export default defineComponent({
     const { epochToPicker, pickerToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
 
-    const colors = useColors().getColors(color.value);
-    const buttonColors = useColors().getColors(buttonColor.value);
-
+    const buttonColors = computed(() => useColors().getColors(buttonColor.value));
+    const colors = computed(() => useColors().getColors(color.value));
     const backgrounds = useColors().getColors(ColorEnum.Background);
     
     const innerMonth = ref(modelValue.value ? epochToPicker(modelValue.value).getMonth() : new Date().getMonth());
@@ -116,14 +115,14 @@ export default defineComponent({
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
-        "--fs-calendar-hover-background-color" : buttonColors.light,
-        "--fs-calendar-active-background-color": buttonColors.base,
-        "--fs-calendar-border-color"           : colors.base,
-        "--fs-calendar-hover-border-color"     : buttonColors.base,
-        "--fs-calendar-active-border-color"    : buttonColors.base,
-        "--fs-calendar-color"                  : colors.base,
-        "--fs-calendar-hover-color"            : buttonColors.base,
-        "--fs-calendar-active-color"           : buttonColors.light
+        "--fs-calendar-hover-background-color" : buttonColors.value.light,
+        "--fs-calendar-active-background-color": buttonColors.value.base,
+        "--fs-calendar-border-color"           : colors.value.base,
+        "--fs-calendar-hover-border-color"     : buttonColors.value.base,
+        "--fs-calendar-active-border-color"    : buttonColors.value.base,
+        "--fs-calendar-color"                  : colors.value.base,
+        "--fs-calendar-hover-color"            : buttonColors.value.base,
+        "--fs-calendar-active-color"           : buttonColors.value.light
       };
     });
 

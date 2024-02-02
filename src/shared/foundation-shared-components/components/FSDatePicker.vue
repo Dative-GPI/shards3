@@ -164,9 +164,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { modelValue, color, rules, editable } = toRefs(props);
+    const { color, rules, editable } = toRefs(props);
 
-    const colors = useColors().getColors(color.value);
+    const colors = computed(() => useColors().getColors(color.value));
 
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const lights = useColors().getColors(ColorEnum.Light);
@@ -184,10 +184,10 @@ export default defineComponent({
         return {};
       }
       return {
-        "--fs-date-picker-background-color"       : backgrounds.base,
-        "--fs-date-picker-border-color"           : colors.base,
-        "--fs-date-picker-color"                  : darks.base,
-        "--fs-date-picker-active-color"           : lights.base,
+        "--fs-date-picker-background-color": backgrounds.base,
+        "--fs-date-picker-border-color"    : colors.value.base,
+        "--fs-date-picker-color"           : darks.base,
+        "--fs-date-picker-active-color"    : lights.base,
       };
     });
 

@@ -104,7 +104,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { editable } = toRefs(props);
 
-    const innerValue: Ref<String> = ref(props.modelValue);
+    const innerValue = ref(props.modelValue);
 
     const onUpdate = (): void => {
       if (!editable.value) {

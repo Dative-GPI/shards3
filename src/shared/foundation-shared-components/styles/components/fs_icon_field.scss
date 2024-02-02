@@ -1,0 +1,20 @@
+.fs-icon-field-label {
+    color: var(--fs-icon-field-color);
+}
+
+.fs-icon-field-messages {
+    align-self: stretch;
+    color: var(--fs-icon-field-error-color);
+}
+
+.fs-icon-field-set {
+    max-width: 100%;
+}
+
+.fs-icon-field-button,
+.fs-icon-field-active {
+    @include web {
+        min-width: 40px !important;
+        height: 40px !important;
+    }
+}
