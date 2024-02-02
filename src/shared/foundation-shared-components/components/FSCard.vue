@@ -5,7 +5,9 @@
     v-bind="$attrs"
   >
     <slot>
-      <FSCol>
+      <FSCol
+        :gap="$props.gap"
+      >
         <FSRow v-if="$slots.header">
           <slot name="header" />
         </FSRow>
@@ -44,6 +46,11 @@ export default defineComponent({
       type: Number,
       required: false,
       default: null
+    },
+    gap: {
+      type: Number,
+      required: false,
+      default: 8
     }
   },
   setup(props) {

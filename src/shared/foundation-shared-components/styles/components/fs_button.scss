@@ -8,6 +8,10 @@
     border-color: var(--fs-button-border-color) !important;
     color: var(--fs-button-color) !important;
 
+    &.fs-button-full-width {
+        width: 100%;
+    }
+
     &:not(.fs-button--disabled):hover {
         background-color: var(--fs-button-hover-background-color) !important;
         color: var(--fs-button-hover-color) !important;
@@ -20,8 +24,8 @@
     }
 
     @include web {
-        min-width: 48px !important;
-        height: 48px !important;
+        min-width: 40px !important;
+        height: 40px !important;
     }
 
     @include mobile {

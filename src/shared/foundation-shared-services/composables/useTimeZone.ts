@@ -12,8 +12,8 @@ import { TIME_ZONE } from "../config/literals";
 let initialized = false;
 
 const timeZone = ref<TimeZoneInfos | null>({
-    id: "UTC",
-    offset: "UTC +00:00:00"
+    id: "Europe/Paris",
+    offset: "UTC +02:00:00"
 });
 
 export const useTimeZone = () => {
@@ -92,13 +92,22 @@ export const useTimeZone = () => {
         return { d: date.getDate(), m: date.getMonth(), y: date.getFullYear() };
     };
 
-    const epochToLongFormat = (value: number): string => {
+    const epochToLongDateFormat = (value: number): string => {
         if (value == null || !isFinite(value)) {
             return "";
         }
         const date = new Date(0);
         date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
-        return format(date, overrideFormat(date, "EEE dd LLL yyyy HH:mm:ss"), { locale: getLocale() })
+        return format(date, "EEEE dd LLLL yyyy", { locale: getLocale() })
+    };
+
+    const epochToLongTimeFormat = (value: number): string => {
+        if (value == null || !isFinite(value)) {
+            return "";
+        }
+        const date = new Date(0);
+        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        return format(date, overrideFormat(date, "EEEE dd LLLL yyyy HH:mm"), { locale: getLocale() })
     };
 
     const todayTimeFormat = (): string => {
@@ -173,6 +182,7 @@ export const useTimeZone = () => {
         pickerToEpoch,
         epochToPicker,
         epochToPickerHeader,
-        epochToLongFormat
+        epochToLongDateFormat,
+        epochToLongTimeFormat
     };
 }

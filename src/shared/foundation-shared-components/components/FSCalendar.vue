@@ -22,6 +22,7 @@
           size="l"
           variant="icon"
           icon="mdi-chevron-left"
+          :color="ColorEnum.Dark"
           @click="onClickPrevious"
         />
         <FSSpan
@@ -34,6 +35,7 @@
           size="l"
           variant="icon"
           icon="mdi-chevron-right"
+          :color="ColorEnum.Dark"
           @click="onClickNext"
         />
       </FSRow>
@@ -91,23 +93,18 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorEnum.Dark
-    },
-    buttonColor: {
-      type: String as PropType<ColorBase>,
-      required: false,
       default: ColorEnum.Primary
     }
   },
   setup(props) {
-    const { modelValue, color, buttonColor } = toRefs(props);
+    const { modelValue, color } = toRefs(props);
 
     const { epochToPicker, pickerToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
 
-    const buttonColors = computed(() => useColors().getColors(buttonColor.value));
     const colors = computed(() => useColors().getColors(color.value));
     const backgrounds = useColors().getColors(ColorEnum.Background);
+    const darks = useColors().getColors(ColorEnum.Dark);
     
     const innerMonth = ref(modelValue.value ? epochToPicker(modelValue.value).getMonth() : new Date().getMonth());
     const innerYear = ref(modelValue.value ? epochToPicker(modelValue.value).getFullYear() : new Date().getFullYear());
@@ -115,14 +112,14 @@ export default defineComponent({
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
-        "--fs-calendar-hover-background-color" : buttonColors.value.light,
-        "--fs-calendar-active-background-color": buttonColors.value.base,
-        "--fs-calendar-border-color"           : colors.value.base,
-        "--fs-calendar-hover-border-color"     : buttonColors.value.base,
-        "--fs-calendar-active-border-color"    : buttonColors.value.base,
-        "--fs-calendar-color"                  : colors.value.base,
-        "--fs-calendar-hover-color"            : buttonColors.value.base,
-        "--fs-calendar-active-color"           : buttonColors.value.light
+        "--fs-calendar-hover-background-color" : colors.value.light,
+        "--fs-calendar-active-background-color": colors.value.base,
+        "--fs-calendar-border-color"           : darks.base,
+        "--fs-calendar-hover-border-color"     : colors.value.base,
+        "--fs-calendar-active-border-color"    : colors.value.base,
+        "--fs-calendar-color"                  : darks.base,
+        "--fs-calendar-hover-color"            : colors.value.base,
+        "--fs-calendar-active-color"           : colors.value.light
       };
     });
 
@@ -154,6 +151,7 @@ export default defineComponent({
     };
 
     return {
+      ColorEnum,
       languageCode,
       style,
       text,

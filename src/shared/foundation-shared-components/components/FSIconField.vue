@@ -51,8 +51,6 @@
       </template>
     </FSTextField>
     <FSToggleSet
-      buttonClass="fs-icon-field-button"
-      activeClass="fs-icon-field-active"
       class="fs-icon-field-set"
       variant="slide"
       :values="icons"

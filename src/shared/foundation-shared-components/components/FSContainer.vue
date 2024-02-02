@@ -25,10 +25,15 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    elevation: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup(props) {
-    const { padding, border } = toRefs(props);
+    const { padding, border, elevation } = toRefs(props);
 
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const lights = useColors().getColors(ColorEnum.Light);
@@ -45,6 +50,9 @@ export default defineComponent({
       const classNames = ["fs-container"];
       if (border.value) {
         classNames.push("fs-container-border");
+      }
+      if (elevation.value) {
+        classNames.push("fs-container-elevation");
       }
       return classNames;
     });

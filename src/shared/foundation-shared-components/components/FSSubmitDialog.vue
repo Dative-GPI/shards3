@@ -2,7 +2,6 @@
   <FSDialog
     cardClasses="fs-submit-dialog"
     :width="$props.width"
-    :color="$props.color"
     v-bind="$attrs"
   >
     <template #header>
@@ -19,7 +18,7 @@
         <FSButton
           variant="icon"
           icon="mdi-close"
-          :color="$props.color"
+          :color="ColorEnum.Dark"
           @click="$emit('update:modelValue', false)"
         />
       </slot>
@@ -64,11 +63,13 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
 
 import FSDialog from "./FSDialog.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSSubmitDialog",
   components: {
-    FSDialog
+    FSDialog,
+    FSRow
   },
   props: {
     width: {
@@ -85,11 +86,6 @@ export default defineComponent({
       type: String,
       required: false,
       default: null
-    },
-    actions: {
-      type: Boolean,
-      required: false,
-      default: true
     },
     leftButtonPrependIcon: {
       type: String,
@@ -131,11 +127,6 @@ export default defineComponent({
       required: false,
       default: "full"
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Dark
-    },
     leftButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
@@ -162,10 +153,11 @@ export default defineComponent({
     });
 
     const submitButtonLabel = computed(() => {
-      return rightButtonLabel.value ??  $tr("ui.shared.submit-dialog.right-button", "Save");
+      return rightButtonLabel.value ??  $tr("ui.shared.submit-dialog.right-button", "Validate");
     });
 
     return {
+      ColorEnum,
       cancelButtonLabel,
       submitButtonLabel
     };

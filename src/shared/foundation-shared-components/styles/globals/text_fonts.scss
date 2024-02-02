@@ -63,14 +63,14 @@
     text-transform: none !important;
 
     @include web {
-        font-size: 16px !important;
-        line-height: 20px !important;
+        font-size: 14px !important;
+        line-height: 16px !important;
         letter-spacing: -0.48px !important;
     }
 
     @include mobile {
-        font-size: 13px !important;
-        line-height: 16px !important;
+        font-size: 12px !important;
+        line-height: 14px !important;
         letter-spacing: -0.39px !important;
     }
 }
@@ -82,14 +82,14 @@
     text-transform: none !important;
 
     @include web {
-        font-size: 16px !important;
-        line-height: 20px !important;
+        font-size: 14px !important;
+        line-height: 16px !important;
         letter-spacing: -0.48px !important;
     }
 
     @include mobile {
-        font-size: 13px !important;
-        line-height: 16px !important;
+        font-size: 12px !important;
+        line-height: 14px !important;
         letter-spacing: -0.39px !important;
     }
 }

@@ -100,6 +100,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    fullWidth: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -107,7 +112,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { label, variant, color, editable } = toRefs(props);
+    const { label, variant, color, fullWidth, editable } = toRefs(props);
 
     const textColors = computed(() => useColors().getContrasts(color.value));
     const colors = computed(() => useColors().getColors(color.value));
@@ -176,6 +181,9 @@ export default defineComponent({
       const classNames: string[] = [];
       if (!editable.value) {
         classNames.push("fs-button--disabled");
+      }
+      if (fullWidth.value) {
+        classNames.push("fs-button-full-width");
       }
       switch (variant.value) {
         case "icon":

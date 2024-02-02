@@ -6,6 +6,7 @@
         border: 1px solid var(--fs-text-field-border-color) !important;
         border-radius: 4px !important;
         padding: 0 16px !important;
+        gap: 8px;
 
         &--error {
             border-color: var(--fs-text-field-error-border-color) !important;
@@ -27,8 +28,8 @@
             color: var(--fs-text-field-color);
         
             @include web {
-                min-height: 46px !important;
-                height: 46px !important;
+                min-height: 38px !important;
+                height: 38px !important;
             }
         
             @include mobile {

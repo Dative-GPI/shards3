@@ -1,8 +1,12 @@
 <template>
-  <v-menu :closeOnContentClick="false">
+  <v-menu
+    :closeOnContentClick="false"
+    :modelValue="menu && $props.editable"
+    @update:modelValue="(value) => menu = value"
+  >
     <template #activator="{ props }">
       <FSTextField
-        class="fs-date-picker"
+        class="fs-datetime-field"
         :label="$props.label"
         :description="$props.description"
         :color="$props.color"
@@ -10,6 +14,7 @@
         :editable="$props.editable"
         :error="messages.length > 0"
         :readonly="true"
+        :modelValue="epochToLongTimeFormat($props.modelValue)"
         v-bind="props"
       >
         <template #label>
@@ -17,7 +22,7 @@
             <FSRow :wrap="false">
               <FSSpan
                 v-if="$props.label"
-                class="fs-date-picker-label"
+                class="fs-datetime-field-label"
                 font="text-overline"
                 :style="style"
               >
@@ -25,7 +30,7 @@
               </FSSpan>
               <FSSpan
                 v-if="$props.label && $props.required"
-                class="fs-date-picker-label"
+                class="fs-datetime-field-label"
                 style="margin-left: -8px;"
                 font="text-overline"
                 :ellipsis="false"
@@ -36,7 +41,7 @@
               <v-spacer style="min-width: 40px;" />
               <FSSpan
                 v-if="messages.length > 0"
-                class="fs-date-picker-messages"
+                class="fs-datetime-field-messages"
                 font="text-overline"
                 :style="style"
               >
@@ -47,12 +52,12 @@
         </template>
         <template #prepend-inner>
           <slot name="prepend-inner">
-            <FSIcon
-              size="l"
-              :color="prependColor"
-            >
-              {{ $props.prependIcon }}
-            </FSIcon>
+            <FSButton
+              variant="icon"
+              icon="mdi-calendar"
+              :editable="$props.editable"
+              :color="ColorEnum.Dark"
+            />
           </slot>
         </template>
         <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
@@ -60,40 +65,75 @@
         </template>
       </FSTextField>
     </template>
-      <FSCalendar
-        :color="$props.color"
-        :buttonColor="$props.buttonColor"
-        :modelValue="$props.modelValue"
-        @update:modelValue="(value) => $emit('update:modelValue', value)"
-      />
-      <FSClock
-        :color="$props.color"
-        :buttonColor="$props.buttonColor"
-      />
+    <FSWindow
+      :modelValue="tabs"
+    >
+      <FSCard
+        width="394"
+        :elevation="true"
+        :border="false"
+        :value="0"
+      >
+        <FSCol width="fill">
+          <FSCalendar
+            :color="$props.color"
+            v-model="innerDate"
+          />
+          <FSButton
+            :fullWidth="true"
+            :color="$props.color"
+            :label="$tr('ui.date-menu.validate', 'Validate')"
+            @click="tabs++"
+          />
+        </FSCol>
+      </FSCard>
+      <FSCard
+        width="394"
+        :elevation="true"
+        :border="false"
+        :value="1"
+      >
+        <FSCol width="fill">
+          <FSClock
+            :color="$props.color"
+            v-model="innerTime"
+          />
+          <FSButton
+            :fullWidth="true"
+            :color="$props.color"
+            :label="$tr('ui.date-menu.validate', 'Validate')"
+            @click="onSubmit"
+          />
+        </FSCol>
+      </FSCard>
+    </FSWindow>
   </v-menu>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref, toRefs, watch } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSTextField from "./FSTextField.vue";
 import FSCalendar from "./FSCalendar.vue";
+import FSWindow from "./FSWindow.vue";
 import FSButton from "./FSButton.vue";
 import FSClock from "./FSClock.vue";
-import FSIcon from "./FSIcon.vue";
+import FSCard from "./FSCard.vue";
 import FSCol from "./FSCol.vue";
 
 export default defineComponent({
-  name: "FSDatePicker",
+  name: "FSDateTimeField",
   components: {
     FSTextField,
     FSCalendar,
+    FSWindow,
     FSButton,
     FSClock,
-    FSIcon,
+    FSCard,
     FSCol
   },
   props: {
@@ -107,42 +147,12 @@ export default defineComponent({
       required: false,
       default: null
     },
-    prependIcon: {
-      type: String,
-      required: false,
-      default: "mdi-calendar"
-    },
-    buttonPrependIcon: {
-      type: String,
-      required: false,
-      default: "mdi-pencil"
-    },
-    buttonLabel: {
-      type: String,
-      required: false,
-      default: null
-    },
-    buttonAppendIcon: {
-      type: String,
-      required: false,
-      default: null
-    },
-    buttonVariant: {
-      type: String as PropType<"standard" | "full" | "icon">,
-      required: false,
-      default: "standard"
-    },
     modelValue: {
       type: Number,
       required: false,
       default: null
     },
     color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Dark
-    },
-    buttonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
@@ -163,31 +173,31 @@ export default defineComponent({
       default: true
     }
   },
-  setup(props) {
-    const { color, rules, editable } = toRefs(props);
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const { modelValue, rules, editable } = toRefs(props);
 
-    const colors = computed(() => useColors().getColors(color.value));
+    const { getMachineOffsetMillis, epochToLongTimeFormat } = useTimeZone();
 
-    const backgrounds = useColors().getColors(ColorEnum.Background);
+    const menu = ref(false);
+    const tabs = ref(0);
+
+    const innerTime = ref(modelValue.value ? Math.floor((modelValue.value + getMachineOffsetMillis()) % (24 * 60 * 60 * 1000)) : 0);
+    const innerDate = ref(modelValue.value ? modelValue.value - innerTime.value : null);
+
+    const errors = useColors().getColors(ColorEnum.Error);
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
-    const prependColor = computed((): string => {
-      if (!editable.value) {
-        return lights.dark;
-      }
-      return darks.base;
-    });
-
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {
-        return {};
+        return {
+          "--fs-datetime-field-color": lights.dark
+        };
       }
       return {
-        "--fs-date-picker-background-color": backgrounds.base,
-        "--fs-date-picker-border-color"    : colors.value.base,
-        "--fs-date-picker-color"           : darks.base,
-        "--fs-date-picker-active-color"    : lights.base,
+        "--fs-datetime-field-color"      : darks.base,
+        "--fs-datetime-field-error-color": errors.base
       };
     });
 
@@ -202,16 +212,27 @@ export default defineComponent({
       return messages;
     });
 
-    const onChangeDate = (value: number[]): void => {
+    const onSubmit = () => {
+      emit("update:modelValue", innerDate.value + innerTime.value);
+      menu.value = false;
     };
 
-    const onChangeHour = (value: number): void => {
-    };
+    watch(menu, () => {
+      if (!menu.value) {
+        setTimeout(() => tabs.value = 0, 100);
+      }
+    });
 
     return {
-      prependColor,
+      ColorEnum,
+      innerDate,
+      innerTime,
+      messages,
       style,
-      messages
+      menu,
+      tabs,
+      onSubmit,
+      epochToLongTimeFormat
     };
   }
 });

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSSubmitDialog from "@dative-gpi/foundation-shared-components/components/FSSubmitDialog.vue";
+import FSRemoveDialog from "@dative-gpi/foundation-shared-components/components/FSRemoveDialog.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSDialog from "@dative-gpi/foundation-shared-components/components/FSDialog.vue";
 import FSCard from "@dative-gpi/foundation-shared-components/components/FSCard.vue";
@@ -160,6 +161,59 @@ export const Submit: Story = {
           </FSRow>
         </template>
       </FSDialog>
+    </div>`
+  })
+}
+
+export const Remove: Story = {
+  args: {
+    args: {
+      value1: false,
+      removing1: false,
+      value2: false,
+      removing2: false,
+      value3: false,
+      removing3: false
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSRemoveDialog, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; gap: 10px;">
+      <FSButton
+        label="Dialog - singular"
+        @click="() => args.value1 = true"
+      />
+      <FSRemoveDialog
+        :removeTotal="1"
+        :removing="args.removing1"
+        @click:rightButton="() => args.removing1 = true"
+        v-model="args.value1"
+      />
+      <FSButton
+        label="Dialog - plural"
+        @click="() => args.value2 = true"
+      />
+      <FSRemoveDialog
+        :removeTotal="12"
+        :removing="args.removing2"
+        @click:rightButton="() => args.removing2 = true"
+        v-model="args.value2"
+      />
+      <FSButton
+        label="Dialog - large number"
+        @click="() => args.value3 = true"
+      />
+      <FSRemoveDialog
+        :removeTotal="9999999"
+        :removing="args.removing3"
+        @click:rightButton="() => args.removing3 = true"
+        v-model="args.value3"
+      />
     </div>`
   })
 }

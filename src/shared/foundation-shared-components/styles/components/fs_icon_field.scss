@@ -10,11 +10,3 @@
 .fs-icon-field-set {
     max-width: 100%;
 }
-
-.fs-icon-field-button,
-.fs-icon-field-active {
-    @include web {
-        min-width: 40px !important;
-        height: 40px !important;
-    }
-}
