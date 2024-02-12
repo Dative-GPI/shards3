@@ -108,28 +108,28 @@ export default defineComponent({
   setup(props) {
     const { deviceConnectivity } = toRefs(props);
 
-    const { epochToLongFormat } = useTimeZone();
+    const { epochToLongTimeFormat } = useTimeZone();
     const { $tr } = useTranslationsProvider();
 
     const connectivityLabel = computed((): string => {
       switch (deviceConnectivity.value.status) {
-        case ConnectivityStatus.Connected: return $tr("ui.shared.connectivity-connected", "Connected");
-        case ConnectivityStatus.PartiallyConnected: return $tr("ui.shared.connectivity-partially-connected", "Partially connected");
-        case ConnectivityStatus.AlmostOffline: return $tr("ui.shared.connectivity-almost-offline", "Almost offline");
-        default: return $tr("ui.shared.connectivity-offline", "Offline");
+        case ConnectivityStatus.Connected:          return $tr("ui.connectivity-status.connected", "Connected");
+        case ConnectivityStatus.PartiallyConnected: return $tr("ui.connectivity-status.partially-connected", "Partially connected");
+        case ConnectivityStatus.AlmostOffline:      return $tr("ui.connectivity-status.almost-offline", "Almost offline");
+        default:                                    return $tr("ui.connectivity-status.offline", "Offline");
       }
     });
 
     const cloudTimestamp = computed((): string => {
       if (deviceConnectivity.value.enqueuedTimestamp) {
-        return epochToLongFormat(deviceConnectivity.value.enqueuedTimestamp);
+        return epochToLongTimeFormat(deviceConnectivity.value.enqueuedTimestamp);
       }
       return "";
     });
 
     const deviceTimestamp = computed((): string => {
       if (deviceConnectivity.value.sourceTimestamp) {
-        return epochToLongFormat(deviceConnectivity.value.sourceTimestamp);
+        return epochToLongTimeFormat(deviceConnectivity.value.sourceTimestamp);
       }
       return "";
     });

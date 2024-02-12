@@ -23,7 +23,7 @@ export const FSButtonsAliases = {
 export const FSButtonsProps = {
     FSButtonSearch: {
         prependIcon: "mdi-magnify",
-        label: $tr("ui.shared.button.search", "Search"),
+        label: $tr("ui.button.search", "Search"),
         variant: "standard",
         color: ColorEnum.Primary
     },
@@ -41,7 +41,7 @@ export const FSButtonsProps = {
     },
     FSButtonRemove: {
         prependIcon: "mdi-delete-outline",
-        label: $tr("ui.shared.button.remove", "Remove"),
+        label: $tr("ui.button.remove", "Remove"),
         variant: "standard",
         color: ColorEnum.Error
     },
@@ -59,7 +59,7 @@ export const FSButtonsProps = {
     },
     FSButtonSave: {
         prependIcon: "mdi-content-save-outline",
-        label: $tr("ui.shared.button.save", "Save"),
+        label: $tr("ui.button.save", "Save"),
         variant: "standard",
         color: ColorEnum.Primary
     },
@@ -77,7 +77,7 @@ export const FSButtonsProps = {
     },
     FSButtonCancel: {
         prependIcon: "mdi-cancel",
-        label: $tr("ui.shared.button.cancel", "Cancel"),
+        label: $tr("ui.button.cancel", "Cancel"),
         variant: "standard",
         color: ColorEnum.Light
     },
@@ -95,7 +95,7 @@ export const FSButtonsProps = {
     },
     FSButtonDocumentation: {
         prependIcon: "mdi-file-document-outline",
-        label: $tr("ui.shared.button.documentation", "Documentation"),
+        label: $tr("ui.button.documentation", "Documentation"),
         variant: "standard",
         color: ColorEnum.Light
     },

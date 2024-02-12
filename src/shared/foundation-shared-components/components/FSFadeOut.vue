@@ -2,13 +2,10 @@
   <div
     class="fs-fade-out"
     :style="style"
-    fluid
     @scroll="onScroll"
   >
     <div class="fs-fade-out-top" />
-    <FSCol height="fill">
-      <slot />
-    </FSCol>
+    <slot />
     <div class="fs-fade-out-bottom" />
   </div>
 </template>
@@ -31,20 +28,15 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 64
-    },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Background
     }
   },
   setup(props) {
-    const { maskHeight, color } = toRefs(props);
+    const { maskHeight } = toRefs(props);
 
-    const colors = computed(() => useColors().getColors(color.value));
+    const backgrounds = useColors().getColors(ColorEnum.Background);
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
-      "--fs-fade-out-mask-color"        : colors.value.base,
+      "--fs-fade-out-mask-color"        : backgrounds.base,
       "--fs-fade-out-top-mask-height"   : "0px",
       "--fs-fade-out-bottom-mask-height": `${maskHeight.value}px`
     });

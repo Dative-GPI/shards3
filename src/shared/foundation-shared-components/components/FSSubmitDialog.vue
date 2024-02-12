@@ -149,11 +149,11 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const cancelButtonLabel = computed(() => {
-      return leftButtonLabel.value ?? $tr("ui.shared.submit-dialog.left-button", "Cancel");
+      return leftButtonLabel.value ?? $tr("ui.button.cancel", "Cancel");
     });
 
     const submitButtonLabel = computed(() => {
-      return rightButtonLabel.value ??  $tr("ui.shared.submit-dialog.right-button", "Validate");
+      return rightButtonLabel.value ??  $tr("ui.button.validate", "Validate");
     });
 
     return {

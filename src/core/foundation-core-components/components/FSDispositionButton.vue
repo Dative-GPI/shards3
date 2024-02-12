@@ -86,7 +86,7 @@ export default defineComponent({
       required: true
     },
     modelValue: {
-      type: Array<FSDataTableColumn>,
+      type: Array as PropType<FSDataTableColumn[]>,
       required: true,
       default: () => []
     },

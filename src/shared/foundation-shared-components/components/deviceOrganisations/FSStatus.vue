@@ -127,18 +127,18 @@ export default defineComponent({
   setup(props) {
     const { statusGroup } = toRefs(props);
 
-    const { epochToLongFormat } = useTimeZone();
+    const { epochToLongTimeFormat } = useTimeZone();
 
     const cloudTimestamp = computed((): string => {
       if (statusGroup.value.enqueuedTimestamp) {
-        return epochToLongFormat(statusGroup.value.enqueuedTimestamp);
+        return epochToLongTimeFormat(statusGroup.value.enqueuedTimestamp);
       }
       return "";
     });
 
     const deviceTimestamp = computed((): string => {
       if (statusGroup.value.sourceTimestamp) {
-        return epochToLongFormat(statusGroup.value.sourceTimestamp);
+        return epochToLongTimeFormat(statusGroup.value.sourceTimestamp);
       }
       return "";
     });

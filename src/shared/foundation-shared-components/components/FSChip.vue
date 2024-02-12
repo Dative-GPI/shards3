@@ -32,12 +32,6 @@
       </FSIcon>
     </slot>
   </FSRow>
-
-    <FSRow
-      align="center-center"
-      :wrap="false"
-    >
-    </FSRow>
 </template>
 
 <script lang="ts">

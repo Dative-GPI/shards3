@@ -49,7 +49,7 @@ export default defineComponent({
       default: false
     },
     bottomColor: {
-      type: [String, Array] as PropType<ColorBase | ColorBase[]>,
+      type: [Array, String] as PropType<ColorBase[] | ColorBase>,
       required: false,
       default: ColorEnum.Primary
     },

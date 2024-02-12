@@ -6,7 +6,7 @@
     <slot>
       <FSCard
         padding="24px"
-        :class="$props.cardClasses"
+        :class="classes"
         :color="$props.color"
         :gap="24"
       >
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -44,10 +44,26 @@ export default defineComponent({
       default: ColorEnum.Dark
     },
     cardClasses: {
-      type: Array<String>,
+      type: Array as PropType<string[]>,
       required: false,
       default: null
     }
+  },
+  setup(props) {
+    const { cardClasses } = toRefs(props);
+
+    const classes = computed((): string[] => {
+      if (Array.isArray(cardClasses.value)) {
+        return ["fs-dialog", ...cardClasses.value];
+      }
+      else {
+        return ["fs-dialog", cardClasses.value];
+      }
+    });
+
+    return {
+      classes
+    };
   }
 });
 </script>

@@ -6,23 +6,25 @@
   >
     <template #activator="{ props }">
       <FSTextField
-        class="fs-datetime-field"
+        class="fs-date-field"
         :label="$props.label"
         :description="$props.description"
         :color="$props.color"
+        :hideHeader="$props.hideHeader"
         :required="$props.required"
         :editable="$props.editable"
         :error="messages.length > 0"
         :readonly="true"
         :modelValue="epochToLongTimeFormat($props.modelValue)"
+        @click:clear="onClear"
         v-bind="props"
       >
-        <template #label>
+        <template v-if="!$props.hideHeader" #label>
           <slot name="label">
             <FSRow :wrap="false">
               <FSSpan
                 v-if="$props.label"
-                class="fs-datetime-field-label"
+                class="fs-date-field-label"
                 font="text-overline"
                 :style="style"
               >
@@ -30,7 +32,7 @@
               </FSSpan>
               <FSSpan
                 v-if="$props.label && $props.required"
-                class="fs-datetime-field-label"
+                class="fs-date-field-label"
                 style="margin-left: -8px;"
                 font="text-overline"
                 :ellipsis="false"
@@ -41,7 +43,7 @@
               <v-spacer style="min-width: 40px;" />
               <FSSpan
                 v-if="messages.length > 0"
-                class="fs-datetime-field-messages"
+                class="fs-date-field-messages"
                 font="text-overline"
                 :style="style"
               >
@@ -157,6 +159,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     required: {
       type: Boolean,
       required: false,
@@ -177,13 +184,19 @@ export default defineComponent({
   setup(props, { emit }) {
     const { modelValue, rules, editable } = toRefs(props);
 
-    const { getMachineOffsetMillis, epochToLongTimeFormat } = useTimeZone();
+    const { getUserOffsetMillis, epochToLongTimeFormat } = useTimeZone();
 
     const menu = ref(false);
     const tabs = ref(0);
 
-    const innerTime = ref(modelValue.value ? Math.floor((modelValue.value + getMachineOffsetMillis()) % (24 * 60 * 60 * 1000)) : 0);
-    const innerDate = ref(modelValue.value ? modelValue.value - innerTime.value : null);
+    // FSClock just gives two numbers without consideration for the time zone
+    // We must adjust the time to the user's time zone
+    const innerTime = ref(0);
+    const innerDate = ref(null);
+    if (modelValue.value) {
+      innerTime.value = Math.floor((modelValue.value + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+      innerDate.value = modelValue.value - innerTime.value;
+    }
 
     const errors = useColors().getColors(ColorEnum.Error);
     const lights = useColors().getColors(ColorEnum.Light);
@@ -192,19 +205,19 @@ export default defineComponent({
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!editable.value) {
         return {
-          "--fs-datetime-field-color": lights.dark
+          "--fs-date-field-color": lights.dark
         };
       }
       return {
-        "--fs-datetime-field-color"      : darks.base,
-        "--fs-datetime-field-error-color": errors.base
+        "--fs-date-field-color"      : darks.base,
+        "--fs-date-field-error-color": errors.base
       };
     });
 
     const messages = computed((): string[] => {
       const messages = [];
       for (const rule of rules.value) {
-        const message = rule(props.modelValue ?? "");
+        const message = rule(modelValue.value ?? null);
         if (typeof(message) === "string") {
           messages.push(message);
         }
@@ -212,12 +225,18 @@ export default defineComponent({
       return messages;
     });
 
-    const onSubmit = () => {
+    const onClear = (): void => {
+      emit("update:modelValue", null);
+      innerDate.value = null;
+      innerTime.value = 0;
+    };
+
+    const onSubmit = (): void => {
       emit("update:modelValue", innerDate.value + innerTime.value);
       menu.value = false;
     };
 
-    watch(menu, () => {
+    watch(menu, (): void => {
       if (!menu.value) {
         setTimeout(() => tabs.value = 0, 100);
       }
@@ -231,6 +250,7 @@ export default defineComponent({
       style,
       menu,
       tabs,
+      onClear,
       onSubmit,
       epochToLongTimeFormat
     };

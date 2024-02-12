@@ -3,6 +3,7 @@
     :label="$props.label"
     :description="$props.description"
     :type="type"
+    :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
@@ -56,6 +57,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: null
+    },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     required: {
       type: Boolean,

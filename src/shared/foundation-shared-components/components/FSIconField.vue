@@ -3,12 +3,14 @@
     <FSTextField
       :label="$props.label"
       :description="$props.description"
+      :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
+      :error="messages.length > 0"
       v-model="innerValue"
       v-bind="$attrs"
     >
-      <template #label>
+      <template v-if="!$props.hideHeader" #label>
         <slot name="label">
           <FSRow :wrap="false">
             <FSSpan
@@ -126,6 +128,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     required: {
       type: Boolean,
       required: false,
@@ -142,10 +149,11 @@ export default defineComponent({
       default: true
     }
   },
+  emits: ["update:modelValue"],
   setup(props) {
     const { preSelection, modelValue, rules, editable } = toRefs(props);
 
-    const innerValue = ref("");
+    const innerValue = ref(null);
 
     const errors = useColors().getColors(ColorEnum.Error);
     const lights = useColors().getColors(ColorEnum.Light);
@@ -176,43 +184,40 @@ export default defineComponent({
 
     const icons = computed((): FSToggle[] => {
       const innerIcons: FSToggle[] = [];
-      if (innerValue.value.length < 3) {
+      if (!innerValue.value || innerValue.value.length < 3) {
         if (preSelection.value && preSelection.value.length) {
-          innerIcons.push(...preSelection.value.map((icon: string) => {
-            return {
-              id: icon,
-              prependIcon: icon
-            }
-          }));
+          innerIcons.push(...preSelection.value.map((icon: string) => ({
+            id: icon,
+            prependIcon: icon
+          })));
         }
         else {
-          const matchingIcons = Icons.filter((icon) => {
-            return icon.fullText.toLowerCase().includes(innerValue.value.toLowerCase());
-          });
-          innerIcons.push(...matchingIcons.slice(0, Math.min(32, matchingIcons.length)).map((icon) => {
-            return {
-              id: icon.name,
-              prependIcon: icon.name
-            }
-          }));
+          innerIcons.push(...Icons.slice(0, 32).map((icon) => ({
+            id: icon.name,
+            prependIcon: icon.name
+          })));
         }
       }
       else {
         const matchingIcons = Icons.filter((icon) => {
           return icon.fullText.toLowerCase().includes(innerValue.value.toLowerCase());
         }).sort((a, b) => SortByLevenshteinDistance(a.name, b.name, innerValue.value));
-        innerIcons.push(...matchingIcons.slice(0, Math.min(32, matchingIcons.length)).map((icon) => {
-          return {
-            id: icon.name,
-            prependIcon: icon.name
-          }
-        }));
+        innerIcons.push(...matchingIcons.slice(0, Math.min(32, matchingIcons.length)).map((icon) => ({
+          id: icon.name,
+          prependIcon: icon.name
+        })));
       }
       if (modelValue.value) {
         const selectedIcon = innerIcons.find((icon) => icon.id === modelValue.value);
         if (selectedIcon) {
           innerIcons.splice(innerIcons.indexOf(selectedIcon), 1);
           innerIcons.unshift(selectedIcon);
+        }
+        else {
+          innerIcons.unshift({
+            id: modelValue.value,
+            prependIcon: modelValue.value
+          });
         }
       }
       return innerIcons;

@@ -79,6 +79,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    indeterminate: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -87,7 +92,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, editable } = toRefs(props);
+    const { modelValue, color, indeterminate, editable } = toRefs(props);
 
     const colors = computed(() => useColors().getColors(color.value));
     const lights = useColors().getColors(ColorEnum.Light);
@@ -103,12 +108,12 @@ export default defineComponent({
       }
       return {
         "--fs-checkbox-cursor"        : "pointer",
-        "--fs-checkbox-checkbox-color": modelValue.value ? colors.value.base : darks.base,
+        "--fs-checkbox-checkbox-color": (modelValue.value || indeterminate.value) ? colors.value.base : darks.base,
         "--fs-checkbox-color"         : darks.base
       }
     });
 
-    const icon = computed((): string => modelValue.value ? "mdi-checkbox-marked" : "mdi-checkbox-blank-outline");
+    const icon = computed((): string => modelValue.value ? "mdi-checkbox-marked" : indeterminate.value ? "mdi-minus-box" : "mdi-checkbox-blank-outline");
 
     const font = computed((): string => modelValue.value ? "text-button" : "text-body");
 

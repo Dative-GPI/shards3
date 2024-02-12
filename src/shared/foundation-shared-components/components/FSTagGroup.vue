@@ -29,7 +29,7 @@ export default defineComponent({
   },
   props: {
     tags: {
-      type: Array as PropType<Array<String>>,
+      type: Array as PropType<string[]>,
       required: false,
       default: () => []
     },

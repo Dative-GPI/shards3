@@ -74,6 +74,14 @@ export const useTimeZone = () => {
         return 0;
     };
 
+    const todayToEpoch = (resetHours: boolean): number => {
+        const today = new Date();
+        if (resetHours) {
+            today.setHours(0, 0, 0, 0);
+        }
+        return today.getTime() + getMachineOffsetMillis() - getUserOffsetMillis();
+    }
+
     const pickerToEpoch = (value: Date): number => {
         // FSCalendar is always in machine time zone, so we need to convert it to user time zone
         return value.getTime() + getMachineOffsetMillis() - getUserOffsetMillis();
@@ -98,7 +106,7 @@ export const useTimeZone = () => {
         }
         const date = new Date(0);
         date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
-        return format(date, "EEEE dd LLLL yyyy", { locale: getLocale() })
+        return format(date, "EEEE dd LLLL yyyy", { locale: getLocale() });
     };
 
     const epochToLongTimeFormat = (value: number): string => {
@@ -110,12 +118,44 @@ export const useTimeZone = () => {
         return format(date, overrideFormat(date, "EEEE dd LLLL yyyy HH:mm"), { locale: getLocale() })
     };
 
+    const epochToShortDateFormat = (value: number): string => {
+        if (value == null || !isFinite(value)) {
+            return "";
+        }
+        const date = new Date(0);
+        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        switch (getLocale()) {
+            case enUS: {
+                return format(date, "MM/dd/yyyy", { locale: getLocale() });
+            }
+            default: {
+                return format(date, "dd/MM/yyyy", { locale: getLocale() });
+            }
+        }
+    };
+
+    const epochToShortTimeFormat = (value: number): string => {
+        if (value == null || !isFinite(value)) {
+            return "";
+        }
+        const date = new Date(0);
+        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        switch (getLocale()) {
+            case enUS: {
+                return format(date, "MM/dd/yyyy HH:mm", { locale: getLocale() });
+            }
+            default: {
+                return format(date, "dd/MM/yyyy HH:mm", { locale: getLocale() });
+            }
+        }
+    };
+
     const todayTimeFormat = (): string => {
-        return `'${$tr("ui.shared.time-zone.today-at", "Today at")?.replaceAll("'", "''")}' HH:mm:ss`;
+        return `'${$tr("ui.time-zone.today-at", "Today at")?.replaceAll("'", "''")}' HH:mm:ss`;
     }
     
     const yesterdayTimeFormat = (): string => {
-        return `'${$tr("ui.shared.time-zone.yesterday-at", "Yesterday at")?.replaceAll("'", "''")}' HH:mm:ss`;
+        return `'${$tr("ui.time-zone.yesterday-at", "Yesterday at")?.replaceAll("'", "''")}' HH:mm:ss`;
     }
       
     const overrideFormat = (date: Date, askedFormat: string): string => {
@@ -179,10 +219,13 @@ export const useTimeZone = () => {
         getMachineOffset,
         getUserOffsetMillis,
         getMachineOffsetMillis,
+        todayToEpoch,
         pickerToEpoch,
         epochToPicker,
         epochToPickerHeader,
         epochToLongDateFormat,
-        epochToLongTimeFormat
+        epochToLongTimeFormat,
+        epochToShortDateFormat,
+        epochToShortTimeFormat
     };
 }

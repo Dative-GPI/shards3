@@ -57,59 +57,59 @@ export default defineComponent({
     }));
 
     const classes = computed((): string[] => {
-      const classes = ["fs-row"];
+      const classNames = ["fs-row"];
       switch (width.value) {
         case "hug":
-          classes.push("fs-row-width-hug");
+          classNames.push("fs-row-width-hug");
           break;
         case "fill":
-          classes.push("fs-row-width-fill");
+          classNames.push("fs-row-width-fill");
           break;
         default: 
-          classes.push("fs-row-width-fixed");
+          classNames.push("fs-row-width-fixed");
           break;
       }
       switch (height.value) {
         case "hug":
-          classes.push("fs-row-height-hug");
+          classNames.push("fs-row-height-hug");
           break;
         case "fill":
-          classes.push("fs-row-height-fill");
+          classNames.push("fs-row-height-fill");
           break;
         default: 
-          classes.push("fs-row-height-fixed");
+          classNames.push("fs-row-height-fixed");
           break;
       }
       switch (align.value) {
         case "top-left":
-          classes.push("fs-row-top-left");
+          classNames.push("fs-row-top-left");
           break;
         case "top-center":
-          classes.push("fs-row-top-center");
+          classNames.push("fs-row-top-center");
           break;
         case "top-right":
-          classes.push("fs-row-top-right");
+          classNames.push("fs-row-top-right");
           break;
         case "center-left":
-          classes.push("fs-row-center-left");
+          classNames.push("fs-row-center-left");
           break;
         case "center-center":
-          classes.push("fs-row-center-center");
+          classNames.push("fs-row-center-center");
           break;
         case "center-right":
-          classes.push("fs-row-center-right");
+          classNames.push("fs-row-center-right");
           break;
         case "bottom-left":
-          classes.push("fs-row-bottom-left");
+          classNames.push("fs-row-bottom-left");
           break;
         case "bottom-center":
-          classes.push("fs-row-bottom-center");
+          classNames.push("fs-row-bottom-center");
           break;
         case "bottom-right":
-          classes.push("fs-row-bottom-right");
+          classNames.push("fs-row-bottom-right");
           break;
       }
-      return classes;
+      return classNames;
     });
 
     return {

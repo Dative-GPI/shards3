@@ -1,6 +1,6 @@
 <template>
   <FSCol>
-    <slot name="label">
+    <slot v-if="!$props.hideHeader" name="label">
       <FSRow :wrap="false">
         <FSSpan
           v-if="$props.label"
@@ -33,12 +33,14 @@
     </slot>
     <v-text-field
       class="fs-text-field"
+      clearIcon="mdi-close"
       variant="outlined"
       hide-details
       :style="style"
       :type="$props.type"
       :rules="$props.rules"
       :readonly="!$props.editable"
+      :clearable="$props.editable"
       :modelValue="$props.modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
       v-bind="$attrs"
@@ -99,6 +101,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     required: {
       type: Boolean,
       required: false,
@@ -115,9 +122,8 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue"],
   setup(props) {
-    const { rules, editable } = toRefs(props);
+    const { modelValue, rules, editable } = toRefs(props);
     
     const { slots } = useSlots();
     delete slots.label;
@@ -149,7 +155,7 @@ export default defineComponent({
     const messages = computed((): string[] => {
       const messages = [];
       for (const rule of rules.value) {
-        const message = rule(props.modelValue ?? "");
+        const message = rule(modelValue.value ?? "");
         if (typeof(message) === "string") {
           messages.push(message);
         }

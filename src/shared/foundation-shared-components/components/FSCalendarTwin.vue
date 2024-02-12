@@ -9,7 +9,10 @@
         {{ $props.label }}
       </FSSpan>
     </FSRow>
-    <FSRow>
+    <FSRow
+      class="fs-calendar-twin"
+      :style="style"
+    >
       <FSCol
         :class="leftClasses"
         :style="style"
@@ -22,6 +25,7 @@
             size="l"
             variant="icon"
             icon="mdi-chevron-left"
+            :color="ColorEnum.Dark"
             @click="onClickPrevious"
           />
           <FSSpan
@@ -41,7 +45,8 @@
             :month="innerLeftMonth"
             :year="innerLeftYear"
             :multiple="true"
-            :modelValue="epochToPicker(innerLeftValue)"
+            :allowedDates="allowedDates"
+            :modelValue="innerLeftValue.map(epochToPicker)"
             @update:modelValue="onClickLeft"
             @update:month="null"
             @update:year="null"
@@ -67,6 +72,7 @@
             size="l"
             variant="icon"
             icon="mdi-chevron-right"
+            :color="ColorEnum.Dark"
             @click="onClickNext"
           />
         </FSRow>
@@ -79,7 +85,8 @@
             :month="innerRightMonth"
             :year="innerRightYear"
             :multiple="true"
-            :modelValue="epochToPicker(innerRightValue)"
+            :allowedDates="allowedDates"
+            :modelValue="innerRightValue.map(epochToPicker)"
             @update:modelValue="onClickRight"
             @update:month="null"
             @update:year="null"
@@ -117,7 +124,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Array as PropType<Array<number>>,
+      type: Array as PropType<number[]>,
       required: false,
       default: null
     },
@@ -126,22 +133,22 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Dark
     },
-    buttonColor: {
-      type: String as PropType<ColorBase>,
+    limit: {
+      type: String as PropType<"none" | "past" | "future">,
       required: false,
-      default: ColorEnum.Primary
+      default: "none"
     }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, buttonColor } = toRefs(props);
+    const { modelValue, color, limit } = toRefs(props);
 
-    const { epochToPicker, epochToPickerHeader, pickerToEpoch } = useTimeZone();
+    const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
 
-    const buttonColors = computed(() => useColors().getColors(buttonColor.value));
     const colors = computed(() => useColors().getColors(color.value));
     const backgrounds = useColors().getColors(ColorEnum.Background);
+    const darks = useColors().getColors(ColorEnum.Dark);
     
     const innerLeftMonth = ref(new Date().getMonth());
     const innerLeftYear = ref(new Date().getFullYear());
@@ -149,34 +156,32 @@ export default defineComponent({
     const innerRightMonth = ref(new Date().getMonth());
     const innerRightYear = ref(new Date().getFullYear());
 
-    const toggle = ref(modelValue.value.length % 2);
+    const toggle = ref((modelValue.value?.length ?? 0) % 2);
 
     onMounted((): void => {
-      switch (modelValue.value.length) {
-        case 0:
-          innerLeftMonth.value = new Date().getMonth();
-          innerLeftYear.value = new Date().getFullYear();
-          if (innerLeftMonth.value < 11) {
-            innerRightMonth.value = innerLeftMonth.value + 1;
-            innerRightYear.value = innerLeftYear.value;
-          }
-          else {
-            innerRightMonth.value = 0;
-            innerRightYear.value = innerLeftYear.value + 1;
-          }
-          break;
-        default:
-          innerLeftMonth.value = epochToPickerHeader(modelValue.value[0]).m;
-          innerLeftYear.value = epochToPickerHeader(modelValue.value[0]).y;
-          if (innerLeftMonth.value < 11) {
-            innerRightMonth.value = innerLeftMonth.value + 1;
-            innerRightYear.value = innerLeftYear.value;
-          }
-          else {
-            innerRightMonth.value = 0;
-            innerRightYear.value = innerLeftYear.value + 1;
-          }
-          break;
+      if (!modelValue.value || !modelValue.value.length) {
+        innerLeftMonth.value = new Date().getMonth();
+        innerLeftYear.value = new Date().getFullYear();
+        if (innerLeftMonth.value < 11) {
+          innerRightMonth.value = innerLeftMonth.value + 1;
+          innerRightYear.value = innerLeftYear.value;
+        }
+        else {
+          innerRightMonth.value = 0;
+          innerRightYear.value = innerLeftYear.value + 1;
+        }
+      }
+      else {
+        innerLeftMonth.value = epochToPickerHeader(modelValue.value[0]).m;
+        innerLeftYear.value = epochToPickerHeader(modelValue.value[0]).y;
+        if (innerLeftMonth.value < 11) {
+          innerRightMonth.value = innerLeftMonth.value + 1;
+          innerRightYear.value = innerLeftYear.value;
+        }
+        else {
+          innerRightMonth.value = 0;
+          innerRightYear.value = innerLeftYear.value + 1;
+        }
       }
     });
 
@@ -209,24 +214,30 @@ export default defineComponent({
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
-        "--fs-calendar-hover-background-color" : buttonColors.value.light,
-        "--fs-calendar-active-background-color": buttonColors.value.base,
-        "--fs-calendar-border-color"           : colors.value.base,
-        "--fs-calendar-hover-border-color"     : buttonColors.value.base,
-        "--fs-calendar-active-border-color"    : buttonColors.value.base,
-        "--fs-calendar-color"                  : colors.value.base,
-        "--fs-calendar-hover-color"            : buttonColors.value.base,
-        "--fs-calendar-active-color"           : buttonColors.value.light
+        "--fs-calendar-hover-background-color" : colors.value.light,
+        "--fs-calendar-active-background-color": colors.value.base,
+        "--fs-calendar-border-color"           : darks.base,
+        "--fs-calendar-hover-border-color"     : colors.value.base,
+        "--fs-calendar-active-border-color"    : colors.value.base,
+        "--fs-calendar-color"                  : darks.base,
+        "--fs-calendar-hover-color"            : colors.value.base,
+        "--fs-calendar-active-color"           : colors.value.light
       };
     });
 
     const innerLeftValue = computed((): number[] => {
+      if (!modelValue.value || !modelValue.value.length) {
+        return [];
+      }
       return modelValue.value.filter(value =>
         compare("during", "left", epochToPickerHeader(value)) || compare("before", "left", epochToPickerHeader(value))
       );
     });
 
     const innerRightValue = computed((): number[] => {
+      if (!modelValue.value || !modelValue.value.length) {
+        return [];
+      }
       return modelValue.value.filter(value =>
         compare("during", "right", epochToPickerHeader(value)) || compare("after", "right", epochToPickerHeader(value))
       );
@@ -247,8 +258,8 @@ export default defineComponent({
     });
 
     const leftClasses = computed((): string[] => {
-      const classNames = ["fs-calendar", "fs-calendar-left"];
-      if (modelValue.value.length > 1) {
+      const classNames = ["fs-calendar-half", "fs-calendar-left"];
+      if (modelValue.value && modelValue.value.length > 1) {
         const first = epochToPickerHeader(modelValue.value[0]);
         const last = epochToPickerHeader(modelValue.value[1]);
         if (compare("before", "left", first) && compare("after", "left", last)) {
@@ -270,8 +281,8 @@ export default defineComponent({
     });
 
     const rightClasses = computed((): string[] => {
-      const classNames = ["fs-calendar", "fs-calendar-right"];
-      if (modelValue.value.length > 1) {
+      const classNames = ["fs-calendar-half", "fs-calendar-right"];
+      if (modelValue.value && modelValue.value.length > 1) {
         const first = epochToPickerHeader(modelValue.value[0]);
         const last = epochToPickerHeader(modelValue.value[1]);
         if (compare("before", "right", first) && compare("after", "right", last)) {
@@ -328,7 +339,7 @@ export default defineComponent({
 
     const onClickLeft = (value: Date[]): void => {
       const clicked = pickerToEpoch(value[value.length - 1]);
-      if (modelValue.value.length === 0) {
+      if (!modelValue.value || !modelValue.value.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
       else if (modelValue.value.length === 1) {
@@ -347,7 +358,7 @@ export default defineComponent({
 
     const onClickRight = (value: Date[]): void => {
       const clicked = pickerToEpoch(value[value.length - 1]);
-      if (modelValue.value.length === 0) {
+      if (!modelValue.value || !modelValue.value.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
       else if (modelValue.value.length === 1) {
@@ -365,7 +376,20 @@ export default defineComponent({
       toggle.value = (++toggle.value) % 2;
     };
 
+    const allowedDates = (value: Date): boolean => {
+      const valueEpoch = pickerToEpoch(value);
+      switch (limit.value) {
+        case "past":
+          return valueEpoch <= todayToEpoch(true);
+        case "future":
+          return valueEpoch >= todayToEpoch(true);
+        default:
+          return true;
+      }
+    };
+
     return {
+      ColorEnum,
       languageCode,
       style,
       leftClasses,
@@ -382,7 +406,8 @@ export default defineComponent({
       onClickPrevious,
       onClickNext,
       onClickLeft,
-      onClickRight
+      onClickRight,
+      allowedDates
     };
   }
 });

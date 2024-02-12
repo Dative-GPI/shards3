@@ -30,7 +30,7 @@ export default defineComponent({
   },
   props: {
     values: {
-      type: Array as PropType<Array<{ value: String | Boolean | Number, label?: String, description?: string }>>,
+      type: Array as PropType<{ value: String | Boolean | Number, label?: String, description?: string }[]>,
       required: true,
       default: false
     },

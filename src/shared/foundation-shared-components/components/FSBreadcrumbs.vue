@@ -33,7 +33,7 @@ export default defineComponent({
   },
   props: {
     items: {
-      type: Array as PropType<Array<FSBreadcrumbItem>>,
+      type: Array as PropType<FSBreadcrumbItem[]>,
       required: true,
     }
   },

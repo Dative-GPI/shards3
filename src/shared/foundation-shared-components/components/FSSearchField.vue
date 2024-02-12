@@ -1,16 +1,19 @@
 <template>
   <FSTextField
-      :label="$props.label"
-      :description="$props.description"
-      :color="$props.color"
-      :required="$props.required"
-      :editable="$props.editable"
-      :modelValue="innerValue"
-      @update:modelValue="(value) => innerValue = value"
-      @keydown.enter="onUpdate"
-      v-bind="$attrs"
+    :label="$props.label"
+    :description="$props.description"
+    :color="$props.color"
+    :hideHeader="$props.hideHeader"
+    :required="$props.required"
+    :editable="$props.editable"
+    @keydown.enter="$emit('update:modelValue', innerValue)"
+    v-model="innerValue"
+    v-bind="$attrs"
   >
-    <template #append>
+    <template
+      v-if="!$props.instant"
+      #append
+    >
       <slot name="append">
         <FSButton
           :prependIcon="$props.buttonPrependIcon"
@@ -19,7 +22,7 @@
           :variant="$props.buttonVariant"
           :color="$props.buttonColor"
           :editable="$props.editable"
-          @click="onUpdate"
+          @click="$emit('update:modelValue', innerValue)"
         />
       </slot>
     </template>
@@ -30,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
+import { defineComponent, PropType, ref, toRefs, watch } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -89,6 +92,16 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    instant: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     required: {
       type: Boolean,
       required: false,
@@ -102,20 +115,18 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { editable } = toRefs(props);
+    const { modelValue, instant } = toRefs(props);
 
-    const innerValue = ref(props.modelValue);
+    const innerValue = ref(modelValue.value);
 
-    const onUpdate = (): void => {
-      if (!editable.value) {
-        return;
+    watch(innerValue, () => {
+      if (instant.value) {
+        emit("update:modelValue", innerValue.value);
       }
-      emit("update:modelValue", innerValue.value);
-    };
+    });
 
     return {
-      innerValue,
-      onUpdate
+      innerValue
     };
   }
 });

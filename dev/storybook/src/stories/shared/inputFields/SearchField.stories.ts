@@ -33,13 +33,14 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSSearchField
-        label="Search, primary button color"
+        label="Instant search"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSearchField
         label="Search, primary button color, button label"
         buttonLabel="Search"
+        :instant="false"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -49,6 +50,7 @@ export const Variations: Story = {
         buttonLabel="I'm feeling lucky"
         buttonPrependIcon="mdi-clover"
         buttonColor="warning"
+        :instant="false"
         :required="true"
         v-model="args.value3"
       />
@@ -56,6 +58,7 @@ export const Variations: Story = {
       <FSSearchField
         label="Uneditable search, with description"
         description="Uneditable description"
+        :instant="false"
         :editable="false"
         v-model="args.value4"
       />

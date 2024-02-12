@@ -10,14 +10,16 @@
         :label="$props.label"
         :description="$props.description"
         :color="$props.color"
+        :hideHeader="$props.hideHeader"
         :required="$props.required"
         :editable="$props.editable"
         :error="messages.length > 0"
         :readonly="true"
         :modelValue="epochToLongDateFormat($props.modelValue)"
+        @click:clear="onClear"
         v-bind="props"
       >
-        <template #label>
+        <template v-if="!$props.hideHeader" #label>
           <slot name="label">
             <FSRow :wrap="false">
               <FSSpan
@@ -66,28 +68,28 @@
       </FSTextField>
     </template>
     <FSCard
-    width="394"
-    :elevation="true"
-    :border="false"
+      width="394"
+      :elevation="true"
+      :border="false"
     >
-    <FSCol width="fill">
+      <FSCol width="fill">
         <FSCalendar
-        :color="$props.color"
-        v-model="innerDate"
+          :color="$props.color"
+          v-model="innerDate"
         />
         <FSButton
-        :fullWidth="true"
-        :color="$props.color"
-        :label="$tr('ui.date-menu.validate', 'Validate')"
-        @click="onSubmit"
+          :fullWidth="true"
+          :color="$props.color"
+          :label="$tr('ui.date-menu.validate', 'Validate')"
+          @click="onSubmit"
         />
-    </FSCol>
+      </FSCol>
     </FSCard>
   </v-menu>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, PropType, ref, toRefs } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -96,7 +98,6 @@ import { useColors } from "@dative-gpi/foundation-shared-components/composables"
 import FSTextField from "./FSTextField.vue";
 import FSCalendar from "./FSCalendar.vue";
 import FSButton from "./FSButton.vue";
-import FSClock from "./FSClock.vue";
 import FSCard from "./FSCard.vue";
 import FSCol from "./FSCol.vue";
 
@@ -106,7 +107,6 @@ export default defineComponent({
     FSTextField,
     FSCalendar,
     FSButton,
-    FSClock,
     FSCard,
     FSCol
   },
@@ -131,6 +131,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     required: {
       type: Boolean,
       required: false,
@@ -154,7 +159,6 @@ export default defineComponent({
     const { epochToLongDateFormat } = useTimeZone();
 
     const menu = ref(false);
-    const tabs = ref(0);
 
     const innerDate = ref(modelValue.value);
 
@@ -177,7 +181,7 @@ export default defineComponent({
     const messages = computed((): string[] => {
       const messages = [];
       for (const rule of rules.value) {
-        const message = rule(props.modelValue ?? "");
+        const message = rule(modelValue.value ?? null);
         if (typeof(message) === "string") {
           messages.push(message);
         }
@@ -185,16 +189,15 @@ export default defineComponent({
       return messages;
     });
 
-    const onSubmit = () => {
+    const onClear = (): void => {
+      emit("update:modelValue", null);
+      innerDate.value = null;
+    };
+
+    const onSubmit = (): void => {
       emit("update:modelValue", innerDate.value);
       menu.value = false;
     };
-
-    watch(menu, () => {
-      if (!menu.value) {
-        setTimeout(() => tabs.value = 0, 100);
-      }
-    });
 
     return {
       ColorEnum,
@@ -202,7 +205,7 @@ export default defineComponent({
       messages,
       style,
       menu,
-      tabs,
+      onClear,
       onSubmit,
       epochToLongDateFormat
     };

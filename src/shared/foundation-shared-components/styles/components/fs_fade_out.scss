@@ -1,12 +1,18 @@
 .fs-fade-out {
     @extend .fs-hide-y-scrollbar;
+    
+    flex-direction: column;
+    position: relative;
+    display: flex;
 }
 
 .fs-fade-out-top {
     pointer-events: none;
     position: sticky;
-    z-index: 2;
+    display: flex;
+    z-index: 10;
     height: var(--fs-fade-out-top-mask-height);
+    min-height: var(--fs-fade-out-top-mask-height);
     width: 100%;
     top: 0;
     left: 0;
@@ -17,8 +23,10 @@
 .fs-fade-out-bottom {
     pointer-events: none;
     position: sticky;
-    z-index: 2;
+    display: flex;
+    z-index: 10;
     height: var(--fs-fade-out-bottom-mask-height);
+    min-height: var(--fs-fade-out-bottom-mask-height);
     width: 100%;
     bottom: 0;
     left: 0;

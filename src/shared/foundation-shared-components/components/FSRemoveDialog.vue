@@ -1,6 +1,6 @@
 <template>
   <FSSubmitDialog
-    :rightButtonLabel="$tr('ui.remove-dialog.right-button', 'Remove')"
+    :rightButtonLabel="$tr('ui.button.remove', 'Remove')"
     :rightButtonColor="ColorEnum.Error"
     :title="title"
     v-bind="$attrs"
@@ -19,17 +19,17 @@
             :gap="2"
           >
             <FSSpan>
-              {{ $tr("ui.remove-dialog.this-action-is", "This action is") }}
+              {{ $tr("ui.remove-dialog.body-regular", "This action is") }}
             </FSSpan>
             <FSSpan
               font="text-button"
             >
-              {{ $tr("ui.remove-dialog.definitive", "definitive") }}
+              {{ $tr("ui.remove-dialog.body-bold", "definitive") }}
             </FSSpan>
           </FSRow>
         </FSRow>
         <FSSpan>
-          {{ $tr("ui.remove-dialog.once-removed", "Once removed, entities won't be retrievable") }}
+          {{ $tr("ui.remove-dialog.final-warning", "Once removed, entities won't be retrievable") }}
         </FSSpan>
       </FSCol>
     </template>
@@ -97,10 +97,10 @@ export default defineComponent({
 
     const title = computed((): string => {
       if (removeTotal.value > 1) {
-        return `${$tr("ui.remove-dialog.remove", "Remove")} ${removeTotal.value} ${$tr("ui.remove-dialog.entities", "entities")}`;
+        return $tr("ui.remove-dialog.remove-plural", "Remove {0} entities", [removeTotal.value]);
       }
       else {
-        return $tr("ui.remove-dialog.remove-an-entity", "Remove an entity");
+        return $tr("ui.remove-dialog.remove-singular", "Remove an entity");
       }
     });
 

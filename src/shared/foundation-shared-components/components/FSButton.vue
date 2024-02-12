@@ -39,6 +39,7 @@
   </v-btn>
   <FSRow
     v-else-if="$props.icon"
+    align="center-center"
     width="hug"
     :style="style"
     :class="classes"
@@ -49,6 +50,12 @@
     >
       {{ $props.icon }}
     </FSIcon>
+    <FSSpan
+      v-if="$props.label"
+      font="text-overline"
+    >
+      {{ $props.label }}
+    </FSSpan>
   </FSRow>
 </template>
 

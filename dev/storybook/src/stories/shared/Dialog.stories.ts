@@ -160,7 +160,7 @@ export const Submit: Story = {
             />
           </FSRow>
         </template>
-      </FSDialog>
+      </FSSubmitDialog>
     </div>`
   })
 }

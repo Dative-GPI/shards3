@@ -51,7 +51,7 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      var classNames = [`fs-icon-${size.value}`];
+      const classNames = [`fs-icon-${size.value}`];
       switch (variant.value) {
         case "fill":
           classNames.push("fs-color-icon");

@@ -38,17 +38,17 @@ export default defineComponent({
     const { slots } = useSlots();
 
     const classes = computed((): string[] => {
-      const classes = ["fs-span", font.value];
+      const classNames = ["fs-span", font.value];
       if (!slots.default) {
-        classes.push("fs-span-pre-wrap");
+        classNames.push("fs-span-pre-wrap");
       }
       if (lineClamp.value > 1) {
-        classes.push("fs-span-line-clamp");
+        classNames.push("fs-span-line-clamp");
       }
       else if (ellipsis.value) {
-        classes.push("fs-span-ellipsis");
+        classNames.push("fs-span-ellipsis");
       }
-      return classes;
+      return classNames;
     });
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {

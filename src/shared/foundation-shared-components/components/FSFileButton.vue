@@ -192,19 +192,19 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      const classes = [];
+      const classNames = [];
       if (!editable.value) {
-        classes.push("fs-button--disabled");
+        classNames.push("fs-button--disabled");
       }
       switch (variant.value) {
         case "icon":
-          classes.push("fs-button-icon");
+          classNames.push("fs-button-icon");
           break;
         default:
-          classes.push("fs-button");
+          classNames.push("fs-button");
           break;
       }
-      return classes;
+      return classNames;
     });
 
     const clear = () => {

@@ -122,7 +122,7 @@ export default defineComponent({
   setup(props) {
     const { deviceAlert, deviceAlerts } = toRefs(props);
 
-    const { epochToLongFormat } = useTimeZone();
+    const { epochToLongTimeFormat } = useTimeZone();
     const { $tr } = useTranslationsProvider();
 
     const criticityColor = computed(() => {
@@ -135,27 +135,27 @@ export default defineComponent({
 
     const statusIcon = computed(() => {
       switch (deviceAlert.value?.status) {
-        case AlertStatus.Pending: return "mdi-timer-outline";
+        case AlertStatus.Pending:     return "mdi-timer-outline";
         case AlertStatus.Untriggered: return "mdi-timer-off-outline";
-        case AlertStatus.Unresolved: return "mdi-alert-circle-outline";
-        case AlertStatus.Resolved: return "mdi-check-circle-outline";
-        case AlertStatus.Expired: return "mdi-clock-outline";
-        case AlertStatus.Triggered: return "mdi-alert-circle-outline";
-        case AlertStatus.Abandoned: return "mdi-cancel"
-        default: return "";
+        case AlertStatus.Unresolved:  return "mdi-alert-circle-outline";
+        case AlertStatus.Resolved:    return "mdi-check-circle-outline";
+        case AlertStatus.Expired:     return "mdi-clock-outline";
+        case AlertStatus.Triggered:   return "mdi-alert-circle-outline";
+        case AlertStatus.Abandoned:   return "mdi-cancel"
+        default:                      return "";
       }
     });
 
     const statusLabel = computed(() => {
       switch (deviceAlert.value?.status) {
-        case AlertStatus.Pending: return $tr("ui.shared.alert.pending", "Pending");
-        case AlertStatus.Untriggered: return $tr("ui.shared.alert.untriggered", "Untriggered");
-        case AlertStatus.Unresolved: return $tr("ui.shared.alert.unresolved", "Unresolved");
-        case AlertStatus.Resolved: return $tr("ui.shared.alert.resolved", "Resolved");
-        case AlertStatus.Expired: return $tr("ui.shared.alert.expired", "Expired");
-        case AlertStatus.Triggered: return $tr("ui.shared.alert.triggered", "Triggered");
-        case AlertStatus.Abandoned: return $tr("ui.shared.alert.abandoned", "Abandoned");
-        default: return "";
+        case AlertStatus.Pending:     return $tr("ui.alert-status.pending", "Pending");
+        case AlertStatus.Untriggered: return $tr("ui.alert-status.untriggered", "Untriggered");
+        case AlertStatus.Unresolved:  return $tr("ui.alert-status.unresolved", "Unresolved");
+        case AlertStatus.Resolved:    return $tr("ui.alert-status.resolved", "Resolved");
+        case AlertStatus.Expired:     return $tr("ui.alert-status.expired", "Expired");
+        case AlertStatus.Triggered:   return $tr("ui.alert-status.triggered", "Triggered");
+        case AlertStatus.Abandoned:   return $tr("ui.alert-status.abandoned", "Abandoned");
+        default:                      return "";
       }
     });
 
@@ -171,14 +171,14 @@ export default defineComponent({
 
     const cloudTimestamp = computed((): string => {
       if (deviceAlert.value.enqueuedTimestamp) {
-        return epochToLongFormat(deviceAlert.value.enqueuedTimestamp);
+        return epochToLongTimeFormat(deviceAlert.value.enqueuedTimestamp);
       }
       return "";
     });
 
     const deviceTimestamp = computed((): string => {
       if (deviceAlert.value.sourceTimestamp) {
-        return epochToLongFormat(deviceAlert.value.sourceTimestamp);
+        return epochToLongTimeFormat(deviceAlert.value.sourceTimestamp);
       }
       return "";
     });

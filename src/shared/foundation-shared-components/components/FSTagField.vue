@@ -3,15 +3,15 @@
     <FSTextField
       :label="$props.label"
       :description="$props.description"
+      :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
       :error="messages.length > 0"
-      :modelValue="innerValue"
-      @update:modelValue="(value) => innerValue = value"
       @keydown.enter="onAdd"
+      v-model="innerValue"
       v-bind="$attrs"
     >
-      <template #label>
+      <template v-if="!$props.hideHeader" #label>
         <slot name="label">
           <FSRow :wrap="false">
             <FSSpan
@@ -117,6 +117,11 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     required: {
       type: Boolean,

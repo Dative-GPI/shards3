@@ -1,5 +1,5 @@
 <template>
-  <FSCol width="hug">
+  <FSCol>
     <FSRow>
       <FSSpan
         v-if="$props.label"
@@ -11,7 +11,6 @@
     </FSRow>
     <FSCol
       class="fs-calendar"
-      width="hug"
       :style="style"
     >
       <FSRow
@@ -49,6 +48,7 @@
           :year="innerYear"
           :multiple="false"
           :showAdjacentMonths="true"
+          :allowedDates="allowedDates"
           :modelValue="epochToPicker($props.modelValue)"
           @update:modelValue="(value) => $emit('update:modelValue', pickerToEpoch(value[0]))"
           @update:month="null"
@@ -94,12 +94,17 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    limit: {
+      type: String as PropType<"none" | "past" | "future">,
+      required: false,
+      default: "none"
     }
   },
   setup(props) {
-    const { modelValue, color } = toRefs(props);
+    const { modelValue, color, limit } = toRefs(props);
 
-    const { epochToPicker, pickerToEpoch } = useTimeZone();
+    const { epochToPicker, pickerToEpoch, todayToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
 
     const colors = computed(() => useColors().getColors(color.value));
@@ -150,6 +155,18 @@ export default defineComponent({
       }
     };
 
+    const allowedDates = (value: Date): boolean => {
+      const valueEpoch = pickerToEpoch(value);
+      switch (limit.value) {
+        case "past":
+          return valueEpoch <= todayToEpoch(true);
+        case "future":
+          return valueEpoch >= todayToEpoch(true);
+        default:
+          return true;
+      }
+    };
+
     return {
       ColorEnum,
       languageCode,
@@ -160,7 +177,8 @@ export default defineComponent({
       epochToPicker,
       pickerToEpoch,
       onClickPrevious,
-      onClickNext
+      onClickNext,
+      allowedDates
     };
   }
 });

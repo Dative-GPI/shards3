@@ -1,0 +1,71 @@
+.fs-select-field {
+    padding: 0px !important;
+    width: 100%;
+
+    & > .v-input__control > .v-field {
+        border: 1px solid var(--fs-select-field-border-color) !important;
+        cursor: var(--fs-select-field-cursor) !important;
+        border-radius: 4px !important;
+        padding: 0 16px !important;
+        gap: 8px;
+
+        &--error {
+            border-color: var(--fs-select-field-error-border-color) !important;
+        }
+
+        &:not(.v-field--error):focus-within {
+            border-color: var(--fs-select-field-active-border-color) !important;
+        }
+
+        & > .v-field__outline {
+            display: none;
+        }
+
+        & > .v-field__field > .v-field__input {
+            @extend .text-body;
+        
+            padding-inline: 0 !important;
+            color: var(--fs-select-field-color);
+            cursor: var(--fs-select-field-cursor) !important;
+        
+            @include web {
+                min-height: 38px !important;
+                height: 38px !important;
+            }
+        
+            @include mobile {
+                min-height: 34px !important;
+                height: 34px !important;
+            }
+
+            & > .v-select__selection {
+                height: 100%;
+            }
+        }
+
+        & > .v-field__clearable {
+            margin-inline: 0px;
+        }
+
+        & > .v-field__append-inner {
+            color: var(--fs-select-field-color);
+
+            & > i {
+                margin-inline-start: 0px;
+            }
+        }
+    }
+}
+
+.fs-select-field-label {
+    color: var(--fs-select-field-color);
+}
+
+.fs-select-field-messages {
+    align-self: stretch;
+    color: var(--fs-select-field-error-color);
+}
+
+.fs-select-field-description {
+    color: var(--fs-select-field-color);
+}

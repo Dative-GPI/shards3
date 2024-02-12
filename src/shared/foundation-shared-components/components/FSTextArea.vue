@@ -34,15 +34,17 @@
       </FSRow>
     </slot>
     <v-textarea
-      :class="classes"
+      clearIcon="mdi-close"
       variant="outlined"
       hide-details
       :style="style"
+      :class="classes"
       :rows="$props.rows"
       :rules="$props.rules"
       :noResize="!$props.resize"
       :autoGrow="$props.autoGrow"
       :readonly="!$props.editable"
+      :clearable="$props.editable"
       :modelValue="$props.modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
       v-bind="$attrs"
@@ -131,7 +133,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { rows, autoGrow, editable } = toRefs(props);
+    const { modelValue, rows, autoGrow, rules, editable } = toRefs(props);
 
     const { isMobileSized } = useBreakpoints();
 
@@ -177,8 +179,8 @@ export default defineComponent({
 
     const messages = computed(() => {
       const messages = [];
-      for (const rule of props.rules) {
-        const message = rule(props.modelValue);
+      for (const rule of rules.value) {
+        const message = rule(modelValue.value);
         if (typeof(message) === "string") {
           messages.push(message);
         }
@@ -187,11 +189,11 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      const classes = ["fs-text-area"];
+      const classNames = ["fs-text-area"];
       if (autoGrow.value) {
-        classes.push("fs-text-area-auto-grow");
+        classNames.push("fs-text-area-auto-grow");
       }
-      return classes;
+      return classNames;
     });
 
     return {

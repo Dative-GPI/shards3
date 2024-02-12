@@ -143,6 +143,7 @@
     <FSTextField
       v-if="isLink && editable"
       v-model="linkUrl"
+      :hideHeader="true"
       @keypress.enter.stop="toggleLink"
     />
     <slot name="description">

@@ -6,6 +6,12 @@
     <FSRow
       align="center-center"
     >
+      <FSTextField
+        v-if="$props.reminder"
+        :readonly="true"
+        :hideHeader="true"
+        :modelValue="epochToLongDateFormat($props.date)"
+      />
       <v-text-field
         class="fs-clock-field"
         variant="outlined"
@@ -65,8 +71,10 @@
 import { computed, defineComponent, PropType, ref, toRefs, watch } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
+import FSTextField from "./FSTextField.vue";
 import FSSlider from "./FSSlider.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
@@ -74,6 +82,7 @@ import FSRow from "./FSRow.vue";
 export default defineComponent({
   name: "FSClock",
   components: {
+    FSTextField,
     FSSlider,
     FSCol,
     FSRow
@@ -89,6 +98,16 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    date: {
+      type: Number,
+      required: false,
+      default: null
+    },
+    reminder: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -98,6 +117,8 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { modelValue, color, editable } = toRefs(props);
+
+    const { epochToLongDateFormat } = useTimeZone();
 
     const colors = computed(() => useColors().getColors(color.value));
     const backgrounds = useColors().getColors(ColorEnum.Background);
@@ -145,7 +166,8 @@ export default defineComponent({
       innerHours,
       innerMinutes,
       onChangeHours,
-      onChangeMinutes
+      onChangeMinutes,
+      epochToLongDateFormat
     };
   }
 });
