@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -133,8 +133,6 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { modelValue, rows, autoGrow, rules, editable } = toRefs(props);
-
     const { isMobileSized } = useBreakpoints();
 
     const errors = useColors().getColors(ColorEnum.Error);
@@ -144,18 +142,18 @@ export default defineComponent({
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       let height: string | undefined = undefined;
       let minHeight: string | undefined = undefined;
-      if (!autoGrow.value) {
+      if (!props.autoGrow) {
         const base = isMobileSized.value ? 30 : 42;
         const row = isMobileSized.value ? 16 : 20;
         minHeight = `${base}px`;
-        if (rows.value > 1) {
-          height = `${base + (rows.value - 1) * row}px`;
+        if (props.rows > 1) {
+          height = `${base + (props.rows - 1) * row}px`;
         }
         else {
           height = `${base}px`;
         }
       }
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-text-area-cursor"             : "default",
           "--fs-text-area-border-color"       : lights.base,
@@ -179,8 +177,8 @@ export default defineComponent({
 
     const messages = computed(() => {
       const messages = [];
-      for (const rule of rules.value) {
-        const message = rule(modelValue.value);
+      for (const rule of props.rules) {
+        const message = rule(props.modelValue);
         if (typeof(message) === "string") {
           messages.push(message);
         }
@@ -190,7 +188,7 @@ export default defineComponent({
 
     const classes = computed((): string[] => {
       const classNames = ["fs-text-area"];
-      if (autoGrow.value) {
+      if (props.autoGrow) {
         classNames.push("fs-text-area-auto-grow");
       }
       return classNames;

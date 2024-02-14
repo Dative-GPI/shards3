@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -141,16 +141,15 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, rules, editable } = toRefs(props);
-
-    const innerValue = ref("");
 
     const errors = useColors().getColors(ColorEnum.Error);
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
+    const innerValue = ref("");
+
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-tag-field-color": lights.dark
         };
@@ -163,7 +162,7 @@ export default defineComponent({
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
+      for (const rule of props.rules) {
         const message = rule(props.modelValue);
         if (typeof(message) === "string") {
           messages.push(message);
@@ -173,10 +172,10 @@ export default defineComponent({
     });
 
     const onAdd = (): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
-      const tags = modelValue.value ?? [];
+      const tags = props.modelValue ?? [];
       if (!innerValue.value.length || tags.includes(innerValue.value)) {
         return;
       }
@@ -185,10 +184,10 @@ export default defineComponent({
     }
 
     const onRemove = (label: string): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
-      const tags = modelValue.value ?? [];
+      const tags = props.modelValue ?? [];
       if (!tags.length || !tags.includes(label)) {
         return;
       }

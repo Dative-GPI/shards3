@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs, watch } from "vue";
+import { defineComponent, PropType, ref, watch } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -115,12 +115,10 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, instant } = toRefs(props);
-
-    const innerValue = ref(modelValue.value);
+    const innerValue = ref(props.modelValue);
 
     watch(innerValue, () => {
-      if (instant.value) {
+      if (props.instant) {
         emit("update:modelValue", innerValue.value);
       }
     });

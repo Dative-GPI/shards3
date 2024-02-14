@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -161,9 +161,11 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, rules, editable } = toRefs(props);
-
     const { getUserOffsetMillis, epochToShortTimeFormat } = useTimeZone();
+
+    const errors = useColors().getColors(ColorEnum.Error);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const dialog = ref(false);
 
@@ -172,29 +174,25 @@ export default defineComponent({
     const innerTimeLeft = ref(0);
     const innerTimeRight = ref(0);
     const innerDateRange = ref(null);
-    if (modelValue.value && Array.isArray(modelValue.value)) {
-      switch (modelValue.value.length) {
+    if (props.modelValue && Array.isArray(props.modelValue)) {
+      switch (props.modelValue.length) {
         case 0: {
           break;
         }
         case 1: {
-          innerTimeLeft.value = Math.floor((modelValue.value[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-          innerDateRange.value = [modelValue.value[0] - innerTimeLeft.value];
+          innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+          innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
         }
         default: {
-          innerTimeLeft.value = Math.floor((modelValue.value[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-          innerTimeRight.value = Math.floor((modelValue.value[1] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-          innerDateRange.value = [modelValue.value[0] - innerTimeLeft.value, modelValue.value[1] - innerTimeRight.value];
+          innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+          innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+          innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
         }
       }
     }
 
-    const errors = useColors().getColors(ColorEnum.Error);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
-
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark
         };
@@ -206,17 +204,17 @@ export default defineComponent({
     });
 
     const placeholder = computed((): string => {
-      if (!modelValue.value || !Array.isArray(modelValue.value) || !modelValue.value.length) {
+      if (!props.modelValue || !Array.isArray(props.modelValue) || !props.modelValue.length) {
         return "";
       }
-      return modelValue.value.map((epoch) => epochToShortTimeFormat(epoch)).join(" - ");
+      return props.modelValue.map((epoch) => epochToShortTimeFormat(epoch)).join(" - ");
     });
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
-        if (modelValue.value && Array.isArray(modelValue.value)) {
-          for (const value of modelValue.value) {
+      for (const rule of props.rules) {
+        if (props.modelValue && Array.isArray(props.modelValue)) {
+          for (const value of props.modelValue) {
             const message = rule(value);
             if (typeof(message) === "string") {
               messages.push(message);
@@ -249,7 +247,7 @@ export default defineComponent({
     });
 
     const onClick = (): void => {
-      if (editable.value) {
+      if (props.editable) {
         dialog.value = true;
       }
     };

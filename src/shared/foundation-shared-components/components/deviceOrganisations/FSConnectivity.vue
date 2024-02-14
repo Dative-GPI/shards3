@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 import { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
@@ -106,13 +106,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { deviceConnectivity } = toRefs(props);
-
     const { epochToLongTimeFormat } = useTimeZone();
     const { $tr } = useTranslationsProvider();
 
     const connectivityLabel = computed((): string => {
-      switch (deviceConnectivity.value.status) {
+      switch (props.deviceConnectivity.status) {
         case ConnectivityStatus.Connected:          return $tr("ui.connectivity-status.connected", "Connected");
         case ConnectivityStatus.PartiallyConnected: return $tr("ui.connectivity-status.partially-connected", "Partially connected");
         case ConnectivityStatus.AlmostOffline:      return $tr("ui.connectivity-status.almost-offline", "Almost offline");
@@ -121,15 +119,15 @@ export default defineComponent({
     });
 
     const cloudTimestamp = computed((): string => {
-      if (deviceConnectivity.value.enqueuedTimestamp) {
-        return epochToLongTimeFormat(deviceConnectivity.value.enqueuedTimestamp);
+      if (props.deviceConnectivity.enqueuedTimestamp) {
+        return epochToLongTimeFormat(props.deviceConnectivity.enqueuedTimestamp);
       }
       return "";
     });
 
     const deviceTimestamp = computed((): string => {
-      if (deviceConnectivity.value.sourceTimestamp) {
-        return epochToLongTimeFormat(deviceConnectivity.value.sourceTimestamp);
+      if (props.deviceConnectivity.sourceTimestamp) {
+        return epochToLongTimeFormat(props.deviceConnectivity.sourceTimestamp);
       }
       return "";
     });

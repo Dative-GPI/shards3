@@ -113,7 +113,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -182,9 +182,11 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, rules, editable } = toRefs(props);
-
     const { getUserOffsetMillis, epochToLongTimeFormat } = useTimeZone();
+
+    const errors = useColors().getColors(ColorEnum.Error);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const menu = ref(false);
     const tabs = ref(0);
@@ -193,17 +195,13 @@ export default defineComponent({
     // We must adjust the time to the user's time zone
     const innerTime = ref(0);
     const innerDate = ref(null);
-    if (modelValue.value) {
-      innerTime.value = Math.floor((modelValue.value + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-      innerDate.value = modelValue.value - innerTime.value;
+    if (props.modelValue) {
+      innerTime.value = Math.floor((props.modelValue + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+      innerDate.value = props.modelValue - innerTime.value;
     }
 
-    const errors = useColors().getColors(ColorEnum.Error);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
-
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark
         };
@@ -216,8 +214,8 @@ export default defineComponent({
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
-        const message = rule(modelValue.value ?? null);
+      for (const rule of props.rules) {
+        const message = rule(props.modelValue ?? null);
         if (typeof(message) === "string") {
           messages.push(message);
         }

@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs, watch } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
@@ -90,14 +90,12 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { removeTotal, removeCurrent } = toRefs(props);
-
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const title = computed((): string => {
-      if (removeTotal.value > 1) {
-        return $tr("ui.remove-dialog.remove-plural", "Remove {0} entities", [removeTotal.value]);
+      if (props.removeTotal > 1) {
+        return $tr("ui.remove-dialog.remove-plural", "Remove {0} entities", [props.removeTotal]);
       }
       else {
         return $tr("ui.remove-dialog.remove-singular", "Remove an entity");
@@ -106,12 +104,6 @@ export default defineComponent({
 
     const footerHeight = computed((): string => {
       return isMobileSized.value ? "36px" : "40px";
-    });
-
-    watch(removeCurrent, () => {
-      if (removeCurrent.value === removeTotal.value) {
-        emit("update:modelValue", false);
-      }
     });
     
     return {

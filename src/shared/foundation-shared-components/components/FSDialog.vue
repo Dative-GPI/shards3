@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -50,14 +50,12 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { cardClasses } = toRefs(props);
-
     const classes = computed((): string[] => {
-      if (Array.isArray(cardClasses.value)) {
-        return ["fs-dialog", ...cardClasses.value];
+      if (Array.isArray(props.cardClasses)) {
+        return ["fs-dialog", ...props.cardClasses];
       }
       else {
-        return ["fs-dialog", cardClasses.value];
+        return ["fs-dialog", props.cardClasses];
       }
     });
 

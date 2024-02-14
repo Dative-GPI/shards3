@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from "vue";
+import { computed, defineComponent } from "vue";
 
 import FSContainer from "./FSContainer.vue";
 import FSCol from "./FSCol.vue";
@@ -54,12 +54,10 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { width, height } = toRefs(props);
-
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-card-width": width.value ? `${width.value}px` : "auto",
-        "--fs-card-height": height.value ? `${height.value}px` : "auto"
+        "--fs-card-width": props.width ? `${props.width}px` : "auto",
+        "--fs-card-height": props.height ? `${props.height}px` : "auto"
       };
     });
 

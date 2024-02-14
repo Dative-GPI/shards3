@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -154,20 +154,17 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, rules, editable } = toRefs(props);
-
     const { epochToLongDateFormat } = useTimeZone();
-
-    const menu = ref(false);
-
-    const innerDate = ref(modelValue.value);
 
     const errors = useColors().getColors(ColorEnum.Error);
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
+    const menu = ref(false);
+    const innerDate = ref(props.modelValue);
+
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark
         };
@@ -180,8 +177,8 @@ export default defineComponent({
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
-        const message = rule(modelValue.value ?? null);
+      for (const rule of props.rules) {
+        const message = rule(props.modelValue ?? null);
         if (typeof(message) === "string") {
           messages.push(message);
         }

@@ -8,12 +8,12 @@
     :gap="$props.gap"
     :style="style"
   >
-    <slot v-bind="{ color, colors }" />
+    <slot v-bind="{ color: $props.color, colors }" />
   </FSRow>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, Ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref, Ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -58,9 +58,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { color } = toRefs(props);
-
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
       "--fs-color-background-color": colors.value.light,
@@ -72,7 +70,6 @@ export default defineComponent({
 
     return {
       colors,
-      color,
       style
     };
   }

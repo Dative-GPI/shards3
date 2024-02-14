@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -154,16 +154,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { imageId, recursiveGroupsIds, recursiveDeviceOrganisationsIds} = toRefs(props);
-
     const { isMobileSized } = useBreakpoints();
 
     const groupsLabel = computed((): string => {
-      return recursiveGroupsIds.value.length > 99 ? "99+" : recursiveGroupsIds.value.length.toString();
+      return props.recursiveGroupsIds.length > 99 ? "99+" : props.recursiveGroupsIds.length.toString();
     });
 
     const deviceOrganisationsLabel = computed((): string => {
-      return recursiveDeviceOrganisationsIds.value.length > 99 ? "99+" : recursiveDeviceOrganisationsIds.value.length.toString();
+      return props.recursiveDeviceOrganisationsIds.length > 99 ? "99+" : props.recursiveDeviceOrganisationsIds.length.toString();
     });
 
     const imageSize = computed((): number => {
@@ -172,7 +170,7 @@ export default defineComponent({
 
     const infoWidth = computed((): string => {
       let width = isMobileSized.value ? 288 : 304;
-      if (imageId.value) {
+      if (props.imageId) {
         width -= imageSize.value;
       }
       return `${width}px`;

@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs, watch } from "vue";
+import { defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
@@ -171,10 +171,6 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { buttonVariant, activeVariant, buttonClass, activeClass, modelValue, buttonColor, activeColor, multiple, required } = toRefs(props);
-
-    const innerValue = ref(modelValue.value);
-
     const { getFirstChild } = useSlots();
 
     const firstChild = getFirstChild("item");
@@ -199,76 +195,79 @@ export default defineComponent({
     }
 
     const getVariant = (value: FSToggle): "standard" | "full" | "icon" => {
-      if (Array.isArray(innerValue.value) && innerValue.value.some(v => v === value.id)) {
-        return activeVariant.value;
+      if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
+        return props.activeVariant;
       }
-      if (!Array.isArray(innerValue.value) && innerValue.value === value.id) {
-        return activeVariant.value;
+      if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
+        return props.activeVariant;
       }
-      return buttonVariant.value;
+      return props.buttonVariant;
     };
 
     const getColor = (value: FSToggle): ColorBase => {
-      if (Array.isArray(innerValue.value) && innerValue.value.some(v => v === value.id)) {
-        return activeColor.value;
+      if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
+        return props.activeColor;
       }
-      if (!Array.isArray(innerValue.value) && innerValue.value === value.id) {
-        return activeColor.value;
+      if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
+        return props.activeColor;
       }
-      return buttonColor.value;
+      return props.buttonColor;
     };
 
     const getClass = (value: FSToggle): string[] | string => {
-      if (Array.isArray(innerValue.value) && innerValue.value.some(v => v === value.id)) {
-        return activeClass.value;
+      if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
+        return props.activeClass;
       }
-      if (!Array.isArray(innerValue.value) && innerValue.value === value.id) {
-        return activeClass.value;
+      if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
+        return props.activeClass;
       }
-      return buttonClass.value;
+      return props.buttonClass;
     };
 
     const toggle = (value: FSToggle): void => {
-      if (Array.isArray(innerValue.value)) {
-        if (multiple.value) {
-          if (innerValue.value.length && innerValue.value.every(v => v === value.id)) {
-            if (!required.value) {
-              innerValue.value = [];
+      if (Array.isArray(props.modelValue)) {
+        if (props.multiple) {
+          if (props.modelValue.length && props.modelValue.every(v => v === value.id)) {
+            if (!props.required) {
+              emit("update:modelValue", []);
+              return;
             }
           }
-          else if (innerValue.value.some(v => v === value.id)) {
-            innerValue.value = innerValue.value.filter(v => v !== value.id);
+          else if (props.modelValue.some(v => v === value.id)) {
+            emit("update:modelValue", props.modelValue.filter(v => v !== value.id));
+            return;
           }
           else {
-            innerValue.value = [...innerValue.value, value.id];
+            emit("update:modelValue", [...props.modelValue, value.id]);
+            return;
           }
         }
         else {
-          if (innerValue.value.some(v => v === value.id)) {
-            if (!required.value) {
-              innerValue.value = [];
+          if (props.modelValue.some(v => v === value.id)) {
+            if (!props.required) {
+              emit("update:modelValue", []);
+              return;
             }
           }
           else {
-            innerValue.value = [value.id];
+            emit("update:modelValue", [value.id]);
+            return;
           }
         }
       }
       else {
-        if (innerValue.value === value.id) {
-          if (!required.value) {
-            innerValue.value = null;
+        if (props.modelValue === value.id) {
+          if (!props.required) {
+            emit("update:modelValue", null);
+            return;
           }
         }
         else {
-          innerValue.value = value.id;
+          emit("update:modelValue", value.id);
+          return;
         }
       }
     };
-
-    watch(innerValue, (): void => {
-      emit("update:modelValue", innerValue.value);
-    });
 
     return {
       firstChild,

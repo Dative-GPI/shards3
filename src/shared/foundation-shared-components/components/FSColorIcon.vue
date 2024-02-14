@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -35,12 +35,10 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { size, variant, color } = toRefs(props);
-
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      switch (variant.value) {
+      switch (props.variant) {
         case "fill": return {
           "--fs-icon-background-color": colors.value.light
         };
@@ -51,8 +49,8 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      const classNames = [`fs-icon-${size.value}`];
-      switch (variant.value) {
+      const classNames = [`fs-icon-${props.size}`];
+      switch (props.variant) {
         case "fill":
           classNames.push("fs-color-icon");
           break;

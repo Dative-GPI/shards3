@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { defineComponent, PropType } from "vue";
 
 import { FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 
@@ -41,10 +41,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { deviceStatuses } = toRefs(props);
-
     const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup[] => {
-      const deviceStatus = deviceStatuses.value
+      const deviceStatus = props.deviceStatuses
         .find((deviceStatus: FSDeviceStatus) => deviceStatus.modelStatusId === modelStatus.id);
       if (deviceStatus != null) {
         return deviceStatus.statusGroups;

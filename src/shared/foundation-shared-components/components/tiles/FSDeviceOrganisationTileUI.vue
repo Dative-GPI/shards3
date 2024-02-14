@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { FSModelStatus, FSDeviceStatus, FSDeviceAlert, FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
@@ -153,17 +153,15 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { imageId, modelStatuses, deviceStatuses } = toRefs(props);
-
     const { isMobileSized } = useBreakpoints();
 
     const lineModelStatuses = computed((): FSModelStatus[] => {
-      return modelStatuses.value.filter(modelStatus => {
+      return props.modelStatuses.filter(modelStatus => {
         if (!modelStatus.inline || modelStatus.groupById) {
           return false;
         }
         if (!modelStatus.showDefault) {
-          if (!deviceStatuses.value.some(deviceStatus => deviceStatus.modelStatusId === modelStatus.id)) {
+          if (!props.deviceStatuses.some(deviceStatus => deviceStatus.modelStatusId === modelStatus.id)) {
             return false;
           }
         }
@@ -172,24 +170,24 @@ export default defineComponent({
     });
 
     const lineDeviceStatuses = computed((): FSDeviceStatus[] => {
-      return deviceStatuses.value.filter(deviceStatus => {
+      return props.deviceStatuses.filter(deviceStatus => {
         return lineModelStatuses.value.some(modelStatus => modelStatus.id === deviceStatus.modelStatusId)
       });
     });
 
     const carouselModelStatuses = computed((): FSModelStatus[] => {
-      const notCarouselModelStatuses = modelStatuses.value.filter(modelStatus => {
+      const notCarouselModelStatuses = props.modelStatuses.filter(modelStatus => {
         if (!modelStatus.inline || modelStatus.groupById) {
           return false;
         }
         return true;
       }).slice(0, 4);
-      return modelStatuses.value.filter(modelStatus => {
+      return props.modelStatuses.filter(modelStatus => {
         if (notCarouselModelStatuses.some(lineModelStatus => modelStatus.id === lineModelStatus.id)) {
           return false;
         }
         if (!modelStatus.showDefault) {
-          if (!deviceStatuses.value.some(deviceStatus => deviceStatus.modelStatusId === modelStatus.id)) {
+          if (!props.deviceStatuses.some(deviceStatus => deviceStatus.modelStatusId === modelStatus.id)) {
             return false;
           }
         }
@@ -198,7 +196,7 @@ export default defineComponent({
     });
 
     const carouselDeviceStatuses = computed((): FSDeviceStatus[] => {
-      return deviceStatuses.value.filter(deviceStatus => {
+      return props.deviceStatuses.filter(deviceStatus => {
         return carouselModelStatuses.value.some(modelStatus => modelStatus.id === deviceStatus.modelStatusId)
       });
     });
@@ -209,7 +207,7 @@ export default defineComponent({
 
     const infoWidth = computed((): string => {
       let width = isMobileSized.value ? 288 : 304;
-      if (imageId.value) {
+      if (props.imageId) {
         width -= imageSize.value;
       }
       return `${width}px`;

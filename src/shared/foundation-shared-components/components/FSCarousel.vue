@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs, VNode } from "vue";
+import { computed, defineComponent, VNode } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -36,8 +36,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { height } = toRefs(props);
-
     const { slots, getChildren } = useSlots();
     delete slots.default;
 
@@ -45,7 +43,7 @@ export default defineComponent({
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-carousel-height"          : typeof(height.value) === "string" ? height.value : `${height.value}px`,
+        "--fs-carousel-height"          : typeof(props.height) === "string" ? props.height : `${props.height}px`,
         "--fs-carousel-background-color": backgrounds.base
       };
     });

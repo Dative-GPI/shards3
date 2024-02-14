@@ -7,7 +7,7 @@
     :wrap="false"
     v-bind="$attrs"
   >
-    <slot name="prepend" v-bind="{ color, colors }">
+    <slot name="prepend" v-bind="{ color: $props.color, colors }">
       <FSIcon
         v-if="$props.prependIcon"
         size="s"
@@ -15,7 +15,7 @@
         {{ $props.prependIcon }}
       </FSIcon>
     </slot>
-    <slot v-bind="{ color, colors }">
+    <slot v-bind="{ color: $props.color, colors }">
       <FSSpan
         font="text-overline"
         class="fs-chip-label"
@@ -23,7 +23,7 @@
         {{ $props.label }}
       </FSSpan>
     </slot>
-    <slot name="append" v-bind="{ color, colors }">
+    <slot name="append" v-bind="{ color: $props.color, colors }">
       <FSIcon
         v-if="$props.appendIcon"
         size="s"
@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -83,20 +83,18 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { variant, color, editable } = toRefs(props);
-
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
     const backgrounds = useColors().getColors(ColorEnum.Background);
 
     const textColors = computed(() => {
-      switch (variant.value) {
+      switch (props.variant) {
         case "standard": return colors.value;
-        case "full": return useColors().getContrasts(color.value);
+        case "full": return useColors().getContrasts(props.color);
       }
     });
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      switch (variant.value) {
+      switch (props.variant) {
         case "standard": return {
           "--fs-chip-background-color"       : backgrounds.base,
           "--fs-chip-border-color"           : colors.value.base,
@@ -124,7 +122,7 @@ export default defineComponent({
 
     const classes = computed((): string[] => {
       const classNames: string[] = ["fs-chip"];
-      if (editable.value) {
+      if (props.editable) {
         classNames.push("fs-chip-editable");
       }
       return classNames;
@@ -132,7 +130,6 @@ export default defineComponent({
 
     return {
       colors,
-      color,
       style,
       classes
     };

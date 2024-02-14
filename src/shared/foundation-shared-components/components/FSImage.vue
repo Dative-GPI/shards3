@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, toRefs } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 
 import { useImageRaw, useImageBlurHash } from "@dative-gpi/foundation-shared-services";
 
@@ -49,39 +49,37 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { imageId, height, width, aspectRatio } = toRefs(props);
-
     const { fetching: fetchingRaw, fetch: fetchRaw, fetched: image } = useImageRaw();
     const { fetching: fetchingBlurHash, fetch: fetchBlurHash, fetched: blurHash } = useImageBlurHash();
 
     const computedWidth = computed((): number => {
-      if (width.value) {
-        return width.value;
+      if (props.width) {
+        return props.width;
       }
-      if (height.value) {
-        if (aspectRatio.value) {
-          const split = aspectRatio.value.split('/');
+      if (props.height) {
+        if (props.aspectRatio) {
+          const split = props.aspectRatio.split('/');
           if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return height.value * (parseFloat(split[0]) / parseFloat(split[1]));
+            return props.height * (parseFloat(split[0]) / parseFloat(split[1]));
           }
         }
-        return height.value;
+        return props.height;
       }
       return 0;
     });
 
     const computedHeight = computed((): number => {
-      if (height.value) {
-        return height.value;
+      if (props.height) {
+        return props.height;
       }
-      if (width.value) {
-        if (aspectRatio.value) {
-          const split = aspectRatio.value.split('/');
+      if (props.width) {
+        if (props.aspectRatio) {
+          const split = props.aspectRatio.split('/');
           if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return width.value * (parseFloat(split[1]) / parseFloat(split[0]));
+            return props.width * (parseFloat(split[1]) / parseFloat(split[0]));
           }
         }
-        return width.value;
+        return props.width;
       }
       return 0;
     });
@@ -128,9 +126,9 @@ export default defineComponent({
     });
 
     const fetch = async () => {
-      await fetchRaw(imageId.value);
+      await fetchRaw(props.imageId);
       if (!image.value) {
-        await fetchBlurHash(imageId.value);
+        await fetchBlurHash(props.imageId);
       }
     }
 

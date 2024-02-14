@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
@@ -120,13 +120,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { deviceAlert, deviceAlerts } = toRefs(props);
-
     const { epochToLongTimeFormat } = useTimeZone();
     const { $tr } = useTranslationsProvider();
 
     const criticityColor = computed(() => {
-      switch (deviceAlert.value?.criticity) {
+      switch (props.deviceAlert?.criticity) {
         case Criticity.Error: return ColorEnum.Error;
         case Criticity.Warning: return ColorEnum.Warning;
         default: return ColorEnum.Primary;
@@ -134,7 +132,7 @@ export default defineComponent({
     });
 
     const statusIcon = computed(() => {
-      switch (deviceAlert.value?.status) {
+      switch (props.deviceAlert?.status) {
         case AlertStatus.Pending:     return "mdi-timer-outline";
         case AlertStatus.Untriggered: return "mdi-timer-off-outline";
         case AlertStatus.Unresolved:  return "mdi-alert-circle-outline";
@@ -147,7 +145,7 @@ export default defineComponent({
     });
 
     const statusLabel = computed(() => {
-      switch (deviceAlert.value?.status) {
+      switch (props.deviceAlert?.status) {
         case AlertStatus.Pending:     return $tr("ui.alert-status.pending", "Pending");
         case AlertStatus.Untriggered: return $tr("ui.alert-status.untriggered", "Untriggered");
         case AlertStatus.Unresolved:  return $tr("ui.alert-status.unresolved", "Unresolved");
@@ -160,25 +158,25 @@ export default defineComponent({
     });
 
     const badgeLabel = computed((): string | null => {
-      if (deviceAlerts.value < 1) {
+      if (props.deviceAlerts < 1) {
         return null;
       }
-      if (deviceAlerts.value > 8) {
+      if (props.deviceAlerts > 8) {
         return "9+";
       }
-      return (deviceAlerts.value + 1).toString();
+      return (props.deviceAlerts + 1).toString();
     })
 
     const cloudTimestamp = computed((): string => {
-      if (deviceAlert.value.enqueuedTimestamp) {
-        return epochToLongTimeFormat(deviceAlert.value.enqueuedTimestamp);
+      if (props.deviceAlert.enqueuedTimestamp) {
+        return epochToLongTimeFormat(props.deviceAlert.enqueuedTimestamp);
       }
       return "";
     });
 
     const deviceTimestamp = computed((): string => {
-      if (deviceAlert.value.sourceTimestamp) {
-        return epochToLongTimeFormat(deviceAlert.value.sourceTimestamp);
+      if (props.deviceAlert.sourceTimestamp) {
+        return epochToLongTimeFormat(props.deviceAlert.sourceTimestamp);
       }
       return "";
     });

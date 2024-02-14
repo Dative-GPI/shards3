@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -59,12 +59,11 @@ export default defineComponent({
       default: false
     }
   },
+  emits: ["update:modelValue"],
   setup(props) {
-    const { bottomColor } = toRefs(props);
-
     const { isMobileSized } = useBreakpoints();
 
-    const bottomColors = computed(() => useColors().getGradients(bottomColor.value));
+    const bottomColors = computed(() => useColors().getGradients(props.bottomColor));
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {

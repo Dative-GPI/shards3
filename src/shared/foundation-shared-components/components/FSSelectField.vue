@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -135,8 +135,6 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { modelValue, rules, editable } = toRefs(props);
-    
     const { slots } = useSlots();
     delete slots.label;
     delete slots.description;
@@ -146,7 +144,7 @@ export default defineComponent({
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-select-field-cursor"             : "default",
           "--fs-select-field-border-color"       : lights.base,
@@ -166,8 +164,8 @@ export default defineComponent({
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
-        const message = rule(modelValue.value ?? "");
+      for (const rule of props.rules) {
+        const message = rule(props.modelValue ?? "");
         if (typeof(message) === "string") {
           messages.push(message);
         }

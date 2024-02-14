@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 
 import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -141,12 +141,10 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, limit } = toRefs(props);
-
     const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
 
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const darks = useColors().getColors(ColorEnum.Dark);
     
@@ -156,10 +154,10 @@ export default defineComponent({
     const innerRightMonth = ref(new Date().getMonth());
     const innerRightYear = ref(new Date().getFullYear());
 
-    const toggle = ref((modelValue.value?.length ?? 0) % 2);
+    const toggle = ref((props.modelValue?.length ?? 0) % 2);
 
     onMounted((): void => {
-      if (!modelValue.value || !modelValue.value.length) {
+      if (!props.modelValue || !props.modelValue.length) {
         innerLeftMonth.value = new Date().getMonth();
         innerLeftYear.value = new Date().getFullYear();
         if (innerLeftMonth.value < 11) {
@@ -172,8 +170,8 @@ export default defineComponent({
         }
       }
       else {
-        innerLeftMonth.value = epochToPickerHeader(modelValue.value[0]).m;
-        innerLeftYear.value = epochToPickerHeader(modelValue.value[0]).y;
+        innerLeftMonth.value = epochToPickerHeader(props.modelValue[0]).m;
+        innerLeftYear.value = epochToPickerHeader(props.modelValue[0]).y;
         if (innerLeftMonth.value < 11) {
           innerRightMonth.value = innerLeftMonth.value + 1;
           innerRightYear.value = innerLeftYear.value;
@@ -226,19 +224,19 @@ export default defineComponent({
     });
 
     const innerLeftValue = computed((): number[] => {
-      if (!modelValue.value || !modelValue.value.length) {
+      if (!props.modelValue || !props.modelValue.length) {
         return [];
       }
-      return modelValue.value.filter(value =>
+      return props.modelValue.filter(value =>
         compare("during", "left", epochToPickerHeader(value)) || compare("before", "left", epochToPickerHeader(value))
       );
     });
 
     const innerRightValue = computed((): number[] => {
-      if (!modelValue.value || !modelValue.value.length) {
+      if (!props.modelValue || !props.modelValue.length) {
         return [];
       }
-      return modelValue.value.filter(value =>
+      return props.modelValue.filter(value =>
         compare("during", "right", epochToPickerHeader(value)) || compare("after", "right", epochToPickerHeader(value))
       );
     });
@@ -259,9 +257,9 @@ export default defineComponent({
 
     const leftClasses = computed((): string[] => {
       const classNames = ["fs-calendar-half", "fs-calendar-left"];
-      if (modelValue.value && modelValue.value.length > 1) {
-        const first = epochToPickerHeader(modelValue.value[0]);
-        const last = epochToPickerHeader(modelValue.value[1]);
+      if (props.modelValue && props.modelValue.length > 1) {
+        const first = epochToPickerHeader(props.modelValue[0]);
+        const last = epochToPickerHeader(props.modelValue[1]);
         if (compare("before", "left", first) && compare("after", "left", last)) {
           classNames.push("fs-calendar-full");
         }
@@ -282,9 +280,9 @@ export default defineComponent({
 
     const rightClasses = computed((): string[] => {
       const classNames = ["fs-calendar-half", "fs-calendar-right"];
-      if (modelValue.value && modelValue.value.length > 1) {
-        const first = epochToPickerHeader(modelValue.value[0]);
-        const last = epochToPickerHeader(modelValue.value[1]);
+      if (props.modelValue && props.modelValue.length > 1) {
+        const first = epochToPickerHeader(props.modelValue[0]);
+        const last = epochToPickerHeader(props.modelValue[1]);
         if (compare("before", "right", first) && compare("after", "right", last)) {
           classNames.push("fs-calendar-full");
         }
@@ -339,18 +337,18 @@ export default defineComponent({
 
     const onClickLeft = (value: Date[]): void => {
       const clicked = pickerToEpoch(value[value.length - 1]);
-      if (!modelValue.value || !modelValue.value.length) {
+      if (!props.modelValue || !props.modelValue.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
-      else if (modelValue.value.length === 1) {
-        emit("update:modelValue", [modelValue.value[0], clicked].sort());
+      else if (props.modelValue.length === 1) {
+        emit("update:modelValue", [props.modelValue[0], clicked].sort());
       }
       else {
         if (innerLeftValue.value.length === 0) {
-          emit("update:modelValue", [clicked, modelValue.value[1]]);
+          emit("update:modelValue", [clicked, props.modelValue[1]]);
         }
         else {
-          emit("update:modelValue", [clicked, modelValue.value[toggle.value]].sort());
+          emit("update:modelValue", [clicked, props.modelValue[toggle.value]].sort());
           toggle.value = (++toggle.value) % 2;
         }
       }
@@ -358,18 +356,18 @@ export default defineComponent({
 
     const onClickRight = (value: Date[]): void => {
       const clicked = pickerToEpoch(value[value.length - 1]);
-      if (!modelValue.value || !modelValue.value.length) {
+      if (!props.modelValue || !props.modelValue.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
-      else if (modelValue.value.length === 1) {
-        emit("update:modelValue", [modelValue.value[0], clicked].sort());
+      else if (props.modelValue.length === 1) {
+        emit("update:modelValue", [props.modelValue[0], clicked].sort());
       }
       else {
         if (innerRightValue.value.length === 0) {
-          emit("update:modelValue", [modelValue.value[0], clicked]);
+          emit("update:modelValue", [props.modelValue[0], clicked]);
         }
         else {
-          emit("update:modelValue", [clicked, modelValue.value[toggle.value]].sort());
+          emit("update:modelValue", [clicked, props.modelValue[toggle.value]].sort());
           toggle.value = (++toggle.value) % 2;
         }
       }
@@ -378,7 +376,7 @@ export default defineComponent({
 
     const allowedDates = (value: Date): boolean => {
       const valueEpoch = pickerToEpoch(value);
-      switch (limit.value) {
+      switch (props.limit) {
         case "past":
           return valueEpoch <= todayToEpoch(true);
         case "future":

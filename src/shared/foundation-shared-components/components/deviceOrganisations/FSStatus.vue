@@ -43,14 +43,14 @@
             </FSSpan>
           </FSRow>
           <FSRow
-            v-if="$props.statusGroup.value"
+            v-if="$props.props.statusGroup"
             width="hug"
           >
             <FSText
               font="text-button"
               :color="$props.statusGroup.color"
             >
-              {{ $props.statusGroup.value }} {{ $props.statusGroup.unit }}
+              {{ $props.props.statusGroup }} {{ $props.statusGroup.unit }}
             </FSText>
           </FSRow>
         </FSCol>
@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -125,20 +125,18 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { statusGroup } = toRefs(props);
-
     const { epochToLongTimeFormat } = useTimeZone();
 
     const cloudTimestamp = computed((): string => {
-      if (statusGroup.value.enqueuedTimestamp) {
-        return epochToLongTimeFormat(statusGroup.value.enqueuedTimestamp);
+      if (props.statusGroup.enqueuedTimestamp) {
+        return epochToLongTimeFormat(props.statusGroup.enqueuedTimestamp);
       }
       return "";
     });
 
     const deviceTimestamp = computed((): string => {
-      if (statusGroup.value.sourceTimestamp) {
-        return epochToLongTimeFormat(statusGroup.value.sourceTimestamp);
+      if (props.statusGroup.sourceTimestamp) {
+        return epochToLongTimeFormat(props.statusGroup.sourceTimestamp);
       }
       return "";
     });

@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -142,9 +142,7 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue", "update:search"],
-  setup: (props, { emit }) => {
-    const { modelValue, multiple, rules, editable } = toRefs(props);
-    
+  setup: (props, { emit }) => {    
     const { slots } = useSlots();
     delete slots.label;
     delete slots.description;
@@ -156,7 +154,7 @@ export default defineComponent({
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-autocomplete-field-cursor"             : "default",
           "--fs-autocomplete-field-border-color"       : lights.base,
@@ -176,8 +174,8 @@ export default defineComponent({
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
-        const message = rule(modelValue.value ?? "");
+      for (const rule of props.rules) {
+        const message = rule(props.modelValue ?? "");
         if (typeof(message) === "string") {
           messages.push(message);
         }
@@ -187,16 +185,10 @@ export default defineComponent({
 
     const classes = computed((): string[] => {
       const classNames = ["fs-autocomplete-field"];
-      if (multiple.value) {
+      if (props.multiple) {
         classNames.push("fs-autocomplete-multiple-field");
       }
       return classNames;
-    });
-
-    watch(modelValue, () => {
-      if (multiple.value) {
-        innerSearch.value = "";
-      }
     });
 
     watch(innerSearch, () => {

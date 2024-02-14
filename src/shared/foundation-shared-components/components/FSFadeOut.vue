@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref, ref, toRefs } from "vue";
+import { defineComponent, Ref, ref } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCol from "./FSCol.vue";
 
@@ -31,27 +31,25 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { maskHeight } = toRefs(props);
-
     const backgrounds = useColors().getColors(ColorEnum.Background);
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
       "--fs-fade-out-mask-color"        : backgrounds.base,
       "--fs-fade-out-top-mask-height"   : "0px",
-      "--fs-fade-out-bottom-mask-height": `${maskHeight.value}px`
+      "--fs-fade-out-bottom-mask-height": `${props.maskHeight}px`
     });
 
     const onScroll = ({ target }): void => {
       if (target.scrollHeight - target.scrollTop - target.clientHeight < 1) {
         style.value["--fs-fade-out-bottom-mask-height"] = "0px";
       } else {
-        style.value["--fs-fade-out-bottom-mask-height"] = `${maskHeight.value}px`;
+        style.value["--fs-fade-out-bottom-mask-height"] = `${props.maskHeight}px`;
       }
       if (target.scrollTop === 0) {
         style.value["--fs-fade-out-top-mask-height"] = "0px";
       }
       else {
-        style.value["--fs-fade-out-top-mask-height"] = `${maskHeight.value}px`;
+        style.value["--fs-fade-out-top-mask-height"] = `${props.maskHeight}px`;
       }
     }
 

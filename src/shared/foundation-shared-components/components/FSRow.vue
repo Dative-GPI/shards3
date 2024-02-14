@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "FSRow",
@@ -46,19 +46,17 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { width, height, align, wrap, padding, gap } = toRefs(props);
-    
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-      "--fs-row-padding"  : typeof(padding.value) === "string" ? padding.value : `${padding.value}px`,
-      "--fs-row-flex-wrap": wrap.value ? "wrap" : "nowrap",
-      "--fs-row-gap"      : `${gap.value}px`,
-      "--fs-row-width"    : width.value,
-      "--fs-row-height"   : height.value
+      "--fs-row-padding"  : typeof(props.padding) === "string" ? props.padding : `${props.padding}px`,
+      "--fs-row-flex-wrap": props.wrap ? "wrap" : "nowrap",
+      "--fs-row-gap"      : `${props.gap}px`,
+      "--fs-row-width"    : props.width,
+      "--fs-row-height"   : props.height
     }));
 
     const classes = computed((): string[] => {
       const classNames = ["fs-row"];
-      switch (width.value) {
+      switch (props.width) {
         case "hug":
           classNames.push("fs-row-width-hug");
           break;
@@ -69,7 +67,7 @@ export default defineComponent({
           classNames.push("fs-row-width-fixed");
           break;
       }
-      switch (height.value) {
+      switch (props.height) {
         case "hug":
           classNames.push("fs-row-height-hug");
           break;
@@ -80,7 +78,7 @@ export default defineComponent({
           classNames.push("fs-row-height-fixed");
           break;
       }
-      switch (align.value) {
+      switch (props.align) {
         case "top-left":
           classNames.push("fs-row-top-left");
           break;

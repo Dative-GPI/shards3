@@ -11,11 +11,13 @@
         v-bind="props"
       />
     </template>
-    <FSContainer
-      padding="16px"
+    <FSCard
+      :elevation="true"
+      :border="false"
     >
       <FSCol
         :gap="16"
+        padding="16px"
       >
         <FSSpan
           font="text-overline"
@@ -33,6 +35,7 @@
             @click="$emit('update:hide')"
           />
           <FSButton
+            v-if="!$props.first"
             variant="icon"
             icon="mdi-chevron-left"
             :label="$tr('ui.data-table.move-left', 'Move to the left')"
@@ -40,6 +43,7 @@
             @click="$emit('update:left')"
           />
           <FSButton
+            v-if="!$props.last"
             variant="icon"
             icon="mdi-chevron-right"
             :label="$tr('ui.data-table.move-right', 'Move to the right')"
@@ -48,7 +52,7 @@
           />
         </FSCol>
       </FSCol>
-    </FSContainer>
+    </FSCard>
   </v-menu>
 </template>
 
@@ -57,18 +61,30 @@ import { defineComponent, ref } from "vue";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSContainer from "../FSContainer.vue";
 import FSButton from "../FSButton.vue";
+import FSCard from "../FSCard.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 
 export default defineComponent({
   name: "FSHeaderButton",
   components: {
-    FSContainer,
     FSButton,
+    FSCard,
     FSSpan,
     FSCol
+  },
+  props: {
+    first: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    last: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   emits: ["update:hide", "update:left", "update:right"],
   setup() {

@@ -24,7 +24,7 @@
         </FSRow>
       </slot>
       <v-spacer />
-      <template v-if="editable">
+      <template v-if="$props.editable">
         <FSIcon
           class="fs-rich-text-field-icon"
           :color="toolbarColors.undo"
@@ -141,7 +141,7 @@
       :contenteditable="!readonly && $props.editable"
     />
     <FSTextField
-      v-if="isLink && editable"
+      v-if="isLink && $props.editable"
       v-model="linkUrl"
       :hideHeader="true"
       @keypress.enter.stop="toggleLink"
@@ -162,8 +162,8 @@
 <script lang="ts">
 import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, ElementNode, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
 import { $createHeadingNode, HeadingNode, HeadingTagType, registerRichText } from "@lexical/rich-text";
-import { computed, defineComponent, onMounted, PropType, ref, toRefs } from "vue";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
+import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
@@ -228,11 +228,9 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, linkColor, rows, variant, editable } = toRefs(props);
-
     const { isMobileSized } = useBreakpoints();
 
-    const linkColors = computed(()=> useColors().getColors(linkColor.value));
+    const linkColors = computed(()=> useColors().getColors(props.linkColor));
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
@@ -281,31 +279,31 @@ export default defineComponent({
       registerRichText(editor);
       registerHistory(editor, createEmptyHistoryState(), 250);
 
-      if (modelValue.value != null) {
+      if (props.modelValue != null) {
         editor.update((): void => {
-          editor.setEditorState(editor.parseEditorState(modelValue.value));
+          editor.setEditorState(editor.parseEditorState(props.modelValue));
         });
       }
     });
 
     const readonly = computed((): boolean => {
-      return variant.value === "readonly";
+      return props.variant === "readonly";
     });
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       let minHeight: string | undefined = undefined;
       const base = isMobileSized.value ? 30 : 42;
       const row = isMobileSized.value ? 16 : 20;
-      if (rows.value > 1) {
-        minHeight = `${base + (rows.value - 1) * row}px`;
+      if (props.rows > 1) {
+        minHeight = `${base + (props.rows - 1) * row}px`;
       }
       else {
         minHeight = `${base}px`;
       }
 
-      switch (variant.value) {
+      switch (props.variant) {
         case "standard": {
-          if (!editable.value) {
+          if (!props.editable) {
             return {
               "--fs-rich-text-field-undo-cursor"        : "default",
               "--fs-rich-text-field-icon-cursor"        : "default",
@@ -339,7 +337,7 @@ export default defineComponent({
     });
 
     const toolbarColors = computed((): {[code: string]: string} => {
-      if (editable.value) {
+      if (props.editable) {
         return {
           undo: canUndo.value ? darks.base : lights.base,
           bold: isBold.value ? darks.base : lights.base,
@@ -534,7 +532,6 @@ export default defineComponent({
 
     return {
       readonly,
-      editable,
       style,
       id,
       editor,

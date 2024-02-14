@@ -12,7 +12,7 @@
       width="hug"
       :wrap="false"
     >
-      <slot name="prepend" v-bind="{ color, colors }">
+      <slot name="prepend" v-bind="{ color: $props.color, colors }">
         <FSIcon
           v-if="$props.prependIcon"
           size="l"
@@ -20,14 +20,14 @@
           {{ $props.prependIcon }}
         </FSIcon>
       </slot>
-      <slot v-bind="{ color, colors }">
+      <slot v-bind="{ color: $props.color, colors }">
         <FSSpan
           v-if="$props.label"
         >
           {{ $props.label }}
         </FSSpan>
       </slot>
-      <slot name="append" v-bind="{ color, colors }">
+      <slot name="append" v-bind="{ color: $props.color, colors }">
         <FSIcon
           v-if="$props.appendIcon"
           size="l"
@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -119,21 +119,19 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { label, variant, color, fullWidth, editable } = toRefs(props);
-
-    const textColors = computed(() => useColors().getContrasts(color.value));
-    const colors = computed(() => useColors().getColors(color.value));
+    const textColors = computed(() => useColors().getContrasts(props.color));
+    const colors = computed(() => useColors().getColors(props.color));
     const lights = useColors().getColors(ColorEnum.Light);
 
     const { slots } = useSlots();
 
     const isEmpty = computed(() => {
-      return !slots.default && !label.value;
+      return !slots.default && !props.label;
     });
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
-        switch (variant.value) {
+      if (!props.editable) {
+        switch (props.variant) {
           case "standard":
           case "full": return {
             "--fs-button-padding"         : !isEmpty.value ? "0 16px" : "0",
@@ -146,7 +144,7 @@ export default defineComponent({
           };
         }
       }
-      switch (variant.value) {
+      switch (props.variant) {
         case "standard": return {
           "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
           "--fs-button-background-color"       : colors.value.light,
@@ -171,7 +169,7 @@ export default defineComponent({
           "--fs-button-active-border-color"    : colors.value.dark,
           "--fs-button-active-color"           : textColors.value.light,
         };
-        case "icon": switch (color.value) {
+        case "icon": switch (props.color) {
           case ColorEnum.Dark: return {
             "--fs-button-color"      : colors.value.light,
             "--fs-button-hover-color": colors.value.dark,
@@ -186,13 +184,13 @@ export default defineComponent({
 
     const classes = computed((): string[] => {
       const classNames: string[] = [];
-      if (!editable.value) {
+      if (!props.editable) {
         classNames.push("fs-button--disabled");
       }
-      if (fullWidth.value) {
+      if (props.fullWidth) {
         classNames.push("fs-button-full-width");
       }
-      switch (variant.value) {
+      switch (props.variant) {
         case "icon":
           classNames.push("fs-button-icon");
           break;
@@ -205,7 +203,6 @@ export default defineComponent({
 
     return {
       colors,
-      color,
       style,
       classes
     };

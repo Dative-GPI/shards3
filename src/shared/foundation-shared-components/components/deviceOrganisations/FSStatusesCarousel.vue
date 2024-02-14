@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
@@ -69,8 +69,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { deviceStatuses } = toRefs(props);
-
     const { isMobileSized } = useBreakpoints();
 
     const tab = ref(0);
@@ -80,7 +78,7 @@ export default defineComponent({
     });
 
     const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup[] => {
-      const deviceStatus = deviceStatuses.value
+      const deviceStatus = props.deviceStatuses
         .find((deviceStatus: FSDeviceStatus) => deviceStatus.modelStatusId === modelStatus.id);
       if (deviceStatus != null) {
         return deviceStatus.statusGroups;

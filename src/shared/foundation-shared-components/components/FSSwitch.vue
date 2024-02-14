@@ -1,6 +1,11 @@
 <template>
-  <FSCol width="hug">
-    <FSRow width="hug" align="center-left">
+  <FSCol
+    width="hug"
+  >
+    <FSRow
+      width="hug"
+      align="center-left"
+    >
       <v-switch
         class="fs-switch"
         hide-details
@@ -37,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -82,17 +87,15 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, editable } = toRefs(props);
-
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
-          "--fs-switch-translate-x": modelValue.value ? "8px" : "-8px",
+          "--fs-switch-translate-x": props.modelValue ? "8px" : "-8px",
           "--fs-switch-cursor"     : "default",
           "--fs-switch-track-color": lights.dark,
           "--fs-switch-thumb-color": backgrounds.base,
@@ -100,25 +103,24 @@ export default defineComponent({
         };
       }
       return {
-        "--fs-switch-translate-x": modelValue.value ? "8px" : "-8px",
+        "--fs-switch-translate-x": props.modelValue ? "8px" : "-8px",
         "--fs-switch-cursor"     : "pointer",
-        "--fs-switch-track-color": modelValue.value ? colors.value.base : darks.base,
+        "--fs-switch-track-color": props.modelValue ? colors.value.base : darks.base,
         "--fs-switch-thumb-color": backgrounds.base,
         "--fs-switch-color"      : darks.base
       };
     });
 
-    const font = computed((): string => modelValue.value ? "text-button" : "text-body");
+    const font = computed((): string => props.modelValue ? "text-button" : "text-body");
 
     const onToggle = (): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
-      emit("update:modelValue", !modelValue.value);
+      emit("update:modelValue", !props.modelValue);
     }
 
     return {
-      editable,
       style,
       font,
       onToggle

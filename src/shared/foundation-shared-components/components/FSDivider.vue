@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -24,13 +24,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { width } = toRefs(props);
-
     const lights = useColors().getColors(ColorEnum.Light);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
         return {
-            "--fs-divider-width": width.value,
+            "--fs-divider-width": props.width,
             "--fs-divider-color": lights.dark
         }
     });

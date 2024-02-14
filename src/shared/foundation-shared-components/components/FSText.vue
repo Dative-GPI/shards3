@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -44,38 +44,36 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { font, lineClamp, ellipsis, color, variant } = toRefs(props);
-
-    const colors = computed(() => useColors().getColors(color.value));
-    
     const { slots } = useSlots();
 
+    const colors = computed(() => useColors().getColors(props.color));
+
     const classes = computed((): string[] => {
-      const classNames = ["fs-text", font.value];
+      const classNames = ["fs-text", props.font];
       if (!slots.default) {
         classNames.push("fs-span-pre-wrap");
       }
-      if (lineClamp.value > 1) {
+      if (props.lineClamp > 1) {
         classNames.push("fs-span-line-clamp");
       }
-      else if (ellipsis.value) {
+      else if (props.ellipsis) {
         classNames.push("fs-span-ellipsis");
       }
       return classNames;
     });
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      switch (variant.value) {
+      switch (props.variant) {
         case "base": return {
-          "--fs-span-line-clamp": lineClamp.value.toString(),
+          "--fs-span-line-clamp": props.lineClamp.toString(),
           "--fs-text-color"     : colors.value.base
         };
         case "light": return {
-          "--fs-span-line-clamp": lineClamp.value.toString(),
+          "--fs-span-line-clamp": props.lineClamp.toString(),
           "--fs-text-color"     : colors.value.light
         };
         case "dark": return {
-          "--fs-span-line-clamp": lineClamp.value.toString(),
+          "--fs-span-line-clamp": props.lineClamp.toString(),
           "--fs-text-color"     : colors.value.dark
         };
       }

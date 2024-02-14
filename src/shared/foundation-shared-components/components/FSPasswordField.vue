@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs } from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -76,15 +76,13 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { editable } = toRefs(props);
-
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const stars = ref(true);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-password-field-cursor"   : "default",
           "--fs-password-field-color": lights.dark,
@@ -103,7 +101,7 @@ export default defineComponent({
     const icon = computed((): string => stars.value ? "mdi-eye-off-outline" : "mdi-eye-outline");
 
     const onToggle = (): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
       stars.value = !stars.value;

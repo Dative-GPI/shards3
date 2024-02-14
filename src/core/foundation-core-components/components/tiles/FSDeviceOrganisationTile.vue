@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, toRefs } from "vue";
+import { defineComponent, onMounted } from "vue";
 
 import FSDeviceOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/FSLoadTile.vue";
@@ -52,12 +52,11 @@ export default defineComponent({
       }
     },
     setup(props) {
-      const { deviceOrganisationId } = toRefs(props);
 
       const { get, getting, entity,  } = useDeviceOrganisation();
 
       onMounted(() => {
-        get(deviceOrganisationId.value);
+        get(props.deviceOrganisationId);
       });
 
       return {

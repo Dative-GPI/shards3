@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
@@ -144,16 +144,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { leftButtonLabel, rightButtonLabel } = toRefs(props);
-
     const { $tr } = useTranslationsProvider();
 
     const cancelButtonLabel = computed(() => {
-      return leftButtonLabel.value ?? $tr("ui.button.cancel", "Cancel");
+      return props.leftButtonLabel ?? $tr("ui.button.cancel", "Cancel");
     });
 
     const submitButtonLabel = computed(() => {
-      return rightButtonLabel.value ??  $tr("ui.button.validate", "Validate");
+      return props.rightButtonLabel ??  $tr("ui.button.validate", "Validate");
     });
 
     return {

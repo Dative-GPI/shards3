@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -64,7 +64,7 @@ export default defineComponent({
       required: false,
       default: null
     },
-    value: {
+    modelValue: {
       type: [String, Boolean, Number],
       required: true
     },
@@ -84,16 +84,14 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:value"],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { value, selected, color, editable } = toRefs(props);
-
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-radio-cursor"     : "default",
           "--fs-radio-radio-color": lights.dark,
@@ -101,22 +99,22 @@ export default defineComponent({
         };
       }
       return {
-        "--fs-radio-cursor"     : selected.value ? "default" : "pointer",
-        "--fs-radio-radio-color": selected.value ? colors.value.base : darks.base,
+        "--fs-radio-cursor"     : props.selected ? "default" : "pointer",
+        "--fs-radio-radio-color": props.selected ? colors.value.base : darks.base,
         "--fs-radio-color"      : darks.base
       };
     });
 
-    const icon = computed((): string => selected.value ? "mdi-radiobox-marked" : "mdi-radiobox-blank");
+    const icon = computed((): string => props.selected ? "mdi-radiobox-marked" : "mdi-radiobox-blank");
 
-    const font = computed((): string => selected.value ? "text-button" : "text-body");
+    const font = computed((): string => props.selected ? "text-button" : "text-body");
 
     const onToggle = (): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
-      if (!selected.value) {
-        emit("update:value", value.value);
+      if (!props.selected) {
+        emit("update:modelValue", props.modelValue);
       }
     };
 

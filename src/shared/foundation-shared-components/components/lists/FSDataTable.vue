@@ -6,7 +6,7 @@
       <FSSearchField
         prependInnerIcon="mdi-magnify"
         :hideHeader="true"
-        v-model="search"
+        v-model="innerSearch"
       />
       <FSButton
         prependIcon="mdi-filter-variant"
@@ -23,13 +23,13 @@
       v-if="(showFilters && filterableHeaders.length > 0) || hiddenHeaders.length > 0"
     >
       <template v-if="showFilters">
-      <FSFilterButton
-        v-for="(header, index) in filterableHeaders"
-        :key="index"
-        :header="header"
-        :filters="filters[header.value]"
-        @update:filter="(value) => toggleFilter(header.value, value)"
-      />
+        <FSFilterButton
+          v-for="(header, index) in filterableHeaders"
+          :key="index"
+          :header="header"
+          :filters="filters[header.value]"
+          @update:filter="(value) => toggleFilter(header.value, value)"
+        />
       </template>
       <FSHiddenButton
         v-if="hiddenHeaders.length > 0"
@@ -52,7 +52,7 @@
       :page="innerPage"
       :itemsPerPage="innerRowsPerPage"
       :modelValue="innerValue"
-      :search="search"
+      :search="innerSearch"
       v-bind="$attrs"
     >
       <template #no-data>
@@ -105,6 +105,8 @@
             <v-spacer />
             <slot :name="`${header.slotName}-configuration`">
               <FSHeaderButton
+                :first="index === 0"
+                :last="index === headersSlots.length - 1"
                 @update:hide="updateHeader(header, 'hidden', !header.hidden)"
                 @update:left="updateHeader(header, 'index', -1)"
                 @update:right="updateHeader(header, 'index', 1)"
@@ -176,7 +178,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue";
 
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
@@ -271,19 +273,17 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:headers", "update:filters", "update:rowsPerPage", "update:page"],
   setup(props, { emit }) {
-    const { headers: columns, items: lines, rowsPerPage, page, itemValue, selectStrategy, modelValue, color, showSelect, selectedOnly, handleFilters } = toRefs(props);
-
     const { $tr } = useTranslationsProvider();
 
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const lights = useColors().getColors(ColorEnum.Light);
 
     const filters = ref<{ [key: string]: FSDataTableFilter[] }>({});
-    const innerRowsPerPage = ref(rowsPerPage.value);
-    const innerValue = ref(modelValue.value);
-    const innerPage = ref(page.value);
+    const innerRowsPerPage = ref(props.rowsPerPage);
+    const innerValue = ref(props.modelValue);
+    const innerPage = ref(props.page);
+    const innerSearch = ref(null);
     const showFilters = ref(true);
-    const search = ref(null);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
@@ -294,7 +294,7 @@ export default defineComponent({
 
     const extraHeaders = computed((): any[] => {
       const extra = [];
-      if (showSelect.value) {
+      if (props.showSelect) {
         extra.push({
           key: "data-table-select",
           width: "3%"
@@ -304,7 +304,7 @@ export default defineComponent({
     });
 
     const innerHeaders = computed((): FSDataTableColumn[] => {
-      return columns.value.filter(c => !c.hidden)
+      return props.headers.filter(c => !c.hidden)
         .sort((c1, c2) => c1.index - c2.index).map((c) => {
           if (c.sort) {
             return c;
@@ -318,7 +318,7 @@ export default defineComponent({
     });
 
     const hiddenHeaders = computed((): FSDataTableColumn[] => {
-      return columns.value.filter(c => c.hidden);
+      return props.headers.filter(c => c.hidden);
     });
 
     const filterableHeaders = computed((): FSDataTableColumn[] => {
@@ -334,9 +334,9 @@ export default defineComponent({
     });
 
     const innerItems = computed((): any[] => {
-      if (handleFilters.value) {
-        return lines.value.filter((item) => {
-          if (selectedOnly.value && !innerValue.value.includes(item[itemValue.value])) {
+      if (props.handleFilters) {
+        return props.items.filter((item) => {
+          if (props.selectedOnly && !innerValue.value.includes(item[props.itemValue])) {
             return false;
           }
           return Object.keys(filters.value).reduce((visible, key) => {
@@ -346,16 +346,16 @@ export default defineComponent({
           }, true);
         });
       }
-      return lines.value;
+      return props.items;
     });
 
     const toggleSelectAll = (allSelected: boolean): void => {
       if (allSelected) {
-        switch (selectStrategy.value) {
+        switch (props.selectStrategy) {
           case "page":
             innerValue.value = innerValue.value.filter((value) => !innerItems.value
               .slice((innerPage.value - 1) * innerRowsPerPage.value, innerPage.value * innerRowsPerPage.value)
-              .map((item) => item[itemValue.value])
+              .map((item) => item[props.itemValue])
               .includes(value));
             break;
           case "all":
@@ -364,16 +364,16 @@ export default defineComponent({
         }
       }
       else {
-        switch (selectStrategy.value) {
+        switch (props.selectStrategy) {
           case "page":
             innerValue.value = innerValue.value.concat(innerItems.value
               .slice((innerPage.value - 1) * innerRowsPerPage.value, innerPage.value * innerRowsPerPage.value)
-              .map((item) => item[itemValue.value]));
+              .map((item) => item[props.itemValue]));
               innerValue.value = [...new Set(innerValue.value)];
             break;
           case "all":
             innerValue.value = innerItems.value
-              .map((item) => item[itemValue.value]);
+              .map((item) => item[props.itemValue]);
             break;
         }
       }
@@ -381,12 +381,12 @@ export default defineComponent({
     };
 
     const toggleSelect = (item: any): void => {
-      const index = innerValue.value.indexOf(item[itemValue.value]);
+      const index = innerValue.value.indexOf(item[props.itemValue]);
       if (index > -1) {
         innerValue.value.splice(index, 1);
       }
       else {
-        innerValue.value.push(item[itemValue.value]);
+        innerValue.value.push(item[props.itemValue]);
       }
       emit("update:modelValue", innerValue.value);
     };
@@ -397,7 +397,7 @@ export default defineComponent({
     };
 
     const updateHeader = (header: FSDataTableColumn, property: "hidden" | "index", value: boolean | number) => {
-      const innerColumns = columns.value.slice(0);
+      const innerColumns = props.headers.slice(0);
       const innerColumn = innerColumns.find((column) => column.value === header.value);
       if (innerColumn) {
         switch (property) {
@@ -488,7 +488,7 @@ export default defineComponent({
     const sortColor = (header: FSDataTableColumn, slotData: any) => {
       const sort = slotData.sortBy.find((s: any) => s.key == header.value);
       if (sort) {
-        return color.value;
+        return props.color;
       }
       return ColorEnum.Light;
     };
@@ -497,8 +497,8 @@ export default defineComponent({
       computeFilters();
     });
 
-    watch(columns, () => {
-      computeFilters();
+    watch(innerSearch, () => {
+      innerPage.value = 1;
     });
 
     watch(innerPage, () => {
@@ -507,6 +507,10 @@ export default defineComponent({
 
     watch(innerRowsPerPage, () => {
       emit("update:rowsPerPage", innerRowsPerPage.value);
+    });
+
+    watch(() => props.headers, () => {
+      computeFilters();
     });
 
     const rowsPerPageOptions = [
@@ -519,18 +523,31 @@ export default defineComponent({
       if (innerRowsPerPage.value === -1) {
         return [];
       }
-      const total = Math.ceil(innerItems.value.length / innerRowsPerPage.value);
-      return Array.from(Array(total).keys()).map(i => ({
-        id: i + 1,
-        label: (i + 1).toString()
-      }));
+      if (innerSearch.value) {
+        var searched = innerItems.value.filter(item => innerHeaders.value.some((header) => {
+          return JSON.stringify(item[header.value]).toString().toLowerCase().includes(innerSearch.value.toString().toLowerCase());
+        }));
+        const total = Math.ceil(searched.length / innerRowsPerPage.value);
+        return Array.from(Array(total).keys()).map(i => ({
+          id: i + 1,
+          label: (i + 1).toString()
+        }));
+      }
+      else {
+        const total = Math.ceil(innerItems.value.length / innerRowsPerPage.value);
+        return Array.from(Array(total).keys()).map(i => ({
+          id: i + 1,
+          label: (i + 1).toString()
+        }));
+      }
     });
 
     return {
       rowsPerPageOptions,
       innerRowsPerPage,
-      pageOptions,
+      innerSearch,
       innerPage,
+      pageOptions,
       showFilters,
       extraHeaders,
       innerHeaders,
@@ -541,7 +558,6 @@ export default defineComponent({
       headersSlots,
       itemsSlots,
       innerValue,
-      search,
       style,
       toggleSelectAll,
       toggleSelect,

@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -101,14 +101,12 @@ export default defineComponent({
   }
   },
   setup(props) {
-  const { color, editable } = toRefs(props);
-
-  const colors = computed(() => useColors().getColors(color.value));
+  const colors = computed(() => useColors().getColors(props.color));
   const lights = useColors().getColors(ColorEnum.Light);
   const darks = useColors().getColors(ColorEnum.Dark);
 
   const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-    if (!editable.value) {
+    if (!props.editable) {
       return {
         "--fs-slider-cursor"     : "default",
         "--fs-slider-track-color": lights.base,

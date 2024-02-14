@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -101,18 +101,17 @@ export default defineComponent({
       default: "none"
     }
   },
+  emits: ["update:modelValue"],
   setup(props) {
-    const { modelValue, color, limit } = toRefs(props);
-
     const { epochToPicker, pickerToEpoch, todayToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
 
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const darks = useColors().getColors(ColorEnum.Dark);
     
-    const innerMonth = ref(modelValue.value ? epochToPicker(modelValue.value).getMonth() : new Date().getMonth());
-    const innerYear = ref(modelValue.value ? epochToPicker(modelValue.value).getFullYear() : new Date().getFullYear());
+    const innerMonth = ref(props.modelValue ? epochToPicker(props.modelValue).getMonth() : new Date().getMonth());
+    const innerYear = ref(props.modelValue ? epochToPicker(props.modelValue).getFullYear() : new Date().getFullYear());
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
@@ -157,7 +156,7 @@ export default defineComponent({
 
     const allowedDates = (value: Date): boolean => {
       const valueEpoch = pickerToEpoch(value);
-      switch (limit.value) {
+      switch (props.limit) {
         case "past":
           return valueEpoch <= todayToEpoch(true);
         case "future":

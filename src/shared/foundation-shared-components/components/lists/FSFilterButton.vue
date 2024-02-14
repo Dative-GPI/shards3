@@ -9,6 +9,7 @@
         variant="standard"
         prependIcon="mdi-filter-variant"
         :color="ColorEnum.Dark"
+        :editable="true"
         :label="label"
         v-bind="props"
       />
@@ -63,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum, FSDataTableColumn, FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
@@ -102,29 +103,27 @@ export default defineComponent({
   },
   emits: ["update:filter"],
   setup(props, { emit }) {
-    const { header, filters } = toRefs(props);
-
     const { $tr } = useTranslationsProvider();
 
     const expanded = ref(false);
     const search = ref(null);
-    const all = ref(!filters.value?.some(f => f.hidden) ?? true);
+    const all = ref(!props.filters?.some(f => f.hidden) ?? true);
 
     const label = computed(() => {
-      if (filters.value) {
-        const hidden = filters.value.filter(f => f.hidden).length;
+      if (props.filters) {
+        const hidden = props.filters.filter(f => f.hidden).length;
         if (hidden > 0) {
-          return $tr("ui.data-table.some-filters-visible", "{0}: {1} visible", [header.value.text, filters.value.length - hidden]);
+          return $tr("ui.data-table.some-filters-visible", "{0}: {1} visible", [props.header.text, props.filters.length - hidden]);
         }
       }
-      return $tr("ui.data-table.all-filters-visible", "{0}: All visible", [header.value.text]);
+      return $tr("ui.data-table.all-filters-visible", "{0}: All visible", [props.header.text]);
     });
 
     const searchedFilters = computed((): FSDataTableFilter[] => {
       if (search.value) {
-        return filters.value.filter(f => (f.text + f.value).includes(search.value));
+        return props.filters.filter(f => (f.text + f.value).includes(search.value));
       }
-      return filters.value;
+      return props.filters;
     });
 
     const getVariant = (filter: FSDataTableFilter): "standard" | "full" => {
@@ -137,13 +136,13 @@ export default defineComponent({
     const onToggle = (filter: FSDataTableFilter): void => {
       if (all.value) {
         all.value = false;
-        emit("update:filter", filters.value.map(f => ({ ...f, hidden: f.value !== filter.value })));
+        emit("update:filter", props.filters.map(f => ({ ...f, hidden: f.value !== filter.value })));
       }
       else {
-        if (filter.hidden && !filters.value.some(f => !f.hidden && f.value !== filter.value)) {
+        if (filter.hidden && !props.filters.some(f => !f.hidden && f.value !== filter.value)) {
           all.value = true;
         }
-        emit("update:filter", filters.value.map(f => ({ ...f, hidden: f.value === filter.value ? !f.hidden : f.hidden })));
+        emit("update:filter", props.filters.map(f => ({ ...f, hidden: f.value === filter.value ? !f.hidden : f.hidden })));
       }
     };
 
@@ -153,7 +152,7 @@ export default defineComponent({
       }
       else {
         all.value = true;
-        emit("update:filter", filters.value.map(f => ({ ...f, hidden: false })));
+        emit("update:filter", props.filters.map(f => ({ ...f, hidden: false })));
       }
     };
 

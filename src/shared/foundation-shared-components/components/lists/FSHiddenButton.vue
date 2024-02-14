@@ -5,18 +5,20 @@
   >
     <template #activator="{ props }">
       <FSChip
-        class="fs-hidden-button"
         prependIcon="mdi-eye-off-outline"
-        :label="label"
         :color="ColorEnum.Light"
+        :editable="true"
+        :label="label"
         v-bind="props"
       />
     </template>
-    <FSContainer
-      padding="16px"
+    <FSCard
+      :elevation="true"
+      :border="false"
     >
       <FSCol
         :gap="16"
+        padding="16px"
       >
         <FSSpan
           font="text-overline"
@@ -25,24 +27,24 @@
         </FSSpan>
         <FSChip
           v-for="(header, index) in $props.headers"
-          class="fs-hidden-button"
-          :key="index"
-          :label="header.text"
           :color="$props.color"
+          :label="header.text"
+          :editable="true"
+          :key="index"
           @click="$emit('update:show', header)"
         />
       </FSCol>
-    </FSContainer>
+    </FSCard>
   </v-menu>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 
-import FSContainer from "../FSContainer.vue";
+import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
@@ -50,7 +52,7 @@ import FSCol from "../FSCol.vue";
 export default defineComponent({
   name: "FSHiddenButton",
   components: {
-    FSContainer,
+    FSCard,
     FSChip,
     FSSpan,
     FSCol
@@ -67,14 +69,12 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { headers } = toRefs(props);
-
     const { $tr } = useTranslationsProvider();
 
     const expanded = ref(false);
 
     const label = computed(() => {
-      return $tr("ui.data-table.hidden-columns", "{0} hidden column(s)", [headers.value.length])
+      return $tr("ui.data-table.hidden-columns", "{0} hidden column(s)", [props.headers.length])
     });
 
     return {

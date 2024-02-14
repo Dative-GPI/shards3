@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "FSIcon",
@@ -20,10 +20,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { size } = toRefs(props);
-
     const classes = computed((): string[] => {
-      return [`fs-icon-${size.value}`];
+      return [`fs-icon-${props.size}`];
     });
 
     return {

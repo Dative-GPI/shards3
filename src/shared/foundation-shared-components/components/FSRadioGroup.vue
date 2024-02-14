@@ -5,17 +5,17 @@
       :key="item.value"
       :label="item.label"
       :description="item.description"
-      :value="item.value"
       :selected="isSelected(item.value)"
       :color="$props.color"
       :editable="$props.editable"
-      @update:value="onToggle"
+      :modelValue="item.value"
+      @update:modelValue="onToggle"
     />
   </FSCol>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -52,14 +52,12 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue } = toRefs(props);
-
     const isSelected = (item: String | Boolean | Number): boolean => {
-      return item == modelValue.value;
+      return item == props.modelValue;
     };
 
     const onToggle = (item: String | Boolean | Number): void => {
-      if (item != modelValue.value) {
+      if (item != props.modelValue) {
         emit("update:modelValue", item);
       }
     };

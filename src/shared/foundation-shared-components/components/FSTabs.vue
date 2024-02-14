@@ -6,8 +6,8 @@
     :style="style"
     :showArrows="true"
     :sliderColor="$props.color"
-    :modelValue="tab"
-    @update:modelValue="(v) => $emit('update:tab', v)"
+    :modelValue="$props.tab"
+    @update:modelValue="(value) => $emit('update:tab', value)"
     v-bind="$attrs"
   >
     <template
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -40,15 +40,13 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { tab, color } = toRefs(props);
-
     const { getChildren } = useSlots();
 
-    const textColors = computed(() => useColors().getContrasts(color.value));
-    const colors = computed(() => useColors().getColors(color.value));
+    const textColors = computed(() => useColors().getContrasts(props.color));
+    const colors = computed(() => useColors().getColors(props.color));
     const darks = useColors().getColors(ColorEnum.Dark);
 
-    const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
       "--fs-group-color"                 : darks.base,
       "--fs-group-hover-background-color": colors.value.light,
       "--fs-group-hover-color"           : darks.dark,
@@ -58,10 +56,9 @@ export default defineComponent({
       "--fs-group-dark"                  : colors.value.dark,
       "--fs-tab-tag-background-color"    : colors.value.base,
       "--fs-tab-tag-color"               : textColors.value.light
-    });
+    }));
 
     return {
-      tab,
       style,
       getChildren
     };

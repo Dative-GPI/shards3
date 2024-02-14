@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -92,14 +92,12 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, indeterminate, editable } = toRefs(props);
-
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-checkbox-cursor"        : "default",
           "--fs-checkbox-checkbox-color": lights.dark,
@@ -108,20 +106,20 @@ export default defineComponent({
       }
       return {
         "--fs-checkbox-cursor"        : "pointer",
-        "--fs-checkbox-checkbox-color": (modelValue.value || indeterminate.value) ? colors.value.base : darks.base,
+        "--fs-checkbox-checkbox-color": (props.modelValue || props.indeterminate) ? colors.value.base : darks.base,
         "--fs-checkbox-color"         : darks.base
       }
     });
 
-    const icon = computed((): string => modelValue.value ? "mdi-checkbox-marked" : indeterminate.value ? "mdi-minus-box" : "mdi-checkbox-blank-outline");
+    const icon = computed((): string => props.modelValue ? "mdi-checkbox-marked" : props.indeterminate ? "mdi-minus-box" : "mdi-checkbox-blank-outline");
 
-    const font = computed((): string => modelValue.value ? "text-button" : "text-body");
+    const font = computed((): string => props.modelValue ? "text-button" : "text-body");
 
     const onToggle = (): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
-      emit("update:modelValue", !modelValue.value);
+      emit("update:modelValue", !props.modelValue);
     };
 
     return {

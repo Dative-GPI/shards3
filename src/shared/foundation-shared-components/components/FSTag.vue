@@ -7,14 +7,14 @@
     :wrap="false"
     v-bind="$attrs"
   >
-    <slot v-bind="{ color, colors }">
+    <slot v-bind="{ color: $props.color, colors }">
       <FSSpan
         class="fs-tag-label"
       >
         {{ $props.label }}
       </FSSpan>
     </slot>
-    <slot name="button" v-bind="{ color, colors }">
+    <slot name="button" v-bind="{ color: $props.color, colors }">
       <v-btn
         v-if="$props.editable"
         class="fs-tag-button"
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -71,13 +71,11 @@ export default defineComponent({
   },
   emits: ["remove"],
   setup(props) {
-    const { variant, color } = toRefs(props);
-
-    const textColors = computed(() => useColors().getContrasts(color.value));
-    const colors = computed(() => useColors().getColors(color.value));
+    const textColors = computed(() => useColors().getContrasts(props.color));
+    const colors = computed(() => useColors().getColors(props.color));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      switch (variant.value) {
+      switch (props.variant) {
         case "standard": return {
           "--fs-tag-background-color"       : colors.value.light,
           "--fs-tag-color"                  : textColors.value.base,
@@ -99,7 +97,6 @@ export default defineComponent({
 
     return {
       colors,
-      color,
       style
     };
   }

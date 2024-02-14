@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -143,20 +143,17 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, rules, editable } = toRefs(props);
-
     const { epochToShortDateFormat } = useTimeZone();
-
-    const dialog = ref(false);
-
-    const innerDateRange = ref(modelValue.value);
 
     const errors = useColors().getColors(ColorEnum.Error);
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
+    const dialog = ref(false);
+    const innerDateRange = ref(props.modelValue);
+
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark
         };
@@ -168,17 +165,17 @@ export default defineComponent({
     });
 
     const placeholder = computed((): string => {
-      if (!modelValue.value || !Array.isArray(modelValue.value) || !modelValue.value.length) {
+      if (!props.modelValue || !Array.isArray(props.modelValue) || !props.modelValue.length) {
         return "";
       }
-      return modelValue.value.map((epoch) => epochToShortDateFormat(epoch)).join(" - ");
+      return props.modelValue.map((epoch) => epochToShortDateFormat(epoch)).join(" - ");
     });
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
-        if (modelValue.value && Array.isArray(modelValue.value)) {
-          for (const value of modelValue.value) {
+      for (const rule of props.rules) {
+        if (props.modelValue && Array.isArray(props.modelValue)) {
+          for (const value of props.modelValue) {
             const message = rule(value);
             if (typeof(message) === "string") {
               messages.push(message);
@@ -197,7 +194,7 @@ export default defineComponent({
     });
 
     const onClick = (): void => {
-      if (editable.value) {
+      if (props.editable) {
         dialog.value = true;
       }
     };

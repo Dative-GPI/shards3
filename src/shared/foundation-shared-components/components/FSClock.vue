@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -116,20 +116,18 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, editable } = toRefs(props);
-
     const { epochToLongDateFormat } = useTimeZone();
 
-    const colors = computed(() => useColors().getColors(color.value));
+    const colors = computed(() => useColors().getColors(props.color));
     const backgrounds = useColors().getColors(ColorEnum.Background);
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
-    const innerHours = ref(modelValue.value ? Math.floor(modelValue.value / (60 * 60 * 1000)) : 0);
-    const innerMinutes = ref(modelValue.value ? Math.floor((modelValue.value % (60 * 60 * 1000)) / (60 * 1000)) : 0);
+    const innerHours = ref(props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0);
+    const innerMinutes = ref(props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-clock-field-cursor"             : "default",
           "--fs-clock-field-background-color"   : backgrounds.base,
