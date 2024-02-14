@@ -43,14 +43,14 @@
             </FSSpan>
           </FSRow>
           <FSRow
-            v-if="$props.props.statusGroup"
+            v-if="$props.statusGroup"
             width="hug"
           >
             <FSText
               font="text-button"
               :color="$props.statusGroup.color"
             >
-              {{ $props.props.statusGroup }} {{ $props.statusGroup.unit }}
+              {{ $props.statusGroup }} {{ $props.statusGroup.unit }}
             </FSText>
           </FSRow>
         </FSCol>

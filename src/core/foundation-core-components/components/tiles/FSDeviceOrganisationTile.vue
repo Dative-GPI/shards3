@@ -2,7 +2,7 @@
   <FSLoadTile
     v-if="getting"
     :editable="$props.editable"
-    :modelValue="modelValue"
+    :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
   />
   <FSDeviceOrganisationTileUI
@@ -16,7 +16,7 @@
     :modelStatuses="entity.modelStatuses"
     :deviceStatuses="entity.status?.statuses"
     :editable="$props.editable"
-    :modelValue="modelValue"
+    :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
   />
 </template>
@@ -52,7 +52,6 @@ export default defineComponent({
       }
     },
     setup(props) {
-
       const { get, getting, entity,  } = useDeviceOrganisation();
 
       onMounted(() => {

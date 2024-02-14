@@ -113,10 +113,10 @@ export default defineComponent({
       if (props.filters) {
         const hidden = props.filters.filter(f => f.hidden).length;
         if (hidden > 0) {
-          return $tr("ui.data-table.some-filters-visible", "{0}: {1} visible", [props.header.text, props.filters.length - hidden]);
+          return $tr("ui.data-table.some-filters-visible", "{0}: {1} visible", props.header.text, (props.filters.length - hidden).toString());
         }
       }
-      return $tr("ui.data-table.all-filters-visible", "{0}: All visible", [props.header.text]);
+      return $tr("ui.data-table.all-filters-visible", "{0}: All visible", props.header.text);
     });
 
     const searchedFilters = computed((): FSDataTableFilter[] => {

@@ -8,7 +8,7 @@
         prependIcon="mdi-eye-off-outline"
         :color="ColorEnum.Light"
         :editable="true"
-        :label="label"
+        :label="$tr('ui.data-table.hidden-columns', '{0} hidden column(s)', $props.headers.length.toString())"
         v-bind="props"
       />
     </template>
@@ -39,10 +39,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
-import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
@@ -68,19 +67,12 @@ export default defineComponent({
       default: ColorEnum.Primary
     }
   },
-  setup(props) {
-    const { $tr } = useTranslationsProvider();
-
+  setup() {
     const expanded = ref(false);
-
-    const label = computed(() => {
-      return $tr("ui.data-table.hidden-columns", "{0} hidden column(s)", [props.headers.length])
-    });
 
     return {
       ColorEnum,
-      expanded,
-      label
+      expanded
     };
   }
 });

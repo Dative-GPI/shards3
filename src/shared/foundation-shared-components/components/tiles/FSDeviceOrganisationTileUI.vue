@@ -24,8 +24,8 @@
             :width="infoWidth"
           >
             <FSSpan
-              lineClamp="2"
               font="text-button"
+              :lineClamp="2"
             >
               {{ $props.label }}
             </FSSpan>
@@ -42,6 +42,7 @@
               :deviceConnectivity="$props.deviceConnectivity"
             />
             <FSWorstAlert
+              v-if="$props.deviceWorstAlert"
               :deviceAlert="$props.deviceWorstAlert"
               :deviceAlerts="$props.deviceAlerts.length"
             />

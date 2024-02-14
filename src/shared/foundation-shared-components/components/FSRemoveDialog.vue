@@ -89,13 +89,13 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup(props) {
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const title = computed((): string => {
       if (props.removeTotal > 1) {
-        return $tr("ui.remove-dialog.remove-plural", "Remove {0} entities", [props.removeTotal]);
+        return $tr("ui.remove-dialog.remove-plural", "Remove {0} entities", props.removeTotal.toString());
       }
       else {
         return $tr("ui.remove-dialog.remove-singular", "Remove an entity");

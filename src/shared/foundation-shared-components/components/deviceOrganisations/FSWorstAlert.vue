@@ -5,7 +5,6 @@
     <template #activator="{ props }">
       <FSBadge
         :content="badgeLabel"
-        :bordered="true"
         :color="criticityColor"
       >
         <FSColorIcon

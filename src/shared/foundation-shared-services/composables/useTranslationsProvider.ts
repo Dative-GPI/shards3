@@ -6,17 +6,15 @@ const { ready, languageCode } = useLanguageCode();
 let initialized = false;
 
 export const useTranslationsProvider = () => {
-    const $tr = (code: string, defaultValue: string | null, parameters: any[] = []): string | null => {
+    const $tr = (code: string, defaultValue: string, ...parameters: string[]): string => {
         let translation = fetched.value.find(t => t.code === code)?.value ?? defaultValue;
         if (translation && parameters.length) {
             for (let p of parameters) {
                 translation = translation.replace(`{${parameters.indexOf(p)}}`, p.toString());
             }
         }
-        return translation
+        return translation;
     };
-
-    const get = (code: string): string | null => $tr(code, null);
 
     const init = async () => {
         if (!initialized) {
@@ -28,7 +26,6 @@ export const useTranslationsProvider = () => {
 
     return {
         $tr,
-        get,
         init
     }
 }

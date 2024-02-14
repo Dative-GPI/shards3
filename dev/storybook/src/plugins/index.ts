@@ -21,5 +21,5 @@ export function registerPlugins (app: App) {
   app
     .use(vuetify)
     .use(ColorPlugin)
-    .use(TranslationPlugin, { translationProvider: useTranslationsProvider() });
+    .use(TranslationPlugin, { translationsProvider: useTranslationsProvider() });
 }
