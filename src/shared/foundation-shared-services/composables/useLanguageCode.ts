@@ -1,4 +1,4 @@
-import { onMounted, provide, ref, watch } from "vue";
+import { provide, ref, watch } from "vue";
 
 import { LANGUAGE_CODE } from "../config/literals";
 
@@ -13,12 +13,6 @@ export const useLanguageCode = () => {
 
     if (!initialized) {
         provide(LANGUAGE_CODE, languageCode);
-
-        onMounted(() => {
-            if (languageCode.value) {
-                return;
-            }
-        });
     }
 
     initialized = true;

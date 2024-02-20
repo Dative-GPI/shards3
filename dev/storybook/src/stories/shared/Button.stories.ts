@@ -4,7 +4,7 @@ import FSButton from "@dative-gpi/foundation-shared-components/components/FSButt
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 
-import { FSButtonsProps } from "@dative-gpi/foundation-shared-components/models";
+import { FSButtonsProps } from "@dative-gpi/foundation-shared-components/aliases";
 
 const meta = {
   title: 'Foundation/Shared/Button',

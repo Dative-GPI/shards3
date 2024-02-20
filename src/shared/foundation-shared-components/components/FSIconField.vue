@@ -69,7 +69,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { Icons, SortByLevenshteinDistance } from "@dative-gpi/foundation-shared-components/utils";
+import { Icons, sortByLevenshteinDistance } from "@dative-gpi/foundation-shared-components/utils";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { FSToggle } from "@dative-gpi/foundation-shared-components/models";
@@ -199,7 +199,7 @@ export default defineComponent({
       else {
         const matchingIcons = Icons.filter((icon) => {
           return icon.fullText.toLowerCase().includes(innerValue.value.toLowerCase());
-        }).sort((a, b) => SortByLevenshteinDistance(a.name, b.name, innerValue.value));
+        }).sort((a, b) => sortByLevenshteinDistance(a.name, b.name, innerValue.value));
         innerIcons.push(...matchingIcons.slice(0, Math.min(32, matchingIcons.length)).map((icon) => ({
           id: icon.name,
           prependIcon: icon.name

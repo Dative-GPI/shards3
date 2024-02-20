@@ -8,19 +8,18 @@
     <FSCol
       align="center-center"
       width="fill"
-      :gap="8"
     >
       <FSRow
         align="center-center"
-        :gap="24"
+        gap="24px"
         :wrap="false"
         :height="infoHeight"
       >
         <FSCol
-          :gap="12"
+          gap="12px"
         >
           <FSCol
-            :gap="6"
+            gap="6px"
             :width="infoWidth"
           >
             <FSSpan
@@ -35,7 +34,7 @@
             </FSSpan>
           </FSCol>
           <FSCol
-            :gap="6"
+            gap="6px"
           >
             <FSRow
               align="center-left"

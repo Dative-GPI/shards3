@@ -105,7 +105,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSText> Default template, slide, single selection, not required </FSText>
       <FSToggleSet
-        :gap="24"
+        gap="24px"
         :modelValue="args.value4"
       >
         <FSButton

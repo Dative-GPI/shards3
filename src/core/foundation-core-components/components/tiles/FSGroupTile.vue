@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, watch } from "vue";
 
 import FSGroupTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSGroupTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/FSLoadTile.vue";
@@ -52,6 +52,10 @@ export default defineComponent({
     const { get, getting, entity,  } = useGroup();
 
     onMounted(() => {
+      get(props.groupId);
+    });
+
+    watch(() => props.groupId, () => {
       get(props.groupId);
     });
 

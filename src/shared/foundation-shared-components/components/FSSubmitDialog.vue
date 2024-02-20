@@ -73,7 +73,7 @@ export default defineComponent({
   },
   props: {
     width: {
-      type: String,
+      type: [String, Number],
       required: false,
       default: "auto"
     },

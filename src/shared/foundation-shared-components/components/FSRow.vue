@@ -11,6 +11,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+
 export default defineComponent({
   name: "FSRow",
   props: {
@@ -37,21 +39,21 @@ export default defineComponent({
     padding: {
       type: [String, Number],
       required: false,
-      default: 0
+      default: "0"
     },
     gap: {
-      type: Number,
+      type: [String, Number],
       required: false,
-      default: 8
+      default: "8px"
     }
   },
   setup(props) {
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-      "--fs-row-padding"  : typeof(props.padding) === "string" ? props.padding : `${props.padding}px`,
       "--fs-row-flex-wrap": props.wrap ? "wrap" : "nowrap",
-      "--fs-row-gap"      : `${props.gap}px`,
-      "--fs-row-width"    : props.width,
-      "--fs-row-height"   : props.height
+      "--fs-row-padding"  : sizeToVar(props.padding),
+      "--fs-row-gap"      : sizeToVar(props.gap),
+      "--fs-row-width"    : sizeToVar(props.width),
+      "--fs-row-height"   : sizeToVar(props.height)
     }));
 
     const classes = computed((): string[] => {

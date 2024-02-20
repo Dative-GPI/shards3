@@ -10,7 +10,7 @@
         class="fs-checkbox"
         size="l"
         :style="style"
-        @click="onToggle"
+        @click.stop="onToggle"
       >
         {{ icon }}
       </FSIcon>
@@ -20,7 +20,7 @@
           class="fs-checkbox-label"
           :style="style"
           :font="font"
-          @click="onToggle"
+          @click.stop="onToggle"
         >
           {{ $props.label }}
         </FSSpan>

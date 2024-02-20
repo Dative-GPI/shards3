@@ -47,9 +47,9 @@ export default defineComponent({
       default: true
     },
     gap: {
-      type: Number,
+      type: [String, Number],
       required: false,
-      default: 8
+      default: "8px"
     },
     color: {
       type: String as PropType<ColorBase>,

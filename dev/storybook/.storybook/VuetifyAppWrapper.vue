@@ -21,10 +21,10 @@ export default defineComponent({
     const { ready: sharedReady } = useShared();
     const { ready: coreReady } = useCore();
 
-    const { force: forceOrganisationId } = useOrganisationId();
+    const { setOrganisationId } = useOrganisationId();
 
     onMounted(async () => {
-      forceOrganisationId("dative");
+      setOrganisationId("dative");
     });
 
     return {

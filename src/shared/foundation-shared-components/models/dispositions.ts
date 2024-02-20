@@ -26,3 +26,8 @@ export interface FSDataTableFilter {
     hidden: boolean;
     filter?: (value: any, property: any, item: any) => boolean;
 }
+
+export interface FSDataTableOrder {
+    key: string;
+    order: "asc" | "desc";
+}

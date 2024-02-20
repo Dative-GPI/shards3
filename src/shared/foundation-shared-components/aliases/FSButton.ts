@@ -1,5 +1,5 @@
 import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
-import { ColorEnum } from "./colors";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 

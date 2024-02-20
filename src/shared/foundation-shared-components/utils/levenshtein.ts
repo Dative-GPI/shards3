@@ -3,7 +3,7 @@ const InnerMin = (d0: number, d1: number, d2: number, bx: number, ay: number) =>
     return d0 < d1 || d2 < d1 ? d0 > d2 ? d2 + 1 : d0 + 1 : bx === ay ? d1 : d1 + 1;
 };
 
-export const LevenshteinDistance = (a: string, b: string) => {
+export const levenshteinDistance = (a: string, b: string) => {
     if (a === b) {
       return 0;
     }
@@ -92,6 +92,6 @@ export const LevenshteinDistance = (a: string, b: string) => {
     return dd;
 };
 
-export const SortByLevenshteinDistance = (a: string, b: string, ref: string) => {
-  return LevenshteinDistance(a, ref) - LevenshteinDistance(b, ref);
+export const sortByLevenshteinDistance = (a: string, b: string, ref: string) => {
+  return levenshteinDistance(a, ref) - levenshteinDistance(b, ref);
 };

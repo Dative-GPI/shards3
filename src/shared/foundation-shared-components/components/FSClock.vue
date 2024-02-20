@@ -1,7 +1,7 @@
 <template>
   <FSCol
     width="fill"
-    :gap="16"
+    gap="16px"
   >
     <FSRow
       align="center-center"

@@ -88,7 +88,7 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
       default: null
     },
     description: {
@@ -111,7 +111,7 @@ export default defineComponent({
       default: "label"
     },
     modelValue: {
-      type: [String, Array] as PropType<string[] | string>,
+      type: [Array, String] as PropType<string[] | string>,
       required: false,
       default: null
     },

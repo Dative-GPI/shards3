@@ -22,7 +22,7 @@
             class="fs-switch-label"
             :style="style"
             :font="font"
-            @click="onToggle"
+            @click.stop="onToggle"
         >
           {{ $props.label }}
         </FSSpan>

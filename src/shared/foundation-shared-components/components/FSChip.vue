@@ -17,6 +17,7 @@
     </slot>
     <slot v-bind="{ color: $props.color, colors }">
       <FSSpan
+        v-if="$props.label"
         font="text-overline"
         class="fs-chip-label"
       >
@@ -59,7 +60,8 @@ export default defineComponent({
     },
     label: {
       type: String,
-      required: true
+      required: false,
+      default: null
     },
     appendIcon: {
       type: String,

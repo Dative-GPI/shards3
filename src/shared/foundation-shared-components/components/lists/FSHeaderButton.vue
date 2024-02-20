@@ -16,7 +16,7 @@
       :border="false"
     >
       <FSCol
-        :gap="16"
+        gap="16px"
         padding="16px"
       >
         <FSSpan

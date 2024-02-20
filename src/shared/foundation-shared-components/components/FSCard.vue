@@ -25,6 +25,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+
 import FSContainer from "./FSContainer.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
@@ -38,17 +40,17 @@ export default defineComponent({
   },
   props: {
     width: {
-      type: Number,
+      type: [String, Number],
       required: false,
       default: null
     },
     height: {
-      type: Number,
+      type: [String, Number],
       required: false,
       default: null
     },
     gap: {
-      type: Number,
+      type: [String, Number],
       required: false,
       default: 8
     }
@@ -56,8 +58,8 @@ export default defineComponent({
   setup(props) {
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-card-width": props.width ? `${props.width}px` : "auto",
-        "--fs-card-height": props.height ? `${props.height}px` : "auto"
+        "--fs-card-width" : sizeToVar(props.width),
+        "--fs-card-height": sizeToVar(props.height)
       };
     });
 

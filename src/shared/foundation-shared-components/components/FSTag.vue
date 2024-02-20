@@ -9,6 +9,7 @@
   >
     <slot v-bind="{ color: $props.color, colors }">
       <FSSpan
+        v-if="$props.label"
         class="fs-tag-label"
       >
         {{ $props.label }}
@@ -51,7 +52,8 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true
+      required: false,
+      default: null
     },
     variant: {
       type: String as PropType<"standard" | "full">,

@@ -129,7 +129,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: [Array, String] as PropType<string[] | string>,
+      type: [Array, String, Number] as PropType<(string | number)[] | string | number>,
       required: false,
       default: false
     },

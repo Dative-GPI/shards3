@@ -1,7 +1,5 @@
-import { onMounted, provide, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { provide, ref, watch } from "vue";
 
-import { setOrganisationId } from "../config/urls/urlFactory";
 import { ORGANISATION_ID } from "../config/literals";
 
 let initialized = false;
@@ -9,28 +7,12 @@ let initialized = false;
 const organisationId = ref<string | null>(null);
 
 export const useOrganisationId = () => {
+    const setOrganisationId = (payload: string) => {
+        organisationId.value = payload;
+    };
+
     if (!initialized) {
         provide(ORGANISATION_ID, organisationId);
-
-        const router = useRouter();
-
-        watch(router, () => {
-            organisationId.value = router.currentRoute.value.params[ORGANISATION_ID] as string | null;
-            setOrganisationId(organisationId);
-        });
-
-        onMounted(() => {
-            if (organisationId.value) {
-                return;
-            }
-            try {
-                organisationId.value = router.currentRoute.value.params[ORGANISATION_ID] as string | null;
-                setOrganisationId(organisationId);
-            }
-            catch {
-                // Do nothing
-            }
-        });
     }
 
     initialized = true;
@@ -48,15 +30,9 @@ export const useOrganisationId = () => {
         }
     });
 
-    const force = (forceId: string): void => {
-        initialized = true;
-        organisationId.value = forceId;
-        setOrganisationId(organisationId);
-    }
-
     return {
         ready,
         organisationId,
-        force
+        setOrganisationId
     };
 }

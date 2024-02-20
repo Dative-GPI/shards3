@@ -1,4 +1,3 @@
-export * from "./aliases";
 export * from "./breadcrumbs";
 export * from "./colors";
 export * from "./deviceAlerts";

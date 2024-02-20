@@ -11,6 +11,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+
 export default defineComponent({
   name: "FSCol",
   props: {
@@ -32,20 +34,20 @@ export default defineComponent({
     padding: {
       type: [String, Number],
       required: false,
-      default: 0
+      default: "0"
     },
     gap: {
-      type: Number,
+      type: [String, Number],
       required: false,
-      default: 8
+      default: "8px"
     }
   },
   setup(props) {
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
-      "--fs-col-padding"  : typeof(props.padding) === "string" ? props.padding : `${props.padding}px`,
-      "--fs-col-gap": `${props.gap}px`,
-      "--fs-col-width": props.width,
-      "--fs-col-height": props.height
+      "--fs-col-padding": sizeToVar(props.padding),
+      "--fs-col-gap"    : sizeToVar(props.gap),
+      "--fs-col-width"  : sizeToVar(props.width),
+      "--fs-col-height" : sizeToVar(props.height)
     }));
 
     const classes = computed((): string[] => {

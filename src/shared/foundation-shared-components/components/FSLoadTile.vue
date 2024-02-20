@@ -9,7 +9,7 @@
     <FSRow
       align="center-center"
       height="fill"
-      :gap="24"
+      gap="24px"
     >
       <v-skeleton-loader
         type="article"

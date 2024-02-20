@@ -41,7 +41,7 @@
       :itemTitle="$props.itemTitle"
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
-      :clearable="$props.editable"
+      :clearable="$props.editable && $props.clearable"
       :error="messages.length > 0"
       :style="style"
       :modelValue="$props.modelValue"
@@ -85,7 +85,7 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
       default: null
     },
     description: {
@@ -108,7 +108,7 @@ export default defineComponent({
       default: "label"
     },
     modelValue: {
-      type: [String, Array] as PropType<string[] | string>,
+      type: [Array, String, Number] as PropType<(string | number)[] | string | number>,
       required: false,
       default: null
     },
@@ -121,6 +121,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    clearable: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     rules: {
       type: Array as PropType<Function[]>,

@@ -7,7 +7,7 @@
   >
     <template #body>
       <FSCol
-        :gap="16"
+        gap="16px"
       >
         <FSRow>
           <FSIcon
@@ -16,7 +16,7 @@
             mdi-alert-outline
           </FSIcon>
           <FSRow
-            :gap="2"
+            gap="2px"
           >
             <FSSpan>
               {{ $tr("ui.remove-dialog.body-regular", "This action is") }}

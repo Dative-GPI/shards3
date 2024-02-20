@@ -5,10 +5,10 @@
   >
     <slot>
       <FSCard
+        gap="24px"
         padding="24px"
         :class="classes"
         :color="$props.color"
-        :gap="24"
       >
           <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
             <slot :name="name" v-bind="slotData" />
@@ -34,7 +34,7 @@ export default defineComponent({
   },
   props: {
     width: {
-      type: String,
+      type: [String, Number],
       required: false,
       default: "auto"
     },

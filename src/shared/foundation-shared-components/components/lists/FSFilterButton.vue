@@ -19,7 +19,7 @@
       :border="false"
     >
       <FSCol
-        :gap="16"
+        gap="16px"
         padding="0 0 0 16px"
       >
         <FSSpan
@@ -29,7 +29,6 @@
         </FSSpan>
         <FSChip
           class="fs-filter-button-all"
-          :key="index"
           :editable="true"
           :color="$props.color"
           :variant="all ? 'full' : 'standard'"
@@ -55,7 +54,11 @@
               :color="$props.color"
               :variant="getVariant(filter)"
               @click="() => onToggle(filter)"
-            />
+            >
+              <template #default>
+                <slot v-bind="{ filter }" />
+              </template>
+            </FSChip>
           </FSCol>
         </FSFadeOut>
       </FSCol>
@@ -93,7 +96,8 @@ export default defineComponent({
     },
     filters: {
       type: Array as PropType<FSDataTableFilter[]>,
-      required: true
+      required: false,
+      default: () => []
     },
     color: {
       type: String as PropType<ColorBase>,

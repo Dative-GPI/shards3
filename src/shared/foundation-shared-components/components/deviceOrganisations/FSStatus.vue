@@ -16,7 +16,7 @@
       <FSCol>
         <FSCol
           align="center-center"
-          :gap="2"
+          gap="2px"
         >
           <FSRow
             width="hug"
@@ -50,7 +50,7 @@
               font="text-button"
               :color="$props.statusGroup.color"
             >
-              {{ $props.statusGroup }} {{ $props.statusGroup.unit }}
+              {{ $props.statusGroup.value }} {{ $props.statusGroup.unit }}
             </FSText>
           </FSRow>
         </FSCol>
@@ -58,7 +58,7 @@
           <FSDivider />
           <FSCol
             align="center-center"
-            :gap="2"
+            gap="2px"
           >
             <FSRow
               v-if="cloudTimestamp"

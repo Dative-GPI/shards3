@@ -1,6 +1,6 @@
 <template>
   <FSCol>
-    <slot name="label">
+    <slot v-if="!$props.hideHeader" name="label">
       <FSRow
         :wrap="false"
       >
@@ -87,7 +87,7 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
       default: null
     },
     description: {
@@ -116,6 +116,11 @@ export default defineComponent({
       default: true
     },
     autoGrow: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    hideHeader: {
       type: Boolean,
       required: false,
       default: false
