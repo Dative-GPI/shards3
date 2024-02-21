@@ -25,12 +25,22 @@
       @update:modelValue="onSubmitTimeScale"
     />
   </FSRow>
+  <FSSpan
+      v-if="messages.length > 0"
+      class="fs-text-field-messages"
+      font="text-overline"
+      :style="style"
+    >
+      {{ messages.join(", ") }}
+    </FSSpan>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref,  PropType } from "vue";
 
-import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
+import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-components/utils";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSNumberField from "./FSNumberField.vue";
 import FSSelectField from "./FSSelectField.vue";
@@ -70,34 +80,17 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
-    }
+    },
+    rules: {
+      type: Array as PropType<Function[]>,
+      required: false,
+      default: () => []
+    },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { $tr } = useTranslationsProvider();
-
-    const timeScale: any[] = [
-      { label: $tr("ui.time-field.second", "Second"), id: 1 },
-      { label: $tr("ui.time-field.minute", "Minute"), id: 60 },
-      { label: $tr("ui.time-field.hour", "Hour"), id: 3600 },
-      { label: $tr("ui.time-field.day", "Day"), id: 86400 },
-      { label: $tr("ui.time-field.month", "Month"), id: 2592000 },
-      { label: $tr("ui.time-field.year", "Year"), id: 31536000 }
-    ];
-
     const innerTime = ref(props.modelValue);
     const selectedUnit = ref(timeScale[0]);
-
-    const getTimeScaleIndex = (secondValue: number): number => {
-      let i = 0;
-      if(secondValue === 0 || secondValue === null) return i;
-      for (i; i < timeScale.length - 1; i++) {
-        if (secondValue % timeScale[i].id !== 0) {
-          return i-1;
-        }
-      }
-      return i;
-    };
 
     const bestTimeScaleIndex: number = getTimeScaleIndex(props.modelValue);
 
@@ -116,12 +109,49 @@ export default defineComponent({
       emit("update:modelValue", innerTime.value * selectedUnit.value.id);
     };
 
+    const errors = useColors().getColors(ColorEnum.Error);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
+
+    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+      if (!props.editable) {
+        return {
+          "--fs-text-field-cursor"             : "default",
+          "--fs-text-field-border-color"       : lights.base,
+          "--fs-text-field-color"              : lights.dark,
+          "--fs-text-field-active-border-color": lights.base
+        };
+      }
+      return {
+        "--fs-text-field-cursor"             : "text",
+        "--fs-text-field-border-color"       : lights.dark,
+        "--fs-text-field-color"              : darks.base,
+        "--fs-text-field-active-border-color": darks.dark,
+        "--fs-text-field-error-color"        : errors.base,
+        "--fs-text-field-error-border-color" : errors.base
+      };
+    });
+
+    const messages = computed((): string[] => {
+      const messages = [];
+      for (const rule of props.rules) {
+        console.log("Props.ModelValue" + props.modelValue)
+        const message = rule(props.modelValue ?? "");
+        if (typeof(message) === "string") {
+          messages.push(message);
+        }
+      }
+      return messages;
+    });
+
     return {
       onSubmitValue,
       onSubmitTimeScale,
       innerTime,
       selectedUnit,
-      timeScale
+      timeScale,
+      messages,
+      style
     };
   }
 });

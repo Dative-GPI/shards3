@@ -1,4 +1,5 @@
 import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+import { getTimeBestString } from "../utils";
 
 const { epochToLongDateFormat } = useTimeZone();
 const { $tr } = useTranslationsProvider();
@@ -47,4 +48,10 @@ export const AutocompleteRules = {
     required: (message: string) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
     min: (min: number, message: string) => (value: string[]) => (Array.isArray(value) && value.length >= min) || (message ?? $tr("ui.rules.autocomplete-min", "Must select at least {0} elements", min.toString())),
     max: (max: number, message: string) => (value: string[]) => (Array.isArray(value) && value.length <= max) || (message ?? $tr("ui.rules.autocomplete-max", "Must select at most {0} elements", max.toString()))
+};
+
+export const TimeRules = {
+    required: (message: string) => (value: number) => !!value || (message ?? $tr("ui.rules.required", "Required")),
+    min: (min: number, message: string) => (value: number) => value >= min || (message ?? $tr("ui.rules.time-min", "Must be more than {0}", getTimeBestString(min))),
+    max: (max: number, message: string) => (value: number) => value <= max || (message ?? $tr("ui.rules.time-max", "Must be less than {0}", getTimeBestString(max)))
 };

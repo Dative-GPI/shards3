@@ -6,7 +6,7 @@ import FSTimeField from "@dative-gpi/foundation-shared-components/components/FST
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
-import { DateRules } from "@dative-gpi/foundation-shared-components/models";
+import { TimeRules } from "@dative-gpi/foundation-shared-components/models";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/TimeField',
@@ -55,6 +55,7 @@ export const Variations: Story = {
         editable="true"
         labelValue="Value"
         labelSelect="Time unit"
+        :rules
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeField
@@ -81,7 +82,7 @@ export const Rules: Story = {
       value1: null,
       value2: null,
       value3: null,
-      rules: DateRules
+      rules: TimeRules
     }
   },
   render: (args, { argTypes }) => ({
@@ -100,24 +101,22 @@ export const Rules: Story = {
         </FSRow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTimeField
-          label="Rules: required"
           :rules="[args.rules.required()]"
           :required="true"
           v-model="args.value1"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTimeField
-          label="Rules: before 2024-01-31 00:00"
-          :rules="[args.rules.max(1706738400000)]"
+          :rules="[args.rules.max(120)]"
           :required="true"
           v-model="args.value2"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTimeField
-          label="Rules: required & before 2024-01-31 00:00 & after 2024-01-02 00:00"
-          :rules="[args.rules.required(), args.rules.max(1706738400000), args.rules.min(1704146400000)]"
+          :rules="[args.rules.required(), args.rules.max(7200), args.rules.min(3600)]"
           :required="true"
           v-model="args.value3"
+          description="Rules: required, max 7200, min 3600"
         />
       </FSCol>
     </v-form>`
