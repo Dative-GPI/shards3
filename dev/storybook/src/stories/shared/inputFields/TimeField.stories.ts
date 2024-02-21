@@ -41,8 +41,6 @@ export const Variations: Story = {
       <FSTimeField
         v-model="args.value1"
         editable="true"
-        labelValue="Value"
-        labelSelect="Time unit"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeField
@@ -53,16 +51,12 @@ export const Variations: Story = {
       <FSTimeField
         v-model="args.value3"
         editable="true"
-        labelValue="Value"
-        labelSelect="Time unit"
-        :rules
+        :required="true"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeField
         v-model="args.value4"
         editable="true"
-        labelValue="Value"
-        labelSelect="Time unit"
         hideHeader="true"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
