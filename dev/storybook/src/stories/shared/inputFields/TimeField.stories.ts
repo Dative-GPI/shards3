@@ -74,7 +74,7 @@ export const Rules: Story = {
     args: {
       valid: false,
       value1: null,
-      value2: null,
+      value2: 3660,
       value3: null,
       rules: TimeRules
     }
@@ -88,11 +88,6 @@ export const Rules: Story = {
     template: `
     <v-form v-model="args.valid" v-lazy>
       <FSCol>
-        <FSRow>
-          <div class="text-body">
-            Form validity: {{ args.valid ?? "false" }}
-          </div>
-        </FSRow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTimeField
           :rules="[args.rules.required()]"
@@ -102,7 +97,6 @@ export const Rules: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSTimeField
           :rules="[args.rules.max(120)]"
-          :required="true"
           v-model="args.value2"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />

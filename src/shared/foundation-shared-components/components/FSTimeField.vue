@@ -39,13 +39,14 @@
 import { computed, defineComponent, ref,  PropType } from "vue";
 
 import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-components/utils";
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSNumberField from "./FSNumberField.vue";
 import FSSelectField from "./FSSelectField.vue";
 import FSRow from "./FSRow.vue";
 import FSCol from "./FSCol.vue";
+import FSSpan from "./FSSpan.vue";
 
 export default defineComponent({
   name: "FSTimeField",
@@ -53,7 +54,8 @@ export default defineComponent({
     FSNumberField,
     FSSelectField,
     FSRow,
-    FSCol
+    FSCol,
+    FSSpan
   },
   props: {
     modelValue: {
