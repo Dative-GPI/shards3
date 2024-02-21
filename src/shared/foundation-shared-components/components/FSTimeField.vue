@@ -4,30 +4,31 @@
     gap="24px"
   >
     <FSNumberField
-      class="fs-time-field"
-      label="Valeur"
+      class="fs-time-field-number"
+      :label="$props.labelValue"
       :description="$props.description"
       :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
       v-model="innerTime"
+      @update:modelValue="onSubmit"
     />     
     <FSSelectField
-      label="Unité de temps écoulée"
+      class="fs-time-field-select"
+      :label="$props.labelSelect"
       :items="$props.items"
       :multiple="false"
       :required="true"
       :clearable="false"
       :editable="$props.editable"
       v-model="selectedUnit.id"
+      @update:modelValue="onSubmit"
     />
   </FSRow>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { defineComponent, PropType, ref } from "vue";
 import FSNumberField from "./FSNumberField.vue";
 import FSSelectField from "./FSSelectField.vue";
 import FSRow from "./FSRow.vue";
@@ -59,7 +60,12 @@ export default defineComponent({
     FSRow
   },
   props: {
-    label: {
+    labelValue: {
+      type: String,
+      required: false,
+      default: null
+    },
+    labelSelect: {
       type: String,
       required: false,
       default: null
@@ -73,11 +79,6 @@ export default defineComponent({
       type: Number,
       required: false,
       default: null
-    },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Primary
     },
     hideHeader: {
       type: Boolean,
@@ -103,43 +104,25 @@ export default defineComponent({
   emits: ["update:modelValue", "update:selectedTimeUnit"],
   setup(props, { emit }) {
 
-    const errors = useColors().getColors(ColorEnum.Error);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
-
     const innerTime = ref(props.modelValue);
     const selectedUnit = ref(timeScale[0]); // Initial value
 
-    // Mise à jour de selectedUnit et innerTime lors de l'initialisation
     const bestTimeScaleIndex: number = getTimeScaleIndex(props.modelValue);
     if (bestTimeScaleIndex !== 0) {
       selectedUnit.value = timeScale[bestTimeScaleIndex];
       innerTime.value = props.modelValue / selectedUnit.value.id;
     }
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      if (!props.editable) {
-        return {
-          "--fs-time-field-color": lights.dark
-        };
-      }
-      return {
-        "--fs-time-field-color": darks.base,
-        "--fs-time-field-error-color": errors.base
-      };
-    });
-
     const onSubmit = (): void => {
       const result = innerTime.value * selectedUnit.value.id;
       emit("update:modelValue", result);
+      console.log("Time: ", result);
     };
 
     return {
-      ColorEnum,
-      style,
       onSubmit,
-      selectedUnit, // Renvoyer selectedUnit pour qu'il puisse être utilisé dans le template
-      innerTime // Renvoyer innerTime pour qu'il puisse être utilisé dans le template
+      selectedUnit,
+      innerTime
     };
   }
 });
