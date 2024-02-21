@@ -2,6 +2,9 @@ import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services"
 
 const { $tr } = useTranslationsProvider();
 
+/**
+ * Time scale array
+ */
 export const timeScale: any[] = [
   { label: $tr("ui.time-field.second", "Second"), id: 1 },
   { label: $tr("ui.time-field.minute", "Minute"), id: 60 },
@@ -11,6 +14,11 @@ export const timeScale: any[] = [
   { label: $tr("ui.time-field.year", "Year"), id: 31536000 }
 ];
 
+/**
+ * Get the best scale index for the time. (cf. timeScale array)
+ * @param secondValue Value in seconds
+ * @returns 
+ */
 export const getTimeScaleIndex = (secondValue: number): number => {
   let i = 0;
   if (secondValue === 0 || secondValue === null) return i;
@@ -22,6 +30,11 @@ export const getTimeScaleIndex = (secondValue: number): number => {
   return i;
 };
 
+/**
+ * Get the time in the best scale and format
+ * @param secondValue Value in seconds
+ * @returns 
+ */
 export const getTimeBestString = (secondValue: number): string => {
   let i = getTimeScaleIndex(secondValue);
   let value = secondValue / timeScale[i].id;

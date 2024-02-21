@@ -113,6 +113,9 @@ export default defineComponent({
     const lights = useColors().getColors(ColorEnum.Light);
     const darks = useColors().getColors(ColorEnum.Dark);
 
+    /**
+     * @description: Returns the style for the time field
+     */
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
         return {
@@ -132,6 +135,9 @@ export default defineComponent({
       };
     });
 
+    /**
+     * @description: Returns the error messages for the time field
+     */
     const messages = computed((): string[] => {
       const messages = [];
       for (const rule of props.rules) {
