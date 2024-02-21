@@ -68,6 +68,7 @@ export const Variations: Story = {
       <FSTimeField
         v-model="args.value5"
         editable="true"
+        description="This is a description, it can be used to provide additional information about the field. It can be used to provide additional information about the field."
       />
     </FSCol>`
   })

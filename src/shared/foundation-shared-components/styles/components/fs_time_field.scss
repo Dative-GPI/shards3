@@ -1,7 +1,9 @@
 .fs-time-field-number {
-    flex: 1 1 140px !important;
+    flex-grow: 2 !important;
+    min-width: 130px;
 }
 
 .fs-time-field-select {
-    flex: 7 2 150px !important;
+    flex-grow: 5 !important;
+    min-width: 160px;
 }

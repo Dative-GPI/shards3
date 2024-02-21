@@ -1,89 +1,64 @@
 <template>    
   <FSRow
-    height="min-content"
-    gap="24px"
+    height="fill"
   >
-  <FSCol class="fs-time-field-number">
+    <FSCol
+      class="fs-time-field-number"
+      >
     <FSNumberField
-      class=""
-      :label="$props.labelValue"
-      :description="$props.description"
+      class="fs-time-field-number "
+      :label="$tr('ui.time-field.value', 'Value')"
       :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
+      :description="$props.description"
+      :clearable="false"
       v-model="innerTime"
       @update:modelValue="onSubmit"
-    />
-  </FSCol>
-  <FSCol class="fs-time-field-select">   
+    />  
+    </FSCol>
     <FSSelectField
-      :label="$props.labelSelect"
-      :items="$props.items"
-      :multiple="false"
-      :required="true"
+      class="fs-time-field-select"
+      :label="$tr('ui.time-field.unit', 'Unit')"
+      :items="timeScale"
       :clearable="false"
-      :editable="$props.editable"
       :hideHeader="$props.hideHeader"
+      :required="$props.required"
+      :editable="$props.editable"
       v-model="selectedUnit.id"
       @update:modelValue="onSubmit"
     />
-  </FSCol>  
   </FSRow>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, ref } from "vue";
+
+import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
+
 import FSNumberField from "./FSNumberField.vue";
 import FSSelectField from "./FSSelectField.vue";
 import FSRow from "./FSRow.vue";
-
-const timeScale: any[] = [
-  { label: "Second", id: 1 },
-  { label: "Minute", id: 60 },
-  { label: "Hour", id: 3600 },
-  { label: "Day", id: 86400 },
-  { label: "Month", id: 2592000 },
-  { label: "Year", id: 31536000 }
-];
-
-function getTimeScaleIndex(secondValue: number) {
-  let i = 0;
-  if(secondValue === 0 || secondValue === null) return i;
-  for (i; i < timeScale.length - 1; i++) {
-    if (secondValue % timeScale[i].id !== 0) {
-      return i-1;
-    }
-  }
-  return i;
-}
+import FSCol from "./FSCol.vue";
 
 export default defineComponent({
   name: "FSTimeField",
   components: {
     FSNumberField,
     FSSelectField,
-    FSRow
-  },
+    FSRow,
+    FSCol
+},
   props: {
-    labelValue: {
-      type: String,
-      required: false,
-      default: null
-    },
-    labelSelect: {
-      type: String,
+    modelValue: {
+      type: Number,
       required: false,
       default: null
     },
     description: {
       type: String,
       required: false,
-      default: null
-    },
-    modelValue: {
-      type: Number,
-      required: false,
-      default: null
+      default: ""
     },
     hideHeader: {
       type: Boolean,
@@ -99,20 +74,37 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
-    },
-    items: {
-      type: Array as PropType<any[]>,
-      required: true,
-      default: () => timeScale
-    },
+    }
   },
-  emits: ["update:modelValue", "update:selectedTimeUnit"],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { $tr } = useTranslationsProvider();
+
+    const timeScale: any[] = [
+      { label: $tr("ui.time-field.second", "Second"), id: 1 },
+      { label: "Minute", id: 60 },
+      { label: "Hour", id: 3600 },
+      { label: "Day", id: 86400 },
+      { label: "Month", id: 2592000 },
+      { label: "Year", id: 31536000 }
+    ];
 
     const innerTime = ref(props.modelValue);
     const selectedUnit = ref(timeScale[0]);
 
+    const getTimeScaleIndex = (secondValue: number): number => {
+      let i = 0;
+      if(secondValue === 0 || secondValue === null) return i;
+      for (i; i < timeScale.length - 1; i++) {
+        if (secondValue % timeScale[i].id !== 0) {
+          return i-1;
+        }
+      }
+      return i;
+    }
+
     const bestTimeScaleIndex: number = getTimeScaleIndex(props.modelValue);
+
     if (bestTimeScaleIndex !== 0) {
       selectedUnit.value = timeScale[bestTimeScaleIndex];
       innerTime.value = props.modelValue / selectedUnit.value.id;
@@ -127,7 +119,8 @@ export default defineComponent({
     return {
       onSubmit,
       selectedUnit,
-      innerTime
+      innerTime,
+      timeScale
     };
   }
 });
