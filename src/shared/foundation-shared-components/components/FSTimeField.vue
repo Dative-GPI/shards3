@@ -1,10 +1,11 @@
 <template>    
   <FSRow
-    height="fill"
+    height="min-content"
     gap="24px"
   >
+  <FSCol class="fs-time-field-number">
     <FSNumberField
-      class="fs-time-field-number"
+      class=""
       :label="$props.labelValue"
       :description="$props.description"
       :hideHeader="$props.hideHeader"
@@ -12,18 +13,21 @@
       :editable="$props.editable"
       v-model="innerTime"
       @update:modelValue="onSubmit"
-    />     
+    />
+  </FSCol>
+  <FSCol class="fs-time-field-select">   
     <FSSelectField
-      class="fs-time-field-select"
       :label="$props.labelSelect"
       :items="$props.items"
       :multiple="false"
       :required="true"
       :clearable="false"
       :editable="$props.editable"
+      :hideHeader="$props.hideHeader"
       v-model="selectedUnit.id"
       @update:modelValue="onSubmit"
     />
+  </FSCol>  
   </FSRow>
 </template>
 
@@ -33,7 +37,7 @@ import FSNumberField from "./FSNumberField.vue";
 import FSSelectField from "./FSSelectField.vue";
 import FSRow from "./FSRow.vue";
 
-const timeScale = [
+const timeScale: any[] = [
   { label: "Second", id: 1 },
   { label: "Minute", id: 60 },
   { label: "Hour", id: 3600 },
@@ -44,6 +48,7 @@ const timeScale = [
 
 function getTimeScaleIndex(secondValue: number) {
   let i = 0;
+  if(secondValue === 0 || secondValue === null) return i;
   for (i; i < timeScale.length - 1; i++) {
     if (secondValue % timeScale[i].id !== 0) {
       return i-1;
@@ -105,7 +110,7 @@ export default defineComponent({
   setup(props, { emit }) {
 
     const innerTime = ref(props.modelValue);
-    const selectedUnit = ref(timeScale[0]); // Initial value
+    const selectedUnit = ref(timeScale[0]);
 
     const bestTimeScaleIndex: number = getTimeScaleIndex(props.modelValue);
     if (bestTimeScaleIndex !== 0) {

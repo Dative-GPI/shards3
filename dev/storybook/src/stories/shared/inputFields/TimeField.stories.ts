@@ -41,31 +41,34 @@ export const Variations: Story = {
       <FSTimeField
         v-model="args.value1"
         editable="true"
+        labelValue="Value"
+        labelSelect="Time unit"
       />
-    </FSCol>
-    <FSCol>
-    <FSTimeField
-      v-model="args.value2"
-      editable="true"
-    />
-    </FSCol>
-    <FSCol>
-    <FSTimeField
-      v-model="args.value3"
-      editable="true"
-    />
-    </FSCol>
-    <FSCol>
-    <FSTimeField
-      v-model="args.value4"
-      editable="true"
-    />
-    </FSCol>
-    <FSCol>
-    <FSTimeField
-      v-model="args.value5"
-      editable="true"
-    />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSTimeField
+        v-model="args.value2"
+        :editable="false"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSTimeField
+        v-model="args.value3"
+        editable="true"
+        labelValue="Value"
+        labelSelect="Time unit"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSTimeField
+        v-model="args.value4"
+        editable="true"
+        labelValue="Value"
+        labelSelect="Time unit"
+        hideHeader="true"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSTimeField
+        v-model="args.value5"
+        editable="true"
+      />
     </FSCol>`
   })
 }
