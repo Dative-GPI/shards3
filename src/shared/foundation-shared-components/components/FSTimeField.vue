@@ -10,13 +10,15 @@
       :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
-      :modelValue="innerTime"
+      v-model="innerTime"
     />     
     <FSSelectField
       label="Unité de temps écoulée"
       :items="$props.items"
       :multiple="false"
       :required="true"
+      :clearable="false"
+      :editable="$props.editable"
       v-model="selectedUnit.id"
     />
   </FSRow>
