@@ -1,7 +1,7 @@
 import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
 import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
 import { DeviceOrganisationAlert, DeviceOrganisationAlertDTO } from "./deviceOrganisationAlert";
-import { ModelStatus, ModelStatusDTO } from "../modelStatuses/modelStatus";
+import { ModelStatusInfos, ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
 
 export class DeviceOrganisationInfos {
     id: string;
@@ -33,7 +33,7 @@ export class DeviceOrganisationInfos {
     unrestricted: boolean;
     online: number;
     meta: { [key: string]: string };
-    modelStatuses: ModelStatus[];
+    modelStatuses: ModelStatusInfos[];
     status?: DeviceStatusDetails;
     connectivity?: DeviceConnectivityDetails;
     alerts: DeviceOrganisationAlert[];
@@ -73,7 +73,7 @@ export class DeviceOrganisationInfos {
         this.unrestricted = params.unrestricted;
         this.online = params.online;
         this.meta = { ...params.meta };
-        this.modelStatuses = params.modelStatuses.map(dto => new ModelStatus(dto));
+        this.modelStatuses = params.modelStatuses.map(dto => new ModelStatusInfos(dto));
         this.status = params.status != null ? new DeviceStatusDetails(params.status) : undefined;
         this.connectivity = params.connectivity != null ? new DeviceConnectivityDetails({ ...params.connectivity, id: params.id }) : undefined;
         this.alerts = params.alerts.map(dto => new DeviceOrganisationAlert(dto));
@@ -111,7 +111,7 @@ export interface DeviceOrganisationInfosDTO {
     unrestricted: boolean;
     online: number;
     meta: { [key: string]: string };
-    modelStatuses: ModelStatusDTO[];
+    modelStatuses: ModelStatusInfosDTO[];
     status?: DeviceStatusDetailsDTO;
     connectivity?: DeviceConnectivityDetailsDTO;
     alerts: DeviceOrganisationAlertDTO[];

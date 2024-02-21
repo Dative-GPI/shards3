@@ -6,7 +6,7 @@ import FSNumberField from "@dative-gpi/foundation-shared-components/components/F
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
-import { NumberRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
+import { NumberRules } from "@dative-gpi/foundation-shared-components/models";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/NumberField',
@@ -25,8 +25,7 @@ export const Variations: Story = {
     args: {
       value1: null,
       value2: 500,
-      value3: null,
-      value4: 1500
+      value3: 1500
     }
   },
   render: (args, { argTypes }) => ({
@@ -38,29 +37,22 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSNumberField
-        label="Number - dark color"
+        label="Number"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSNumberField
-        color="primary"
-        label="Number - primary color"
+        label="Required number, with description"
+        description="Description for this field"
+        :required="true"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSNumberField
-        color="warning"
-        label="Required number - warning color"
-        description="Description for this field"
-        :required="true"
-        v-model="args.value3"
-      />
-      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSNumberField
-        label="Uneditable"
+        label="Uneditable number, with description"
         description="Uneditable description"
         :editable="false"
-        v-model="args.value4"
+        v-model="args.value3"
       />
     </FSCol>`
   })

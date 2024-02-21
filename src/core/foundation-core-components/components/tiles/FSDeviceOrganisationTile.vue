@@ -1,0 +1,71 @@
+<template>
+  <FSLoadTile
+    v-if="getting"
+    :editable="$props.editable"
+    :modelValue="$props.modelValue"
+    @update:modelValue="(value) => $emit('update:modelValue', value)"
+  />
+  <FSDeviceOrganisationTileUI
+    v-else-if="entity"
+    :imageId="entity.imageId"
+    :label="entity.label"
+    :code="entity.code"
+    :deviceConnectivity="entity.connectivity"
+    :deviceWorstAlert="entity.worstAlert"
+    :deviceAlerts="entity.alerts"
+    :modelStatuses="entity.modelStatuses"
+    :deviceStatuses="entity.status?.statuses"
+    :editable="$props.editable"
+    :modelValue="$props.modelValue"
+    @update:modelValue="(value) => $emit('update:modelValue', value)"
+  />
+</template>
+
+<script lang="ts">
+import { defineComponent, onMounted, watch } from "vue";
+
+import FSDeviceOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue";
+import FSLoadTile from "@dative-gpi/foundation-shared-components/components/FSLoadTile.vue";
+
+import { useDeviceOrganisation } from "@dative-gpi/foundation-core-services/composables";
+
+export default defineComponent({
+    name: "FSDeviceOrganisationTile",
+    components: {
+      FSDeviceOrganisationTileUI,
+      FSLoadTile
+    },
+    props: {
+      deviceOrganisationId: {
+        type: String,
+        required: true
+      },
+      modelValue: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      editable: {
+        type: Boolean,
+        required: false,
+        default: true
+      }
+    },
+    setup(props) {
+      const { get, getting, entity } = useDeviceOrganisation();
+
+      onMounted(() => {
+        get(props.deviceOrganisationId);
+      });
+
+      watch(() => props.deviceOrganisationId, () => {
+        get(props.deviceOrganisationId);
+      });
+
+      return {
+        getting,
+        entity
+      };
+    }
+});
+</script>

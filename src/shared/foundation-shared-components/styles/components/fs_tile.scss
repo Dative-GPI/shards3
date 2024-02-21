@@ -1,0 +1,33 @@
+.fs-tile {
+    position: relative;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.fs-tile-bottom {
+    position: absolute;
+    bottom: -1px;
+    left: -1px;
+    width: calc(100% + 2px);
+    height: 3px;
+    background: var(--fs-tile-border-color);
+}
+
+.fs-tile-checkbox {
+    border-radius: 4px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 1px;
+    right: 1px;
+
+    @include web {
+        width: 40px;
+        height: 40px;
+    }
+
+    @include mobile {
+        width: 32px;
+        height: 32px;
+    }
+}

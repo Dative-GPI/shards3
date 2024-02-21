@@ -4,9 +4,7 @@ import { type Preview, setup } from "@storybook/vue3";
 import { mockApp } from "../src/plugins/axiosmock";
 import type { App } from "vue";
 
-import vuetify from "../src/plugins/vuetify";
-
-import { ColorPlugin } from "@dative-gpi/foundation-shared-components/plugins/colorPlugin";
+import { registerPlugins } from "../src/plugins";
 
 const preview: Preview = {
   parameters: {
@@ -33,7 +31,7 @@ loadFonts();
 mockApp();
 
 setup((app:App) => {
-  app.use(vuetify).use(ColorPlugin);
+  registerPlugins(app);
 })
 
 setup((app:App) => {

@@ -6,7 +6,7 @@ import FSTagField from "@dative-gpi/foundation-shared-components/components/FSTa
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
-import { TagRules } from "@dative-gpi/foundation-shared-components/models/FSTextFields";
+import { TagRules } from "@dative-gpi/foundation-shared-components/models";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/TagField',
@@ -38,31 +38,28 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTagField
-        label="Tag - full - dark color, primary tag color"
+        label="Tag, full, primary color"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
-        color="primary"
+        label="Tag, standard, primary color"
         tagVariant="standard"
-        label="Tag - standard - primary color"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
-        color="warning"
-        tagColor="warning"
-        label="Required tag - full - warning color"
+        label="Required tag, full, warning color, with description"
         description="Description for this field"
+        tagColor="warning"
         :required="true"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
-        color="error"
-        tagColor="error"
-        label="Uneditable - full - error color"
+        label="Uneditable tag, full, error color, width description"
         description="Uneditable description"
+        tagColor="error"
         :editable="false"
         v-model="args.value4"
       />

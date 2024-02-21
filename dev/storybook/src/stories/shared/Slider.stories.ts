@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { VForm } from 'vuetify/lib/components/index.mjs';
-
 import FSSlider from "@dative-gpi/foundation-shared-components/components/FSSlider.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 const meta = {
   title: 'Foundation/Shared/Slider',
@@ -22,8 +19,8 @@ export const Variations: Story = {
   args: {
     args: {
       value1: 0,
-      value2: 10,
-      value3: 25,
+      value2: 5,
+      value3: 15,
       value4: 50
     }
   },
@@ -36,20 +33,28 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSSlider
-        label="Text - dark color"
+        label="Slider - dark color"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSlider
         color="primary"
-        label="Text - primary color"
+        label="Slider - min: 0 - max: 10 - step: 1 - primary color"
+        :min="0"
+        :max="10"
+        :step="1"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSlider
-        color="warning" :required="true"
-        label="Required text - warning color"
+        color="warning"
+        label="Required slider - min: 0 - max: 10 - step: 1 - ticks - warning color"
         description="Description for this field"
+        :required="true"
+        :showTicks="'always'"
+        :min="0"
+        :max="25"
+        :step="1"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />

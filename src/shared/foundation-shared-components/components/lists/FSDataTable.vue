@@ -1,0 +1,770 @@
+<template>
+  <FSCol
+    gap="16px"
+  >
+    <FSRow
+      align="bottom-center"
+    >
+      <FSSearchField
+        prependInnerIcon="mdi-magnify"
+        :hideHeader="true"
+        v-model="innerSearch"
+      />
+      <FSButton
+        prependIcon="mdi-filter-variant"
+        :variant="showFilters ? 'full' : 'standard'"
+        @click="showFilters = !showFilters"
+      />
+      <slot name="toolbar" />
+      <v-spacer />
+    </FSRow>
+    <FSRow
+      v-if="(showFilters && filterableHeaders.length > 0) || hiddenHeaders.length > 0"
+    >
+      <template v-if="showFilters">
+        <FSFilterButton
+          v-for="(header, index) in filterableHeaders"
+          :key="index"
+          :header="header"
+          :filters="filters[header.value]"
+          @update:filter="(value) => toggleFilter(header.value, value)"
+        >
+          <template #default="{ filter }">
+            <slot :name="filterSlot(header)" v-bind="{ filter }" />
+          </template>
+        </FSFilterButton>
+        <FSChip
+          v-if="resetable"
+          variant="standard"
+          :label="$tr('ui.data-table.reset-filters', 'Reset')"
+          :color="ColorEnum.Error"
+          :editable="true"
+          @click="resetFilter"
+        />
+      </template>
+      <FSHiddenButton
+        v-if="hiddenHeaders.length > 0"
+        :headers="hiddenHeaders"
+        :color="$props.color"
+        @update:show="(value) => updateHeader(value, 'hidden', false)"
+      />
+    </FSRow>
+    <v-data-table
+      v-if="!isExtraSmall"
+      selectStrategy="all"
+      :itemValue="$props.itemValue"
+      :showSelect="$props.showSelect"
+      :singleSelect="$props.singleSelect"
+      :headers="extraHeaders.concat(innerHeaders)"
+      :groupBy="$props.groupBy ? [$props.groupBy] : []"
+      :items="innerItems"
+      :fixedHeader="true"
+      :multiSort="true"
+      :hover="true"
+      :style="style"
+      :class="classes"
+      :page="innerPage"
+      :itemsPerPage="innerRowsPerPage"
+      :modelValue="innerValue"
+      @auxclick:row="onClickRow"
+      @click:row="onClickRow"
+      v-model:sortBy="innerSortBy"
+    >
+      <template #no-data>
+        <FSText
+          font="text-overline"
+        >
+          {{ $tr("ui.data-table.empty", "No data") }}
+        </FSText>
+      </template>
+      <template #[`header.data-table-select`]="props">
+        <FSRow
+          v-if="!$props.singleSelect"
+          class="fs-data-table-select"
+          align="bottom-center"
+          width="hug"
+        >
+          <FSCheckbox
+            :modelValue="props.allSelected"
+            :indeterminate="props.someSelected && !props.allSelected"
+            @update:modelValue="toggleSelectAll(props.allSelected)"
+          />
+        </FSRow>
+      </template>
+      <template #[`item.data-table-select`]="props">
+        <FSRow
+          class="fs-data-table-select"
+          align="bottom-center"
+          width="hug"
+        >
+          <FSCheckbox
+            :modelValue="innerValue.includes(props.item[$props.itemValue])"
+            @update:modelValue="toggleSelect(props.item)"
+          />
+        </FSRow>
+      </template>
+      <template #[`header.data-table-group`]="props">
+        <slot name="header.data-table-group" v-bind="props" />
+      </template>
+      <template #[`item.data-table-group`]="props">
+        <slot name="item.data-table-group" v-bind="props" />
+      </template>
+      <template #group-header="props">
+        <template :ref="() => { if (!props.isGroupOpen(props.item)) { props.toggleGroup(props.item) } }" />
+        <tr class="fs-data-table-group-header">
+          <td />
+          <td
+            class="fs-data-table-group-header"
+            :colspan="extraHeaders.concat(innerHeaders).length + 1"
+          >
+            <slot name="group-header" v-bind="props">
+            <FSContainer
+              padding="0"
+              :border="false"
+            >
+              <FSCard
+                padding="12px 16px"
+              >
+                <FSRow
+                  align="center-left"
+                  width="hug"
+                >
+                  <FSText>
+                    <slot name="group-header-title" v-bind="props">
+                      {{ props.item.value }}
+                    </slot>
+                  </FSText>
+                </FSRow>
+              </FSCard>
+            </FSContainer>
+            </slot>
+          </td>
+        </tr>
+      </template>
+      <template v-for="(header, index) in headersSlots" #[header.slotName]="props">
+        <slot :name="header.slotName" v-bind="props">
+          <FSRow
+            align="center-left"
+            :wrap="false"
+            :key="index"
+          >
+            <slot :name="`${header.slotName}-prepend`" />
+            <slot :name="`${header.slotName}-title`">
+              <FSText>
+                {{ header.text }}
+              </FSText>
+            </slot>
+            <slot :name="`${header.slotName}-append`" />
+            <v-spacer />
+            <slot :name="`${header.slotName}-configuration`">
+              <FSHeaderButton
+                :first="index === 0"
+                :last="index === headersSlots.length - 1"
+                @update:hide="updateHeader(header, 'hidden', !header.hidden)"
+                @update:left="updateHeader(header, 'index', -1)"
+                @update:right="updateHeader(header, 'index', 1)"
+              />
+              <FSButton
+                v-if="header.sortable"
+                variant="icon"
+                :color="sortColor(header, props)"
+                :icon="sortIcon(header, props)"
+              />
+            </slot>
+          </FSRow>
+        </slot>
+      </template>
+      <template v-for="(item, index) in itemsSlots" #[item.slotName]="props">
+        <slot :name="item.slotName" v-bind="props">
+          <FSRow
+            align="center-left"
+            :key="index"
+          >
+            <FSText
+              font="text-overline"
+            >
+              {{ props.item[item.value] }}
+            </FSText>
+          </FSRow>
+        </slot>
+      </template>
+      <template #bottom>
+        <FSRow
+          class="fs-data-table-footer"
+          align="center-right"
+          padding="16px"
+          gap="24px"
+        >
+          <template v-if="$props.modelValue.length >= innerItems.length">
+            <FSRow
+              gap="2px"
+            >
+              <FSText
+                font="text-button"
+              >
+                {{ $tr("ui.data-table.all-selected-bold", "Attention:") }}
+              </FSText>
+              <FSText>
+                {{ $tr("ui.data-table.all-selected-regular", "All elements selected") }}
+              </FSText>
+            </FSRow>
+          </template>
+          <template v-else-if="$props.modelValue.length">
+            <FSText>
+              {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
+            </FSText>
+          </template>
+          <v-spacer />
+          <FSRow
+            align="center-right"
+          >
+            <FSText
+              font="text-overline"
+            >
+              {{ $tr("ui.data-table.rows-per-page", "Rows per page") }}
+            </FSText>
+            <FSRow
+              width="120px"
+            >
+              <FSSelectField
+                :clearable="false"
+                :hideHeader="true"
+                :items="rowsPerPageOptions"
+                v-model="innerRowsPerPage"
+              />
+            </FSRow>
+          </FSRow>
+          <FSToggleSet
+            v-if="innerRowsPerPage !== -1"
+            class="fs-data-table-pagination"
+            variant="slide"
+            :values="pageOptions"
+            :required="true"
+            v-model="innerPage"
+          />
+        </FSRow>
+      </template>
+      <template v-for="(_, name) in innerSlots" #[name]="props">
+        <slot :name="name" v-bind="props" />
+      </template>
+    </v-data-table>
+    <v-data-iterator
+      v-else
+      class="fs-data-table-iterator"
+      :items="innerItems"
+    >
+      <FSCol
+        width="fill"
+      >
+        <FSIteratorCard
+          v-for="(item, index) in innerItems"
+          :key="index"
+          :headers="innerHeaders"
+          :item="item"
+          :itemTo="$props.itemTo"
+          :color="$props.color"
+          :showSelect="$props.showSelect"
+          :modelValue="innerValue.includes(item[$props.itemValue])"
+          @update:modelValue="toggleSelect"
+        >
+          <template v-for="(item, index) in itemsSlots" #[item.slotName]="props">
+            <slot :name="item.slotName" v-bind="props">
+              <FSText
+                :key="index"
+              >
+                {{ props.item[item.value] }}
+              </FSText>
+            </slot>
+          </template>
+        </FSIteratorCard>
+      </FSCol>
+    </v-data-iterator>
+  </FSCol>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, getCurrentInstance, onMounted, PropType, ref, Slot, watch } from "vue";
+import { useRouter } from "vue-router";
+
+import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
+import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+
+import FSIteratorCard from "./FSIteratorCard.vue";
+import FSFilterButton from "./FSFilterButton.vue";
+import FSHiddenButton from "./FSHiddenButton.vue";
+import FSHeaderButton from "./FSHeaderButton.vue";
+import FSSearchField from "../FSSearchField.vue";
+import FSSelectField from "../FSSelectField.vue";
+import FSContainer from "../FSContainer.vue";
+import FSToggleSet from "../FSToggleSet.vue";
+import FSCheckbox from "../FSCheckbox.vue";
+import FSCard from "../FSCard.vue";
+import FSChip from "../FSChip.vue";
+import FSText from "../FSText.vue";
+import FSRow from "../FSRow.vue";
+import FSCol from "../FSCol.vue";
+
+export default defineComponent({
+  name: "FSDataTable",
+  components: {
+    FSIteratorCard,
+    FSFilterButton,
+    FSHiddenButton,
+    FSHeaderButton,
+    FSSearchField,
+    FSSelectField,
+    FSContainer,
+    FSToggleSet,
+    FSCheckbox,
+    FSCard,
+    FSChip,
+    FSText,
+    FSRow,
+    FSCol
+  },
+  props: {
+    headers: {
+      type: Array as PropType<FSDataTableColumn[]>,
+      required: true
+    },
+    items: {
+      type: Array as PropType<any[]>,
+      required: true
+    },
+    itemValue: {
+      type: String,
+      required: false,
+      default: "id"
+    },
+    itemTo: {
+      type: Function,
+      required: false,
+      default: null
+    },
+    rowsPerPage: {
+      type: Number,
+      required: false,
+      default: 10
+    },
+    page: {
+      type: Number,
+      required: false,
+      default: 1
+    },
+    groupBy: {
+      type: Object as PropType<FSDataTableOrder>,
+      required: false,
+      default: null
+    },
+    sortBy: {
+      type: Array as PropType<FSDataTableOrder[]>,
+      required: false,
+      default: () => []
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      required: false,
+      default: () => []
+    },
+    color: {
+      type: String as PropType<ColorEnum>,
+      required: false,
+      default: ColorEnum.Primary
+    },
+    showSelect: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    singleSelect: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    selectedOnly: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  emits: ["update:modelValue", "update:headers", "update:filters", "update:sortBy", "update:rowsPerPage", "update:page", "click:row"],
+  setup(props, { emit }) {
+    const { isExtraSmall } = useBreakpoints();
+    const { $tr } = useTranslationsProvider();
+    const router = useRouter();
+
+    const backgrounds = useColors().getColors(ColorEnum.Background);
+    const lights = useColors().getColors(ColorEnum.Light);
+
+    const filters = ref<{ [key: string]: FSDataTableFilter[] }>({});
+    const innerRowsPerPage = ref(props.rowsPerPage);
+    const innerSortBy = ref(props.sortBy);
+    const innerValue = ref(props.modelValue);
+    const innerPage = ref(props.page);
+    const innerSearch = ref(null);
+    const showFilters = ref(true);
+    const resetable = ref(false);
+
+    const rowsPerPageOptions = [
+      { id: 10, label: "10" },
+      { id: 30, label: "30" },
+      { id: -1, label: $tr("ui.data-table.all-rows", "All") }
+    ];
+
+    const innerSlots = computed((): { [label: string]: Slot<any> } => {
+      const slots = { ...useSlots().slots };
+      delete slots["toolbar"];
+      delete slots["no-data"];
+      delete slots["header.data-table-select"];
+      delete slots["item.data-table-select"];
+      delete slots["header.data-table-group"];
+      delete slots["item.data-table-group"];
+      delete slots["group-header"];
+      delete slots["group-header-title"];
+      delete slots["bottom"];
+      for (const header of filterableHeaders.value) {
+        delete slots[filterSlot(header)];
+      }
+      for (const header of headersSlots.value) {
+        delete slots[header.slotName];
+        delete slots[header.slotName + "-prepend"];
+        delete slots[header.slotName + "-title"];
+        delete slots[header.slotName + "-append"];
+        delete slots[header.slotName + "-configuration"];
+      }
+      for (const item of itemsSlots.value) {
+        delete slots[item.slotName];
+      }
+      return slots;
+    });
+
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+      return {
+        "--fs-data-table-background-color": backgrounds.base,
+        "--fs-data-table-border-color": lights.base
+      };
+    });
+
+    const classes = computed((): string[] => {
+      const innerClasses = ["fs-data-table"];
+      if (props.groupBy) {
+        innerClasses.push("fs-data-table-grouped");
+      }
+      return innerClasses;
+    });
+
+    const extraHeaders = computed((): any[] => {
+      const extra = [];
+      if (props.groupBy) {
+        extra.push({
+          key: "data-table-group",
+          width: "0%"
+        });
+      }
+      if (props.showSelect) {
+        extra.push({
+          key: "data-table-select",
+          width: "0%"
+        });
+      }
+      return extra;
+    });
+
+    const innerHeaders = computed((): FSDataTableColumn[] => {
+      return props.headers.filter(c => !c.hidden)
+        .sort((c1, c2) => c1.index - c2.index).map((c) => {
+          if (c.sort) {
+            return c;
+          }
+          return {
+            ...c,
+            sort: (a: any, b: any): number => JSON.stringify(a)
+              .localeCompare(JSON.stringify(b), undefined, { numeric: true })
+          };
+        })
+    });
+
+    const hiddenHeaders = computed((): FSDataTableColumn[] => {
+      return props.headers.filter(c => c.hidden);
+    });
+
+    const filterableHeaders = computed((): FSDataTableColumn[] => {
+      return innerHeaders.value.filter((c) => c.filterable);
+    });
+
+    const innerItems = computed((): any[] => {
+      const activeFilters: { key: string, filter: FSDataTableFilter }[] = Object.keys(filters.value).reduce((acc, key) => {
+        return acc.concat(filters.value[key].filter((filter) => filter.hidden).map((filter) => ({ key, filter })));
+      }, []);
+      return props.items.filter((item) => {
+        if (props.selectedOnly && !innerValue.value.includes(item[props.itemValue])) {
+          return false;
+        }
+        if (innerSearch.value) {
+          if (!JSON.stringify(item).toLowerCase().includes(innerSearch.value.toString().toLowerCase())) {
+            return false;
+          }
+        }
+        if (activeFilters.some(af => af.filter.filter(af.filter.value, item[af.key], item))) {
+          return false;
+        }
+        return true;
+      });
+    });
+
+    const headersSlots = computed((): FSDataTableColumn[] => {
+      return innerHeaders.value.map((c) => ({ ...c, slotName: `header.${c.value}` }));
+    });
+
+    const itemsSlots = computed((): FSDataTableColumn[] => {
+      return innerHeaders.value.map((c) => ({ ...c, slotName: `item.${c.value}` }));
+    });
+
+    const groups = computed((): { [key: string]: any[] } => {
+      if (props.groupBy) {
+        return innerItems.value.reduce((acc, item) => {
+          const key = item[props.groupBy.key];
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+          acc[key].push(item);
+          return acc;
+        }, {});
+      }
+      return {};
+    });
+
+    const pageOptions = computed((): { id: number, label: string }[] => {
+      if (innerRowsPerPage.value === -1) {
+        return [];
+      }
+      else {
+        const total = Math.ceil((innerItems.value.length + Object.keys(groups.value).length) / innerRowsPerPage.value);
+        return Array.from(Array(total).keys()).map(i => ({
+          id: i + 1,
+          label: (i + 1).toString()
+        }));
+      }
+    });
+
+    const toggleSelectAll = (allSelected: boolean): void => {
+      if (allSelected) {
+        innerValue.value = [];
+      }
+      else {
+        innerValue.value = innerItems.value.map((item) => item[props.itemValue]);
+      }
+      emit("update:modelValue", innerValue.value);
+    };
+
+    const toggleSelect = (item: any): void => {
+      console.log(item);
+      const index = innerValue.value.indexOf(item[props.itemValue]);
+      if (index > -1) {
+        innerValue.value.splice(index, 1);
+      }
+      else {
+        innerValue.value.push(item[props.itemValue]);
+      }
+      emit("update:modelValue", innerValue.value);
+    };
+
+    const toggleFilter = (header: string, value: FSDataTableFilter[]): void => {
+      filters.value[header] = value;
+      emit("update:filters", filters.value);
+      // If a filter is hidden, the reset button will be shown
+      resetable.value = Object.keys(filters.value)
+        .some((key) => filters.value[key].some((filter) => filter.hidden));
+    };
+
+    const resetFilter = (): void => {
+      for (const key in filters.value) {
+        filters.value[key] = filters.value[key].map((filter) => ({ ...filter, hidden: false }));
+      }
+      emit("update:filters", filters.value);
+      resetable.value = false;
+    };
+
+    const filterSlot = (header: FSDataTableColumn): string => {
+      return `filter.${header.value}`;
+    };
+
+    const updateHeader = (header: FSDataTableColumn, property: "hidden" | "index", value: boolean | number) => {
+      const innerColumns = props.headers.slice(0);
+      const innerColumn = innerColumns.find((column) => column.value === header.value);
+      if (innerColumn) {
+        switch (property) {
+          case "hidden":
+            innerColumn.hidden = value as boolean;
+            break;
+          case "index":
+            switch (value) {
+              case 1:
+                for (const column of innerColumns) {
+                  if (column.index === header.index + 1) {
+                    column.index--;
+                  }
+                }
+                break;
+              case -1:
+                for (const column of innerColumns) {
+                  if (column.index === header.index - 1) {
+                    column.index++;
+                  }
+                }
+                break;
+            }
+            innerColumn.index += value as number;
+            innerColumns.sort((c1, c2) => c1.index - c2.index);
+            for (let i = 0; i < innerColumns.length; i++) {
+              innerColumns[i].index = i;
+            }
+            break;
+        }
+        emit("update:headers", innerColumns);
+      }
+    }
+
+    const computeFilters = (): void => {
+      const filterDictionary: { [key: string]: FSDataTableFilter[] } = {};
+
+      for (const header of innerHeaders.value.filter((h) => h.filterable)) {
+        const key = header.value!;
+        const currentFilters = filters.value[key];
+
+        let value: FSDataTableFilter[] = [];
+
+        if (header.fixedFilters) {
+          value = header.fixedFilters.map((ff): FSDataTableFilter => ({
+            hidden: currentFilters?.find((cf) => cf.value == (ff.value || null))?.hidden ?? false,
+            text: ff.text?.toString() ?? "—",
+            value: ff.value || null,
+            filter: header.methodFilter ?? ((value, property) => {
+              property = [property].flat();
+              return Array.isArray(property) ? property.includes(value) || (!value && property.length == 0) : (!value && !property) || value == property;
+            })
+          }));
+        }
+        else {
+          const mapToInnerValue = header.innerValue ? header.innerValue : (i: any) => i;
+          const itemValues = props.items.flatMap((item) => Array.isArray(item[key]) && item[key].length == 0 ? undefined : item[key]).map(mapToInnerValue);
+          const distinctValues = [...new Set(itemValues)];
+
+          value = distinctValues.map((dv): FSDataTableFilter => ({
+            hidden: currentFilters?.find((cf) => cf.value == (dv || null))?.hidden ?? false,
+            text: dv?.toString() ?? "—",
+            value: dv || null,
+            filter: header.methodFilter ?? ((_, property) => {
+              property = [property].flat().map(mapToInnerValue);
+              return Array.isArray(property) ? property.includes(dv) || (!dv && property.length == 0) : (!dv && !property) || dv == property;
+            })
+          }));
+        }
+        filterDictionary[key] = value.sort((v1, v2) => {
+          return v1.text.localeCompare(v2.text, undefined, { numeric: true });
+        });
+      }
+      filters.value = filterDictionary;
+    };
+
+    const sortColor = (header: FSDataTableColumn, slotProps: any) => {
+      const sort = slotProps.sortBy.find((s: any) => s.key == header.value);
+      if (sort) {
+        return props.color;
+      }
+      return ColorEnum.Light;
+    };
+
+    const sortIcon = (header: FSDataTableColumn, slotProps: any) => {
+      const sort = slotProps.sortBy.find((s: any) => s.key == header.value);
+      if (sort) {
+        switch (sort.order) {
+          case "asc": return "mdi-sort-reverse-variant";
+          case "desc": return "mdi-sort-variant";
+        }
+      }
+      return "mdi-sort-variant-off";
+    };
+
+    const onClickRow = computed(() => {
+      if (!!getCurrentInstance()?.vnode.props?.['onClick:row'] || props.itemTo) {
+        return (event: PointerEvent, row: any) => {
+          if (props.itemTo && router) {
+            if (event.metaKey || event.ctrlKey || event.button === 1) {
+              window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
+            }
+            else {
+              router.push(props.itemTo(row.item));
+            }
+          }
+          else {
+            emit("click:row", row.item);
+          }
+        };
+      }
+      else {
+        return null;
+      }
+    });
+
+    onMounted(() => {
+      computeFilters();
+    });
+
+    watch(innerSearch, () => {
+      innerPage.value = 1;
+    });
+
+    watch(innerSortBy, () => {
+      emit("update:sortBy", innerSortBy.value);
+    });
+
+    watch(innerPage, () => {
+      emit("update:page", innerPage.value);
+    });
+
+    watch(innerRowsPerPage, () => {
+      emit("update:rowsPerPage", innerRowsPerPage.value);
+    });
+
+    watch(() => props.headers, () => {
+      computeFilters();
+    });
+
+    return {
+      ColorEnum,
+      innerSlots,
+      rowsPerPageOptions,
+      innerRowsPerPage,
+      innerSearch,
+      innerPage,
+      pageOptions,
+      showFilters,
+      extraHeaders,
+      innerHeaders,
+      hiddenHeaders,
+      filterableHeaders,
+      filters,
+      resetable,
+      innerSortBy,
+      innerItems,
+      headersSlots,
+      itemsSlots,
+      innerValue,
+      classes,
+      style,
+      onClickRow,
+      isExtraSmall,
+      toggleSelectAll,
+      toggleSelect,
+      updateHeader,
+      toggleFilter,
+      resetFilter,
+      filterSlot,
+      sortColor,
+      sortIcon,
+    };
+  }
+})
+</script>

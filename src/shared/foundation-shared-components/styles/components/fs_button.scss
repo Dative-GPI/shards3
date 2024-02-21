@@ -8,8 +8,8 @@
     border-color: var(--fs-button-border-color) !important;
     color: var(--fs-button-color) !important;
 
-    &.fs-button--disabled {
-        cursor: default !important;
+    &.fs-button-full-width {
+        width: 100%;
     }
 
     &:not(.fs-button--disabled):hover {
@@ -24,8 +24,8 @@
     }
 
     @include web {
-        min-width: 48px !important;
-        height: 48px !important;
+        min-width: 40px !important;
+        height: 40px !important;
     }
 
     @include mobile {
@@ -37,8 +37,6 @@
 .fs-button-icon {
     transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
     color: var(--fs-button-color) !important;
-    width: 20px !important;
-    height: 20px !important;
 
     &:not(.fs-button--disabled):hover {
         color: var(--fs-button-hover-color) !important;

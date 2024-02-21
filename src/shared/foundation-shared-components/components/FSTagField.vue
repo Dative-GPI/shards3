@@ -3,17 +3,15 @@
     <FSTextField
       :label="$props.label"
       :description="$props.description"
-      :type="type"
-      :color="$props.color"
+      :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
       :error="messages.length > 0"
-      :modelValue="innerValue"
-      @update:modelValue="(value) => innerValue = value"
       @keydown.enter="onAdd"
+      v-model="innerValue"
       v-bind="$attrs"
     >
-      <template #label>
+      <template v-if="!$props.hideHeader" #label>
         <slot name="label">
           <FSRow :wrap="false">
             <FSSpan
@@ -48,14 +46,13 @@
       </template>
       <template #append-inner>
         <slot name="append-inner">
-          <FSIcon
-            class="fs-tag-field-icon"
-            size="m"
-            :style="style"
+          <FSButton
+            variant="icon"
+            icon="mdi-tag-outline"
+            :editable="$props.editable"
+            :color="ColorEnum.Dark"
             @click="onAdd"
-          >
-            mdi-tag-outline
-          </FSIcon>
+          />
         </slot>
       </template>
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
@@ -73,13 +70,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
 
 import FSTextField from "./FSTextField.vue";
 import FSTagGroup from "./FSTagGroup.vue";
+import FSButton from "./FSButton.vue";
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
@@ -89,6 +87,7 @@ export default defineComponent({
   components: {
     FSTextField,
     FSTagGroup,
+    FSButton,
     FSSpan,
     FSCol,
     FSRow
@@ -109,11 +108,6 @@ export default defineComponent({
       required: false,
       default: () => []
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorBase.Dark
-    },
     tagVariant: {
       type: String as PropType<"standard" | "full">,
       required: false,
@@ -122,7 +116,12 @@ export default defineComponent({
     tagColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
+    },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     required: {
       type: Boolean,
@@ -142,32 +141,28 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, rules, editable } = toRefs(props);
+
+    const errors = useColors().getColors(ColorEnum.Error);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const innerValue = ref("");
 
-    const errors = useColors().getColors(ColorBase.Error);
-    const darks = useColors().getColors(ColorBase.Dark);
-
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
-          "--fs-tag-field-cursor"   : "default",
-          "--fs-tag-field-base-text": darks.light,
-          "--fs-tag-field-dark-text": darks.light
+          "--fs-tag-field-color": lights.dark
         };
       }
       return {
-        "--fs-tag-field-cursor"     : "pointer",
-        "--fs-tag-field-base-text"  : darks.base,
-        "--fs-tag-field-dark-text"  : darks.dark,
+        "--fs-tag-field-color"      : darks.base,
         "--fs-tag-field-error-color": errors.base
       };
     });
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
+      for (const rule of props.rules) {
         const message = rule(props.modelValue);
         if (typeof(message) === "string") {
           messages.push(message);
@@ -177,10 +172,10 @@ export default defineComponent({
     });
 
     const onAdd = (): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
-      const tags = modelValue.value ?? [];
+      const tags = props.modelValue ?? [];
       if (!innerValue.value.length || tags.includes(innerValue.value)) {
         return;
       }
@@ -189,10 +184,10 @@ export default defineComponent({
     }
 
     const onRemove = (label: string): void => {
-      if (!editable.value) {
+      if (!props.editable) {
         return;
       }
-      const tags = modelValue.value ?? [];
+      const tags = props.modelValue ?? [];
       if (!tags.length || !tags.includes(label)) {
         return;
       }
@@ -200,6 +195,7 @@ export default defineComponent({
     }
 
     return {
+      ColorEnum,
       innerValue,
       messages,
       style,

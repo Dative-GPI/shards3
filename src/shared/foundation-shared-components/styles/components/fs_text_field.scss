@@ -4,8 +4,10 @@
 
     & > .v-input__control > .v-field {
         border: 1px solid var(--fs-text-field-border-color) !important;
+        cursor: var(--fs-text-field-cursor) !important;
         border-radius: 4px !important;
         padding: 0 16px !important;
+        gap: 8px;
 
         &--error {
             border-color: var(--fs-text-field-error-border-color) !important;
@@ -19,22 +21,28 @@
             display: none;
         }
 
-        & > .v-field__field > input {
-            @extend .text-body;
-        
-            padding-inline: 0 !important;
-            cursor: var(--fs-text-field-cursor) !important;
-            color: var(--fs-text-field-color);
-        
-            @include web {
-                min-height: 46px !important;
-                height: 46px !important;
+        & > .v-field__field {
+            &  > input {
+                @extend .text-body;
+            
+                padding-inline: 0 !important;
+                color: var(--fs-text-field-color);
+                cursor: var(--fs-select-field-cursor) !important;
+            
+                @include web {
+                    min-height: 38px !important;
+                    height: 38px !important;
+                }
+            
+                @include mobile {
+                    min-height: 34px !important;
+                    height: 34px !important;
+                }
             }
-        
-            @include mobile {
-                min-height: 34px !important;
-                height: 34px !important;
-            }
+        }
+
+        & > .v-field__clearable {
+            margin-inline: 0px;
         }
     }
 }

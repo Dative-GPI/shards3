@@ -1,15 +1,19 @@
 <template>
   <FSTextField
-      :label="$props.label"
-      :description="$props.description"
-      :color="$props.color"
-      :required="$props.required"
-      :editable="$props.editable"
-      :modelValue="innerValue"
-      @update:modelValue="(value) => innerValue = value"
-      v-bind="$attrs"
+    :label="$props.label"
+    :description="$props.description"
+    :color="$props.color"
+    :hideHeader="$props.hideHeader"
+    :required="$props.required"
+    :editable="$props.editable"
+    @keydown.enter="$emit('update:modelValue', innerValue)"
+    v-model="innerValue"
+    v-bind="$attrs"
   >
-    <template #append>
+    <template
+      v-if="!$props.instant"
+      #append
+    >
       <slot name="append">
         <FSButton
           :prependIcon="$props.buttonPrependIcon"
@@ -18,7 +22,7 @@
           :variant="$props.buttonVariant"
           :color="$props.buttonColor"
           :editable="$props.editable"
-          @click="onUpdate"
+          @click="$emit('update:modelValue', innerValue)"
         />
       </slot>
     </template>
@@ -29,20 +33,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
+import { defineComponent, PropType, ref, watch } from "vue";
 
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
 import FSButton from "./FSButton.vue";
-import FSIcon from "./FSIcon.vue";
 
 export default defineComponent({
   name: "FSSearchField",
   components: {
     FSTextField,
-    FSButton,
-    FSIcon
+    FSButton
   },
   props: {
     label: {
@@ -83,12 +85,22 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Dark
     },
     buttonColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
+    },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    instant: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     required: {
       type: Boolean,
@@ -103,20 +115,16 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { editable } = toRefs(props);
+    const innerValue = ref(props.modelValue);
 
-    const innerValue: Ref<String> = ref(props.modelValue);
-
-    const onUpdate = (): void => {
-      if (!editable.value) {
-        return;
+    watch(innerValue, () => {
+      if (props.instant) {
+        emit("update:modelValue", innerValue.value);
       }
-      emit("update:modelValue", innerValue.value);
-    };
+    });
 
     return {
-      innerValue,
-      onUpdate
+      innerValue
     };
   }
 });

@@ -1,1 +1,2 @@
-export * from "./modelStatus";
+export * from "./modelStatusDetails";
+export * from "./modelStatusInfos";

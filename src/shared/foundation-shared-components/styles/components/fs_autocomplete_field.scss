@@ -1,0 +1,123 @@
+.fs-autocomplete-field {
+    padding: 0px !important;
+    width: 100%;
+
+    & > .v-input__control > .v-field {
+        border: 1px solid var(--fs-autocomplete-field-border-color) !important;
+        cursor: var(--fs-autocomplete-field-cursor) !important;
+        border-radius: 4px !important;
+        padding: 0 16px !important;
+        gap: 8px;
+
+        &--error {
+            border-color: var(--fs-autocomplete-field-error-border-color) !important;
+        }
+
+        &:not(.v-field--error):focus-within {
+            border-color: var(--fs-autocomplete-field-active-border-color) !important;
+        }
+
+        & > .v-field__outline {
+            display: none;
+        }
+
+        & > .v-field__field > .v-field__input {
+            @extend .text-body;
+        
+            padding-inline: 0 !important;
+            color: var(--fs-autocomplete-field-color);
+            cursor: var(--fs-autocomplete-field-cursor) !important;
+        
+            @include web {
+                min-height: 38px !important;
+                height: 38px !important;
+            }
+        
+            @include mobile {
+                min-height: 34px !important;
+                height: 34px !important;
+            }
+
+            & > .v-autocomplete__selection {
+                @include web {
+                    margin-top: -16px;
+                    height: 38px !important;
+                }
+            
+                @include mobile {
+                    margin-top: -15px;
+                    height: 34px !important;
+                }
+            }
+
+            & > input {
+                @include web {
+                    top: 16px;
+                    margin-top: -16px;
+                    height: 38px !important;
+                }
+            
+                @include mobile {
+                    top: 17px;
+                    margin-top: -17px;
+                    height: 34px !important;
+                }
+            }
+        }
+
+        & > .v-field__clearable {
+            margin-inline: 0px;
+        }
+
+        & > .v-field__append-inner {
+            color: var(--fs-autocomplete-field-color);
+
+            & > i {
+                margin-inline-start: 0px;
+            }
+        }
+    }
+}
+
+.fs-autocomplete-multiple-field {
+    & > .v-input__control > .v-field {
+        & > .v-field__field > .v-field__input {
+            & > .v-autocomplete__selection {
+                @include web {
+                    margin-top: -16px;
+                    height: 38px !important;
+                }
+            
+                @include mobile {
+                    margin-top: -15px;
+                    height: 34px !important;
+                }
+            }
+
+            & > input {
+                @include web {
+                    margin-top: -16px;
+                    height: 38px !important;
+                }
+            
+                @include mobile {
+                    margin-top: -17px;
+                    height: 34px !important;
+                }
+            }
+        }
+    }
+}
+
+.fs-autocomplete-field-label {
+    color: var(--fs-autocomplete-field-color);
+}
+
+.fs-autocomplete-field-messages {
+    align-self: stretch;
+    color: var(--fs-autocomplete-field-error-color);
+}
+
+.fs-autocomplete-field-description {
+    color: var(--fs-autocomplete-field-color);
+}

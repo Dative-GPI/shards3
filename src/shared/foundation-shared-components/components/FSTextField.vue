@@ -1,6 +1,6 @@
 <template>
   <FSCol>
-    <slot name="label">
+    <slot v-if="!$props.hideHeader" name="label">
       <FSRow :wrap="false">
         <FSSpan
           v-if="$props.label"
@@ -33,12 +33,14 @@
     </slot>
     <v-text-field
       class="fs-text-field"
+      clearIcon="mdi-close"
       variant="outlined"
       hide-details
       :style="style"
       :type="$props.type"
       :rules="$props.rules"
       :readonly="!$props.editable"
+      :clearable="$props.editable"
       :modelValue="$props.modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
       v-bind="$attrs"
@@ -61,10 +63,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs, useSlots } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
@@ -81,7 +83,7 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
       default: null
     },
     description: {
@@ -99,10 +101,10 @@ export default defineComponent({
       required: false,
       default: null
     },
-    color: {
-      type: String as PropType<ColorBase>,
+    hideHeader: {
+      type: Boolean,
       required: false,
-      default: ColorBase.Dark
+      default: false
     },
     required: {
       type: Boolean,
@@ -122,20 +124,16 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { color, rules, editable } = toRefs(props);
-    
-    const slots = { ...useSlots() };
+    const { slots } = useSlots();
     delete slots.label;
     delete slots.description;
 
-    const colors = useColors().getColors(color.value);
-
-    const errors = useColors().getColors(ColorBase.Error);
-    const lights = useColors().getColors(ColorBase.Light);
-    const darks = useColors().getColors(ColorBase.Dark);
+    const errors = useColors().getColors(ColorEnum.Error);
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      if (!editable.value) {
+      if (!props.editable) {
         return {
           "--fs-text-field-cursor"             : "default",
           "--fs-text-field-border-color"       : lights.base,
@@ -145,9 +143,9 @@ export default defineComponent({
       }
       return {
         "--fs-text-field-cursor"             : "text",
-        "--fs-text-field-border-color"       : colors.base,
+        "--fs-text-field-border-color"       : lights.dark,
         "--fs-text-field-color"              : darks.base,
-        "--fs-text-field-active-border-color": colors.dark,
+        "--fs-text-field-active-border-color": darks.dark,
         "--fs-text-field-error-color"        : errors.base,
         "--fs-text-field-error-border-color" : errors.base
       };
@@ -155,7 +153,7 @@ export default defineComponent({
 
     const messages = computed((): string[] => {
       const messages = [];
-      for (const rule of rules.value) {
+      for (const rule of props.rules) {
         const message = rule(props.modelValue ?? "");
         if (typeof(message) === "string") {
           messages.push(message);

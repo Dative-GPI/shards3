@@ -19,6 +19,7 @@
     "@lexical/selection": "^0.12.5",
     "@lexical/text": "^0.12.5",
     "@lexical/utils": "^0.12.5",
+    "blurhash": "^2.0.5",
     "color": "^4.2.3",
     "lexical": "^0.12.5",
     "vue": "^3.2.0"

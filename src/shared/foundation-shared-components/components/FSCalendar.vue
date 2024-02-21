@@ -21,6 +21,7 @@
           size="l"
           variant="icon"
           icon="mdi-chevron-left"
+          :color="ColorEnum.Dark"
           @click="onClickPrevious"
         />
         <FSSpan
@@ -33,6 +34,7 @@
           size="l"
           variant="icon"
           icon="mdi-chevron-right"
+          :color="ColorEnum.Dark"
           @click="onClickNext"
         />
       </FSRow>
@@ -46,8 +48,9 @@
           :year="innerYear"
           :multiple="false"
           :showAdjacentMonths="true"
-          :modelValue="datesTools.epochToPicker($props.modelValue)"
-          @update:modelValue="(value) => $emit('update:modelValue', datesTools.pickerToEpoch(value))"
+          :allowedDates="allowedDates"
+          :modelValue="epochToPicker($props.modelValue)"
+          @update:modelValue="(value) => $emit('update:modelValue', pickerToEpoch(value[0]))"
           @update:month="null"
           @update:year="null"
         />
@@ -57,12 +60,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, toRefs } from "vue";
-import { useDate as useAdapter } from "vuetify/lib/composables/date/index.mjs";
+import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useColors, useDates } from "@dative-gpi/foundation-shared-components/composables";
-import { useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSButton from "./FSButton.vue";
 import FSSpan from "./FSSpan.vue";
@@ -84,56 +86,52 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Array as PropType<Array<number>>,
+      type: Number,
       required: false,
       default: null
     },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Dark
+      default: ColorEnum.Primary
     },
-    buttonColor: {
-      type: String as PropType<ColorBase>,
+    limit: {
+      type: String as PropType<"none" | "past" | "future">,
       required: false,
-      default: ColorBase.Primary
+      default: "none"
     }
   },
+  emits: ["update:modelValue"],
   setup(props) {
-    const { modelValue, color, buttonColor } = toRefs(props);
+    const { epochToPicker, pickerToEpoch, todayToEpoch } = useTimeZone();
+    const { languageCode } = useLanguageCode();
 
-    const languageCode = useLanguageCode().languageCode;
-    const datesTools = useDates();
-    const adapter = useAdapter();
-
-    const colors = useColors().getColors(color.value);
-    const buttonColors = useColors().getColors(buttonColor.value);
-
-    const backgrounds = useColors().getColors(ColorBase.Background);
+    const colors = computed(() => useColors().getColors(props.color));
+    const backgrounds = useColors().getColors(ColorEnum.Background);
+    const darks = useColors().getColors(ColorEnum.Dark);
     
-    const innerMonth = ref(modelValue.value.length ? datesTools.epochToPicker(modelValue.value)[0].getMonth() : new Date().getMonth());
-    const innerYear = ref(modelValue.value.length ? datesTools.epochToPicker(modelValue.value)[0].getFullYear() : new Date().getFullYear());
+    const innerMonth = ref(props.modelValue ? epochToPicker(props.modelValue).getMonth() : new Date().getMonth());
+    const innerYear = ref(props.modelValue ? epochToPicker(props.modelValue).getFullYear() : new Date().getFullYear());
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
-        "--fs-calendar-hover-background-color" : buttonColors.light,
-        "--fs-calendar-active-background-color": buttonColors.base,
-        "--fs-calendar-border-color"           : colors.base,
-        "--fs-calendar-hover-border-color"     : buttonColors.base,
-        "--fs-calendar-active-border-color"    : buttonColors.base,
-        "--fs-calendar-color"                  : colors.base,
-        "--fs-calendar-hover-color"            : buttonColors.base,
-        "--fs-calendar-active-color"           : buttonColors.light
+        "--fs-calendar-hover-background-color" : colors.value.light,
+        "--fs-calendar-active-background-color": colors.value.base,
+        "--fs-calendar-border-color"           : darks.base,
+        "--fs-calendar-hover-border-color"     : colors.value.base,
+        "--fs-calendar-active-border-color"    : colors.value.base,
+        "--fs-calendar-color"                  : darks.base,
+        "--fs-calendar-hover-color"            : colors.value.base,
+        "--fs-calendar-active-color"           : colors.value.light
       };
     });
 
-    const text = computed(() => {
-      adapter.locale = languageCode;
-      return adapter.format(
-        adapter.setYear(adapter.setMonth(adapter.date(), innerMonth.value), innerYear.value),
-        'monthAndYear',
-      );
+    const text = computed((): string => {
+      const date = new Date(0);
+      date.setMonth(innerMonth.value);
+      date.setFullYear(innerYear.value);
+      return new Intl.DateTimeFormat(languageCode.value, { month: "long", year: "numeric" }).format(date);
     });
 
     const onClickPrevious = (): void => {
@@ -156,15 +154,30 @@ export default defineComponent({
       }
     };
 
+    const allowedDates = (value: Date): boolean => {
+      const valueEpoch = pickerToEpoch(value);
+      switch (props.limit) {
+        case "past":
+          return valueEpoch <= todayToEpoch(true);
+        case "future":
+          return valueEpoch >= todayToEpoch(true);
+        default:
+          return true;
+      }
+    };
+
     return {
+      ColorEnum,
       languageCode,
       style,
       text,
       innerMonth,
       innerYear,
-      datesTools,
+      epochToPicker,
+      pickerToEpoch,
       onClickPrevious,
-      onClickNext
+      onClickNext,
+      allowedDates
     };
   }
 });

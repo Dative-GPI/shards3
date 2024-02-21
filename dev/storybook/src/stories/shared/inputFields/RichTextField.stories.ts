@@ -32,26 +32,25 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSRichTextField
-        label="Rich text - dark color"
+        label="Rich text"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSRichTextField
-        color="primary"
-        label="Text - primary color - 2 rows"
+        label="Rich text, 2 rows"
         :rows="2"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSRichTextField
-        label="Uneditable"
+        label="Uneditable rich text, with description"
         description="Uneditable description"
         :editable="false"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSRichTextField
-        label="Readonly"
+        label="Readonly rich text"
         description="Readonly description"
         variant="readonly"
         v-model="args.value3"

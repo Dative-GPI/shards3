@@ -1,59 +1,56 @@
 <template>
-    <v-slide-group
-        class="fs-wrap-group"
-        :style="style"
-        v-bind="$attrs"
+  <v-slide-group
+    class="fs-wrap-group"
+    :style="style"
+    v-bind="$attrs"
+  >
+    <v-slide-group-item
+      v-for="(component, index) in getChildren()"
+      :key="index"
     >
-        <FSRow>
-            <v-slide-group-item v-for="(component, index) in $slots.default()" :key="index">
-                <component :is="component" v-bind="{ color, colors, style }" />
-            </v-slide-group-item>
-        </FSRow>
-    </v-slide-group>
+      <component :is="component" />
+    </v-slide-group-item>
+  </v-slide-group>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref, toRefs } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
-
-import FSRow from "./FSRow.vue";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
-    name: "FSWrapGroup",
-    components: {
-        FSRow
+  name: "FSWrapGroup",
+  props: {
+    padding: {
+      type: [String, Number],
+      required: false,
+      default: 0
     },
-    props: {
-        color: {
-            type: String as PropType<ColorBase>,
-            required: false,
-            default: ColorBase.Primary
-        }
-    },
-    setup(props) {
-        const { color } = toRefs(props);
-
-        const colors = useColors().getColors(color.value);
-
-        const darks = useColors().getColors(ColorBase.Dark);
-
-        const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
-            "--fs-group-color": darks.base,
-            "--fs-group-hover-background-color": colors.light,
-            "--fs-group-hover-color": darks.dark,
-            "--fs-group-disabled-color": darks.light,
-            "--fs-group-light": colors.light,
-            "--fs-group-base": colors.base,
-            "--fs-group-dark": colors.dark
-        });
-
-        return {
-            color,
-            colors,
-            style
-        };
+    gap: {
+      type: Number,
+      required: false,
+      default: 8
     }
+  },
+  setup(props) {
+    const { getChildren } = useSlots();
+
+    const darks = useColors().getColors(ColorEnum.Dark);
+
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+      return {
+        "--fs-group-padding"    : typeof(props.padding) === "string" ? props.padding : `${props.padding}px`,
+        "--fs-group-gap"        : `${props.gap}px`,
+        "--fs-group-color"      : darks.light,
+        "--fs-group-hover-color": darks.dark
+      }
+    });
+
+    return {
+      style,
+      getChildren
+    };
+  }
 });
 </script>

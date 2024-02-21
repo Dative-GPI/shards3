@@ -1,11 +1,27 @@
 .fs-icon-s {
-    font-size: 12px !important;
+    @include web {
+        font-size: 16px !important;
+    }
+    @include mobile {
+        font-size: 14px !important;
+    }
 }
 
 .fs-icon-m {
-    font-size: 20px !important;
+    @include web {
+        font-size: 20px !important;
+    }
+    @include mobile {
+        font-size: 16px !important;
+    }
 }
 
 .fs-icon-l {
-    font-size: 24px !important;
+    @include web {
+        font-size: 24px !important;
+    }
+
+    @include mobile {
+        font-size: 20px !important;
+    }
 }

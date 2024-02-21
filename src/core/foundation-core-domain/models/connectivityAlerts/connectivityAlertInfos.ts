@@ -1,3 +1,5 @@
+import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
+
 import { DeviceConnectivityInfos, DeviceConnectivityInfosDTO } from "../deviceConnectivities/deviceConnectivityInfos";
 import { AlertStatus } from "../enums/alertEnums";
 
@@ -29,8 +31,8 @@ export class ConnectivityAlertInfos {
     this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity != null ?
       new DeviceConnectivityInfos({ ...params.deviceOrganisationConnectivity, id: params.deviceOrganisationId }) :
       undefined;
-    this.triggerProcessedTimestamp = params.triggerProcessedTimestamp;
-    this.resolveProcessedTimestamp = params.resolveProcessedTimestamp;
+    this.triggerProcessedTimestamp = DatesTools.utcToEpoch(params.triggerProcessedTimestamp);
+    this.resolveProcessedTimestamp = params.resolveProcessedTimestamp ? DatesTools.utcToEpoch(params.resolveProcessedTimestamp) : undefined;
     this.status = params.status;
   }
 }
@@ -46,8 +48,8 @@ export interface ConnectivityAlertInfosDTO {
   deviceOrganisationImageHeight?: number;
   deviceOrganisationImageWidth?: number;
   deviceOrganisationConnectivity?: DeviceConnectivityInfosDTO;
-  triggerProcessedTimestamp: number;
-  resolveProcessedTimestamp?: number;
+  triggerProcessedTimestamp: string;
+  resolveProcessedTimestamp?: string;
   status: AlertStatus;
 }
 

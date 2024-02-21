@@ -5,7 +5,7 @@ export class GroupInfos {
     organisationId: string;
     parentId?: string;
     imageId?: string;
-    imageBlurHash: string;
+    imageBlurHash?: string;
     imageHeight?: number;
     imageWidth?: number;
     icon: string;
@@ -47,7 +47,7 @@ export interface GroupInfosDTO {
     organisationId: string;
     parentId?: string;
     imageId?: string;
-    imageBlurHash: string;
+    imageBlurHash?: string;
     imageHeight?: number;
     imageWidth?: number;
     icon: string;

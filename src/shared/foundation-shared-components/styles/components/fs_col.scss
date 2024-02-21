@@ -1,7 +1,9 @@
 .fs-col {
     display: flex;
     flex-direction: column;
+    padding: var(--fs-col-padding);
     gap: var(--fs-col-gap);
+    max-width: 100%;
 
     &-top-left {
         justify-content: flex-start;

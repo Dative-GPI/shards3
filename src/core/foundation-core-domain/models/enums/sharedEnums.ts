@@ -18,3 +18,33 @@ export enum FilterType {
   StartsWith  = 8,
   EndsWith    = 9
 }
+
+export enum DataTable {
+  None     = 0,
+  Number   = 1,
+  String   = 2,
+  DateTime = 3
+}
+
+export enum Days {
+  Monday = 0,
+  Tuesday = 1,
+  Wednesday = 2,
+  Thursday = 3,
+  Friday = 4,
+  Saturday = 5,
+  Sunday = 6,
+  AllDays = 7
+}
+
+export enum TimeUnit {
+  None        = 0,
+  Millisecond = 1,
+  Second      = 2,
+  Minute      = 3,
+  Hour        = 4,
+  Day         = 5,
+  Week        = 6,
+  Month       = 7,
+  Year        = 8
+}

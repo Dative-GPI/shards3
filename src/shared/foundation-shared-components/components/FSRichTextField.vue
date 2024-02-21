@@ -24,7 +24,7 @@
         </FSRow>
       </slot>
       <v-spacer />
-      <template v-if="editable">
+      <template v-if="$props.editable">
         <FSIcon
           class="fs-rich-text-field-icon"
           :color="toolbarColors.undo"
@@ -141,8 +141,9 @@
       :contenteditable="!readonly && $props.editable"
     />
     <FSTextField
-      v-if="isLink && editable"
+      v-if="isLink && $props.editable"
       v-model="linkUrl"
+      :hideHeader="true"
       @keypress.enter.stop="toggleLink"
     />
     <slot name="description">
@@ -161,14 +162,14 @@
 <script lang="ts">
 import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, ElementNode, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
 import { $createHeadingNode, HeadingNode, HeadingTagType, registerRichText } from "@lexical/rich-text";
-import { computed, defineComponent, onMounted, PropType, ref, toRefs } from "vue";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
+import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
-import { ColorBase } from "@dative-gpi/foundation-shared-components/themes";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
 import FSIcon from "./FSIcon.vue";
@@ -186,7 +187,7 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
       default: null
     },
     description: {
@@ -199,15 +200,10 @@ export default defineComponent({
       required: false,
       default: null
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorBase.Dark
-    },
     linkColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorBase.Primary
+      default: ColorEnum.Primary
     },
     required: {
       type: Boolean,
@@ -232,13 +228,11 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { modelValue, color, linkColor, rows, variant, editable } = toRefs(props);
+    const { isMobileSized } = useBreakpoints();
 
-    const colors = useColors().getColors(color.value);
-    const linkColors = useColors().getColors(linkColor.value);
-
-    const lights = useColors().getColors(ColorBase.Light);
-    const darks = useColors().getColors(ColorBase.Dark);
+    const linkColors = computed(()=> useColors().getColors(props.linkColor));
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const canUndo = ref(false);
     const isLink = ref(false);
@@ -285,38 +279,38 @@ export default defineComponent({
       registerRichText(editor);
       registerHistory(editor, createEmptyHistoryState(), 250);
 
-      if (modelValue.value != null) {
+      if (props.modelValue != null) {
         editor.update((): void => {
-          editor.setEditorState(editor.parseEditorState(modelValue.value));
+          editor.setEditorState(editor.parseEditorState(props.modelValue));
         });
       }
     });
 
     const readonly = computed((): boolean => {
-      return variant.value === "readonly";
+      return props.variant === "readonly";
     });
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       let minHeight: string | undefined = undefined;
-      const base = useBreakpoints().isMobileSized() ? 30 : 42;
-      const row = useBreakpoints().isMobileSized() ? 16 : 20;
-      if (rows.value > 1) {
-        minHeight = `${base + (rows.value - 1) * row}px`;
+      const base = isMobileSized.value ? 30 : 42;
+      const row = isMobileSized.value ? 16 : 20;
+      if (props.rows > 1) {
+        minHeight = `${base + (props.rows - 1) * row}px`;
       }
       else {
         minHeight = `${base}px`;
       }
 
-      switch (variant.value) {
+      switch (props.variant) {
         case "standard": {
-          if (!editable.value) {
+          if (!props.editable) {
             return {
               "--fs-rich-text-field-undo-cursor"        : "default",
               "--fs-rich-text-field-icon-cursor"        : "default",
               "--fs-rich-text-field-border-color"       : lights.base,
               "--fs-rich-text-field-color"              : lights.dark,
               "--fs-rich-text-field-active-border-color": lights.base,
-              "--fs-rich-text-field-link-color"         : linkColors.light,
+              "--fs-rich-text-field-link-color"         : linkColors.value.light,
               "--fs-rich-text-field-min-height"         : minHeight
             };
           }
@@ -324,10 +318,10 @@ export default defineComponent({
             return {
               "--fs-rich-text-field-undo-cursor"        : canUndo ? "pointer" : "default",
               "--fs-rich-text-field-icon-cursor"        : "pointer",
-              "--fs-rich-text-field-border-color"       : colors.base,
+              "--fs-rich-text-field-border-color"       : lights.dark,
               "--fs-rich-text-field-color"              : darks.base,
-              "--fs-rich-text-field-active-border-color": colors.dark,
-              "--fs-rich-text-field-link-color"         : linkColors.dark,
+              "--fs-rich-text-field-active-border-color": darks.dark,
+              "--fs-rich-text-field-link-color"         : linkColors.value.dark,
               "--fs-rich-text-field-min-height"         : minHeight
             };
           }
@@ -336,14 +330,14 @@ export default defineComponent({
             "--fs-rich-text-field-border-color"       : "transparent",
             "--fs-rich-text-field-color"              : darks.base,
             "--fs-rich-text-field-active-border-color": "transparent",
-            "--fs-rich-text-field-link-color"         : linkColors.dark,
+            "--fs-rich-text-field-link-color"         : linkColors.value.dark,
             "--fs-rich-text-field-min-height"         : minHeight
         }
       }
     });
 
     const toolbarColors = computed((): {[code: string]: string} => {
-      if (editable.value) {
+      if (props.editable) {
         return {
           undo: canUndo.value ? darks.base : lights.base,
           bold: isBold.value ? darks.base : lights.base,
@@ -538,7 +532,6 @@ export default defineComponent({
 
     return {
       readonly,
-      editable,
       style,
       id,
       editor,

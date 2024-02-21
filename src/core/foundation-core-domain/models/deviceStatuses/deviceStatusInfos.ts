@@ -1,3 +1,5 @@
+import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
+
 export class DeviceStatusInfos {
   id: string;
   statuses: DeviceStatus[];
@@ -22,17 +24,17 @@ export class DeviceStatusGroup {
   sourceTimestamp?: number;
   enqueuedTimestamp?: number;
   processedTimestamp?: number;
-  groupByValue: string;
+  groupByValue?: string;
   value: string;
-  unit: string;
+  unit?: string;
   label: string;
   icon: string;
   color: string;
 
   constructor(params: DeviceStatusGroupDTO) {
-    this.sourceTimestamp = params.sourceTimestamp;
-    this.enqueuedTimestamp = params.enqueuedTimestamp;
-    this.processedTimestamp = params.processedTimestamp;
+    this.sourceTimestamp = params.sourceTimestamp ? DatesTools.utcToEpoch(params.sourceTimestamp) : undefined;
+    this.enqueuedTimestamp = params.enqueuedTimestamp ? DatesTools.utcToEpoch(params.enqueuedTimestamp) : undefined;
+    this.processedTimestamp = params.processedTimestamp ? DatesTools.utcToEpoch(params.processedTimestamp) : undefined;
     this.groupByValue = params.groupByValue;
     this.value = params.value;
     this.unit = params.unit;
@@ -53,12 +55,12 @@ export interface DeviceStatusDTO {
 }
 
 export interface DeviceStatusGroupDTO {
-  sourceTimestamp?: number;
-  enqueuedTimestamp?: number;
-  processedTimestamp?: number;
-  groupByValue: string;
+  sourceTimestamp?: string;
+  enqueuedTimestamp?: string;
+  processedTimestamp?: string;
+  groupByValue?: string;
   value: string;
-  unit: string;
+  unit?: string;
   label: string;
   icon: string;
   color: string;

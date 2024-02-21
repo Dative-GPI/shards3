@@ -1,0 +1,67 @@
+<template>
+  <v-icon
+    :color="$props.color"
+    :class="classes"
+    :style="style"
+    v-bind="$attrs"
+  >
+    <slot />
+  </v-icon>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, PropType } from "vue";
+
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+
+export default defineComponent({
+  name: "FSColorIcon",
+  props: {
+    size: {
+      type: String as PropType<"s" | "m" | "l">,
+      required: false,
+      default: "m"
+    },
+    variant: {
+      type: String as PropType<"standard" | "fill">,
+      required: false,
+      default: "standard"
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Dark
+    }
+  },
+  setup(props) {
+    const colors = computed(() => useColors().getColors(props.color));
+
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+      switch (props.variant) {
+        case "fill": return {
+          "--fs-icon-background-color": colors.value.light
+        };
+        default: return {
+          "--fs-icon-background-color": "transparent"
+        };
+      }
+    });
+
+    const classes = computed((): string[] => {
+      const classNames = [`fs-icon-${props.size}`];
+      switch (props.variant) {
+        case "fill":
+          classNames.push("fs-color-icon");
+          break;
+      }
+      return classNames;
+    });
+
+    return {
+      style,
+      classes
+    };
+  }
+});
+</script>

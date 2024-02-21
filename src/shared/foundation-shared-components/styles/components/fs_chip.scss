@@ -1,0 +1,33 @@
+.fs-chip {
+    user-select: none;
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: var(--fs-chip-background-color) !important;
+    border: 1px solid var(--fs-chip-border-color) !important;
+    color: var(--fs-chip-color) !important;
+    border-radius: 50px !important;
+    padding: 2px 20px !important;
+
+    @include web {
+        height: 24px !important;
+    }
+
+    @include mobile {
+        height: 20px !important;
+    }
+}
+
+.fs-chip-editable {
+    cursor: pointer !important;
+
+    &:hover {
+        background-color: var(--fs-chip-hover-background-color) !important;
+        border-color: var(--fs-chip-hover-border-color) !important;
+        color: var(--fs-chip-hover-color) !important;
+    }
+
+    &:active {
+        background-color: var(--fs-chip-active-background-color) !important;
+        border-color: var(--fs-chip-active-border-color) !important;
+        color: var(--fs-chip-active-color) !important;
+    }
+}

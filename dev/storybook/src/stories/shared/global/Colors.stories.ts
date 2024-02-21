@@ -40,7 +40,7 @@ export const DefaultTheme: Story = {
         </FSColor>
       </div>
       <div style="display: flex; flex-direction: column;">
-        warning #E5A139
+        warning #E6A52E
         <FSColor color="warning" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
@@ -62,7 +62,7 @@ export const DefaultTheme: Story = {
     </div>
     <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 40px; align-items: center;">
       <div style="display: flex; flex-direction: column;">
-        light #DEE0E3
+        light #E1E2E3
         <FSColor color="light" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
@@ -72,7 +72,7 @@ export const DefaultTheme: Story = {
         </FSColor>
       </div>
       <div style="display: flex; flex-direction: column;">
-        dark #676E7A
+        dark #3F4040
         <FSColor color="dark" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>

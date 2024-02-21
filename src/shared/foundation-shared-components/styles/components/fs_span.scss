@@ -1,5 +1,13 @@
 .fs-span {
     padding-inline-end: 2px;
+    max-width: 100%;
+}
+
+.fs-span-line-clamp {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .fs-span-ellipsis {
