@@ -23,9 +23,11 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value1: 66,
-      value2: 1701234000000,
-      value3: 1701234000000
+      value1: 49,
+      value2: 3600,
+      value3: 691200,
+      value4: 3695,
+      value5: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -40,6 +42,30 @@ export const Variations: Story = {
         v-model="args.value1"
         editable="true"
       />
+    </FSCol>
+    <FSCol>
+    <FSTimeField
+      v-model="args.value2"
+      editable="true"
+    />
+    </FSCol>
+    <FSCol>
+    <FSTimeField
+      v-model="args.value3"
+      editable="true"
+    />
+    </FSCol>
+    <FSCol>
+    <FSTimeField
+      v-model="args.value4"
+      editable="true"
+    />
+    </FSCol>
+    <FSCol>
+    <FSTimeField
+      v-model="args.value5"
+      editable="true"
+    />
     </FSCol>`
   })
 }
