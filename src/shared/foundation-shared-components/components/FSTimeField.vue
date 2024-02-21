@@ -1,32 +1,28 @@
 <template>    
-  <FSRow
-    height="fill"
-  >
-    <FSCol
-      class="fs-time-field-number"
-      >
-    <FSNumberField
-      class="fs-time-field-number "
-      :label="$tr('ui.time-field.value', 'Value')"
-      :hideHeader="$props.hideHeader"
-      :required="$props.required"
-      :editable="$props.editable"
-      :description="$props.description"
-      :clearable="false"
-      v-model="innerTime"
-      @update:modelValue="onSubmit"
-    />  
+  <FSRow height="fill">
+    <FSCol class="fs-time-field-number">
+      <FSNumberField
+        class="fs-time-field-number"
+        :label="$tr('ui.time-field.value', 'Value')"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :editable="$props.editable"
+        :description="$props.description"
+        :clearable="false"
+        :modelValue="innerTime"
+        @update:modelValue="onSubmitValue"
+      />  
     </FSCol>
     <FSSelectField
       class="fs-time-field-select"
-      :label="$tr('ui.time-field.unit', 'Unit')"
+      :label="$tr('ui.time-field.time-unit', 'Time Unit')"
       :items="timeScale"
       :clearable="false"
       :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
-      v-model="selectedUnit.id"
-      @update:modelValue="onSubmit"
+      :modelValue="selectedUnit.id"
+      @update:modelValue="onSubmitTimeScale"
     />
   </FSRow>
 </template>
@@ -48,7 +44,7 @@ export default defineComponent({
     FSSelectField,
     FSRow,
     FSCol
-},
+  },
   props: {
     modelValue: {
       type: Number,
@@ -82,11 +78,11 @@ export default defineComponent({
 
     const timeScale: any[] = [
       { label: $tr("ui.time-field.second", "Second"), id: 1 },
-      { label: "Minute", id: 60 },
-      { label: "Hour", id: 3600 },
-      { label: "Day", id: 86400 },
-      { label: "Month", id: 2592000 },
-      { label: "Year", id: 31536000 }
+      { label: $tr("ui.time-field.minute", "Minute"), id: 60 },
+      { label: $tr("ui.time-field.hour", "Hour"), id: 3600 },
+      { label: $tr("ui.time-field.day", "Day"), id: 86400 },
+      { label: $tr("ui.time-field.month", "Month"), id: 2592000 },
+      { label: $tr("ui.time-field.year", "Year"), id: 31536000 }
     ];
 
     const innerTime = ref(props.modelValue);
@@ -101,7 +97,7 @@ export default defineComponent({
         }
       }
       return i;
-    }
+    };
 
     const bestTimeScaleIndex: number = getTimeScaleIndex(props.modelValue);
 
@@ -110,16 +106,21 @@ export default defineComponent({
       innerTime.value = props.modelValue / selectedUnit.value.id;
     }
 
-    const onSubmit = (): void => {
-      const result = innerTime.value * selectedUnit.value.id;
-      emit("update:modelValue", result);
-      console.log("Time: ", result);
+    const onSubmitValue = (value: number): void => {
+      innerTime.value = value;
+      emit("update:modelValue", innerTime.value * selectedUnit.value.id);
+    };
+
+    const onSubmitTimeScale = (value: number): void => {
+      selectedUnit.value = timeScale.find((item) => item.id === value);
+      emit("update:modelValue", innerTime.value * selectedUnit.value.id);
     };
 
     return {
-      onSubmit,
-      selectedUnit,
+      onSubmitValue,
+      onSubmitTimeScale,
       innerTime,
+      selectedUnit,
       timeScale
     };
   }
