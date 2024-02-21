@@ -1,9 +1,8 @@
 <template>    
   <FSRow height="fill">
-    <FSCol class="fs-time-field-number">
       <FSNumberField
         class="fs-time-field-number"
-        :label="$tr('ui.time-field.value', 'Value')"
+        :label="$props.label"
         :hideHeader="$props.hideHeader"
         :required="$props.required"
         :editable="$props.editable"
@@ -11,28 +10,54 @@
         :clearable="false"
         :modelValue="innerTime"
         @update:modelValue="onSubmitValue"
-      />  
-    </FSCol>
-    <FSSelectField
-      class="fs-time-field-select"
-      :label="$tr('ui.time-field.time-unit', 'Time Unit')"
-      :items="timeScale"
-      :clearable="false"
-      :hideHeader="$props.hideHeader"
-      :required="$props.required"
-      :editable="$props.editable"
-      :modelValue="selectedUnit.id"
-      @update:modelValue="onSubmitTimeScale"
-    />
+      >
+        <template v-if="!$props.hideHeader" #label>
+          <slot name="label">
+            <FSRow :wrap="false">
+              <FSSpan
+                v-if="$props.label"
+                class="fs-time-field-label"
+                font="text-overline"
+                :style="style"
+              >
+                {{ $props.label }}
+              </FSSpan>
+              <FSSpan
+                v-if="$props.label && $props.required"
+                class="fs-time-field-label"
+                style="margin-left: -8px;"
+                font="text-overline"
+                :ellipsis="false"
+                :style="style"
+              >
+                *
+              </FSSpan>
+              <v-spacer style="min-width: 40px;" />
+              <FSSpan
+                v-if="messages.length > 0"
+                class="fs-time-field-messages"
+                font="text-overline"
+                :style="style"
+              >
+                {{ messages.join(", ") }}
+              </FSSpan>
+            </FSRow>
+          </slot>
+        </template>
+        <template #append> 
+          <FSSelectField
+            class="fs-time-field-select"
+            :items="timeScale"
+            :clearable="false"
+            :hideHeader="true"
+            :required="$props.required"
+            :editable="$props.editable"
+            :modelValue="selectedUnit.id"
+            @update:modelValue="onSubmitTimeScale"
+          />
+        </template>
+      </FSNumberField>
   </FSRow>
-  <FSSpan
-      v-if="messages.length > 0"
-      class="fs-text-field-messages"
-      font="text-overline"
-      :style="style"
-    >
-      {{ messages.join(", ") }}
-    </FSSpan>
 </template>
 
 <script lang="ts">
@@ -58,6 +83,11 @@ export default defineComponent({
     FSSpan
   },
   props: {
+    label: {
+      type: String,
+      required: false,
+      default: null
+    },
     modelValue: {
       type: Number,
       required: false,
@@ -121,19 +151,19 @@ export default defineComponent({
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
         return {
-          "--fs-text-field-cursor"             : "default",
-          "--fs-text-field-border-color"       : lights.base,
-          "--fs-text-field-color"              : lights.dark,
-          "--fs-text-field-active-border-color": lights.base
+          "--fs-time-field-cursor"             : "default",
+          "--fs-time-field-border-color"       : lights.base,
+          "--fs-time-field-color"              : lights.dark,
+          "--fs-time-field-active-border-color": lights.base
         };
       }
       return {
-        "--fs-text-field-cursor"             : "text",
-        "--fs-text-field-border-color"       : lights.dark,
-        "--fs-text-field-color"              : darks.base,
-        "--fs-text-field-active-border-color": darks.dark,
-        "--fs-text-field-error-color"        : errors.base,
-        "--fs-text-field-error-border-color" : errors.base
+        "--fs-time-field-cursor"             : "text",
+        "--fs-time-field-border-color"       : lights.dark,
+        "--fs-time-field-color"              : darks.base,
+        "--fs-time-field-active-border-color": darks.dark,
+        "--fs-time-field-error-color"        : errors.base,
+        "--fs-time-field-error-border-color" : errors.base
       };
     });
 
@@ -143,7 +173,6 @@ export default defineComponent({
     const messages = computed((): string[] => {
       const messages = [];
       for (const rule of props.rules) {
-        console.log("Props.ModelValue" + props.modelValue)
         const message = rule(props.modelValue ?? "");
         if (typeof(message) === "string") {
           messages.push(message);

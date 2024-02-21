@@ -39,22 +39,26 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTimeField
+        label="Time Field"
         v-model="args.value1"
         editable="true"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeField
+        label="Time Field"
         v-model="args.value2"
         :editable="false"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeField
+        label="Time Field and additional information about the field."
         v-model="args.value3"
         editable="true"
         :required="true"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeField
+        label="Time Field"
         v-model="args.value4"
         editable="true"
         hideHeader="true"
@@ -92,6 +96,7 @@ export const Rules: Story = {
         <FSTimeField
           :rules="[args.rules.required()]"
           :required="true"
+          label="Time Field"
           v-model="args.value1"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
