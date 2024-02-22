@@ -105,7 +105,9 @@
     >
       <FSCol width="fill">
         <v-color-picker
-          modelValue="fullColor"
+          :modelValue="fullColor"
+          :modes="['hex', 'rgba']"
+          :disabled="!$props.editable"
           @update:modelValue="onSubmit"
         ></v-color-picker>
       </FSCol>
@@ -220,6 +222,7 @@
       const onSubmit = (value: string) => {
         innerColor.value = value.substring(0, 7);
         innerOpacity.value = value.length === 9 ? value.substring(7, 9) : "FF";
+        fullColor.value = innerColor.value + innerOpacity.value;
         emit("update:modelValue", innerColor.value);
         emit("update:opacity", getPercentageFromHex(innerOpacity.value));
       };
