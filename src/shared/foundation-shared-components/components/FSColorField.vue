@@ -38,14 +38,6 @@
                     *
                   </FSSpan>
                   <v-spacer style="min-width: 40px;" />
-                  <!--<FSSpan
-                    v-if="messages.length > 0"
-                    class="fs-color-field-messages"
-                    font="text-overline"
-                    :style="style"
-                  >
-                    {{ messages.join(", ") }}
-                  </FSSpan>-->
                 </FSRow>
               </slot>
             </template>
@@ -217,19 +209,7 @@
           "--fs-color-field-error-border-color" : errors.base
         };
       });
-      /**
-       * @description: Returns the error messages for the color field
-       */
-      const messages = computed((): string[] => {
-        const messages = [];
-        for (const rule of props.rules) {
-          const message = rule(props.modelValue ?? "");
-          if (typeof(message) === "string") {
-            messages.push(message);
-          }
-        }
-        return messages;
-      });
+
 
       const onSubmit = (value: string) => {
         innerColor.value = value.substring(0, 7);
@@ -242,7 +222,6 @@
         onSubmit,
         innerColor,
         innerOpacity,
-        messages,
         style,
         menu
       };

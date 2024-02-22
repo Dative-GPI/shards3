@@ -64,32 +64,3 @@ export const Variations: Story = {
     </FSCol>`
   })
 }
-
-export const Rules: Story = {
-  args: {
-    args: {
-      valid: false,
-      value1: null,
-      value2: null,
-      value3: null
-    }
-  },
-  render: (args, { argTypes }) => ({
-    components: { VForm, FSColorField, FSCol, FSRow },
-    props: Object.keys(argTypes),
-    setup() {
-      return { ...args };
-    },
-    template: `
-    <v-form v-model="args.valid" v-lazy>
-      <FSCol>
-        <FSRow>
-          <div class="text-body">
-            Form validity: {{ args.valid ?? "false" }}
-          </div>
-        </FSRow>
-        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      </FSCol>
-    </v-form>`
-  })
-}
