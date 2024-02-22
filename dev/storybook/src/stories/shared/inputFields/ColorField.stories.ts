@@ -59,6 +59,8 @@ export const Variations: Story = {
         description="This is a description, this is a description."
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSColorField/>
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
     </FSCol>`
   })
 }

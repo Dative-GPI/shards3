@@ -158,7 +158,7 @@
       modelValue: {
         type: Number,
         required: false,
-        default: null
+        default: "#000000"
       },
       description: {
         type: String,
@@ -234,7 +234,6 @@
       const onSubmit = (value: string) => {
         innerColor.value = value.substring(0, 7);
         innerOpacity.value = value.length === 9 ? value.substring(7, 9) : "FF";
-        console.log(value);
         emit("update:modelValue", value);
       };
 
