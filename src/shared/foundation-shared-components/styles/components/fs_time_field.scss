@@ -1,0 +1,20 @@
+.fs-time-field-number {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fs-time-field-number > .v-input__control{
+    flex: 2 1 160px;
+}
+
+.fs-time-field-number > .v-input__append {
+    flex: 7 1 160px;
+    margin-left: 0 !important;
+}
+
+.fs-time-field-messages {
+    align-self: stretch;
+    color: var(--fs-time-field-error-color);
+}
