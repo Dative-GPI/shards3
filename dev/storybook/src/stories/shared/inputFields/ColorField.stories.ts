@@ -21,10 +21,10 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value1: "#FF0000FF",
-      value2: "#00FF1250",
+      value1: "#FF0000",
+      value2: "#00FF12",
       value3: "#0030FF",
-      value4: "#FF10FAAB"
+      value4: "#FF10FA"
     }
   },
   render: (args, { argTypes }) => ({
@@ -49,6 +49,7 @@ export const Variations: Story = {
       <FSColorField
         v-model="args.value3"
         editable="false"
+        opacityValue="0.5"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField

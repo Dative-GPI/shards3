@@ -105,7 +105,7 @@
     >
       <FSCol width="fill">
         <v-color-picker
-          v-model="$props.modelValue"
+          v-model="fullColor"
           @update:modelValue="onSubmit"
         ></v-color-picker>
       </FSCol>
@@ -117,7 +117,7 @@
   import { computed, defineComponent, ref,  PropType } from "vue";
   import { useColors } from "@dative-gpi/foundation-shared-components/composables";
   import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-  import { getPercentageFromHex } from "@dative-gpi/foundation-shared-components/utils";
+  import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
   import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 
   import FSTextField from "./FSTextField.vue";
@@ -152,6 +152,11 @@
         required: false,
         default: "#000000"
       },
+      opacityValue: {
+        type: Number,
+        required: false,
+        default: 1
+      },
       description: {
         type: String,
         required: false,
@@ -178,10 +183,11 @@
         default: () => []
       },
     },
-    emits: ["update:modelValue"],
+    emits: ["update:modelValue", "update:opacity"],
     setup(props, { emit }) {
       const innerColor = ref(props.modelValue.toString().substring(0, 7));
-      const innerOpacity = ref(props.modelValue.toString().length === 9 ? props.modelValue.toString().substring(7, 9) : "FF");
+      const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
+      const fullColor = ref(innerColor.value + innerOpacity.value);
 
       const menu = ref(false);
 
@@ -214,7 +220,8 @@
       const onSubmit = (value: string) => {
         innerColor.value = value.substring(0, 7);
         innerOpacity.value = value.length === 9 ? value.substring(7, 9) : "FF";
-        emit("update:modelValue", value);
+        emit("update:modelValue", innerColor.value);
+        emit("update:opacity", getPercentageFromHex(innerOpacity.value));
       };
 
       return {
@@ -222,6 +229,7 @@
         onSubmit,
         innerColor,
         innerOpacity,
+        fullColor,
         style,
         menu
       };
