@@ -14,6 +14,7 @@
             :description="$props.description"
             :clearable="false"
             :modelValue="innerColor"
+            :editable="$props.editable"
           >
             <template v-if="!$props.hideHeader" #label>
               <slot name="label">
@@ -50,16 +51,19 @@
             </template>
             <template #prepend-inner>
               <slot name="prepend-inner">
-                <FSButton
-                  variant="icon"
+                <FSIcon
+                  size="xl"
                   icon="mdi-circle"
-                  :editable="$props.editable"
                   :color="innerColor"
                 />
               </slot>
             </template>
             <template #append> 
-              <FSButton color="light" variant="full">
+              <FSButton
+                color="light"
+                variant="full"
+                :editable="$props.editable"
+                >
                 <template #prepend>
                   <FSIcon> mdi-pencil </FSIcon>
                 </template>
@@ -67,18 +71,20 @@
             </template>
           </FSTextField>
           <FSTextField
+            :editable="$props.editable"
             class="fs-color-field-opacity"
             :clearable="false"
             :required="$props.required"
             :hideHeader="$props.hideHeader"
             :readonly="true"
-            label="Opacity"
+            :label= "$tr('ui.color-field.opacity', 'Opacity')"
             :modelValue="(Math.round(getPercentageFromHex(innerOpacity)*100)) + ' %'"
             >
             
             <template #prepend-inner>
               <slot name="prepend-inner">
-                <FSButton
+                <FSIcon
+                  size="xl"
                   variant="icon"
                   icon="mdi-circle"
                   :editable="$props.editable"
@@ -88,7 +94,10 @@
               </slot>
             </template>
             <template #append> 
-              <FSButton color="light" variant="full">
+              <FSButton
+                color="light"
+                variant="full"
+                :editable="$props.editable">
                 <template #prepend>
                   <FSIcon> mdi-pencil </FSIcon>
                 </template>
@@ -117,6 +126,7 @@
   import { useColors } from "@dative-gpi/foundation-shared-components/composables";
   import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
   import { getPercentageFromHex } from "@dative-gpi/foundation-shared-components/utils";
+  import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 
   import FSTextField from "./FSTextField.vue";
   import FSRow from "./FSRow.vue";
@@ -124,6 +134,10 @@
   import FSSpan from "./FSSpan.vue";
   import FSButton from "./FSButton.vue";
   import FSCard from "./FSCard.vue";
+  import FSIcon from "./FSIcon.vue";
+
+  const { $tr } = useTranslationsProvider();
+
   export default defineComponent({
     name: "FSColorField",
     components: {
@@ -132,13 +146,14 @@
       FSCol,
       FSSpan,
       FSButton,
-      FSCard
+      FSCard,
+      FSIcon
     },
     props: {
       label: {
         type: String,
         required: false,
-        default: null
+        default: $tr('ui.color-field.color', 'Color')
       },
       modelValue: {
         type: Number,

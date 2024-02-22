@@ -22,7 +22,9 @@ export const Variations: Story = {
   args: {
     args: {
       value1: "#FF0000FF",
-      value2: "#00FF0050",
+      value2: "#00FF1250",
+      value3: "#0030FF",
+      value4: "#FF10FAAB"
     }
   },
   render: (args, { argTypes }) => ({
@@ -39,8 +41,22 @@ export const Variations: Story = {
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
-        label="Color"
+        label="Color Picker"
         v-model="args.value2"
+        required="true"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSColorField
+        v-model="args.value3"
+        editable="false"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSColorField
+        label="Color"
+        v-model="args.value4"
+        :editable="false"
+        hideHeader="true"
+        description="This is a description, this is a description."
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
     </FSCol>`
