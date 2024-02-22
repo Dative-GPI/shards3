@@ -105,7 +105,7 @@
     >
       <FSCol width="fill">
         <v-color-picker
-          v-model="fullColor"
+          modelValue="fullColor"
           @update:modelValue="onSubmit"
         ></v-color-picker>
       </FSCol>

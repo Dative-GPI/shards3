@@ -47,9 +47,9 @@ export const Variations: Story = {
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
-        v-model="args.value3"
-        editable="false"
+        :modelValue="args.value3"
         opacityValue="0.5"
+        editable="false"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
