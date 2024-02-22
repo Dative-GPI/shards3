@@ -179,11 +179,6 @@
         required: false,
         default: true
       },
-      rules: {
-        type: Array as PropType<Function[]>,
-        required: false,
-        default: () => []
-      },
     },
     emits: ["update:modelValue", "update:opacity"],
     setup(props, { emit }) {
