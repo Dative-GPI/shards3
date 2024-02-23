@@ -7,7 +7,6 @@
       class="fs-time-slot-field-select"
       :items="daysObject"
       :hideHeader="true"
-      :required="required"
       :editable="editable"
       :clearable="false"
       :modelValue="daysObject.find((item) => item.id === $props.modelValue[0][0])"
@@ -28,9 +27,8 @@
   <FSRow>
     <FSSelectField
       class="fs-time-slot-field-select"
-      :items="daysObject"
+      :items="daysObject.filter((item) => item.id < 7)"
       :hideHeader="true"
-      :required="required"
       :editable="editable && $props.modelValue[0][0] !== 7"
       :clearable="false"
       :modelValue="($props.modelValue[0][0] !== 7 ? daysObject.find((item) => item.id === $props.modelValue[1][0]) : daysObject[7])"
@@ -84,7 +82,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
-    const daysObject = Object.keys(Days).reduce((acc, key) => {
+    const daysObject: { id: number; label: string }[]  = Object.keys(Days).reduce((acc: { id: number; label: string }[], key) => {
       if(isNaN(Number(key))){
         acc.push({
           id: Days[key],
