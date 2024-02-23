@@ -106,7 +106,8 @@
       <FSCol width="fill">
         <v-color-picker
           :modelValue="fullColor"
-          :modes="['hex', 'rgba']"
+          :modes="['hexa', 'rgba']"
+          mode="hexa"
           :disabled="!$props.editable"
           @update:modelValue="onSubmit"
         ></v-color-picker>
