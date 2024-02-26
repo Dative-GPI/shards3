@@ -8,13 +8,19 @@
       <FSCol
         :gap="$props.gap"
       >
-        <FSRow v-if="$slots.header">
+        <FSRow
+          v-if="$slots.header"
+        >
           <slot name="header" />
         </FSRow>
-        <FSRow v-if="$slots.body">
+        <FSRow
+          v-if="$slots.body"
+        >
           <slot name="body" />
         </FSRow>
-        <FSRow v-if="$slots.footer">
+        <FSRow
+          v-if="$slots.footer"
+        >
           <slot name="footer" />
         </FSRow>
       </FSCol>

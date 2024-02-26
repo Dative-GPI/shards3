@@ -1,6 +1,8 @@
 <template>
-  <FSTooltip
+  <v-menu
     v-if="$props.deviceAlert"
+    :closeOnContentClick="false"
+    v-model="menu"
   >
     <template #activator="{ props }">
       <FSBadge
@@ -17,69 +19,48 @@
         </FSColorIcon>
       </FSBadge>
     </template>
-    <FSCard>
-      <FSCol>
+    <FSCard
+      :elevation="true"
+      :border="false"
+    >
+      <FSCol
+        align="center-center"
+        padding="6px 24px"
+      >
         <FSCol
           align="center-center"
-          gap="2px"
+          gap="12px"
         >
+          <FSChip
+            :color="criticityColor"
+            :prependIcon="statusIcon"
+            :label="$props.deviceAlert.label"
+          />
           <FSRow
             width="hug"
           >
-            <FSIcon
-              size="m"
-              :color="criticityColor"
-            >
-              {{ statusIcon }}
-            </FSIcon>
-            <FSText
-              font="text-button"
-              :color="criticityColor"
-            >
-              {{ $props.deviceAlert.label }}
+            <FSText>
+              {{ statusLabel }}
             </FSText>
           </FSRow>
-          <FSSpan>
-            {{ statusLabel }}
-          </FSSpan>
         </FSCol>
-        <template v-if="cloudTimestamp || deviceTimestamp">
-          <FSDivider />
-          <FSCol
-            align="center-center"
-            gap="2px"
+        <FSRow
+          v-if="deviceTimestamp"
+          width="hug"
+        >
+          <FSSpan
+            font="text-overline"
           >
-            <FSRow
-              v-if="cloudTimestamp"
-              width="hug"
-            >
-              <FSIcon>
-                mdi-cloud-outline
-              </FSIcon>
-              <FSSpan>
-                {{ cloudTimestamp }}
-              </FSSpan>
-            </FSRow>
-            <FSRow
-              v-if="deviceTimestamp"
-              width="hug"
-            >
-              <FSIcon>
-                mdi-widgets-outline
-              </FSIcon>
-              <FSSpan>
-                {{ deviceTimestamp }}
-              </FSSpan>
-            </FSRow>
-          </FSCol>
-        </template>
+            {{ deviceTimestamp }}
+          </FSSpan>
+        </FSRow>
       </FSCol>
     </FSCard>
-  </FSTooltip>
+  </v-menu>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
@@ -87,11 +68,9 @@ import { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSColorIcon from "../FSColorIcon.vue";
-import FSTooltip from "../FSTooltip.vue";
-import FSDivider from "../FSDivider.vue";
 import FSBadge from "../FSBadge.vue";
-import FSIcon from "../FSIcon.vue";
 import FSCard from "../FSCard.vue";
+import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
 import FSSpan from "../FSSpan.vue";
 
@@ -99,11 +78,9 @@ export default defineComponent({
   name: "FSWorstAlert",
   components: {
     FSColorIcon,
-    FSTooltip,
-    FSDivider,
     FSBadge,
-    FSIcon,
     FSCard,
+    FSChip,
     FSText,
     FSSpan
   },
@@ -121,6 +98,8 @@ export default defineComponent({
   setup(props) {
     const { epochToLongTimeFormat } = useTimeZone();
     const { $tr } = useTranslationsProvider();
+
+    const menu = ref(false);
 
     const criticityColor = computed(() => {
       switch (props.deviceAlert?.criticity) {
@@ -164,13 +143,6 @@ export default defineComponent({
         return "9+";
       }
       return (props.deviceAlerts + 1).toString();
-    })
-
-    const cloudTimestamp = computed((): string => {
-      if (props.deviceAlert.enqueuedTimestamp) {
-        return epochToLongTimeFormat(props.deviceAlert.enqueuedTimestamp);
-      }
-      return "";
     });
 
     const deviceTimestamp = computed((): string => {
@@ -181,12 +153,12 @@ export default defineComponent({
     });
 
     return {
+      deviceTimestamp,
       criticityColor,
-      statusIcon,
       statusLabel,
+      statusIcon,
       badgeLabel,
-      cloudTimestamp,
-      deviceTimestamp
+      menu
     };
   }
 });

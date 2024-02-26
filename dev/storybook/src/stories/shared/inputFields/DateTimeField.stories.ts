@@ -77,7 +77,7 @@ export const Rules: Story = {
       return { ...args };
     },
     template: `
-    <v-form v-model="args.valid" v-lazy>
+    <v-form v-model="args.valid">
       <FSCol>
         <FSRow>
           <div class="text-body">

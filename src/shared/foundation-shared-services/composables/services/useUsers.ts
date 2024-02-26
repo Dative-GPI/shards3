@@ -8,7 +8,7 @@ import { USER_CURRENT_URL } from "../../config/urls";
 const UserServiceFactory = new ServiceFactory<UserDetailsDTO, UserDetails>("user", UserDetails).create(factory => factory.build(
     factory.addNotify((notifyService) => ({
         getCurrent: async (): Promise<UserDetails> => {
-            const response = await ServiceFactory.http.get(USER_CURRENT_URL);
+            const response = await ServiceFactory.http.get(USER_CURRENT_URL());
             const result = new UserDetails(response.data);
 
             notifyService.notify("update", result);
@@ -16,7 +16,7 @@ const UserServiceFactory = new ServiceFactory<UserDetailsDTO, UserDetails>("user
             return result;
         },
         updateCurrent: async (payload: UpdateUserDTO): Promise<UserDetails> => {
-            const response = await ServiceFactory.http.post(USER_CURRENT_URL, payload);
+            const response = await ServiceFactory.http.post(USER_CURRENT_URL(), payload);
             const result = new UserDetails(response.data);
 
             notifyService.notify("update", result);

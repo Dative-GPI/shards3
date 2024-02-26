@@ -3,6 +3,8 @@
     :rightButtonLabel="$tr('ui.button.remove', 'Remove')"
     :rightButtonColor="ColorEnum.Error"
     :title="title"
+    :modelValue="$props.modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
     <template #body>
@@ -73,6 +75,11 @@ export default defineComponent({
     FSRow
   },
   props: {
+    modelValue: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     removing: {
       type: Boolean,
       required: false,

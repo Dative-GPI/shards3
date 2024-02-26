@@ -8,7 +8,7 @@ import { LAYOUT_PAGE_CURRENT_URL } from "../../config/urls";
 const LayoutPageServiceFactory = new ServiceFactory<LayoutPageDetailsDTO, LayoutPageDetails>("layoutPage", LayoutPageDetails).create(factory => factory.build(
     factory.addNotify((notifyService) => ({
         getCurrent: async (): Promise<LayoutPageDetails> => {
-            const response = await ServiceFactory.http.get(LAYOUT_PAGE_CURRENT_URL);
+            const response = await ServiceFactory.http.get(LAYOUT_PAGE_CURRENT_URL());
             const result = new LayoutPageDetails(response.data);
 
             notifyService.notify("update", result);

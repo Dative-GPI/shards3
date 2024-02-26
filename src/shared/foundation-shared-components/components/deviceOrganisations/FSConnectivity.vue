@@ -1,6 +1,8 @@
 <template>
-  <FSTooltip
+  <v-menu
     v-if="$props.deviceConnectivity"
+    :closeOnContentClick="false"
+    v-model="menu"
   >
     <template #activator="{ props }">
       <FSColorIcon
@@ -12,79 +14,56 @@
         {{ $props.deviceConnectivity.icon }}
       </FSColorIcon>
     </template>
-    <FSCard>
-      <FSCol>
+    <FSCard
+      :elevation="true"
+      :border="false"
+    >
+      <FSCol
+        align="center-center"
+        padding="6px 24px"
+      >
         <FSCol
           align="center-center"
-          gap="2px"
+          gap="12px"
         >
+          <FSChip
+            :color="$props.deviceConnectivity.color"
+            :prependIcon="$props.deviceConnectivity.icon"
+            :label="connectivityLabel"
+          />
           <FSRow
             width="hug"
           >
-            <FSIcon
-              size="m"
-              :color="$props.deviceConnectivity.color"
-            >
-              {{ $props.deviceConnectivity.icon }}
-            </FSIcon>
-            <FSText
-              font="text-button"
-              :color="$props.deviceConnectivity.color"
-            >
-              {{ connectivityLabel }}
+            <FSText>
+              {{ $tr("ui.shared.device-connectivity.last-message", "Last message") }}
             </FSText>
           </FSRow>
-          <FSText>
-            {{ $tr("ui.shared.device-connectivity.last-message", "Last message") }}
-          </FSText>
         </FSCol>
-        <template v-if="cloudTimestamp || deviceTimestamp">
-          <FSDivider />
-          <FSCol
-            align="center-center"
-            gap="2px"
+        <FSRow
+          v-if="deviceTimestamp"
+          width="hug"
+        >
+          <FSSpan
+            font="text-overline"
           >
-            <FSRow
-              v-if="cloudTimestamp"
-              width="hug"
-            >
-              <FSIcon>
-                mdi-cloud-outline
-              </FSIcon>
-              <FSSpan>
-                {{ cloudTimestamp }}
-              </FSSpan>
-            </FSRow>
-            <FSRow
-              v-if="deviceTimestamp"
-              width="hug"
-            >
-              <FSIcon>
-                mdi-widgets-outline
-              </FSIcon>
-              <FSSpan>
-                {{ deviceTimestamp }}
-              </FSSpan>
-            </FSRow>
-          </FSCol>
-        </template>
+            {{ deviceTimestamp }}
+          </FSSpan>
+        </FSRow>
       </FSCol>
     </FSCard>
-  </FSTooltip>
+  </v-menu>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 import { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSColorIcon from "../FSColorIcon.vue";
-import FSTooltip from "../FSTooltip.vue";
-import FSDivider from "../FSDivider.vue";
 import FSCard from "../FSCard.vue";
-import FSIcon from "../FSIcon.vue";
+import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
 import FSSpan from "../FSSpan.vue";
 
@@ -92,10 +71,8 @@ export default defineComponent({
   name: "FSConnectivity",
   components: {
     FSColorIcon,
-    FSTooltip,
-    FSDivider,
     FSCard,
-    FSIcon,
+    FSChip,
     FSText,
     FSSpan
   },
@@ -109,6 +86,8 @@ export default defineComponent({
     const { epochToLongTimeFormat } = useTimeZone();
     const { $tr } = useTranslationsProvider();
 
+    const menu = ref(false);
+
     const connectivityLabel = computed((): string => {
       switch (props.deviceConnectivity.status) {
         case ConnectivityStatus.Connected:          return $tr("ui.connectivity-status.connected", "Connected");
@@ -116,13 +95,6 @@ export default defineComponent({
         case ConnectivityStatus.AlmostOffline:      return $tr("ui.connectivity-status.almost-offline", "Almost offline");
         default:                                    return $tr("ui.connectivity-status.offline", "Offline");
       }
-    });
-
-    const cloudTimestamp = computed((): string => {
-      if (props.deviceConnectivity.enqueuedTimestamp) {
-        return epochToLongTimeFormat(props.deviceConnectivity.enqueuedTimestamp);
-      }
-      return "";
     });
 
     const deviceTimestamp = computed((): string => {
@@ -134,8 +106,8 @@ export default defineComponent({
 
     return {
       connectivityLabel,
-      cloudTimestamp,
-      deviceTimestamp
+      deviceTimestamp,
+      menu
     };
   }
 });

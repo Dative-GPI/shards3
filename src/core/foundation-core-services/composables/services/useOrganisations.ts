@@ -9,7 +9,7 @@ import { ORGANISATION_DASHBOARD_URL } from "../../config/urls";
 const OrganisationServiceFactory = new ServiceFactory<OrganisationDetailsDTO, OrganisationDetails>("organisation", OrganisationDetails).create(factory => factory.build(
     factory.addNotify((notifyService) => ({
         changeDashboard: async (payload: ChangeOrganisationDashboardDTO): Promise<OrganisationDetails> => {
-            const response = await ServiceFactory.http.put(ORGANISATION_DASHBOARD_URL, payload);
+            const response = await ServiceFactory.http.put(ORGANISATION_DASHBOARD_URL(), payload);
             const result = new OrganisationDetails(response.data);
 
             notifyService.notify("update", result);

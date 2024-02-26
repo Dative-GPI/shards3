@@ -1,4 +1,4 @@
-import { ORGANISATION_URL } from "./organisations";
+import { CORE_URL } from "./base";
 
-export const ARTICLES_URL = () => `${ORGANISATION_URL()}/articles`;
+export const ARTICLES_URL = () => `${CORE_URL()}/articles`;
 export const ARTICLE_URL = (articleId: string) => `${ARTICLES_URL()}/${encodeURIComponent(articleId)}`;

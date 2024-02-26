@@ -2,6 +2,8 @@
   <FSDialog
     cardClasses="fs-submit-dialog"
     :width="$props.width"
+    :modelValue="$props.modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
     <template #header>
@@ -14,13 +16,6 @@
             {{ $props.subtitle }}
           </FSSpan>
         </FSCol>
-        <v-spacer />
-        <FSButton
-          variant="icon"
-          icon="mdi-close"
-          :color="ColorEnum.Dark"
-          @click="$emit('update:modelValue', false)"
-        />
       </slot>
     </template>
     <template #body>
@@ -72,6 +67,11 @@ export default defineComponent({
     FSRow
   },
   props: {
+    modelValue: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     width: {
       type: [String, Number],
       required: false,
@@ -143,6 +143,7 @@ export default defineComponent({
       default: true
     }
   },
+  emits: ["update:modelValue"],
   setup(props) {
     const { $tr } = useTranslationsProvider();
 

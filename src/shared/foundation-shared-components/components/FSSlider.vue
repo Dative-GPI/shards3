@@ -34,7 +34,7 @@
       @update:modelValue="(value) => $emit('update:modelValue', value)"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
+      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
       </template>
     </v-slider>
@@ -64,67 +64,67 @@ import FSRow from "./FSRow.vue";
 export default defineComponent({
   name: "FSSlider",
   components: {
-  FSSpan,
-  FSCol,
-  FSRow
+    FSSpan,
+    FSCol,
+    FSRow
   },
   props: {
-  label: {
-    type: String,
-    required: true,
-    default: null
-  },
-  description: {
-    type: String,
-    required: false,
-    default: null
-  },
-  modelValue: {
-    type: String,
-    required: false,
-    default: null
-  },
-  color: {
-    type: String as PropType<ColorBase>,
-    required: false,
-    default: ColorEnum.Dark
-  },
-  required: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  editable: {
-    type: Boolean,
-    required: false,
-    default: true
-  }
+    label: {
+      type: String,
+      required: false,
+      default: null
+    },
+    description: {
+      type: String,
+      required: false,
+      default: null
+    },
+    modelValue: {
+      type: [String, Number],
+      required: false,
+      default: null
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Dark
+    },
+    required: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
   },
   setup(props) {
-  const colors = computed(() => useColors().getColors(props.color));
-  const lights = useColors().getColors(ColorEnum.Light);
-  const darks = useColors().getColors(ColorEnum.Dark);
+    const colors = computed(() => useColors().getColors(props.color));
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
-  const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-    if (!props.editable) {
+    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+      if (!props.editable) {
+        return {
+          "--fs-slider-cursor"     : "default",
+          "--fs-slider-track-color": lights.base,
+          "--fs-slider-thumb-color": lights.base,
+          "--fs-slider-color"      : lights.dark
+        };
+      }
       return {
-        "--fs-slider-cursor"     : "default",
-        "--fs-slider-track-color": lights.base,
-        "--fs-slider-thumb-color": lights.base,
-        "--fs-slider-color"      : lights.dark
+          "--fs-slider-cursor"     : "pointer",
+          "--fs-slider-track-color": colors.value.light,
+          "--fs-slider-thumb-color": colors.value.base,
+          "--fs-slider-color"      : darks.base
       };
-    }
-    return {
-        "--fs-slider-cursor"     : "pointer",
-        "--fs-slider-track-color": colors.value.light,
-        "--fs-slider-thumb-color": colors.value.base,
-        "--fs-slider-color"      : darks.base
-    };
-  });
+    });
 
-  return {
-    style
-  };
+    return {
+      style
+    };
   } 
 });
 </script>

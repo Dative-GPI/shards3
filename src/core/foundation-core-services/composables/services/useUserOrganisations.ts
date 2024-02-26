@@ -13,7 +13,7 @@ const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetail
     factory.addRemove(USER_ORGANISATION_URL),
     factory.addNotify((notifyService) => ({
         getCurrent: async (): Promise<UserOrganisationDetails> => {
-            const response = await ServiceFactory.http.get(USER_ORGANISATION_CURRENT_URL);
+            const response = await ServiceFactory.http.get(USER_ORGANISATION_CURRENT_URL());
             const result = new UserOrganisationDetails(response.data);
 
             notifyService.notify("update", result);
@@ -21,7 +21,7 @@ const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetail
             return result;
         },
         updateCurrent: async(payload: UpdateUserOrganisationDTO): Promise<UserOrganisationDetails> => {
-            const response = await ServiceFactory.http.post(USER_ORGANISATION_CURRENT_URL, payload);
+            const response = await ServiceFactory.http.post(USER_ORGANISATION_CURRENT_URL(), payload);
             const result = new UserOrganisationDetails(response.data);
 
             notifyService.notify("update", result);

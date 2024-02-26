@@ -1,6 +1,7 @@
 <template>
-  <FSTooltip
-    v-if="$props.statusGroup"
+  <v-menu
+    :closeOnContentClick="false"
+    v-model="menu"
   >
     <template #activator="{ props }">
       <FSColorIcon
@@ -12,38 +13,25 @@
         {{ $props.statusGroup.icon }}
       </FSColorIcon>
     </template>
-    <FSCard>
-      <FSCol>
+    <FSCard
+      :elevation="true"
+      :border="false"
+    >
+      <FSCol
+        align="center-center"
+        padding="6px 24px"
+      >
         <FSCol
           align="center-center"
-          gap="2px"
+          gap="12px"
         >
+          <FSChip
+            :color="$props.statusGroup.color"
+            :prependIcon="$props.statusGroup.icon"
+            :label="$props.statusGroup.label"
+          />
           <FSRow
-            width="hug"
-          >
-            <FSIcon
-              size="m"
-              :color="$props.statusGroup.color"
-            >
-              {{ $props.statusGroup.icon }}
-            </FSIcon>
-            <FSText
-              font="text-button"
-              :color="$props.statusGroup.color"
-            >
-              {{ $props.statusGroup.label }}
-            </FSText>
-          </FSRow>
-          <FSRow
-            v-if="$props.modelStatus.groupById && $props.statusGroup.groupByValue"
-            width="hug"
-          >
-            <FSSpan>
-              {{ $props.modelStatus.groupByLabel }} {{ $props.statusGroup.groupByValue }}
-            </FSSpan>
-          </FSRow>
-          <FSRow
-            v-if="$props.statusGroup"
+            v-if="$props.statusGroup.value"
             width="hug"
           >
             <FSText
@@ -53,53 +41,39 @@
               {{ $props.statusGroup.value }} {{ $props.statusGroup.unit }}
             </FSText>
           </FSRow>
-        </FSCol>
-        <template v-if="cloudTimestamp || deviceTimestamp">
-          <FSDivider />
-          <FSCol
-            align="center-center"
-            gap="2px"
+          <FSRow
+            v-if="$props.statusGroup.value && $props.modelStatus.groupById && $props.statusGroup.groupByValue"
+            width="hug"
           >
-            <FSRow
-              v-if="cloudTimestamp"
-              width="hug"
-            >
-              <FSIcon>
-                mdi-cloud-outline
-              </FSIcon>
-              <FSSpan>
-                {{ cloudTimestamp }}
-              </FSSpan>
-            </FSRow>
-            <FSRow
-              v-if="deviceTimestamp"
-              width="hug"
-            >
-              <FSIcon>
-                mdi-widgets-outline
-              </FSIcon>
-              <FSSpan>
-                {{ deviceTimestamp }}
-              </FSSpan>
-            </FSRow>
-          </FSCol>
-        </template>
+            <FSSpan>
+              {{ $props.modelStatus.groupByLabel }} {{ $props.statusGroup.groupByValue }}
+            </FSSpan>
+          </FSRow>
+        </FSCol>
+        <FSRow
+          v-if="deviceTimestamp"
+          width="hug"
+        >
+          <FSSpan
+            font="text-overline"
+          >
+            {{ deviceTimestamp }}
+          </FSSpan>
+        </FSRow>
       </FSCol>
     </FSCard>
-  </FSTooltip>
+  </v-menu>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSColorIcon from "../FSColorIcon.vue";
-import FSTooltip from "../FSTooltip.vue";
-import FSDivider from "../FSDivider.vue";
-import FSIcon from "../FSIcon.vue";
 import FSCard from "../FSCard.vue";
+import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
 import FSSpan from "../FSSpan.vue";
 
@@ -107,10 +81,8 @@ export default defineComponent({
   name: "FSStatus",
   components: {
     FSColorIcon,
-    FSTooltip,
-    FSDivider,
-    FSIcon,
     FSCard,
+    FSChip,
     FSText,
     FSSpan
   },
@@ -127,12 +99,7 @@ export default defineComponent({
   setup(props) {
     const { epochToLongTimeFormat } = useTimeZone();
 
-    const cloudTimestamp = computed((): string => {
-      if (props.statusGroup.enqueuedTimestamp) {
-        return epochToLongTimeFormat(props.statusGroup.enqueuedTimestamp);
-      }
-      return "";
-    });
+    const menu = ref(false);
 
     const deviceTimestamp = computed((): string => {
       if (props.statusGroup.sourceTimestamp) {
@@ -142,8 +109,8 @@ export default defineComponent({
     });
 
     return {
-      cloudTimestamp,
-      deviceTimestamp
+      deviceTimestamp,
+      menu
     };
   }
 });

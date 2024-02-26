@@ -55,10 +55,6 @@
 }
 
 .fs-data-table-grouped {
-    & table {
-        background-color: var(--fs-data-table-background-color);
-    }
-    
     & th:first-of-type {
         display: none;
     }
@@ -68,7 +64,6 @@
     }
 
     & .fs-data-table-group-header {
-        background-color: var(--fs-data-table-background-color) !important;
         padding: 0 !important;
 
         &:after {
@@ -93,4 +88,10 @@
     @include mobile {
         width: 172px;
     }
+}
+
+.fs-data-table-intersection {
+    margin-top: -8px;
+    height: 10px;
+    width: 100%;
 }

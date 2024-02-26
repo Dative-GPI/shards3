@@ -9,7 +9,7 @@ const UserLegalInformationServiceFactory = new ServiceFactory<UserLegalInformati
     factory.addCreate<CreateUserLegalInformationDTO>(USER_LEGAL_INFORMATIONS_URL),
     factory.addNotify((notifyService) => ({
         getCurrent: async (): Promise<UserLegalInformationDetails> => {
-            const response = await ServiceFactory.http.get(USER_LEGAL_INFORMATION_CURRENT_URL);
+            const response = await ServiceFactory.http.get(USER_LEGAL_INFORMATION_CURRENT_URL());
             const result = new UserLegalInformationDetails(response.data);
 
             notifyService.notify("update", result);

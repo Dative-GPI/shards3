@@ -8,7 +8,7 @@ import { LEGAL_INFORMATION_CURRENT_URL } from "../../config/urls";
 const LegalInformationServiceFactory = new ServiceFactory<LegalInformationDetailsDTO, LegalInformationDetails>("legalInformation", LegalInformationDetails).create(factory => factory.build(
     factory.addNotify((notifyService) => ({
         getCurrent: async (): Promise<LegalInformationDetails> => {
-            const response = await ServiceFactory.http.get(LEGAL_INFORMATION_CURRENT_URL);
+            const response = await ServiceFactory.http.get(LEGAL_INFORMATION_CURRENT_URL());
             const result = new LegalInformationDetails(response.data);
 
             notifyService.notify("update", result);
