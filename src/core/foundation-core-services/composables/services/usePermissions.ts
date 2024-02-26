@@ -8,7 +8,7 @@ import { PERMISSIONS_CURRENT_URL } from "../../config/urls";
 const PermissionServiceFactory = new ServiceFactory<PermissionDetailsDTO, PermissionDetails>("permission", PermissionDetails).create(factory => factory.build(
     factory.addNotify(() => ({
         getCurrent: async (): Promise<PermissionInfos[]> => {
-            const response = await ServiceFactory.http.get(PERMISSIONS_CURRENT_URL);
+            const response = await ServiceFactory.http.get(PERMISSIONS_CURRENT_URL());
             const result = response.data.map((dto: PermissionInfos) => new PermissionInfos(dto));
 
             return result;

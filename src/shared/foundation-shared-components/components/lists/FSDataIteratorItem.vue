@@ -1,19 +1,20 @@
 <template>
   <FSCard
-    class="fs-iterator-card"
+    class="fs-data-iterator-item"
     padding="12px"
-    width="100%"
+    width="50%"
   >
     <FSCol>
+      <slot name="item.top" v-bind="{ item: $props.item }" />
       <FSRow
         v-for="(header, index) in $props.headers"
         align="center-left"
+        :wrap="false"
         :key="index"
       >
         <slot :name="`header.${header.value}`" v-bind="{ header }">
           <FSRow
             align="center-left"
-            width="50%"
           >
             <FSText
               font="text-button"
@@ -25,7 +26,6 @@
         <slot :name="`item.${header.value}`" v-bind="{ item: $props.item }">
           <FSRow
             align="center-left"
-            width="50%"
           >
             <FSText>
               {{ $props.item[header.value] }}
@@ -33,10 +33,11 @@
           </FSRow>
         </slot>
       </FSRow>
+      <slot name="item.bottom" v-bind="{ item: $props.item }" />
     </FSCol>
     <FSContainer
       v-if="$props.showSelect"
-      class="fs-iterator-card-checkbox"
+      class="fs-data-iterator-item-checkbox"
       :border="false"
     >
       <FSCheckbox
@@ -49,12 +50,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, onMounted, PropType, ref, Slot, watch } from "vue";
-import { useRouter } from "vue-router";
+import { defineComponent, PropType } from "vue";
 
-import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
-import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorEnum, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 
 import FSContainer from "../FSContainer.vue";
 import FSCheckbox from "../FSCheckbox.vue";

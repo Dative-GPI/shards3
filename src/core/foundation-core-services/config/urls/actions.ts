@@ -1,3 +1,3 @@
-import { ORGANISATION_URL } from "./organisations";
+import { CORE_URL } from "./base";
 
-export const ACTIONS_URL = () => `${ORGANISATION_URL()}/actions`;
+export const ACTIONS_URL = () => `${CORE_URL()}/actions`;

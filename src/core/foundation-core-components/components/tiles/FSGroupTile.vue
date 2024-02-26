@@ -49,7 +49,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { get, getting, entity,  } = useGroup();
+    const { get, getting, entity } = useGroup();
 
     onMounted(() => {
       get(props.groupId);

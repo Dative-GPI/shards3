@@ -1,4 +1,4 @@
-export const sizeToVar = (value: string | number | null, nullValue: string = "auto", unit: "px" | "%" | "em"| "vw" | "vh" = "px"): string => {
+export const sizeToVar = (value: string | number | null, nullValue: string = "fit-content", unit: "px" | "%" | "em"| "vw" | "vh" = "px"): string => {
     if (value == null) {
         return nullValue;
     }

@@ -1,0 +1,19 @@
+.fs-data-iterator-item {
+    position: relative;
+    min-height: 36px;
+
+    & > .fs-col > .fs-row:first-of-type > :last-child {
+        padding-right: 22px;
+    }
+}
+
+.fs-data-iterator-item-checkbox {
+    border-radius: 4px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 1px;
+    right: 1px;
+    width: 32px;
+    height: 32px;
+}

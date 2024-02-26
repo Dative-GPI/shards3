@@ -69,20 +69,11 @@ export const Variations: Story = {
           :showSelect="true"
           :items="args.items1"
           :groupBy="args.groupBy"
+          :sneakyHeaders="['column1']"
           @click:row="args.clickRow"
           v-model:headers="args.headers1"
           v-model="args.value1"
-        >
-          <template #item.column3="{ item }">
-            {{ item.column3.text }}
-          </template>
-          <template #filter.column3="{ filter }">
-            {{ filter.value.text }}
-          </template>
-          <template #group-header-title="{ item }">
-            {{ new Date(item.value).toString() }}
-          </template>
-        </FSDataTable>
+        />
       </div>
     </div>`
   })

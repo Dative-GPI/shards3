@@ -1,6 +1,6 @@
 import { provide, ref, watch } from "vue";
 
-import { ORGANISATION_ID } from "../config/literals";
+import { ORGANISATION_ID } from "@dative-gpi/foundation-core-services/config/literals";
 
 let initialized = false;
 

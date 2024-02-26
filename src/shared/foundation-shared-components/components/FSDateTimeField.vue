@@ -71,7 +71,7 @@
       :modelValue="tabs"
     >
       <FSCard
-        width="394"
+        width="394px"
         :elevation="true"
         :border="false"
         :value="0"
@@ -90,7 +90,7 @@
         </FSCol>
       </FSCard>
       <FSCard
-        width="394"
+        width="394px"
         :elevation="true"
         :border="false"
         :value="1"

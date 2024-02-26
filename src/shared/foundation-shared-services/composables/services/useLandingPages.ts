@@ -8,7 +8,7 @@ import { LANDING_PAGE_CURRENT_URL } from "../../config/urls";
 const LandingPageServiceFactory = new ServiceFactory<LandingPageDetailsDTO, LandingPageDetails>("landingPage", LandingPageDetails).create(factory => factory.build(
     factory.addNotify((notifyService) => ({
         getCurrent: async (): Promise<LandingPageDetails> => {
-            const response = await ServiceFactory.http.get(LANDING_PAGE_CURRENT_URL);
+            const response = await ServiceFactory.http.get(LANDING_PAGE_CURRENT_URL());
             const result = new LandingPageDetails(response.data);
 
             notifyService.notify("update", result);
