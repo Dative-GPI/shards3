@@ -24,48 +24,48 @@
 <script lang="ts">
 import { defineComponent, onMounted, watch } from "vue";
 
+import { useDeviceOrganisation } from "@dative-gpi/foundation-core-services/composables";
+
 import FSDeviceOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/FSLoadTile.vue";
 
-import { useDeviceOrganisation } from "@dative-gpi/foundation-core-services/composables";
-
 export default defineComponent({
-    name: "FSDeviceOrganisationTile",
-    components: {
-      FSDeviceOrganisationTileUI,
-      FSLoadTile
+  name: "FSDeviceOrganisationTile",
+  components: {
+    FSDeviceOrganisationTileUI,
+    FSLoadTile
+  },
+  props: {
+    deviceOrganisationId: {
+      type: String,
+      required: true
     },
-    props: {
-      deviceOrganisationId: {
-        type: String,
-        required: true
-      },
-      modelValue: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      editable: {
-        type: Boolean,
-        required: false,
-        default: true
-      }
+    modelValue: {
+      type: Boolean,
+      required: false,
+      default: false
     },
-    setup(props) {
-      const { get, getting, entity } = useDeviceOrganisation();
-
-      onMounted(() => {
-        get(props.deviceOrganisationId);
-      });
-
-      watch(() => props.deviceOrganisationId, () => {
-        get(props.deviceOrganisationId);
-      });
-
-      return {
-        getting,
-        entity
-      };
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
     }
+  },
+  setup(props) {
+    const { get, getting, entity } = useDeviceOrganisation();
+
+    onMounted(() => {
+      get(props.deviceOrganisationId);
+    });
+
+    watch(() => props.deviceOrganisationId, () => {
+      get(props.deviceOrganisationId);
+    });
+
+    return {
+      getting,
+      entity
+    };
+  }
 });
 </script>

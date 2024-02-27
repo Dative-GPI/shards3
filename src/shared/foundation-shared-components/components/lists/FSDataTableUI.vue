@@ -64,9 +64,10 @@
         :singleSelect="$props.singleSelect"
         :headers="extraHeaders.concat(innerHeaders)"
         :groupBy="$props.groupBy ? [$props.groupBy] : []"
+        :sortBy="innerSortBy ? [innerSortBy] : []"
         :items="innerItems"
         :fixedHeader="true"
-        :multiSort="true"
+        :multiSort="false"
         :hover="true"
         :style="style"
         :class="classes"
@@ -75,7 +76,7 @@
         :modelValue="innerValue"
         @auxclick:row="onClickRow"
         @click:row="onClickRow"
-        v-model:sortBy="innerSortBy"
+        @update:sortBy="innerSortBy = $event ? $event[0] : null"
       >
         <template #no-data>
           <FSText
@@ -197,24 +198,26 @@
             padding="16px"
             gap="24px"
           >
-            <template v-if="$props.modelValue.length >= innerItems.length">
-              <FSRow
-                gap="2px"
-              >
-                <FSText
-                  font="text-button"
+            <template v-if="$props.modelValue.length">
+              <template v-if="$props.modelValue.length >= innerItems.length">
+                <FSRow
+                  gap="2px"
                 >
-                  {{ $tr("ui.data-table.all-selected-bold", "Warning:") }}
-                </FSText>
+                  <FSText
+                    font="text-button"
+                  >
+                    {{ $tr("ui.data-table.all-selected-bold", "Warning:") }}
+                  </FSText>
+                  <FSText>
+                    {{ $tr("ui.data-table.all-selected-regular", "All elements selected") }}
+                  </FSText>
+                </FSRow>
+              </template>
+              <template v-else>
                 <FSText>
-                  {{ $tr("ui.data-table.all-selected-regular", "All elements selected") }}
+                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
                 </FSText>
-              </FSRow>
-            </template>
-            <template v-else-if="$props.modelValue.length">
-              <FSText>
-                {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
-              </FSText>
+              </template>
             </template>
             <v-spacer />
             <FSRow
@@ -302,24 +305,26 @@
             padding="16px"
             gap="24px"
           >
-            <template v-if="$props.modelValue.length >= innerItems.length">
-              <FSRow
-                gap="2px"
-              >
-                <FSText
-                  font="text-button"
+            <template v-if="$props.modelValue.length">
+              <template v-if="$props.modelValue.length >= innerItems.length">
+                <FSRow
+                  gap="2px"
                 >
-                  {{ $tr("ui.data-table.all-selected-bold", "Attention:") }}
-                </FSText>
+                  <FSText
+                    font="text-button"
+                  >
+                    {{ $tr("ui.data-table.all-selected-bold", "Attention:") }}
+                  </FSText>
+                  <FSText>
+                    {{ $tr("ui.data-table.all-selected-regular", "All elements selected") }}
+                  </FSText>
+                </FSRow>
+              </template>
+              <template v-else>
                 <FSText>
-                  {{ $tr("ui.data-table.all-selected-regular", "All elements selected") }}
+                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
                 </FSText>
-              </FSRow>
-            </template>
-            <template v-else-if="$props.modelValue.length">
-              <FSText>
-                {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
-              </FSText>
+              </template>
             </template>
             <v-spacer />
             <FSRow
@@ -425,7 +430,7 @@ import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
 
 export default defineComponent({
-  name: "FSDataTable",
+  name: "FSDataTableUI",
   components: {
     FSDataIteratorItem,
     FSFilterButton,
@@ -446,6 +451,11 @@ export default defineComponent({
     headers: {
       type: Array as PropType<FSDataTableColumn[]>,
       required: true
+    },
+    filters: {
+      type: Object as PropType<{ [key: string]: FSDataTableFilter[] }>,
+      required: false,
+      default: () => ({})
     },
     sneakyHeaders: {
       type: Array as PropType<string[]>,
@@ -482,9 +492,9 @@ export default defineComponent({
       default: null
     },
     sortBy: {
-      type: Array as PropType<FSDataTableOrder[]>,
+      type: Object as PropType<FSDataTableOrder>,
       required: false,
-      default: () => []
+      default: null
     },
     modelValue: {
       type: Array as PropType<string[]>,
@@ -816,6 +826,14 @@ export default defineComponent({
         filterDictionary[key] = value.sort((v1, v2) => {
           return v1.text.localeCompare(v2.text, undefined, { numeric: true });
         });
+      }
+      for (const [key, filters] of Object.entries(props.filters)) {
+        for (const filter of filters) {
+          const fromDictionary = filterDictionary[key].find(f => f.value == filter.value);
+          if (fromDictionary) {
+            fromDictionary.hidden = filter.hidden;
+          }
+        }
       }
       filters.value = filterDictionary;
     };

@@ -20,9 +20,15 @@ const LayoutPageServiceFactory = new ServiceFactory<LayoutPageDetailsDTO, Layout
 
 export const useCurrentLayoutPage = () => {
     const service = LayoutPageServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<LayoutPageDetails | null>(null) as Ref<LayoutPageDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -32,10 +38,7 @@ export const useCurrentLayoutPage = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<LayoutPageDetails>);
     }
 

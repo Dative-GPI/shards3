@@ -13,12 +13,13 @@
       />
     </template>
     <FSCard
+      class="fs-hidden-button-menu"
       :elevation="true"
       :border="false"
     >
       <FSCol
         gap="16px"
-        padding="16px"
+        padding="6px 16px"
       >
         <FSSpan
           font="text-overline"
@@ -27,6 +28,7 @@
         </FSSpan>
         <FSChip
           v-for="(header, index) in $props.headers"
+          class="fs-hidden-button-chip"
           :color="$props.color"
           :label="header.text"
           :editable="true"

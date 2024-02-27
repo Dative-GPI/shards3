@@ -1,6 +1,6 @@
 import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 
-const { epochToLongDateFormat } = useTimeZone();
+const { epochToLongDateFormat } = useTimeZone()!;
 const { $tr } = useTranslationsProvider();
 
 export const TextRules = {

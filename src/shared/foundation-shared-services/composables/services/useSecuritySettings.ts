@@ -20,9 +20,15 @@ const SecuritySettingServiceFactory = new ServiceFactory<SecuritySettingDetailsD
 
 export const useCurrentSecuritySettings = () => {
     const service = SecuritySettingServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<SecuritySettingDetails | null>(null) as Ref<SecuritySettingDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -32,10 +38,7 @@ export const useCurrentSecuritySettings = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<SecuritySettingDetails>);
     }
 

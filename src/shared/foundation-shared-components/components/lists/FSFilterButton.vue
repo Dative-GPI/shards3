@@ -15,12 +15,13 @@
       />
     </template>
     <FSCard
+      class="fs-filter-button-menu"
       :elevation="true"
       :border="false"
     >
       <FSCol
         gap="16px"
-        padding="0 0 0 16px"
+        padding="6px 16px"
       >
         <FSSpan
           font="text-overline"
@@ -47,7 +48,7 @@
           <FSCol>
             <FSChip
               v-for="(filter, index) in searchedFilters"
-              class="fs-filter-button-filter"
+              class="fs-filter-button-chip"
               :key="index"
               :editable="true"
               :label="filter.text"

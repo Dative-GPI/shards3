@@ -28,9 +28,15 @@ const UserServiceFactory = new ServiceFactory<UserDetailsDTO, UserDetails>("user
 
 export const useCurrentUser = () => {
     const service = UserServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<UserDetails | null>(null) as Ref<UserDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -40,10 +46,7 @@ export const useCurrentUser = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<UserDetails>);
     }
 
@@ -55,9 +58,15 @@ export const useCurrentUser = () => {
 }
 export const useUpdateCurrentUser = () => {
     const service = UserServiceFactory();
+    const subscribersIds: number[] = [];
 
     const updating = ref(false);
     const updated = ref<UserDetails | null>(null) as Ref<UserDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const update = async (payload: UpdateUserDTO) => {
         updating.value = true;
@@ -67,10 +76,7 @@ export const useUpdateCurrentUser = () => {
         finally {
             updating.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(updated))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(updated)));
         return readonly(updated as Ref<UserDetails>);
     }
 

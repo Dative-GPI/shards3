@@ -22,9 +22,15 @@ const UserLegalInformationServiceFactory = new ServiceFactory<UserLegalInformati
 export const useCreateUserLegalInformation = ComposableFactory.create(UserLegalInformationServiceFactory);
 export const useCurrentUserLegalInformation = () => {
     const service = UserLegalInformationServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<UserLegalInformationDetails | null>(null) as Ref<UserLegalInformationDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -34,10 +40,7 @@ export const useCurrentUserLegalInformation = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<UserLegalInformationDetails>);
     }
 

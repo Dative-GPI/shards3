@@ -1,4 +1,4 @@
-import { onMounted, provide, ref, watch } from "vue";
+import { ref, watch } from "vue";
 
 import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
 import { format, subDays } from "date-fns";
@@ -7,9 +7,6 @@ import { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 
 import { useTranslationsProvider } from "./useTranslationsProvider";
 import { useLanguageCode } from "./useLanguageCode";
-import { TIME_ZONE } from "../config/literals";
-
-let initialized = false;
 
 const timeZone = ref<TimeZoneInfos | null>({
     id: "Europe/Paris",
@@ -17,9 +14,6 @@ const timeZone = ref<TimeZoneInfos | null>({
 });
 
 export const useTimeZone = () => {
-    const { languageCode } = useLanguageCode();
-    const { $tr } = useTranslationsProvider();
-
     const setTimeZone = (payload: TimeZoneInfos) => {
         timeZone.value = payload;
     };
@@ -151,11 +145,11 @@ export const useTimeZone = () => {
     };
 
     const todayTimeFormat = (): string => {
-        return `'${$tr("ui.time-zone.today-at", "Today at")?.replaceAll("'", "''")}' HH:mm:ss`;
+        return `'${useTranslationsProvider().$tr("ui.time-zone.today-at", "Today at").replaceAll("'", "''")}' HH:mm:ss`;
     }
     
     const yesterdayTimeFormat = (): string => {
-        return `'${$tr("ui.time-zone.yesterday-at", "Yesterday at")?.replaceAll("'", "''")}' HH:mm:ss`;
+        return `'${useTranslationsProvider().$tr("ui.time-zone.yesterday-at", "Yesterday at").replaceAll("'", "''")}' HH:mm:ss`;
     }
       
     const overrideFormat = (date: Date, askedFormat: string): string => {
@@ -170,7 +164,7 @@ export const useTimeZone = () => {
     }
 
     const getLocale = (): Locale => {
-        switch (languageCode.value) {
+        switch (useLanguageCode().languageCode.value) {
             case "fr-FR": return fr;
             case "es-ES": return es;
             case "it-IT": return it;
@@ -179,24 +173,6 @@ export const useTimeZone = () => {
             default: return enUS;
         }
     }
-
-    if (!initialized) {
-        provide(TIME_ZONE, timeZone);
-
-        onMounted(() => {
-            if (timeZone.value) {
-                return;
-            }
-            else {
-                setTimeZone(new TimeZoneInfos({
-                    id: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    offset: getMachineOffset()
-                }));
-            }
-        });
-    }
-
-    initialized = true;
 
     const ready = new Promise((resolve) => {
         if (timeZone.value) {

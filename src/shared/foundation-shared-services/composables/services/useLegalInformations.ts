@@ -20,9 +20,15 @@ const LegalInformationServiceFactory = new ServiceFactory<LegalInformationDetail
 
 export const useCurrentLegalInformation = () => {
     const service = LegalInformationServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<LegalInformationDetails | null>(null) as Ref<LegalInformationDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -32,10 +38,7 @@ export const useCurrentLegalInformation = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<LegalInformationDetails>);
     }
 

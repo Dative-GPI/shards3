@@ -8,3 +8,8 @@ export class AuthTokenDetails extends AuthTokenInfos {
 
 export interface AuthTokenDetailsDTO extends AuthTokenInfosDTO {
 }
+
+export interface CreateAuthTokenDTO {
+    userId: string;
+    lifetime: number;
+}

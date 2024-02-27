@@ -30,9 +30,15 @@ export const useUpdateGroup = ComposableFactory.update(GroupServiceFactory);
 export const useRemoveGroup = ComposableFactory.remove(GroupServiceFactory);
 export const useChangeGroupParent = () => {
     const service = GroupServiceFactory();
+    const subscriberIds: number[] = [];
 
     const changing = ref(false);
     const changed = ref<GroupDetails | null>(null) as Ref<GroupDetails | null>;
+
+    onUnmounted(() => {
+        subscriberIds.forEach(id => service.unsubscribe(id));
+        subscriberIds.length = 0;
+    });
 
     const change = async (groupId: string, payload: ChangeGroupParentDTO) => {
         changing.value = true;
@@ -42,10 +48,7 @@ export const useChangeGroupParent = () => {
         finally {
             changing.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(changed))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscriberIds.push(service.subscribe("all", onEntityChanged(changed)));
         return readonly(changed as Ref<GroupDetails>);
     }
 

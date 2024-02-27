@@ -20,9 +20,15 @@ const ApplicationServiceFactory = new ServiceFactory<ApplicationDetailsDTO, Appl
 
 export const useCurrentApplication = () => {
     const service = ApplicationServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<ApplicationDetails | null>(null) as Ref<ApplicationDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -32,10 +38,7 @@ export const useCurrentApplication = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched));
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<ApplicationDetails>);
     }
 

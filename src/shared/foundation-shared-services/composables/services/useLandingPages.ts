@@ -20,9 +20,15 @@ const LandingPageServiceFactory = new ServiceFactory<LandingPageDetailsDTO, Land
 
 export const useCurrentLandingPage = () => {
     const service = LandingPageServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<LandingPageDetails | null>(null) as Ref<LandingPageDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -32,10 +38,7 @@ export const useCurrentLandingPage = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<LandingPageDetails>);
     }
 

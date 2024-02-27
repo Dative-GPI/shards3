@@ -21,9 +21,15 @@ const OrganisationServiceFactory = new ServiceFactory<OrganisationDetailsDTO, Or
 
 export const useChangeDashboardOrganisation = () => {
     const service = OrganisationServiceFactory();
+    const subscribersIds: number[] = [];
 
     const changing = ref(false);
     const changed = ref<OrganisationDetails | null>(null) as Ref<OrganisationDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const change = async (payload: ChangeOrganisationDashboardDTO) => {
         changing.value = true;
@@ -33,10 +39,7 @@ export const useChangeDashboardOrganisation = () => {
         finally {
             changing.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(changed))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(changed)));
         return readonly(changed as Ref<OrganisationDetails>);
     }
 
