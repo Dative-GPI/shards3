@@ -1,10 +1,10 @@
 <template>
   <v-btn
-    v-if="!['icon'].includes($props.variant)"
+    v-if="!['icon'].includes(props.variant)"
     :ripple="false"
     :style="style"
     :class="classes"
-    :disabled="!$props.editable"
+    :disabled="!props.editable"
     v-bind="$attrs"
   >
     <FSRow
@@ -12,33 +12,33 @@
       width="hug"
       :wrap="false"
     >
-      <slot name="prepend" v-bind="{ color: $props.color, colors }">
+      <slot name="prepend" v-bind="{ color: props.color, colors }">
         <FSIcon
-          v-if="$props.prependIcon"
+          v-if="props.prependIcon"
           size="l"
         >
-          {{ $props.prependIcon }}
+          {{ props.prependIcon }}
         </FSIcon>
       </slot>
-      <slot v-bind="{ color: $props.color, colors }">
+      <slot v-bind="{ color: props.color, colors }">
         <FSSpan
-          v-if="$props.label"
+          v-if="props.label"
         >
-          {{ $props.label }}
+          {{ props.label }}
         </FSSpan>
       </slot>
-      <slot name="append" v-bind="{ color: $props.color, colors }">
+      <slot name="append" v-bind="{ color: props.color, colors }">
         <FSIcon
-          v-if="$props.appendIcon"
+          v-if="props.appendIcon"
           size="l"
         >
-          {{ $props.appendIcon }}
+          {{ props.appendIcon }}
         </FSIcon>
       </slot>
     </FSRow>
   </v-btn>
   <FSRow
-    v-else-if="$props.icon"
+    v-else-if="props.icon"
     align="center-center"
     width="hug"
     :style="style"
@@ -48,19 +48,20 @@
     <FSIcon
       size="l"
     >
-      {{ $props.icon }}
+      {{ props.icon }}
     </FSIcon>
     <FSSpan
-      v-if="$props.label"
+      v-if="props.label"
       font="text-overline"
     >
-      {{ $props.label }}
+      {{ props.label }}
     </FSSpan>
   </FSRow>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, getCurrentInstance, PropType } from "vue";
+import { useDefaults } from "vuetify";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -119,6 +120,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    props = useDefaults(props, getCurrentInstance().type.name)
+
     const textColors = computed(() => useColors().getContrasts(props.color));
     const colors = computed(() => useColors().getColors(props.color));
     const lights = useColors().getColors(ColorEnum.Light);
@@ -202,6 +205,7 @@ export default defineComponent({
     });
 
     return {
+      props,
       colors,
       style,
       classes

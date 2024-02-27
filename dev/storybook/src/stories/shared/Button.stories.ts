@@ -107,63 +107,29 @@ export const Variations: Story = {
     </div>`
   })
 }
-
-export const Search: Story = {
-  args: FSButtonsProps.FSButtonSearch
-}
-
-export const SearchMini: Story = {
-  args: FSButtonsProps.FSButtonSearchMini
-}
-
-export const SearchIcon: Story = {
-  args: FSButtonsProps.FSButtonSearchIcon
-}
-
-export const Save: Story = {
-  args: FSButtonsProps.FSButtonSave
-}
-
-export const SaveMini: Story = {
-  args: FSButtonsProps.FSButtonSaveMini
-}
-
-export const SaveIcon: Story = {
-  args: FSButtonsProps.FSButtonSaveIcon
-}
-
-export const Cancel: Story = {
-  args: FSButtonsProps.FSButtonCancel
-}
-
-export const CancelMini: Story = {
-  args: FSButtonsProps.FSButtonCancelMini
-}
-
-export const CancelIcon: Story = {
-  args: FSButtonsProps.FSButtonCancelIcon
-}
-
-export const Remove: Story = {
-  args: FSButtonsProps.FSButtonRemove
-}
-
-export const RemoveMini: Story = {
-  args: FSButtonsProps.FSButtonRemoveMini
-}
-
-export const RemoveIcon: Story = {
-  args: FSButtonsProps.FSButtonRemoveIcon
-}
-
-export const Documentation: Story = {
-  args: FSButtonsProps.FSButtonDocumentation
-}
-
-export const DocumentationMini: Story = {
-  args: FSButtonsProps.FSButtonDocumentationMini
-}
-
-export const DocumentationIcon: Story = {
-  args: FSButtonsProps.FSButtonDocumentationIcon
+export const Aliases: Story = {
+  render: () => ({
+    components: { FSButton, FSIcon, FSSpan },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px;">
+        <FSButtonSearch />
+        <FSButtonRemove />
+        <FSButtonSave />
+        <FSButtonCancel />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonSearchMini />
+        <FSButtonRemoveMini />
+        <FSButtonSaveMini />
+        <FSButtonCancelMini />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonSearchIcon />
+        <FSButtonRemoveIcon />
+        <FSButtonSaveIcon />
+        <FSButtonCancelIcon />
+      </div>
+    </div>`
+  })
 }
