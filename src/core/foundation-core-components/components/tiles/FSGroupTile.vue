@@ -21,10 +21,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, watch } from "vue";
 
+import { useGroup } from "@dative-gpi/foundation-core-services/composables";
+
 import FSGroupTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSGroupTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/FSLoadTile.vue";
-
-import { useGroup } from "@dative-gpi/foundation-core-services/composables";
 
 export default defineComponent({
   name: "FSGroupTile",

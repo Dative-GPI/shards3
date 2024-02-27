@@ -1,6 +1,4 @@
-import { provide, ref, watch } from "vue";
-
-import { ORGANISATION_ID } from "@dative-gpi/foundation-core-services/config/literals";
+import { ref, watch } from "vue";
 
 let initialized = false;
 
@@ -10,10 +8,6 @@ export const useOrganisationId = () => {
     const setOrganisationId = (payload: string) => {
         organisationId.value = payload;
     };
-
-    if (!initialized) {
-        provide(ORGANISATION_ID, organisationId);
-    }
 
     initialized = true;
 

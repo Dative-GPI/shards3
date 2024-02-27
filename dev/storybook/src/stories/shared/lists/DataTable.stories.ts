@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSDataTable.vue";
+import FSDataTableUI from "@dative-gpi/foundation-shared-components/components/lists/FSDataTableUI.vue";
 
 const meta = {
   title: 'Foundation/Shared/Lists/DataTable',
-  component: FSDataTable,
+  component: FSDataTableUI,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   },
-} satisfies Meta<typeof FSDataTable>;
+} satisfies Meta<typeof FSDataTableUI>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -57,7 +57,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSDataTable },
+    components: { FSDataTableUI },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -65,7 +65,7 @@ export const Variations: Story = {
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <div style="display: flex; gap: 10px;">
-        <FSDataTable
+        <FSDataTableUI
           :showSelect="true"
           :items="args.items1"
           :groupBy="args.groupBy"

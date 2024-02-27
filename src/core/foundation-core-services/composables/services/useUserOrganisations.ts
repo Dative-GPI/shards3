@@ -38,9 +38,15 @@ export const useUpdateUserOrganisation = ComposableFactory.update(UserOrganisati
 export const useRemoveUserOrganisation = ComposableFactory.remove(UserOrganisationServiceFactory);
 export const useCurrentUserOrganisation = () => {
     const service = UserOrganisationServiceFactory();
+    const subscribersIds: number[] = [];
 
     const fetching = ref(false);
     const fetched = ref<UserOrganisationDetails | null>(null) as Ref<UserOrganisationDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const fetch = async () => {
         fetching.value = true;
@@ -50,10 +56,7 @@ export const useCurrentUserOrganisation = () => {
         finally {
             fetching.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(fetched))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
         return readonly(fetched as Ref<UserOrganisationDetails>);
     }
 
@@ -65,9 +68,15 @@ export const useCurrentUserOrganisation = () => {
 }
 export const useUpdateCurrentUserOrganisation = () => {
     const service = UserOrganisationServiceFactory();
+    const subscribersIds: number[] = [];
 
     const updating = ref(false);
     const updated = ref<UserOrganisationDetails | null>(null) as Ref<UserOrganisationDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const update = async (payload: UpdateUserOrganisationDTO) => {
         updating.value = true;
@@ -77,10 +86,7 @@ export const useUpdateCurrentUserOrganisation = () => {
         finally {
             updating.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(updated))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(updated)));
         return readonly(updated as Ref<UserOrganisationDetails>);
     }
 

@@ -37,9 +37,15 @@ export const useAlerts = ComposableFactory.getMany(AlertServiceFactory);
 export const useRemoveAlert = ComposableFactory.remove(AlertServiceFactory);
 export const useAcknowledgeAlert = () => {
     const service = AlertServiceFactory();
+    const subscribersIds : number[] = [];
 
     const changing = ref(false);
     const changed = ref<AlertDetails | null>(null) as Ref<AlertDetails | null>;
+
+    onUnmounted(() => {
+        subscribersIds.forEach(id => service.unsubscribe(id));
+        subscribersIds.length = 0;
+    });
 
     const change = async (alertId: string) => {
         changing.value = true;
@@ -49,10 +55,7 @@ export const useAcknowledgeAlert = () => {
         finally {
             changing.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(changed))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscribersIds.push(service.subscribe("all", onEntityChanged(changed)));
         return readonly(changed as Ref<AlertDetails>);
     }
 

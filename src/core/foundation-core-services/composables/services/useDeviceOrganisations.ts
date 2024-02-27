@@ -38,9 +38,15 @@ export const useUpdateDeviceOrganisation = ComposableFactory.update(DeviceOrgani
 export const useRemoveDeviceOrganisation = ComposableFactory.remove(DeviceOrganisationServiceFactory);
 export const useChangeDeviceOrganisationGroup = () => {
     const service = DeviceOrganisationServiceFactory();
+    const subscriberIds: number[] = [];
 
     const changing = ref(false);
     const changed = ref<DeviceOrganisationDetails | null>(null) as Ref<DeviceOrganisationDetails | null>;
+
+    onUnmounted(() => {
+        subscriberIds.forEach(id => service.unsubscribe(id));
+        subscriberIds.length = 0;
+    });
 
     const change = async (deviceOrganisationId: string, payload: ChangeDeviceOrganisationGroupDTO) => {
         changing.value = true;
@@ -50,10 +56,7 @@ export const useChangeDeviceOrganisationGroup = () => {
         finally {
             changing.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(changed))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscriberIds.push(service.subscribe("all", onEntityChanged(changed)));
         return readonly(changed as Ref<DeviceOrganisationDetails>);
     }
 
@@ -65,9 +68,15 @@ export const useChangeDeviceOrganisationGroup = () => {
 }
 export const useChangeDeviceOrganisationLocation = () => {
     const service = DeviceOrganisationServiceFactory();
+    const subscriberIds: number[] = [];
 
     const changing = ref(false);
     const changed = ref<DeviceOrganisationDetails | null>(null) as Ref<DeviceOrganisationDetails | null>;
+
+    onUnmounted(() => {
+        subscriberIds.forEach(id => service.unsubscribe(id));
+        subscriberIds.length = 0;
+    });
 
     const change = async (deviceOrganisationId: string, payload: ChangeDeviceOrganisationLocationDTO) => {
         changing.value = true;
@@ -77,10 +86,7 @@ export const useChangeDeviceOrganisationLocation = () => {
         finally {
             changing.value = false;
         }
-
-        const subscriberId = service.subscribe("all", onEntityChanged(changed))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
+        subscriberIds.push(service.subscribe("all", onEntityChanged(changed)));
         return readonly(changed as Ref<DeviceOrganisationDetails>);
     }
 

@@ -1,4 +1,4 @@
-.fs-filter-button-menu {
+.fs-hidden-button-menu {
     @include web {
         min-width: 200px !important;
     }
@@ -7,15 +7,6 @@
     }
 }
 
-.fs-filter-button-all {
+.fs-hidden-button-chip {
     width: calc(100% - 16px) !important;
-}
-
-.fs-filter-button-fade {
-    padding-right: 8px;
-    max-height: 360px;
-}
-
-.fs-filter-button-chip {
-    width: 100%;
 }
