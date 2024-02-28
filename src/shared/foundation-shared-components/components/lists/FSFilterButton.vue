@@ -32,7 +32,7 @@
           class="fs-filter-button-all"
           :editable="true"
           :color="$props.color"
-          :variant="all ? 'full' : 'standard'"
+          :variant="getAllVariant()"
           :label="$tr('ui.data-table.all-values', 'All values')"
           @click="onToggleAll"
         />
@@ -110,9 +110,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
 
+    const singlePick = ref(false);
     const expanded = ref(false);
     const search = ref(null);
-    const all = ref(!props.filters?.some(f => f.hidden) ?? true);
 
     const label = computed(() => {
       if (props.filters) {
@@ -132,32 +132,39 @@ export default defineComponent({
     });
 
     const getVariant = (filter: FSDataTableFilter): "standard" | "full" => {
-      if (all.value || filter.hidden) {
+      if (singlePick.value || props.filters.filter(f => f.hidden).length > 0) {
+        if (filter.hidden) {
+          return "standard";
+        }
+        return "full";
+      }
+      return "standard";
+    };
+
+    const getAllVariant = (): "standard" | "full" => {
+      if (singlePick.value || props.filters.filter(f => f.hidden).length > 0) {
         return "standard";
       }
       return "full";
     };
 
     const onToggle = (filter: FSDataTableFilter): void => {
-      if (all.value) {
-        all.value = false;
-        emit("update:filter", props.filters.map(f => ({ ...f, hidden: f.value !== filter.value })));
-      }
-      else {
-        if (filter.hidden && !props.filters.some(f => !f.hidden && f.value !== filter.value)) {
-          all.value = true;
-        }
+      if (singlePick.value || props.filters.filter(f => f.hidden).length > 0) {
         emit("update:filter", props.filters.map(f => ({ ...f, hidden: f.value === filter.value ? !f.hidden : f.hidden })));
       }
+      else {
+        emit("update:filter", props.filters.map(f => ({ ...f, hidden: f.value === filter.value ? false : true })));
+      }
+      singlePick.value = true;
     };
 
     const onToggleAll = (): void => {
-      if (all.value) {
-        all.value = false;
+      if (singlePick.value || props.filters.filter(f => f.hidden).length > 0) {
+        singlePick.value = false;
+        emit("update:filter", props.filters.map(f => ({ ...f, hidden: false })));
       }
       else {
-        all.value = true;
-        emit("update:filter", props.filters.map(f => ({ ...f, hidden: false })));
+        singlePick.value = true;
       }
     };
 
@@ -167,8 +174,9 @@ export default defineComponent({
       expanded,
       search,
       label,
-      all,
+      singlePick,
       getVariant,
+      getAllVariant,
       onToggle,
       onToggleAll
     };

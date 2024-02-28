@@ -829,7 +829,7 @@ export default defineComponent({
       }
       for (const [key, filters] of Object.entries(props.filters)) {
         for (const filter of filters) {
-          const fromDictionary = filterDictionary[key].find(f => f.value == filter.value);
+          const fromDictionary = filterDictionary[key]?.find(f => f.value == filter.value);
           if (fromDictionary) {
             fromDictionary.hidden = filter.hidden;
           }
