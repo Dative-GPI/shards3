@@ -1,6 +1,6 @@
-import { Ref, readonly, ref } from "vue";
+import { ref } from "vue";
 
-import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain";
+import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { DEVICE_STATUS_URL } from "../../config/urls";
@@ -24,7 +24,7 @@ export const useNotifyDeviceStatus = () => {
     const service = DeviceStatusServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<DeviceStatusDetails | null>(null) as Ref<DeviceStatusDetails | null>;
+    const fetched = ref<DeviceStatusDetails | null>(null);
 
     const fetch = async (deviceStatusId: string) => {
         fetching.value = true;
@@ -34,13 +34,12 @@ export const useNotifyDeviceStatus = () => {
         finally {
             fetching.value = false;
         }
-
-        return readonly(fetched as Ref<DeviceStatusDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     };
 }

@@ -1,4 +1,4 @@
-import { TimeZoneFilters, TimeZoneInfos, TimeZoneInfosDTO } from "@dative-gpi/foundation-shared-domain";
+import { TimeZoneFilters, TimeZoneInfos, TimeZoneInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { TIME_ZONES_URL } from "../../config/urls";

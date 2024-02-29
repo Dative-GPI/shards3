@@ -35,7 +35,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const colors = computed(() => useColors().getColors(props.color));
+    const { getColors } = useColors();
+
+    const colors = computed(() => getColors(props.color));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (props.variant) {

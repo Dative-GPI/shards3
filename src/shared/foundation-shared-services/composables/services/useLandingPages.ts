@@ -1,6 +1,6 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
-import { LandingPageDetails, LandingPageDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { LandingPageDetails, LandingPageDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { LANDING_PAGE_CURRENT_URL } from "../../config/urls";
@@ -23,7 +23,7 @@ export const useCurrentLandingPage = () => {
     const subscribersIds: number[] = [];
 
     const fetching = ref(false);
-    const fetched = ref<LandingPageDetails | null>(null) as Ref<LandingPageDetails | null>;
+    const fetched = ref<LandingPageDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
@@ -39,12 +39,12 @@ export const useCurrentLandingPage = () => {
             fetching.value = false;
         }
         subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
-        return readonly(fetched as Ref<LandingPageDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }

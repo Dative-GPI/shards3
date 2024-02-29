@@ -1,4 +1,4 @@
-import { ModelDetails, ModelDetailsDTO, ModelFilters, ModelInfos, ModelInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { ModelDetails, ModelDetailsDTO, ModelFilters, ModelInfos, ModelInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { MODELS_URL, MODEL_URL } from "../../config/urls";

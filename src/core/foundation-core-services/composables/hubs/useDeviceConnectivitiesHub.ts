@@ -15,7 +15,7 @@ export const useDeviceConnectivitiesHub = () => {
         onMounted(async () => {
             if (!connection.value) {
                 connection.value = new signalR.HubConnectionBuilder()
-                    .withUrl(DEVICE_CONNECTIVITIES_HUB_URL)
+                    .withUrl(DEVICE_CONNECTIVITIES_HUB_URL())
                     .configureLogging(signalR.LogLevel.Warning)
                     .withAutomaticReconnect()
                     .build(); 

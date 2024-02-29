@@ -18,7 +18,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted } from "vue";
 
-import { useImageRaw, useImageBlurHash } from "@dative-gpi/foundation-shared-services";
+import { useImageRaw, useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
 
 export default defineComponent({
   name: "FSImage",

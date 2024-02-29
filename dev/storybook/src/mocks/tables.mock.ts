@@ -1,4 +1,4 @@
-import { TableInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { TableInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 export const TABLES: TableInfosDTO[] = [{
     id: "1",
@@ -37,15 +37,6 @@ export const TABLES: TableInfosDTO[] = [{
         hidden: true,
         sortable: false,
         filterable: false
-    }],
-    filters: [{
-        key: "label",
-        value: "First group",
-        hidden: true
-    }, {
-        key: "label",
-        value: "first",
-        hidden: true
     }],
     sortBy: undefined
 }];

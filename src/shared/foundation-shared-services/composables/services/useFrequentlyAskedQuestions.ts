@@ -1,4 +1,4 @@
-import { FrequentlyAskedQuestionDetails, FrequentlyAskedQuestionDetailsDTO, FrequentlyAskedQuestionFilters, FrequentlyAskedQuestionInfos, FrequentlyAskedQuestionInfosDTO } from "@dative-gpi/foundation-shared-domain";
+import { FrequentlyAskedQuestionDetails, FrequentlyAskedQuestionDetailsDTO, FrequentlyAskedQuestionFilters, FrequentlyAskedQuestionInfos, FrequentlyAskedQuestionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { FREQUENTLY_ASKED_QUESTIONS_URL } from "../../config/urls";

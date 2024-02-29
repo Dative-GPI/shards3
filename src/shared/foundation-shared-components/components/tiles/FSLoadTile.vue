@@ -67,8 +67,9 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup() {
     const { isMobileSized } = useBreakpoints();
+    const { getColors } = useColors();
 
-    const backgroundColors = useColors().getColors(ColorEnum.Background);
+    const backgroundColors = getColors(ColorEnum.Background);
 
     const width = computed(() => {
       return isMobileSized.value ? 336 : 352;

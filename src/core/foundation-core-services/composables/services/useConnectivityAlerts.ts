@@ -1,6 +1,6 @@
-import { Ref, readonly, ref } from "vue";
+import { ref } from "vue";
 
-import { ConnectivityAlertDetails, ConnectivityAlertDetailsDTO, ConnectivityAlertFilters, ConnectivityAlertInfos, ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { ConnectivityAlertDetails, ConnectivityAlertDetailsDTO, ConnectivityAlertFilters, ConnectivityAlertInfos, ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { CONNECTIVITY_ALERTS_URL, CONNECTIVITY_ALERT_URL } from "../../config/urls";
@@ -31,7 +31,7 @@ export const useNotifyConnectivityAlert = () => {
     const service = ConnectivityAlertServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<ConnectivityAlertDetails | null>(null) as Ref<ConnectivityAlertDetails | null>;
+    const fetched = ref<ConnectivityAlertDetails | null>(null);
 
     const fetch = async (connectivityAlertId: string) => {
         fetching.value = true;
@@ -41,14 +41,13 @@ export const useNotifyConnectivityAlert = () => {
         finally {
             fetching.value = false;
         }
-
-        return readonly(fetched as Ref<ConnectivityAlertDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        notified: readonly(fetched)
+        fetched
     };
 }
 export const useNotifyRemoveConnectivityAlert = () => {

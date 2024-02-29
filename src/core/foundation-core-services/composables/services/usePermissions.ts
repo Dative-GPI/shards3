@@ -1,6 +1,6 @@
-import { Ref, readonly, ref } from "vue";
+import { ref } from "vue";
 
-import { PermissionDetails, PermissionDetailsDTO, PermissionInfos } from "@dative-gpi/foundation-shared-domain";
+import { PermissionDetails, PermissionDetailsDTO, PermissionInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { PERMISSIONS_CURRENT_URL } from "../../config/urls";
@@ -20,7 +20,7 @@ export const useCurrentPermissions = () => {
     const service = PermissionServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<PermissionInfos[] | null>(null) as Ref<PermissionInfos[] | null>;
+    const fetched = ref<PermissionInfos[] | null>(null);
 
     const fetch = async () => {
         fetching.value = true;
@@ -30,13 +30,12 @@ export const useCurrentPermissions = () => {
         finally {
             fetching.value = false;
         }
-
-        return readonly(fetched as Ref<PermissionInfos[]>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }

@@ -6,7 +6,7 @@
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
-    :placeholder="$tr('ui.search.placeholder', 'Search...')"
+    :placeholder="placeholder"
     @keydown.enter="$emit('update:modelValue', innerValue)"
     v-model="innerValue"
     v-bind="$attrs"
@@ -22,11 +22,11 @@
         />
       </slot>
     </template>
-    <template v-if="!$props.instant" #append>
+    <template v-if="!['instant'].includes($props.variant)" #append>
       <slot name="append">
         <FSButton
           :prependIcon="$props.buttonPrependIcon"
-          :label="$props.buttonLabel"
+          :label="buttonLabel"
           :appendIcon="$props.buttonAppendIcon"
           :variant="$props.buttonVariant"
           :color="$props.buttonColor"
@@ -42,8 +42,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
@@ -66,10 +67,20 @@ export default defineComponent({
       required: false,
       default: null
     },
+    placeholder: {
+      type: String,
+      required: false,
+      default: null
+    },
     prependInnerIcon: {
       type: String,
       required: false,
       default: "mdi-magnify"
+    },
+    variant: {
+      type: String as PropType<"standard" | "instant">,
+      required: false,
+      default: "instant"
     },
     buttonPrependIcon: {
       type: String,
@@ -111,11 +122,6 @@ export default defineComponent({
       required: false,
       default: false
     },
-    instant: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
     required: {
       type: Boolean,
       required: false,
@@ -129,16 +135,28 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { $tr } = useTranslationsProvider();
+
     const innerValue = ref(props.modelValue);
 
+    const placeholder = computed(() => {
+      return props.placeholder ?? $tr('ui.search.placeholder', 'Search...');
+    });
+
+    const buttonLabel = computed(() => {
+      return props.buttonLabel ?? $tr('ui.button.search', 'Search');
+    });
+
     watch(innerValue, () => {
-      if (props.instant) {
+      if (["instant"].includes(props.variant)) {
         emit("update:modelValue", innerValue.value);
       }
     });
 
     return {
       ColorEnum,
+      placeholder,
+      buttonLabel,
       innerValue
     };
   }

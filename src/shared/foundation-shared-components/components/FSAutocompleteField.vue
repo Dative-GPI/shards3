@@ -142,16 +142,18 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue", "update:search"],
-  setup: (props, { emit }) => {    
+  setup: (props, { emit }) => {
+    const { getColors } = useColors();
     const { slots } = useSlots();
+
     delete slots.label;
     delete slots.description;
 
-    const innerSearch = ref("");
+    const errors = getColors(ColorEnum.Error);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
-    const errors = useColors().getColors(ColorEnum.Error);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const innerSearch = ref("");
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {

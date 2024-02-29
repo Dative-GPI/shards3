@@ -22,7 +22,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const lights = useColors().getColors(ColorEnum.Light);
+    const { getColors } = useColors();
+
+    const lights = getColors(ColorEnum.Light);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
         return {

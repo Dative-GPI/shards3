@@ -38,7 +38,9 @@ export default defineComponent({
     }
   },
   setup() {
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const { getColors } = useColors();
+
+    const darks = getColors(ColorEnum.Dark);
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
       "--fs-breadcrumbs-color": darks.dark,

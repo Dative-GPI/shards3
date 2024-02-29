@@ -1,6 +1,6 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
-import { ChangeGroupParentDTO, CreateGroupDTO, GroupDetails, GroupDetailsDTO, GroupFilters, GroupInfos, GroupInfosDTO, UpdateGroupDTO } from "@dative-gpi/foundation-core-domain";
+import { ChangeGroupParentDTO, CreateGroupDTO, GroupDetails, GroupDetailsDTO, GroupFilters, GroupInfos, GroupInfosDTO, UpdateGroupDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { GROUPS_URL, GROUP_URL } from "../../config/urls";
@@ -33,7 +33,7 @@ export const useChangeGroupParent = () => {
     const subscriberIds: number[] = [];
 
     const changing = ref(false);
-    const changed = ref<GroupDetails | null>(null) as Ref<GroupDetails | null>;
+    const changed = ref<GroupDetails | null>(null);
 
     onUnmounted(() => {
         subscriberIds.forEach(id => service.unsubscribe(id));
@@ -49,12 +49,12 @@ export const useChangeGroupParent = () => {
             changing.value = false;
         }
         subscriberIds.push(service.subscribe("all", onEntityChanged(changed)));
-        return readonly(changed as Ref<GroupDetails>);
+        return changed;
     }
 
     return {
-        changing: readonly(changing),
+        changing,
         change,
-        changed: readonly(changed)
+        changed
     }
 }

@@ -105,10 +105,11 @@ export default defineComponent({
   setup(props) {
     const { epochToPicker, pickerToEpoch, todayToEpoch } = useTimeZone();
     const { languageCode } = useLanguageCode();
+    const { getColors } = useColors();
 
-    const colors = computed(() => useColors().getColors(props.color));
-    const backgrounds = useColors().getColors(ColorEnum.Background);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const colors = computed(() => getColors(props.color));
+    const backgrounds = getColors(ColorEnum.Background);
+    const darks = getColors(ColorEnum.Dark);
     
     const innerMonth = ref(props.modelValue ? epochToPicker(props.modelValue).getMonth() : new Date().getMonth());
     const innerYear = ref(props.modelValue ? epochToPicker(props.modelValue).getFullYear() : new Date().getFullYear());

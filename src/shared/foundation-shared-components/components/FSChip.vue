@@ -85,13 +85,15 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const colors = computed(() => useColors().getColors(props.color));
-    const backgrounds = useColors().getColors(ColorEnum.Background);
+    const { getColors, getContrasts } = useColors();
+
+    const colors = computed(() => getColors(props.color));
+    const backgrounds = getColors(ColorEnum.Background);
 
     const textColors = computed(() => {
       switch (props.variant) {
         case "standard": return colors.value;
-        case "full": return useColors().getContrasts(props.color);
+        case "full": return getContrasts(props.color);
       }
     });
 

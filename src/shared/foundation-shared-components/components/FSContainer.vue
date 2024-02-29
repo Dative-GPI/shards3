@@ -33,8 +33,10 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const backgrounds = useColors().getColors(ColorEnum.Background);
-    const lights = useColors().getColors(ColorEnum.Light);
+    const { getColors } = useColors();
+
+    const backgrounds = getColors(ColorEnum.Background);
+    const lights = getColors(ColorEnum.Light);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {

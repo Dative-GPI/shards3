@@ -1,7 +1,7 @@
-import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
+import { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
+import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { DeviceConnectivityInfos, DeviceConnectivityInfosDTO } from "../deviceConnectivities/deviceConnectivityInfos";
-import { AlertStatus } from "../enums/alertEnums";
 
 export class ConnectivityAlertInfos {
   id: string;

@@ -1,6 +1,6 @@
-import { Ref, readonly, ref } from "vue";
+import { ref } from "vue";
 
-import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain";
+import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { DEVICE_CONNECTIVITY_URL } from "../../config/urls";
@@ -24,7 +24,7 @@ export const useNotifyDeviceConnectivity = () => {
     const service = DeviceConnectivityServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<DeviceConnectivityDetails | null>(null) as Ref<DeviceConnectivityDetails | null>;
+    const fetched = ref<DeviceConnectivityDetails | null>(null);
 
     const fetch = async (deviceConnectivityId: string) => {
         fetching.value = true;
@@ -35,12 +35,12 @@ export const useNotifyDeviceConnectivity = () => {
             fetching.value = false;
         }
 
-        return readonly(fetched as Ref<DeviceConnectivityDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     };
 }

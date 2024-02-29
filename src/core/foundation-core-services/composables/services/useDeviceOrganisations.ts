@@ -1,6 +1,6 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
-import { ChangeDeviceOrganisationGroupDTO, ChangeDeviceOrganisationLocationDTO, CreateDeviceOrganisationDTO, DeviceOrganisationDetails, DeviceOrganisationDetailsDTO, DeviceOrganisationFilters, DeviceOrganisationInfos, DeviceOrganisationInfosDTO, UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain";
+import { ChangeDeviceOrganisationGroupDTO, ChangeDeviceOrganisationLocationDTO, CreateDeviceOrganisationDTO, DeviceOrganisationDetails, DeviceOrganisationDetailsDTO, DeviceOrganisationFilters, DeviceOrganisationInfos, DeviceOrganisationInfosDTO, UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { DEVICE_ORGANISATIONS_URL, DEVICE_ORGANISATION_URL, DEVICE_ORGANISATION_GROUP_URL, DEVICE_ORGANISATION_LOCATION_URL } from "../../config/urls";
@@ -41,7 +41,7 @@ export const useChangeDeviceOrganisationGroup = () => {
     const subscriberIds: number[] = [];
 
     const changing = ref(false);
-    const changed = ref<DeviceOrganisationDetails | null>(null) as Ref<DeviceOrganisationDetails | null>;
+    const changed = ref<DeviceOrganisationDetails | null>(null);
 
     onUnmounted(() => {
         subscriberIds.forEach(id => service.unsubscribe(id));
@@ -57,13 +57,13 @@ export const useChangeDeviceOrganisationGroup = () => {
             changing.value = false;
         }
         subscriberIds.push(service.subscribe("all", onEntityChanged(changed)));
-        return readonly(changed as Ref<DeviceOrganisationDetails>);
+        return changed;
     }
 
     return {
-        changing: readonly(changing),
+        changing,
         change,
-        changed: readonly(changed)
+        changed
     }
 }
 export const useChangeDeviceOrganisationLocation = () => {
@@ -71,7 +71,7 @@ export const useChangeDeviceOrganisationLocation = () => {
     const subscriberIds: number[] = [];
 
     const changing = ref(false);
-    const changed = ref<DeviceOrganisationDetails | null>(null) as Ref<DeviceOrganisationDetails | null>;
+    const changed = ref<DeviceOrganisationDetails | null>(null);
 
     onUnmounted(() => {
         subscriberIds.forEach(id => service.unsubscribe(id));
@@ -87,12 +87,12 @@ export const useChangeDeviceOrganisationLocation = () => {
             changing.value = false;
         }
         subscriberIds.push(service.subscribe("all", onEntityChanged(changed)));
-        return readonly(changed as Ref<DeviceOrganisationDetails>);
+        return changed;
     }
 
     return {
-        changing: readonly(changing),
+        changing,
         change,
-        changed: readonly(changed)
+        changed
     }
 }

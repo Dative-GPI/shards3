@@ -1,6 +1,6 @@
-import { Ref, readonly, ref } from "vue";
+import { ref } from "vue";
 
-import { TranslationInfos, TranslationInfosDTO, TranslationDetails, TranslationDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { TranslationInfos, TranslationInfosDTO, TranslationDetails, TranslationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { TRANSLATIONS_LANGUAGE_URL } from "../../config/urls";
@@ -20,7 +20,7 @@ export const useTranslations = () => {
     const service = TranslationServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<TranslationInfos[]>([]) as Ref<TranslationInfos[]>;
+    const fetched = ref<TranslationInfos[]>([]);
 
     const fetch = async (languageCode: string) => {
         fetching.value = true;
@@ -30,7 +30,6 @@ export const useTranslations = () => {
         finally {
             fetching.value = false;
         }
-
         return fetched;
     }
 

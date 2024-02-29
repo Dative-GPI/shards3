@@ -1,4 +1,4 @@
-import { TableDetails, TableDetailsDTO, UpdateTableDTO } from "@dative-gpi/foundation-core-domain";
+import { TableDetails, TableDetailsDTO, UpdateTableDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { TABLE_URL } from "../../config/urls";

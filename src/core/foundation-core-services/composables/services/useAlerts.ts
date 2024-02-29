@@ -1,6 +1,6 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
-import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { ALERTS_URL, ALERT_URL } from "../../config/urls";
@@ -40,7 +40,7 @@ export const useAcknowledgeAlert = () => {
     const subscribersIds : number[] = [];
 
     const changing = ref(false);
-    const changed = ref<AlertDetails | null>(null) as Ref<AlertDetails | null>;
+    const changed = ref<AlertDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
@@ -56,20 +56,20 @@ export const useAcknowledgeAlert = () => {
             changing.value = false;
         }
         subscribersIds.push(service.subscribe("all", onEntityChanged(changed)));
-        return readonly(changed as Ref<AlertDetails>);
+        return changed;
     }
 
     return {
-        changing: readonly(changing),
+        changing,
         change,
-        changed: readonly(changed)
+        changed
     };
 }
 export const useNotifyAlert = () => {
     const service = AlertServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<AlertDetails | null>(null) as Ref<AlertDetails | null>;
+    const fetched = ref<AlertDetails | null>(null);
 
     const fetch = async (alertId: string) => {
         fetching.value = true;
@@ -79,14 +79,13 @@ export const useNotifyAlert = () => {
         finally {
             fetching.value = false;
         }
-
-        return readonly(fetched as Ref<AlertDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     };
 }
 export const useNotifyRemoveAlert = () => {

@@ -1,4 +1,4 @@
-import { DataDefinitionDetails, DataDefinitionDetailsDTO, DataDefinitionFilters, DataDefinitionInfos, DataDefinitionInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { DataDefinitionDetails, DataDefinitionDetailsDTO, DataDefinitionFilters, DataDefinitionInfos, DataDefinitionInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { DATA_DEFINITIONS_URL, DATA_DEFINITION_URL } from "../../config/urls";

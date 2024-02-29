@@ -1,6 +1,6 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
-import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { USER_ORGANISATIONS_URL, USER_ORGANISATION_CURRENT_URL, USER_ORGANISATION_URL } from "../../config/urls";
@@ -41,7 +41,7 @@ export const useCurrentUserOrganisation = () => {
     const subscribersIds: number[] = [];
 
     const fetching = ref(false);
-    const fetched = ref<UserOrganisationDetails | null>(null) as Ref<UserOrganisationDetails | null>;
+    const fetched = ref<UserOrganisationDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
@@ -57,13 +57,13 @@ export const useCurrentUserOrganisation = () => {
             fetching.value = false;
         }
         subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
-        return readonly(fetched as Ref<UserOrganisationDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }
 export const useUpdateCurrentUserOrganisation = () => {
@@ -71,7 +71,7 @@ export const useUpdateCurrentUserOrganisation = () => {
     const subscribersIds: number[] = [];
 
     const updating = ref(false);
-    const updated = ref<UserOrganisationDetails | null>(null) as Ref<UserOrganisationDetails | null>;
+    const updated = ref<UserOrganisationDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
@@ -87,12 +87,12 @@ export const useUpdateCurrentUserOrganisation = () => {
             updating.value = false;
         }
         subscribersIds.push(service.subscribe("all", onEntityChanged(updated)));
-        return readonly(updated as Ref<UserOrganisationDetails>);
+        return updated;
     }
 
     return {
-        updating: readonly(updating),
+        updating,
         update,
-        updated: readonly(updated)
+        updated
     }
 }

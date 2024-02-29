@@ -1,4 +1,4 @@
-import { CustomPropertyDetails, CustomPropertyDetailsDTO, CustomPropertyFilters, CustomPropertyInfos, CustomPropertyInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { CustomPropertyDetails, CustomPropertyDetailsDTO, CustomPropertyFilters, CustomPropertyInfos, CustomPropertyInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { CUSTOM_PROPERTIES_URL } from "../../config/urls";

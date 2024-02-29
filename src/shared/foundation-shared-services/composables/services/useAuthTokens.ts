@@ -1,4 +1,4 @@
-import { AuthTokenDetails, AuthTokenDetailsDTO, CreateAuthTokenDTO } from "@dative-gpi/foundation-shared-domain";
+import { AuthTokenDetails, AuthTokenDetailsDTO, CreateAuthTokenDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { AUTH_TOKENS_URL } from "../../config/urls";

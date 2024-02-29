@@ -37,9 +37,11 @@ export default defineComponent({
   },
   setup(props) {
     const { slots, getChildren } = useSlots();
+    const { getColors } = useColors();
+    
     delete slots.default;
 
-    const backgrounds = useColors().getColors(ColorEnum.Background);
+    const backgrounds = getColors(ColorEnum.Background);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {

@@ -31,7 +31,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const backgrounds = useColors().getColors(ColorEnum.Background);
+    const { getColors } = useColors();
+
+    const backgrounds = getColors(ColorEnum.Background);
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
       "--fs-fade-out-mask-color"        : backgrounds.base,

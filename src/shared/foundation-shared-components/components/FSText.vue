@@ -44,9 +44,10 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { getColors } = useColors();
     const { slots } = useSlots();
 
-    const colors = computed(() => useColors().getColors(props.color));
+    const colors = computed(() => getColors(props.color));
 
     const classes = computed((): string[] => {
       const classNames = ["fs-text", props.font];

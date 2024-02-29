@@ -111,23 +111,25 @@ export const Aliases: Story = {
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <div style="display: flex; gap: 10px;">
-        {{ $tr('ui.button.search', 'Default search') }}
         <FSButtonSearch />
         <FSButtonRemove />
         <FSButtonSave />
         <FSButtonCancel />
+        <FSButtonDocumentation />
       </div>
       <div style="display: flex; gap: 10px;">
         <FSButtonSearchMini />
         <FSButtonRemoveMini />
         <FSButtonSaveMini />
         <FSButtonCancelMini />
+        <FSButtonDocumentationMini />
       </div>
       <div style="display: flex; gap: 10px;">
         <FSButtonSearchIcon />
         <FSButtonRemoveIcon />
         <FSButtonSaveIcon />
         <FSButtonCancelIcon />
+        <FSButtonDocumentationIcon />
       </div>
     </div>`
   })

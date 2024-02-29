@@ -1,6 +1,6 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
-import { LegalInformationDetails, LegalInformationDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { LegalInformationDetails, LegalInformationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { LEGAL_INFORMATION_CURRENT_URL } from "../../config/urls";
@@ -23,7 +23,7 @@ export const useCurrentLegalInformation = () => {
     const subscribersIds: number[] = [];
 
     const fetching = ref(false);
-    const fetched = ref<LegalInformationDetails | null>(null) as Ref<LegalInformationDetails | null>;
+    const fetched = ref<LegalInformationDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
@@ -39,12 +39,12 @@ export const useCurrentLegalInformation = () => {
             fetching.value = false;
         }
         subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
-        return readonly(fetched as Ref<LegalInformationDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }

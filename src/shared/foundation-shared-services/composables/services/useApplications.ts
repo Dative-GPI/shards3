@@ -1,6 +1,6 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
-import { ApplicationDetails, ApplicationDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { ApplicationDetails, ApplicationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { APPLICATION_CURRENT_URL } from "../../config/urls";
@@ -23,7 +23,7 @@ export const useCurrentApplication = () => {
     const subscribersIds: number[] = [];
 
     const fetching = ref(false);
-    const fetched = ref<ApplicationDetails | null>(null) as Ref<ApplicationDetails | null>;
+    const fetched = ref<ApplicationDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
@@ -39,12 +39,12 @@ export const useCurrentApplication = () => {
             fetching.value = false;
         }
         subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
-        return readonly(fetched as Ref<ApplicationDetails>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }
