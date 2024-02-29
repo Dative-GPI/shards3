@@ -1,5 +1,4 @@
 import { withVuetifyTheme } from "./withVuetifyTheme.decorator";
-import { loadFonts } from "../src/plugins/webfontloader";
 import { type Preview, setup } from "@storybook/vue3";
 import { mockApp } from "../src/plugins/axiosmock";
 import type { App } from "vue";
@@ -25,8 +24,6 @@ const preview: Preview = {
     }
   },
 };
-
-loadFonts();
 
 mockApp();
 

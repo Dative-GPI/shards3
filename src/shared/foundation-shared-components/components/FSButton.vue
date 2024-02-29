@@ -120,7 +120,10 @@ export default defineComponent({
     }
   },
   setup(props) {
-    props = useDefaults(props, getCurrentInstance().type.name)
+    const instance = getCurrentInstance();
+    if(instance == null) throw new Error("Should not happen");
+
+    props = useDefaults(props, instance.type.name)
 
     const textColors = computed(() => useColors().getContrasts(props.color));
     const colors = computed(() => useColors().getColors(props.color));

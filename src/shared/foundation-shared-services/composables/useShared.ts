@@ -23,10 +23,17 @@ export function useShared() {
     onMounted(async () => {
         await languageCodeReady
         await timeZoneReady;
-        if (useLanguageCode().languageCode.value) {
-            await useTranslations().fetch(useLanguageCode().languageCode.value!);
-            useTranslationsProvider().set(useTranslations().fetched.value.map(t => ({ code: t.code, value: t.value })));
+
+        const { languageCode } = useLanguageCode();
+
+        const { set } = useTranslationsProvider();
+        const { fetch } = useTranslations();
+
+        if (languageCode.value) {
+            const translations = await fetch(languageCode.value);
+            set(translations.value);
         }
+
         ready.value = true;
     });
 

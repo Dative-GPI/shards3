@@ -31,12 +31,12 @@ export const useTranslations = () => {
             fetching.value = false;
         }
 
-        return readonly(fetched as Ref<TranslationInfos[]>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }
