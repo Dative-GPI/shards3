@@ -1,4 +1,4 @@
-import { ActionDetails, ActionDetailsDTO, ActionInfos, ActionInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { ActionDetails, ActionDetailsDTO, ActionInfos, ActionInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { ACTIONS_URL } from "../../config/urls";

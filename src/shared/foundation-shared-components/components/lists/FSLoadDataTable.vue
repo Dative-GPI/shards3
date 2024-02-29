@@ -57,7 +57,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCol from "../FSCol.vue";
@@ -70,9 +70,9 @@ export default defineComponent({
     FSRow
   },
   setup() {
-    const { isMobileSized } = useBreakpoints();
+    const { getColors } = useColors();
 
-    const backgroundColors = useColors().getColors(ColorEnum.Background);
+    const backgroundColors = getColors(ColorEnum.Background);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {

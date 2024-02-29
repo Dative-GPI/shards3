@@ -1,6 +1,6 @@
 import { Ref, readonly, ref } from "vue";
 
-import { PermissionDetails, PermissionDetailsDTO, PermissionInfos } from "@dative-gpi/foundation-shared-domain";
+import { PermissionDetails, PermissionDetailsDTO, PermissionInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { PERMISSIONS_CURRENT_URL } from "../../config/urls";

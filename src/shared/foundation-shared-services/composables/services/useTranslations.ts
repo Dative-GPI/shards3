@@ -1,6 +1,6 @@
 import { Ref, readonly, ref } from "vue";
 
-import { TranslationInfos, TranslationInfosDTO, TranslationDetails, TranslationDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { TranslationInfos, TranslationInfosDTO, TranslationDetails, TranslationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { TRANSLATIONS_LANGUAGE_URL } from "../../config/urls";

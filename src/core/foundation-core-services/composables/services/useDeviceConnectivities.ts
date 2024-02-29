@@ -1,6 +1,6 @@
 import { Ref, readonly, ref } from "vue";
 
-import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain";
+import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { DEVICE_CONNECTIVITY_URL } from "../../config/urls";

@@ -73,8 +73,10 @@ export default defineComponent({
   },
   emits: ["remove"],
   setup(props) {
-    const textColors = computed(() => useColors().getContrasts(props.color));
-    const colors = computed(() => useColors().getColors(props.color));
+    const { getColors, getContrasts } = useColors();
+
+    const textColors = computed(() => getContrasts(props.color));
+    const colors = computed(() => getColors(props.color));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (props.variant) {

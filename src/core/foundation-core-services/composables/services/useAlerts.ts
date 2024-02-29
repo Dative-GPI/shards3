@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { ALERTS_URL, ALERT_URL } from "../../config/urls";

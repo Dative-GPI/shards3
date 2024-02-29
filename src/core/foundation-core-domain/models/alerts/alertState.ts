@@ -1,5 +1,5 @@
 import { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
-import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
+import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { AlertDataDefinition, AlertDataDefinitionDTO } from "./alertDataDefinition";
 

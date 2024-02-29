@@ -1,6 +1,6 @@
 import { Ref, readonly, ref } from "vue";
 
-import { BlurHash } from "@dative-gpi/foundation-shared-domain";
+import { BlurHash } from "@dative-gpi/foundation-shared-domain/models";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { IMAGE_RAW_URL, IMAGE_BLURHASH_URL } from "../../config/urls";

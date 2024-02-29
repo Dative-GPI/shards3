@@ -76,8 +76,10 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const { getColors } = useColors();
+
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const stars = ref(true);
 

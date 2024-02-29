@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { ChangeGroupParentDTO, CreateGroupDTO, GroupDetails, GroupDetailsDTO, GroupFilters, GroupInfos, GroupInfosDTO, UpdateGroupDTO } from "@dative-gpi/foundation-core-domain";
+import { ChangeGroupParentDTO, CreateGroupDTO, GroupDetails, GroupDetailsDTO, GroupFilters, GroupInfos, GroupInfosDTO, UpdateGroupDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { GROUPS_URL, GROUP_URL } from "../../config/urls";

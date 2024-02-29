@@ -1,4 +1,4 @@
-import { DatesTools } from "@dative-gpi/foundation-shared-services/tools";
+import { DatesTools } from "../../tools";
 
 export class AuthTokenInfos {
     id?: string;

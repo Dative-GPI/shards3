@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { SecuritySettingDetails, SecuritySettingDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { SecuritySettingDetails, SecuritySettingDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { SECURITY_SETTING_CURRENT_URL } from "../../config/urls";

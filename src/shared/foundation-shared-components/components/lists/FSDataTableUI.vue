@@ -546,10 +546,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
+    const { getColors } = useColors();
     const router = useRouter();
 
-    const backgrounds = useColors().getColors(ColorEnum.Background);
-    const lights = useColors().getColors(ColorEnum.Light);
+    const backgrounds = getColors(ColorEnum.Background);
+    const lights = getColors(ColorEnum.Light);
 
     const filters = ref<{ [key: string]: FSDataTableFilter[] }>({});
     const innerRowsPerPage = ref(props.rowsPerPage);

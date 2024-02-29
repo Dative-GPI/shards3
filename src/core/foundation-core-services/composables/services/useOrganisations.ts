@@ -1,7 +1,7 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { OrganisationDetails, OrganisationDetailsDTO } from "@dative-gpi/foundation-shared-domain";
-import { ChangeOrganisationDashboardDTO } from "@dative-gpi/foundation-core-domain";
+import { OrganisationDetails, OrganisationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { ChangeOrganisationDashboardDTO } from "@dative-gpi/foundation-core-domain/models";
 import { onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { ORGANISATION_DASHBOARD_URL } from "../../config/urls";

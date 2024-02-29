@@ -1,6 +1,6 @@
 import { Ref, readonly, ref } from "vue";
 
-import { CustomPropertyValueDetails, CustomPropertyValueDetailsDTO, CustomPropertyValueInfos, CustomPropertyValueInfosDTO, PropertyEntity } from "@dative-gpi/foundation-core-domain";
+import { CustomPropertyValueDetails, CustomPropertyValueDetailsDTO, CustomPropertyValueInfos, CustomPropertyValueInfosDTO, PropertyEntity } from "@dative-gpi/foundation-core-domain/models";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { CUSTOM_PROPERTY_VALUES_URL } from "../../config/urls";

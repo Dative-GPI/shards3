@@ -101,9 +101,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const colors = computed(() => useColors().getColors(props.color));
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const { getColors } = useColors();
+
+    const colors = computed(() => getColors(props.color));
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {

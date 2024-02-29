@@ -1,4 +1,4 @@
-import { UpdateUserDTO, UserDetails, UserDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { UpdateUserDTO, UserDetails, UserDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { USER_URL } from "../../config/urls";

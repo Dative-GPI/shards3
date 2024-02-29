@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { ApplicationDetails, ApplicationDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { ApplicationDetails, ApplicationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { APPLICATION_CURRENT_URL } from "../../config/urls";

@@ -1,6 +1,6 @@
 import { onMounted, ref } from "vue";
 
-import { useOrganisationId } from "@dative-gpi/foundation-core-services/composables";
+import { useOrganisationId } from "./useOrganisationId";
 
 let called = false;
 

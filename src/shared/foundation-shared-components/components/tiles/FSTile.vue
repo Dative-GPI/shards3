@@ -62,8 +62,9 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props) {
     const { isMobileSized } = useBreakpoints();
+    const { getGradients } = useColors();
 
-    const bottomColors = computed(() => useColors().getGradients(props.bottomColor));
+    const bottomColors = computed(() => getGradients(props.bottomColor));
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {

@@ -155,10 +155,11 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { epochToLongDateFormat } = useTimeZone();
+    const { getColors } = useColors();
 
-    const errors = useColors().getColors(ColorEnum.Error);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const errors = getColors(ColorEnum.Error);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const menu = ref(false);
     const innerDate = ref(props.modelValue);

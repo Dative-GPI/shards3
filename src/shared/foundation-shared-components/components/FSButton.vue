@@ -84,7 +84,7 @@ export default defineComponent({
       default: null
     },
     label: {
-      type: String,
+      type: [String, Function],
       required: false,
       default: null
     },
@@ -120,14 +120,15 @@ export default defineComponent({
     }
   },
   setup(props) {
-    props = useDefaults(props, getCurrentInstance().type.name)
+    props = useDefaults(props, getCurrentInstance()?.type?.name);
 
-    const textColors = computed(() => useColors().getContrasts(props.color));
-    const colors = computed(() => useColors().getColors(props.color));
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
-
+    const { getColors, getContrasts } = useColors();
     const { slots } = useSlots();
+
+    const textColors = computed(() => getContrasts(props.color));
+    const colors = computed(() => getColors(props.color));
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const isEmpty = computed(() => {
       return !slots.default && !props.label;

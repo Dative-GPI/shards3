@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { LegalInformationDetails, LegalInformationDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { LegalInformationDetails, LegalInformationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { LEGAL_INFORMATION_CURRENT_URL } from "../../config/urls";

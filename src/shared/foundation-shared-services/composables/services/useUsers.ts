@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { UpdateUserDTO, UserDetails, UserDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { UpdateUserDTO, UserDetails, UserDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { USER_CURRENT_URL } from "../../config/urls";

@@ -5,6 +5,8 @@ import FSButton from "@dative-gpi/foundation-shared-components/components/FSButt
 
 const { $tr } = useTranslationsProvider();
 
+import { computed } from "vue";
+
 export const FSButtonsAliases = {
     FSButtonSearch: FSButton,
     FSButtonSearchMini: FSButton,
@@ -23,7 +25,7 @@ export const FSButtonsAliases = {
 export const FSButtonsProps = {
     FSButtonSearch: {
         prependIcon: "mdi-magnify",
-        label: $tr("ui.button.search", "Search"),
+        get label() { return $tr("ui.button.search", "Search") },
         variant: "standard",
         color: ColorEnum.Primary
     },
@@ -41,7 +43,7 @@ export const FSButtonsProps = {
     },
     FSButtonRemove: {
         prependIcon: "mdi-delete-outline",
-        label: $tr("ui.button.remove", "Remove"),
+        get label() { return $tr("ui.button.remove", "Remove") },
         variant: "standard",
         color: ColorEnum.Error
     },
@@ -59,7 +61,7 @@ export const FSButtonsProps = {
     },
     FSButtonSave: {
         prependIcon: "mdi-content-save-outline",
-        label: $tr("ui.button.save", "Save"),
+        get label() { return $tr("ui.button.save", "Save") },
         variant: "standard",
         color: ColorEnum.Primary
     },
@@ -77,7 +79,7 @@ export const FSButtonsProps = {
     },
     FSButtonCancel: {
         prependIcon: "mdi-cancel",
-        label: $tr("ui.button.cancel", "Cancel"),
+        get label() { return $tr("ui.button.cancel", "Cancel") },
         variant: "standard",
         color: ColorEnum.Light
     },
@@ -95,7 +97,7 @@ export const FSButtonsProps = {
     },
     FSButtonDocumentation: {
         prependIcon: "mdi-file-document-outline",
-        label: $tr("ui.button.documentation", "Documentation"),
+        get label() { return $tr("ui.button.documentation", "Documentation") },
         variant: "standard",
         color: ColorEnum.Light
     },

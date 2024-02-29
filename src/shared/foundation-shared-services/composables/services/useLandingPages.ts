@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { LandingPageDetails, LandingPageDetailsDTO } from "@dative-gpi/foundation-shared-domain";
+import { LandingPageDetails, LandingPageDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { LANDING_PAGE_CURRENT_URL } from "../../config/urls";

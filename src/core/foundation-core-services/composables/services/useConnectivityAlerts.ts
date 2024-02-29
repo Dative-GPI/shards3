@@ -1,6 +1,6 @@
 import { Ref, readonly, ref } from "vue";
 
-import { ConnectivityAlertDetails, ConnectivityAlertDetailsDTO, ConnectivityAlertFilters, ConnectivityAlertInfos, ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { ConnectivityAlertDetails, ConnectivityAlertDetailsDTO, ConnectivityAlertFilters, ConnectivityAlertInfos, ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { CONNECTIVITY_ALERTS_URL, CONNECTIVITY_ALERT_URL } from "../../config/urls";

@@ -117,11 +117,12 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { epochToLongDateFormat } = useTimeZone();
+    const { getColors } = useColors();
 
-    const colors = computed(() => useColors().getColors(props.color));
-    const backgrounds = useColors().getColors(ColorEnum.Background);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const colors = computed(() => getColors(props.color));
+    const backgrounds = getColors(ColorEnum.Background);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const innerHours = ref(props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0);
     const innerMinutes = ref(props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0);

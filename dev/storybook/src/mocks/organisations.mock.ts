@@ -1,4 +1,4 @@
-import { OrganisationInfosDTO } from "@dative-gpi/foundation-shared-domain";
+import { OrganisationInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 import { IMAGES } from "./images.mock";
 

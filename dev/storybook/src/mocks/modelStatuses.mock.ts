@@ -1,4 +1,4 @@
-import { ModelStatusInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { ModelStatusInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { DATADEFINITIONS } from "./dataDefinitions.mock";
 import { DATACATEGORIES } from "./dataCategories.mock";

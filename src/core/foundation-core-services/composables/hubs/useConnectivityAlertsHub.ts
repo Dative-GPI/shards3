@@ -15,7 +15,7 @@ export const useConnectivityAlertsHub = () => {
         onMounted(async () => {
             if (!connection.value) {
                 connection.value = new signalR.HubConnectionBuilder()
-                    .withUrl(CONNECTIVITY_ALERTS_HUB_URL)
+                    .withUrl(CONNECTIVITY_ALERTS_HUB_URL())
                     .configureLogging(signalR.LogLevel.Warning)
                     .withAutomaticReconnect()
                     .build(); 

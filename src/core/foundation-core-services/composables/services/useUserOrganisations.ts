@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { USER_ORGANISATIONS_URL, USER_ORGANISATION_CURRENT_URL, USER_ORGANISATION_URL } from "../../config/urls";

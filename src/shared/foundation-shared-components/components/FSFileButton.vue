@@ -130,11 +130,12 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { getColors, getContrasts } = useColors();
     const { slots } = useSlots();
 
-    const textColors = computed(() => useColors().getContrasts(props.color));
-    const colors = computed(() => useColors().getColors(props.color));
-    const lights = useColors().getColors(ColorEnum.Light);
+    const textColors = computed(() => getContrasts(props.color));
+    const colors = computed(() => getColors(props.color));
+    const lights = getColors(ColorEnum.Light);
     
     const input = ref(null);
 

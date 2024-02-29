@@ -1,4 +1,4 @@
-import { RoleOrganisationTypeDetails, RoleOrganisationTypeDetailsDTO, RoleOrganisationTypeFilters, RoleOrganisationTypeInfos, RoleOrganisationTypeInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { RoleOrganisationTypeDetails, RoleOrganisationTypeDetailsDTO, RoleOrganisationTypeFilters, RoleOrganisationTypeInfos, RoleOrganisationTypeInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { ROLE_ORGANISATION_TYPES_URL, ROLE_ORGANISATION_TYPE_URL } from "../../config/urls";

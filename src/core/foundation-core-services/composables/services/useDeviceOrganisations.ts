@@ -1,6 +1,6 @@
 import { Ref, onUnmounted, readonly, ref } from "vue";
 
-import { ChangeDeviceOrganisationGroupDTO, ChangeDeviceOrganisationLocationDTO, CreateDeviceOrganisationDTO, DeviceOrganisationDetails, DeviceOrganisationDetailsDTO, DeviceOrganisationFilters, DeviceOrganisationInfos, DeviceOrganisationInfosDTO, UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain";
+import { ChangeDeviceOrganisationGroupDTO, ChangeDeviceOrganisationLocationDTO, CreateDeviceOrganisationDTO, DeviceOrganisationDetails, DeviceOrganisationDetailsDTO, DeviceOrganisationFilters, DeviceOrganisationInfos, DeviceOrganisationInfosDTO, UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, onEntityChanged , ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { DEVICE_ORGANISATIONS_URL, DEVICE_ORGANISATION_URL, DEVICE_ORGANISATION_GROUP_URL, DEVICE_ORGANISATION_LOCATION_URL } from "../../config/urls";

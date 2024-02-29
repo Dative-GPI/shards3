@@ -9,8 +9,8 @@
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
 
-import { useCore, useOrganisationId } from "@dative-gpi/foundation-core-services";
-import { useShared } from "@dative-gpi/foundation-shared-services";
+import { useCore, useOrganisationId } from "@dative-gpi/foundation-core-services/composables";
+import { useShared } from "@dative-gpi/foundation-shared-services/composables";
 
 export default defineComponent({
   name: "VuetifyAppWrapper",

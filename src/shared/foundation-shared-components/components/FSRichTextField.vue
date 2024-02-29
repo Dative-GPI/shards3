@@ -141,7 +141,7 @@
       :contenteditable="!readonly && $props.editable"
     />
     <FSTextField
-      v-if="isLink && $props.editable && $props.variant === 'standard'"
+      v-if="isLink && !readonly && $props.editable"
       :hideHeader="true"
       @keypress.enter.stop="toggleLink"
       v-model="linkUrl"
@@ -229,10 +229,11 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { isMobileSized } = useBreakpoints();
+    const { getColors } = useColors();
 
-    const linkColors = computed(()=> useColors().getColors(props.linkColor));
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const linkColors = computed(()=> getColors(props.linkColor));
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const canUndo = ref(false);
     const isLink = ref(false);
@@ -287,7 +288,7 @@ export default defineComponent({
     });
 
     const readonly = computed((): boolean => {
-      return props.variant === "readonly";
+      return ["readonly"].includes(props.variant);
     });
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {

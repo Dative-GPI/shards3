@@ -87,10 +87,12 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const colors = computed(() => useColors().getColors(props.color));
-    const backgrounds = useColors().getColors(ColorEnum.Background);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const { getColors } = useColors();
+
+    const colors = computed(() => getColors(props.color));
+    const backgrounds = getColors(ColorEnum.Background);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {

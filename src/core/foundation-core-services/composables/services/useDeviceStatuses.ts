@@ -1,6 +1,6 @@
 import { Ref, readonly, ref } from "vue";
 
-import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain";
+import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { DEVICE_STATUS_URL } from "../../config/urls";

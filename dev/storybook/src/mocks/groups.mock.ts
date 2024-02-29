@@ -1,4 +1,4 @@
-import { GroupInfosDTO } from "@dative-gpi/foundation-core-domain";
+import { GroupInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { ORGANISATIONS } from "./organisations.mock";
 import { IMAGES } from "./images.mock";
