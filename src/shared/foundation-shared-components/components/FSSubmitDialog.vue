@@ -54,8 +54,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
 
 import FSDialog from "./FSDialog.vue";
 import FSRow from "./FSRow.vue";

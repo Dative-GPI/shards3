@@ -20,4 +20,8 @@ export const TRANSLATIONS: TranslationInfosDTO[] = [{
     id: "5",
     code: "ui.button.search",
     value: "Rechercher"
+}, {
+    id: "6",
+    code: "ui.search.placeholder",
+    value: "Tapez votre recherche..."
 }];

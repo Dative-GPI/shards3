@@ -62,8 +62,9 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
+import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 

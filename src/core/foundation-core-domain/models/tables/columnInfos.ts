@@ -4,6 +4,7 @@ export class ColumnInfos {
     value: string;
     sortable: boolean;
     filterable: boolean;
+    
     // Depends on [OrganisationType, UserOrganisation]
     index: number;
     hidden: boolean;

@@ -1,15 +1,21 @@
 <template>
+  <FSLoadDataTable
+    v-if="getting"
+  />
   <FSDataTableUI
-    v-if="!getting"
-    :filters="getFilters()"
+    v-else
+    :headers="innerHeaders"
+    :mode="innerMode"
+    :sortBy="innerSortBy"
+    :rowsPerPage="innerRowsPerPage"
+    :filters="innerFilters"
     :page="innerPage"
+    @update:headers="updateHeaders"
+    @update:mode="updateMode"
+    @update:sortBy="updateSortBy"
+    @update:rowsPerPage="updateRowsPerPage"
     @update:filters="updateFilters"
     @update:page="updatePage"
-    v-model:rowsPerPage="innerRowsPerPage"
-    v-model:headers="innerHeaders"
-    v-model:sortBy="innerSortBy"
-    v-model:page="innerPage"
-    v-model:mode="innerMode"
     v-bind="$attrs"
   />
 </template>
@@ -18,16 +24,17 @@
 import { defineComponent, onMounted, onUnmounted, ref, Ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
-import { ColumnInfos, TableFilter, TableOrder } from "@dative-gpi/foundation-core-domain/models";
+import { FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
 import { useTable, useUpdateTable } from "@dative-gpi/foundation-core-services/composables";
-import { FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
 import { useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 
+import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
 import FSDataTableUI from "@dative-gpi/foundation-shared-components/components/lists/FSDataTableUI.vue";
 
 export default defineComponent({
   name: "FSDataTable",
   components: {
+    FSLoadDataTable,
     FSDataTableUI
   },
   props: {
@@ -42,41 +49,69 @@ export default defineComponent({
     const { update } = useUpdateTable();
     const router = useRouter();
 
-    const innerHeaders: Ref<ColumnInfos[]> = ref([]);
-    const innerRowsPerPage = ref(10);
-    const innerSortBy: Ref<TableOrder | null> = ref(null);
+    const innerHeaders: Ref<FSDataTableColumn[]> = ref([]);
+    const innerSortBy: Ref<FSDataTableOrder | null> = ref(null);
     const innerMode: Ref<"table" | "iterator"> = ref("table");
-    const innerFilters = ref<TableFilter[]>([]);
+    const innerRowsPerPage = ref(10);
+    const innerFilters = ref<{ [key: string]: FSDataTableFilter[] }>({});
     const innerPage = ref(1);
 
-    const getFilters = (): { [key: string]: FSDataTableFilter[] } => {
-      return innerFilters.value.reduce((acc, filter) => {
-        if (!acc[filter.key]) {
-          acc[filter.key] = [];
-        }
-        acc[filter.key].push({ value: filter.value, hidden: filter.hidden });
-        return acc;
-      }, {});
+    const reset = (): void => {
+      if (router && router.currentRoute.value.query[props.tableCode]) {
+        const query = JSON.parse(router.currentRoute.value.query[props.tableCode] as string);
+        innerHeaders.value = query.columns;
+        innerRowsPerPage.value = query.rowsPerPage;
+        innerSortBy.value = query.sortBy;
+        innerMode.value = query.mode;
+        innerFilters.value = query.filters;
+        innerPage.value = query.page;
+      }
+      else {
+        innerHeaders.value = entity.value.columns;
+        innerRowsPerPage.value = entity.value.rowsPerPage;
+        innerSortBy.value = entity.value.sortBy;
+        innerMode.value = entity.value.mode;
+      }
+    };
+
+    const updateHeaders = (value: FSDataTableColumn[]): void => {
+      innerHeaders.value = value;
+      debounce(updateTable, 5000);
+    };
+
+    const updateMode = (value: "table" | "iterator"): void => {
+      innerMode.value = value;
+      debounce(updateTable, 5000);
+    };
+
+    const updateSortBy = (value: FSDataTableOrder | null): void => {
+      innerSortBy.value = value;
+      debounce(updateTable, 5000);
+    };
+
+    const updateRowsPerPage = (value: -1 | 10 | 30): void => {
+      innerRowsPerPage.value = value;
+      debounce(updateTable, 5000);
     };
 
     const updateFilters = (value: { [key: string]: FSDataTableFilter[] }): void => {
-      innerFilters.value = Object.entries(value).map(([key, filters]) => filters.map((filter) => ({
-        key: key,
-        value: filter.value,
-        hidden: filter.hidden
-      }))).reduce((acc, filters) => acc.concat(filters), []);
+      innerFilters.value = value;
       updateRouter();
     };
 
     const updatePage = (value: number): void => {
       innerPage.value = value;
-      debounce(updateTable, 5000);
+      updateRouter();
     };
 
     const updateTable = (): void => {
       updateRouter();
       update(props.tableCode, {
-        columns: innerHeaders.value,
+        columns: innerHeaders.value.map(column => ({
+          columnId: column.columnId,
+          hidden: column.hidden,
+          index: column.index
+        })),
         rowsPerPage: innerRowsPerPage.value,
         sortBy: innerSortBy.value,
         mode: innerMode.value
@@ -115,17 +150,23 @@ export default defineComponent({
     });
 
     watch(entity, () => {
+      reset();
     });
 
     return {
       getting,
       innerHeaders,
       innerRowsPerPage,
-      innerPage,
       innerSortBy,
       innerMode,
-      getFilters,
-      updateFilters
+      innerFilters,
+      innerPage,
+      updateHeaders,
+      updateMode,
+      updateSortBy,
+      updateRowsPerPage,
+      updateFilters,
+      updatePage
     };
   },
 });

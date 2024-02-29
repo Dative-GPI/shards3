@@ -69,6 +69,7 @@ export default defineComponent({
       default: ColorEnum.Primary
     }
   },
+  emits: ["update:show"],
   setup() {
     const expanded = ref(false);
 

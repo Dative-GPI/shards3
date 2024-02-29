@@ -57,9 +57,10 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
+import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSColorIcon from "../FSColorIcon.vue";
 import FSCard from "../FSCard.vue";

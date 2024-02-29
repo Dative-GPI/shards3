@@ -1,0 +1,77 @@
+.fs-load-data-table {
+    position: relative;
+}
+
+.fs-load-data-table .fs-row:first-of-type .v-skeleton-loader__button {
+    margin: 0;
+
+    @include web {
+        height: 40px !important;
+        min-width: 40px;
+    }
+
+    @include mobile {
+        height: 36px !important;
+        min-width: 36px;
+    }
+}
+
+.fs-load-data-table .fs-row:first-of-type .v-skeleton-loader:first-of-type {
+    @include web {
+        min-width: calc(50% - 132px);
+    }
+
+    @include mobile {
+        min-width: calc(50% - 124px);
+    }
+
+    & .v-skeleton-loader__button {
+        min-width: 100%;
+    }
+}
+
+.fs-load-data-table .fs-row:nth-of-type(2) .v-skeleton-loader__chip {
+    margin: 0;
+    border-radius: 50px !important;
+    min-width: 10vw;
+
+    @include web {
+        height: 24px !important;
+    }
+
+    @include mobile {
+        height: 20px !important;
+    }
+}
+
+.fs-load-data-table .v-skeleton-loader:has(.v-skeleton-loader__table-row-divider),
+.fs-load-data-table .v-skeleton-loader:has(.v-skeleton-loader__table-thead) {
+    background-color: var(--fs-load-tile-background-color);
+    min-width: 100%;
+}
+
+.fs-load-data-table .v-skeleton-loader__table-row {
+    margin: 0 -8px;
+}
+
+.fs-load-data-table .fs-row:last-of-type .v-skeleton-loader__button {
+    margin: 0;
+
+    @include web {
+        height: 40px !important;
+        min-width: 40px;
+    }
+
+    @include mobile {
+        height: 36px !important;
+        min-width: 36px;
+    }
+}
+
+.fs-load-data-table .fs-row:last-of-type .v-skeleton-loader:first-of-type {
+    min-width: 120px;
+
+    & .v-skeleton-loader__button {
+        min-width: 100%;
+    }
+}

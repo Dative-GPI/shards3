@@ -82,7 +82,7 @@ import FSWorstAlert from "../deviceOrganisations/FSWorstAlert.vue";
 import FSDivider from "../FSDivider.vue";
 import FSImage from "../FSImage.vue";
 import FSSpan from "../FSSpan.vue";
-import FSTile from "../FSTile.vue";
+import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
