@@ -1,4 +1,4 @@
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
 import { OrganisationDetails, OrganisationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ChangeOrganisationDashboardDTO } from "@dative-gpi/foundation-core-domain/models";
@@ -24,7 +24,7 @@ export const useChangeDashboardOrganisation = () => {
     const subscribersIds: number[] = [];
 
     const changing = ref(false);
-    const changed = ref<OrganisationDetails | null>(null) as Ref<OrganisationDetails | null>;
+    const changed = ref<OrganisationDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
@@ -40,12 +40,12 @@ export const useChangeDashboardOrganisation = () => {
             changing.value = false;
         }
         subscribersIds.push(service.subscribe("all", onEntityChanged(changed)));
-        return readonly(changed as Ref<OrganisationDetails>);
+        return changed;
     }
 
     return {
-        changing: readonly(changing),
+        changing,
         change,
-        changed: readonly(changed)
+        changed
     }
 }

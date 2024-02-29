@@ -5,7 +5,6 @@
  */
 
 // Plugins
-import { loadFonts } from "./webfontloader";
 import vuetify from "./vuetify";
 
 // Types
@@ -16,7 +15,6 @@ import { ColorPlugin } from "@dative-gpi/foundation-shared-components/plugins";
 import { TranslationPlugin } from "@dative-gpi/bones-ui";
 
 export function registerPlugins (app: App) {
-  loadFonts();
   app
     .use(vuetify)
     .use(ColorPlugin)

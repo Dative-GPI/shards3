@@ -1,4 +1,4 @@
-import { Ref, readonly, ref } from "vue";
+import { ref } from "vue";
 
 import { BlurHash } from "@dative-gpi/foundation-shared-domain/models";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
@@ -25,7 +25,7 @@ export const useImageRaw = () => {
     const service = ImageServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<string | null>(null) as Ref<string | null>;
+    const fetched = ref<string | null>(null);
 
     const fetch = async (imageId: string) => {
         fetching.value = true;
@@ -35,21 +35,20 @@ export const useImageRaw = () => {
         finally {
             fetching.value = false;
         }
-
-        return readonly(fetched as Ref<string>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }
 export const useImageBlurHash = () => {
     const service = ImageServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<BlurHash | null>(null) as Ref<BlurHash | null>;
+    const fetched = ref<BlurHash | null>(null);
 
     const fetch = async (imageId: string) => {
         fetching.value = true;
@@ -59,13 +58,12 @@ export const useImageBlurHash = () => {
         finally {
             fetching.value = false;
         }
-
-        return readonly(fetched as Ref<BlurHash>);
+        return fetched;
     }
 
     return {
-        fetching: readonly(fetching),
+        fetching,
         fetch,
-        fetched: readonly(fetched)
+        fetched
     }
 }

@@ -120,7 +120,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    props = useDefaults(props, getCurrentInstance()?.type?.name);
+    props = useDefaults(props, getCurrentInstance()?.type?.name ?? "FSButton");
 
     const { getColors, getContrasts } = useColors();
     const { slots } = useSlots();

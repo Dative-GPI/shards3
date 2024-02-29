@@ -4,8 +4,6 @@ import FSButton from "@dative-gpi/foundation-shared-components/components/FSButt
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 
-import { FSButtonsProps } from "@dative-gpi/foundation-shared-components/aliases";
-
 const meta = {
   title: 'Foundation/Shared/Button',
   component: FSButton,
@@ -117,18 +115,21 @@ export const Aliases: Story = {
         <FSButtonRemove />
         <FSButtonSave />
         <FSButtonCancel />
+        <FSButtonDocumentation />
       </div>
       <div style="display: flex; gap: 10px;">
         <FSButtonSearchMini />
         <FSButtonRemoveMini />
         <FSButtonSaveMini />
         <FSButtonCancelMini />
+        <FSButtonDocumentationMini />
       </div>
       <div style="display: flex; gap: 10px;">
         <FSButtonSearchIcon />
         <FSButtonRemoveIcon />
         <FSButtonSaveIcon />
         <FSButtonCancelIcon />
+        <FSButtonDocumentationIcon />
       </div>
     </div>`
   })
