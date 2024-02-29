@@ -412,7 +412,7 @@ import { useRouter } from "vue-router";
 
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
 import FSDataIteratorItem from "./FSDataIteratorItem.vue";
 import FSFilterButton from "./FSFilterButton.vue";
@@ -829,7 +829,7 @@ export default defineComponent({
       }
       for (const [key, filters] of Object.entries(props.filters)) {
         for (const filter of filters) {
-          const fromDictionary = filterDictionary[key].find(f => f.value == filter.value);
+          const fromDictionary = filterDictionary[key]?.find(f => f.value == filter.value);
           if (fromDictionary) {
             fromDictionary.hidden = filter.hidden;
           }

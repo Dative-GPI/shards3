@@ -13,7 +13,6 @@ import type { App } from "vue";
 
 import { ColorPlugin } from "@dative-gpi/foundation-shared-components/plugins";
 
-import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
 import { TranslationPlugin } from "@dative-gpi/bones-ui";
 
 export function registerPlugins (app: App) {
@@ -21,5 +20,5 @@ export function registerPlugins (app: App) {
   app
     .use(vuetify)
     .use(ColorPlugin)
-    .use(TranslationPlugin, { translationsProvider: useTranslationsProvider() });
+    .use(TranslationPlugin);
 }

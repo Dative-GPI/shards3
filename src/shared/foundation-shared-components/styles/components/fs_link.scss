@@ -1,0 +1,6 @@
+.fs-link {
+    color: var(--fs-link-color);
+    text-decoration: none;
+
+    @extend .fs-span;
+}

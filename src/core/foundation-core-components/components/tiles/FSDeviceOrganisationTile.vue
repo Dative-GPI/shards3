@@ -27,7 +27,7 @@ import { defineComponent, onMounted, watch } from "vue";
 import { useDeviceOrganisation } from "@dative-gpi/foundation-core-services/composables";
 
 import FSDeviceOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue";
-import FSLoadTile from "@dative-gpi/foundation-shared-components/components/FSLoadTile.vue";
+import FSLoadTile from "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue";
 
 export default defineComponent({
   name: "FSDeviceOrganisationTile",

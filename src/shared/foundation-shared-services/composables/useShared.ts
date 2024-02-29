@@ -1,5 +1,8 @@
 import { onMounted, ref } from "vue";
-import { useLanguageCode, useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services";
+
+import { useLanguageCode, useTimeZone } from "@dative-gpi/foundation-shared-services";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
+import { useTranslations } from "@dative-gpi/foundation-shared-services";
 
 let called = false;
 
@@ -17,12 +20,13 @@ export function useShared() {
     const { ready: languageCodeReady } = useLanguageCode();
     const { ready: timeZoneReady } = useTimeZone();
 
-    const { init: initTranslations } = useTranslationsProvider();
-
     onMounted(async () => {
         await languageCodeReady
         await timeZoneReady;
-        await initTranslations();
+        if (useLanguageCode().languageCode.value) {
+            await useTranslations().fetch(useLanguageCode().languageCode.value!);
+            useTranslationsProvider().set(useTranslations().fetched.value.map(t => ({ code: t.code, value: t.value })));
+        }
         ready.value = true;
     });
 

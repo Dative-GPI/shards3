@@ -1,4 +1,5 @@
-import { useTimeZone, useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
+import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 const { epochToLongDateFormat } = useTimeZone()!;
 const { $tr } = useTranslationsProvider();

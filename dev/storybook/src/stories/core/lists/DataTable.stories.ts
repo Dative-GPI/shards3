@@ -19,7 +19,6 @@ export const Variations: Story = {
   args: {
     args: {
       tableCode: "groups1",
-      mode: "iterator",
       items: GROUPS,
       value: [],
       itemTo: (item: any) => ({ name: 'group', params: { groupId: item.id } }),

@@ -100,7 +100,7 @@ import FSImage from "../FSImage.vue";
 import FSColor from "../FSColor.vue";
 import FSSpan from "../FSSpan.vue";
 import FSText from "../FSText.vue";
-import FSTile from "../FSTile.vue";
+import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 

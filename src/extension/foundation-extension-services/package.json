@@ -1,5 +1,6 @@
 {
   "name": "@dative-gpi/foundation-extension-services",
+  "sideEffects": false,
   "version": "1.0.0",
   "description": "",
   "publishConfig": {
@@ -9,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dative-gpi/bones-ui": "^0.0.60",
+    "@dative-gpi/bones-ui": "^0.0.61",
     "@dative-gpi/foundation-extension-domain": "1.0.0",
     "@microsoft/signalr": "^8.0.0",
     "vue": "^3.2.0",

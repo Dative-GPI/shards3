@@ -141,10 +141,10 @@
       :contenteditable="!readonly && $props.editable"
     />
     <FSTextField
-      v-if="isLink && $props.editable"
-      v-model="linkUrl"
+      v-if="isLink && $props.editable && $props.variant === 'standard'"
       :hideHeader="true"
       @keypress.enter.stop="toggleLink"
+      v-model="linkUrl"
     />
     <slot name="description">
       <FSSpan

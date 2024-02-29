@@ -125,6 +125,7 @@ export default defineComponent({
     const textColors = computed(() => useColors().getContrasts(props.color));
     const colors = computed(() => useColors().getColors(props.color));
     const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
 
     const { slots } = useSlots();
 
@@ -173,9 +174,10 @@ export default defineComponent({
           "--fs-button-active-color"           : textColors.value.light,
         };
         case "icon": switch (props.color) {
-          case ColorEnum.Dark: return {
-            "--fs-button-color"      : colors.value.light,
-            "--fs-button-hover-color": colors.value.dark,
+          case ColorEnum.Dark:
+          case ColorEnum.Light: return {
+            "--fs-button-color"      : darks.base,
+            "--fs-button-hover-color": darks.dark,
           };
           default: return {
             "--fs-button-color"      : colors.value.base,

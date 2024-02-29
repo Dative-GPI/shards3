@@ -55,7 +55,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 

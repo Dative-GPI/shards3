@@ -6,14 +6,23 @@
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
+    :placeholder="$tr('ui.search.placeholder', 'Search...')"
     @keydown.enter="$emit('update:modelValue', innerValue)"
     v-model="innerValue"
     v-bind="$attrs"
   >
-    <template
-      v-if="!$props.instant"
-      #append
-    >
+    <template v-if="$props.prependInnerIcon" #prepend-inner>
+      <slot name="prepend-inner">
+        <FSButton
+          variant="icon"
+          :icon="$props.prependInnerIcon"
+          :editable="$props.editable"
+          :color="ColorEnum.Dark"
+          @click="$emit('update:modelValue', innerValue)"
+        />
+      </slot>
+    </template>
+    <template v-if="!$props.instant" #append>
       <slot name="append">
         <FSButton
           :prependIcon="$props.buttonPrependIcon"
@@ -57,10 +66,15 @@ export default defineComponent({
       required: false,
       default: null
     },
-    buttonPrependIcon: {
+    prependInnerIcon: {
       type: String,
       required: false,
       default: "mdi-magnify"
+    },
+    buttonPrependIcon: {
+      type: String,
+      required: false,
+      default: null
     },
     buttonLabel: {
       type: String,
@@ -124,6 +138,7 @@ export default defineComponent({
     });
 
     return {
+      ColorEnum,
       innerValue
     };
   }

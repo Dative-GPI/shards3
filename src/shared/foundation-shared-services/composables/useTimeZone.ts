@@ -3,10 +3,9 @@ import { ref, watch } from "vue";
 import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
 import { format, subDays } from "date-fns";
 
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
+import { useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
 import { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
-
-import { useTranslationsProvider } from "./useTranslationsProvider";
-import { useLanguageCode } from "./useLanguageCode";
 
 const timeZone = ref<TimeZoneInfos | null>({
     id: "Europe/Paris",
