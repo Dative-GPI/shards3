@@ -1,1 +1,0 @@
-import{d as i,w as n}from"./vue.esm-bundler-a27e881e.js";let s=!1;const a=i(null),l=()=>{const t=e=>{a.value=e};return s=!0,{ready:new Promise(e=>{a.value?e(a.value):n(a,()=>{a.value&&e(a.value)})}),organisationId:a,setOrganisationId:t}};export{l as u};
