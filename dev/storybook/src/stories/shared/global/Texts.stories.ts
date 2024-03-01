@@ -23,6 +23,7 @@ export const AllFonts: Story = {
         <FSSpan font="text-h1"> text-h1</FSSpan>
         <FSSpan font="text-h2"> text-h2 </FSSpan>
         <FSSpan font="text-h3"> text-h3 </FSSpan>
+        <FSSpan font="text-h4"> text-h4 </FSSpan>
         <FSSpan font="text-body"> text-body </FSSpan>
         <FSSpan font="text-button"> text-button </FSSpan>
         <FSSpan font="text-overline"> text-overline </FSSpan>

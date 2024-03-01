@@ -56,6 +56,24 @@
     }
 }
 
+.text-h4 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+
+    @include web {
+        font-size: 16px !important;
+        line-height: 20px !important;
+        letter-spacing: -0.48px !important;
+    }
+
+    @include mobile {
+        font-size: 14px !important;
+        line-height: 16px !important;
+        letter-spacing: -0.41px !important;
+    }
+}
+
 .text-body {
     font-family: 'Montserrat', sans-serif !important;
     font-style: normal !important;

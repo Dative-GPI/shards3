@@ -2,7 +2,8 @@ export const sizeToVar = (value: string | number | null, nullValue: string = "fi
     if (value == null) {
         return nullValue;
     }
-    return typeof value === 'string' ? value : `${value}${unit}`;
+
+    return typeof value === 'string' && isNaN(+value) ? value : `${value}${unit}`;
 };
 
 export const varToSize = (value: string): number => {
