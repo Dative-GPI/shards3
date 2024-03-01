@@ -8,7 +8,6 @@
       <FSRow height="fill" v-bind="props">
           <FSTextField
             class="fs-color-field-value"
-            :label="$props.label"
             :hideHeader="$props.hideHeader"
             :readonly="true"
             :description="$props.description"
@@ -20,12 +19,11 @@
               <slot name="label">
                 <FSRow :wrap="false">
                   <FSSpan
-                    v-if="$props.label"
                     class="fs-color-field-label"
                     font="text-overline"
                     :style="style"
                   >
-                    {{ $props.label }}
+                    {{ $props.label ?? $tr('ui.color-field.color', 'Color')}}
                   </FSSpan>
                   <FSSpan
                     v-if="$props.label && $props.required"
@@ -117,11 +115,10 @@
 </template>
   
   <script lang="ts">
-  import { computed, defineComponent, ref,  PropType } from "vue";
+  import { computed, defineComponent, ref } from "vue";
   import { useColors } from "@dative-gpi/foundation-shared-components/composables";
   import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
   import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
-  import { useTranslationsProvider } from "@dative-gpi/foundation-shared-services/composables";
 
   import FSTextField from "./FSTextField.vue";
   import FSRow from "./FSRow.vue";
@@ -130,8 +127,6 @@
   import FSButton from "./FSButton.vue";
   import FSCard from "./FSCard.vue";
   import FSIcon from "./FSIcon.vue";
-
-  const { $tr } = useTranslationsProvider();
 
   export default defineComponent({
     name: "FSColorField",
@@ -148,7 +143,7 @@
       label: {
         type: String,
         required: false,
-        default: $tr('ui.color-field.color', 'Color')
+        default: null
       },
       modelValue: {
         type: Number,
