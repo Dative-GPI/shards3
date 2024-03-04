@@ -6,43 +6,14 @@
       :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
-      :error="messages.length > 0"
+      :rules="$props.rules"
+      :messages="messages"
+      :validateOn="validateOn"
+      :validationValue="$props.modelValue"
+      @blur="blurred = true"
       v-model="innerValue"
       v-bind="$attrs"
     >
-      <template v-if="!$props.hideHeader" #label>
-        <slot name="label">
-          <FSRow :wrap="false">
-            <FSSpan
-              v-if="$props.label"
-              class="fs-icon-field-label"
-              font="text-overline"
-              :style="style"
-            >
-              {{ $props.label }}
-            </FSSpan>
-            <FSSpan
-              v-if="$props.label && $props.required"
-              class="fs-icon-field-label"
-              style="margin-left: -8px;"
-              font="text-overline"
-              :ellipsis="false"
-              :style="style"
-            >
-              *
-            </FSSpan>
-            <v-spacer style="min-width: 40px;" />
-            <FSSpan
-              v-if="messages.length > 0"
-              class="fs-icon-field-messages"
-              font="text-overline"
-              :style="style"
-            >
-              {{ messages.join(", ") }}
-            </FSSpan>
-          </FSRow>
-        </slot>
-      </template>
       <template #append-inner>
         <FSIcon
           v-if="$props.modelValue"
@@ -70,8 +41,8 @@
 import { computed, defineComponent, PropType, ref } from "vue";
 
 import { Icons, sortByLevenshteinDistance } from "@dative-gpi/foundation-shared-components/utils";
+import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { FSToggle } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
@@ -151,6 +122,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
+    const {validateOn, blurred, getMessages} = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
@@ -169,17 +141,6 @@ export default defineComponent({
         "--fs-icon-field-color"      : darks.base,
         "--fs-icon-field-error-color": errors.base
       };
-    });
-
-    const messages = computed((): string[] => {
-      const messages = [];
-      for (const rule of props.rules) {
-        const message = rule(props.modelValue);
-        if (typeof(message) === "string") {
-          messages.push(message);
-        }
-      }
-      return messages;
     });
 
     const icons = computed((): FSToggle[] => {
@@ -223,9 +184,13 @@ export default defineComponent({
       return innerIcons;
     });
 
+    const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
+
     return {
       innerValue,
+      validateOn,
       messages,
+      blurred,
       style,
       icons
     };

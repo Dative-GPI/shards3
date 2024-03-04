@@ -5,34 +5,40 @@
   >
     <FSRow
       align="center-center"
+      padding="0 16px"
     >
-      <FSTextField
+      <FSSpan
         v-if="$props.reminder"
-        :readonly="true"
-        :hideHeader="true"
-        :modelValue="epochToLongDateFormat($props.date)"
-      />
-      <v-text-field
-        class="fs-clock-field"
-        variant="outlined"
-        type="number"
-        hide-details
-        :style="style"
-        :readonly="!$props.editable"
-        :modelValue="innerHours.toString().padStart(2, '0')"
-        @update:modelValue="onChangeHours"
-      />
-      :
-      <v-text-field
-        class="fs-clock-field"
-        variant="outlined"
-        type="number"
-        hide-details
-        :style="style"
-        :readonly="!$props.editable"
-        :modelValue="innerMinutes.toString().padStart(2, '0')"
-        @update:modelValue="onChangeMinutes"
-      />
+      >
+        {{ epochToLongDateFormat($props.date) }}
+      </FSSpan>
+      <v-spacer v-if="$props.reminder" />
+      <FSRow
+        align="center-center"
+        :wrap="false"
+      >
+        <v-text-field
+          class="fs-clock-field"
+          variant="outlined"
+          type="number"
+          hide-details
+          :style="style"
+          :readonly="!$props.editable"
+          :modelValue="innerHours.toString().padStart(2, '0')"
+          @update:modelValue="onChangeHours"
+        />
+        :
+        <v-text-field
+          class="fs-clock-field"
+          variant="outlined"
+          type="number"
+          hide-details
+          :style="style"
+          :readonly="!$props.editable"
+          :modelValue="innerMinutes.toString().padStart(2, '0')"
+          @update:modelValue="onChangeMinutes"
+        />
+      </FSRow>
     </FSRow>
     <FSCol>
       <FSSpan
@@ -74,16 +80,16 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
-import FSTextField from "./FSTextField.vue";
 import FSSlider from "./FSSlider.vue";
+import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSClock",
   components: {
-    FSTextField,
     FSSlider,
+    FSSpan,
     FSCol,
     FSRow
   },

@@ -36,16 +36,18 @@
       menuIcon="mdi-chevron-down"
       clearIcon="mdi-close"
       variant="outlined"
+      :style="style"
       :hideDetails="true"
       :items="$props.items"
       :itemTitle="$props.itemTitle"
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
       :clearable="$props.editable && $props.clearable"
-      :error="messages.length > 0"
-      :style="style"
+      :rules="$props.rules"
+      :validateOn="validateOn"
       :modelValue="$props.modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
+      @blur="blurred = true"
       v-bind="$attrs"
     >
       <template v-for="(_, name) in slots" v-slot:[name]="slotData">
@@ -68,7 +70,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
@@ -122,15 +124,15 @@ export default defineComponent({
       required: false,
       default: false
     },
-    clearable: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
     rules: {
       type: Array as PropType<Function[]>,
       required: false,
       default: () => []
+    },
+    messages: {
+      type: Array as PropType<string[]>,
+      required: false,
+      default: null
     },
     editable: {
       type: Boolean,
@@ -140,6 +142,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
+    const { validateOn, blurred, getMessages } = useRules();
     const { getColors } = useColors();
     const { slots } = useSlots();
     
@@ -169,19 +172,12 @@ export default defineComponent({
       };
     });
 
-    const messages = computed((): string[] => {
-      const messages = [];
-      for (const rule of props.rules) {
-        const message = rule(props.modelValue ?? "");
-        if (typeof(message) === "string") {
-          messages.push(message);
-        }
-      }
-      return messages;
-    });
+    const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
     return {
+      validateOn,
       messages,
+      blurred,
       slots,
       style
     };

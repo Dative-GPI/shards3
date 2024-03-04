@@ -1,8 +1,8 @@
 <template>
   <FSTextField
+    :type="type"
     :label="$props.label"
     :description="$props.description"
-    :type="type"
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"

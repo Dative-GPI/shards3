@@ -7,45 +7,16 @@
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
-    :error="messages.length > 0"
     :readonly="true"
-    :modelValue="placeholder"
+    :rules="$props.rules"
+    :messages="messages"
+    :validateOn="validateOn"
+    :validationValue="$props.modelValue"
+    :modelValue="toShortDateFormat"
     @click="onClick"
     @click:clear="onClear"
+    @blur="blurred = true"
   >
-    <template v-if="!$props.hideHeader" #label>
-      <slot name="label">
-        <FSRow :wrap="false">
-          <FSSpan
-            v-if="$props.label"
-            class="fs-date-field-label"
-            font="text-overline"
-            :style="style"
-          >
-            {{ $props.label }}
-          </FSSpan>
-          <FSSpan
-            v-if="$props.label && $props.required"
-            class="fs-date-field-label"
-            style="margin-left: -8px;"
-            font="text-overline"
-            :ellipsis="false"
-            :style="style"
-          >
-            *
-          </FSSpan>
-          <v-spacer style="min-width: 40px;" />
-          <FSSpan
-            v-if="messages.length > 0"
-            class="fs-date-field-messages"
-            font="text-overline"
-            :style="style"
-          >
-            {{ messages.join(", ") }}
-          </FSSpan>
-        </FSRow>
-      </slot>
-    </template>
     <template #prepend-inner>
       <slot name="prepend-inner">
         <FSButton
@@ -78,9 +49,9 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
+import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSubmitDialog from "./FSSubmitDialog.vue";
 import FSCalendarTwin from "./FSCalendarTwin.vue";
@@ -143,6 +114,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { validateOn, blurred, getMessages } = useRules();
     const { epochToShortDateFormat } = useTimeZone();
     const { getColors } = useColors();
 
@@ -165,34 +137,14 @@ export default defineComponent({
       };
     });
 
-    const placeholder = computed((): string => {
+    const toShortDateFormat = computed((): string => {
       if (!props.modelValue || !Array.isArray(props.modelValue) || !props.modelValue.length) {
         return "";
       }
       return props.modelValue.map((epoch) => epochToShortDateFormat(epoch)).join(" - ");
     });
 
-    const messages = computed((): string[] => {
-      const messages = [];
-      for (const rule of props.rules) {
-        if (props.modelValue && Array.isArray(props.modelValue)) {
-          for (const value of props.modelValue) {
-            const message = rule(value);
-            if (typeof(message) === "string") {
-              messages.push(message);
-              break;
-            }
-          }
-        }
-        else {
-          const message = rule(null);
-          if (typeof(message) === "string") {
-            messages.push(message);
-          }
-        }
-      }
-      return messages;
-    });
+    const messages = computed((): string[] => getMessages(props.modelValue, props.rules, true));
 
     const onClick = (): void => {
       if (props.editable) {
@@ -212,10 +164,12 @@ export default defineComponent({
 
     return {
       ColorEnum,
+      validateOn,
       messages,
+      blurred,
       style,
       dialog,
-      placeholder,
+      toShortDateFormat,
       innerDateRange,
       onClick,
       onClear,

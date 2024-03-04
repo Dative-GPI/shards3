@@ -6,44 +6,15 @@
       :hideHeader="$props.hideHeader"
       :required="$props.required"
       :editable="$props.editable"
-      :error="messages.length > 0"
+      :rules="$props.rules"
+      :messages="messages"
+      :validateOn="validateOn"
+      :validationValue="$props.modelValue"
       @keydown.enter="onAdd"
+      @blur="blurred = true"
       v-model="innerValue"
       v-bind="$attrs"
     >
-      <template v-if="!$props.hideHeader" #label>
-        <slot name="label">
-          <FSRow :wrap="false">
-            <FSSpan
-              v-if="$props.label"
-              class="fs-tag-field-label"
-              font="text-overline"
-              :style="style"
-            >
-              {{ $props.label }}
-            </FSSpan>
-            <FSSpan
-              v-if="$props.label && $props.required"
-              class="fs-tag-field-label"
-              style="margin-left: -8px;"
-              font="text-overline"
-              :ellipsis="false"
-              :style="style"
-            >
-              *
-            </FSSpan>
-            <v-spacer style="min-width: 40px;" />
-            <FSSpan
-              v-if="messages.length > 0"
-              class="fs-tag-field-messages"
-              font="text-overline"
-              :style="style"
-            >
-              {{ messages.join(", ") }}
-            </FSSpan>
-          </FSRow>
-        </slot>
-      </template>
       <template #append-inner>
         <slot name="append-inner">
           <FSButton
@@ -73,7 +44,7 @@
 import { computed, defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSTextField from "./FSTextField.vue";
 import FSTagGroup from "./FSTagGroup.vue";
@@ -141,6 +112,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const {validateOn, blurred, getMessages} = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
@@ -161,16 +133,7 @@ export default defineComponent({
       };
     });
 
-    const messages = computed((): string[] => {
-      const messages = [];
-      for (const rule of props.rules) {
-        const message = rule(props.modelValue);
-        if (typeof(message) === "string") {
-          messages.push(message);
-        }
-      }
-      return messages;
-    });
+    const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
     const onAdd = (): void => {
       if (!props.editable) {
@@ -198,7 +161,9 @@ export default defineComponent({
     return {
       ColorEnum,
       innerValue,
+      validateOn,
       messages,
+      blurred,
       style,
       onAdd,
       onRemove

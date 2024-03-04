@@ -13,45 +13,16 @@
         :hideHeader="$props.hideHeader"
         :required="$props.required"
         :editable="$props.editable"
-        :error="messages.length > 0"
         :readonly="true"
+        :rules="$props.rules"
+        :messages="messages"
+        :validateOn="validateOn"
+        :validationValue="$props.modelValue"
         :modelValue="epochToLongDateFormat($props.modelValue)"
         @click:clear="onClear"
+        @blur="blurred = true"
         v-bind="props"
       >
-        <template v-if="!$props.hideHeader" #label>
-          <slot name="label">
-            <FSRow :wrap="false">
-              <FSSpan
-                v-if="$props.label"
-                class="fs-date-field-label"
-                font="text-overline"
-                :style="style"
-              >
-                {{ $props.label }}
-              </FSSpan>
-              <FSSpan
-                v-if="$props.label && $props.required"
-                class="fs-date-field-label"
-                style="margin-left: -8px;"
-                font="text-overline"
-                :ellipsis="false"
-                :style="style"
-              >
-                *
-              </FSSpan>
-              <v-spacer style="min-width: 40px;" />
-              <FSSpan
-                v-if="messages.length > 0"
-                class="fs-date-field-messages"
-                font="text-overline"
-                :style="style"
-              >
-                {{ messages.join(", ") }}
-              </FSSpan>
-            </FSRow>
-          </slot>
-        </template>
         <template #prepend-inner>
           <slot name="prepend-inner">
             <FSButton
@@ -91,9 +62,9 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
+import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSTextField from "./FSTextField.vue";
 import FSCalendar from "./FSCalendar.vue";
@@ -154,6 +125,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const {validateOn, blurred, getMessages} = useRules();
     const { epochToLongDateFormat } = useTimeZone();
     const { getColors } = useColors();
 
@@ -176,16 +148,7 @@ export default defineComponent({
       };
     });
 
-    const messages = computed((): string[] => {
-      const messages = [];
-      for (const rule of props.rules) {
-        const message = rule(props.modelValue ?? null);
-        if (typeof(message) === "string") {
-          messages.push(message);
-        }
-      }
-      return messages;
-    });
+    const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
     const onClear = (): void => {
       emit("update:modelValue", null);
@@ -200,7 +163,9 @@ export default defineComponent({
     return {
       ColorEnum,
       innerDate,
+      validateOn,
       messages,
+      blurred,
       style,
       menu,
       onClear,

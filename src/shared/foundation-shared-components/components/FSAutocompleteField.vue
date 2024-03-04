@@ -41,13 +41,15 @@
       :items="$props.items"
       :autoSelectFirst="true"
       :multiple="$props.multiple"
-      :error="messages.length > 0"
       :itemTitle="$props.itemTitle"
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
-      :clearable="$props.editable"
+      :clearable="$props.editable && !!$props.modelValue"
+      :rules="$props.rules"
+      :validateOn="validateOn"
       :modelValue="$props.modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
+      @blur="blurred = true"
       v-model:search="innerSearch"
       v-bind="$attrs"
     >
@@ -71,7 +73,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from "vue";
 
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
@@ -135,6 +137,11 @@ export default defineComponent({
       required: false,
       default: () => []
     },
+    messages: {
+      type: Array as PropType<string[]>,
+      required: false,
+      default: null
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -143,6 +150,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:search"],
   setup: (props, { emit }) => {
+    const { validateOn, blurred, getMessages } = useRules();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -174,17 +182,6 @@ export default defineComponent({
       };
     });
 
-    const messages = computed((): string[] => {
-      const messages = [];
-      for (const rule of props.rules) {
-        const message = rule(props.modelValue ?? "");
-        if (typeof(message) === "string") {
-          messages.push(message);
-        }
-      }
-      return messages;
-    });
-
     const classes = computed((): string[] => {
       const classNames = ["fs-autocomplete-field"];
       if (props.multiple) {
@@ -193,12 +190,16 @@ export default defineComponent({
       return classNames;
     });
 
+    const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
+
     watch(innerSearch, () => {
       emit("update:search", innerSearch.value);
     });
 
     return {
+      validateOn,
       messages,
+      blurred,
       slots,
       style,
       classes,

@@ -143,7 +143,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "click:rightButton"],
   setup(props) {
     const { $tr } = useTranslationsProvider();
 
