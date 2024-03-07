@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { VForm } from 'vuetify/lib/components/index.mjs';
-
-import FSColorField from "@dative-gpi/foundation-shared-components/components/FSColorField.vue";
+import FSColorField from "@dative-gpi/foundation-shared-components/components/fields/FSColorField.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/ColorField',
@@ -22,9 +19,11 @@ export const Variations: Story = {
   args: {
     args: {
       value1: "#FF0000",
+      opacity1: 1,
       value2: "#00FF12",
+      opacity2: 0,
       value3: "#0030FF",
-      value4: "#FF10FA"
+      opacity3: 0.5
     }
   },
   render: (args, { argTypes }) => ({
@@ -36,26 +35,25 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSColorField
+        label="Color"
         v-model="args.value1"
+        v-model:opacityValue="args.opacity1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
+        label="Required color, with description"
+        description="Description for this field"
         :required="true"
         v-model="args.value2"
+        v-model:opacityValue="args.opacity2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
+        label="Uneditable color, with description"
+        description="Uneditable description"
         :editable="false"
-        :opacityValue="0.5"
-        :modelValue="args.value3"
-      />
-      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSColorField
-        description="This is a description."
-        label="Color"
-        :editable="false"
-        :hideHeader="true"
-        v-model="args.value4"
+        v-model="args.value3"
+        v-model:opacityValue="args.opacity3"
       />
     </FSCol>`
   })

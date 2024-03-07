@@ -3,5 +3,5 @@ export const getPercentageFromHex = (hex: string): number => {
 }
 
 export const getHexFromPercentage = (percentage: number): string => {
-  return Math.round(percentage * 255).toString(16);
+  return Math.round(percentage * 255).toString(16).padStart(2, "0");
 }

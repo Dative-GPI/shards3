@@ -102,11 +102,11 @@ import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-com
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { Days } from "@dative-gpi/foundation-shared-domain/models";
 
-import FSSelectField from "./fields/FSSelectField.vue";
-import FSClock from "./FSClock.vue";
-import FSSpan from "./FSSpan.vue";
-import FSCol from "./FSCol.vue";
-import FSRow from "./FSRow.vue";
+import FSSelectField from "./FSSelectField.vue";
+import FSClock from "../FSClock.vue";
+import FSSpan from "../FSSpan.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTimeSlotField",

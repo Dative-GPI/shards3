@@ -27,8 +27,8 @@ import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-comp
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSNumberField from "./fields/FSNumberField.vue";
-import FSSelectField from "./fields/FSSelectField.vue";
+import FSNumberField from "./FSNumberField.vue";
+import FSSelectField from "./FSSelectField.vue";
 
 export default defineComponent({
   name: "FSTimeField",

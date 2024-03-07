@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { VForm } from 'vuetify/lib/components/index.mjs';
-
-import FSTimeSlotField from "@dative-gpi/foundation-shared-components/components/FSTimeSlotField.vue";
+import FSTimeSlotField from "@dative-gpi/foundation-shared-components/components/fields/FSTimeSlotField.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/TimeSlotField',
