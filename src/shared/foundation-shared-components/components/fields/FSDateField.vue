@@ -67,10 +67,10 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSTextField from "./FSTextField.vue";
-import FSCalendar from "./FSCalendar.vue";
-import FSButton from "./FSButton.vue";
-import FSCard from "./FSCard.vue";
-import FSCol from "./FSCol.vue";
+import FSCalendar from "../FSCalendar.vue";
+import FSButton from "../FSButton.vue";
+import FSCard from "../FSCard.vue";
+import FSCol from "../FSCol.vue";
 
 export default defineComponent({
   name: "FSDateField",

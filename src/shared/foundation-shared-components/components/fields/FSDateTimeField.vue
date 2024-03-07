@@ -91,12 +91,12 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSTextField from "./FSTextField.vue";
-import FSCalendar from "./FSCalendar.vue";
-import FSWindow from "./FSWindow.vue";
-import FSButton from "./FSButton.vue";
-import FSClock from "./FSClock.vue";
-import FSCard from "./FSCard.vue";
-import FSCol from "./FSCol.vue";
+import FSCalendar from "../FSCalendar.vue";
+import FSWindow from "../FSWindow.vue";
+import FSButton from "../FSButton.vue";
+import FSClock from "../FSClock.vue";
+import FSCard from "../FSCard.vue";
+import FSCol from "../FSCol.vue";
 
 export default defineComponent({
   name: "FSDateTimeField",

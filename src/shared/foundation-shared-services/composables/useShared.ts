@@ -11,30 +11,30 @@ let called = false;
 const ready = ref(false);
 
 export function useShared() {
-    if (called) {
-        return {
-            ready
-        };
-    }
-
-    called = true;
-
-    const { ready: languageCodeReady, languageCode } = useLanguageCode();
-    const { ready: timeZoneReady } = useTimeZone();
-    const { fetch, fetched } = useTranslations();
-    const { set } = useTranslationsProvider();
-
-    onMounted(async () => {
-        await languageCodeReady
-        await timeZoneReady;
-        if (languageCode.value) {
-            await fetch(languageCode.value!);
-            set(fetched.value.map(t => ({ code: t.code, value: t.value })));
-        }
-        ready.value = true;
-    });
-
+  if (called) {
     return {
-        ready
+      ready
     };
+  }
+
+  called = true;
+
+  const { ready: languageCodeReady, languageCode } = useLanguageCode();
+  const { ready: timeZoneReady } = useTimeZone();
+  const { getMany, entities } = useTranslations();
+  const { set } = useTranslationsProvider();
+
+  onMounted(async () => {
+    await languageCodeReady
+    await timeZoneReady;
+    if (languageCode.value) {
+      await getMany(languageCode.value!);
+      set(entities.value.map(t => ({ code: t.code, value: t.value })));
+    }
+    ready.value = true;
+  });
+
+  return {
+    ready
+  };
 }

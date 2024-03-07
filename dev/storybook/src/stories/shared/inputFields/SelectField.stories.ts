@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/FSSelectField.vue";
+import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
 import FSForm from "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";

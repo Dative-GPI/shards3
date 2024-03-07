@@ -31,7 +31,7 @@
             "from": "@dative-gpi/foundation-shared-components/components/FSRow.vue"
         },
         "FSTextField": {
-            "from": "@dative-gpi/foundation-shared-components/components/FSTextField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue"
         },
         "FSSlideGroup": {
             "from": "@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue"

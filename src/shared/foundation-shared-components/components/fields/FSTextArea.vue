@@ -1,10 +1,12 @@
 <template>
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
+      <FSRow
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
-          class="fs-select-field-label"
+          class="fs-text-area-label"
           font="text-overline"
           :style="style"
         >
@@ -12,7 +14,7 @@
         </FSSpan>
         <FSSpan
           v-if="$props.label && $props.required"
-          class="fs-select-field-label"
+          class="fs-text-area-label"
           style="margin-left: -8px;"
           font="text-overline"
           :ellipsis="false"
@@ -23,7 +25,7 @@
         <v-spacer style="min-width: 40px;" />
         <FSSpan
           v-if="messages.length > 0"
-          class="fs-select-field-messages"
+          class="fs-text-area-messages"
           font="text-overline"
           :style="style"
         >
@@ -31,18 +33,17 @@
         </FSSpan>
       </FSRow>
     </slot>
-    <v-select
-      class="fs-select-field"
-      menuIcon="mdi-chevron-down"
+    <v-textarea
       clearIcon="mdi-close"
       variant="outlined"
       :style="style"
+      :class="classes"
+      :rows="$props.rows"
       :hideDetails="true"
-      :items="$props.items"
-      :itemTitle="$props.itemTitle"
-      :itemValue="$props.itemValue"
+      :noResize="!$props.resize"
+      :autoGrow="$props.autoGrow"
       :readonly="!$props.editable"
-      :clearable="$props.editable && $props.clearable"
+      :clearable="$props.editable && !!$props.modelValue"
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
@@ -50,14 +51,14 @@
       @blur="blurred = true"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
+      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
       </template>
-    </v-select>
+    </v-textarea>
     <slot name="description">
       <FSSpan
         v-if="$props.description"
-        class="fs-select-field-description"
+        class="fs-text-area-description"
         font="text-underline"
         :style="style"
       >
@@ -70,15 +71,15 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSSpan from "./FSSpan.vue";
-import FSCol from "./FSCol.vue";
-import FSRow from "./FSRow.vue";
+import FSSpan from "../FSSpan.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSSelectField",
+  name: "FSTextArea",
   components: {
     FSSpan,
     FSCol,
@@ -95,24 +96,25 @@ export default defineComponent({
       required: false,
       default: null
     },
-    items: {
-      type: Array as PropType<any[]>,
-      required: true
-    },
-    itemValue: {
-      type: String,
-      required: false,
-      default: "id"
-    },
-    itemTitle: {
-      type: String,
-      required: false,
-      default: "label"
-    },
     modelValue: {
-      type: [Array, String, Number] as PropType<(string | number)[] | string | number>,
+      type: String,
       required: false,
       default: null
+    },
+    rows: {
+      type: Number,
+      required: false,
+      default: 1
+    },
+    resize: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    autoGrow: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     hideHeader: {
       type: Boolean,
@@ -143,33 +145,55 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props) {
     const { validateOn, blurred, getMessages } = useRules();
+    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
-    const { slots } = useSlots();
-    
-    delete slots.label;
-    delete slots.description;
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+      let height: string | undefined = undefined;
+      let minHeight: string | undefined = undefined;
+      if (!props.autoGrow) {
+        const base = isMobileSized.value ? 30 : 42;
+        const row = isMobileSized.value ? 16 : 20;
+        minHeight = `${base}px`;
+        if (props.rows > 1) {
+          height = `${base + (props.rows - 1) * row}px`;
+        }
+        else {
+          height = `${base}px`;
+        }
+      }
       if (!props.editable) {
         return {
-          "--fs-select-field-cursor"             : "default",
-          "--fs-select-field-border-color"       : lights.base,
-          "--fs-select-field-color"              : lights.dark,
-          "--fs-select-field-active-border-color": lights.base
+          "--fs-text-area-cursor"             : "default",
+          "--fs-text-area-border-color"       : lights.base,
+          "--fs-text-area-color"              : lights.dark,
+          "--fs-text-area-active-border-color": lights.base,
+          "--fs-text-area-min-height"         : minHeight,
+          "--fs-text-area-height"             : height
         };
       }
       return {
-        "--fs-select-field-cursor"             : "pointer",
-        "--fs-select-field-border-color"       : lights.dark,
-        "--fs-select-field-color"              : darks.base,
-        "--fs-select-field-active-border-color": darks.dark,
-        "--fs-select-field-error-color"        : errors.base,
-        "--fs-select-field-error-border-color" : errors.base
+        "--fs-text-area-cursor"             : "text",
+        "--fs-text-area-border-color"       : lights.dark,
+        "--fs-text-area-color"              : darks.base,
+        "--fs-text-area-active-border-color": darks.dark,
+        "--fs-text-area-error-color"        : errors.base,
+        "--fs-text-area-error-border-color" : errors.base,
+        "--fs-text-area-min-height"         : minHeight,
+        "--fs-text-area-height"             : height
       };
+    });
+
+    const classes = computed((): string[] => {
+      const classNames = ["fs-text-area"];
+      if (props.autoGrow) {
+        classNames.push("fs-text-area-auto-grow");
+      }
+      return classNames;
     });
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
@@ -178,8 +202,8 @@ export default defineComponent({
       validateOn,
       messages,
       blurred,
-      slots,
-      style
+      style,
+      classes
     };
   }
 });

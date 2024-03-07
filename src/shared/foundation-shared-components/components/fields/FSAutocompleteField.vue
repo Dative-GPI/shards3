@@ -1,12 +1,10 @@
 <template>
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
-      <FSRow
-        :wrap="false"
-      >
+      <FSRow :wrap="false">
         <FSSpan
           v-if="$props.label"
-          class="fs-text-area-label"
+          class="fs-autocomplete-field-label"
           font="text-overline"
           :style="style"
         >
@@ -14,7 +12,7 @@
         </FSSpan>
         <FSSpan
           v-if="$props.label && $props.required"
-          class="fs-text-area-label"
+          class="fs-autocomplete-field-label"
           style="margin-left: -8px;"
           font="text-overline"
           :ellipsis="false"
@@ -25,7 +23,7 @@
         <v-spacer style="min-width: 40px;" />
         <FSSpan
           v-if="messages.length > 0"
-          class="fs-text-area-messages"
+          class="fs-autocomplete-field-messages"
           font="text-overline"
           :style="style"
         >
@@ -33,15 +31,18 @@
         </FSSpan>
       </FSRow>
     </slot>
-    <v-textarea
+    <v-autocomplete
+      menuIcon="mdi-chevron-down"
       clearIcon="mdi-close"
       variant="outlined"
       :style="style"
       :class="classes"
-      :rows="$props.rows"
       :hideDetails="true"
-      :noResize="!$props.resize"
-      :autoGrow="$props.autoGrow"
+      :items="$props.items"
+      :autoSelectFirst="true"
+      :multiple="$props.multiple"
+      :itemTitle="$props.itemTitle"
+      :itemValue="$props.itemValue"
       :readonly="!$props.editable"
       :clearable="$props.editable && !!$props.modelValue"
       :rules="$props.rules"
@@ -49,16 +50,17 @@
       :modelValue="$props.modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
       @blur="blurred = true"
+      v-model:search="innerSearch"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
       </template>
-    </v-textarea>
+    </v-autocomplete>
     <slot name="description">
       <FSSpan
         v-if="$props.description"
-        class="fs-text-area-description"
+        class="fs-autocomplete-field-description"
         font="text-underline"
         :style="style"
       >
@@ -69,17 +71,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 
-import { useColors, useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSSpan from "./FSSpan.vue";
-import FSCol from "./FSCol.vue";
-import FSRow from "./FSRow.vue";
+import FSSpan from "../FSSpan.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSTextArea",
+  name: "FSAutocompleteField",
   components: {
     FSSpan,
     FSCol,
@@ -96,22 +98,26 @@ export default defineComponent({
       required: false,
       default: null
     },
-    modelValue: {
+    items: {
+      type: Array as PropType<any[]>,
+      required: true
+    },
+    itemValue: {
       type: String,
+      required: false,
+      default: "id"
+    },
+    itemTitle: {
+      type: String,
+      required: false,
+      default: "label"
+    },
+    modelValue: {
+      type: [Array, String] as PropType<string[] | string>,
       required: false,
       default: null
     },
-    rows: {
-      type: Number,
-      required: false,
-      default: 1
-    },
-    resize: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    autoGrow: {
+    multiple: {
       type: Boolean,
       required: false,
       default: false
@@ -142,68 +148,62 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue"],
-  setup(props) {
+  emits: ["update:modelValue", "update:search"],
+  setup: (props, { emit }) => {
     const { validateOn, blurred, getMessages } = useRules();
-    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
+    const { slots } = useSlots();
+
+    delete slots.label;
+    delete slots.description;
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
+    const innerSearch = ref("");
+
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      let height: string | undefined = undefined;
-      let minHeight: string | undefined = undefined;
-      if (!props.autoGrow) {
-        const base = isMobileSized.value ? 30 : 42;
-        const row = isMobileSized.value ? 16 : 20;
-        minHeight = `${base}px`;
-        if (props.rows > 1) {
-          height = `${base + (props.rows - 1) * row}px`;
-        }
-        else {
-          height = `${base}px`;
-        }
-      }
       if (!props.editable) {
         return {
-          "--fs-text-area-cursor"             : "default",
-          "--fs-text-area-border-color"       : lights.base,
-          "--fs-text-area-color"              : lights.dark,
-          "--fs-text-area-active-border-color": lights.base,
-          "--fs-text-area-min-height"         : minHeight,
-          "--fs-text-area-height"             : height
+          "--fs-autocomplete-field-cursor"             : "default",
+          "--fs-autocomplete-field-border-color"       : lights.base,
+          "--fs-autocomplete-field-color"              : lights.dark,
+          "--fs-autocomplete-field-active-border-color": lights.base
         };
       }
       return {
-        "--fs-text-area-cursor"             : "text",
-        "--fs-text-area-border-color"       : lights.dark,
-        "--fs-text-area-color"              : darks.base,
-        "--fs-text-area-active-border-color": darks.dark,
-        "--fs-text-area-error-color"        : errors.base,
-        "--fs-text-area-error-border-color" : errors.base,
-        "--fs-text-area-min-height"         : minHeight,
-        "--fs-text-area-height"             : height
+        "--fs-autocomplete-field-cursor"             : "text",
+        "--fs-autocomplete-field-border-color"       : lights.dark,
+        "--fs-autocomplete-field-color"              : darks.base,
+        "--fs-autocomplete-field-active-border-color": darks.dark,
+        "--fs-autocomplete-field-error-color"        : errors.base,
+        "--fs-autocomplete-field-error-border-color" : errors.base
       };
     });
 
     const classes = computed((): string[] => {
-      const classNames = ["fs-text-area"];
-      if (props.autoGrow) {
-        classNames.push("fs-text-area-auto-grow");
+      const classNames = ["fs-autocomplete-field"];
+      if (props.multiple) {
+        classNames.push("fs-autocomplete-multiple-field");
       }
       return classNames;
     });
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
+    watch(innerSearch, () => {
+      emit("update:search", innerSearch.value);
+    });
+
     return {
       validateOn,
       messages,
       blurred,
+      slots,
       style,
-      classes
+      classes,
+      innerSearch
     };
   }
 });

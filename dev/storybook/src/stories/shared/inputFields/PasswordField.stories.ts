@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSPasswordField from "@dative-gpi/foundation-shared-components/components/FSPasswordField.vue";
+import FSPasswordField from "@dative-gpi/foundation-shared-components/components/fields/FSPasswordField.vue";
 import FSForm from "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";

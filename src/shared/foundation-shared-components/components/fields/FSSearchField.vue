@@ -48,7 +48,7 @@ import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
-import FSButton from "./FSButton.vue";
+import FSButton from "../FSButton.vue";
 
 export default defineComponent({
   name: "FSSearchField",

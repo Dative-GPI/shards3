@@ -1,3 +1,5 @@
 // Warning: Imports are loaded in order. If you need to use a variable / property / mixin, import it after the file that defines it
 @import 'globals/index.scss';
 @import 'components/index.scss';
+
+@import 'pages/index.scss';

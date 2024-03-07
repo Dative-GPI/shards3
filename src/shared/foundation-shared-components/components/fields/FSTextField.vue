@@ -70,9 +70,9 @@ import { computed, defineComponent, PropType } from "vue";
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSSpan from "./FSSpan.vue";
-import FSCol from "./FSCol.vue";
-import FSRow from "./FSRow.vue";
+import FSSpan from "../FSSpan.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTextField",

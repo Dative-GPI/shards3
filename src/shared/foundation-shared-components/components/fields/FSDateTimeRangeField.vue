@@ -12,7 +12,7 @@
     :messages="messages"
     :validateOn="validateOn"
     :validationValue="$props.modelValue"
-    :modelValue="toShortDateFormat"
+    :modelValue="toShortTimeFormat"
     @click="onClick"
     @click:clear="onClear"
     @blur="blurred = true"
@@ -38,10 +38,26 @@
     v-model="dialog"
   >
     <template #body>
-      <FSCalendarTwin
-        :color="$props.color"
-        v-model="innerDateRange"
-      />
+      <FSCol>
+        <FSCalendarTwin
+          :color="$props.color"
+          v-model="innerDateRange"
+        />
+        <FSRow>
+          <FSClock
+            :reminder="true"
+            :color="$props.color"
+            :date="innerDateLeft"
+            v-model="innerTimeLeft"
+          />
+          <FSClock
+            :reminder="true"
+            :color="$props.color"
+            :date="innerDateRight"
+            v-model="innerTimeRight"
+          />
+        </FSRow>
+      </FSCol>
     </template>
   </FSSubmitDialog>
 </template>
@@ -53,22 +69,26 @@ import { useColors, useRules } from "@dative-gpi/foundation-shared-components/co
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
-import FSSubmitDialog from "./FSSubmitDialog.vue";
-import FSCalendarTwin from "./FSCalendarTwin.vue";
+import FSSubmitDialog from "../FSSubmitDialog.vue";
+import FSCalendarTwin from "../FSCalendarTwin.vue";
 import FSTextField from "./FSTextField.vue";
-import FSButton from "./FSButton.vue";
-import FSCard from "./FSCard.vue";
-import FSCol from "./FSCol.vue";
+import FSButton from "../FSButton.vue";
+import FSClock from "../FSClock.vue";
+import FSCard from "../FSCard.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSDateRangeField",
+  name: "FSDateTimeRangeField",
   components: {
     FSSubmitDialog,
     FSCalendarTwin,
     FSTextField,
     FSButton,
+    FSClock,
     FSCard,
-    FSCol
+    FSCol,
+    FSRow
   },
   props: {
     label: {
@@ -114,8 +134,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { getUserOffsetMillis, epochToShortTimeFormat } = useTimeZone();
     const { validateOn, blurred, getMessages } = useRules();
-    const { epochToShortDateFormat } = useTimeZone();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
@@ -123,7 +143,28 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const dialog = ref(false);
-    const innerDateRange = ref(props.modelValue);
+
+    // FSClock just gives two numbers without consideration for the time zone
+    // We must adjust the time to the user's time zone
+    const innerTimeLeft = ref(0);
+    const innerTimeRight = ref(0);
+    const innerDateRange = ref(null);
+    if (props.modelValue && Array.isArray(props.modelValue)) {
+      switch (props.modelValue.length) {
+        case 0: {
+          break;
+        }
+        case 1: {
+          innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+          innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
+        }
+        default: {
+          innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+          innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+          innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
+        }
+      }
+    }
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
@@ -137,11 +178,25 @@ export default defineComponent({
       };
     });
 
-    const toShortDateFormat = computed((): string => {
+    const toShortTimeFormat = computed((): string => {
       if (!props.modelValue || !Array.isArray(props.modelValue) || !props.modelValue.length) {
         return "";
       }
-      return props.modelValue.map((epoch) => epochToShortDateFormat(epoch)).join(" - ");
+      return props.modelValue.map((epoch) => epochToShortTimeFormat(epoch)).join(" - ");
+    });
+
+    const innerDateLeft = computed((): number | null => {
+      if (innerDateRange.value && Array.isArray(innerDateRange.value) && innerDateRange.value.length) {
+        return innerDateRange.value[0];
+      }
+      return null;
+    });
+
+    const innerDateRight= computed((): number | null => {
+      if (innerDateRange.value && Array.isArray(innerDateRange.value) && innerDateRange.value.length > 1) {
+        return innerDateRange.value[1];
+      }
+      return null;
     });
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules, true));
@@ -154,11 +209,15 @@ export default defineComponent({
 
     const onClear = (): void => {
       emit("update:modelValue", null);
+      innerTimeLeft.value = 0;
+      innerTimeRight.value = 0;
       innerDateRange.value = null;
     };
 
     const onSubmit = (): void => {
-      emit("update:modelValue", innerDateRange.value);
+      if (innerDateRange.value && Array.isArray(innerDateRange.value) && innerDateRange.value.length > 1) {
+        emit("update:modelValue", [innerDateRange.value[0] + innerTimeLeft.value, innerDateRange.value[1] + innerTimeRight.value]);
+      }
       dialog.value = false;
     };
 
@@ -169,7 +228,11 @@ export default defineComponent({
       blurred,
       style,
       dialog,
-      toShortDateFormat,
+      toShortTimeFormat,
+      innerDateLeft,
+      innerTimeLeft,
+      innerDateRight,
+      innerTimeRight,
       innerDateRange,
       onClick,
       onClear,

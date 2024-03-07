@@ -172,9 +172,9 @@ import { getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-comp
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
-import FSIcon from "./FSIcon.vue";
-import FSCol from "./FSCol.vue";
-import FSRow from "./FSRow.vue";
+import FSIcon from "../FSIcon.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSRichTextField",

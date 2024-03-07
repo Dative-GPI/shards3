@@ -34,7 +34,7 @@ import { useColors } from "@dative-gpi/foundation-shared-components/composables"
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
-import FSButton from "./FSButton.vue";
+import FSButton from "../FSButton.vue";
 
 export default defineComponent({
   name: "FSPasswordField",

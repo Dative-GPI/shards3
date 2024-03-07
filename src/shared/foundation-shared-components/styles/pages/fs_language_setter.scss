@@ -1,0 +1,55 @@
+.fs-load-language-setter {
+    @include web {
+        height: 40px;
+        max-width: 360px;
+    }
+    @include mobile {
+        height: 36px;
+        max-width: 360px;
+    }
+
+    & .v-skeleton-loader__image {
+        border-radius: 4px;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.fs-load-language-setter-icon {
+    @include mobile {
+        width: 72px;
+    }
+    @include web {
+        width: 76px;
+    }
+}
+
+.fs-language-setter {
+    & > .v-input__control > .v-field {
+        padding: 0px 8px 0px 12px !important;
+        gap: 0px;
+
+        & > .v-field__field > .v-field__input {
+            padding-top: 0px;
+            padding-bottom: 0px;
+
+            &  > .v-select__selection {
+                height: 100% !important;
+
+                & > .fs-row > .v-icon {
+                    padding-bottom: 2px;
+                }
+            }
+        }
+    }
+}
+
+.fs-language-setter-icon {
+    @include mobile {
+        width: 72px;
+    }
+
+    @include web {
+        width: 76px;
+    }
+}

@@ -47,11 +47,11 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSTextField from "./FSTextField.vue";
-import FSTagGroup from "./FSTagGroup.vue";
-import FSButton from "./FSButton.vue";
-import FSSpan from "./FSSpan.vue";
-import FSCol from "./FSCol.vue";
-import FSRow from "./FSRow.vue";
+import FSTagGroup from "../FSTagGroup.vue";
+import FSButton from "../FSButton.vue";
+import FSSpan from "../FSSpan.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTagField",

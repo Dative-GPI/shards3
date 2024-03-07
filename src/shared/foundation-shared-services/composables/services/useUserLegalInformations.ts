@@ -24,29 +24,29 @@ export const useCurrentUserLegalInformation = () => {
     const service = UserLegalInformationServiceFactory();
     const subscribersIds: number[] = [];
 
-    const fetching = ref(false);
-    const fetched = ref<UserLegalInformationDetails | null>(null);
+    const getting = ref(false);
+    const entity = ref<UserLegalInformationDetails | null>(null);
 
     onUnmounted(() => {
         subscribersIds.forEach(id => service.unsubscribe(id));
         subscribersIds.length = 0;
     });
 
-    const fetch = async () => {
-        fetching.value = true;
+    const get = async () => {
+        getting.value = true;
         try {
-            fetched.value = await service.getCurrent();
+            entity.value = await service.getCurrent();
         }
         finally {
-            fetching.value = false;
+            getting.value = false;
         }
-        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
-        return fetched;
+        subscribersIds.push(service.subscribe("all", onEntityChanged(entity)));
+        return entity;
     }
 
     return {
-        fetching,
-        fetch,
-        fetched
+        getting,
+        get,
+        entity
     }
 }

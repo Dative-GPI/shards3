@@ -415,11 +415,11 @@ import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shar
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
 import FSDataIteratorItem from "./FSDataIteratorItem.vue";
+import FSSearchField from "../fields/FSSearchField.vue";
+import FSSelectField from "../fields/FSSelectField.vue";
 import FSFilterButton from "./FSFilterButton.vue";
 import FSHiddenButton from "./FSHiddenButton.vue";
 import FSHeaderButton from "./FSHeaderButton.vue";
-import FSSearchField from "../FSSearchField.vue";
-import FSSelectField from "../FSSelectField.vue";
 import FSContainer from "../FSContainer.vue";
 import FSToggleSet from "../FSToggleSet.vue";
 import FSCheckbox from "../FSCheckbox.vue";

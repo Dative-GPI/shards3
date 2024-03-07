@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSIconField from "@dative-gpi/foundation-shared-components/components/FSIconField.vue";
+import FSIconField from "@dative-gpi/foundation-shared-components/components/fields/FSIconField.vue";
 import FSForm from "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";

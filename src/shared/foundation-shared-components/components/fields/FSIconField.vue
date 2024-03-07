@@ -45,16 +45,16 @@ import { useColors, useRules } from "@dative-gpi/foundation-shared-components/co
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { FSToggle } from "@dative-gpi/foundation-shared-components/models";
 
+import FSToggleSet from "../FSToggleSet.vue";
 import FSTextField from "./FSTextField.vue";
-import FSToggleSet from "./FSToggleSet.vue";
-import FSIcon from "./FSIcon.vue";
-import FSCol from "./FSCol.vue";
+import FSIcon from "../FSIcon.vue";
+import FSCol from "../FSCol.vue";
 
 export default defineComponent({
   name: "FSIconField",
   components: {
-    FSTextField,
     FSToggleSet,
+    FSTextField,
     FSIcon,
     FSCol,
   },
