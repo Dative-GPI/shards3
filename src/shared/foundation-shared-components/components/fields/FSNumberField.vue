@@ -1,10 +1,6 @@
 <template>
   <FSTextField
     type="number"
-    :label="$props.label"
-    :description="$props.description"
-    :hideHeader="$props.hideHeader"
-    :required="$props.required"
     :editable="$props.editable"
     :modelValue="$props.modelValue?.toString()"
     @update:modelValue="(value) => $emit('update:modelValue', isNaN(parseFloat(value)) ? 0 : parseFloat(value))"
@@ -27,30 +23,10 @@ export default defineComponent({
     FSTextField
   },
   props: {
-    label: {
-      type: String,
-      required: false,
-      default: null
-    },
-    description: {
-      type: String,
-      required: false,
-      default: null
-    },
     modelValue: {
       type: Number,
       required: false,
       default: null
-    },
-    hideHeader: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     editable: {
       type: Boolean,

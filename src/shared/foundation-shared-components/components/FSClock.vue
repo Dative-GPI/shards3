@@ -40,7 +40,9 @@
         />
       </FSRow>
     </FSRow>
-    <FSCol>
+    <FSCol
+      v-if="$props.slider"
+    >
       <FSSpan
         font="text-overline"
       >
@@ -55,7 +57,9 @@
         v-model="innerHours"
       />
     </FSCol>
-    <FSCol>
+    <FSCol
+      v-if="$props.slider"
+    >
       <FSSpan
         font="text-overline"
       >
@@ -115,6 +119,11 @@ export default defineComponent({
       default: false
     },
     editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    slider: {
       type: Boolean,
       required: false,
       default: true

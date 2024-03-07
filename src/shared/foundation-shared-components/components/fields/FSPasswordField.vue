@@ -1,28 +1,24 @@
 <template>
   <FSTextField
     :type="type"
-    :label="$props.label"
-    :description="$props.description"
-    :hideHeader="$props.hideHeader"
-    :required="$props.required"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
     v-bind="$attrs"
   >
+    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+      <slot :name="name" v-bind="slotData" />
+    </template>
     <template #append-inner>
       <slot name="append-inner">
         <FSButton
           variant="icon"
-          :icon="icon"
           :editable="$props.editable"
           :color="ColorEnum.Dark"
+          :icon="icon"
           @click="onToggle"
         />
       </slot>
-    </template>
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
     </template>
   </FSTextField>
 </template>
@@ -43,30 +39,10 @@ export default defineComponent({
     FSButton
   },
   props: {
-    label: {
-      type: String,
-      required: false,
-      default: null
-    },
-    description: {
-      type: String,
-      required: false,
-      default: null
-    },
     modelValue: {
       type: String,
       required: false,
       default: null
-    },
-    hideHeader: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     editable: {
       type: Boolean,
