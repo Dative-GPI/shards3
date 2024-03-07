@@ -1,12 +1,52 @@
 <template>
-  <FSNumberField
-    class="fs-time-field"
-    :editable="$props.editable"
-    :modelValue="innerTime"
-    @update:modelValue="onSubmitValue"
-    v-bind="$attrs"
-  >
-    <template #append> 
+  <FSCol>
+    <slot v-if="!$props.hideHeader" name="label">
+      <FSRow :wrap="false">
+        <FSSpan
+          v-if="$props.label"
+          class="fs-time-field-label"
+          font="text-overline"
+          :style="style"
+        >
+          {{ $props.label }}
+        </FSSpan>
+        <FSSpan
+          v-if="$props.label && $props.required"
+          class="fs-time-field-label"
+          style="margin-left: -8px;"
+          font="text-overline"
+          :ellipsis="false"
+          :style="style"
+        >
+          *
+        </FSSpan>
+        <v-spacer style="min-width: 40px;" />
+        <FSSpan
+          v-if="messages.length > 0"
+          class="fs-time-field-messages"
+          font="text-overline"
+          :style="style"
+        >
+          {{ messages.join(", ") }}
+        </FSSpan>
+      </FSRow>
+    </slot>
+    <FSRow>
+      <FSNumberField
+        :editable="$props.editable"
+        :hideHeader="true"
+        :rules="$props.rules"
+        :messages="messages"
+        :validateOn="validateOn"
+        :validationValue="$props.modelValue"
+        :modelValue="innerTime"
+        @update:modelValue="onSubmitValue"
+        v-bind="$attrs"
+        >
+        <template v-for="(_, name) in slots" v-slot:[name]="slotData">
+          <slot :name="name" v-bind="slotData" />
+        </template>
+      </FSNumberField>
       <FSSelectField
         class="fs-time-field-select"
         :editable="$props.editable"
@@ -16,29 +56,75 @@
         :modelValue="selectedUnit.id"
         @update:modelValue="onSubmitTimeScale"
       />
-    </template>
-  </FSNumberField>
+    </FSRow>
+    <slot name="description">
+      <FSSpan
+        v-if="$props.description"
+        class="fs-time-field-description"
+        font="text-underline"
+        :style="style"
+      >
+        {{ $props.description }}
+      </FSSpan>
+    </slot>
+  </FSCol>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-components/utils";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSNumberField from "./FSNumberField.vue";
 import FSSelectField from "./FSSelectField.vue";
+import FSSpan from "../FSSpan.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTimeField",
   components: {
     FSNumberField,
-    FSSelectField
+    FSSelectField,
+    FSSpan,
+    FSCol,
+    FSRow
   },
   props: {
+    label: {
+      type: String,
+      required: false,
+      default: null
+    },
+    description: {
+      type: String,
+      required: false,
+      default: null
+    },
     modelValue: {
       type: Number,
+      required: false,
+      default: null
+    },
+    hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    required: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    rules: {
+      type: Array as PropType<Function[]>,
+      required: false,
+      default: () => []
+    },
+    messages: {
+      type: Array as PropType<string[]>,
       required: false,
       default: null
     },
@@ -50,6 +136,17 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { validateOn, blurred, getMessages } = useRules();
+    const { getColors } = useColors();
+    const { slots } = useSlots();
+
+    delete slots.label;
+    delete slots.description;
+
+    const errors = getColors(ColorEnum.Error);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
+    
     const innerTime = ref(props.modelValue);
     const selectedUnit = ref(timeScale[0]);
 
@@ -57,10 +154,6 @@ export default defineComponent({
       selectedUnit.value = timeScale[getTimeScaleIndex(props.modelValue)];
       innerTime.value = props.modelValue / selectedUnit.value.id;
     }
-
-    const errors = useColors().getColors(ColorEnum.Error);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
@@ -81,6 +174,8 @@ export default defineComponent({
       };
     });
 
+    const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
+
     const onSubmitValue = (value: number): void => {
       innerTime.value = value;
       emit("update:modelValue", innerTime.value * selectedUnit.value.id);
@@ -92,12 +187,15 @@ export default defineComponent({
     };
 
     return {
-      style,
-      innerTime,
       selectedUnit,
+      validateOn,
+      innerTime,
       timeScale,
-      onSubmitValue,
+      messages,
+      blurred,
+      style,
       onSubmitTimeScale,
+      onSubmitValue
     };
   }
 });

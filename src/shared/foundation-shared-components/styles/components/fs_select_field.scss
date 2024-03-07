@@ -1,5 +1,6 @@
 .fs-select-field {
     padding: 0px !important;
+    min-width: 240px;
     width: 100%;
 
     & > .v-input__control > .v-field {
@@ -24,6 +25,8 @@
         & > .v-field__field > .v-field__input {
             @extend .text-body;
         
+            flex-wrap: nowrap;
+            overflow: hidden;
             padding-inline: 0 !important;
             color: var(--fs-select-field-color);
             cursor: var(--fs-select-field-cursor) !important;
@@ -49,10 +52,6 @@
 
         & > .v-field__append-inner {
             color: var(--fs-select-field-color);
-
-            & > i {
-                margin-inline-start: 0px;
-            }
         }
     }
 }

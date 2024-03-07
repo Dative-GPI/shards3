@@ -19,6 +19,7 @@ import { computed, defineComponent } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 export default defineComponent({
   name: "FSSlideGroup",
@@ -26,12 +27,12 @@ export default defineComponent({
     padding: {
       type: [String, Number],
       required: false,
-      default: 0
+      default: "0"
     },
     gap: {
-      type: Number,
+      type: [String, Number],
       required: false,
-      default: 8
+      default: "8px"
     }
   },
   setup(props) {
@@ -40,14 +41,12 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      return {
-        "--fs-group-padding"    : typeof(props.padding) === "string" ? props.padding : `${props.padding}px`,
-        "--fs-group-gap"        : `${props.gap}px`,
-        "--fs-group-color"      : darks.light,
-        "--fs-group-hover-color": darks.dark
-      }
-    });
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+      "--fs-group-padding"    : sizeToVar(props.padding),
+      "--fs-group-gap"        : sizeToVar(props.gap),
+      "--fs-group-color"      : darks.light,
+      "--fs-group-hover-color": darks.dark
+    }));
 
     return {
       style,

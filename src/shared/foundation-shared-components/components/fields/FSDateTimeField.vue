@@ -42,7 +42,7 @@
       :modelValue="tabs"
     >
       <FSCard
-        width="394px"
+        width="346px"
         :elevation="true"
         :border="false"
         :value="0"

@@ -39,7 +39,7 @@
       </FSTextField>
     </template>
     <FSCard
-      width="394"
+      width="346px"
       :elevation="true"
       :border="false"
     >

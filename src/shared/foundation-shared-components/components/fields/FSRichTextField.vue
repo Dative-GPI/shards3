@@ -292,14 +292,16 @@ export default defineComponent({
     });
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
-      let minHeight: string | undefined = undefined;
-      const base = isMobileSized.value ? 30 : 42;
-      const row = isMobileSized.value ? 16 : 20;
-      if (props.rows > 1) {
-        minHeight = `${base + (props.rows - 1) * row}px`;
-      }
-      else {
-        minHeight = `${base}px`;
+      let minHeight: string | undefined = "auto";
+      if (!readonly.value) {
+        const base = isMobileSized.value ? 30 : 42;
+        const row = isMobileSized.value ? 16 : 20;
+        if (props.rows > 1) {
+          minHeight = `${base + (props.rows - 1) * row}px`;
+        }
+        else {
+          minHeight = `${base}px`;
+        }
       }
 
       switch (props.variant) {

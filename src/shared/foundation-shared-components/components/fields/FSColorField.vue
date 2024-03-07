@@ -5,68 +5,80 @@
     @update:modelValue="(value) => menu = value"
   >  
     <template #activator="{ props }">
-      <FSRow
-        height="fill"
-        v-bind="props"
-      >
-        <FSTextField
-          class="fs-color-field"
-          :hideHeader="$props.hideHeader"
-          :required="$props.required"
-          :editable="$props.editable"
-          :clearable="false"
-          :readonly="true"
-          :modelValue="innerColor"
-          v-bind="$attrs"
+      <FSCol>
+        <FSRow
+          height="fill"
+          v-bind="props"
         >
-          <template #prepend-inner>
-            <slot name="prepend-inner">
-              <FSIcon
-                size="xl"
-                :color="innerColor"
-              >
-                mdi-circle
-              </FSIcon>
-            </slot>
-          </template>
-          <template #append> 
-            <FSButton
-              prependIcon="mdi-pencil"
-              variant="full"
-              :editable="$props.editable"
-            />
-          </template>
-        </FSTextField>
-        <FSTextField
-          class="fs-color-field-opacity"
-          :label="$tr('ui.color-field.opacity', 'Opacity')"
-          :hideHeader="$props.hideHeader"
-          :required="$props.required"
-          :editable="$props.editable"
-          :clearable="false"
-          :readonly="true"
-          :modelValue="(Math.round(getPercentageFromHex(innerOpacity)*100)) + ' %'"
-        >
-          <template #prepend-inner>
-            <slot name="prepend-inner">
-              <FSIcon
-                icon="mdi-circle"
-                size="xl"
-                :color="ColorEnum.Dark"
+          <FSTextField
+            class="fs-color-field"
+            :hideHeader="$props.hideHeader"
+            :required="$props.required"
+            :editable="$props.editable"
+            :clearable="false"
+            :readonly="true"
+            :modelValue="innerColor"
+            v-bind="$attrs"
+          >
+            <template #prepend-inner>
+              <slot name="prepend-inner">
+                <FSIcon
+                  size="xl"
+                  :color="innerColor"
+                >
+                  mdi-circle
+                </FSIcon>
+              </slot>
+            </template>
+            <template #append> 
+              <FSButton
+                prependIcon="mdi-pencil"
+                variant="full"
                 :editable="$props.editable"
-                :style="{ opacity: getPercentageFromHex(innerOpacity) }"
               />
-            </slot>
-          </template>
-          <template #append> 
-            <FSButton
-              prependIcon="mdi-pencil"
-              variant="full"
-              :editable="$props.editable"
-            />
-          </template>
-        </FSTextField>
-      </FSRow>
+            </template>
+          </FSTextField>
+          <FSTextField
+            class="fs-color-field-opacity"
+            :label="$tr('ui.color-field.opacity', 'Opacity')"
+            :hideHeader="$props.hideHeader"
+            :required="$props.required"
+            :editable="$props.editable"
+            :clearable="false"
+            :readonly="true"
+            :modelValue="(Math.round(getPercentageFromHex(innerOpacity)*100)) + ' %'"
+          >
+            <template #prepend-inner>
+              <slot name="prepend-inner">
+                <FSIcon
+                  icon="mdi-circle"
+                  size="xl"
+                  :color="ColorEnum.Dark"
+                  :editable="$props.editable"
+                  :style="{ opacity: getPercentageFromHex(innerOpacity) }"
+                />
+              </slot>
+            </template>
+            <template #append> 
+              <FSButton
+                prependIcon="mdi-pencil"
+                variant="full"
+                :editable="$props.editable"
+              />
+            </template>
+          </FSTextField>
+        </FSRow>
+        <slot name="description">
+          <FSSpan
+            v-if="$props.description"
+            class="fs-color-field-description"
+            font="text-underline"
+            :style="style"
+          >
+            {{ $props.description }}
+          </FSSpan>
+        </slot>
+      </FSCol>
     </template> 
     <FSCard
       :elevation="true"
@@ -92,7 +104,7 @@
 import { computed, defineComponent, ref } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
@@ -113,6 +125,11 @@ export default defineComponent({
     FSRow
   },
   props: {
+    description: {
+      type: String,
+      required: false,
+      default: null
+    },
     modelValue: {
       type: String,
       required: false,
@@ -141,32 +158,26 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:opacity"],
   setup(props, { emit }) {
+    const { slots } = useSlots();
+
+    delete slots.description;
+
+    const lights = useColors().getColors(ColorEnum.Light);
+    const darks = useColors().getColors(ColorEnum.Dark);
+
+    const menu = ref(false);
     const innerColor = ref(props.modelValue.toString().substring(0, 7));
     const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
     const fullColor = ref(innerColor.value + innerOpacity.value);
 
-    const menu = ref(false);
-
-    const errors = useColors().getColors(ColorEnum.Error);
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
-
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
         return {
-          "--fs-color-field-cursor"             : "default",
-          "--fs-color-field-border-color"       : lights.base,
-          "--fs-color-field-color"              : lights.dark,
-          "--fs-color-field-active-border-color": lights.base
+          "--fs-color-field-color": lights.dark
         };
       }
       return {
-        "--fs-color-field-cursor"             : "text",
-        "--fs-color-field-border-color"       : lights.dark,
-        "--fs-color-field-color"              : darks.base,
-        "--fs-color-field-active-border-color": darks.dark,
-        "--fs-color-field-error-color"        : errors.base,
-        "--fs-color-field-error-border-color" : errors.base
+        "--fs-color-field-color": darks.base
       };
     });
 
@@ -180,12 +191,12 @@ export default defineComponent({
     };
 
     return {
-      ColorEnum,
       getPercentageFromHex,
-      onSubmit,
-      innerColor,
       innerOpacity,
+      innerColor,
       fullColor,
+      ColorEnum,
+      onSubmit,
       style,
       menu
     };

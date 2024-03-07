@@ -22,9 +22,9 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value1: null,
+      value1: 0,
       value2: 500,
-      value3: 1500
+      value3: 1500,
     }
   },
   render: (args, { argTypes }) => ({
@@ -61,9 +61,9 @@ export const Rules: Story = {
   args: {
     args: {
       valid: false,
-      value1: "",
-      value2: "",
-      value3: "",
+      value1: 0,
+      value2: 500,
+      value3: 1500,
       rules: NumberRules
     }
   },

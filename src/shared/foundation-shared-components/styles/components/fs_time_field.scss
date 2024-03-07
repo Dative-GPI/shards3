@@ -1,3 +1,16 @@
 .fs-time-field-select {
     min-width: 180px;
 }
+
+.fs-time-field-label {
+    color: var(--fs-time-field-color);
+}
+
+.fs-time-field-messages {
+    align-self: stretch;
+    color: var(--fs-time-field-error-color);
+}
+
+.fs-time-field-description {
+    color: var(--fs-time-field-color);
+}

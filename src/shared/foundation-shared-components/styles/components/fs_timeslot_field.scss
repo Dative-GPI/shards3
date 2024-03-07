@@ -1,75 +1,12 @@
-.fs-time-slot-field {
-  padding: 0px !important;
-  width: 100%;
-
-  & > .v-input__control > .v-field {
-      border: 1px solid var(--fs-time-slot-field-border-color) !important;
-      cursor: var(--fs-time-slot-field-cursor) !important;
-      border-radius: 4px !important;
-      padding: 0 16px !important;
-      gap: 8px;
-
-      &--error {
-          border-color: var(--fs-time-slot-field-error-border-color) !important;
-      }
-
-      &:not(.v-field--error):focus-within {
-          border-color: var(--fs-time-slot-field-active-border-color) !important;
-      }
-
-      & > .v-field__outline {
-          display: none;
-      }
-
-      & > .v-field__field > .v-field__input {
-          @extend .text-body;
-      
-          padding-inline: 0 !important;
-          color: var(--fs-time-slot-field-color);
-          cursor: var(--fs-time-slot-field-cursor) !important;
-      
-          @include web {
-              min-height: 38px !important;
-              height: 38px !important;
-          }
-      
-          @include mobile {
-              min-height: 34px !important;
-              height: 34px !important;
-          }
-
-          & > .v-select__selection {
-              height: 100%;
-          }
-      }
-
-      & > .v-field__clearable {
-          margin-inline: 0px;
-      }
-
-      & > .v-field__append-inner {
-          color: var(--fs-time-slot-field-color);
-
-          & > i {
-              margin-inline-start: 0px;
-          }
-      }
-  }
-}
-
 .fs-time-slot-field-label {
-  color: var(--fs-time-slot-field-color);
+    color: var(--fs-time-slot-field-color);
 }
 
 .fs-time-slot-field-messages {
-  align-self: stretch;
-  color: var(--fs-time-slot-field-error-color);
+    align-self: stretch;
+    color: var(--fs-time-slot-field-error-color);
 }
 
 .fs-time-slot-field-description {
-  color: var(--fs-time-slot-field-color);
-}
-
-.fs-time-slot-field-number > .fs-row {
-  padding: 0px !important;
+    color: var(--fs-time-slot-field-color);
 }

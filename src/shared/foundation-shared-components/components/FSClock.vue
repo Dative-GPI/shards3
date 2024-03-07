@@ -5,13 +5,13 @@
   >
     <FSRow
       align="center-center"
-      padding="0 16px"
+      :wrap="false"
     >
-      <FSSpan
+      <FSText
         v-if="$props.reminder"
       >
         {{ epochToLongDateFormat($props.date) }}
-      </FSSpan>
+      </FSText>
       <v-spacer v-if="$props.reminder" />
       <FSRow
         align="center-center"
@@ -43,12 +43,8 @@
     <FSCol
       v-if="$props.slider"
     >
-      <FSSpan
-        font="text-overline"
-      >
-        {{ $tr("ui.clock.hours", "Hours") }}
-      </FSSpan>
       <FSSlider
+        :label="$tr('ui.clock.hours', 'Hours')"
         :readonly="!$props.editable"
         :color="$props.color"
         :step="1"
@@ -60,12 +56,8 @@
     <FSCol
       v-if="$props.slider"
     >
-      <FSSpan
-        font="text-overline"
-      >
-        {{ $tr("ui.clock.minutes", "Minutes") }}
-      </FSSpan>
       <FSSlider
+        :label="$tr('ui.clock.minutes', 'Minutes')"
         :readonly="!$props.editable"
         :color="$props.color"
         :step="1"
@@ -85,7 +77,7 @@ import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables"
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSlider from "./FSSlider.vue";
-import FSSpan from "./FSSpan.vue";
+import FSText from "./FSText.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
@@ -93,7 +85,7 @@ export default defineComponent({
   name: "FSClock",
   components: {
     FSSlider,
-    FSSpan,
+    FSText,
     FSCol,
     FSRow
   },

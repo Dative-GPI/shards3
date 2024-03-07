@@ -159,14 +159,14 @@ export default defineComponent({
     }
 
     return {
-      ColorEnum,
       innerValue,
       validateOn,
+      ColorEnum,
       messages,
       blurred,
       style,
-      onAdd,
-      onRemove
+      onRemove,
+      onAdd
     };
   }
 });

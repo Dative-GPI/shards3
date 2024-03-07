@@ -1,5 +1,6 @@
 .fs-text-field {
     padding: 0px !important;
+    min-width: 240px;
     width: 100%;
 
     & > .v-input__control > .v-field {

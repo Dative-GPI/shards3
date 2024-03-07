@@ -43,19 +43,29 @@
           :color="$props.color"
           v-model="innerDateRange"
         />
-        <FSRow>
-          <FSClock
-            :reminder="true"
-            :color="$props.color"
-            :date="innerDateLeft"
-            v-model="innerTimeLeft"
-          />
-          <FSClock
-            :reminder="true"
-            :color="$props.color"
-            :date="innerDateRight"
-            v-model="innerTimeRight"
-          />
+        <FSRow
+          width="100%"
+        >
+          <FSCol
+            width="calc(50% - 4px)"
+          >
+            <FSClock
+              :reminder="true"
+              :color="$props.color"
+              :date="innerDateLeft"
+              v-model="innerTimeLeft"
+            />
+          </FSCol>
+          <FSCol
+            width="calc(50% - 4px)"
+          >
+            <FSClock
+              :reminder="true"
+              :color="$props.color"
+              :date="innerDateRight"
+              v-model="innerTimeRight"
+            />
+          </FSCol>
         </FSRow>
       </FSCol>
     </template>
@@ -74,7 +84,6 @@ import FSCalendarTwin from "../FSCalendarTwin.vue";
 import FSTextField from "./FSTextField.vue";
 import FSButton from "../FSButton.vue";
 import FSClock from "../FSClock.vue";
-import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
@@ -86,7 +95,6 @@ export default defineComponent({
     FSTextField,
     FSButton,
     FSClock,
-    FSCard,
     FSCol,
     FSRow
   },

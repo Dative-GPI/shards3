@@ -170,11 +170,7 @@ export default defineComponent({
       }
       if (props.modelValue) {
         const selectedIcon = innerIcons.find((icon) => icon.id === props.modelValue);
-        if (selectedIcon) {
-          innerIcons.splice(innerIcons.indexOf(selectedIcon), 1);
-          innerIcons.unshift(selectedIcon);
-        }
-        else {
+        if (!selectedIcon) {
           innerIcons.unshift({
             id: props.modelValue,
             prependIcon: props.modelValue

@@ -48,7 +48,7 @@
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
+      @update:modelValue="onUpdate"
       @blur="blurred = true"
       v-model:search="innerSearch"
       v-bind="$attrs"
@@ -192,6 +192,11 @@ export default defineComponent({
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
+    const onUpdate = (value: string[] | string) => {
+      emit('update:modelValue', value);
+      innerSearch.value = "";
+    };
+
     watch(innerSearch, () => {
       emit("update:search", innerSearch.value);
     });
@@ -203,7 +208,8 @@ export default defineComponent({
       slots,
       style,
       classes,
-      innerSearch
+      innerSearch,
+      onUpdate
     };
   }
 });

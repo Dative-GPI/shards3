@@ -109,12 +109,12 @@ export default defineComponent({
     resize: {
       type: Boolean,
       required: false,
-      default: true
+      default: false
     },
     autoGrow: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     hideHeader: {
       type: Boolean,

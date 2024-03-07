@@ -1,9 +1,8 @@
 <template>
   <FSTextField
-    type="number"
     :editable="$props.editable"
     :modelValue="$props.modelValue?.toString()"
-    @update:modelValue="(value) => $emit('update:modelValue', isNaN(parseFloat(value)) ? 0 : parseFloat(value))"
+    @update:modelValue="onUpdate"
     v-bind="$attrs"
   >
     <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
@@ -34,6 +33,21 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue"]
+  emits: ["update:modelValue"],
+  setup(_, { emit }) {
+    const onUpdate = (value: string) => {
+      const match = /([0-9 ]*[,\.]?)?[0-9]+/.exec(value);
+      if (match && !isNaN(parseFloat(match[0].replace(",", ".").replace(" ", "")))) {
+        emit("update:modelValue", parseFloat(match[0].replace(",", ".").replace(" ", "")));
+      }
+      else {
+        emit("update:modelValue", 0);
+      }
+    };
+
+    return {
+      onUpdate
+    };
+  }
 });
 </script>

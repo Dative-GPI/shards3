@@ -32,55 +32,61 @@
       </FSRow>
     </slot>
     <FSRow>
-      <FSSelectField
-        class="fs-time-slot-field-select"
-        :editable="$props.editable"
-        :items="daysObject"
-        :hideHeader="true"
-        :clearable="false"
-        :style="style"
-        :modelValue="dayStart"
-        @update:modelValue="onChangeDayStart"
+      <FSRow
+        :wrap="false"
       >
-        <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-          <slot :name="name" v-bind="slotData" />
-        </template>
-        <template #append>
-          <FSClock
-            class="fs-time-slot-field-number"
-            :editable="$props.editable"
-            :color="ColorEnum.Light"
-            :reminder="false"
-            :slider="false"
-            :style="style"
-            :modelValue="$props.modelValue[0][1]"
-            @update:modelValue="onChangeHourStart"
-          />
-        </template>
-      </FSSelectField>
-      <FSSelectField
-        class="fs-time-slot-field-select"
-        :editable="$props.editable"
-        :items="daysObject"
-        :hideHeader="true"
-        :clearable="false"
-        :style="style"
-        :modelValue="dayEnd"
-        @update:modelValue="onChangeDayEnd"
+        <FSSelectField
+          :editable="$props.editable"
+          :items="daysObject"
+          :hideHeader="true"
+          :clearable="false"
+          :style="style"
+          :rules="$props.rules"
+          :messages="messages"
+          :validateOn="validateOn"
+          :validationValue="$props.modelValue"
+          :modelValue="dayStart"
+          @update:modelValue="onChangeDayStart"
+        >
+          <template v-for="(_, name) in slots" v-slot:[name]="slotData">
+            <slot :name="name" v-bind="slotData" />
+          </template>
+        </FSSelectField>
+        <FSClock
+          class="fs-time-slot-field-number"
+          :editable="$props.editable"
+          :color="ColorEnum.Light"
+          :reminder="false"
+          :slider="false"
+          :style="style"
+          :modelValue="$props.modelValue[0][1]"
+          @update:modelValue="onChangeHourStart"
+        />
+      </FSRow>
+      <FSRow
+        :wrap="false"
       >
-        <template #append>
-          <FSClock
-            class="fs-time-slot-field-number"
-            :editable="$props.editable"
-            :color="ColorEnum.Light"
-            :reminder="false"
-            :slider="false"
-            :style="style"
-            :modelValue="$props.modelValue[1][1]"
-            @update:modelValue="onChangeHourEnd"
-          />
-        </template>
-      </FSSelectField>
+        <FSSelectField
+          class="fs-time-slot-field-select"
+          :editable="$props.editable"
+          :items="daysObject"
+          :hideHeader="true"
+          :clearable="false"
+          :style="style"
+          :modelValue="dayEnd"
+          @update:modelValue="onChangeDayEnd"
+        />
+        <FSClock
+          class="fs-time-slot-field-number"
+          :editable="$props.editable"
+          :color="ColorEnum.Light"
+          :reminder="false"
+          :slider="false"
+          :style="style"
+          :modelValue="$props.modelValue[1][1]"
+          @update:modelValue="onChangeHourEnd"
+        />
+      </FSRow>
     </FSRow>
     <slot name="description">
       <FSSpan
@@ -244,19 +250,19 @@ export default defineComponent({
     };
 
     return {
-      ColorEnum,
       daysObject,
-      dayStart,
-      dayEnd,
       validateOn,
+      ColorEnum,
+      dayStart,
       messages,
       blurred,
+      dayEnd,
       slots,
       style,
-      onChangeDayStart,
       onChangeHourStart,
-      onChangeDayEnd,
-      onChangeHourEnd
+      onChangeDayStart,
+      onChangeHourEnd,
+      onChangeDayEnd
     };
   }
 });

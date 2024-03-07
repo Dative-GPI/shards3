@@ -57,8 +57,6 @@ import FSSubmitDialog from "../FSSubmitDialog.vue";
 import FSCalendarTwin from "../FSCalendarTwin.vue";
 import FSTextField from "./FSTextField.vue";
 import FSButton from "../FSButton.vue";
-import FSCard from "../FSCard.vue";
-import FSCol from "../FSCol.vue";
 
 export default defineComponent({
   name: "FSDateRangeField",
@@ -66,9 +64,7 @@ export default defineComponent({
     FSSubmitDialog,
     FSCalendarTwin,
     FSTextField,
-    FSButton,
-    FSCard,
-    FSCol
+    FSButton
   },
   props: {
     label: {
