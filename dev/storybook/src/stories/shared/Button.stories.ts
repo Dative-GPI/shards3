@@ -105,32 +105,3 @@ export const Variations: Story = {
     </div>`
   })
 }
-export const Aliases: Story = {
-  render: () => ({
-    components: { FSButton, FSIcon, FSSpan },
-    template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <div style="display: flex; gap: 10px;">
-        <FSButtonSearch />
-        <FSButtonRemove />
-        <FSButtonSave />
-        <FSButtonCancel />
-        <FSButtonDocumentation />
-      </div>
-      <div style="display: flex; gap: 10px;">
-        <FSButtonSearchMini />
-        <FSButtonRemoveMini />
-        <FSButtonSaveMini />
-        <FSButtonCancelMini />
-        <FSButtonDocumentationMini />
-      </div>
-      <div style="display: flex; gap: 10px;">
-        <FSButtonSearchIcon />
-        <FSButtonRemoveIcon />
-        <FSButtonSaveIcon />
-        <FSButtonCancelIcon />
-        <FSButtonDocumentationIcon />
-      </div>
-    </div>`
-  })
-}

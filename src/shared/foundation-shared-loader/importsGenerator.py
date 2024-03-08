@@ -15,7 +15,7 @@ def find_vue_files(project_name, directory):
         for file in files:
             if file.endswith(".vue"):
                 component_path = os.path.relpath(os.path.join(root, file), start=directory)
-                full_relative_path = os.path.join("@dative-gpi", project_name, component_path)
+                full_relative_path = os.path.join("@dative-gpi", project_name, "components", component_path)
                 file_name_without_extension = os.path.splitext(file)[0]
                 components_dict[file_name_without_extension] = {
                     "from": full_relative_path
