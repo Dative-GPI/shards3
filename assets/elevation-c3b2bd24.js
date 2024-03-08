@@ -1,1 +1,0 @@
-import{e as n,l as o}from"./vue.esm-bundler-a27e881e.js";import{p as l}from"./theme-40a9efa2.js";const u=l({elevation:{type:[Number,String],validator(e){const t=parseInt(e);return!isNaN(t)&&t>=0&&t<=24}}},"elevation");function v(e){return{elevationClasses:n(()=>{const s=o(e)?e.value:e.elevation,a=[];return s==null||a.push(`elevation-${s}`),a})}}export{u as m,v as u};
