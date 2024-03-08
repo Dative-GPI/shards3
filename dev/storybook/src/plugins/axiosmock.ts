@@ -5,7 +5,7 @@ import { ServiceFactory } from '@dative-gpi/bones-ui';
 import { DEVICEORGANISATIONS, GROUPS, IMAGES, LANGUAGES, TABLES, TRANSLATIONS } from '@/mocks';
 
 export function mockApp() {
-    const mock = new MockAdapter(ServiceFactory.http, { delayResponse: 2000 });
+    const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
     mock.onGet("/api/shared/v1/translations/fr-FR").reply(200, TRANSLATIONS);
     mock.onGet("/api/shared/v1/images/raw/1").reply(200, IMAGES[0].raw);
     mock.onGet("/api/core/v1/organisations/dative/device-organisations/1").reply(200, DEVICEORGANISATIONS[0]);
