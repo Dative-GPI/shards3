@@ -1,229 +1,229 @@
 {
     "components": {
         "FSTab": {
-            "from": "@dative-gpi/foundation-shared-components/FSTab.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSTab.vue"
         },
         "FSFileButton": {
-            "from": "@dative-gpi/foundation-shared-components/FSFileButton.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSFileButton.vue"
         },
         "FSSlideGroup": {
-            "from": "@dative-gpi/foundation-shared-components/FSSlideGroup.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue"
         },
         "FSRemoveDialog": {
-            "from": "@dative-gpi/foundation-shared-components/FSRemoveDialog.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSRemoveDialog.vue"
         },
         "FSCard": {
-            "from": "@dative-gpi/foundation-shared-components/FSCard.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSCard.vue"
         },
         "FSBreadcrumbs": {
-            "from": "@dative-gpi/foundation-shared-components/FSBreadcrumbs.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSBreadcrumbs.vue"
         },
         "FSClock": {
-            "from": "@dative-gpi/foundation-shared-components/FSClock.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSClock.vue"
         },
         "FSSpan": {
-            "from": "@dative-gpi/foundation-shared-components/FSSpan.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSSpan.vue"
         },
         "FSText": {
-            "from": "@dative-gpi/foundation-shared-components/FSText.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSText.vue"
         },
         "FSSubmitDialog": {
-            "from": "@dative-gpi/foundation-shared-components/FSSubmitDialog.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSSubmitDialog.vue"
         },
         "FSCol": {
-            "from": "@dative-gpi/foundation-shared-components/FSCol.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSCol.vue"
         },
         "FSSlider": {
-            "from": "@dative-gpi/foundation-shared-components/FSSlider.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSSlider.vue"
         },
         "FSBadge": {
-            "from": "@dative-gpi/foundation-shared-components/FSBadge.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSBadge.vue"
         },
         "FSWrapGroup": {
-            "from": "@dative-gpi/foundation-shared-components/FSWrapGroup.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSWrapGroup.vue"
         },
         "FSFadeOut": {
-            "from": "@dative-gpi/foundation-shared-components/FSFadeOut.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue"
         },
         "FSLabel": {
-            "from": "@dative-gpi/foundation-shared-components/FSLabel.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSLabel.vue"
         },
         "FSRow": {
-            "from": "@dative-gpi/foundation-shared-components/FSRow.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSRow.vue"
         },
         "FSDivider": {
-            "from": "@dative-gpi/foundation-shared-components/FSDivider.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSDivider.vue"
         },
         "FSForm": {
-            "from": "@dative-gpi/foundation-shared-components/FSForm.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSForm.vue"
         },
         "FSCalendarTwin": {
-            "from": "@dative-gpi/foundation-shared-components/FSCalendarTwin.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSCalendarTwin.vue"
         },
         "FSTooltip": {
-            "from": "@dative-gpi/foundation-shared-components/FSTooltip.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSTooltip.vue"
         },
         "FSTagGroup": {
-            "from": "@dative-gpi/foundation-shared-components/FSTagGroup.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue"
         },
         "FSRadioGroup": {
-            "from": "@dative-gpi/foundation-shared-components/FSRadioGroup.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSRadioGroup.vue"
         },
         "FSDialog": {
-            "from": "@dative-gpi/foundation-shared-components/FSDialog.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSDialog.vue"
         },
         "FSTag": {
-            "from": "@dative-gpi/foundation-shared-components/FSTag.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSTag.vue"
         },
         "FSColor": {
-            "from": "@dative-gpi/foundation-shared-components/FSColor.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSColor.vue"
         },
         "FSPagination": {
-            "from": "@dative-gpi/foundation-shared-components/FSPagination.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSPagination.vue"
         },
         "FSToggleSet": {
-            "from": "@dative-gpi/foundation-shared-components/FSToggleSet.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSToggleSet.vue"
         },
         "FSContainer": {
-            "from": "@dative-gpi/foundation-shared-components/FSContainer.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSContainer.vue"
         },
         "FSWindow": {
-            "from": "@dative-gpi/foundation-shared-components/FSWindow.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSWindow.vue"
         },
         "FSImage": {
-            "from": "@dative-gpi/foundation-shared-components/FSImage.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSImage.vue"
         },
         "FSIcon": {
-            "from": "@dative-gpi/foundation-shared-components/FSIcon.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSIcon.vue"
         },
         "FSChip": {
-            "from": "@dative-gpi/foundation-shared-components/FSChip.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSChip.vue"
         },
         "FSTabs": {
-            "from": "@dative-gpi/foundation-shared-components/FSTabs.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSTabs.vue"
         },
         "FSLink": {
-            "from": "@dative-gpi/foundation-shared-components/FSLink.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSLink.vue"
         },
         "FSPermissions": {
-            "from": "@dative-gpi/foundation-shared-components/FSPermissions.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSPermissions.vue"
         },
         "FSRadio": {
-            "from": "@dative-gpi/foundation-shared-components/FSRadio.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSRadio.vue"
         },
         "FSButton": {
-            "from": "@dative-gpi/foundation-shared-components/FSButton.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSButton.vue"
         },
         "FSCalendar": {
-            "from": "@dative-gpi/foundation-shared-components/FSCalendar.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSCalendar.vue"
         },
         "FSCarousel": {
-            "from": "@dative-gpi/foundation-shared-components/FSCarousel.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSCarousel.vue"
         },
         "FSCheckbox": {
-            "from": "@dative-gpi/foundation-shared-components/FSCheckbox.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue"
         },
         "FSColorIcon": {
-            "from": "@dative-gpi/foundation-shared-components/FSColorIcon.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSColorIcon.vue"
         },
         "FSSwitch": {
-            "from": "@dative-gpi/foundation-shared-components/FSSwitch.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/FSSwitch.vue"
         },
         "FSStatus": {
-            "from": "@dative-gpi/foundation-shared-components/deviceOrganisations/FSStatus.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSStatus.vue"
         },
         "FSConnectivity": {
-            "from": "@dative-gpi/foundation-shared-components/deviceOrganisations/FSConnectivity.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSConnectivity.vue"
         },
         "FSWorstAlert": {
-            "from": "@dative-gpi/foundation-shared-components/deviceOrganisations/FSWorstAlert.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSWorstAlert.vue"
         },
         "FSStatusesRow": {
-            "from": "@dative-gpi/foundation-shared-components/deviceOrganisations/FSStatusesRow.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSStatusesRow.vue"
         },
         "FSStatusesCarousel": {
-            "from": "@dative-gpi/foundation-shared-components/deviceOrganisations/FSStatusesCarousel.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSStatusesCarousel.vue"
         },
         "FSDeviceOrganisationTileUI": {
-            "from": "@dative-gpi/foundation-shared-components/tiles/FSDeviceOrganisationTileUI.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue"
         },
         "FSTile": {
-            "from": "@dative-gpi/foundation-shared-components/tiles/FSTile.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/tiles/FSTile.vue"
         },
         "FSLoadTile": {
-            "from": "@dative-gpi/foundation-shared-components/tiles/FSLoadTile.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue"
         },
         "FSGroupTileUI": {
-            "from": "@dative-gpi/foundation-shared-components/tiles/FSGroupTileUI.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/tiles/FSGroupTileUI.vue"
         },
         "FSFilterButton": {
-            "from": "@dative-gpi/foundation-shared-components/lists/FSFilterButton.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/lists/FSFilterButton.vue"
         },
         "FSDataTableUI": {
-            "from": "@dative-gpi/foundation-shared-components/lists/FSDataTableUI.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/lists/FSDataTableUI.vue"
         },
         "FSHeaderButton": {
-            "from": "@dative-gpi/foundation-shared-components/lists/FSHeaderButton.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/lists/FSHeaderButton.vue"
         },
         "FSDataIteratorItem": {
-            "from": "@dative-gpi/foundation-shared-components/lists/FSDataIteratorItem.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/lists/FSDataIteratorItem.vue"
         },
         "FSLoadDataTable": {
-            "from": "@dative-gpi/foundation-shared-components/lists/FSLoadDataTable.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue"
         },
         "FSHiddenButton": {
-            "from": "@dative-gpi/foundation-shared-components/lists/FSHiddenButton.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/lists/FSHiddenButton.vue"
         },
         "FSDateField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSDateField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue"
         },
         "FSDateTimeRangeField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSDateTimeRangeField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSDateTimeRangeField.vue"
         },
         "FSTextArea": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSTextArea.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSTextArea.vue"
         },
         "FSNumberField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSNumberField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSNumberField.vue"
         },
         "FSSelectField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSSelectField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue"
         },
         "FSColorField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSColorField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSColorField.vue"
         },
         "FSIconField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSIconField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSIconField.vue"
         },
         "FSDateRangeField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSDateRangeField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue"
         },
         "FSAutocompleteField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSAutocompleteField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue"
         },
         "FSTextField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSTextField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue"
         },
         "FSTimeField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSTimeField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSTimeField.vue"
         },
         "FSTimeSlotField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSTimeSlotField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSTimeSlotField.vue"
         },
         "FSTagField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSTagField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSTagField.vue"
         },
         "FSPasswordField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSPasswordField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSPasswordField.vue"
         },
         "FSDateTimeField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSDateTimeField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSDateTimeField.vue"
         },
         "FSSearchField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSSearchField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSSearchField.vue"
         },
         "FSRichTextField": {
-            "from": "@dative-gpi/foundation-shared-components/fields/FSRichTextField.vue"
+            "from": "@dative-gpi/foundation-shared-components/components/fields/FSRichTextField.vue"
         }
     },
     "directives": []

@@ -1,13 +1,13 @@
 {
     "components": {
         "FSGroupTile": {
-            "from": "@dative-gpi/foundation-core-components/tiles/FSGroupTile.vue"
+            "from": "@dative-gpi/foundation-core-components/components/tiles/FSGroupTile.vue"
         },
         "FSDeviceOrganisationTile": {
-            "from": "@dative-gpi/foundation-core-components/tiles/FSDeviceOrganisationTile.vue"
+            "from": "@dative-gpi/foundation-core-components/components/tiles/FSDeviceOrganisationTile.vue"
         },
         "FSDataTable": {
-            "from": "@dative-gpi/foundation-core-components/lists/FSDataTable.vue"
+            "from": "@dative-gpi/foundation-core-components/components/lists/FSDataTable.vue"
         }
     },
     "directives": []
