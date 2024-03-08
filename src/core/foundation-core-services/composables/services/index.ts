@@ -11,7 +11,6 @@ export * from "./useDeviceConnectivities";
 export * from "./useDeviceOrganisations";
 export * from "./useDeviceStatuses";
 export * from "./useGroups";
-export * from "./useLanguages";
 export * from "./useLocations";
 export * from "./useManufacturers";
 export * from "./useModels";

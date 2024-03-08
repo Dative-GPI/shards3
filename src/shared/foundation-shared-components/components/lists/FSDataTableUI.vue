@@ -222,6 +222,7 @@
             <v-spacer />
             <FSRow
               align="center-right"
+              width="hug"
               :wrap="false"
             >
               <FSText
@@ -229,16 +230,13 @@
               >
                 {{ $tr("ui.data-table.rows-per-page", "Rows per page") }}
               </FSText>
-              <FSRow
-                width="120px"
-              >
-                <FSSelectField
-                  :clearable="false"
-                  :hideHeader="true"
-                  :items="rowsPerPageOptions"
-                  v-model="innerRowsPerPage"
-                />
-              </FSRow>
+              <FSSelectField
+                class="fs-data-table-rows-per-page"
+                :clearable="false"
+                :hideHeader="true"
+                :items="rowsPerPageOptions"
+                v-model="innerRowsPerPage"
+              />
             </FSRow>
             <FSToggleSet
               v-if="innerRowsPerPage !== -1"
