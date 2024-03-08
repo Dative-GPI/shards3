@@ -1,7 +1,13 @@
 {
     "components": {
-        "FSCoreButton": {
-            "from": "@dative-gpi/foundation-core-components/components/FSCoreButton.vue"
+        "FSGroupTile": {
+            "from": "@dative-gpi/foundation-core-components/tiles/FSGroupTile.vue"
+        },
+        "FSDeviceOrganisationTile": {
+            "from": "@dative-gpi/foundation-core-components/tiles/FSDeviceOrganisationTile.vue"
+        },
+        "FSDataTable": {
+            "from": "@dative-gpi/foundation-core-components/lists/FSDataTable.vue"
         }
     },
     "directives": []

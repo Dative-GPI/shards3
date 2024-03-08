@@ -2,6 +2,7 @@
   <v-img
     class="fs-image"
     :src="source"
+    :style="style"
     :cover="$props.cover"
     :width="computedWidth"
     :height="computedHeight"
@@ -9,23 +10,27 @@
   >
     <template #placeholder>
       <v-skeleton-loader
+        class="fs-load-image"
         type="image"
+        :style="style"
       />
     </template>
   </v-img>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, watch } from "vue";
 
 import { useImageRaw, useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 export default defineComponent({
   name: "FSImage",
   props: {
     imageId: {
-      type: String,
-      required: true
+      type: [String, null, undefined],
+      required: false,
+      default: null
     },
     cover: {
       type: Boolean,
@@ -33,12 +38,12 @@ export default defineComponent({
       default: true
     },
     width: {
-      type: Number,
+      type: [String, Number],
       required: false,
       default: null
     },
     height: {
-      type: Number,
+      type: [String, Number],
       required: false,
       default: null
     },
@@ -46,17 +51,31 @@ export default defineComponent({
       type: String,
       required: false,
       default: null
+    },
+    borderRadius: {
+      type: [String, Number],
+      required: false,
+      default: "4px"
     }
   },
   setup(props) {
-    const { fetching: fetchingRaw, fetch: fetchRaw, fetched: image } = useImageRaw();
-    const { fetching: fetchingBlurHash, fetch: fetchBlurHash, fetched: blurHash } = useImageBlurHash();
+    const { getting: fetchingRaw, get: fetchRaw, entity: image } = useImageRaw();
+    const { getting: fetchingBlurHash, get: fetchBlurHash, entity: blurHash } = useImageBlurHash();
 
-    const computedWidth = computed((): number => {
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+      return {
+        "--fs-image-border-radius": sizeToVar(props.borderRadius)
+      }
+    });
+
+    const computedWidth = computed((): number | string | undefined => {
       if (props.width) {
         return props.width;
       }
       if (props.height) {
+        if (typeof(props.height) === "string") {
+          return undefined;
+        }
         if (props.aspectRatio) {
           const split = props.aspectRatio.split('/');
           if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
@@ -65,14 +84,17 @@ export default defineComponent({
         }
         return props.height;
       }
-      return 0;
+      return undefined;
     });
 
-    const computedHeight = computed((): number => {
+    const computedHeight = computed((): number | string | undefined => {
       if (props.height) {
         return props.height;
       }
       if (props.width) {
+        if (typeof(props.width) === "string") {
+          return undefined;
+        }
         if (props.aspectRatio) {
           const split = props.aspectRatio.split('/');
           if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
@@ -81,7 +103,7 @@ export default defineComponent({
         }
         return props.width;
       }
-      return 0;
+      return undefined;
     });
 
     const source = computed((): string | null => {
@@ -100,32 +122,18 @@ export default defineComponent({
       return null;
     });
 
-    // const pixels = () => {
-    //   if (this.value && this.isValid)
-    //     return decode(this.value, this.width, this.height, this.punch);
-    //   return [];
-    // }
-
-    // const isValid = () => {
-    //   return this.value && isBlurhashValid(this.value).result;
-    // }
-
-    // const reset = () => {
-    //   const ctx = (this.$el as HTMLCanvasElement).getContext("2d");
-    //   this.$nextTick(() => {
-    //     if (this.pixels.length) {
-    //       const imageData = ctx!.createImageData(this.width, this.height);
-    //       imageData.data.set(this.pixels);
-    //       ctx!.putImageData(imageData, 0, 0);
-    //     }
-    //   });
-    // }
-
     onMounted(() => {
       fetch();
     });
 
+    watch(() => props.imageId, () => {
+      fetch();
+    });
+
     const fetch = async () => {
+      if (!props.imageId) {
+        return;
+      }
       await fetchRaw(props.imageId);
       if (!image.value) {
         await fetchBlurHash(props.imageId);
@@ -133,6 +141,7 @@ export default defineComponent({
     }
 
     return {
+      style,
       source,
       computedWidth,
       computedHeight

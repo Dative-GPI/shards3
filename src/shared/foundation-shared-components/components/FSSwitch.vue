@@ -48,15 +48,15 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSpan from "./FSSpan.vue";
-import FSRow from "./FSRow.vue";
 import FSCol from "./FSCol.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSSwitch",
   components: {
     FSSpan,
-    FSRow,
-    FSCol
+    FSCol,
+    FSRow
   },
   props: {
     label: {

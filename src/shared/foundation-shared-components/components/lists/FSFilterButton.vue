@@ -73,7 +73,7 @@ import { computed, defineComponent, PropType, ref } from "vue";
 import { ColorBase, ColorEnum, FSDataTableColumn, FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
-import FSSearchField from "../FSSearchField.vue";
+import FSSearchField from "../fields/FSSearchField.vue";
 import FSFadeOut from "../FSFadeOut.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";

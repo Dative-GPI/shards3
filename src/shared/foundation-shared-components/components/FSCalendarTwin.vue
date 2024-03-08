@@ -14,6 +14,7 @@
       :style="style"
     >
       <FSCol
+        align="top-center"
         :class="leftClasses"
         :style="style"
       >
@@ -54,6 +55,7 @@
         </v-locale-provider>
       </FSCol>
       <FSCol
+        align="top-center"
         :class="rightClasses"
         :style="style"
       >

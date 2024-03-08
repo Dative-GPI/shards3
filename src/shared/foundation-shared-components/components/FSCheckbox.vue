@@ -47,16 +47,16 @@ import { useColors } from "@dative-gpi/foundation-shared-components/composables"
 
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
-import FSRow from "./FSRow.vue";
 import FSCol from "./FSCol.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSCheckbox",
   components: {
     FSIcon,
     FSSpan,
-    FSRow,
-    FSCol
+    FSCol,
+    FSRow
   },
   props: {
     label: {

@@ -1,20 +1,30 @@
 <template>
-  <div v-if="isEmpty"
+  <div
+    v-if="isEmpty"
     class="fs-divider"
-    :style="style" />
-
-  <FSRow v-else align="center-center" :gap="24">
-    <FSCol class="fs-divider-around"
-      :style="style" />
-
-    <FSText variant="light" font="text-h4">
+    :style="style"
+  />
+  <FSRow
+    v-else
+    align="center-center"
+    gap="24px"
+  >
+    <FSCol
+      class="fs-divider-around"
+      :style="style"
+    />
+    <FSText
+      variant="light"
+      font="text-h4"
+    >
       <slot>
-        {{ label }}
+        {{ $props.label }}
       </slot>
     </FSText>
-
-    <FSCol class="fs-divider-around"
-      :style="style" />
+    <FSCol
+      class="fs-divider-around"
+      :style="style"
+    />
   </FSRow>
 </template>
 
@@ -42,7 +52,7 @@ export default defineComponent({
       type: String,
       required: false,
       default: null
-    },
+    }
   },
   setup(props) {
     const { getColors } = useColors();

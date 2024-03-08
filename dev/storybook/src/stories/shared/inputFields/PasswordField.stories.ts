@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { VForm } from 'vuetify/lib/components/index.mjs';
-
-import FSPasswordField from "@dative-gpi/foundation-shared-components/components/FSPasswordField.vue";
+import FSPasswordField from "@dative-gpi/foundation-shared-components/components/fields/FSPasswordField.vue";
+import FSForm from "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
@@ -69,13 +68,13 @@ export const Rules: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { VForm, FSPasswordField, FSCol, FSRow },
+    components: { FSForm, FSPasswordField, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <v-form v-model="args.valid">
+    <FSForm v-model="args.valid">
       <FSCol>
         <FSRow>
           <div class="text-body">
@@ -104,6 +103,6 @@ export const Rules: Story = {
           v-model="args.value3"
         />
       </FSCol>
-    </v-form>`
+    </FSForm>`
   })
 }

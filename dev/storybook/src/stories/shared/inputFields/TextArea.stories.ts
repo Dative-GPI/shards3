@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { VForm } from 'vuetify/lib/components/index.mjs';
-
-import FSTextArea from "@dative-gpi/foundation-shared-components/components/FSTextArea.vue";
+import FSTextArea from "@dative-gpi/foundation-shared-components/components/fields/FSTextArea.vue";
+import FSForm from "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
@@ -38,22 +37,23 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTextArea
-        label="Text, 1 row, resizeable"
+        label="Text, auto grow (does not allow to set a base height)"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
         label="Text, 2 rows, non resizeable"
+        :autoGrow="false"
         :rows="2"
-        :resize="false"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
-        label="Required text, auto grow (does not allow to set a base height)"
+        label="Required text, 2 rows, resizeable"
         description="Description for this field"
-        :required="true"
-        :autoGrow="true"
+        :autoGrow="false"
+        :resize="true"
+        :rows="2"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -61,6 +61,9 @@ export const Variations: Story = {
         label="Uneditable text, 1 row, resizeable"
         description="Uneditable description"
         :editable="false"
+        :autoGrow="false"
+        :resize="true"
+        :rows="1"
         v-model="args.value4"
       />
     </FSCol>`
@@ -78,13 +81,13 @@ export const Rules: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { VForm, FSTextArea, FSCol, FSRow },
+    components: { FSForm, FSTextArea, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <v-form v-model="args.valid">
+    <FSForm v-model="args.valid">
       <FSCol>
         <FSRow>
           <div class="text-body">
@@ -113,6 +116,6 @@ export const Rules: Story = {
           v-model="args.value3"
         />
       </FSCol>
-    </v-form>`
+    </FSForm>`
   })
 }

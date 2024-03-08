@@ -13,7 +13,7 @@
         align="center-center"
         gap="24px"
         :wrap="false"
-        :height="infoHeight"
+        :height="imageSize"
       >
         <FSCol
           gap="12px"
@@ -205,16 +205,12 @@ export default defineComponent({
       return isMobileSized.value ? 90 : 100;
     });
 
-    const infoWidth = computed((): string => {
+    const infoWidth = computed((): number => {
       let width = isMobileSized.value ? 288 : 304;
       if (props.imageId) {
         width -= imageSize.value;
       }
-      return `${width}px`;
-    });
-
-    const infoHeight = computed((): string => {
-      return `${imageSize.value}px`;
+      return width;
     });
 
     return {
@@ -224,8 +220,7 @@ export default defineComponent({
       carouselModelStatuses,
       carouselDeviceStatuses,
       imageSize,
-      infoWidth,
-      infoHeight
+      infoWidth
     };
   }
 });

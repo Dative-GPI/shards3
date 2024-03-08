@@ -1,11 +1,11 @@
-.fs-pagination {
+.fs-pagination-page {
     height: 4px;
-    min-width: 12%;
     border-radius: 4px;
+    min-width: var(--fs-pagination-page-width);
     background-color: var(--fs-pagination-background-color);
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-    &.fs-pagination-active {
+    &.fs-pagination-active-page {
         background-color: var(--fs-pagination-active-background-color);
     }
 }

@@ -1,0 +1,21 @@
+.fs-color-field {
+  min-width:190px;
+}
+
+.fs-color-field-opacity {
+  min-width: 150px;
+}
+
+.fs-color-field .v-field__prepend-inner > .v-icon {
+  opacity: 1 !important;
+}
+
+.fs-color-field-picker {
+  background: none !important;
+  min-width: auto !important;
+  width: 100% !important;
+}
+
+.fs-color-field-description {
+    color: var(--fs-color-field-color);
+}

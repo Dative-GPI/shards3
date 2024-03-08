@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
-import { DEVICEORGANISATIONS, GROUPS, IMAGES, TABLES, TRANSLATIONS } from '@/mocks';
+import { DEVICEORGANISATIONS, GROUPS, IMAGES, LANGUAGES, TABLES, TRANSLATIONS } from '@/mocks';
 
 export function mockApp() {
     const mock = new MockAdapter(ServiceFactory.http, { delayResponse: 2000 });
@@ -14,4 +14,5 @@ export function mockApp() {
     mock.onGet("/api/core/v1/organisations/dative/groups/1").reply(200, GROUPS[0]);
     mock.onGet("/api/core/v1/organisations/dative/groups/2").reply(200, GROUPS[1]);
     mock.onGet("/api/core/v1/organisations/dative/tables/groups1").reply(200, TABLES[0]);
+    mock.onGet("/api/core/v1/organisations/dative/languages").reply(200, LANGUAGES);
 }

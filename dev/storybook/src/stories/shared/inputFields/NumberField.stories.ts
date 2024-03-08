@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { VForm } from 'vuetify/lib/components/index.mjs';
-
-import FSNumberField from "@dative-gpi/foundation-shared-components/components/FSNumberField.vue";
+import FSNumberField from "@dative-gpi/foundation-shared-components/components/fields/FSNumberField.vue";
+import FSForm from "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
@@ -23,9 +22,9 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value1: null,
+      value1: 0,
       value2: 500,
-      value3: 1500
+      value3: 1500,
     }
   },
   render: (args, { argTypes }) => ({
@@ -62,20 +61,20 @@ export const Rules: Story = {
   args: {
     args: {
       valid: false,
-      value1: "",
-      value2: "",
-      value3: "",
+      value1: 0,
+      value2: 500,
+      value3: 1500,
       rules: NumberRules
     }
   },
   render: (args, { argTypes }) => ({
-    components: { VForm, FSNumberField, FSCol, FSRow },
+    components: { FSForm, FSNumberField, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <v-form v-model="args.valid">
+    <FSForm v-model="args.valid">
       <FSCol>
         <FSRow>
           <div class="text-body">
@@ -104,6 +103,6 @@ export const Rules: Story = {
           v-model="args.value3"
         />
       </FSCol>
-    </v-form>`
+    </FSForm>`
   })
 }

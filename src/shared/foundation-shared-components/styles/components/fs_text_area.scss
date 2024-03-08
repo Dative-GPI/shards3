@@ -1,5 +1,6 @@
 .fs-text-area:not(.fs-text-area-auto-grow) {
     padding: 0px !important;
+    min-width: 240px;
     width: 100%;
 
     & > .v-input__control > .v-field {
@@ -47,6 +48,7 @@
 
 .fs-text-area-auto-grow {
     padding: 0px !important;
+    min-width: 240px;
     width: 100%;
 
     & > .v-input__control > .v-field {

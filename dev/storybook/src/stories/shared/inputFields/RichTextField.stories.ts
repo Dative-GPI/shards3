@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSRichTextField from "@dative-gpi/foundation-shared-components/components/FSRichTextField.vue";
+import FSRichTextField from "@dative-gpi/foundation-shared-components/components/fields/FSRichTextField.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {

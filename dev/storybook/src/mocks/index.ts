@@ -4,6 +4,7 @@ export * from "./dataDefinitions.mock";
 export * from "./groups.mock";
 export * from "./images.mock";
 export * from "./deviceOrganisations.mock";
+export * from "./languages.mock";
 export * from "./manufacturers.mock";
 export * from "./models.mock";
 export * from "./modelStatuses.mock";

@@ -5,42 +5,46 @@
   >
     <FSRow
       align="center-center"
+      :wrap="false"
     >
-      <FSTextField
+      <FSText
         v-if="$props.reminder"
-        :readonly="true"
-        :hideHeader="true"
-        :modelValue="epochToLongDateFormat($props.date)"
-      />
-      <v-text-field
-        class="fs-clock-field"
-        variant="outlined"
-        type="number"
-        hide-details
-        :style="style"
-        :readonly="!$props.editable"
-        :modelValue="innerHours.toString().padStart(2, '0')"
-        @update:modelValue="onChangeHours"
-      />
-      :
-      <v-text-field
-        class="fs-clock-field"
-        variant="outlined"
-        type="number"
-        hide-details
-        :style="style"
-        :readonly="!$props.editable"
-        :modelValue="innerMinutes.toString().padStart(2, '0')"
-        @update:modelValue="onChangeMinutes"
-      />
-    </FSRow>
-    <FSCol>
-      <FSSpan
-        font="text-overline"
       >
-        {{ $tr("ui.clock.hours", "Hours") }}
-      </FSSpan>
+        {{ epochToLongDateFormat($props.date) }}
+      </FSText>
+      <v-spacer v-if="$props.reminder" />
+      <FSRow
+        align="center-center"
+        :wrap="false"
+      >
+        <v-text-field
+          class="fs-clock-field"
+          variant="outlined"
+          type="number"
+          hide-details
+          :style="style"
+          :readonly="!$props.editable"
+          :modelValue="innerHours.toString().padStart(2, '0')"
+          @update:modelValue="onChangeHours"
+        />
+        :
+        <v-text-field
+          class="fs-clock-field"
+          variant="outlined"
+          type="number"
+          hide-details
+          :style="style"
+          :readonly="!$props.editable"
+          :modelValue="innerMinutes.toString().padStart(2, '0')"
+          @update:modelValue="onChangeMinutes"
+        />
+      </FSRow>
+    </FSRow>
+    <FSCol
+      v-if="$props.slider"
+    >
       <FSSlider
+        :label="$tr('ui.clock.hours', 'Hours')"
         :readonly="!$props.editable"
         :color="$props.color"
         :step="1"
@@ -49,13 +53,11 @@
         v-model="innerHours"
       />
     </FSCol>
-    <FSCol>
-      <FSSpan
-        font="text-overline"
-      >
-        {{ $tr("ui.clock.minutes", "Minutes") }}
-      </FSSpan>
+    <FSCol
+      v-if="$props.slider"
+    >
       <FSSlider
+        :label="$tr('ui.clock.minutes', 'Minutes')"
         :readonly="!$props.editable"
         :color="$props.color"
         :step="1"
@@ -74,16 +76,16 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
-import FSTextField from "./FSTextField.vue";
 import FSSlider from "./FSSlider.vue";
+import FSText from "./FSText.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSClock",
   components: {
-    FSTextField,
     FSSlider,
+    FSText,
     FSCol,
     FSRow
   },
@@ -109,6 +111,11 @@ export default defineComponent({
       default: false
     },
     editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    slider: {
       type: Boolean,
       required: false,
       default: true

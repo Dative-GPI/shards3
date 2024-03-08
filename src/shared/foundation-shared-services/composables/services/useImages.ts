@@ -24,46 +24,46 @@ const ImageServiceFactory = new ServiceFactory("image", BlurHash).create(factory
 export const useImageRaw = () => {
     const service = ImageServiceFactory();
 
-    const fetching = ref(false);
-    const fetched = ref<string | null>(null);
+    const getting = ref(false);
+    const entity = ref<string | null>(null);
 
-    const fetch = async (imageId: string) => {
-        fetching.value = true;
+    const get = async (imageId: string) => {
+        getting.value = true;
         try {
-            fetched.value = await service.getRaw(imageId);
+            entity.value = await service.getRaw(imageId);
         }
         finally {
-            fetching.value = false;
+            getting.value = false;
         }
-        return fetched;
+        return entity;
     }
 
     return {
-        fetching,
-        fetch,
-        fetched
+        getting,
+        get,
+        entity
     }
 }
 export const useImageBlurHash = () => {
     const service = ImageServiceFactory();
 
-    const fetching = ref(false);
-    const fetched = ref<BlurHash | null>(null);
+    const getting = ref(false);
+    const entity = ref<BlurHash | null>(null);
 
-    const fetch = async (imageId: string) => {
-        fetching.value = true;
+    const get = async (imageId: string) => {
+        getting.value = true;
         try {
-            fetched.value = await service.getBlurHash(imageId);
+            entity.value = await service.getBlurHash(imageId);
         }
         finally {
-            fetching.value = false;
+            getting.value = false;
         }
-        return fetched;
+        return entity;
     }
 
     return {
-        fetching,
-        fetch,
-        fetched
+        getting,
+        get,
+        entity
     }
 }

@@ -1,3 +1,5 @@
+import { Flags } from "../icons/sets";
+
 const MdiIcons = [
     {
         "name": "ab-testing",
@@ -75408,9 +75410,93 @@ const MdiIcons = [
         "styles": [],
         "tags": []
     }
-]
+];
+
+const FlagIcons = [
+    {
+        "name": "france",
+        "aliases": [
+            "french-flag"
+        ],
+        "styles": [],
+        "tags": [
+            "Flags",
+            "France"
+        ]
+    },
+    {
+        "name": "germany",
+        "aliases": [
+            "german-flag"
+        ],
+        "styles": [],
+        "tags": [
+            "Flags",
+            "Allemagne"
+        ] 
+    },
+    {
+        "name": "greatBritain",
+        "aliases": [
+            "great-britain-flag",
+            "united-kingdom-flag"
+        ],
+        "styles": [],
+        "tags": [
+            "Flags",
+            "Royaume-Uni"
+        ] 
+    },
+    {
+        "name": "italy",
+        "aliases": [
+            "italien-flag"
+        ],
+        "styles": [],
+        "tags": [
+            "Flags",
+            "Italie"
+        ] 
+    },
+    {
+        "name": "portugal",
+        "aliases": [
+            "portuguese-flag"
+        ],
+        "styles": [],
+        "tags": [
+            "Flags",
+            "Portugal"
+        ] 
+    },
+    {
+        "name": "spain",
+        "aliases": [
+            "spanish-flag"
+        ],
+        "styles": [],
+        "tags": [
+            "Flags",
+            "Espagne"
+        ] 
+    },
+    {
+        "name": "unitedStates",
+        "aliases": [
+            "united-states-flag"
+        ],
+        "styles": [],
+        "tags": [
+            "Flags",
+            "Etats-Unis"
+        ] 
+    }
+];
 
 export const Icons: { name: string, fullText: string }[] = MdiIcons.map((icon) => ({
     name: "mdi-" + icon.name,
     fullText: icon.name + icon.name.split("-").join(" ") + " " + icon.aliases.join(" ") + " " + icon.tags.join(" ") + " " + icon.styles.join(" ")
-}));
+})).concat(FlagIcons.map((icon) => ({
+    name: "$" + icon.name,
+    fullText: icon.name + icon.name.split("-").join(" ") + " " + icon.aliases.join(" ") + " " + icon.tags.join(" ") + " " + icon.styles.join(" ")
+})));

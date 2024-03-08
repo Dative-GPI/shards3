@@ -107,8 +107,8 @@ export default defineComponent({
     });
 
     return {
-      style,
-      classes
+      classes,
+      style
     };
   }
 });

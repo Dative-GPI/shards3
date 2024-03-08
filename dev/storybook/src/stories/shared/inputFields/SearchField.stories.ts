@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSSearchField from "@dative-gpi/foundation-shared-components/components/FSSearchField.vue";
+import FSSearchField from "@dative-gpi/foundation-shared-components/components/fields/FSSearchField.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {

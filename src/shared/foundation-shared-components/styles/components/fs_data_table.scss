@@ -80,13 +80,18 @@
     background-color: var(--fs-data-table-background-color);
 }
 
+.fs-data-table-rows-per-page > .fs-select-field {
+    min-width: 120px !important;
+    width: 120px !important;
+}
+
 .fs-data-table-pagination {
     @include web {
-        width: 172px;
+        max-width: 200px;
     }
 
     @include mobile {
-        width: 172px;
+        max-width: 194px;
     }
 }
 

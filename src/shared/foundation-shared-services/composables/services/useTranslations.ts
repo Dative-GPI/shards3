@@ -20,22 +20,22 @@ export const useTranslations = () => {
     const service = TranslationServiceFactory();
 
     const fetching = ref(false);
-    const fetched = ref<TranslationInfos[]>([]);
+    const entities = ref<TranslationInfos[]>([]);
 
-    const fetch = async (languageCode: string) => {
+    const getMany = async (languageCode: string) => {
         fetching.value = true;
         try {
-            fetched.value = await service.getMany(languageCode);
+            entities.value = await service.getMany(languageCode);
         }
         finally {
             fetching.value = false;
         }
-        return fetched;
+        return entities;
     }
 
     return {
         fetching,
-        fetch,
-        fetched
+        getMany,
+        entities
     }
 }
