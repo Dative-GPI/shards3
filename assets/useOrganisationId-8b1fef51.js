@@ -1,1 +1,0 @@
-import{d as s,w as t}from"./vue.esm-bundler-cada065a.js";const a=s(null),i=()=>{const n=e=>{a.value=e};return{ready:new Promise(e=>{a.value?e(a.value):t(a,()=>{a.value&&e(a.value)})}),organisationId:a,setOrganisationId:n}};export{i as u};
