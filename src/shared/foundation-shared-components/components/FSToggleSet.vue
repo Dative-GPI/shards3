@@ -1,6 +1,7 @@
 <template>
   <FSWrapGroup
     v-if="['wrap'].includes($props.variant)"
+    ref="toggleSetRef"
     :padding="$props.padding"
     :gap="$props.gap"
   >
@@ -40,6 +41,7 @@
   </FSWrapGroup>
   <FSSlideGroup
     v-else
+    ref="toggleSetRef"
     :padding="$props.padding"
     :gap="$props.gap"
   >
@@ -80,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
@@ -174,6 +176,8 @@ export default defineComponent({
     const { getFirstChild } = useSlots();
 
     const firstChild = getFirstChild("item");
+
+    const toggleSetRef = ref(null);
 
     const getFromFirstChild = (prop: string, value: FSToggle): any => {
       switch (prop) {
@@ -269,12 +273,27 @@ export default defineComponent({
       }
     };
 
+    const goToStart = () => {
+      if (toggleSetRef.value) {
+        toggleSetRef.value.goToStart();
+      }
+    };
+
+    const goToEnd = () => {
+      if (toggleSetRef.value) {
+        toggleSetRef.value.goToEnd();
+      }
+    };
+
     return {
+      toggleSetRef,
       firstChild,
       getFromFirstChild,
       getVariant,
+      goToStart,
       getColor,
       getClass,
+      goToEnd,
       toggle
     };
   }

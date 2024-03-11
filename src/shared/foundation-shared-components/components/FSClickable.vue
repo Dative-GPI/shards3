@@ -1,0 +1,125 @@
+<template>
+  <FSCard
+    :border="$props.border"
+    :class="classes"
+    :style="style"
+    @click.stop="onClick"
+    v-bind="$attrs"
+  >
+    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+      <slot :name="name" v-bind="slotData" />
+    </template>
+  </FSCard>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, PropType } from "vue";
+
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+
+import FSCard from "./FSCard.vue";
+
+export default defineComponent({
+  name: "FSClickable",
+  components: {
+    FSCard
+  },
+  props: {
+    border: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    borderRadius: {
+      type: [String, Number],
+      required: false,
+      default: "4px"
+    },
+    variant: {
+      type: String as PropType<"standard" | "full">,
+      required: false,
+      default: "standard"
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Primary
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
+  },
+  emits: ["click"],
+  setup(props, { emit }) {
+    const { getColors, getContrasts } = useColors();
+
+    const textColors = computed(() => getContrasts(props.color));
+    const colors = computed(() => getColors(props.color));
+    const lights = getColors(ColorEnum.Light);
+
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+      if (!props.editable) {
+        return {
+          "--fs-clickable-border-size"     : props.border ? "1px" : "0",
+          "--fs-clickable-border-radius"   : sizeToVar(props.borderRadius),
+          "--fs-clickable-background-color": lights.base,
+          "--fs-clickable-border-color"    : lights.dark,
+          "--fs-clickable-color"           : lights.dark,
+        };
+      }
+      switch (props.variant) {
+        case "standard": return {
+          "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+          "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
+          "--fs-clickable-background-color"       : colors.value.light,
+          "--fs-clickable-border-color"           : colors.value.base,
+          "--fs-clickable-color"                  : textColors.value.base,
+          "--fs-clickable-hover-background-color" : colors.value.base,
+          "--fs-clickable-hover-border-color"     : colors.value.base,
+          "--fs-clickable-hover-color"            : textColors.value.light,
+          "--fs-clickable-active-background-color": colors.value.dark,
+          "--fs-clickable-active-border-color"    : colors.value.dark,
+          "--fs-clickable-active-color"           : textColors.value.light,
+        };
+        case "full": return {
+          "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+          "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
+          "--fs-clickable-background-color"       : colors.value.base,
+          "--fs-clickable-border-color"           : colors.value.base,
+          "--fs-clickable-color"                  : textColors.value.light,
+          "--fs-clickable-hover-background-color" : colors.value.base,
+          "--fs-clickable-hover-border-color"     : colors.value.base,
+          "--fs-clickable-hover-color"            : textColors.value.light,
+          "--fs-clickable-active-background-color": colors.value.dark,
+          "--fs-clickable-active-border-color"    : colors.value.dark,
+          "--fs-clickable-active-color"           : textColors.value.light,
+        };
+      }
+    });
+
+    const classes = computed((): string[] => {
+      const classNames: string[] = ["fs-clickable"];
+      if (!props.editable) {
+        classNames.push("fs-clickable-disabled");
+      }
+      return classNames;
+    });
+
+    const onClick = () => {
+      if (props.editable) {
+        emit("click");
+      }
+    };
+
+    return {
+      classes,
+      style,
+      onClick
+    };
+  }
+});
+</script>

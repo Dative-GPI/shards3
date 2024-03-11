@@ -1,0 +1,26 @@
+.fs-clickable {
+    border-radius: var(--fs-clickable-border-radius) !important;
+    border: var(--fs-clickable-border-size) solid !important;
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    
+    background-color: var(--fs-clickable-background-color) !important;
+    border-color: var(--fs-clickable-border-color) !important;
+    color: var(--fs-clickable-color) !important;
+
+    &.fs-clickable-disabled {
+        cursor: default;
+    }
+
+    &:not(.fs-clickable-disabled):hover {
+        background-color: var(--fs-clickable-hover-background-color) !important;
+        border-color: var(--fs-clickable-hover-border-color) !important;
+        color: var(--fs-clickable-hover-color) !important;
+    }
+
+    &:not(.fs-clickable-disabled):active {
+        background-color: var(--fs-clickable-active-background-color) !important;
+        border-color: var(--fs-clickable-active-border-color) !important;
+        color: var(--fs-clickable-active-color) !important;
+    }
+}

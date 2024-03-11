@@ -21,16 +21,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, VNode } from "vue";
+import { computed, defineComponent, PropType, VNode } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 export default defineComponent({
   name: "FSCarousel",
   props: {
     height: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
       required: false,
       default: "100%"
     }
@@ -45,7 +46,7 @@ export default defineComponent({
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-carousel-height"          : typeof(props.height) === "string" ? props.height : `${props.height}px`,
+        "--fs-carousel-height"          : sizeToVar(props.height),
         "--fs-carousel-background-color": backgrounds.base
       };
     });

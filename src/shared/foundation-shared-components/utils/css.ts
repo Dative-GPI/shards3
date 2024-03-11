@@ -1,8 +1,22 @@
-export const sizeToVar = (value: string | number | null, nullValue: string = "fit-content", unit: "px" | "%" | "em"| "vw" | "vh" = "px"): string => {
+import { useBreakpoints } from "../composables/useBreakpoints";
+
+const { isMobileSized, isExtraSmall } = useBreakpoints();
+
+export const sizeToVar = (value: string[] | number[] | string | number | null, nullValue: string = "fit-content", unit: "px" | "%" | "em"| "vw" | "vh" = "px"): string => {
     if (value == null) {
         return nullValue;
     }
-
+    if (Array.isArray(value)) {
+        if (isExtraSmall.value) {
+            const extraSmallValue = value[2] ?? value[1] ?? value[0];
+            return typeof extraSmallValue === 'string' && isNaN(+extraSmallValue) ? extraSmallValue : `${extraSmallValue}${unit}`;
+        }
+        if (isMobileSized.value) {
+            const mobileValue = value[1] ?? value[0];
+            return typeof mobileValue === 'string' && isNaN(+mobileValue) ? mobileValue : `${mobileValue}${unit}`;
+        }
+        return typeof value[0] === 'string' && isNaN(+value[0]) ? value[0] : `${value[0]}${unit}`;
+    }
     return typeof value === 'string' && isNaN(+value) ? value : `${value}${unit}`;
 };
 

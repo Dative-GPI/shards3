@@ -49,18 +49,7 @@ export default defineComponent({
 
     const getHeight = computed((): string | number => {
       switch (props.variant) {
-        case "standard": {
-          if (Array.isArray(props.height)) {
-            if (isExtraSmall.value) {
-              return props.height[2] ?? props.height[1] ?? props.height[0];
-            }
-            if (isMobileSized.value) {
-              return props.height[1] ?? props.height[0];
-            }
-            return props.height[0];
-          }
-          return props.height;
-        }
+        case "standard":       return sizeToVar(props.height);
         case "button": 
         case "input":          return isMobileSized.value ? "36px" : "40px";
         case "chip":           return isMobileSized.value ? "20px" : "24px";
@@ -77,25 +66,14 @@ export default defineComponent({
 
     const getWidth = computed((): string | number => {
       switch (props.variant) {
-        case "standard": {
-          if (Array.isArray(props.width)) {
-            if (isExtraSmall.value) {
-              return props.width[2] ?? props.width[1] ?? props.width[0];
-            }
-            if (isMobileSized.value) {
-              return props.width[1] ?? props.width[0];
-            }
-            return props.width[0];
-          }
-          return props.width;
-        }
-        case "button":  return isMobileSized ? "36px" : "40px";
-        case "input":   return isMobileSized ? "calc(50% - 124px)" : "calc(50% - 132px)";
-        case "chip":    return "8vw";
-        case "text-h1": return "calc(50% - 32px)";
-        case "text-h2": return "calc(60% - 32px)";
-        case "text-h3": return "calc(65% - 32px)";
-        default:        return "calc(75% - 32px)";
+        case "standard": return sizeToVar(props.width);
+        case "button":   return isMobileSized ? "36px" : "40px";
+        case "input":    return isMobileSized ? "calc(50% - 124px)" : "calc(50% - 132px)";
+        case "chip":     return "8vw";
+        case "text-h1":  return "calc(50% - 32px)";
+        case "text-h2":  return "calc(60% - 32px)";
+        case "text-h3":  return "calc(65% - 32px)";
+        default:         return "calc(75% - 32px)";
       }
     });
 
