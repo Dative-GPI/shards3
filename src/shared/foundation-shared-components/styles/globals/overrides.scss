@@ -8,20 +8,60 @@
     display: none;
 }
 
-// Margin with prepend / append downgraded to default gap
-.v-input > .v-input__prepend {
-    margin-inline-end: 8px !important;
-}
+// Applies to all inputs
+.v-input {
+    padding: 0px !important;
+    min-width: 240px;
+    width: 100%;
 
-.v-input > .v-input__append {
-    margin-inline-start: 8px !important;
-}
+    & .v-input__prepend {
+        margin-inline-end: 8px !important;
+    }
 
-// Clearable icon is always centered vertically
-.v-input__control > .v-field > .v-field__clearable {
-    align-items: center;
-    padding-top: 0px;
-    height: 100%;
+    & .v-input__append {
+        margin-inline-start: 8px !important;
+    }
+
+    & > .v-input__control > .v-field {
+        border-radius: 4px !important;
+
+        & > .v-field__clearable {
+            align-items: center;
+            margin-inline: 0px;
+            padding-top: 0px;
+            height: 100%;
+        }
+
+        & > .v-field__outline {
+            display: none !important;
+        }
+    }
+
+    &:not(.fs-text-area) > .v-input__control > .v-field {
+        padding: 0 16px !important;
+        gap: 8px;
+
+        & > .v-field__field > .v-field__input {
+            @extend .text-body;
+            
+            padding-inline: 0px !important;
+            padding-bottom: 0px !important;
+            padding-top: 0px !important;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow: hidden;
+        
+            @include web {
+                min-height: 38px !important;
+                height: 38px !important;
+            }
+        
+            @include mobile {
+                min-height: 34px !important;
+                height: 34px !important;
+            }
+        }
+    }
 }
 
 

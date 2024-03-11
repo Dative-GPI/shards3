@@ -367,34 +367,35 @@
           <FSRow
             width="hug"
           >
-            <template v-for="(item, index) in items">
-              <FSDataIteratorItem
-                v-if="item.type === 'item'"
-                :key="index"
-                :item="item.raw"
-                :color="$props.color"
-                :itemTo="$props.itemTo"
-                :showSelect="$props.showSelect"
-                :headers="innerHeaders.filter(h => !$props.sneakyHeaders.includes(h.value))"
-                :modelValue="innerValue.includes(item.raw[$props.itemValue])"
-                @update:modelValue="toggleSelect"
-              >
-                <template #[`item.top`]="props">
-                  <slot name="item.top" v-bind="props" />
-                </template>
-                <template v-for="(item, index) in itemsSlots" #[item.slotName]="props">
-                  <slot :name="item.slotName" v-bind="props">
-                    <FSText
-                      :key="index"
-                    >
-                      {{ props.item[item.value] }}
-                    </FSText>
-                  </slot>
-                </template>
-                <template #[`item.bottom`]="props">
-                  <slot name="item.bottom" v-bind="props" />
-                </template>
-              </FSDataIteratorItem>
+            <template v-for="(item, index) in items.filter((item) => item.type === 'item')">
+              <slot name="item.tile" v-bind="{ index, item: item.raw, toggleSelect }">
+                <FSDataIteratorItem
+                  :key="index"
+                  :item="item.raw"
+                  :color="$props.color"
+                  :itemTo="$props.itemTo"
+                  :showSelect="$props.showSelect"
+                  :headers="innerHeaders.filter(h => !$props.sneakyHeaders.includes(h.value))"
+                  :modelValue="innerValue.includes(item.raw[$props.itemValue])"
+                  @update:modelValue="toggleSelect"
+                >
+                  <template #[`item.top`]="props">
+                    <slot name="item.top" v-bind="props" />
+                  </template>
+                  <template v-for="(item, index) in itemsSlots" #[item.slotName]="props">
+                    <slot :name="item.slotName" v-bind="props">
+                      <FSText
+                        :key="index"
+                      >
+                        {{ props.item[item.value] }}
+                      </FSText>
+                    </slot>
+                  </template>
+                  <template #[`item.bottom`]="props">
+                    <slot name="item.bottom" v-bind="props" />
+                  </template>
+                </FSDataIteratorItem>
+              </slot>
             </template>
           </FSRow>
         </template>

@@ -1,18 +1,19 @@
 <template>
   <v-img
     class="fs-image"
-    :src="source"
-    :style="style"
-    :cover="$props.cover"
-    :width="computedWidth"
     :height="computedHeight"
+    :width="computedWidth"
+    :cover="$props.cover"
+    :style="style"
+    :src="source"
     v-bind="$attrs"
   >
     <template #placeholder>
-      <v-skeleton-loader
+      <FSLoader
         class="fs-load-image"
-        type="image"
-        :style="style"
+        :borderRadius="$props.borderRadius"
+        :height="computedHeight"
+        :width="computedWidth"
       />
     </template>
   </v-img>
@@ -24,8 +25,13 @@ import { computed, defineComponent, onMounted, watch } from "vue";
 import { useImageRaw, useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
+import FSLoader from "./FSLoader.vue";
+
 export default defineComponent({
   name: "FSImage",
+  components: {
+    FSLoader
+  },
   props: {
     imageId: {
       type: [String, null, undefined],
@@ -68,25 +74,6 @@ export default defineComponent({
       }
     });
 
-    const computedWidth = computed((): number | string | undefined => {
-      if (props.width) {
-        return props.width;
-      }
-      if (props.height) {
-        if (typeof(props.height) === "string") {
-          return undefined;
-        }
-        if (props.aspectRatio) {
-          const split = props.aspectRatio.split('/');
-          if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return props.height * (parseFloat(split[0]) / parseFloat(split[1]));
-          }
-        }
-        return props.height;
-      }
-      return undefined;
-    });
-
     const computedHeight = computed((): number | string | undefined => {
       if (props.height) {
         return props.height;
@@ -102,6 +89,25 @@ export default defineComponent({
           }
         }
         return props.width;
+      }
+      return undefined;
+    });
+
+    const computedWidth = computed((): number | string | undefined => {
+      if (props.width) {
+        return props.width;
+      }
+      if (props.height) {
+        if (typeof(props.height) === "string") {
+          return undefined;
+        }
+        if (props.aspectRatio) {
+          const split = props.aspectRatio.split('/');
+          if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
+            return props.height * (parseFloat(split[0]) / parseFloat(split[1]));
+          }
+        }
+        return props.height;
       }
       return undefined;
     });
@@ -141,10 +147,10 @@ export default defineComponent({
     }
 
     return {
-      style,
-      source,
+      computedHeight,
       computedWidth,
-      computedHeight
+      source,
+      style
     };
   }
 });

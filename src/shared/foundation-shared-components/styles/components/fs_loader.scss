@@ -1,0 +1,12 @@
+.fs-loader {
+    min-height: var(--fs-loader-height);
+    height: var(--fs-loader-height);
+    min-width: var(--fs-loader-width);
+    width: var(--fs-loader-width);
+
+    & > .v-skeleton-loader__image {
+        border-radius: var(--fs-loader-border-radius) !important;
+        height: 100%;
+        width: 100%;
+    }
+}

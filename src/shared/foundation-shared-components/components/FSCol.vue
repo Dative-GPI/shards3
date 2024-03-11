@@ -17,12 +17,12 @@ export default defineComponent({
   name: "FSCol",
   props: {
     width: {
-      type: String as PropType<"hug" | "fill" | string>,
+      type: [String, Number] as PropType<"hug" | "fill" | string | number>,
       required: false,
       default: "fill"
     },
     height: {
-      type: String as PropType<"hug" | "fill" | string>,
+      type: [String, Number] as PropType<"hug" | "fill" | string | number>,
       required: false,
       default: "hug"
     },

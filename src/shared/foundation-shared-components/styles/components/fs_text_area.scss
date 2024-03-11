@@ -1,11 +1,6 @@
 .fs-text-area:not(.fs-text-area-auto-grow) {
-    padding: 0px !important;
-    min-width: 240px;
-    width: 100%;
-
     & > .v-input__control > .v-field {
         border: 1px solid var(--fs-text-area-border-color) !important;
-        border-radius: 4px !important;
         padding: 0 !important;
 
         &--error {
@@ -16,19 +11,14 @@
             border-color: var(--fs-text-area-active-border-color) !important;
         }
 
-        & > .v-field__outline {
-            display: none;
-        }
-
         & > .v-field__field > .v-field__input {
             @extend .text-body;
-
+            
             @extend .fs-hide-y-scrollbar;
 
             mask-image: none !important;
             -webkit-mask-image: none !important;
 
-            padding-inline: 0 !important;
             margin: 2px 2px 2px 0 !important;
             cursor: var(--fs-text-area-cursor) !important;
             min-height: var(--fs-text-area-min-height);
@@ -47,13 +37,8 @@
 }
 
 .fs-text-area-auto-grow {
-    padding: 0px !important;
-    min-width: 240px;
-    width: 100%;
-
     & > .v-input__control > .v-field {
         border: 1px solid var(--fs-text-area-border-color) !important;
-        border-radius: 4px !important;
         padding: 0 !important;
 
         &--error {
@@ -62,10 +47,6 @@
 
         &:not(.v-field--error):focus-within {
             border-color: var(--fs-text-area-active-border-color) !important;
-        }
-
-        & > .v-field__outline {
-            display: none;
         }
 
         & > .v-field__field > .v-field__input {

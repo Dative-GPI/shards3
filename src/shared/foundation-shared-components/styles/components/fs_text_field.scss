@@ -1,50 +1,18 @@
-.fs-text-field {
-    padding: 0px !important;
-    min-width: 240px;
-    width: 100%;
+.fs-text-field  > .v-input__control > .v-field {
+    border: 1px solid var(--fs-text-field-border-color) !important;
+    cursor: var(--fs-text-field-cursor) !important;
 
-    & > .v-input__control > .v-field {
-        border: 1px solid var(--fs-text-field-border-color) !important;
-        cursor: var(--fs-text-field-cursor) !important;
-        border-radius: 4px !important;
-        padding: 0 16px !important;
-        gap: 8px;
+    &--error {
+        border-color: var(--fs-text-field-error-border-color) !important;
+    }
 
-        &--error {
-            border-color: var(--fs-text-field-error-border-color) !important;
-        }
+    &:not(.v-field--error):focus-within {
+        border-color: var(--fs-text-field-active-border-color) !important;
+    }
 
-        &:not(.v-field--error):focus-within {
-            border-color: var(--fs-text-field-active-border-color) !important;
-        }
-
-        & > .v-field__outline {
-            display: none;
-        }
-
-        & > .v-field__field {
-            &  > input {
-                @extend .text-body;
-            
-                padding-inline: 0 !important;
-                color: var(--fs-text-field-color);
-                cursor: var(--fs-select-field-cursor) !important;
-            
-                @include web {
-                    min-height: 38px !important;
-                    height: 38px !important;
-                }
-            
-                @include mobile {
-                    min-height: 34px !important;
-                    height: 34px !important;
-                }
-            }
-        }
-
-        & > .v-field__clearable {
-            margin-inline: 0px;
-        }
+    & > .v-field__field > .v-field__input {
+        color: var(--fs-text-field-color);
+        cursor: var(--fs-select-field-cursor) !important;
     }
 }
 

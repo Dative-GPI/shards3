@@ -1,12 +1,5 @@
 .fs-load-image {
     border-radius: var(--fs-image-border-radius);
-    max-height: 100%;
-    height: 100%;
-
-    & > .v-skeleton-loader__image {
-        max-height: 100%;
-        height: 100%;
-    }
 }
 
 .fs-image {
