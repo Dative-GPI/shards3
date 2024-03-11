@@ -105,3 +105,147 @@ export const Variations: Story = {
     </div>`
   })
 }
+
+import FSButtonCancel from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancel.vue";
+import FSButtonCancelLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancelLabel.vue";
+import FSButtonCancelMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancelMini.vue";
+import FSButtonCancelIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancelIcon.vue";
+import FSButtonDuplicate from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonDuplicate.vue";
+import FSButtonDuplicateLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonDuplicateLabel.vue";
+import FSButtonDuplicateMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonDuplicateMini.vue";
+import FSButtonDuplicateIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonDuplicateIcon.vue";
+import FSButtonEdit from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonEdit.vue";
+import FSButtonEditLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonEditLabel.vue";
+import FSButtonEditMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonEditMini.vue";
+import FSButtonEditIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonEditIcon.vue";
+import FSButtonNext from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonNext.vue";
+import FSButtonNextLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonNextLabel.vue";
+import FSButtonNextMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonNextMini.vue";
+import FSButtonNextIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonNextIcon.vue";
+import FSButtonPrevious from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPrevious.vue";
+import FSButtonPreviousLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPreviousLabel.vue";
+import FSButtonPreviousMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPreviousMini.vue";
+import FSButtonPreviousIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPreviousIcon.vue";
+import FSButtonRedo from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRedo.vue";
+import FSButtonRedoLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRedoLabel.vue";
+import FSButtonRedoMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRedoMini.vue";
+import FSButtonRedoIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRedoIcon.vue";
+import FSButtonRemove from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRemove.vue";
+import FSButtonRemoveLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRemoveLabel.vue";
+import FSButtonRemoveMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRemoveMini.vue";
+import FSButtonRemoveIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRemoveIcon.vue";
+import FSButtonSave from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSave.vue";
+import FSButtonSaveLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSaveLabel.vue";
+import FSButtonSaveMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSaveMini.vue";
+import FSButtonSaveIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSaveIcon.vue";
+import FSButtonSearch from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSearch.vue";
+import FSButtonSearchLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSearchLabel.vue";
+import FSButtonSearchMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSearchMini.vue";
+import FSButtonSearchIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonSearchIcon.vue";
+import FSButtonUndo from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUndo.vue";
+import FSButtonUndoLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUndoLabel.vue";
+import FSButtonUndoMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUndoMini.vue";
+import FSButtonUndoIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUndoIcon.vue";
+import FSButtonUpdate from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUpdate.vue";
+import FSButtonUpdateLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUpdateLabel.vue";
+import FSButtonUpdateMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUpdateMini.vue";
+import FSButtonUpdateIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonUpdateIcon.vue";
+import FSButtonValidate from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonValidate.vue";
+import FSButtonValidateLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonValidateLabel.vue";
+import FSButtonValidateMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonValidateMini.vue";
+import FSButtonValidateIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonValidateIcon.vue";
+
+
+export const Predefined: Story = {
+  render: () => ({
+    components: {
+      FSButtonCancel, FSButtonCancelLabel, FSButtonCancelMini, FSButtonCancelIcon,
+      FSButtonDuplicate, FSButtonDuplicateLabel, FSButtonDuplicateMini, FSButtonDuplicateIcon,
+      FSButtonEdit, FSButtonEditLabel, FSButtonEditMini, FSButtonEditIcon,
+      FSButtonNext, FSButtonNextLabel, FSButtonNextMini, FSButtonNextIcon,
+      FSButtonPrevious, FSButtonPreviousLabel, FSButtonPreviousMini, FSButtonPreviousIcon,
+      FSButtonRedo, FSButtonRedoLabel, FSButtonRedoMini, FSButtonRedoIcon,
+      FSButtonRemove, FSButtonRemoveLabel, FSButtonRemoveMini, FSButtonRemoveIcon,
+      FSButtonSave, FSButtonSaveLabel, FSButtonSaveMini, FSButtonSaveIcon,
+      FSButtonSearch, FSButtonSearchLabel, FSButtonSearchMini, FSButtonSearchIcon,
+      FSButtonUndo, FSButtonUndoLabel, FSButtonUndoMini, FSButtonUndoIcon,
+      FSButtonUpdate, FSButtonUpdateLabel, FSButtonUpdateMini, FSButtonUpdateIcon,
+      FSButtonValidate, FSButtonValidateLabel, FSButtonValidateMini, FSButtonValidateIcon,
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px;">
+        <FSButtonCancel />
+        <FSButtonCancelLabel />
+        <FSButtonCancelMini />
+        <FSButtonCancelIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonDuplicate />
+        <FSButtonDuplicateLabel />
+        <FSButtonDuplicateMini />
+        <FSButtonDuplicateIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonEdit />
+        <FSButtonEditLabel />
+        <FSButtonEditMini />
+        <FSButtonEditIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonNext />
+        <FSButtonNextLabel />
+        <FSButtonNextMini />
+        <FSButtonNextIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonPrevious />
+        <FSButtonPreviousLabel />
+        <FSButtonPreviousMini />
+        <FSButtonPreviousIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonRedo />
+        <FSButtonRedoLabel />
+        <FSButtonRedoMini />
+        <FSButtonRedoIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonRemove />
+        <FSButtonRemoveLabel />
+        <FSButtonRemoveMini />
+        <FSButtonRemoveIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonSave />
+        <FSButtonSaveLabel />
+        <FSButtonSaveMini />
+        <FSButtonSaveIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonSearch />
+        <FSButtonSearchLabel />
+        <FSButtonSearchMini />
+        <FSButtonSearchIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonUndo />
+        <FSButtonUndoLabel />
+        <FSButtonUndoMini />
+        <FSButtonUndoIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonUpdate />
+        <FSButtonUpdateLabel />
+        <FSButtonUpdateMini />
+        <FSButtonUpdateIcon />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButtonValidate />
+        <FSButtonValidateLabel />
+        <FSButtonValidateMini />
+        <FSButtonValidateIcon />
+      </div>
+    </div>`
+  })
+}
