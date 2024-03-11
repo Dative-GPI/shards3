@@ -42,6 +42,7 @@ export const Variations: Story = {
         label="Search, primary button color, button label"
         buttonLabel="Search"
         variant="standard"
+        :hideHeader="false"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -53,6 +54,7 @@ export const Variations: Story = {
         buttonColor="warning"
         variant="standard"
         :required="true"
+        :hideHeader="false"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -61,6 +63,7 @@ export const Variations: Story = {
         description="Uneditable description"
         variant="standard"
         :editable="false"
+        :hideHeader="false"
         v-model="args.value4"
       />
     </FSCol>`

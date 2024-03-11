@@ -14,10 +14,10 @@
     >
       <slot name="prepend" v-bind="{ color: props.color, colors }">
         <FSIcon
-          v-if="props.prependIcon"
+          v-if="props.prependIcon || props.icon"
           size="l"
         >
-          {{ props.prependIcon }}
+          {{ props.prependIcon ?? props.icon }}
         </FSIcon>
       </slot>
       <slot v-bind="{ color: props.color, colors }">

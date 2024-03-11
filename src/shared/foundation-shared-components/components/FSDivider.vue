@@ -15,7 +15,7 @@
     />
     <FSText
       variant="light"
-      font="text-h4"
+      :font="$props.font"
     >
       <slot>
         {{ $props.label }}
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -52,6 +52,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: null
+    },
+    font: {
+      type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
+      required: false,
+      default: "text-body"
     }
   },
   setup(props) {
