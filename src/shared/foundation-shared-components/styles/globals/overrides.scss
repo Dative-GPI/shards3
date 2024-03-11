@@ -78,6 +78,13 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0; 
 }
 
+$nthOverlay: 25;
+@for $i from 1 through $nthOverlay {
+  .v-overlay-container > :nth-child(#{$i}) {
+    z-index: 2400 + $i !important;
+  }
+}
+
 .v-overlay__content {
     min-width: 0 !important;
 }

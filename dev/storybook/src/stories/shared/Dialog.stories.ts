@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import FSDateRangeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue";
+import FSDateField from "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue";
 import FSSubmitDialog from "@dative-gpi/foundation-shared-components/components/FSSubmitDialog.vue";
 import FSRemoveDialog from "@dative-gpi/foundation-shared-components/components/FSRemoveDialog.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
@@ -214,6 +216,59 @@ export const Remove: Story = {
         @click:rightButton="() => args.removing3 = true"
         v-model="args.value3"
       />
+    </div>`
+  })
+}
+
+export const ChainedDialogs: Story = {
+  args: {
+    args: {
+      value1: false,
+      date1: null,
+      date2: null
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSSubmitDialog, FSButton, FSDateField, FSDateRangeField, FSCard, FSCol, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; gap: 10px;">
+      <FSButton
+        color="primary"
+        label="Dialog - slots"
+        @click="() => args.value1 = true"
+      />
+      <FSSubmitDialog
+        v-model="args.value1"
+      >
+        <template #header>
+          <FSSpan font="text-h2"> Form </FSSpan>
+        </template>
+        <template #body>
+          <FSCol>
+            <FSDateField
+              label="Date"
+              v-model="args.date1"
+            />
+            <FSDateRangeField
+              label="Date range"
+              v-model="args.date2"
+            />
+          </FSCol>
+        </template>
+        <template #footer>
+          <FSRow align="center-right">
+            <FSButton
+              color="primary"
+              label="Submit"
+              @click="() => args.value1 = false"
+            />
+          </FSRow>
+        </template>
+      </FSSubmitDialog>
     </div>`
   })
 }

@@ -120,7 +120,7 @@ export default defineComponent({
     hideHeader: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     required: {
       type: Boolean,
