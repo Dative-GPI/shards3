@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { GROUPS } from '@/mocks';
 
 import FSDataTable from "@dative-gpi/foundation-core-components/components/lists/FSDataTable.vue";
+import FSGroupTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSGroupTileUI.vue";
 
 const meta = {
   title: 'Foundation/Core/Lists/DataTable',
@@ -26,7 +27,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSDataTable },
+    components: { FSDataTable, FSGroupTileUI },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -41,7 +42,17 @@ export const Variations: Story = {
           :showSelect="true"
           @click:row="args.clickRow"
           v-model="args.value"
-        />
+        >
+          <template #[\`item.tile\`]="{ item, toggleSelect }">
+            <FSGroupTileUI
+              :imageId="item.imageId"
+              :label="item.label"
+              :code="item.code"
+              :modelValue="args.value.includes(item.id)"
+              @update:modelValue="toggleSelect(item)"
+            />
+          </template>
+        </FSDataTable>
       </div>
     </div>`
   })

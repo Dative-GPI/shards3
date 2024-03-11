@@ -7,21 +7,25 @@
   >
     {{ $props.label }}
   </span>
-  <v-skeleton-loader
+  <FSLoader
     v-else
-    type="text"
-    :class="loadClasses"
+    :variant="$props.font"
   />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+
+import FSLoader from "./FSLoader.vue";
 
 export default defineComponent({
   name: "FSLabel",
+  components: {
+    FSLoader
+  },
   props: {
     label: {
       type: [String, null, undefined],
@@ -55,6 +59,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -74,30 +79,25 @@ export default defineComponent({
       return classNames;
     });
 
-    const loadClasses = computed((): string[] => {
-      return ["fs-load-label", props.font];
-    });
-
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (props.variant) {
         case "base": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
-          "--fs-label-color"     : colors.value.base
+          "--fs-label-color"    : colors.value.base
         };
         case "light": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
-          "--fs-label-color"     : colors.value.light
+          "--fs-label-color"    : colors.value.light
         };
         case "dark": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
-          "--fs-label-color"     : colors.value.dark
+          "--fs-label-color"    : colors.value.dark
         };
       }
     });
 
     return {
       classes,
-      loadClasses,
       style
     };
   }

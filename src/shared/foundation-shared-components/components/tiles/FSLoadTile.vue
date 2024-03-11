@@ -2,20 +2,41 @@
   <FSCard
     class="fs-load-tile"
     padding="11px"
+    :height="heights.card"
+    :width="widths.card"
     :style="style"
-    :width="width"
-    :height="height"
   >
     <FSRow
       align="center-center"
       height="fill"
+      width="fill"
       gap="24px"
     >
-      <v-skeleton-loader
-        type="article"
-      />
-      <v-skeleton-loader
-        type="image"
+      <FSCol
+        :height="heights.col"
+        :width="widths.col"
+        gap="24px"
+      >
+        <FSCol>
+          <FSLoader
+            variant="text-button"
+          />
+          <FSLoader
+            variant="text-overline"
+          />
+        </FSCol>
+        <FSCol>
+          <FSLoader
+            variant="text-overline"
+          />
+          <FSLoader
+            variant="text-overline"
+          />
+        </FSCol>
+      </FSCol>
+      <FSLoader
+        :height="heights.image"
+        :width="widths.image"
       />
     </FSRow>
     <FSContainer
@@ -39,6 +60,7 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSContainer from "../FSContainer.vue";
 import FSCheckbox from "../FSCheckbox.vue";
+import FSLoader from "../FSLoader.vue";
 import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -48,6 +70,7 @@ export default defineComponent({
   components: {
     FSContainer,
     FSCheckbox,
+    FSLoader,
     FSCard,
     FSCol,
     FSRow
@@ -71,12 +94,20 @@ export default defineComponent({
 
     const backgroundColors = getColors(ColorEnum.Background);
 
-    const width = computed(() => {
-      return isMobileSized.value ? 336 : 352;
+    const heights = computed(() => {
+      return {
+        image: isMobileSized.value ? "90px" : "100px",
+        card:  isMobileSized.value ? "156px" : "170px",
+        col:   isMobileSized.value ? "90px" : "100px"
+      }
     });
 
-    const height = computed(() => {
-      return isMobileSized.value ? 156 : 170;
+    const widths = computed(() => {
+      return {
+        image: isMobileSized.value ? "90px" : "100px",
+        card:  isMobileSized.value ? "336px" : "352px",
+        col:   isMobileSized.value ? "198px" : "204px"
+      }
     });
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
@@ -86,8 +117,8 @@ export default defineComponent({
     });
 
     return {
-      width,
-      height,
+      heights,
+      widths,
       style
     };
   }

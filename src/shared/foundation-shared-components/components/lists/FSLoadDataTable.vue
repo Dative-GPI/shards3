@@ -7,29 +7,29 @@
     <FSRow
       align="bottom-center"
     >
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="input"
       />
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="button"
       />
       <v-spacer />
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="button"
       />
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="button"
       />
     </FSRow>
     <FSRow>
-      <v-skeleton-loader
-        type="chip"
+      <FSLoader
+        variant="chip"
       />
-      <v-skeleton-loader
-        type="chip"
+      <FSLoader
+        variant="chip"
       />
-      <v-skeleton-loader
-        type="chip"
+      <FSLoader
+        variant="chip"
       />
     </FSRow>
     <v-skeleton-loader
@@ -38,17 +38,17 @@
     <FSRow
       align="bottom-right"
     >
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="input"
       />
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="button"
       />
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="button"
       />
-      <v-skeleton-loader
-        type="button"
+      <FSLoader
+        variant="button"
       />
     </FSRow>
   </FSCol>
@@ -60,12 +60,14 @@ import { computed, defineComponent } from "vue";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSLoader from "../FSLoader.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSLoadDataTable",
   components: {
+    FSLoader,
     FSCol,
     FSRow
   },
