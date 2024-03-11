@@ -87,11 +87,11 @@
 
 .fs-data-table-pagination {
     @include web {
-        max-width: 200px;
+        max-width: 280px;
     }
 
     @include mobile {
-        max-width: 194px;
+        max-width: 274px;
     }
 }
 

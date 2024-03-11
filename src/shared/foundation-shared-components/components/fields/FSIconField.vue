@@ -25,20 +25,21 @@
     </FSTextField>
     <FSToggleSet
       class="fs-icon-field-set"
+      ref="toggleSetRef"
       variant="slide"
-      :values="icons"
-      :required="$props.required"
-      :editable="$props.editable"
       :buttonColor="$props.buttonColor"
       :activeColor="$props.activeColor"
       :modelValue="$props.modelValue"
+      :required="$props.required"
+      :editable="$props.editable"
+      :values="icons"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
     />
   </FSCol>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 
 import { Icons, sortByLevenshteinDistance } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
@@ -129,6 +130,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
+    const toggleSetRef = ref(null);
     const innerValue = ref(null);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
@@ -170,7 +172,11 @@ export default defineComponent({
       }
       if (props.modelValue) {
         const selectedIcon = innerIcons.find((icon) => icon.id === props.modelValue);
-        if (!selectedIcon) {
+        if (selectedIcon) {
+          innerIcons.splice(innerIcons.indexOf(selectedIcon), 1);
+          innerIcons.unshift(selectedIcon);
+        }
+        else {
           innerIcons.unshift({
             id: props.modelValue,
             prependIcon: props.modelValue
@@ -182,7 +188,14 @@ export default defineComponent({
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
+    watch(() => props.modelValue, () => {
+      if (toggleSetRef.value) {
+        toggleSetRef.value.goToStart();
+      }
+    });
+
     return {
+      toggleSetRef,
       innerValue,
       validateOn,
       messages,

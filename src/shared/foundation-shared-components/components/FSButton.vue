@@ -1,10 +1,11 @@
 <template>
-  <v-btn
-    v-if="!['icon'].includes(props.variant)"
-    :ripple="false"
-    :style="style"
+  <FSClickable
+    v-if="!['icon'].includes($props.variant)"
+    :height="['40px', '36px']"
+    :editable="$props.editable"
+    :color="$props.color"
     :class="classes"
-    :disabled="!props.editable"
+    :style="style"
     v-bind="$attrs"
   >
     <FSRow
@@ -12,60 +13,60 @@
       width="hug"
       :wrap="false"
     >
-      <slot name="prepend" v-bind="{ color: props.color, colors }">
+      <slot name="prepend" v-bind="{ color: $props.color, colors }">
         <FSIcon
-          v-if="props.prependIcon || props.icon"
+          v-if="$props.prependIcon || $props.icon"
           size="l"
         >
-          {{ props.prependIcon ?? props.icon }}
+          {{ $props.prependIcon ?? $props.icon }}
         </FSIcon>
       </slot>
-      <slot v-bind="{ color: props.color, colors }">
+      <slot v-bind="{ color: $props.color, colors }">
         <FSSpan
-          v-if="props.label"
+          v-if="$props.label"
         >
-          {{ props.label }}
+          {{ $props.label }}
         </FSSpan>
       </slot>
-      <slot name="append" v-bind="{ color: props.color, colors }">
+      <slot name="append" v-bind="{ color: $props.color, colors }">
         <FSIcon
-          v-if="props.appendIcon"
+          v-if="$props.appendIcon"
           size="l"
         >
-          {{ props.appendIcon }}
+          {{ $props.appendIcon }}
         </FSIcon>
       </slot>
     </FSRow>
-  </v-btn>
+  </FSClickable>
   <FSRow
-    v-else-if="props.icon"
+    v-else-if="$props.icon"
     align="center-center"
     width="hug"
-    :style="style"
     :class="classes"
+    :style="style"
     v-bind="$attrs"
   >
     <FSIcon
       size="l"
     >
-      {{ props.icon }}
+      {{ $props.icon }}
     </FSIcon>
     <FSSpan
-      v-if="props.label"
+      v-if="$props.label"
       font="text-overline"
     >
-      {{ props.label }}
+      {{ $props.label }}
     </FSSpan>
   </FSRow>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, PropType } from "vue";
-import { useDefaults } from "vuetify";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSClickable from "./FSClickable.vue";
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
 import FSRow from "./FSRow.vue";
@@ -73,6 +74,7 @@ import FSRow from "./FSRow.vue";
 export default defineComponent({
   name: "FSButton",
   components: {
+    FSClickable,
     FSSpan,
     FSIcon,
     FSRow
@@ -120,17 +122,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    props = useDefaults(props, getCurrentInstance()?.type?.name ?? "FSButton");
-
-    const { getColors, getContrasts } = useColors();
+    const { getColors } = useColors();
     const { slots } = useSlots();
 
-    const textColors = computed(() => getContrasts(props.color));
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const isEmpty = computed(() => {
+    const hasNoText = computed(() => {
       return !slots.default && !props.label;
     });
 
@@ -139,10 +138,7 @@ export default defineComponent({
         switch (props.variant) {
           case "standard":
           case "full": return {
-            "--fs-button-padding"         : !isEmpty.value ? "0 16px" : "0",
-            "--fs-button-background-color": lights.base,
-            "--fs-button-border-color"    : lights.dark,
-            "--fs-button-color"           : lights.dark,
+            "--fs-button-padding": !hasNoText.value ? "0 16px" : "0 7px"
           };
           case "icon": return {
             "--fs-button-color": lights.dark,
@@ -151,28 +147,10 @@ export default defineComponent({
       }
       switch (props.variant) {
         case "standard": return {
-          "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color"       : colors.value.light,
-          "--fs-button-border-color"           : colors.value.base,
-          "--fs-button-color"                  : textColors.value.base,
-          "--fs-button-hover-background-color" : colors.value.base,
-          "--fs-button-hover-border-color"     : colors.value.base,
-          "--fs-button-hover-color"            : textColors.value.light,
-          "--fs-button-active-background-color": colors.value.dark,
-          "--fs-button-active-border-color"    : colors.value.dark,
-          "--fs-button-active-color"           : textColors.value.light,
+          "--fs-button-padding": !hasNoText.value ? "0 16px" : "0 7px"
         };
         case "full": return {
-          "--fs-button-padding"                : !isEmpty.value ? "0 16px" : "0",
-          "--fs-button-background-color"       : colors.value.base,
-          "--fs-button-border-color"           : colors.value.base,
-          "--fs-button-color"                  : textColors.value.light,
-          "--fs-button-hover-background-color" : colors.value.base,
-          "--fs-button-hover-border-color"     : colors.value.base,
-          "--fs-button-hover-color"            : textColors.value.light,
-          "--fs-button-active-background-color": colors.value.dark,
-          "--fs-button-active-border-color"    : colors.value.dark,
-          "--fs-button-active-color"           : textColors.value.light,
+          "--fs-button-padding": !hasNoText.value ? "0 16px" : "0 7px"
         };
         case "icon": switch (props.color) {
           case ColorEnum.Dark:
@@ -190,9 +168,6 @@ export default defineComponent({
 
     const classes = computed((): string[] => {
       const classNames: string[] = [];
-      if (!props.editable) {
-        classNames.push("fs-button--disabled");
-      }
       if (props.fullWidth) {
         classNames.push("fs-button-full-width");
       }
@@ -208,10 +183,9 @@ export default defineComponent({
     });
 
     return {
-      props,
+      classes,
       colors,
-      style,
-      classes
+      style
     };
   }
 });

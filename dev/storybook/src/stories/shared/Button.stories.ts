@@ -249,3 +249,65 @@ export const Predefined: Story = {
     </div>`
   })
 }
+
+import FSButtonFile from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonFile.vue";
+import FSButtonFileLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonFileLabel.vue";
+import FSButtonFileMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonFileMini.vue";
+import FSButtonFileIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonFileIcon.vue";
+
+export const File: Story = {
+  args: {
+    args: {
+      value1: null,
+      value2: null,
+      value3: null,
+      value4: null
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSButtonFile, FSButtonFileLabel, FSButtonFileMini, FSButtonFileIcon },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButtonFile
+          :readFile="false"
+          @update:modelValue="value => args.value1 = value"
+        />
+        <div class="text-body">
+          Uploaded file: {{ args.value1 ? args.value1.name : 'None' }}
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButtonFileLabel
+          :readFile="false"
+          @update:modelValue="value => args.value2 = value"
+        />
+        <div class="text-body">
+          Uploaded file: {{ args.value2 ? args.value2.name : 'None' }}
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButtonFileMini
+          :readFile="false"
+          @update:modelValue="value => args.value3 = value"
+        />
+        <div class="text-body">
+          Uploaded file: {{ args.value3 ? args.value3.name : 'None' }}
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButtonFileIcon
+          :readFile="false"
+          @update:modelValue="value => args.value4 = value"
+        />
+        <div class="text-body">
+          Uploaded file: {{ args.value4 ? args.value4.name : 'None' }}
+        </div>
+      </div>
+    </div>`
+  })
+}

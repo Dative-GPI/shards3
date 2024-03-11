@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
@@ -46,19 +46,19 @@ export default defineComponent({
   },
   props: {
     width: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
       required: false,
       default: null
     },
     height: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
       required: false,
       default: null
     },
     gap: {
       type: [String, Number],
       required: false,
-      default: 8
+      default: "8px"
     }
   },
   setup(props) {

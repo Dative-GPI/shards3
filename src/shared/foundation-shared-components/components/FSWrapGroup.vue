@@ -1,6 +1,7 @@
 <template>
   <v-slide-group
     class="fs-wrap-group"
+    ref="wrapGroupRef"
     :style="style"
     v-bind="$attrs"
   >
@@ -14,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -40,6 +41,8 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
+    const wrapGroupRef = ref(null);
+
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
       "--fs-group-padding"    : sizeToVar(props.padding),
       "--fs-group-gap"        : sizeToVar(props.gap),
@@ -47,9 +50,26 @@ export default defineComponent({
       "--fs-group-hover-color": darks.dark
     }));
 
+    const goToStart = () => {
+      if (wrapGroupRef.value) {
+        wrapGroupRef.value.scrollOffset = 0;
+      }
+    };
+
+    const goToEnd = () => {
+      if (wrapGroupRef.value) {
+        const contentSize = wrapGroupRef.value.$el.children[1].children[0].clientWidth;
+        const containerSize = wrapGroupRef.value.$el.clientWidth;
+        wrapGroupRef.value.scrollOffset = (contentSize - containerSize);
+      }
+    };
+
     return {
+      wrapGroupRef,
       style,
-      getChildren
+      getChildren,
+      goToStart,
+      goToEnd
     };
   }
 });
