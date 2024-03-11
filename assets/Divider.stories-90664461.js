@@ -1,5 +1,0 @@
-import{F as p}from"./FSDivider-e0453c12.js";import"./vue.esm-bundler-d8049c85.js";import"./FSText-776f12dd.js";import"./useColors-5c9cff43.js";import"./_commonjsHelpers-725317a4.js";import"./index-a0e5e2a3.js";import"./theme-540b65c4.js";import"./useSlots-bdda8306.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./css-50f0aa1d.js";import"./FSCol-39bd052c.js";import"./FSRow-b5482a77.js";const W={title:"Foundation/Shared/Divider",component:p,tags:["autodocs"]},r={},t={args:{label:"With Text"}};var e,o,a;r.parameters={...r.parameters,docs:{...(e=r.parameters)==null?void 0:e.docs,source:{originalSource:"{}",...(a=(o=r.parameters)==null?void 0:o.docs)==null?void 0:a.source}}};var s,i,m;t.parameters={...t.parameters,docs:{...(s=t.parameters)==null?void 0:s.docs,source:{originalSource:`{
-  args: {
-    label: 'With Text'
-  }
-}`,...(m=(i=t.parameters)==null?void 0:i.docs)==null?void 0:m.source}}};const F=["Default","WithText"];export{r as Default,t as WithText,F as __namedExportsOrder,W as default};
