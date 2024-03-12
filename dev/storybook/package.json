@@ -13,6 +13,7 @@
   "dependencies": {
     "roboto-fontface": "*",
     "vue": "^3.2.0",
+    "vue-router": "^4.2.5",
     "vuetify": "^3.5.6",
     "webfontloader": "^1.0.0"
   },

@@ -1,16 +1,19 @@
 <template>
   <FSClickable
     v-if="!['icon'].includes($props.variant)"
-    :height="['40px', '36px']"
     :editable="$props.editable"
+    :height="['40px', '36px']"
+    :variant="$props.variant"
     :color="$props.color"
+    :padding="padding"
     :class="classes"
     :style="style"
+    :width="width"
     v-bind="$attrs"
   >
     <FSRow
       align="center-center"
-      width="hug"
+      width="fill"
       :wrap="false"
     >
       <slot name="prepend" v-bind="{ color: $props.color, colors }">
@@ -129,29 +132,15 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const hasNoText = computed(() => {
-      return !slots.default && !props.label;
-    });
-
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
         switch (props.variant) {
-          case "standard":
-          case "full": return {
-            "--fs-button-padding": !hasNoText.value ? "0 16px" : "0 7px"
-          };
           case "icon": return {
             "--fs-button-color": lights.dark,
           };
         }
       }
       switch (props.variant) {
-        case "standard": return {
-          "--fs-button-padding": !hasNoText.value ? "0 16px" : "0 7px"
-        };
-        case "full": return {
-          "--fs-button-padding": !hasNoText.value ? "0 16px" : "0 7px"
-        };
         case "icon": switch (props.color) {
           case ColorEnum.Dark:
           case ColorEnum.Light: return {
@@ -182,10 +171,27 @@ export default defineComponent({
       return classNames;
     });
 
+    const padding = computed((): string | number => {
+      switch (props.variant) {
+        case "standard":
+        case "full":     return (!slots.default && !props.label) ? "0 7px" : "0 16px";
+        default:         return "0px";
+      }
+    });
+
+    const width = computed((): string | number => {
+      if (props.fullWidth) {
+        return "100%";
+      }
+      return "fit-content";
+    });
+
     return {
       classes,
+      padding,
       colors,
-      style
+      style,
+      width
     };
   }
 });

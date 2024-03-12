@@ -1,5 +1,6 @@
 <template>
   <FSCard
+    v-if="!href"
     :border="$props.border"
     :class="classes"
     :style="style"
@@ -10,10 +11,26 @@
       <slot :name="name" v-bind="slotData" />
     </template>
   </FSCard>
+  <a
+    v-else
+    :href="href"
+  >
+    <FSCard
+      :border="$props.border"
+      :class="classes"
+      :style="style"
+      v-bind="$attrs"
+    >
+      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </FSCard>
+  </a>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
+import { RouteLocation, useRouter } from "vue-router";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -27,6 +44,11 @@ export default defineComponent({
     FSCard
   },
   props: {
+    to: {
+      type: [String, Object] as PropType<string | RouteLocation>,
+      required: false,
+      default: null
+    },
     border: {
       type: Boolean,
       required: false,
@@ -56,6 +78,7 @@ export default defineComponent({
   emits: ["click"],
   setup(props, { emit }) {
     const { getColors, getContrasts } = useColors();
+    const router = useRouter();
 
     const textColors = computed(() => getContrasts(props.color));
     const colors = computed(() => getColors(props.color));
@@ -68,7 +91,7 @@ export default defineComponent({
           "--fs-clickable-border-radius"   : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color": lights.base,
           "--fs-clickable-border-color"    : lights.dark,
-          "--fs-clickable-color"           : lights.dark,
+          "--fs-clickable-color"           : lights.dark
         };
       }
       switch (props.variant) {
@@ -83,7 +106,7 @@ export default defineComponent({
           "--fs-clickable-hover-color"            : textColors.value.light,
           "--fs-clickable-active-background-color": colors.value.dark,
           "--fs-clickable-active-border-color"    : colors.value.dark,
-          "--fs-clickable-active-color"           : textColors.value.light,
+          "--fs-clickable-active-color"           : textColors.value.light
         };
         case "full": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
@@ -96,7 +119,7 @@ export default defineComponent({
           "--fs-clickable-hover-color"            : textColors.value.light,
           "--fs-clickable-active-background-color": colors.value.dark,
           "--fs-clickable-active-border-color"    : colors.value.dark,
-          "--fs-clickable-active-color"           : textColors.value.light,
+          "--fs-clickable-active-color"           : textColors.value.light
         };
       }
     });
@@ -109,6 +132,18 @@ export default defineComponent({
       return classNames;
     });
 
+    const href = computed((): string | null => {
+      if (!props.to) {
+        return null;
+      }
+      if (typeof props.to === "string") {
+        return props.to;
+      }
+      else {
+        return router.resolve(props.to).href;
+      }
+    });
+
     const onClick = () => {
       if (props.editable) {
         emit("click");
@@ -118,6 +153,7 @@ export default defineComponent({
     return {
       classes,
       style,
+      href,
       onClick
     };
   }

@@ -24,3 +24,8 @@
         color: var(--fs-clickable-active-color) !important;
     }
 }
+
+a:has(.fs-clickable) {
+    text-decoration: none;
+    padding: 0 !important;
+}

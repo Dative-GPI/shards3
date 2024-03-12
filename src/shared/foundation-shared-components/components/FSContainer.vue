@@ -12,6 +12,7 @@ import { computed, defineComponent } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 export default defineComponent({
   name: "FSContainer",
@@ -40,7 +41,7 @@ export default defineComponent({
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-container-padding"         : typeof(props.padding) === "string" ? props.padding : `${props.padding}px`,
+        "--fs-container-padding"         : sizeToVar(props.padding),
         "--fs-container-background-color": backgrounds.base,
         "--fs-container-border-color"    : lights.dark
       };
