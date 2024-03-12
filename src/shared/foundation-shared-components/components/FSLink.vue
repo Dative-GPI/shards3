@@ -1,8 +1,8 @@
 <template>
   <a
-    :href="$props.to"
     :class="classes"
     :style="style"
+    :href="href"
     v-bind="$attrs"
   >
     <slot />
@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
+import { RouteLocation, useRouter } from "vue-router";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -19,7 +20,7 @@ export default defineComponent({
   name: "FSLink",
   props: {
     to: {
-        type: String,
+        type: [String, Object] as PropType<string | RouteLocation>,
         required: false,
         default: "_blank"
     },
@@ -52,6 +53,7 @@ export default defineComponent({
   setup(props) {
     const { getColors } = useColors();
     const { slots } = useSlots();
+    const router = useRouter();
 
     const colors = computed(() => getColors(props.color));
 
@@ -86,9 +88,19 @@ export default defineComponent({
       }
     });
 
+    const href = computed((): string => {
+      if (typeof props.to === "string") {
+        return props.to;
+      }
+      else {
+        return router.resolve(props.to).href;
+      }
+    });
+
     return {
       classes,
-      style
+      style,
+      href
     };
   }
 });

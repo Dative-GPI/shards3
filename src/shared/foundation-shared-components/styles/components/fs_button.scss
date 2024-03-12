@@ -1,11 +1,3 @@
-.fs-button {
-    padding: var(--fs-button-padding) !important;
-
-    &.fs-button-full-width {
-        width: 100%;
-    }
-}
-
 .fs-button-icon {
     transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
     color: var(--fs-button-color) !important;

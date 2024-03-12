@@ -27,8 +27,11 @@ export const Variations: Story = {
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 30px;">
-        <FSLink to="https://google.com">
-          Hello there
+        <FSLink :to="{ name: 'Home', params: { deviceId: '1' }, query: { search: 'Device' } }">
+          Using RouteLocation from vue-router
+        </FSLink>
+        <FSLink to="https://www.google.fr">
+          Using Google URL
         </FSLink>
       </div>
     `,

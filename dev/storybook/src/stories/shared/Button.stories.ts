@@ -311,3 +311,46 @@ export const File: Story = {
     </div>`
   })
 }
+
+export const FullWidth: Story = {
+  render: () => ({
+    components: { FSButton },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButton label="Full width button" :fullWidth="true" />
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButton label="Full width button, but actually half-width" :fullWidth="true" />
+        <FSButton label="Full width button, but actually half-width" :fullWidth="true" />
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButton label="Many" :fullWidth="true" />
+        <FSButton label="full" :fullWidth="true" />
+        <FSButton label="width" :fullWidth="true" />
+        <FSButton label="buttons" :fullWidth="true" />
+        <FSButton label="on" :fullWidth="true" />
+        <FSButton label="the" :fullWidth="true" />
+        <FSButton label="same" :fullWidth="true" />
+        <FSButton label="row" :fullWidth="true" />
+      </div>
+    </div>`
+  })
+}
+
+export const Links: Story = {
+  render: () => ({
+    components: { FSButton },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <FSButton
+        label="Using RouteLocation from vue-router"
+        :to="{ name: 'Home', params: { deviceId: '1' }, query: { search: 'Device' } }"
+      />
+      <FSButton
+        to="https://www.google.fr"
+        label="Using Google URL"
+      />
+    </div>`
+  })
+}

@@ -38,6 +38,7 @@
             gap="4px"
           >
             <FSConnectivity
+              v-if="$props.deviceConnectivity"
               :deviceConnectivity="$props.deviceConnectivity"
             />
             <FSWorstAlert
@@ -129,7 +130,7 @@ export default defineComponent({
     deviceAlerts: {
       type: Array as PropType<FSDeviceAlert[]>,
       required: false,
-      default: null
+      default: () => []
     },
     modelStatuses: {
       type: Array as PropType<FSModelStatus[]>,

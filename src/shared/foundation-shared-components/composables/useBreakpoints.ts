@@ -1,19 +1,13 @@
 import { computed, onMounted, onUnmounted, ref } from "vue";
 
+let initialized = false;
+
 export const useBreakpoints = () => {
     const windowWidth = ref(window.innerWidth);
 
     const onSizeChange = (): void => {
         windowWidth.value = window.innerWidth;
     };
-
-    onMounted(() => {
-        window.addEventListener("resize", onSizeChange);
-    });
-
-    onUnmounted(() => {
-        window.removeEventListener("resize", onSizeChange);
-    });
 
     const isTouchScreenEnabled = computed((): boolean => {
         return navigator.maxTouchPoints > 0;
@@ -26,6 +20,11 @@ export const useBreakpoints = () => {
     const isExtraSmall = computed((): boolean => {
         return windowWidth.value < 600;
     });
+
+    if (!initialized) {
+        window.addEventListener("resize", onSizeChange);
+        initialized = true;
+    }
 
     return {
         isTouchScreenEnabled,
