@@ -11,9 +11,9 @@
     <template #placeholder>
       <FSLoader
         class="fs-load-image"
+        height="100%"
+        width="100%"
         :borderRadius="$props.borderRadius"
-        :height="computedHeight"
-        :width="computedWidth"
       />
     </template>
   </v-img>

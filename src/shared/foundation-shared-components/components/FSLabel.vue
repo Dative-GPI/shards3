@@ -18,7 +18,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSLoader from "./FSLoader.vue";
@@ -61,7 +61,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
     const { slots } = useSlots();
 

@@ -23,7 +23,6 @@
             <template #prepend-inner>
               <slot name="prepend-inner">
                 <FSIcon
-                  size="xl"
                   :color="innerColor"
                 >
                   mdi-circle
@@ -51,12 +50,12 @@
             <template #prepend-inner>
               <slot name="prepend-inner">
                 <FSIcon
-                  icon="mdi-circle"
-                  size="xl"
                   :color="ColorEnum.Dark"
                   :editable="$props.editable"
                   :style="{ opacity: getPercentageFromHex(innerOpacity) }"
-                />
+                >
+                  mdi-circle
+                </FSIcon>
               </slot>
             </template>
             <template #append> 

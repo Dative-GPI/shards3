@@ -4,7 +4,9 @@
     :style="style"
     v-bind="$attrs"
   >
-    <slot />
+    <slot>
+      {{ $props.label }}
+    </slot>
   </span>
 </template>
 
@@ -16,6 +18,11 @@ import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 export default defineComponent({
   name: "FSSpan",
   props: {
+    label: {
+      type: [String, null, undefined],
+      required: false,
+      default: null
+    },
     font: {
       type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline" | "text-underline">,
       required: false,
