@@ -140,7 +140,7 @@ export default defineComponent({
 
     const anchorClasses = computed((): string[] => {
       const classNames: string[] = [];
-      if (!props.fullWidth) {
+      if (props.fullWidth) {
         classNames.push("fs-clickable-anchor-full-width");
       }
       return classNames;

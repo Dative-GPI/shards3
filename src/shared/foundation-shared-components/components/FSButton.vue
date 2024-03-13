@@ -7,7 +7,6 @@
     :variant="$props.variant"
     :color="$props.color"
     :padding="padding"
-    :class="classes"
     :style="style"
     :width="width"
     v-bind="$attrs"
@@ -46,7 +45,7 @@
     v-else-if="$props.icon"
     align="center-center"
     width="hug"
-    :class="classes"
+    :class="iconClasses"
     :style="style"
     v-bind="$attrs"
   >
@@ -156,18 +155,10 @@ export default defineComponent({
       }
     });
 
-    const classes = computed((): string[] => {
-      const classNames: string[] = [];
-      if (props.fullWidth) {
-        classNames.push("fs-button-full-width");
-      }
-      switch (props.variant) {
-        case "icon":
-          classNames.push("fs-button-icon");
-          break;
-        default:
-          classNames.push("fs-button");
-          break;
+    const iconClasses = computed((): string[] => {
+      const classNames = ["fs-button-icon"];
+      if (!props.editable) {
+        classNames.push("fs-button-disabled");
       }
       return classNames;
     });
@@ -188,7 +179,7 @@ export default defineComponent({
     });
 
     return {
-      classes,
+      iconClasses,
       padding,
       colors,
       style,

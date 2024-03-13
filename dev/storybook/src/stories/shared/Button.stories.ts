@@ -321,10 +321,6 @@ export const FullWidth: Story = {
         <FSButton label="Full width button" :fullWidth="true" />
       </div>
       <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Full width button, but actually half-width" :fullWidth="true" />
-        <FSButton label="Full width button, but actually half-width" :fullWidth="true" />
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
         <FSButton label="Many" :fullWidth="true" />
         <FSButton label="full" :fullWidth="true" />
         <FSButton label="width" :fullWidth="true" />
@@ -333,6 +329,15 @@ export const FullWidth: Story = {
         <FSButton label="the" :fullWidth="true" />
         <FSButton label="same" :fullWidth="true" />
         <FSButton label="row" :fullWidth="true" />
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButton label="Full width link" to="https://www.google.com" :fullWidth="true" />
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <FSButton label="Several" to="https://www.google.com" :fullWidth="true" />
+        <FSButton label="full" to="https://www.google.com" :fullWidth="true" />
+        <FSButton label="width" to="https://www.google.com" :fullWidth="true" />
+        <FSButton label="links" to="https://www.google.com" :fullWidth="true" />
       </div>
     </div>`
   })
