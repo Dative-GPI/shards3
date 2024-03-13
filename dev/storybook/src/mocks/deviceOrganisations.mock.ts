@@ -50,6 +50,20 @@ const DEVICEALERTS: DeviceOrganisationAlertDTO[] = [{
     label: "Critical error",
     status: 3,
     criticity: 3
+}, {
+    id: "3",
+    sourceTimestamp: OFFLINE_DEVICE.toISOString(),
+    enqueuedTimestamp: OFFLINE_ENQUEUED.toISOString(),
+    label: "Warning",
+    status: 3,
+    criticity: 2
+}, {
+    id: "3",
+    sourceTimestamp: OFFLINE_DEVICE.toISOString(),
+    enqueuedTimestamp: OFFLINE_ENQUEUED.toISOString(),
+    label: "Information",
+    status: 3,
+    criticity: 1
 }];
 
 const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
@@ -242,7 +256,7 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     modelStatuses: MODELSTATUSES.slice(),
     connectivity: DEVICECONNECTIVITIES[2],
     worstAlert: DEVICEALERTS[0],
-    alerts: [],
+    alerts: DEVICEALERTS,
     articleCode: ARTICLES[0].code,
     familyId: ARTICLES[0].familyId,
     familyLabel: ARTICLES[0].familyLabel,

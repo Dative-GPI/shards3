@@ -1,6 +1,6 @@
 <template>
   <FSCarousel
-    :height="height"
+    :height="['26px', '20px']"
   >
     <template #prev="{ props }">
       <FSButton
@@ -39,10 +39,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 
 import { FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
-import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCarousel from "../FSCarousel.vue";
@@ -69,13 +68,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { isMobileSized } = useBreakpoints();
-
     const tab = ref(0);
-
-    const height = computed((): number => {
-      return isMobileSized.value ? 20 : 26;
-    });
 
     const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup[] => {
       const deviceStatus = props.deviceStatuses
@@ -96,7 +89,6 @@ export default defineComponent({
 
     return {
       ColorEnum,
-      height,
       tab,
       deviceStatus
     };
