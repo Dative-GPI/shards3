@@ -1,6 +1,5 @@
 <template>
   <v-menu
-    v-if="$props.deviceAlert"
     :closeOnContentClick="false"
     v-model="menu"
   >
@@ -19,71 +18,29 @@
         </FSColorIcon>
       </FSBadge>
     </template>
-    <FSCard
-      :elevation="true"
-      :border="false"
-    >
-      <FSCol
-        align="center-center"
-        padding="6px 24px"
-      >
-        <FSCol
-          align="center-center"
-          gap="12px"
-        >
-          <FSChip
-            :color="criticityColor"
-            :prependIcon="statusIcon"
-            :label="$props.deviceAlert.label"
-          />
-          <FSRow
-            width="hug"
-          >
-            <FSText>
-              {{ statusLabel }}
-            </FSText>
-          </FSRow>
-        </FSCol>
-        <FSRow
-          v-if="deviceTimestamp"
-          width="hug"
-        >
-          <FSSpan
-            font="text-overline"
-          >
-            {{ deviceTimestamp }}
-          </FSSpan>
-        </FSRow>
-      </FSCol>
-    </FSCard>
+    <FSWorstAlertCard
+      :deviceAlert="deviceAlert"
+    />
   </v-menu>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
-import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSWorstAlertCard from "./FSWorstAlertCard.vue";
 import FSColorIcon from "../FSColorIcon.vue";
 import FSBadge from "../FSBadge.vue";
-import FSCard from "../FSCard.vue";
-import FSChip from "../FSChip.vue";
-import FSText from "../FSText.vue";
-import FSSpan from "../FSSpan.vue";
 
 export default defineComponent({
   name: "FSWorstAlert",
   components: {
+    FSWorstAlertCard,
     FSColorIcon,
-    FSBadge,
-    FSCard,
-    FSChip,
-    FSText,
-    FSSpan
+    FSBadge
   },
   props: {
     deviceAlert: {
@@ -97,9 +54,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat } = useTimeZone();
-    const { $tr } = useTranslationsProvider();
-
     const menu = ref(false);
 
     const criticityColor = computed(() => {
@@ -123,19 +77,6 @@ export default defineComponent({
       }
     });
 
-    const statusLabel = computed(() => {
-      switch (props.deviceAlert?.status) {
-        case AlertStatus.Pending:     return $tr("ui.alert-status.pending", "Pending");
-        case AlertStatus.Untriggered: return $tr("ui.alert-status.untriggered", "Untriggered");
-        case AlertStatus.Unresolved:  return $tr("ui.alert-status.unresolved", "Unresolved");
-        case AlertStatus.Resolved:    return $tr("ui.alert-status.resolved", "Resolved");
-        case AlertStatus.Expired:     return $tr("ui.alert-status.expired", "Expired");
-        case AlertStatus.Triggered:   return $tr("ui.alert-status.triggered", "Triggered");
-        case AlertStatus.Abandoned:   return $tr("ui.alert-status.abandoned", "Abandoned");
-        default:                      return "";
-      }
-    });
-
     const badgeLabel = computed((): string | null => {
       if (props.deviceAlerts < 1) {
         return null;
@@ -146,17 +87,8 @@ export default defineComponent({
       return (props.deviceAlerts + 1).toString();
     });
 
-    const deviceTimestamp = computed((): string => {
-      if (props.deviceAlert.sourceTimestamp) {
-        return epochToLongTimeFormat(props.deviceAlert.sourceTimestamp);
-      }
-      return "";
-    });
-
     return {
-      deviceTimestamp,
       criticityColor,
-      statusLabel,
       statusIcon,
       badgeLabel,
       menu
