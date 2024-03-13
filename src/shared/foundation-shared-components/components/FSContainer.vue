@@ -20,7 +20,7 @@ export default defineComponent({
     padding: {
       type: [String, Number],
       required: false,
-      default: 8
+      default: "8px"
     },
     border: {
       type: Boolean,

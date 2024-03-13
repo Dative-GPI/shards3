@@ -1,15 +1,12 @@
 <template>
-  <FSRow
-    class="fs-color"
-    :width="$props.width"
-    :height="$props.height"
-    :align="$props.align"
-    :wrap="$props.wrap"
-    :gap="$props.gap"
+  <FSCard
+    :border="$props.border"
+    :class="classes"
     :style="style"
+    v-bind="$attrs"
   >
     <slot v-bind="{ color: $props.color, colors }" />
-  </FSRow>
+  </FSCard>
 </template>
 
 <script lang="ts">
@@ -18,38 +15,18 @@ import { computed, defineComponent, PropType, ref, Ref } from "vue";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
-import FSRow from "./FSRow.vue";
+import FSCard from "./FSCard.vue";
 
 export default defineComponent({
   name: "FSColor",
   components: {
-    FSRow
+    FSCard
   },
   props: {
-    width: {
-      type: String as PropType<"hug" | "fill" | string>,
-      required: false,
-      default: "hug"
-    },
-    height: {
-      type: String as PropType<"hug" | "fill" | string>,
-      required: false,
-      default: "hug"
-    },
-    align: {
-      type: String as PropType<"top-left" | "top-center" | "top-right" | "center-left" | "center-center" | "center-right" | "bottom-left" | "bottom-center" | "bottom-right">,
-      required: false,
-      default: "center-left"
-    },
-    wrap: {
+    border: {
       type: Boolean,
       required: false,
       default: true
-    },
-    gap: {
-      type: [String, Number],
-      required: false,
-      default: "8px"
     },
     color: {
       type: String as PropType<ColorBase>,
@@ -64,13 +41,23 @@ export default defineComponent({
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
       "--fs-color-background-color": colors.value.light,
+      "--fs-color-border-color"    : colors.value.base,
       "--fs-color-color"           : colors.value.base,
       "--fs-color-light"           : colors.value.light,
       "--fs-color-base"            : colors.value.base,
       "--fs-color-dark"            : colors.value.dark
     });
 
+    const classes = computed((): string[] => {
+      const classNames = ["fs-color"];
+      if (props.border) {
+        classNames.push("fs-color-border");
+      }
+      return classNames;
+    });
+
     return {
+      classes,
       colors,
       style
     };

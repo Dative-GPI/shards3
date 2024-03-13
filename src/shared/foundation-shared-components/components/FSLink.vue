@@ -5,7 +5,9 @@
     :href="href"
     v-bind="$attrs"
   >
-    <slot />
+    <slot>
+      {{ $props.label }}
+    </slot>
   </a>
 </template>
 
@@ -19,10 +21,15 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 export default defineComponent({
   name: "FSLink",
   props: {
+    label: {
+      type: [String, null, undefined],
+      required: false,
+      default: null
+    },
     to: {
-        type: [String, Object] as PropType<string | RouteLocation>,
-        required: false,
-        default: "_blank"
+      type: [String, Object] as PropType<string | RouteLocation>,
+      required: false,
+      default: "_blank"
     },
     font: {
       type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline" | "text-underline">,

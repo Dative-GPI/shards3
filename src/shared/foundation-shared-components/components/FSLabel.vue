@@ -5,7 +5,9 @@
     :style="style"
     v-bind="$attrs"
   >
-    {{ $props.label }}
+    <slot>
+      {{ $props.label }}
+    </slot>
   </span>
   <FSLoader
     v-else

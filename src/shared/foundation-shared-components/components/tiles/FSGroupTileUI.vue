@@ -40,16 +40,20 @@
               align="center-left"
             >
               <FSColor
-                align="center-center"
                 padding="0 8px"
                 height="24px"
                 :color="ColorEnum.Primary"
+                :border="false"
               >
-                <FSText
-                  font="text-overline"
+                <FSRow
+                  align="center-center"
                 >
-                  {{ groupsLabel }}
-                </FSText>
+                  <FSText
+                    font="text-overline"
+                  >
+                    {{ groupsLabel }}
+                  </FSText>
+                </FSRow>
               </FSColor>
               <FSSpan
                 font="text-overline"
@@ -61,16 +65,20 @@
               align="center-left"
             >
               <FSColor
-                align="center-center"
                 padding="0 8px"
                 height="24px"
                 :color="ColorEnum.Success"
+                :border="false"
               >
-                <FSText
-                  font="text-overline"
+                <FSRow
+                  align="center-center"
                 >
-                  {{ deviceOrganisationsLabel }}
-                </FSText>
+                  <FSText
+                    font="text-overline"
+                  >
+                    {{ deviceOrganisationsLabel }}
+                  </FSText>
+                </FSRow>
               </FSColor>
               <FSSpan
                 font="text-overline"

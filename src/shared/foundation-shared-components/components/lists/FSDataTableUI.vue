@@ -49,7 +49,7 @@
         />
       </template>
       <FSHiddenButton
-        v-if="hiddenHeaders.length > 0"
+        v-if="innerMode === 'table' && hiddenHeaders.length > 0"
         :headers="hiddenHeaders"
         :color="$props.color"
         @update:show="(value) => updateHeader(value, 'hidden', false)"
@@ -359,7 +359,7 @@
         </template>
       </v-data-iterator>
     </template>
-    <template v-else-if="innerMode === 'iterator'">
+    <template v-else>
       <v-data-iterator
         class="fs-data-table-iterator"
         :items="innerItems"
