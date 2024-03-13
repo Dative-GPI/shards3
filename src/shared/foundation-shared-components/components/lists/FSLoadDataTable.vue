@@ -36,10 +36,15 @@
       type="table-row-divider@10"
     />
     <FSRow
-      align="bottom-right"
+      align="center-right"
     >
       <FSLoader
-        variant="input"
+        height="16px"
+        width="100px"
+      />
+      <FSLoader
+        width="120px"
+        :height="['40px', '36px']"
       />
       <FSLoader
         variant="button"

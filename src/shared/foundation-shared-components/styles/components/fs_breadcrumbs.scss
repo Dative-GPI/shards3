@@ -3,7 +3,7 @@
     user-select: none;
     color: var(--fs-breadcrumbs-color);
 
-    &--disabled {
+    &-disabled {
         color: var(--fs-breadcrumbs-disabled-color) !important;
     }
 
@@ -33,7 +33,7 @@
         color: var(--fs-breadcrumbs-disabled-color) !important;
     }
 
-    &:last-child > .fs-breadcrumbs-label--disabled {
+    &:last-child > .fs-breadcrumbs-label-disabled {
         @extend .text-button;
 
         color: var(--fs-breadcrumbs-active-color) !important;
