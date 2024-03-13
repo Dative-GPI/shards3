@@ -40,20 +40,6 @@ export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
     permissions: PermissionInfosDTO[];
 }
 
-export interface CreateOrganisationDTO {
-    organisationTypeId: string;
-    legalInformationId: string;
-    administratorTimeZoneId: string;
-    administratorFirstName: string;
-    admninistratorLastName: string;
-    administratorEmail: string;
-    administratorPhoneNumber: string;
-    acceptGeneralConditions: boolean;
-    acceptPrivacyPolicy: boolean;
-    label: string;
-    description: string;
-}
-
 export interface UpdateOrganisationDTO {
     imageId?: string;
     image?: string;

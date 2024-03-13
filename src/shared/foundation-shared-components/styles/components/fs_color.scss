@@ -1,5 +1,6 @@
 .fs-color {
-    background-color: var(--fs-color-background-color);
+    display: flex;
+    background-color: var(--fs-color-background-color) !important;
+    border-color: var(--fs-color-border-color) !important;
     color: var(--fs-color-color);
-    border-radius: 4px;
 }
