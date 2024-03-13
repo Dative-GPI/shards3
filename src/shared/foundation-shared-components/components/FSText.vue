@@ -4,7 +4,9 @@
     :style="style"
     v-bind="$attrs"
   >
-    <slot />
+    <slot>
+      {{ $props.label }}
+    </slot>
   </span>
 </template>
 
@@ -17,6 +19,11 @@ import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/m
 export default defineComponent({
   name: "FSText",
   props: {
+    label: {
+      type: [String, null, undefined],
+      required: false,
+      default: null
+    },
     font: {
       type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
       required: false,

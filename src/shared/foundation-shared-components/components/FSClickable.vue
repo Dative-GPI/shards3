@@ -13,6 +13,7 @@
   </FSCard>
   <a
     v-else
+    :class="anchorClasses"
     :href="href"
   >
     <FSCard
@@ -68,6 +69,11 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    fullWidth: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     editable: {
       type: Boolean,
@@ -132,6 +138,14 @@ export default defineComponent({
       return classNames;
     });
 
+    const anchorClasses = computed((): string[] => {
+      const classNames: string[] = [];
+      if (!props.fullWidth) {
+        classNames.push("fs-clickable-anchor-full-width");
+      }
+      return classNames;
+    });
+
     const href = computed((): string | null => {
       if (!props.to) {
         return null;
@@ -151,6 +165,7 @@ export default defineComponent({
     };
 
     return {
+      anchorClasses,
       classes,
       style,
       href,

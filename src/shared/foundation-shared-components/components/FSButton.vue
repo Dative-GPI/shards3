@@ -1,6 +1,7 @@
 <template>
   <FSClickable
     v-if="!['icon'].includes($props.variant)"
+    :fullWidth="$props.fullWidth"
     :editable="$props.editable"
     :height="['40px', '36px']"
     :variant="$props.variant"
