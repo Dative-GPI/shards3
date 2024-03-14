@@ -14,6 +14,7 @@ export const useBreakpoints = () => {
     });
 
     const isMobileSized = computed((): boolean => {
+        console.log("windowWidth.value", windowWidth.value)
         return windowWidth.value < 1264;
     });
 

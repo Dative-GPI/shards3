@@ -73,6 +73,7 @@ export const Variations: Story = {
         :items="args.items"
         propsKey="id"
         :propsKeys="['label', 'icon', 'description']"
+        :showIndex="true"
       >
         <template #icon="{ element }">
           <FSIcon
@@ -88,6 +89,23 @@ export const Variations: Story = {
         propsKey="id"
         :propsKeys="['label', 'description']"
         :selectable="true"
+      />
+      _______________________________
+      <FSOrderedList
+        :items="args.items"
+        propsKey="id"
+        :propsKeys="['label', 'description']"
+        :draggable="false"
+      />
+      _______________________________
+      <FSOrderedList
+        :items="args.items"
+        propsKey="id"
+        :propsKeys="['label', 'description']"
+        :selectable="true"
+        :draggable="false"
+        color="red"
+        :showIndex="true"
       />
     </div>`
   })
