@@ -1,7 +1,10 @@
 <template>
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
+      <FSRow
+        height="16px"
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
           class="fs-text-field-label"

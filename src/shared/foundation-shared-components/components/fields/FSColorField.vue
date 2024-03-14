@@ -157,12 +157,13 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:opacity"],
   setup(props, { emit }) {
+    const { getColors } = useColors();
     const { slots } = useSlots();
 
     delete slots.description;
 
-    const lights = useColors().getColors(ColorEnum.Light);
-    const darks = useColors().getColors(ColorEnum.Dark);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const menu = ref(false);
     const innerColor = ref(props.modelValue.toString().substring(0, 7));

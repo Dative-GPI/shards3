@@ -2,7 +2,7 @@
   <v-form
     ref="formRef"
     :validateOn="validateOn"
-    @submit="submitted = true"
+    @submit.stop="onSubmit"
     @update:modelValue="$emit('update:modelValue', $event)"
   >
     <slot />
@@ -39,13 +39,20 @@ export default defineComponent({
       }
     });
 
-    provide("validateOn", validateOn.value);
-    provide("submitted", submitted.value);
+    const onSubmit = (event: SubmitEvent) => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      submitted.value = true;
+    }; 
+
+    provide("validateOn", validateOn);
+    provide("submitted", submitted);
 
     return {
-      formRef,
       validateOn,
-      submitted
+      submitted,
+      formRef,
+      onSubmit
     };
   }
 });

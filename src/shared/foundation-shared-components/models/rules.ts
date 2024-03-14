@@ -8,6 +8,7 @@ const { $tr } = useTranslationsProvider();
 
 export const TextRules = {
     required: (message: string) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
+    copy: (original: string, message: string) => (value: string) => value === original || (message ?? $tr("ui.rules.copy", "Different from original")),
     min: (min: number, message: string) => (value: string) => value.length >= min || (message ?? $tr("ui.rules.text-min", "Must be at least {0} characters", min.toString())),
     max: (max: number, message: string) => (value: string) => value.length <= max || (message ?? $tr("ui.rules.text-max", "Must be at most {0} characters", max.toString())),
     email: (message: string) => (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || (message ?? $tr("ui.rules.text-email", "Must be a valid email")),
