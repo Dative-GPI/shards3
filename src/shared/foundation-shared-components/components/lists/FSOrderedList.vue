@@ -142,7 +142,6 @@ export default {
 
     const onUpdate = (_event) => {
       emit('update:modelValue', items.value);
-      console.log('onUpdate', items.value);
     };
 
     return {
