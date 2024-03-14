@@ -1,19 +1,23 @@
 <template>
-  <FSCard
+  <button
     v-if="!href"
-    :border="$props.border"
-    :class="classes"
-    :style="style"
+    :class="wrapperClasses"
     @click.stop="onClick"
-    v-bind="$attrs"
   >
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
-    </template>
-  </FSCard>
+    <FSCard
+      :border="$props.border"
+      :class="classes"
+      :style="style"
+      v-bind="$attrs"
+    >
+      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </FSCard>
+  </button>
   <a
     v-else
-    :class="anchorClasses"
+    :class="wrapperClasses"
     :href="href"
   >
     <FSCard
@@ -138,10 +142,10 @@ export default defineComponent({
       return classNames;
     });
 
-    const anchorClasses = computed((): string[] => {
+    const wrapperClasses = computed((): string[] => {
       const classNames: string[] = [];
       if (props.fullWidth) {
-        classNames.push("fs-clickable-anchor-full-width");
+        classNames.push("fs-clickable-wrapper-full-width");
       }
       return classNames;
     });
@@ -165,7 +169,7 @@ export default defineComponent({
     };
 
     return {
-      anchorClasses,
+      wrapperClasses,
       classes,
       style,
       href,

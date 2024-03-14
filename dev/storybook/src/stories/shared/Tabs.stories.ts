@@ -4,6 +4,7 @@ import FSWindow from "@dative-gpi/foundation-shared-components/components/FSWind
 import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSTabs from "@dative-gpi/foundation-shared-components/components/FSTabs.vue";
 import FSTab from "@dative-gpi/foundation-shared-components/components/FSTab.vue";
+import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
   title: 'Foundation/Shared/Tabs',
@@ -27,7 +28,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSTabs, FSTab, FSText, FSWindow },
+    components: { FSTabs, FSTab, FSText, FSWindow, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -42,10 +43,17 @@ export const Variations: Story = {
           <FSTab label="Tab 4" :value="3" />
           <FSTab label="Tab 5" :value="4" />
         </FSTabs>
-        <FSWindow v-model="args.tab1">
-          <FSText v-for="arg in 5">
-            Tab {{ arg }}
-          </FSText>
+        <FSWindow :modelValue="args.tab1">
+          <FSCol v-for="arg in 5" :key="arg">
+            <FSCol>
+              <FSText font="text-h1">
+                Tab {{ arg }}
+              </FSText>
+              <FSText font="text-body">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+              </FSText>
+            </FSCol>
+          </FSCol>
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Warning color, labels & tags </FSText>

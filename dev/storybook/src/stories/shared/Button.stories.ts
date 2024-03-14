@@ -359,3 +359,46 @@ export const Links: Story = {
     </div>`
   })
 }
+
+import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
+import FSForm from  "@dative-gpi/foundation-shared-components/components/FSForm.vue";
+import FSText from  "@dative-gpi/foundation-shared-components/components/FSText.vue";
+
+import { TextRules } from "@dative-gpi/foundation-shared-components/models";
+
+export const Submit: Story = {
+  args: {
+    args: {
+      valid: false,
+      text: "",
+      rules: TextRules
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSButton, FSForm, FSTextField, FSText },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <FSForm v-model="args.valid" variant="submit">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <FSText>
+            Form validity: {{ args.valid }}
+          </FSText>
+          <FSTextField
+            :hideHeader="false"
+            :rules="[args.rules.required(), args.rules.min(10)]"
+            v-model="args.text"
+          />
+          <FSButton
+            label="Submit form"
+            type="submit"
+            @click="args.click"
+          />
+        </div>
+      </FSForm>
+    </div>`
+  })
+}
