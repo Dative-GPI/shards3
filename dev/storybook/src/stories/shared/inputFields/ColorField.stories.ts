@@ -55,6 +55,14 @@ export const Variations: Story = {
         v-model="args.value3"
         v-model:opacityValue="args.opacity3"
       />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSColorField
+        label="Uneditable color, with description"
+        description="Uneditable description"
+        :allowOpacity="false"
+        v-model="args.value3"
+        v-model:opacityValue="args.opacity3"
+      />
     </FSCol>`
   })
 }

@@ -38,6 +38,7 @@
             </template>
           </FSTextField>
           <FSTextField
+            v-if="$props.allowOpacity"
             class="fs-color-field-opacity"
             :label="$tr('ui.color-field.opacity', 'Opacity')"
             :hideHeader="$props.hideHeader"
@@ -90,7 +91,7 @@
           class="fs-color-field-picker"
           mode="hexa"
           :elevation="0"
-          :modes="['hexa', 'rgba']"
+          :modes="allowOpacity ? ['hexa', 'rgba'] : ['hex', 'rgb']"
           :modelValue="fullColor"
           @update:modelValue="onSubmit"
         />
@@ -150,6 +151,11 @@ export default defineComponent({
       default: false
     },
     editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    allowOpacity: {
       type: Boolean,
       required: false,
       default: true
