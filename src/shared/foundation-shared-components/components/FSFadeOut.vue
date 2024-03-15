@@ -24,6 +24,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
       required: true
     },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+      required: false,
+      default: "100%"
+    },
     padding: {
       type: [String, Number],
       required: false,
@@ -46,6 +51,7 @@ export default defineComponent({
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
         "--fs-fade-out-height"            : sizeToVar(props.height),
+        "--fs-fade-out-width"             : sizeToVar(props.width),
         "--fs-fade-out-padding"           : sizeToVar(props.padding),
         "--fs-fade-out-mask-color"        : backgrounds.base,
         "--fs-fade-out-top-mask-height"   : topMaskHeight.value,
