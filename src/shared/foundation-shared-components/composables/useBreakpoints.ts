@@ -1,11 +1,13 @@
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, ref } from "vue";
 
 let initialized = false;
 
 export const useBreakpoints = () => {
+    const windowHeight = ref(window.innerHeight);
     const windowWidth = ref(window.innerWidth);
 
     const onSizeChange = (): void => {
+        windowHeight.value = window.innerHeight;
         windowWidth.value = window.innerWidth;
     };
 
@@ -29,6 +31,8 @@ export const useBreakpoints = () => {
     return {
         isTouchScreenEnabled,
         isMobileSized,
-        isExtraSmall
+        isExtraSmall,
+        windowHeight,
+        windowWidth
     };
 }
