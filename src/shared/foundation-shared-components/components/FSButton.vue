@@ -6,9 +6,11 @@
     :height="['40px', '36px']"
     :variant="$props.variant"
     :color="$props.color"
+    :load="$props.load"
     :padding="padding"
     :style="style"
     :width="width"
+    @click="$emit('click')"
     v-bind="$attrs"
   >
     <FSRow
@@ -42,24 +44,37 @@
     </FSRow>
   </FSClickable>
   <FSRow
-    v-else-if="$props.icon"
+    v-else
     align="center-center"
     width="hug"
     :class="iconClasses"
     :style="style"
+    @click.stop="onClick"
     v-bind="$attrs"
   >
-    <FSIcon
-      size="l"
-    >
-      {{ $props.icon }}
-    </FSIcon>
-    <FSSpan
-      v-if="$props.label"
-      font="text-overline"
-    >
-      {{ $props.label }}
-    </FSSpan>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-button-load"
+        width="2"
+        size="20"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
+    <template v-else>
+      <FSIcon
+        v-if="$props.icon"
+        size="l"
+      >
+        {{ $props.icon }}
+      </FSIcon>
+      <FSSpan
+        v-if="$props.label"
+        font="text-overline"
+      >
+        {{ $props.label }}
+      </FSSpan>
+    </template>
   </FSRow>
 </template>
 
@@ -118,13 +133,19 @@ export default defineComponent({
       required: false,
       default: false
     },
+    load: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editable: {
       type: Boolean,
       required: false,
       default: true
     }
   },
-  setup(props) {
+  emits: ["click"],
+  setup(props, { emit }) {
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -163,6 +184,16 @@ export default defineComponent({
       return classNames;
     });
 
+    const loadColor = computed((): string => {
+      switch (props.color) {
+        case ColorEnum.Primary:
+        case ColorEnum.Success:
+        case ColorEnum.Warning:
+        case ColorEnum.Error  : return ["standard"].includes(props.variant) ? colors.value.dark : colors.value.light;
+        default               : return ["standard"].includes(props.variant) ? darks.dark : darks.light;
+      }
+    });
+
     const padding = computed((): string | number => {
       switch (props.variant) {
         case "standard":
@@ -178,12 +209,20 @@ export default defineComponent({
       return "fit-content";
     });
 
+    const onClick = () => {
+      if (props.editable && !props.load) {
+        emit("click");
+      }
+    };
+
     return {
       iconClasses,
+      loadColor,
       padding,
       colors,
       style,
-      width
+      width,
+      onClick
     };
   }
 });

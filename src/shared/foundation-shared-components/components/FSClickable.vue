@@ -15,6 +15,15 @@
         <slot :name="name" v-bind="slotData" />
       </template>
     </FSCard>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-clickable-load"
+        width="2"
+        size="24"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
   </button>
   <a
     v-else
@@ -31,6 +40,15 @@
         <slot :name="name" v-bind="slotData" />
       </template>
     </FSCard>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-clickable-load"
+        width="2"
+        size="24"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
   </a>
 </template>
 
@@ -85,6 +103,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    load: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -99,6 +122,7 @@ export default defineComponent({
     const textColors = computed(() => getContrasts(props.color));
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
@@ -157,7 +181,7 @@ export default defineComponent({
     });
 
     const href = computed((): string | null => {
-      if (!props.to) {
+      if (!props.to || !props.editable || props.load) {
         return null;
       }
       if (typeof props.to === "string") {
@@ -168,14 +192,25 @@ export default defineComponent({
       }
     });
 
+    const loadColor = computed((): string => {
+      switch (props.color) {
+        case ColorEnum.Primary:
+        case ColorEnum.Success:
+        case ColorEnum.Warning:
+        case ColorEnum.Error  : return ["standard"].includes(props.variant) ? colors.value.dark : colors.value.light;
+        default               : return ["standard"].includes(props.variant) ? darks.dark : darks.light;
+      }
+    });
+
     const onClick = () => {
-      if (props.editable) {
+      if (!props.to && props.editable && !props.load) {
         emit("click");
       }
     };
 
     return {
       wrapperClasses,
+      loadColor,
       classes,
       style,
       href,
