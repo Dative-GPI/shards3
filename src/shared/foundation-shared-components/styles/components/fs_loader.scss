@@ -1,4 +1,6 @@
 .fs-loader {
+    background-color: var(--fs-loader-background-color) !important;
+    padding: var(--fs-loader-padding);
     min-height: var(--fs-loader-height);
     height: var(--fs-loader-height);
     min-width: var(--fs-loader-width);
