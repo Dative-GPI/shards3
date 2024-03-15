@@ -148,12 +148,12 @@ export default defineComponent({
     padding: {
       type: [String, Number],
       required: false,
-      default: 0
+      default: "0"
     },
     gap: {
-      type: Number,
+      type: [String, Number],
       required: false,
-      default: 8
+      default: "8px"
     },
     multiple: {
       type: Boolean,

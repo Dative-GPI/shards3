@@ -1,38 +1,32 @@
 .fs-accordion-panel > .v-expansion-panel-title {
-    border-radius: var(--fs-accordion-panel-border-radius) !important;
-    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    min-height: 0 !important;
-    cursor: pointer;
-    padding: 12px;
-    
     background-color: var(--fs-accordion-panel-background-color) !important;
-    color: var(--fs-accordion-panel-color) !important;
+    padding: var(--fs-accordion-panel-padding-title);
+    min-height: 0 !important;
 
     &:hover,
     &--active {
-        background-color: var(--fs-accordion-panel-hover-background-color) !important;
-        color: var(--fs-accordion-panel-hover-color) !important;
-        min-height: 0 !important;
+        background-color: var(--fs-accordion-panel-background-color) !important;
 
         & .fs-accordion-panel-title {
             @extend .text-button 
         }
     }
+
+    & > .v-expansion-panel-title__overlay {
+        display: none !important;
+    }
 }
 
 .fs-accordion-panel > .v-expansion-panel-text {
-    border-radius: var(--fs-accordion-panel-border-radius) !important;
-    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 12px;
-    
     background-color: var(--fs-accordion-panel-background-color) !important;
-    color: var(--fs-accordion-panel-color) !important;
+    padding: 0px;
+    
 
     & > .v-expansion-panel-text__wrapper {
-        padding: 0;
+        padding: var(--fs-accordion-panel-padding-content);
     }
 }
 
 .v-expansion-panel:not(:first-child)::after {
-    border-top: var(--fs-accordion-panel-border-size) solid var(--fs-accordion-panel-border-color) !important;
+    border-top: var(--fs-accordion-panel-divider-size) solid var(--fs-accordion-panel-divider-color) !important;
 }

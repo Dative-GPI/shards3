@@ -5,6 +5,8 @@ import FSAccordion from "@dative-gpi/foundation-shared-components/components/FSA
 import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
+
 const meta = {
   title: 'Foundation/Shared/Accordion',
   component: FSAccordion,
@@ -19,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Variations: Story = {
   render: () => ({
-    components: { FSAccordion, FSAccordionPanel, FSText, FSIcon },
+    components: { FSAccordion, FSAccordionPanel, FSText, FSIcon, FSButton },
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <FSText> With slots </FSText>
@@ -53,6 +55,9 @@ export const Variations: Story = {
                   <FSText>
                     General kenobi
                   </FSText>
+                  <FSButton
+                    label="Click here to see more"
+                  />
                 </template>
             </FSAccordionPanel>
         </FSAccordion>
