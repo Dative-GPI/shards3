@@ -28,8 +28,41 @@
 a:has(.fs-clickable) {
     text-decoration: none;
     padding: 0 !important;
+    position: relative !important;
+    width: fit-content;
+}
+
+button:has(.fs-clickable) {
+    position: relative !important;
+    width: fit-content;
 }
 
 .fs-clickable-wrapper-full-width {
-    width: 100%;
+    width: 100% !important;
+}
+
+.fs-clickable-load {
+    cursor: default;
+    position: absolute !important;
+    width: 100% !important;
+    left: 0;
+    top: 0;
+
+    @include web {
+        height: 40px !important;
+        padding: 8px 0;
+    }
+
+    @include mobile {
+        height: 36px !important;
+        padding: 6px 0;
+    }
+
+    & > svg {
+        height: 24px !important;
+    }
+}
+
+*:has(~ .fs-clickable-load) > * {
+    opacity: 0;
 }
