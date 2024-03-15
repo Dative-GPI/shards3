@@ -394,7 +394,6 @@ export const Submit: Story = {
           />
           <FSButton
             label="Submit form"
-            type="submit"
             @click="args.click"
           />
         </div>

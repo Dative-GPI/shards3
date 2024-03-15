@@ -70,48 +70,45 @@ export default defineComponent({
       required: false,
       default: null
     },
-    borderRadius: {
+    paddingTitle: {
       type: [String, Number],
       required: false,
-      default: "4px"
+      default: "16px"
+    },
+    paddingContent: {
+      type: [String, Number],
+      required: false,
+      default: "16px"
     },
     divider: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     expandIcon: {
       type: String,
       required: false,
-      default: "mdi-chevron-down"
+      default: ""
     },
     collapseIcon: {
       type: String,
       required: false,
-      default: "mdi-chevron-up"
-    },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Primary
+      default: ""
     }
   },
   setup(props) {
     const { getColors } = useColors();
 
-    const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
-    const darks = getColors(ColorEnum.Dark);
+    const lights = getColors(ColorEnum.Light);
 
     const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-accordion-panel-border-radius"         : sizeToVar(props.borderRadius),
-        "--fs-accordion-panel-border-size"           : props.divider ? "1px" : "0",
-        "--fs-accordion-panel-border-color"          : darks.base,
-        "--fs-accordion-panel-background-color"      : backgrounds.base,
-        "--fs-accordion-panel-color"                 : darks.base,
-        "--fs-accordion-panel-hover-background-color": colors.value.light,
-        "--fs-accordion-panel-hover-color"           : colors.value.base,
+        "--fs-accordion-panel-padding-title"         : sizeToVar(props.paddingTitle),
+        "--fs-accordion-panel-padding-content"       : sizeToVar(props.paddingContent),
+        "--fs-accordion-panel-divider-size"          : props.divider ? "1px" : "0",
+        "--fs-accordion-panel-divider-color"         : lights.dark,
+        "--fs-accordion-panel-background-color"      : backgrounds.base
       };
     });
 

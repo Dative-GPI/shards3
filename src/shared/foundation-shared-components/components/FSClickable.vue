@@ -2,6 +2,7 @@
   <button
     v-if="!href"
     :class="wrapperClasses"
+    :type="$props.type"
     @click.stop="onClick"
   >
     <FSCard
@@ -69,10 +70,15 @@ export default defineComponent({
       required: false,
       default: "standard"
     },
+    type: {
+      type: String as PropType<"button" | "submit">,
+      required: false,
+      default: "submit"
+    },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorEnum.Primary
+      default: ColorEnum.Light
     },
     fullWidth: {
       type: Boolean,
