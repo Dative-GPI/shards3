@@ -1,5 +1,6 @@
 <template>
   <v-form
+    class="fs-form"
     ref="formRef"
     :validateOn="validateOn"
     @submit.stop="onSubmit"
