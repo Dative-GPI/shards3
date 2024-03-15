@@ -1,8 +1,9 @@
 .fs-fade-out {
     @extend .fs-hide-y-scrollbar;
     
+    max-height: var(--fs-fade-out-height);
     padding: var(--fs-fade-out-padding);
-    height: var(--fs-fade-out-height);
+    width: var(--fs-fade-out-width);
     flex-direction: column;
     position: relative;
     display: flex;
