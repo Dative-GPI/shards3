@@ -107,7 +107,6 @@
 .dropzone-include {
     filter:brightness(0.9);
 }
-
-.dropzone-after td::before{
-    border-top: 1px solid blue;
+.dropzone-include {
+    filter: invert(0.9);
 }

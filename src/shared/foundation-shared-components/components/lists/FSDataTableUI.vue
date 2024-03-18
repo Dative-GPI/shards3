@@ -76,8 +76,8 @@
         @update:sortBy="innerSortBy = $event ? $event[0] : null"
         @dragover.prevent
         @drop:row="onDrop"
-        @dragover="onDragOver"
-        @dragleave="onDragLeave"
+        @dragover="onDragOver($event, props)"
+        @dragleave:row="onDragLeave"
       >
         <template #no-data>
           <FSText font="text-overline">
@@ -115,6 +115,7 @@
             componentSelector="tr.v-data-table__tr"
             :item="props"
             :disabled="!props.sortDraggable && !props.includeDraggable"
+            @update:dragend="(event, dragged) => onDragEnd(event, dragged, props)"
           >
             <FSRow
               class="fs-data-table-draggable"
@@ -619,7 +620,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "click:row"],
+  emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "click:row"],
   setup(props, { emit }) {
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
@@ -1027,48 +1028,6 @@ export default defineComponent({
       computeFilters();
     });
 
-    const onDragOver = (event) => {
-      const dragged = document.querySelector('.dragging');
-
-      if (dragged != null) {
-        let target = event.target.closest('tr.v-data-table__tr');
-
-        if (target != null) {
-          if (props.includeDraggable) {
-            if (!props.sortDraggable) {
-              target.classList.add('dropzone-include');
-            } else {
-              //TODO sort and include draggable
-            }
-          } else if (props.sortDraggable) {
-            const rowHeight = target.clientHeight;
-            const y = event.clientY - target.getBoundingClientRect().top;
-            if (y > rowHeight / 2) {
-              target.classList.add('dropzone-after');
-              target.previousElementSibling?.classList.remove('dropzone-after');
-            } else {
-              const previousElement = target.previousElementSibling;
-              if (previousElement != null) {
-                previousElement.classList.add('dropzone-after');
-                target.classList.remove('dropzone-after');
-              }
-            }
-          }
-        }
-
-      }
-    };
-
-    const onDragLeave = (event) => {
-      const dragged = document.querySelector('.dragging');
-      if (dragged != null) {
-        let target = event.target.closest('tr.v-data-table__tr');
-        target?.classList.remove('dropzone-include');
-        target?.classList.remove('dropzone-after');
-        target?.previousElementSibling?.classList.remove('dropzone-after');
-      }
-    };
-
     const changeIndex = (oldIndex: number, newIndex: number) => {
       if (oldIndex === newIndex) return;
       const items = innerItems.value.slice();
@@ -1077,40 +1036,88 @@ export default defineComponent({
       return items;
     };
 
-    const onDrop = (event, row) => {
+     const resetRowIndex = (initialIndex, currentIndex, draggedElement, tbodyElement) => {
+      if (initialIndex > currentIndex) {
+        tbodyElement.children[initialIndex].insertAdjacentElement('afterend', draggedElement);
+      } else {
+        tbodyElement.children[initialIndex].insertAdjacentElement('beforebegin', draggedElement);
+      }
+    }
+
+    const onDragOver = (event) => {
       const dragged = document.querySelector('.dragging');
       if (dragged != null) {
         let target = event.target.closest('tr.v-data-table__tr');
-        const draggedItem = JSON.parse(event.dataTransfer.getData('text/plain'));
-
         if (target != null) {
           if (props.includeDraggable) {
             if (!props.sortDraggable) {
-              /*dragged.remove();
-              const filteredItems = innerItems.value.filter((item) => item[props.itemValue] !== draggedItem[props.itemValue]);
-              emit("update:modelValue", filteredItems);*/
+              target.classList.add('dropzone-include');
             } else {
-              //TODO sort and include draggable
+              const rowHeight = target.clientHeight;
+              const y = event.clientY - target.getBoundingClientRect().top;
+              if (y > rowHeight * (3/4)) {
+                target.insertAdjacentElement('afterend', dragged);
+                target.classList.remove('dropzone-include');
+              } else if( y < rowHeight * (1/4)) {
+                target.insertAdjacentElement('beforebegin', dragged);
+                target.classList.remove('dropzone-include');
+              }else {
+                console.log("I reset row position", dragged?.getAttribute('data-initial-index'));
+                target.classList.add('dropzone-include');
+                const tbodyElement = event.srcElement.closest('tbody');
+                resetRowIndex(dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged?.getAttribute('data-initial-index')), dragged, tbodyElement);
+              }
             }
-          } else {
+          } else if (props.sortDraggable) {
             const rowHeight = target.clientHeight;
             const y = event.clientY - target.getBoundingClientRect().top;
             if (y > rowHeight / 2) {
-              target.classList.remove('dropzone-after');
-              console.log(draggedItem.index, row.index + 1);
-              emit("update:modelValue", changeIndex(draggedItem.index, row.index + 1));
-              console.log(changeIndex(draggedItem.index, row.index + 1));
+              target.insertAdjacentElement('afterend', dragged);
             } else {
-              const previousElement = target.previousElementSibling;
-              if (previousElement != null) {
-                target.previousElementSibling?.classList.remove('dropzone-after');
-              }
-              emit("update:modelValue", changeIndex(draggedItem.index, row.index));
-              console.log(changeIndex(draggedItem.index, row.index));
+              target.insertAdjacentElement('beforebegin', dragged);
             }
           }
         }
 
+      }
+    };
+
+    const onDragLeave = (event, row) => {
+
+      event.target.closest('.dropzone-include')?.classList.remove('dropzone-include');
+    }
+
+    
+
+    const onDragEnd = (event, draggedElement, row) => {
+      if (draggedElement != null) {
+        if (props.sortDraggable) {
+          const tbodyElement = event.srcElement.closest('tbody');
+          const currentIndex = Array.from(tbodyElement.children).indexOf(draggedElement);
+
+          const newItems = changeIndex(row.index, currentIndex);
+          if (newItems !== null && newItems !== undefined) {
+            emit("update:modelValue", newItems);
+            console.log("update:modelValue", newItems);
+          }
+          resetRowIndex(row.index, currentIndex, draggedElement, tbodyElement);
+        }
+      };
+
+    }
+
+    const onDrop = (event, row) => {
+      const draggedElement = document.querySelector('.dragging');
+      if (draggedElement != null) {
+        let target = event.target.closest('tr.v-data-table__tr');
+        const draggedData = JSON.parse(event.dataTransfer.getData('text/plain'));
+        if (target != null) {
+          if (props.includeDraggable && draggedData.item[props.itemValue] != row.item[props.itemValue]) {
+            emit("update:include", { draggedItem: draggedData.item, targetItem: row.item })
+            console.log("update:include", { draggedItem: draggedData.item, targetItem: row.item });
+          }
+          target.closest('.dropzone-include')?.classList.remove('dropzone-include');
+        }
       }
     };
 
@@ -1151,7 +1158,8 @@ export default defineComponent({
       sortIcon,
       onDrop,
       onDragOver,
-      onDragLeave
+      onDragLeave,
+      onDragEnd
     };
   }
 })

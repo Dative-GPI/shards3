@@ -93,6 +93,17 @@ export const Variations: Story = {
           v-model="args.value1"
           :includeDraggable="true"
         />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSDataTableUI
+          :showSelect="true"
+          :items="args.items1"
+          :sneakyHeaders="['column1']"
+          @click:row="args.clickRow"
+          v-model:headers="args.headers1"
+          v-model="args.value1"
+          :includeDraggable="true"
+          :sortDraggable="true"
+        />
     </div>`
   })
 }

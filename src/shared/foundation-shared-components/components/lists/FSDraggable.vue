@@ -30,19 +30,26 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
+  emits: ['update:dragstart', 'update:dragend'],
+  setup(props, { emit }) {
     const onDragStart = (event) => {
-      const dragged = props.componentSelector==null ? event.target : event.target.closest(props.componentSelector);
+      const dragged = props.componentSelector == null ? event.target : event.target.closest(props.componentSelector);
+      dragged.dataset.initialIndex = props.item.index;
       event.dataTransfer.setDragImage(dragged, 25, 25);
+      event.dataTransfer.dropEffect = "move";
+      event.dataTransfer.effectAllowed = "move";
       dragged?.classList.add('dragging');
 
       //Add item to the drag event
       event.dataTransfer.setData('text/plain', JSON.stringify(props.item));
-    };    
+      emit('update:dragstart', event);
+    };
 
     const onDragEnd = (event) => {
-      const dragged = props.componentSelector==null ? event.target : event.target.closest(props.componentSelector);
+      const dragged = props.componentSelector == null ? event.target : event.target.closest(props.componentSelector);
       dragged?.classList.remove('dragging');
+      delete dragged.dataset.initialIndex;
+      emit('update:dragend', event, dragged);
     };
 
     return {
