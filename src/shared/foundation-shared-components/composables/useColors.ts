@@ -23,6 +23,10 @@ export const useColors = () => {
         return base.saturationv(10).value(100);
     };
 
+    const soften = (base: Color): Color => {
+        return base.value(Math.min(base.value() + 10, 90));
+    };
+
     const darken = (base: Color): Color => {
         return base.value(Math.max(base.value() - 15, 0));
     };
@@ -32,10 +36,12 @@ export const useColors = () => {
 
         const base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
         const light = lighten(base);
+        const soft = soften(base);
         const dark = darken(base);
 
         return {
             light: light.hex(),
+            soft: soft.hex(),
             base: base.hex(),
             dark: dark.hex()
         };
@@ -73,6 +79,7 @@ export const useColors = () => {
         }
         return {
             light: `linear-gradient(90deg, ${variations.map(v => v.light).join(", ")})`,
+            soft: `linear-gradient(90deg, ${variations.map(v => v.soft).join(", ")})`,
             base: `linear-gradient(90deg, ${variations.map(v => v.base).join(", ")})`,
             dark: `linear-gradient(90deg, ${variations.map(v => v.dark).join(", ")})`,
         };

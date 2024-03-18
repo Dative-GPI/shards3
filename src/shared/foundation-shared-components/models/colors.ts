@@ -10,6 +10,7 @@ export enum ColorEnum {
 
 export interface ColorVariations {
     light: string;
+    soft: string;
     base: string;
     dark: string;
 };
