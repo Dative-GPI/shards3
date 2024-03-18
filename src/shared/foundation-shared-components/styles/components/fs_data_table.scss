@@ -100,3 +100,14 @@
     height: 10px;
     width: 100%;
 }
+
+.dragging {
+    filter: brightness(0.9);
+}
+.dropzone-include {
+    filter:brightness(0.9);
+}
+
+.dropzone-after td::before{
+    border-top: 1px solid blue;
+}
