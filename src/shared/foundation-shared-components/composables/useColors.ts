@@ -24,7 +24,7 @@ export const useColors = () => {
     };
 
     const soften = (base: Color): Color => {
-        return base.value(Math.min(base.value() + 10, 90));
+        return base.value(Math.min(base.value() + 10, 100));
     };
 
     const darken = (base: Color): Color => {
