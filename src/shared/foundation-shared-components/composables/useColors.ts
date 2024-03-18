@@ -50,7 +50,7 @@ export const useColors = () => {
     const getContrasts = (color: ColorBase): ColorVariations => {
         const themed = (Object as any).values(ColorEnum).includes(color);
 
-        const base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
+        let base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
 
         if (isGrayScale(base)) {
             switch (color) {
@@ -60,15 +60,15 @@ export const useColors = () => {
                     return getColors(ColorEnum.Light);
                 default:
                     if (base.value() > 50) {
-                        base.value(Math.max(base.value() - 65, 0));
+                        base = base.value(Math.max(base.value() - 65, 0));
                     }
                     else {
-                        base.value(Math.min(base.value() + 65, 100));
+                        base = base.value(Math.min(base.value() + 65, 100));
                     }
                     break;
             }
         }
-        return getColors(color);
+        return getColors(base.hex());
     };
 
     const getGradients = (colors: ColorBase | ColorBase[]): ColorVariations => {
