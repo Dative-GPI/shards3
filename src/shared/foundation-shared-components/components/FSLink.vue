@@ -1,14 +1,14 @@
 <template>
-  <a
+  <router-link
     :class="classes"
     :style="style"
-    :href="href"
+    :to="href"
     v-bind="$attrs"
   >
     <slot>
       {{ $props.label }}
     </slot>
-  </a>
+  </router-link>
 </template>
 
 <script lang="ts">

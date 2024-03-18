@@ -25,10 +25,10 @@
       />
     </template>
   </button>
-  <a
+  <router-link
     v-else
     :class="wrapperClasses"
-    :href="href"
+    :to="href"
   >
     <FSCard
       :border="$props.border"
@@ -49,7 +49,7 @@
         :color="loadColor"
       />
     </template>
-  </a>
+  </router-link>
 </template>
 
 <script lang="ts">
