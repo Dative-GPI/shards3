@@ -75,9 +75,9 @@
         @click:row="onClickRow"
         @update:sortBy="innerSortBy = $event ? $event[0] : null"
         @dragover.prevent
-        @drop:row="onDrop"
-        @dragover="onDragOver($event, props)"
-        @dragleave:row="onDragLeave"
+        @drop:row="(event, row) => onDrop(event, row, 'tr.v-data-table__tr')"
+        @dragover="onDragOver($event, 'tr.v-data-table__tr',  'tbody')"
+        @dragleave="onDragLeave"
       >
         <template #no-data>
           <FSText font="text-overline">
@@ -112,10 +112,10 @@
         </template>
         <template #[`item.data-table-draggable`]="props">
           <FSDraggable
-            componentSelector="tr.v-data-table__tr"
+            elementSelector="tr.v-data-table__tr"
             :item="props"
-            :disabled="!props.sortDraggable && !props.includeDraggable"
-            @update:dragend="(event, dragged) => onDragEnd(event, dragged, props)"
+            :disabled="false"
+            @update:dragend="(event, dragged) => onDragEnd(event, dragged, props, 'tbody')"
           >
             <FSRow
               class="fs-data-table-draggable"
@@ -300,15 +300,24 @@
         :itemsPerPage="innerRowsPerPage"
       >
         <template #default="{ items }">
-          <FSCol width="fill">
+          <FSCol
+            width="fill"
+            class="fs-data-iterator-container"
+            >
             <template v-for="(item, index) in items">
-              <slot
-                name="item.iterator"
-                v-bind="{ item, index }"
+              <FSDraggable
+                elementSelector=".fs-draggable-item"
+                :item="item"
+                :disabled="!$props.sortDraggable && !$props.includeDraggable"
+                @dragover.prevent
+                @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
+                @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
+                @dragleave="onDragLeave"
+                @update:dragend="(event, dragged) => onDragEnd(event, dragged, item, '.fs-data-iterator-container')"
               >
-                <FSDraggable
-                  :item="item"
-                  :disabled="!$props.sortDraggable && !$props.includeDraggable"
+                <slot
+                  name="item.iterator"
+                  v-bind="{ item, index }"
                 >
                   <FSDataIteratorItem
                     v-if="item.type === 'item'"
@@ -347,8 +356,8 @@
                       />
                     </template>
                   </FSDataIteratorItem>
-                </FSDraggable>
-              </slot>
+                </slot>
+              </FSDraggable>
             </template>
           </FSCol>
         </template>
@@ -414,11 +423,20 @@
         :itemsPerPage="size"
       >
         <template #default="{ items }">
-          <FSRow width="hug">
+          <FSRow
+            width="hug"
+            class="fs-data-iterator-container"
+            >
             <template v-for="(item, index) in items.filter((item) => item.type === 'item')">
               <FSDraggable
+                elementSelector=".fs-draggable-item"
                 :item="item"
                 :disabled="!$props.sortDraggable && !$props.includeDraggable"
+                @dragover.prevent
+                @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
+                @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
+                @dragleave="onDragLeave"
+                @update:dragend="(event, dragged) => onDragEnd(event, dragged, item, '.fs-data-iterator-container')"
               >
                 <slot
                   name="item.tile"
@@ -620,7 +638,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "click:row"],
+  emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
@@ -1036,7 +1054,7 @@ export default defineComponent({
       return items;
     };
 
-     const resetRowIndex = (initialIndex, currentIndex, draggedElement, tbodyElement) => {
+    const resetRowIndex = (initialIndex, currentIndex, draggedElement, tbodyElement) => {
       if (initialIndex > currentIndex) {
         tbodyElement.children[initialIndex].insertAdjacentElement('afterend', draggedElement);
       } else {
@@ -1044,10 +1062,10 @@ export default defineComponent({
       }
     }
 
-    const onDragOver = (event) => {
+    const onDragOver = (event, elementSelector, elementContainerSelector) => {
       const dragged = document.querySelector('.dragging');
       if (dragged != null) {
-        let target = event.target.closest('tr.v-data-table__tr');
+        let target = event.target.closest(elementSelector);
         if (target != null) {
           if (props.includeDraggable) {
             if (!props.sortDraggable) {
@@ -1055,20 +1073,20 @@ export default defineComponent({
             } else {
               const rowHeight = target.clientHeight;
               const y = event.clientY - target.getBoundingClientRect().top;
-              if (y > rowHeight * (3/4)) {
+              if (y > rowHeight * (3 / 4)) {
                 target.insertAdjacentElement('afterend', dragged);
                 target.classList.remove('dropzone-include');
-              } else if( y < rowHeight * (1/4)) {
+              } else if (y < rowHeight * (1 / 4)) {
                 target.insertAdjacentElement('beforebegin', dragged);
                 target.classList.remove('dropzone-include');
-              }else {
-                console.log("I reset row position", dragged?.getAttribute('data-initial-index'));
+              } else {
                 target.classList.add('dropzone-include');
-                const tbodyElement = event.srcElement.closest('tbody');
-                resetRowIndex(dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged?.getAttribute('data-initial-index')), dragged, tbodyElement);
+                const tbodyElement = event.srcElement.closest(elementContainerSelector);
+                resetRowIndex(dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
               }
             }
           } else if (props.sortDraggable) {
+            console.log(target, dragged)
             const rowHeight = target.clientHeight;
             const y = event.clientY - target.getBoundingClientRect().top;
             if (y > rowHeight / 2) {
@@ -1082,39 +1100,41 @@ export default defineComponent({
       }
     };
 
-    const onDragLeave = (event, row) => {
-
+    const onDragLeave = (event) => {
       event.target.closest('.dropzone-include')?.classList.remove('dropzone-include');
     }
 
-    
 
-    const onDragEnd = (event, draggedElement, row) => {
+
+    const onDragEnd = (event, draggedElement, row, elementContainerSelector) => {
+      const initialIndex = draggedElement.getAttribute('data-initial-index');
       if (draggedElement != null) {
         if (props.sortDraggable) {
-          const tbodyElement = event.srcElement.closest('tbody');
+          const tbodyElement = event.srcElement.closest(elementContainerSelector);
           const currentIndex = Array.from(tbodyElement.children).indexOf(draggedElement);
 
-          const newItems = changeIndex(row.index, currentIndex);
+          const newItems = changeIndex(initialIndex, currentIndex);
           if (newItems !== null && newItems !== undefined) {
-            emit("update:modelValue", newItems);
-            console.log("update:modelValue", newItems);
+            emit("update:items", newItems);
+            console.log("update:items", newItems);
           }
-          resetRowIndex(row.index, currentIndex, draggedElement, tbodyElement);
+          resetRowIndex(initialIndex, currentIndex, draggedElement, tbodyElement);
         }
       };
 
     }
 
-    const onDrop = (event, row) => {
+    const onDrop = (event, row, elementSelector) => {
       const draggedElement = document.querySelector('.dragging');
       if (draggedElement != null) {
-        let target = event.target.closest('tr.v-data-table__tr');
+        let target = event.target.closest(elementSelector);
         const draggedData = JSON.parse(event.dataTransfer.getData('text/plain'));
+        const itemsData = draggedData.item ?? draggedData.raw;
+        const rowData = row.item ?? row.raw;
         if (target != null) {
-          if (props.includeDraggable && draggedData.item[props.itemValue] != row.item[props.itemValue]) {
-            emit("update:include", { draggedItem: draggedData.item, targetItem: row.item })
-            console.log("update:include", { draggedItem: draggedData.item, targetItem: row.item });
+          if (props.includeDraggable && itemsData[props.itemValue] != rowData[props.itemValue]) {
+            emit("update:include", { draggedItem: itemsData, targetItem: rowData })
+            console.log("update:include", { draggedItem: itemsData, targetItem: rowData });
           }
           target.closest('.dropzone-include')?.classList.remove('dropzone-include');
         }

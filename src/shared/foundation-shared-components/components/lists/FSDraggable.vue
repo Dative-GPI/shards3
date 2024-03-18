@@ -1,10 +1,10 @@
 <template>
   <div
-    draggable="true"
+    :draggable="!$props.disabled"
     @dragstart="onDragStart"
     @dragend="onDragEnd"
     @dragover.prevent
-    class="draggable-item"
+    class="fs-draggable-item"
     width="100%"
   >
     <slot />
@@ -17,7 +17,7 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'FSDraggable',
   props: {
-    componentSelector: {
+    elementSelector: {
       type: String,
       default: null,
     },
@@ -33,8 +33,8 @@ export default defineComponent({
   emits: ['update:dragstart', 'update:dragend'],
   setup(props, { emit }) {
     const onDragStart = (event) => {
-      const dragged = props.componentSelector == null ? event.target : event.target.closest(props.componentSelector);
-      dragged.dataset.initialIndex = props.item.index;
+      const dragged = event.target.closest(props.elementSelector);
+      dragged.dataset.initialIndex = props.item?.index ?? props.item?.value;
       event.dataTransfer.setDragImage(dragged, 25, 25);
       event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
@@ -46,9 +46,9 @@ export default defineComponent({
     };
 
     const onDragEnd = (event) => {
-      const dragged = props.componentSelector == null ? event.target : event.target.closest(props.componentSelector);
+      const dragged = event.target.closest(props.elementSelector);
       dragged?.classList.remove('dragging');
-      delete dragged.dataset.initialIndex;
+      //delete dragged?.dataset?.initialIndex;
       emit('update:dragend', event, dragged);
     };
 
