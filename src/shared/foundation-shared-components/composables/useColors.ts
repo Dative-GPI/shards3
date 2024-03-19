@@ -41,11 +41,69 @@ export const useColors = () => {
 
         return {
             light: light.hex(),
+            lightContrast: getContrast(light.hex()),
             soft: soft.hex(),
+            softContrast: getContrast(soft.hex()),
             base: base.hex(),
-            dark: dark.hex()
+            baseContrast: getContrast(base.hex()),
+            dark: dark.hex(),
+            darkContrast: getContrast(dark.hex())
         };
     };
+
+    const getContrast = (color: ColorBase): string => {
+        let base = new Color(color);
+
+        let result: Color = new Color(base);
+
+        if(result.isDark()){
+            if(result.lightness() == 0)
+            {
+                result = result.value(90);
+            }
+            else {
+                result = result.lighten(75 / result.lightness());
+            }
+        }
+        else{
+            result = result.darken(0.8);
+        }
+        // if (base.saturationv() > 75 || base.saturationv() < 25) {
+        //     result = base.saturationv(100 - base.saturationv());
+        // }
+        // else {
+        //     result = new Color(base);
+        // }
+
+        // bright colors
+        // if (base.value() >= 70) {
+        //     result = result.value(Math.max(0, base.value() - 75))
+        //     // powerfull colors
+        //     if (base.saturationv() > 70) {
+        //         result = result.saturationv(100 - base.saturationv());
+        //     }
+        //     // pastel colors
+        //     else if (base.saturationv() < 30) {
+        //         result = result.saturationv(100 - base.saturationv());
+        //     }
+        // }
+        // // dark colors
+        // else if (base.value() <= 30) {
+        //     // result = result.value(Math.min(100, base.value() + 75))
+        //     result = result.value(90)
+        // }
+        // // other colors
+        // else {
+        //     if (base.saturationv() > 40) {
+        //         result = result.value(100)
+        //     }
+        //     else {
+        //         result = result.value(0)
+        //     }
+        // }
+
+        return result.hex();
+    }
 
     const getContrasts = (color: ColorBase): ColorVariations => {
         const themed = (Object as any).values(ColorEnum).includes(color);
