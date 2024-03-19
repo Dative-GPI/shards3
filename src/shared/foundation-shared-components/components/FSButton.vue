@@ -46,7 +46,6 @@
   </FSClickable>
   <FSRow
     v-else
-    align="center-center"
     width="hug"
     :class="iconClasses"
     :style="style"
@@ -74,7 +73,6 @@
         </FSIcon>
         <FSSpan
           v-if="$props.label"
-          font="text-overline"
         >
           {{ $props.label }}
         </FSSpan>
@@ -89,7 +87,6 @@
       </FSIcon>
       <FSSpan
         v-if="$props.label"
-        font="text-overline"
       >
         {{ $props.label }}
       </FSSpan>
