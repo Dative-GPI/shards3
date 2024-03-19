@@ -8,9 +8,10 @@
     :color="$props.color"
     :load="$props.load"
     :padding="padding"
+    :to="$props.to"
     :style="style"
     :width="width"
-    @click="$emit('click')"
+    @click.stop="onClick"
     v-bind="$attrs"
   >
     <FSRow
@@ -61,6 +62,24 @@
         :color="loadColor"
       />
     </template>
+    <template v-else-if="$props.to">
+      <router-link
+        :to="$props.to"
+      >
+        <FSIcon
+          v-if="$props.icon"
+          size="l"
+        >
+          {{ $props.icon }}
+        </FSIcon>
+        <FSSpan
+          v-if="$props.label"
+          font="text-overline"
+        >
+          {{ $props.label }}
+        </FSSpan>
+      </router-link>
+    </template>
     <template v-else>
       <FSIcon
         v-if="$props.icon"
@@ -80,6 +99,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
+import { RouteLocation, useRouter } from "vue-router";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -98,6 +118,11 @@ export default defineComponent({
     FSRow
   },
   props: {
+    to: {
+      type: [String, Object] as PropType<string | RouteLocation>,
+      required: false,
+      default: null
+    },
     prependIcon: {
       type: String,
       required: false,
@@ -148,6 +173,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getColors } = useColors();
     const { slots } = useSlots();
+    const router = useRouter();
 
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
@@ -209,9 +235,21 @@ export default defineComponent({
       return "fit-content";
     });
 
-    const onClick = () => {
-      if (props.editable && !props.load) {
-        emit("click");
+    const href = computed((): string | null => {
+      if (!props.to || !props.editable || props.load) {
+        return null;
+      }
+      if (typeof props.to === "string") {
+        return props.to;
+      }
+      else {
+        return router.resolve(props.to).href;
+      }
+    });
+
+    const onClick = (event: MouseEvent) => {
+      if (!props.to && props.editable && !props.load) {
+        emit("click", event);
       }
     };
 
