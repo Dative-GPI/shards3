@@ -229,7 +229,7 @@ export const ChainedDialogs: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSSubmitDialog, FSButton, FSDateField, FSDateRangeField, FSCard, FSCol, FSRow },
+    components: { FSSubmitDialog, FSButton, FSDateField, FSDateRangeField, FSSpan, FSCard, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };

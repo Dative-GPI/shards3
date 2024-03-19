@@ -24,7 +24,7 @@ export default defineComponent({
       default: "m"
     },
     variant: {
-      type: String as PropType<"standard" | "fill">,
+      type: String as PropType<"standard" | "full">,
       required: false,
       default: "standard"
     },
@@ -41,7 +41,7 @@ export default defineComponent({
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (props.variant) {
-        case "fill": return {
+        case "full": return {
           "--fs-icon-background-color": colors.value.light
         };
         default: return {
@@ -53,7 +53,7 @@ export default defineComponent({
     const classes = computed((): string[] => {
       const classNames = [`fs-icon-${props.size}`];
       switch (props.variant) {
-        case "fill":
+        case "full":
           classNames.push("fs-color-icon");
           break;
       }

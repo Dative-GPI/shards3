@@ -10,7 +10,7 @@
       >
         <FSColorIcon
           size="m"
-          variant="fill"
+          variant="full"
           :color="criticityColor"
           v-bind="props"
         >
