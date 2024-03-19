@@ -1,0 +1,14 @@
+.fs-draggable-dragging {
+  filter: brightness(0.9);
+}
+
+.fs-dropzone-include {
+  filter: invert(0.9);
+}
+
+.fs-draggable-enabled {
+  cursor: move ;
+  cursor: grab ;
+  cursor: -moz-grab ;
+  cursor: -webkit-grab ;
+}

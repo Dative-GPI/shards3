@@ -4,7 +4,7 @@
     @dragstart="onDragStart"
     @dragend="onDragEnd"
     @dragover.prevent
-    class="fs-draggable-item"
+    :class="($props.disabled ? '' : 'fs-draggable-enabled ') + 'fs-draggable-item'"
     width="100%"
   >
     <slot />
@@ -33,12 +33,16 @@ export default defineComponent({
   emits: ['update:dragstart', 'update:dragend'],
   setup(props, { emit }) {
     const onDragStart = (event) => {
+      if(props.disabled){
+        event.preventDefault();
+        return;
+      }
       const dragged = event.target.closest(props.elementSelector);
       dragged.dataset.initialIndex = props.item?.index ?? props.item?.value;
       event.dataTransfer.setDragImage(dragged, 25, 25);
       event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
-      dragged?.classList.add('dragging');
+      dragged?.classList.add('fs-draggable-dragging');
 
       //Add item to the drag event
       event.dataTransfer.setData('text/plain', JSON.stringify(props.item));
@@ -47,7 +51,7 @@ export default defineComponent({
 
     const onDragEnd = (event) => {
       const dragged = event.target.closest(props.elementSelector);
-      dragged?.classList.remove('dragging');
+      dragged?.classList.remove('fs-draggable-dragging');
       //delete dragged?.dataset?.initialIndex;
       emit('update:dragend', event, dragged);
     };

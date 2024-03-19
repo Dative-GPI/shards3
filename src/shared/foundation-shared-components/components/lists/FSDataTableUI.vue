@@ -65,7 +65,7 @@
         :items="innerItems"
         :fixedHeader="true"
         :multiSort="false"
-        :hover="true"
+        :hover="!$props.sortDraggable"
         :style="style"
         :class="classes"
         :page="innerPage"
@@ -76,7 +76,7 @@
         @update:sortBy="innerSortBy = $event ? $event[0] : null"
         @dragover.prevent
         @drop:row="(event, row) => onDrop(event, row, 'tr.v-data-table__tr')"
-        @dragover="onDragOver($event, 'tr.v-data-table__tr',  'tbody')"
+        @dragover="onDragOver($event, 'tr.v-data-table__tr', 'tbody')"
         @dragleave="onDragLeave"
       >
         <template #no-data>
@@ -112,9 +112,9 @@
         </template>
         <template #[`item.data-table-draggable`]="props">
           <FSDraggable
+            :disabled="(!$props.sortDraggable && !$props.includeDraggable) || !(innerSortBy === null || innerSortBy?.value === undefined)"
             elementSelector="tr.v-data-table__tr"
             :item="props"
-            :disabled="false"
             @update:dragend="(event, dragged) => onDragEnd(event, dragged, props, 'tbody')"
           >
             <FSRow
@@ -303,12 +303,12 @@
           <FSCol
             width="fill"
             class="fs-data-iterator-container"
-            >
+          >
             <template v-for="(item, index) in items">
               <FSDraggable
                 elementSelector=".fs-draggable-item"
                 :item="item"
-                :disabled="!$props.sortDraggable && !$props.includeDraggable"
+                :disabled="(!$props.sortDraggable && !$props.includeDraggable) || !(innerSortBy === null || innerSortBy?.value === undefined)"
                 @dragover.prevent
                 @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
                 @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
@@ -426,12 +426,12 @@
           <FSRow
             width="hug"
             class="fs-data-iterator-container"
-            >
+          >
             <template v-for="(item, index) in items.filter((item) => item.type === 'item')">
               <FSDraggable
                 elementSelector=".fs-draggable-item"
                 :item="item"
-                :disabled="!$props.sortDraggable && !$props.includeDraggable"
+                :disabled="(!$props.sortDraggable && !$props.includeDraggable) || !(innerSortBy === null || innerSortBy?.value === undefined)"
                 @dragover.prevent
                 @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
                 @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
@@ -717,7 +717,7 @@ export default defineComponent({
     });
 
     const extraHeaders = computed((): any[] => {
-      const extra = [];
+      const extra: { key: string, width: string }[] = [];
       if (props.groupBy) {
         extra.push({
           key: "data-table-group",
@@ -1063,30 +1063,29 @@ export default defineComponent({
     }
 
     const onDragOver = (event, elementSelector, elementContainerSelector) => {
-      const dragged = document.querySelector('.dragging');
+      const dragged = document.querySelector('.fs-draggable-dragging');
       if (dragged != null) {
         let target = event.target.closest(elementSelector);
         if (target != null) {
           if (props.includeDraggable) {
             if (!props.sortDraggable) {
-              target.classList.add('dropzone-include');
+              target.classList.add('fs-dropzone-include');
             } else {
               const rowHeight = target.clientHeight;
               const y = event.clientY - target.getBoundingClientRect().top;
               if (y > rowHeight * (3 / 4)) {
                 target.insertAdjacentElement('afterend', dragged);
-                target.classList.remove('dropzone-include');
+                target.classList.remove('fs-dropzone-include');
               } else if (y < rowHeight * (1 / 4)) {
                 target.insertAdjacentElement('beforebegin', dragged);
-                target.classList.remove('dropzone-include');
+                target.classList.remove('fs-dropzone-include');
               } else {
-                target.classList.add('dropzone-include');
+                target.classList.add('fs-dropzone-include');
                 const tbodyElement = event.srcElement.closest(elementContainerSelector);
                 resetRowIndex(dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
               }
             }
           } else if (props.sortDraggable) {
-            console.log(target, dragged)
             const rowHeight = target.clientHeight;
             const y = event.clientY - target.getBoundingClientRect().top;
             if (y > rowHeight / 2) {
@@ -1101,10 +1100,8 @@ export default defineComponent({
     };
 
     const onDragLeave = (event) => {
-      event.target.closest('.dropzone-include')?.classList.remove('dropzone-include');
-    }
-
-
+      event.target.closest('.fs-dropzone-include')?.classList.remove('fs-dropzone-include');
+    };
 
     const onDragEnd = (event, draggedElement, row, elementContainerSelector) => {
       const initialIndex = draggedElement.getAttribute('data-initial-index');
@@ -1121,11 +1118,10 @@ export default defineComponent({
           resetRowIndex(initialIndex, currentIndex, draggedElement, tbodyElement);
         }
       };
-
-    }
+    };
 
     const onDrop = (event, row, elementSelector) => {
-      const draggedElement = document.querySelector('.dragging');
+      const draggedElement = document.querySelector('.fs-draggable-dragging');
       if (draggedElement != null) {
         let target = event.target.closest(elementSelector);
         const draggedData = JSON.parse(event.dataTransfer.getData('text/plain'));
@@ -1136,7 +1132,7 @@ export default defineComponent({
             emit("update:include", { draggedItem: itemsData, targetItem: rowData })
             console.log("update:include", { draggedItem: itemsData, targetItem: rowData });
           }
-          target.closest('.dropzone-include')?.classList.remove('dropzone-include');
+          target.closest('.fs-dropzone-include')?.classList.remove('fs-dropzone-include');
         }
       }
     };
