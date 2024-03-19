@@ -115,7 +115,7 @@
             :disabled="(!$props.sortDraggable && !$props.includeDraggable) || !(innerSortBy === null || innerSortBy?.value === undefined)"
             elementSelector="tr.v-data-table__tr"
             :item="props"
-            @update:dragend="(event, dragged) => onDragEnd(event, dragged, props, 'tbody')"
+            @update:dragend="(event, dragged) => onDragEnd(event, dragged, 'tbody')"
           >
             <FSRow
               class="fs-data-table-draggable"
@@ -313,7 +313,7 @@
                 @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
                 @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
                 @dragleave="onDragLeave"
-                @update:dragend="(event, dragged) => onDragEnd(event, dragged, item, '.fs-data-iterator-container')"
+                @update:dragend="(event, dragged) => onDragEnd(event, dragged, '.fs-data-iterator-container')"
               >
                 <slot
                   name="item.iterator"
@@ -436,7 +436,7 @@
                 @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
                 @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
                 @dragleave="onDragLeave"
-                @update:dragend="(event, dragged) => onDragEnd(event, dragged, item, '.fs-data-iterator-container')"
+                @update:dragend="(event, dragged) => onDragEnd(event, dragged, '.fs-data-iterator-container')"
               >
                 <slot
                   name="item.tile"
@@ -1046,6 +1046,11 @@ export default defineComponent({
       computeFilters();
     });
 
+    /**
+     * Swap the position of the dragged element with the target element 
+     * @param oldIndex - The index of the dragged element
+     * @param newIndex - The index to set to the dragged element
+     */
     const changeIndex = (oldIndex: number, newIndex: number) => {
       if (oldIndex === newIndex) return;
       const items = innerItems.value.slice();
@@ -1054,7 +1059,14 @@ export default defineComponent({
       return items;
     };
 
-    const resetRowIndex = (initialIndex, currentIndex, draggedElement, tbodyElement) => {
+    /**
+     * Reset the row index when the dragged element leaves the dropzone
+     * @param initialIndex - The initial index of the dragged element
+     * @param currentIndex - The current index / position of the dragged element
+     * @param draggedElement - The dragged element
+     * @param tbodyElement - The tbody element
+     */
+    const resetRowIndex = (initialIndex: number, currentIndex: number, draggedElement: HTMLElement, tbodyElement: HTMLElement) => {
       if (initialIndex > currentIndex) {
         tbodyElement.children[initialIndex].insertAdjacentElement('afterend', draggedElement);
       } else {
@@ -1062,10 +1074,16 @@ export default defineComponent({
       }
     }
 
-    const onDragOver = (event, elementSelector, elementContainerSelector) => {
+    /**
+     * On drag over used for sortable drag and drop and include drag and drop
+     * @param event - The dragover event
+     * @param elementSelector - The css selector of draggable element (example: .fs-card)
+     * @param elementContainerSelector - The css selector of the container element (example: tbody)
+     */
+    const onDragOver = (event: DragEvent, elementSelector: string, elementContainerSelector: string) => {
       const dragged = document.querySelector('.fs-draggable-dragging');
       if (dragged != null) {
-        let target = event.target.closest(elementSelector);
+        let target = event.target?.closest(elementSelector);
         if (target != null) {
           if (props.includeDraggable) {
             if (!props.sortDraggable) {
@@ -1079,10 +1097,10 @@ export default defineComponent({
               } else if (y < rowHeight * (1 / 4)) {
                 target.insertAdjacentElement('beforebegin', dragged);
                 target.classList.remove('fs-dropzone-include');
-              } else {
+              } else if (dragged?.getAttribute('data-initial-index') !== null) {
                 target.classList.add('fs-dropzone-include');
-                const tbodyElement = event.srcElement.closest(elementContainerSelector);
-                resetRowIndex(dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
+                const tbodyElement = event.srcElement?.closest(elementContainerSelector);
+                resetRowIndex(+dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
               }
             }
           } else if (props.sortDraggable) {
@@ -1099,15 +1117,24 @@ export default defineComponent({
       }
     };
 
-    const onDragLeave = (event) => {
-      event.target.closest('.fs-dropzone-include')?.classList.remove('fs-dropzone-include');
+    /**
+     * Remove the class when the dragged element leaves the dropzone
+     */
+    const onDragLeave = (event: DragEvent) => {
+      event.target?.closest('.fs-dropzone-include')?.classList.remove('fs-dropzone-include');
     };
 
-    const onDragEnd = (event, draggedElement, row, elementContainerSelector) => {
-      const initialIndex = draggedElement.getAttribute('data-initial-index');
-      if (draggedElement != null) {
+    /**
+     * On drag end used for sortable drag and drop
+     * @param event - The dragend event
+     * @param draggedElement - The dragged element
+     * @param elementContainerSelector - The css selector of the container element (example: tbody)
+     */
+    const onDragEnd = (event: DragEvent, draggedElement: HTMLElement, elementContainerSelector: string) => {
+      const initialIndex = +(draggedElement.getAttribute('data-initial-index') ?? -1);
+      if (draggedElement != null && initialIndex !== -1) {
         if (props.sortDraggable) {
-          const tbodyElement = event.srcElement.closest(elementContainerSelector);
+          const tbodyElement = event.srcElement?.closest(elementContainerSelector);
           const currentIndex = Array.from(tbodyElement.children).indexOf(draggedElement);
 
           const newItems = changeIndex(initialIndex, currentIndex);
@@ -1120,17 +1147,21 @@ export default defineComponent({
       };
     };
 
-    const onDrop = (event, row, elementSelector) => {
+    /**
+     * On drop used for include drag and drop
+     * @param event - The drop event
+     * @param row - The row object where the dragged element is dropped (at least nee row.item or row.raw)
+     */
+    const onDrop = (event: DragEvent, row: any, elementSelector: string) => {
       const draggedElement = document.querySelector('.fs-draggable-dragging');
       if (draggedElement != null) {
-        let target = event.target.closest(elementSelector);
-        const draggedData = JSON.parse(event.dataTransfer.getData('text/plain'));
+        let target = event.target?.closest(elementSelector);
+        const draggedData = JSON.parse(event.dataTransfer?.getData('text/plain') ?? '');
         const itemsData = draggedData.item ?? draggedData.raw;
         const rowData = row.item ?? row.raw;
         if (target != null) {
           if (props.includeDraggable && itemsData[props.itemValue] != rowData[props.itemValue]) {
             emit("update:include", { draggedItem: itemsData, targetItem: rowData })
-            console.log("update:include", { draggedItem: itemsData, targetItem: rowData });
           }
           target.closest('.fs-dropzone-include')?.classList.remove('fs-dropzone-include');
         }
