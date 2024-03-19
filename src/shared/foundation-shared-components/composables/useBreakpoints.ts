@@ -2,10 +2,10 @@ import { computed, ref } from "vue";
 
 let initialized = false;
 
-export const useBreakpoints = () => {
-    const windowHeight = ref(window.innerHeight);
-    const windowWidth = ref(window.innerWidth);
+const windowHeight = ref(window.innerHeight);
+const windowWidth = ref(window.innerWidth);
 
+export const useBreakpoints = () => {
     const onSizeChange = (): void => {
         windowHeight.value = window.innerHeight;
         windowWidth.value = window.innerWidth;

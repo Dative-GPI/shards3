@@ -202,9 +202,9 @@ export default defineComponent({
       }
     });
 
-    const onClick = () => {
+    const onClick = (event: MouseEvent) => {
       if (!props.to && props.editable && !props.load) {
-        emit("click");
+        emit("click", event);
       }
     };
 

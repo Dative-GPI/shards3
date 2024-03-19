@@ -6,7 +6,7 @@
     <template #activator="{ props }">
       <FSColorIcon
         size="m"
-        variant="fill"
+        variant="full"
         :color="$props.statusGroup.color"
         v-bind="props"
       >

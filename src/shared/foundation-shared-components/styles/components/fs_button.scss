@@ -6,4 +6,9 @@
         color: var(--fs-button-hover-color) !important;
         cursor: pointer !important;
     }
+
+    &.fs-button-disabled,
+    &:has(.fs-button-load) {
+        cursor: default !important;
+    }
 }
