@@ -26,7 +26,9 @@
     </template>
     <template #text>
       <slot name="content">
-        <FSText>
+        <FSText
+          :lineClamp="$props.lineClampContent"
+        >
           {{ $props.content }}
         </FSText>
       </slot>
@@ -35,10 +37,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSIcon from "./FSIcon.vue";
@@ -79,6 +81,11 @@ export default defineComponent({
       type: [String, Number],
       required: false,
       default: "16px"
+    },
+    lineClampContent: {
+      type: Number,
+      required: false,
+      default: 5
     },
     divider: {
       type: Boolean,
