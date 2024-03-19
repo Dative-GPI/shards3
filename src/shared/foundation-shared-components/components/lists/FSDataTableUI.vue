@@ -1140,7 +1140,6 @@ export default defineComponent({
           const newItems = changeIndex(initialIndex, currentIndex);
           if (newItems !== null && newItems !== undefined) {
             emit("update:items", newItems);
-            console.log("update:items", newItems);
           }
           resetRowIndex(initialIndex, currentIndex, draggedElement, tbodyElement);
         }
