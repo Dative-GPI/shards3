@@ -27,8 +27,8 @@ export default defineComponent({
       default: "standard"
     }
   },
-  emits: ["update:modelValue"],
-  setup(props) {
+  emits: ["update:modelValue", "submit"],
+  setup(props, { emit }) {
     const formRef = ref<HTMLFormElement | null>(null);
     const submitted = ref(false);
 
@@ -40,10 +40,14 @@ export default defineComponent({
       }
     });
 
-    const onSubmit = (event: SubmitEvent) => {
+    const onSubmit = async (event: SubmitEvent) => {
       event.stopImmediatePropagation();
       event.preventDefault();
       submitted.value = true;
+      await formRef.value.validate();
+      emit("update:modelValue", !!formRef.value.isValid);
+      emit("submit", !!formRef.value.isValid);
+      
     }; 
 
     provide("validateOn", validateOn);

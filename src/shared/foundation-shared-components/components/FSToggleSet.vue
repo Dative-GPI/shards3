@@ -57,7 +57,7 @@
           :color="getColor(item)"
           :class="getClass(item)"
           :label="item.label"
-          :icon="label.icon"
+          :icon="item.icon"
           :key="index"
           @click="toggle(item)"
         />
