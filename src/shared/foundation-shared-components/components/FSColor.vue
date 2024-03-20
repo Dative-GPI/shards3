@@ -41,8 +41,8 @@ export default defineComponent({
 
     const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
       "--fs-color-background-color": colors.value.light,
-      "--fs-color-border-color"    : colors.value.base,
-      "--fs-color-color"           : colors.value.base,
+      "--fs-color-border-color"    : colors.value.lightContrast,
+      "--fs-color-color"           : colors.value.lightContrast,
       "--fs-color-light"           : colors.value.light,
       "--fs-color-base"            : colors.value.base,
       "--fs-color-dark"            : colors.value.dark

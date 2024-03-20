@@ -15,6 +15,7 @@
       />
       <FSButtonPreviousIcon
         :color="ColorEnum.Dark"
+        @click="goToPrev"
       />
     </template>
     <template #default>
@@ -28,6 +29,7 @@
     <template #next>
       <FSButtonNextIcon
         :color="ColorEnum.Dark"
+        @click="goToNext"
       />
       <FSButton
         v-if="$props.dash"
@@ -71,7 +73,12 @@ export default defineComponent({
     dash: {
       type: Boolean,
       required: false,
-      default: true
+      default: false
+    },
+    speed: {
+      type: Number,
+      required: false,
+      default: 250
     }
   },
   setup(props) {
@@ -96,6 +103,12 @@ export default defineComponent({
       }
     };
 
+    const goToPrev = () => {
+      if (slideGroupRef.value) {
+        slideGroupRef.value.scrollOffset = Math.max(0, slideGroupRef.value.scrollOffset - props.speed);
+      }
+    };
+
     const goToEnd = () => {
       if (slideGroupRef.value) {
         const contentSize = slideGroupRef.value.$el.children[1].children[0].clientWidth;
@@ -105,12 +118,23 @@ export default defineComponent({
       }
     };
 
+    const goToNext = () => {
+      if (slideGroupRef.value) {
+        const contentSize = slideGroupRef.value.$el.children[1].children[0].clientWidth;
+        const containerSize = slideGroupRef.value.$el.clientWidth;
+        const arrowsOffset = props.dash ? 104 : 64;
+        slideGroupRef.value.scrollOffset = Math.min(contentSize - containerSize + arrowsOffset, slideGroupRef.value.scrollOffset + props.speed);
+      }
+    };
+
     return {
       slideGroupRef,
       ColorEnum,
       style,
       getChildren,
       goToStart,
+      goToPrev,
+      goToNext,
       goToEnd
     };
   }

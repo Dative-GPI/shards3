@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import Colors2 from './Colors2.vue';
+import Contrasts from './Contrasts.vue';
 
 const meta = {
-  title: 'Foundation/Shared/Global/Colors2',
-  component: Colors2,
+  title: 'Foundation/Shared/Global/Contrasts',
+  component: Contrasts,
   tags: ['autodocs'],
   argTypes: {
   }
-} satisfies Meta<typeof Colors2>;
+} satisfies Meta<typeof Contrasts>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

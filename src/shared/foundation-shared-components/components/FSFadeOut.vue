@@ -66,10 +66,18 @@ export default defineComponent({
         case "number": return sizeToVar(props.padding);
         default: 
           const paddings = props.padding.split(" ");
+          let tempPadding = "0px";
           switch (paddings.length) {
-            case 0 : return "0px";
-            default: return "-" + sizeToVar(paddings[0]);
+            case 0 :
+              break;
+            default:
+              tempPadding = "-" + sizeToVar(paddings[0]);
+              break;
           }
+          if (tempPadding === "0px") {
+            return "-1px";
+          }
+          return tempPadding;
       }
     });
 
@@ -78,12 +86,22 @@ export default defineComponent({
         case "number": return sizeToVar(props.padding);
         default: 
           const paddings = props.padding.split(" ");
+          let tempPadding = "0px";
           switch (paddings.length) {
-            case 0 : return "0px";
+            case 0 :
+              break;
             case 1 :
-            case 2 : return "-" + sizeToVar(paddings[0]);
-            default: return "-" + sizeToVar(paddings[2]);
+            case 2 :
+              tempPadding = "-" + sizeToVar(paddings[0]);
+              break;
+            default:
+              tempPadding = "-" + sizeToVar(paddings[2]);
+              break;
           }
+          if (tempPadding === "0px") {
+            return "-1px";
+          }
+          return tempPadding;
       }
     });
 

@@ -96,7 +96,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
-import { RouteLocation, useRouter } from "vue-router";
+import { RouteLocation } from "vue-router";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -170,7 +170,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getColors } = useColors();
     const { slots } = useSlots();
-    const router = useRouter();
 
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
@@ -230,18 +229,6 @@ export default defineComponent({
         return "100%";
       }
       return "fit-content";
-    });
-
-    const href = computed((): string | null => {
-      if (!props.to || !props.editable || props.load) {
-        return null;
-      }
-      if (typeof props.to === "string") {
-        return props.to;
-      }
-      else {
-        return router.resolve(props.to).href;
-      }
     });
 
     const onClick = (event: MouseEvent) => {

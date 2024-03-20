@@ -32,7 +32,7 @@
 import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSText from "./FSText.vue";
@@ -43,32 +43,52 @@ export default defineComponent({
     FSText
   },
   props: {
-    width: {
-      type: [String, Number],
-      required: false,
-      default: "100%"
-    },
     label: {
       type: String,
       required: false,
       default: null
     },
+    width: {
+      type: [String, Number],
+      required: false,
+      default: "100%"
+    },
     font: {
       type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
       required: false,
       default: "text-body"
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Light
+    },
+    variant: {
+      type: String as PropType<"base" | "light" | "dark">,
+      required: false,
+      default: "dark"
     }
   },
   setup(props) {
     const { getColors } = useColors();
     const { slots } = useSlots();
 
-    const lights = getColors(ColorEnum.Light);
+    const colors = computed(() => getColors(props.color));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
-      return {
-        "--fs-divider-width": sizeToVar(props.width),
-        "--fs-divider-color": lights.dark
+      switch (props.variant) {
+        case "base": return {
+          "--fs-divider-width": sizeToVar(props.width),
+          "--fs-divider-color": colors.value.base
+        };
+        case "light": return {
+          "--fs-divider-width": sizeToVar(props.width),
+          "--fs-divider-color": colors.value.light
+        };
+        case "dark": return {
+          "--fs-divider-width": sizeToVar(props.width),
+          "--fs-divider-color": colors.value.dark
+        };
       }
     });
 
