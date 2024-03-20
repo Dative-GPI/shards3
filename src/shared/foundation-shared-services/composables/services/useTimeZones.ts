@@ -1,9 +1,9 @@
-import { TimeZoneFilters, TimeZoneInfos, TimeZoneInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { TimeZoneDetails, TimeZoneDetailsDTO, TimeZoneFilters, TimeZoneInfos, TimeZoneInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { TIME_ZONES_URL } from "../../config/urls";
 
-const TimeZoneServiceFactory = new ServiceFactory<TimeZoneInfosDTO, TimeZoneInfos>("timeZone", TimeZoneInfos).create(factory => factory.build(
+const TimeZoneServiceFactory = new ServiceFactory<TimeZoneDetailsDTO, TimeZoneDetails>("timeZone", TimeZoneDetails).create(factory => factory.build(
     factory.addGetMany<TimeZoneInfosDTO, TimeZoneInfos, TimeZoneFilters>(TIME_ZONES_URL, TimeZoneInfos),
     factory.addNotify()
 ));

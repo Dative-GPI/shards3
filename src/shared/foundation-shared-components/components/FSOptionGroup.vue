@@ -1,13 +1,14 @@
 <template>
   <FSWrapGroup
     v-if="['wrap'].includes($props.variant)"
-    ref="toggleSetRef"
+    class="fs-option-group"
     :padding="$props.padding"
     :gap="$props.gap"
+    :style="style"
   >
     <template v-if="$props.values.length">
       <template v-if="!firstChild">
-        <FSButton
+        <FSOptionItem
           v-for="(item, index) in $props.values"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
@@ -42,13 +43,14 @@
   </FSWrapGroup>
   <FSSlideGroup
     v-else
-    ref="toggleSetRef"
+    class="fs-option-group"
     :padding="$props.padding"
     :gap="$props.gap"
+    :style="style"
   >
     <template v-if="$props.values.length">
       <template v-if="!firstChild">
-        <FSButton
+        <FSOptionItem
           v-for="(item, index) in $props.values"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
@@ -57,7 +59,7 @@
           :color="getColor(item)"
           :class="getClass(item)"
           :label="item.label"
-          :icon="label.icon"
+          :icon="item.icon"
           :key="index"
           @click="toggle(item)"
         />
@@ -84,22 +86,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
+import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 import { FSToggle } from "@dative-gpi/foundation-shared-components/models"; 
 
+import FSOptionItem from "./FSOptionItem.vue";
 import FSSlideGroup from "./FSSlideGroup.vue";
 import FSWrapGroup from "./FSWrapGroup.vue";
-import FSButton from "./FSButton.vue";
 
 export default defineComponent({
-  name: "FSToggleSet",
+  name: "FSOptionGroup",
   components: {
+    FSOptionItem,
     FSSlideGroup,
-    FSWrapGroup,
-    FSButton
+    FSWrapGroup
   },
   props: {
     values: {
@@ -107,22 +110,32 @@ export default defineComponent({
       required: false,
       default: () => []
     },
+    border: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    borderRadius: {
+      type: [String, Number],
+      required: false,
+      default: "4px"
+    },
     variant: {
       type: String as PropType<"wrap" | "slide">,
       required: false,
       default: "wrap"
     },
-    buttonVariant: {
-      type: String as PropType<"standard" | "full" | "icon">,
+    optionVariant: {
+      type: String as PropType<"standard" | "full">,
       required: false,
-      default: "standard"
+      default: "full"
     },
     activeVariant: {
-      type: String as PropType<"standard" | "full" | "icon">,
+      type: String as PropType<"standard" | "full">,
       required: false,
-      default: "standard"
+      default: "full"
     },
-    buttonClass: {
+    optionClass: {
       type: [Array, String] as PropType<string[] | string>,
       required: false,
       default: null
@@ -137,10 +150,10 @@ export default defineComponent({
       required: false,
       default: false
     },
-    buttonColor: {
+    optionColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorEnum.Light
+      default: ColorEnum.Background
     },
     activeColor: {
       type: String as PropType<ColorBase>,
@@ -150,12 +163,12 @@ export default defineComponent({
     padding: {
       type: [String, Number],
       required: false,
-      default: "0"
+      default: "3px"
     },
     gap: {
       type: [String, Number],
       required: false,
-      default: "8px"
+      default: "0"
     },
     multiple: {
       type: Boolean,
@@ -165,7 +178,7 @@ export default defineComponent({
     required: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     editable: {
       type: Boolean,
@@ -176,10 +189,19 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getFirstChild } = useSlots();
+    const { getColors } = useColors();
+
+    const lights = getColors(ColorEnum.Light);
 
     const firstChild = getFirstChild("item");
 
-    const toggleSetRef = ref(null);
+    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+      return {
+          "--fs-option-group-border-size"  : props.border ? "1px" : "0",
+          "--fs-option-group-border-radius": sizeToVar(props.borderRadius),
+          "--fs-option-group-border-color" : lights.base
+      };
+    })
 
     const getFromFirstChild = (prop: string, value: FSToggle): any => {
       switch (prop) {
@@ -200,14 +222,14 @@ export default defineComponent({
       }
     }
 
-    const getVariant = (value: FSToggle): "standard" | "full" | "icon" => {
+    const getVariant = (value: FSToggle): "standard" | "full" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
         return props.activeVariant;
       }
       if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
         return props.activeVariant;
       }
-      return props.buttonVariant;
+      return props.optionVariant;
     };
 
     const getColor = (value: FSToggle): ColorBase => {
@@ -217,7 +239,7 @@ export default defineComponent({
       if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
         return props.activeColor;
       }
-      return props.buttonColor;
+      return props.optionColor;
     };
 
     const getClass = (value: FSToggle): string[] | string => {
@@ -227,7 +249,7 @@ export default defineComponent({
       if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
         return props.activeClass;
       }
-      return props.buttonClass;
+      return props.optionClass;
     };
 
     const toggle = (value: FSToggle): void => {
@@ -275,27 +297,13 @@ export default defineComponent({
       }
     };
 
-    const goToStart = () => {
-      if (toggleSetRef.value) {
-        toggleSetRef.value.goToStart();
-      }
-    };
-
-    const goToEnd = () => {
-      if (toggleSetRef.value) {
-        toggleSetRef.value.goToEnd();
-      }
-    };
-
     return {
-      toggleSetRef,
       firstChild,
+      style,
       getFromFirstChild,
       getVariant,
-      goToStart,
       getColor,
       getClass,
-      goToEnd,
       toggle
     };
   }

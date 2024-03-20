@@ -73,7 +73,7 @@ export default defineComponent({
     dash: {
       type: Boolean,
       required: false,
-      default: true
+      default: false
     },
     speed: {
       type: Number,

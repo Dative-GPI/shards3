@@ -16,6 +16,10 @@ export const useColors = () => {
         return maxDiff < 10;
     };
 
+    const isPastel = (color: Color): boolean => {
+        return color.saturationv() <= 15 && color.value() >= 85;
+    };
+
     const getLight = (base: Color): Color => {
         if (isGrayScale(base)) {
             return base.value(Math.min(base.value() + 10, 100));
@@ -53,21 +57,48 @@ export const useColors = () => {
     const getColors = (color: ColorBase): ColorVariations => {
         const themed = (Object as any).values(ColorEnum).includes(color);
 
-        const base = getBase(themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color));
+        const seed = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
+        
+        const base = getBase(seed);
         const light = getLight(base);
         const soft = getSoft(base);
         const dark = getDark(base);
 
-        return {
-            light: light.hex(),
-            lightContrast: getContrast(light, dark).hex(),
-            soft: soft.hex(),
-            softContrast: getContrast(soft, light).hex(),
-            base: base.hex(),
-            baseContrast: getContrast(base, light).hex(),
-            dark: dark.hex(),
-            darkContrast: getContrast(dark, light).hex()
-        };
+        if (isPastel(seed)) {
+            return {
+                light: getLight(seed).hex(),
+                lightContrast: getContrast(light, dark).hex(),
+                soft: getSoft(seed).hex(),
+                softContrast: getContrast(seed, dark).hex(),
+                base: seed.hex(),
+                baseContrast: getContrast(seed, base).hex(),
+                dark: dark.hex(),
+                darkContrast: getContrast(dark, light).hex()
+            };
+        }
+
+        switch (color) {
+            case ColorEnum.Background: return {
+                light: base.hex(),
+                lightContrast: getContrast(base, base).hex(),
+                soft: base.hex(),
+                softContrast: getContrast(base, base).hex(),
+                base: base.hex(),
+                baseContrast: getContrast(base, base).hex(),
+                dark: dark.hex(),
+                darkContrast: getContrast(dark, base).hex()
+            };
+            default: return {
+                light: light.hex(),
+                lightContrast: getContrast(light, dark).hex(),
+                soft: soft.hex(),
+                softContrast: getContrast(soft, light).hex(),
+                base: base.hex(),
+                baseContrast: getContrast(base, light).hex(),
+                dark: dark.hex(),
+                darkContrast: getContrast(dark, light).hex()
+            };
+        }
     };
 
     const getGradients = (colors: ColorBase | ColorBase[]): ColorVariations => {

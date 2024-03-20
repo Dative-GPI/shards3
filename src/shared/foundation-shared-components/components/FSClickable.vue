@@ -151,13 +151,13 @@ export default defineComponent({
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : colors.value.base,
-          "--fs-clickable-border-color"           : colors.value.baseContrast,
+          "--fs-clickable-border-color"           : colors.value.base,
           "--fs-clickable-color"                  : colors.value.baseContrast,
           "--fs-clickable-hover-background-color" : colors.value.base,
-          "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+          "--fs-clickable-hover-border-color"     : colors.value.base,
           "--fs-clickable-hover-color"            : colors.value.baseContrast,
           "--fs-clickable-active-background-color": colors.value.dark,
-          "--fs-clickable-active-border-color"    : colors.value.darkContrast,
+          "--fs-clickable-active-border-color"    : colors.value.dark,
           "--fs-clickable-active-color"           : colors.value.darkContrast
         };
       }
