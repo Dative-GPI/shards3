@@ -1121,7 +1121,10 @@ export default defineComponent({
      * Remove the class when the dragged element leaves the dropzone
      */
     const onDragLeave = (event: DragEvent) => {
-      event.target?.closest('.fs-dropzone-include')?.classList.remove('fs-dropzone-include');
+      const dropzone = event.target?.closest('.fs-dropzone-include');
+      if (dropzone && !event.relatedTarget?.closest('.fs-dropzone-include')) {
+        dropzone.classList.remove('fs-dropzone-include');
+      }
     };
 
     /**
