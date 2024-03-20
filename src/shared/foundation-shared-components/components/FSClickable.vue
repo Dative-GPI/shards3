@@ -116,10 +116,9 @@ export default defineComponent({
   },
   emits: ["click"],
   setup(props, { emit }) {
-    const { getColors, getContrasts } = useColors();
+    const { getColors } = useColors();
     const router = useRouter();
 
-    const textColors = computed(() => getContrasts(props.color));
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
@@ -129,7 +128,7 @@ export default defineComponent({
         return {
           "--fs-clickable-border-size"     : props.border ? "1px" : "0",
           "--fs-clickable-border-radius"   : sizeToVar(props.borderRadius),
-          "--fs-clickable-background-color": lights.base,
+          "--fs-clickable-background-color": lights.light,
           "--fs-clickable-border-color"    : lights.dark,
           "--fs-clickable-color"           : lights.dark
         };
@@ -139,27 +138,27 @@ export default defineComponent({
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : colors.value.light,
-          "--fs-clickable-border-color"           : colors.value.base,
-          "--fs-clickable-color"                  : textColors.value.base,
+          "--fs-clickable-border-color"           : colors.value.lightContrast,
+          "--fs-clickable-color"                  : colors.value.lightContrast,
           "--fs-clickable-hover-background-color" : colors.value.base,
-          "--fs-clickable-hover-border-color"     : colors.value.base,
-          "--fs-clickable-hover-color"            : textColors.value.light,
+          "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+          "--fs-clickable-hover-color"            : colors.value.baseContrast,
           "--fs-clickable-active-background-color": colors.value.dark,
-          "--fs-clickable-active-border-color"    : colors.value.dark,
-          "--fs-clickable-active-color"           : textColors.value.light
+          "--fs-clickable-active-border-color"    : colors.value.darkContrast,
+          "--fs-clickable-active-color"           : colors.value.darkContrast
         };
         case "full": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : colors.value.base,
-          "--fs-clickable-border-color"           : colors.value.base,
-          "--fs-clickable-color"                  : textColors.value.light,
+          "--fs-clickable-border-color"           : colors.value.baseContrast,
+          "--fs-clickable-color"                  : colors.value.baseContrast,
           "--fs-clickable-hover-background-color" : colors.value.base,
-          "--fs-clickable-hover-border-color"     : colors.value.base,
-          "--fs-clickable-hover-color"            : textColors.value.light,
+          "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+          "--fs-clickable-hover-color"            : colors.value.baseContrast,
           "--fs-clickable-active-background-color": colors.value.dark,
-          "--fs-clickable-active-border-color"    : colors.value.dark,
-          "--fs-clickable-active-color"           : textColors.value.light
+          "--fs-clickable-active-border-color"    : colors.value.darkContrast,
+          "--fs-clickable-active-color"           : colors.value.darkContrast
         };
       }
     });

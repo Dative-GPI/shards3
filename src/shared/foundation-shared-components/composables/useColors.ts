@@ -16,117 +16,58 @@ export const useColors = () => {
         return maxDiff < 10;
     };
 
-    const lighten = (base: Color): Color => {
+    const getLight = (base: Color): Color => {
         if (isGrayScale(base)) {
             return base.value(Math.min(base.value() + 10, 100));
         }
         return base.saturationv(10).value(100);
     };
 
-    const soften = (base: Color): Color => {
+    const getSoft = (base: Color): Color => {
         return base.value(Math.min(base.value() + 10, 100));
     };
 
-    const darken = (base: Color): Color => {
+    const getBase = (base: Color): Color => {
+        if (isGrayScale(base)) {
+            return base.saturationv(1);
+        }
+        return base.saturationv(((base.saturationv() * 30) / 100) + 70).value(90);
+    };
+
+    const getDark = (base: Color): Color => {
         return base.value(Math.max(base.value() - 15, 0));
     };
+
+    const getContrast = (color: Color, fallback: Color): Color => {
+        if (isGrayScale(color)) {
+            if (color.value() > 50) {
+                return color.value(Math.max(0, color.value() - 75));
+            }
+            else {
+                return color.value(Math.min(100, color.value() + 75));
+            }
+        }
+        return fallback;
+    }
 
     const getColors = (color: ColorBase): ColorVariations => {
         const themed = (Object as any).values(ColorEnum).includes(color);
 
-        const base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
-        const light = lighten(base);
-        const soft = soften(base);
-        const dark = darken(base);
+        const base = getBase(themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color));
+        const light = getLight(base);
+        const soft = getSoft(base);
+        const dark = getDark(base);
 
         return {
             light: light.hex(),
-            lightContrast: getContrast(light.hex()),
+            lightContrast: getContrast(light, dark).hex(),
             soft: soft.hex(),
-            softContrast: getContrast(soft.hex()),
+            softContrast: getContrast(soft, light).hex(),
             base: base.hex(),
-            baseContrast: getContrast(base.hex()),
+            baseContrast: getContrast(base, light).hex(),
             dark: dark.hex(),
-            darkContrast: getContrast(dark.hex())
+            darkContrast: getContrast(dark, light).hex()
         };
-    };
-
-    const getContrast = (color: ColorBase): string => {
-        let base = new Color(color);
-
-        let result: Color = new Color(base);
-
-        if(result.isDark()){
-            if(result.lightness() == 0)
-            {
-                result = result.value(90);
-            }
-            else {
-                result = result.lighten(75 / result.lightness());
-            }
-        }
-        else{
-            result = result.darken(0.8);
-        }
-        // if (base.saturationv() > 75 || base.saturationv() < 25) {
-        //     result = base.saturationv(100 - base.saturationv());
-        // }
-        // else {
-        //     result = new Color(base);
-        // }
-
-        // bright colors
-        // if (base.value() >= 70) {
-        //     result = result.value(Math.max(0, base.value() - 75))
-        //     // powerfull colors
-        //     if (base.saturationv() > 70) {
-        //         result = result.saturationv(100 - base.saturationv());
-        //     }
-        //     // pastel colors
-        //     else if (base.saturationv() < 30) {
-        //         result = result.saturationv(100 - base.saturationv());
-        //     }
-        // }
-        // // dark colors
-        // else if (base.value() <= 30) {
-        //     // result = result.value(Math.min(100, base.value() + 75))
-        //     result = result.value(90)
-        // }
-        // // other colors
-        // else {
-        //     if (base.saturationv() > 40) {
-        //         result = result.value(100)
-        //     }
-        //     else {
-        //         result = result.value(0)
-        //     }
-        // }
-
-        return result.hex();
-    }
-
-    const getContrasts = (color: ColorBase): ColorVariations => {
-        const themed = (Object as any).values(ColorEnum).includes(color);
-
-        let base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
-
-        if (isGrayScale(base)) {
-            switch (color) {
-                case ColorEnum.Light:
-                    return getColors(ColorEnum.Dark);
-                case ColorEnum.Dark:
-                    return getColors(ColorEnum.Light);
-                default:
-                    if (base.value() > 50) {
-                        base = base.value(Math.max(base.value() - 65, 0));
-                    }
-                    else {
-                        base = base.value(Math.min(base.value() + 65, 100));
-                    }
-                    break;
-            }
-        }
-        return getColors(base.hex());
     };
 
     const getGradients = (colors: ColorBase | ColorBase[]): ColorVariations => {
@@ -145,7 +86,6 @@ export const useColors = () => {
 
     return {
         getColors,
-        getContrasts,
         getGradients
     };
 }

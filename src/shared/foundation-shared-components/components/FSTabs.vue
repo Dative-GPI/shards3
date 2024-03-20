@@ -40,23 +40,22 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getColors, getContrasts } = useColors();
     const { getChildren } = useSlots();
+    const { getColors } = useColors();
 
-    const textColors = computed(() => getContrasts(props.color));
     const colors = computed(() => getColors(props.color));
     const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
       "--fs-group-color"                 : darks.base,
+      "--fs-group-disabled-color"        : darks.light,
       "--fs-group-hover-background-color": colors.value.light,
       "--fs-group-hover-color"           : darks.dark,
-      "--fs-group-disabled-color"        : darks.light,
       "--fs-group-light"                 : colors.value.light,
       "--fs-group-base"                  : colors.value.base,
       "--fs-group-dark"                  : colors.value.dark,
       "--fs-tab-tag-background-color"    : colors.value.base,
-      "--fs-tab-tag-color"               : textColors.value.light
+      "--fs-tab-tag-color"               : colors.value.baseContrast
     }));
 
     return {
