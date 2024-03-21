@@ -360,6 +360,7 @@ export const Links: Story = {
   })
 }
 
+import FSRichTextField from "@dative-gpi/foundation-shared-components/components/fields/FSRichTextField.vue";
 import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
 import FSForm from  "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSText from  "@dative-gpi/foundation-shared-components/components/FSText.vue";
@@ -370,12 +371,14 @@ export const Submit: Story = {
   args: {
     args: {
       valid: false,
-      text: "",
+      text1: "",
+      text2: "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Hello there\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
+      textdefault: null,
       rules: TextRules
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSButton, FSForm, FSTextField, FSText },
+    components: { FSButton, FSForm, FSTextField, FSRichTextField, FSText },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -389,13 +392,24 @@ export const Submit: Story = {
           </FSText>
           <FSTextField
             :hideHeader="false"
-            :rules="[args.rules.required(), args.rules.min(10)]"
-            v-model="args.text"
+            :rules="[args.rules.required()]"
+            v-model="args.text1"
           />
-          <FSButton
-            label="Submit form"
-            @click="args.click"
+          <FSRichTextField
+            :hideHeader="false"
+            :rules="[args.rules.required()]"
+            v-model="args.text2"
           />
+          <div style="display: flex; gap: 10px;">
+            <FSButton
+              label="Submit form"
+            />
+            <FSButton
+              type="button"
+              label="Clear form"
+              @click="() => { args.text1 = ''; args.text2 = args.textdefault; }"
+            />
+          </div>
         </div>
       </FSForm>
     </div>`
