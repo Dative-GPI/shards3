@@ -13,7 +13,7 @@
       />
       <slot name="toolbar" />
       <v-spacer />
-      <FSToggleSet
+      <FSOptionGroup
         v-if="!$props.disableTable && !$props.disableIterator"
         :values="modeOptions"
         :required="true"
@@ -505,6 +505,7 @@ import FSHiddenButton from "./FSHiddenButton.vue";
 import FSHeaderButton from "./FSHeaderButton.vue";
 import FSContainer from "../FSContainer.vue";
 import FSToggleSet from "../FSToggleSet.vue";
+import FSOptionGroup from "../FSOptionGroup.vue";
 import FSCheckbox from "../FSCheckbox.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
@@ -525,6 +526,7 @@ export default defineComponent({
     FSSelectField,
     FSContainer,
     FSToggleSet,
+    FSOptionGroup,
     FSCheckbox,
     FSCard,
     FSChip,
