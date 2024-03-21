@@ -1,4 +1,4 @@
-import { useOrganisationId } from "../../composables/useOrganisationId";
+import { useOrganisationId } from "@dative-gpi/foundation-shared-services/composables";
 
 const { organisationId } = useOrganisationId();
 
