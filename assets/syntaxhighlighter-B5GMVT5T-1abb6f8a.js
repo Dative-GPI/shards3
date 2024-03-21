@@ -1,1 +1,0 @@
-import{S as s,c,s as l}from"./DocsRenderer-NNNQARDV-17341f20.js";import"./iframe-fc1d6a37.js";import"../sb-preview/runtime.js";import"./_commonjsHelpers-725317a4.js";import"./index-d8983a70.js";import"./index-41dadfd5.js";import"./index-356e4a49.js";export{s as SyntaxHighlighter,c as createCopyToClipboardFunction,l as default};
