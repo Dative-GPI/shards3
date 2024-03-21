@@ -20,4 +20,3 @@ export const WithText: Story = {
         label: 'With Text'
     }
 };
-

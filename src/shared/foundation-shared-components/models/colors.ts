@@ -10,8 +10,13 @@ export enum ColorEnum {
 
 export interface ColorVariations {
     light: string;
+    lightContrast?: string;
+    soft: string;
+    softContrast?: string;
     base: string;
+    baseContrast?: string;
     dark: string;
+    darkContrast?: string;
 };
 
 export type ColorBase = (String | ColorEnum);

@@ -61,6 +61,9 @@ export const useRules = () => {
         }
       }
     }
+    for (let i = 1; i < messages.length; i++) {
+      messages[i] = messages[i].toLowerCase();
+    }
     return [...new Set(messages)];
   }
 

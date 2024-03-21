@@ -73,28 +73,27 @@ export default defineComponent({
   },
   emits: ["remove"],
   setup(props) {
-    const { getColors, getContrasts } = useColors();
+    const { getColors } = useColors();
 
-    const textColors = computed(() => getContrasts(props.color));
     const colors = computed(() => getColors(props.color));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (props.variant) {
         case "standard": return {
           "--fs-tag-background-color"       : colors.value.light,
-          "--fs-tag-color"                  : textColors.value.base,
+          "--fs-tag-color"                  : colors.value.lightContrast,
           "--fs-tag-hover-background-color" : colors.value.base,
-          "--fs-tag-hover-color"            : textColors.value.light,
+          "--fs-tag-hover-color"            : colors.value.baseContrast,
           "--fs-tag-active-background-color": colors.value.dark,
-          "--fs-tag-active-color"           : textColors.value.light
+          "--fs-tag-active-color"           : colors.value.darkContrast
         };
         case "full": return {
           "--fs-tag-background-color"       : colors.value.base,
-          "--fs-tag-color"                  : textColors.value.light,
+          "--fs-tag-color"                  : colors.value.baseContrast,
           "--fs-tag-hover-background-color" : colors.value.base,
-          "--fs-tag-hover-color"            : textColors.value.light,
+          "--fs-tag-hover-color"            : colors.value.baseContrast,
           "--fs-tag-active-background-color": colors.value.dark,
-          "--fs-tag-active-color"           : textColors.value.light
+          "--fs-tag-active-color"           : colors.value.darkContrast
         };
       }
     });

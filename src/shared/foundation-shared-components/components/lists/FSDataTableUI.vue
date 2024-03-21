@@ -765,20 +765,23 @@ export default defineComponent({
       const activeFilters: { key: string, filter: FSDataTableFilter }[] = Object.keys(filters.value).reduce((acc, key) => {
         return acc.concat(filters.value[key].filter((filter) => filter.hidden).map((filter) => ({ key, filter })));
       }, []);
-      return props.items.filter((item) => {
-        if (props.selectedOnly && !innerValue.value.includes(item[props.itemValue])) {
-          return false;
-        }
-        if (innerSearch.value) {
-          if (!JSON.stringify(item).toLowerCase().includes(innerSearch.value.toString().toLowerCase())) {
+      if (props.items && props.items.length) {
+        return props.items.filter((item) => {
+          if (props.selectedOnly && !innerValue.value.includes(item[props.itemValue])) {
             return false;
           }
-        }
-        if (activeFilters.some(af => af.filter.filter(af.filter.value, item[af.key], item))) {
-          return false;
-        }
-        return true;
-      });
+          if (innerSearch.value) {
+            if (!JSON.stringify(item).toLowerCase().includes(innerSearch.value.toString().toLowerCase())) {
+              return false;
+            }
+          }
+          if (activeFilters.some(af => af.filter.filter(af.filter.value, item[af.key], item))) {
+            return false;
+          }
+          return true;
+        });
+      }
+      return [];
     });
 
     const headersSlots = computed((): FSDataTableColumn[] => {
@@ -914,19 +917,21 @@ export default defineComponent({
           }));
         }
         else {
-          const mapToInnerValue = header.innerValue ? header.innerValue : (i: any) => i;
-          const itemValues = props.items.flatMap((item) => Array.isArray(item[key]) && item[key].length == 0 ? undefined : item[key]).map(mapToInnerValue);
-          const distinctValues = [...new Set(itemValues)];
+          if (props.items && props.items.length) {
+            const mapToInnerValue = header.innerValue ? header.innerValue : (i: any) => i;
+            const itemValues = props.items.flatMap((item) => Array.isArray(item[key]) && item[key].length == 0 ? undefined : item[key]).map(mapToInnerValue);
+            const distinctValues = [...new Set(itemValues)];
 
-          value = distinctValues.map((dv): FSDataTableFilter => ({
-            hidden: currentFilters?.find((cf) => cf.value == (dv || null))?.hidden ?? false,
-            text: dv?.toString() ?? "—",
-            value: dv || null,
-            filter: header.methodFilter ?? ((_, property) => {
-              property = [property].flat().map(mapToInnerValue);
-              return Array.isArray(property) ? property.includes(dv) || (!dv && property.length == 0) : (!dv && !property) || dv == property;
-            })
-          }));
+            value = distinctValues.map((dv): FSDataTableFilter => ({
+              hidden: currentFilters?.find((cf) => cf.value == (dv || null))?.hidden ?? false,
+              text: dv?.toString() ?? "—",
+              value: dv || null,
+              filter: header.methodFilter ?? ((_, property) => {
+                property = [property].flat().map(mapToInnerValue);
+                return Array.isArray(property) ? property.includes(dv) || (!dv && property.length == 0) : (!dv && !property) || dv == property;
+              })
+            }));
+          }
         }
         filterDictionary[key] = value.sort((v1, v2) => {
           return v1.text.localeCompare(v2.text, undefined, { numeric: true });

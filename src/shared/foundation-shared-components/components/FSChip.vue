@@ -85,41 +85,34 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getColors, getContrasts } = useColors();
+    const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
-
-    const textColors = computed(() => {
-      switch (props.variant) {
-        case "standard": return colors.value;
-        case "full": return getContrasts(props.color);
-      }
-    });
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       switch (props.variant) {
         case "standard": return {
           "--fs-chip-background-color"       : backgrounds.base,
           "--fs-chip-border-color"           : colors.value.base,
-          "--fs-chip-color"                  : textColors.value.base,
+          "--fs-chip-color"                  : colors.value.base,
           "--fs-chip-hover-background-color" : backgrounds.base,
           "--fs-chip-hover-border-color"     : colors.value.base,
-          "--fs-chip-hover-color"            : textColors.value.base,
+          "--fs-chip-hover-color"            : colors.value.base,
           "--fs-chip-active-background-color": backgrounds.base,
           "--fs-chip-active-border-color"    : colors.value.dark,
-          "--fs-chip-active-color"           : textColors.value.dark
+          "--fs-chip-active-color"           : colors.value.dark
         };
         case "full": return {
           "--fs-chip-background-color"       : colors.value.base,
-          "--fs-chip-border-color"           : colors.value.base,
-          "--fs-chip-color"                  : textColors.value.light,
+          "--fs-chip-border-color"           : colors.value.baseContrast,
+          "--fs-chip-color"                  : colors.value.baseContrast,
           "--fs-chip-hover-background-color" : colors.value.base,
-          "--fs-chip-hover-border-color"     : colors.value.base,
-          "--fs-chip-hover-color"            : textColors.value.light,
+          "--fs-chip-hover-border-color"     : colors.value.baseContrast,
+          "--fs-chip-hover-color"            : colors.value.baseContrast,
           "--fs-chip-active-background-color": colors.value.dark,
-          "--fs-chip-active-border-color"    : colors.value.dark,
-          "--fs-chip-active-color"           : textColors.value.light
+          "--fs-chip-active-border-color"    : colors.value.darkContrast,
+          "--fs-chip-active-color"           : colors.value.darkContrast
         };
       }
     });

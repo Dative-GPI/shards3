@@ -2,8 +2,13 @@
     transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
     color: var(--fs-button-color) !important;
 
-    &:not(.fs-button-disabled):hover {
+    &:not(.fs-button-disabled, :has(.fs-button-load)):hover {
         color: var(--fs-button-hover-color) !important;
         cursor: pointer !important;
+    }
+
+    &.fs-button-disabled,
+    &:has(.fs-button-load) {
+        cursor: default !important;
     }
 }

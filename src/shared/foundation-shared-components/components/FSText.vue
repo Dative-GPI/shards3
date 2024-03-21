@@ -47,7 +47,7 @@ export default defineComponent({
     variant: {
       type: String as PropType<"base" | "light" | "dark">,
       required: false,
-      default: "dark"
+      default: "base"
     }
   },
   setup(props) {

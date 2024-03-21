@@ -6,7 +6,7 @@
     <template #activator="{ props }">
       <FSColorIcon
         size="m"
-        variant="fill"
+        variant="full"
         :color="$props.deviceConnectivity.color"
         v-bind="props"
       >

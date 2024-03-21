@@ -6,9 +6,12 @@
     :height="['40px', '36px']"
     :variant="$props.variant"
     :color="$props.color"
+    :load="$props.load"
     :padding="padding"
+    :to="$props.to"
     :style="style"
     :width="width"
+    @click.stop="onClick"
     v-bind="$attrs"
   >
     <FSRow
@@ -42,29 +45,58 @@
     </FSRow>
   </FSClickable>
   <FSRow
-    v-else-if="$props.icon"
-    align="center-center"
+    v-else
     width="hug"
     :class="iconClasses"
     :style="style"
+    @click.stop="onClick"
     v-bind="$attrs"
   >
-    <FSIcon
-      size="l"
-    >
-      {{ $props.icon }}
-    </FSIcon>
-    <FSSpan
-      v-if="$props.label"
-      font="text-overline"
-    >
-      {{ $props.label }}
-    </FSSpan>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-button-load"
+        width="2"
+        size="20"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
+    <template v-else-if="$props.to">
+      <router-link
+        :to="$props.to"
+      >
+        <FSIcon
+          v-if="$props.icon"
+          size="l"
+        >
+          {{ $props.icon }}
+        </FSIcon>
+        <FSSpan
+          v-if="$props.label"
+        >
+          {{ $props.label }}
+        </FSSpan>
+      </router-link>
+    </template>
+    <template v-else>
+      <FSIcon
+        v-if="$props.icon"
+        size="l"
+      >
+        {{ $props.icon }}
+      </FSIcon>
+      <FSSpan
+        v-if="$props.label"
+      >
+        {{ $props.label }}
+      </FSSpan>
+    </template>
   </FSRow>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
+import { RouteLocation } from "vue-router";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -83,6 +115,11 @@ export default defineComponent({
     FSRow
   },
   props: {
+    to: {
+      type: [String, Object] as PropType<string | RouteLocation>,
+      required: false,
+      default: null
+    },
     prependIcon: {
       type: String,
       required: false,
@@ -118,13 +155,19 @@ export default defineComponent({
       required: false,
       default: false
     },
+    load: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editable: {
       type: Boolean,
       required: false,
       default: true
     }
   },
-  setup(props) {
+  emits: ["click"],
+  setup(props, { emit }) {
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -163,6 +206,16 @@ export default defineComponent({
       return classNames;
     });
 
+    const loadColor = computed((): string => {
+      switch (props.color) {
+        case ColorEnum.Primary:
+        case ColorEnum.Success:
+        case ColorEnum.Warning:
+        case ColorEnum.Error  : return ["standard"].includes(props.variant) ? colors.value.dark : colors.value.light;
+        default               : return ["standard"].includes(props.variant) ? darks.dark : darks.light;
+      }
+    });
+
     const padding = computed((): string | number => {
       switch (props.variant) {
         case "standard":
@@ -178,12 +231,20 @@ export default defineComponent({
       return "fit-content";
     });
 
+    const onClick = (event: MouseEvent) => {
+      if (!props.to && props.editable && !props.load) {
+        emit("click", event);
+      }
+    };
+
     return {
       iconClasses,
+      loadColor,
       padding,
       colors,
       style,
-      width
+      width,
+      onClick
     };
   }
 });

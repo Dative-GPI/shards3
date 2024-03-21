@@ -15,11 +15,20 @@
         <slot :name="name" v-bind="slotData" />
       </template>
     </FSCard>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-clickable-load"
+        width="2"
+        size="24"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
   </button>
-  <a
+  <router-link
     v-else
     :class="wrapperClasses"
-    :href="href"
+    :to="href"
   >
     <FSCard
       :border="$props.border"
@@ -31,7 +40,16 @@
         <slot :name="name" v-bind="slotData" />
       </template>
     </FSCard>
-  </a>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-clickable-load"
+        width="2"
+        size="24"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -85,6 +103,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    load: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -93,19 +116,19 @@ export default defineComponent({
   },
   emits: ["click"],
   setup(props, { emit }) {
-    const { getColors, getContrasts } = useColors();
+    const { getColors } = useColors();
     const router = useRouter();
 
-    const textColors = computed(() => getContrasts(props.color));
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       if (!props.editable) {
         return {
           "--fs-clickable-border-size"     : props.border ? "1px" : "0",
           "--fs-clickable-border-radius"   : sizeToVar(props.borderRadius),
-          "--fs-clickable-background-color": lights.base,
+          "--fs-clickable-background-color": lights.light,
           "--fs-clickable-border-color"    : lights.dark,
           "--fs-clickable-color"           : lights.dark
         };
@@ -115,27 +138,27 @@ export default defineComponent({
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : colors.value.light,
-          "--fs-clickable-border-color"           : colors.value.base,
-          "--fs-clickable-color"                  : textColors.value.base,
+          "--fs-clickable-border-color"           : colors.value.lightContrast,
+          "--fs-clickable-color"                  : colors.value.lightContrast,
           "--fs-clickable-hover-background-color" : colors.value.base,
-          "--fs-clickable-hover-border-color"     : colors.value.base,
-          "--fs-clickable-hover-color"            : textColors.value.light,
+          "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+          "--fs-clickable-hover-color"            : colors.value.baseContrast,
           "--fs-clickable-active-background-color": colors.value.dark,
-          "--fs-clickable-active-border-color"    : colors.value.dark,
-          "--fs-clickable-active-color"           : textColors.value.light
+          "--fs-clickable-active-border-color"    : colors.value.darkContrast,
+          "--fs-clickable-active-color"           : colors.value.darkContrast
         };
         case "full": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : colors.value.base,
           "--fs-clickable-border-color"           : colors.value.base,
-          "--fs-clickable-color"                  : textColors.value.light,
+          "--fs-clickable-color"                  : colors.value.baseContrast,
           "--fs-clickable-hover-background-color" : colors.value.base,
           "--fs-clickable-hover-border-color"     : colors.value.base,
-          "--fs-clickable-hover-color"            : textColors.value.light,
+          "--fs-clickable-hover-color"            : colors.value.baseContrast,
           "--fs-clickable-active-background-color": colors.value.dark,
           "--fs-clickable-active-border-color"    : colors.value.dark,
-          "--fs-clickable-active-color"           : textColors.value.light
+          "--fs-clickable-active-color"           : colors.value.darkContrast
         };
       }
     });
@@ -157,7 +180,7 @@ export default defineComponent({
     });
 
     const href = computed((): string | null => {
-      if (!props.to) {
+      if (!props.to || !props.editable || props.load) {
         return null;
       }
       if (typeof props.to === "string") {
@@ -168,14 +191,25 @@ export default defineComponent({
       }
     });
 
-    const onClick = () => {
-      if (props.editable) {
-        emit("click");
+    const loadColor = computed((): string => {
+      switch (props.color) {
+        case ColorEnum.Primary:
+        case ColorEnum.Success:
+        case ColorEnum.Warning:
+        case ColorEnum.Error  : return ["standard"].includes(props.variant) ? colors.value.dark : colors.value.light;
+        default               : return ["standard"].includes(props.variant) ? darks.dark : darks.light;
+      }
+    });
+
+    const onClick = (event: MouseEvent) => {
+      if (!props.to && props.editable && !props.load) {
+        emit("click", event);
       }
     };
 
     return {
       wrapperClasses,
+      loadColor,
       classes,
       style,
       href,

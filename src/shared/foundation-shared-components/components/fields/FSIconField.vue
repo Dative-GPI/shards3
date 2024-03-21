@@ -123,7 +123,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const {validateOn, blurred, getMessages} = useRules();
+    const { validateOn, blurred, getMessages } = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);

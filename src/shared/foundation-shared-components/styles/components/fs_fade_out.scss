@@ -1,6 +1,9 @@
 .fs-fade-out {
     @extend .fs-hide-y-scrollbar;
     
+    max-height: var(--fs-fade-out-height);
+    padding: var(--fs-fade-out-padding);
+    width: var(--fs-fade-out-width);
     flex-direction: column;
     position: relative;
     display: flex;
@@ -14,8 +17,7 @@
     height: var(--fs-fade-out-top-mask-height);
     min-height: var(--fs-fade-out-top-mask-height);
     width: 100%;
-    top: 0;
-    left: 0;
+    top: var(--fs-fade-out-top-mask-top);
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(to top, transparent 0, var(--fs-fade-out-mask-color) var(--fs-fade-out-top-mask-height));
 }
@@ -28,8 +30,7 @@
     height: var(--fs-fade-out-bottom-mask-height);
     min-height: var(--fs-fade-out-bottom-mask-height);
     width: 100%;
-    bottom: 0;
-    left: 0;
+    bottom: var(--fs-fade-out-bottom-mask-bottom);
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(to bottom, transparent 0, var(--fs-fade-out-mask-color) var(--fs-fade-out-bottom-mask-height));
 }
