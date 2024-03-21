@@ -163,7 +163,7 @@
 import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, ElementNode, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
 import { $createHeadingNode, HeadingNode, HeadingTagType, registerRichText } from "@lexical/rich-text";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
-import { computed, defineComponent, onMounted, PropType, ref } from "vue";
+import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue";
 import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
@@ -243,9 +243,11 @@ export default defineComponent({
     const isStrikethrough = ref(false);
 
     const id = `${Math.random()}-editor`;
+    const emptyState = "{\"root\":{\"children\":[{\"children\":[],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}";
+
 
     const linkUrl = ref("https://");
-
+    
     const config = {
       namespace: "MyEditor",
       theme: {
@@ -283,6 +285,11 @@ export default defineComponent({
       if (props.modelValue != null) {
         editor.update((): void => {
           editor.setEditorState(editor.parseEditorState(props.modelValue));
+        });
+      }
+      else {
+        editor.update((): void => {
+          editor.setEditorState(editor.parseEditorState(emptyState));
         });
       }
     });
@@ -532,6 +539,21 @@ export default defineComponent({
       });
       isLink.value = false;
     }
+
+    watch(() => props.modelValue, () => {
+      if (props.modelValue != JSON.stringify(editor.getEditorState().toJSON())) {
+        if (props.modelValue != null) {
+          editor.update(() => {
+            editor.setEditorState(editor.parseEditorState(props.modelValue));
+          });
+        }
+        else {
+          editor.update(() => {
+            editor.setEditorState(editor.parseEditorState(emptyState));
+          });
+        }
+      }
+    });
 
     return {
       readonly,
