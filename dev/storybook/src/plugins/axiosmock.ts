@@ -8,6 +8,7 @@ export function mockApp() {
     const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
     mock.onGet("/api/foundation/shared/v1/translations/fr-FR").reply(200, TRANSLATIONS);
     mock.onGet("/api/foundation/shared/v1/images/raw/1").reply(200, IMAGES[0].raw);
+    mock.onGet("/api/foundation/shared/v1/images/blurHash/1").reply(200, IMAGES[0].blurHash);
     mock.onGet("/api/foundation/core/v1/organisations/dative/device-organisations/1").reply(200, DEVICEORGANISATIONS[0]);
     mock.onGet("/api/foundation/core/v1/organisations/dative/device-organisations/2").reply(200, DEVICEORGANISATIONS[1]);
     mock.onGet("/api/foundation/core/v1/organisations/dative/device-organisations/3").reply(200, DEVICEORGANISATIONS[2]);

@@ -96,7 +96,7 @@ export default defineComponent({
       if (!props.editable) {
         return {
           "--fs-radio-cursor"     : "default",
-          "--fs-radio-radio-color": lights.dark,
+          "--fs-radio-radio-color": props.selected ? colors.value.light : lights.base,
           "--fs-radio-color"      : lights.dark
         };
       }
