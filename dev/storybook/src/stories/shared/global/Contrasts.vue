@@ -78,7 +78,7 @@ export default defineComponent({
         color: {
             type: String,
             required: false,
-            default: '#ECDAF2'
+            default: '#F0FFF0'
         },
     },
     setup(props) {

@@ -71,7 +71,7 @@ export const useColors = () => {
                 soft: getSoft(seed).hex(),
                 softContrast: getContrast(seed, dark).hex(),
                 base: seed.hex(),
-                baseContrast: getContrast(seed, base).hex(),
+                baseContrast: getContrast(seed, dark).hex(),
                 dark: dark.hex(),
                 darkContrast: getContrast(dark, light).hex()
             };
