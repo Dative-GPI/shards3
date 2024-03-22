@@ -64,7 +64,6 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
-      <div style="display: flex; gap: 10px;">
         <FSDataTableUI
           :showSelect="true"
           :items="args.items1"
@@ -74,7 +73,38 @@ export const Variations: Story = {
           v-model:headers="args.headers1"
           v-model="args.value1"
         />
-      </div>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSDataTableUI
+          :showSelect="true"
+          :items="args.items1"
+          :sneakyHeaders="['column1']"
+          @click:row="args.clickRow"
+          v-model:headers="args.headers1"
+          v-model="args.value1"
+          :sortDraggable="true"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSDataTableUI
+          :showSelect="true"
+          :items="args.items1"
+          :sneakyHeaders="['column1']"
+          @click:row="args.clickRow"
+          v-model:headers="args.headers1"
+          v-model="args.value1"
+          :includeDraggable="true"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSDataTableUI
+          :showSelect="true"
+          :items="args.items1"
+          :sneakyHeaders="['column1']"
+          @click:row="args.clickRow"
+          v-model:headers="args.headers1"
+          v-model="args.value1"
+          :includeDraggable="true"
+          :sortDraggable="true"
+        />
     </div>`
   })
 }
+

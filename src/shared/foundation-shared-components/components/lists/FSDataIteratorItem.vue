@@ -2,7 +2,7 @@
   <FSCard
     class="fs-data-iterator-item"
     padding="12px"
-    width="50%"
+    width="100%"
   >
     <FSCol>
       <slot name="item.top" v-bind="{ item: $props.item }" />

@@ -17,7 +17,7 @@
       />
       <slot name="toolbar" />
       <v-spacer />
-      <FSToggleSet
+      <FSOptionGroup
         v-if="!$props.disableTable && !$props.disableIterator"
         :values="modeOptions"
         :required="true"
@@ -36,7 +36,10 @@
           @update:filter="(value) => toggleFilter(header.value, value)"
         >
           <template #default="{ filter }">
-            <slot :name="filterSlot(header)" v-bind="{ filter }" />
+            <slot
+              :name="filterSlot(header)"
+              v-bind="{ filter }"
+            />
           </template>
         </FSFilterButton>
         <FSChip
@@ -68,7 +71,7 @@
         :items="innerItems"
         :fixedHeader="true"
         :multiSort="false"
-        :hover="true"
+        :hover="!$props.sortDraggable"
         :style="style"
         :class="classes"
         :page="innerPage"
@@ -77,6 +80,10 @@
         @auxclick:row="onClickRow"
         @click:row="onClickRow"
         @update:sortBy="innerSortBy = $event ? $event[0] : null"
+        @dragover.prevent
+        @drop:row="(event, row) => onDrop(event, row, 'tr.v-data-table__tr')"
+        @dragover="onDragOver($event, 'tr.v-data-table__tr', 'tbody')"
+        @dragleave="onDragLeave"
       >
         <template #no-data>
           <FSText
@@ -111,11 +118,37 @@
             />
           </FSRow>
         </template>
+        <template #[`item.data-table-draggable`]="props">
+          <FSDraggable
+            elementSelector="tr.v-data-table__tr"
+            :disabled="draggableDisabled"
+            :item="props"
+            @update:dragend="(event, dragged) => onDragEnd(event, dragged, 'tbody')"
+          >
+            <FSRow
+              class="fs-data-table-draggable"
+              align="bottom-center"
+              width="hug"
+            >
+              <FSIcon
+                size="l"
+              >
+                mdi-drag-vertical
+              </FSIcon>
+            </FSRow>
+          </FSDraggable>
+        </template>
         <template #[`header.data-table-group`]="props">
-          <slot name="header.data-table-group" v-bind="props" />
+          <slot
+            name="header.data-table-group"
+            v-bind="props"
+          />
         </template>
         <template #[`item.data-table-group`]="props">
-          <slot name="item.data-table-group" v-bind="props" />
+          <slot
+            name="item.data-table-group"
+            v-bind="props"
+          />
         </template>
         <template #group-header="props">
           <template :ref="() => { if (!props.isGroupOpen(props.item)) { props.toggleGroup(props.item) } }" />
@@ -125,27 +158,39 @@
               class="fs-data-table-group-header"
               :colspan="extraHeaders.concat(innerHeaders).length + 1"
             >
-              <slot name="group-header" v-bind="props">
-              <FSCard
-                padding="12px 16px"
+              <slot
+                name="group-header"
+                v-bind="props"
               >
-                <FSRow
-                  align="center-left"
-                  width="hug"
+                <FSCard
+                  padding="12px 16px"
                 >
-                  <FSText>
-                    <slot name="group-header-title" v-bind="props">
-                      {{ props.item.value }}
-                    </slot>
-                  </FSText>
-                </FSRow>
-              </FSCard>
+                  <FSRow
+                    align="center-left"
+                    width="hug"
+                  >
+                    <FSText>
+                      <slot
+                        name="group-header-title"
+                        v-bind="props"
+                      >
+                        {{ props.item.value }}
+                      </slot>
+                    </FSText>
+                  </FSRow>
+                </FSCard>
               </slot>
             </td>
           </tr>
         </template>
-        <template v-for="(header, index) in headersSlots" #[header.slotName]="props">
-          <slot :name="header.slotName" v-bind="props">
+        <template
+          v-for="(header, index) in headersSlots"
+          #[header.slotName]="props"
+        >
+          <slot
+            :name="header.slotName"
+            v-bind="props"
+          >
             <FSRow
               align="center-left"
               :wrap="false"
@@ -177,8 +222,14 @@
             </FSRow>
           </slot>
         </template>
-        <template v-for="(item, index) in itemsSlots" #[item.slotName]="props">
-          <slot :name="item.slotName" v-bind="props">
+        <template
+          v-for="(item, index) in itemsSlots"
+          #[item.slotName]="props"
+        >
+          <slot
+            :name="item.slotName"
+            v-bind="props"
+          >
             <FSRow
               align="center-left"
               :key="index"
@@ -249,8 +300,14 @@
             />
           </FSRow>
         </template>
-        <template v-for="(_, name) in innerSlots" #[name]="props">
-          <slot :name="name" v-bind="props" />
+        <template
+          v-for="(_, name) in innerSlots"
+          #[name]="props"
+        >
+          <slot
+            :name="name"
+            v-bind="props"
+          />
         </template>
       </v-data-table>
       <v-data-iterator
@@ -263,25 +320,49 @@
         <template #default="{ items }">
           <FSCol
             width="fill"
+            class="fs-data-iterator-container"
           >
-            <template v-for="(item, index) in items">
-              <slot name="item.iterator" v-bind="{ item, index }">
+            <FSDraggable
+              v-for="(item, index) in items"
+              elementSelector=".fs-draggable-item"
+              :disabled="draggableDisabled"
+              :item="item"
+              :key="index"
+              @update:dragend="(event, dragged) => onDragEnd(event, dragged, '.fs-data-iterator-container')"
+              @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
+              @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
+              @dragleave="onDragLeave"
+              @dragover.prevent
+            >
+              <slot
+                name="item.iterator"
+                v-bind="{ item, index }"
+              >
                 <FSDataIteratorItem
                   v-if="item.type === 'item'"
-                  :key="index"
-                  :item="item.raw"
-                  :color="$props.color"
-                  :itemTo="$props.itemTo"
-                  :showSelect="$props.showSelect"
                   :headers="innerHeaders.filter(h => !$props.sneakyHeaders.includes(h.value))"
                   :modelValue="innerValue.includes(item.raw[$props.itemValue])"
+                  :showSelect="$props.showSelect"
+                  :itemTo="$props.itemTo"
+                  :color="$props.color"
+                  :item="item.raw"
+                  :key="index"
                   @update:modelValue="toggleSelect"
                 >
                   <template #[`item.top`]="props">
-                    <slot name="item.top" v-bind="props" />
+                    <slot
+                      name="item.top"
+                      v-bind="props"
+                    />
                   </template>
-                  <template v-for="(item, index) in itemsSlots" #[item.slotName]="props">
-                    <slot :name="item.slotName" v-bind="props">
+                  <template
+                    v-for="(item, index) in itemsSlots"
+                    #[item.slotName]="props"
+                  >
+                    <slot
+                      :name="item.slotName"
+                      v-bind="props"
+                    >
                       <FSText
                         :key="index"
                       >
@@ -290,11 +371,14 @@
                     </slot>
                   </template>
                   <template #[`item.bottom`]="props">
-                    <slot name="item.bottom" v-bind="props" />
+                    <slot
+                      name="item.bottom"
+                      v-bind="props"
+                    />
                   </template>
                 </FSDataIteratorItem>
               </slot>
-            </template>
+            </FSDraggable>
           </FSCol>
         </template>
         <template #footer>
@@ -368,24 +452,48 @@
         <template #default="{ items }">
           <FSRow
             width="hug"
+            class="fs-data-iterator-container"
           >
-            <template v-for="(item, index) in items.filter((item) => item.type === 'item')">
-              <slot name="item.tile" v-bind="{ index, item: item.raw, toggleSelect }">
+            <FSDraggable
+              v-for="(item, index) in items.filter((item) => item.type === 'item')"
+              elementSelector=".fs-draggable-item"
+              :disabled="draggableDisabled"
+              :item="item"
+              :key="index"
+              @update:dragend="(event, dragged) => onDragEnd(event, dragged, '.fs-data-iterator-container')"
+              @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
+              @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
+              @dragleave="onDragLeave"
+              @dragover.prevent
+            >
+              <slot
+                name="item.tile"
+                v-bind="{ index, item: item.raw, toggleSelect }"
+              >
                 <FSDataIteratorItem
-                  :key="index"
-                  :item="item.raw"
-                  :color="$props.color"
-                  :itemTo="$props.itemTo"
-                  :showSelect="$props.showSelect"
                   :headers="innerHeaders.filter(h => !$props.sneakyHeaders.includes(h.value))"
                   :modelValue="innerValue.includes(item.raw[$props.itemValue])"
+                  :showSelect="$props.showSelect"
+                  :itemTo="$props.itemTo"
+                  :color="$props.color"
+                  :item="item.raw"
+                  :key="index"
                   @update:modelValue="toggleSelect"
                 >
                   <template #[`item.top`]="props">
-                    <slot name="item.top" v-bind="props" />
+                    <slot
+                      name="item.top"
+                      v-bind="props"
+                    />
                   </template>
-                  <template v-for="(item, index) in itemsSlots" #[item.slotName]="props">
-                    <slot :name="item.slotName" v-bind="props">
+                  <template
+                    v-for="(item, index) in itemsSlots"
+                    #[item.slotName]="props"
+                  >
+                    <slot
+                      :name="item.slotName"
+                      v-bind="props"
+                    >
                       <FSText
                         :key="index"
                       >
@@ -394,11 +502,14 @@
                     </slot>
                   </template>
                   <template #[`item.bottom`]="props">
-                    <slot name="item.bottom" v-bind="props" />
+                    <slot
+                      name="item.bottom"
+                      v-bind="props"
+                    />
                   </template>
                 </FSDataIteratorItem>
               </slot>
-            </template>
+            </FSDraggable>
           </FSRow>
         </template>
       </v-data-iterator>
@@ -421,11 +532,13 @@ import FSSelectField from "../fields/FSSelectField.vue";
 import FSFilterButton from "./FSFilterButton.vue";
 import FSHiddenButton from "./FSHiddenButton.vue";
 import FSHeaderButton from "./FSHeaderButton.vue";
-import FSContainer from "../FSContainer.vue";
+import FSOptionGroup from "../FSOptionGroup.vue";
 import FSToggleSet from "../FSToggleSet.vue";
+import FSDraggable from "./FSDraggable.vue";
 import FSCheckbox from "../FSCheckbox.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
+import FSIcon from "../FSIcon.vue";
 import FSText from "../FSText.vue";
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
@@ -439,11 +552,13 @@ export default defineComponent({
     FSHeaderButton,
     FSSearchField,
     FSSelectField,
-    FSContainer,
+    FSOptionGroup,
+    FSDraggable,
     FSToggleSet,
     FSCheckbox,
     FSCard,
     FSChip,
+    FSIcon,
     FSText,
     FSRow,
     FSCol
@@ -541,9 +656,19 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 20
+    },
+    sortDraggable: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    includeDraggable: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
-  emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "click:row"],
+  emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
@@ -583,6 +708,8 @@ export default defineComponent({
       delete slots["no-data"];
       delete slots["header.data-table-select"];
       delete slots["item.data-table-select"];
+      delete slots["header.data-table-draggable"];
+      delete slots["item.data-table-draggable"];
       delete slots["header.data-table-group"];
       delete slots["item.data-table-group"];
       delete slots["group-header"];
@@ -606,8 +733,8 @@ export default defineComponent({
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-data-table-background-color"   : backgrounds.base,
-        "--fs-data-table-border-color"       : lights.base
+        "--fs-data-table-background-color": backgrounds.base,
+        "--fs-data-table-border-color": lights.base
       };
     });
 
@@ -620,10 +747,16 @@ export default defineComponent({
     });
 
     const extraHeaders = computed((): any[] => {
-      const extra = [];
+      const extra: { key: string, width: string }[] = [];
       if (props.groupBy) {
         extra.push({
           key: "data-table-group",
+          width: "0%"
+        });
+      }
+      if (props.sortDraggable || props.includeDraggable) {
+        extra.push({
+          key: "data-table-draggable",
           width: "0%"
         });
       }
@@ -714,6 +847,31 @@ export default defineComponent({
           label: (i + 1).toString()
         }));
       }
+    });
+
+    const onClickRow = computed(() => {
+      if (!!getCurrentInstance()?.vnode.props?.["onClick:row"] || props.itemTo) {
+        return (event: PointerEvent, row: any) => {
+          if (props.itemTo && router) {
+            if (event.metaKey || event.ctrlKey || event.button === 1) {
+              window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
+            }
+            else {
+              router.push(props.itemTo(row.item));
+            }
+          }
+          else {
+            emit("click:row", row.item);
+          }
+        };
+      }
+      else {
+        return null;
+      }
+    });
+
+    const draggableDisabled = computed(() => {
+      return (!props.sortDraggable && !props.includeDraggable) || !(innerSortBy.value === null || innerSortBy.value === undefined);
     });
 
     const toggleSelectAll = (allSelected: boolean): void => {
@@ -875,11 +1033,11 @@ export default defineComponent({
           if (!intersectionObserver.value) {
             intersectionObserver.value = new IntersectionObserver(entries => {
               entries.forEach((entry) => {
-                  if (entry.boundingClientRect.bottom < window.innerHeight * 1.25) {
-                    if (innerItems.value.length > size.value) {
-                      size.value = Math.min(size.value + props.sizeIterator, innerItems.value.length);
-                    }
+                if (entry.boundingClientRect.bottom < window.innerHeight * 1.25) {
+                  if (innerItems.value.length > size.value) {
+                    size.value = Math.min(size.value + props.sizeIterator, innerItems.value.length);
                   }
+                }
               });
             }, { threshold: [0.9] });
           }
@@ -890,26 +1048,111 @@ export default defineComponent({
       }
     }
 
-    const onClickRow = computed(() => {
-      if (!!getCurrentInstance()?.vnode.props?.['onClick:row'] || props.itemTo) {
-        return (event: PointerEvent, row: any) => {
-          if (props.itemTo && router) {
-            if (event.metaKey || event.ctrlKey || event.button === 1) {
-              window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
-            }
-            else {
-              router.push(props.itemTo(row.item));
-            }
-          }
-          else {
-            emit("click:row", row.item);
-          }
-        };
+    const changeIndex = (oldIndex: number, newIndex: number) => {
+      if (oldIndex === newIndex) {
+        return;
+      }
+      const items = innerItems.value.slice();
+      const itemToMove = items.splice(oldIndex, 1)[0];
+      items.splice(newIndex, 0, itemToMove);
+      return items;
+    };
+
+    const resetRowIndex = (initialIndex: number, currentIndex: number, draggedElement: HTMLElement, tbodyElement: HTMLElement) => {
+      if (initialIndex > currentIndex) {
+        tbodyElement.children[initialIndex].insertAdjacentElement("afterend", draggedElement);
       }
       else {
-        return null;
+        tbodyElement.children[initialIndex].insertAdjacentElement("beforebegin", draggedElement);
       }
-    });
+    };
+
+    const onDragOver = (event: DragEvent, elementSelector: string, elementContainerSelector: string) => {
+      const dragged = document.querySelector(".fs-draggable-dragging") as HTMLElement;
+
+      if (dragged != null) {
+        const target = (event.target as HTMLElement)?.closest(elementSelector);
+
+        if (target != null) {
+          if (props.includeDraggable) {
+            if (!props.sortDraggable) {
+              target.classList.add("fs-dropzone-include");
+            }
+            else {
+              const rowHeight = target.clientHeight;
+              const y = event.clientY - target.getBoundingClientRect().top;
+
+              if (y > rowHeight * (3 / 4)) {
+                target.insertAdjacentElement("afterend", dragged);
+                target.classList.remove("fs-dropzone-include");
+              }
+              else if (y < rowHeight * (1 / 4)) {
+                target.insertAdjacentElement("beforebegin", dragged);
+                target.classList.remove("fs-dropzone-include");
+              }
+              else if (dragged?.getAttribute("data-initial-index") !== null) {
+                target.classList.add("fs-dropzone-include");
+                const tbodyElement = (event.target as HTMLElement)?.closest(elementContainerSelector) as HTMLElement;
+                resetRowIndex(+dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
+              }
+            }
+          }
+          else if (props.sortDraggable) {
+            const rowHeight = target.clientHeight;
+            const y = event.clientY - target.getBoundingClientRect().top;
+            if (y > rowHeight / 2) {
+              target.insertAdjacentElement("afterend", dragged);
+            }
+            else {
+              target.insertAdjacentElement("beforebegin", dragged);
+            }
+          }
+        }
+
+      }
+    };
+
+    const onDragLeave = (event: DragEvent) => {
+      const dropzone = (event.target as HTMLElement)?.closest(".fs-dropzone-include");
+      if (dropzone && !(event.relatedTarget as HTMLElement)?.closest(".fs-dropzone-include")) {
+        dropzone.classList.remove("fs-dropzone-include");
+      }
+    };
+
+    const onDragEnd = (event: DragEvent, draggedElement: HTMLElement, elementContainerSelector: string) => {
+      const initialIndex = +(draggedElement.getAttribute("data-initial-index") ?? -1);
+
+      if (draggedElement != null && initialIndex !== -1) {
+        if (props.sortDraggable) {
+          const tbodyElement = (event.target as HTMLElement)?.closest(elementContainerSelector) as HTMLElement;
+          const currentIndex = Array.from(tbodyElement.children).indexOf(draggedElement);
+          const newItems = changeIndex(initialIndex, currentIndex);
+
+          if (newItems !== null && newItems !== undefined) {
+            emit("update:items", newItems);
+          }
+          resetRowIndex(initialIndex, currentIndex, draggedElement, tbodyElement);
+        }
+      }
+    };
+
+    const onDrop = (event: DragEvent, row: any, elementSelector: string) => {
+      const draggedElement = document.querySelector(".fs-draggable-dragging");
+
+      if (draggedElement != null) {
+        const target = (event.target as HTMLElement)?.closest(elementSelector);
+        const draggedData = JSON.parse(event.dataTransfer?.getData("text/plain") ?? "");
+        const itemsData = draggedData.item ?? draggedData.raw;
+        const rowData = row.item ?? row.raw;
+
+        if (target != null) {
+          if (props.includeDraggable && itemsData[props.itemValue] != rowData[props.itemValue]) {
+            emit("update:include", { draggedItem: itemsData, targetItem: rowData })
+          }
+          target.closest(".fs-dropzone-include")?.classList.remove("fs-dropzone-include");
+        }
+      }
+    };
 
     onMounted(() => {
       computeFilters();
@@ -975,6 +1218,7 @@ export default defineComponent({
       size,
       onClickRow,
       isExtraSmall,
+      draggableDisabled,
       toggleSelectAll,
       toggleSelect,
       updateHeader,
@@ -983,6 +1227,10 @@ export default defineComponent({
       filterSlot,
       sortColor,
       sortIcon,
+      onDrop,
+      onDragOver,
+      onDragLeave,
+      onDragEnd
     };
   }
 })
