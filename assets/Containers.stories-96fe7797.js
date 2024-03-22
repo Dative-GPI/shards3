@@ -1,53 +1,71 @@
-import{F as m}from"./FSSlideGroup-1589ffb4.js";import{_ as F}from"./FSWrapGroup-c4cc1896.js";import{F as v}from"./FSFadeOut-1f2097b7.js";import{F as b}from"./FSColor-071239eb.js";import{_ as u}from"./FSIcon-8481a0c6.js";import{_ as f}from"./FSSpan-50615fe3.js";import{_ as y}from"./FSRow-852c6353.js";import{_ as k}from"./FSCol-5b91b447.js";import"./vue.esm-bundler-0a1af505.js";import"./FSButtonNextIcon-6de2de76.js";import"./FSButton-87a8d4ab.js";import"./vue-router-f60daad6.js";import"./FSCard-985d3fa3.js";import"./useColors-128f3c4d.js";import"./_commonjsHelpers-725317a4.js";import"./index-a0e5e2a3.js";import"./theme-2d24b19c.js";import"./css-415780ec.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./VProgressCircular-1c311cd8.js";import"./color-68d45c69.js";import"./useRender-cc726afb.js";import"./intersectionObserver-bdfff18f.js";import"./resizeObserver-86c9045a.js";import"./VIcon-a19d44fc.js";import"./tag-e48f136a.js";import"./useSlots-de2ef136.js";import"./VSlideGroup-6393fefa.js";import"./index-d90e6acb.js";import"./display-b22dea51.js";import"./group-439abacb.js";import"./proxiedModel-7a45f3f8.js";import"./locale-767f04a5.js";const ed={title:"Foundation/Shared/Global/Containers",tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},d={render:()=>({components:{FSFadeOut:v,FSCol:k},template:`
-    <div style="display: flex; gap: 80px; margin-bottom: 80px;">
-      <div style="display: flex; flex-direction: column;">
-        <pre>&lt;FSFadeOut height="200px"&gt;
+import{F}from"./FSSlideGroup-1589ffb4.js";import{_ as m}from"./FSWrapGroup-c4cc1896.js";import{F as v}from"./FSFadeOut-0da67b28.js";import{_ as b}from"./FSButton-87a8d4ab.js";import{F as u}from"./FSColor-071239eb.js";import{_ as f}from"./FSIcon-8481a0c6.js";import{_ as k}from"./FSSpan-50615fe3.js";import{_ as y}from"./FSRow-852c6353.js";import{_ as w}from"./FSCol-5b91b447.js";import"./vue.esm-bundler-0a1af505.js";import"./FSButtonNextIcon-6de2de76.js";import"./useColors-128f3c4d.js";import"./_commonjsHelpers-725317a4.js";import"./index-a0e5e2a3.js";import"./theme-2d24b19c.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./useSlots-de2ef136.js";import"./css-415780ec.js";import"./VSlideGroup-6393fefa.js";import"./index-d90e6acb.js";import"./useRender-cc726afb.js";import"./display-b22dea51.js";import"./group-439abacb.js";import"./proxiedModel-7a45f3f8.js";import"./tag-e48f136a.js";import"./locale-767f04a5.js";import"./resizeObserver-86c9045a.js";import"./VIcon-a19d44fc.js";import"./color-68d45c69.js";import"./vue-router-f60daad6.js";import"./FSCard-985d3fa3.js";import"./VProgressCircular-1c311cd8.js";import"./intersectionObserver-bdfff18f.js";const ad={title:"Foundation/Shared/Global/Containers",tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},d={render:()=>({components:{FSFadeOut:v,FSCol:w,FSButton:b},template:`
+    <div style="display: flex; flex-direction: column; gap: 80px;">
+      <div style="display: flex; gap: 80px;">
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut height="200px"&gt;
   &lt;FSCol width="fill" height="hug" /&gt;
 &lt;/FSFadeOut&gt;</pre>
-        <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
-          <FSCol style="background-color: plum; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
-          </FSCol>
-        </FSFadeout>
-        FSFadeOut scrollbar is hidden but its space is reserved
+          <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+            </FSCol>
+          </FSFadeout>
+          FSFadeOut scrollbar is hidden but its space is reserved
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut maskHeight="128px" height="200px"&gt;
+  &lt;FSCol width="fill" height="hug" /&gt;
+&lt;/FSFadeOut&gt;</pre>
+          <FSFadeOut height="200px" maskHeight="128px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+            </FSCol>
+          </FSFadeout>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut height="200px"&gt;
+  &lt;FSCol width="fill" height="hug" /&gt;
+&lt;/FSFadeOut&gt;</pre>
+          <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+            </FSCol>
+          </FSFadeout>
+          If the content is smaller than the FSFadeOut, the container size fit the content
+        </div>
       </div>
-      <div style="display: flex; flex-direction: column;">
-      <pre>&lt;FSFadeOut maskHeight="128" height="200px"&gt;
+      <div style="display: flex; gap: 80px;">
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut height="200px"&gt;
   &lt;FSCol width="fill" height="hug" /&gt;
 &lt;/FSFadeOut&gt;</pre>
-        <FSFadeOut height="200px" maskHeight="128" style="width: 150px; border: 2px dotted black;">
-          <FSCol style="background-color: plum; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
-          </FSCol>
-        </FSFadeout>
-      </div>
-      <div style="display: flex; flex-direction: column;">
-      <pre>&lt;FSFadeOut maskHeight="128" height="200px"&gt;
-  &lt;FSCol width="fill" height="hug" /&gt;
-&lt;/FSFadeOut&gt;</pre>
-        <FSFadeOut height="200px" maskHeight="128" style="width: 150px; border: 2px dotted black;">
-          <FSCol style="background-color: plum; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-          </FSCol>
-        </FSFadeout>
-        If the content is smaller than the FSFadeOut, the container size fit the content
+          <FSFadeOut height="180px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <FSButton label="1" />
+              <FSButton label="2" />
+              <FSButton label="3" />
+              <FSButton label="4" />
+            </FSCol>
+          </FSFadeout>
+          If the content starts to fit after mounting, the mask and scrollbar disappear
+        </div>
       </div>
     </div>
-    `})},l={render:()=>({components:{FSWrapGroup:F,FSRow:y},template:`
+    `})},l={render:()=>({components:{FSWrapGroup:m,FSRow:y},template:`
     <div style="display: flex; gap: 80px; margin-bottom: 80px;">
       <div style="display: flex; flex-direction: column;">
         <pre>&lt;FSWrapGroup style="width: 500px; height: 150px;"&gt;
@@ -84,7 +102,7 @@ import{F as m}from"./FSSlideGroup-1589ffb4.js";import{_ as F}from"./FSWrapGroup-
         FSWrapGroup slides on mobile instead of wrapping
       </div>
     </div>
-    `})},o={render:()=>({components:{FSSlideGroup:m,FSRow:y},template:`
+    `})},o={render:()=>({components:{FSSlideGroup:F,FSRow:y},template:`
     <div style="display: flex; gap: 80px; margin-bottom: 80px;">
       <div style="display: flex; flex-direction: column;">
         <pre>&lt;FSSlideGroup style="width: 500px; height: 150px;"&gt;
@@ -132,7 +150,7 @@ import{F as m}from"./FSSlideGroup-1589ffb4.js";import{_ as F}from"./FSWrapGroup-
         FSSlideGroup arrows take the container's height on desktop, but are hidden on mobile
       </div>
     </div>
-    `})},e={render:()=>({components:{FSColor:b,FSIcon:u,FSSpan:f},template:`
+    `})},e={render:()=>({components:{FSColor:u,FSIcon:f,FSSpan:k},template:`
     <div style="display: flex; flex-direction: column; gap: 20px;">
       <div style="display: flex; gap: 20px;">
         <FSColor color="primary" style="padding: 4px;">
@@ -216,55 +234,74 @@ import{F as m}from"./FSSlideGroup-1589ffb4.js";import{_ as F}from"./FSWrapGroup-
   render: () => ({
     components: {
       FSFadeOut,
-      FSCol
+      FSCol,
+      FSButton
     },
     template: \`
-    <div style="display: flex; gap: 80px; margin-bottom: 80px;">
-      <div style="display: flex; flex-direction: column;">
-        <pre>&lt;FSFadeOut height="200px"&gt;
+    <div style="display: flex; flex-direction: column; gap: 80px;">
+      <div style="display: flex; gap: 80px;">
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut height="200px"&gt;
   &lt;FSCol width="fill" height="hug" /&gt;
 &lt;/FSFadeOut&gt;</pre>
-        <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
-          <FSCol style="background-color: plum; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
-          </FSCol>
-        </FSFadeout>
-        FSFadeOut scrollbar is hidden but its space is reserved
+          <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+            </FSCol>
+          </FSFadeout>
+          FSFadeOut scrollbar is hidden but its space is reserved
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut maskHeight="128px" height="200px"&gt;
+  &lt;FSCol width="fill" height="hug" /&gt;
+&lt;/FSFadeOut&gt;</pre>
+          <FSFadeOut height="200px" maskHeight="128px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+            </FSCol>
+          </FSFadeout>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut height="200px"&gt;
+  &lt;FSCol width="fill" height="hug" /&gt;
+&lt;/FSFadeOut&gt;</pre>
+          <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+            </FSCol>
+          </FSFadeout>
+          If the content is smaller than the FSFadeOut, the container size fit the content
+        </div>
       </div>
-      <div style="display: flex; flex-direction: column;">
-      <pre>&lt;FSFadeOut maskHeight="128" height="200px"&gt;
+      <div style="display: flex; gap: 80px;">
+        <div style="display: flex; flex-direction: column;">
+          <pre>&lt;FSFadeOut height="200px"&gt;
   &lt;FSCol width="fill" height="hug" /&gt;
 &lt;/FSFadeOut&gt;</pre>
-        <FSFadeOut height="200px" maskHeight="128" style="width: 150px; border: 2px dotted black;">
-          <FSCol style="background-color: plum; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
-          </FSCol>
-        </FSFadeout>
-      </div>
-      <div style="display: flex; flex-direction: column;">
-      <pre>&lt;FSFadeOut maskHeight="128" height="200px"&gt;
-  &lt;FSCol width="fill" height="hug" /&gt;
-&lt;/FSFadeOut&gt;</pre>
-        <FSFadeOut height="200px" maskHeight="128" style="width: 150px; border: 2px dotted black;">
-          <FSCol style="background-color: plum; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-          </FSCol>
-        </FSFadeout>
-        If the content is smaller than the FSFadeOut, the container size fit the content
+          <FSFadeOut height="180px" style="width: 150px; border: 2px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <FSButton label="1" />
+              <FSButton label="2" />
+              <FSButton label="3" />
+              <FSButton label="4" />
+            </FSCol>
+          </FSFadeout>
+          If the content starts to fit after mounting, the mask and scrollbar disappear
+        </div>
       </div>
     </div>
     \`
@@ -459,4 +496,4 @@ import{F as m}from"./FSSlideGroup-1589ffb4.js";import{_ as F}from"./FSWrapGroup-
       </div>
     </div>\`
   })
-}`,...(S=(g=e.parameters)==null?void 0:g.docs)==null?void 0:S.source}}};const ad=["FadeOut","WrapGroup","SlideGroup","Color"];export{e as Color,d as FadeOut,o as SlideGroup,l as WrapGroup,ad as __namedExportsOrder,ed as default};
+}`,...(S=(g=e.parameters)==null?void 0:g.docs)==null?void 0:S.source}}};const id=["FadeOut","WrapGroup","SlideGroup","Color"];export{e as Color,d as FadeOut,o as SlideGroup,l as WrapGroup,id as __namedExportsOrder,ad as default};
