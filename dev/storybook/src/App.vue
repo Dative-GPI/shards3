@@ -8,8 +8,8 @@
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
 
-import { useOrganisationId, useShared } from "@dative-gpi/foundation-shared-services/composables";
-import { useCore } from "@dative-gpi/foundation-core-services/composables";
+import { useCore, useOrganisationId } from "@dative-gpi/foundation-core-services/composables";
+import { useShared } from "@dative-gpi/foundation-shared-services/composables";
 
 export default defineComponent({
   name: "App",
