@@ -1,6 +1,7 @@
 <template>
   <div
     class="fs-fade-out"
+    ref="fadeOutRef"
     :style="style"
     @scroll="onScroll"
   >
@@ -11,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -45,8 +46,9 @@ export default defineComponent({
 
     const backgrounds = getColors(ColorEnum.Background);
 
+    const fadeOutRef = ref(null);
     const topMaskHeight = ref("0px");
-    const bottomMaskHeight = ref(sizeToVar(props.maskHeight));
+    const bottomMaskHeight = ref("0px");
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
@@ -120,7 +122,16 @@ export default defineComponent({
       }
     }
 
+    onMounted((): void => {
+      if (fadeOutRef.value) {
+        if (fadeOutRef.value.clientHeight < fadeOutRef.value.scrollHeight) {
+          bottomMaskHeight.value = sizeToVar(props.maskHeight);
+        }
+      }
+    });
+
     return {
+      fadeOutRef,
       style,
       onScroll
     };

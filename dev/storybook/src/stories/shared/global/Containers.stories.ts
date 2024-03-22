@@ -58,6 +58,19 @@ export const FadeOut: Story = {
           </FSCol>
         </FSFadeout>
       </div>
+      <div style="display: flex; flex-direction: column;">
+      <pre>&lt;FSFadeOut maskHeight="128" height="200px"&gt;
+  &lt;FSCol width="fill" height="hug" /&gt;
+&lt;/FSFadeOut&gt;</pre>
+        <FSFadeOut height="200px" maskHeight="128" style="width: 150px; border: 2px dotted black;">
+          <FSCol style="background-color: plum; padding: 4px;">
+            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+          </FSCol>
+        </FSFadeout>
+        If the content is smaller than the FSFadeOut, the container size fit the content
+      </div>
     </div>
     `,
   })
