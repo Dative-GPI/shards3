@@ -9,3 +9,4 @@ export * from "./rules";
 export * from "./tables";
 export * from "./toggleSets";
 export * from "./grids";
+export * from "./images";
