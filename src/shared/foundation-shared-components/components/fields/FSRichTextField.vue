@@ -383,7 +383,12 @@ export default defineComponent({
     editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         updateToolbar();
-        emit("update:modelValue", JSON.stringify(editorState.toJSON()));
+        if (JSON.stringify(editorState.toJSON()) !== emptyState) {
+          emit("update:modelValue", JSON.stringify(editorState.toJSON()));
+        }
+        else {
+          emit("update:modelValue", null);
+        }
       });
     });
 
@@ -541,13 +546,13 @@ export default defineComponent({
     }
 
     watch(() => props.modelValue, () => {
-      if (props.modelValue != JSON.stringify(editor.getEditorState().toJSON())) {
+      if (JSON.stringify(editor.getEditorState().toJSON()) != props.modelValue) {
         if (props.modelValue != null) {
           editor.update(() => {
             editor.setEditorState(editor.parseEditorState(props.modelValue));
           });
         }
-        else {
+        else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyState) {
           editor.update(() => {
             editor.setEditorState(editor.parseEditorState(emptyState));
           });
