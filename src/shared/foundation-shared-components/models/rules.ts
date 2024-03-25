@@ -59,3 +59,7 @@ export const TimeRules = {
     min: (min: number, message: string) => (value: number) => value >= min || (message ?? $tr("ui.rules.time-min", "Must be more than {0}", getTimeBestString(min))),
     max: (max: number, message: string) => (value: number) => value <= max || (message ?? $tr("ui.rules.time-max", "Must be less than {0}", getTimeBestString(max)))
 };
+
+export const ToggleRules = {
+    required: (message: string) => (value: boolean) => value || (message ?? $tr("ui.rules.required", "Required"))
+}
