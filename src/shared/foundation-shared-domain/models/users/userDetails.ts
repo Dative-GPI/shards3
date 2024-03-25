@@ -1,6 +1,7 @@
 import { UserInfos, UserInfosDTO } from "./userInfos";
 
 export class UserDetails extends UserInfos {
+    adminAccess: boolean;
     languageCode: string;
     timeZoneId: string;
     allowSms: boolean;
@@ -9,6 +10,7 @@ export class UserDetails extends UserInfos {
     constructor(params: UserDetailsDTO) {
         super(params);
 
+        this.adminAccess = params.adminAccess;
         this.languageCode = params.languageCode;
         this.timeZoneId = params.timeZoneId;
         this.allowSms = params.allowSms;
@@ -17,6 +19,7 @@ export class UserDetails extends UserInfos {
 }
 
 export interface UserDetailsDTO extends UserInfosDTO {
+    adminAccess: boolean;
     languageCode: string;
     timeZoneId: string;
     allowSms: boolean;
