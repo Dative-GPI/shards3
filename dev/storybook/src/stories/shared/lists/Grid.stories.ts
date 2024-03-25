@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSGrid from "@dative-gpi/foundation-shared-components/components/lists/FSGrid.vue";
+import FSIcon from '@dative-gpi/foundation-shared-components/components/FSIcon.vue';
+import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
 
 const meta = {
     title: 'Foundation/Shared/Lists/Grid',
@@ -107,7 +109,7 @@ export const Variations: Story = {
         }
     },
     render: (args, { argTypes }) => ({
-        components: { FSGrid },
+        components: { FSGrid, FSIcon, FSText },
         props: Object.keys(argTypes),
         setup() {
             return { ...args };
@@ -119,12 +121,12 @@ export const Variations: Story = {
           :gridItems="args.gridItems"
           :cols="2"
         >
-        <!-- <template v-slot:item-value-right.admin-permissions-permission4="{ item }">
-            <FSText>Custom value </FSText>
-        </template>
         <template v-slot:item-value-left.teleport-permissions-permission3="{ item }">
             <FSText>Custom value </FSText>
-        </template> -->
+        </template>
+         <template v-slot:item-value-right.admin-permissions-permission4="{ item }">
+           <FSIcon color="error" icon="mdi-close-circle"/>
+        </template>
         </FSGrid>
       </div>
     </div>`
