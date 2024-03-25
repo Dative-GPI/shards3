@@ -49,7 +49,7 @@ export default defineComponent({
     imageB64: {
       type: String,
       required: false,
-      default: false
+      default: null
     },
     cover: {
       type: Boolean,
