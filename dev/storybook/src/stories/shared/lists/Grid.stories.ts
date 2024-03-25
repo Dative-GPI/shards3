@@ -36,7 +36,8 @@ export const Variations: Story = {
                     }, {
                         label: "Permission 3",
                         code: "permission3",
-                        value: "3"
+                        value: "3",
+                        hideDefault: true
                     }],
                 },
                 {
@@ -57,7 +58,8 @@ export const Variations: Story = {
                     }, {
                         label: "Permission 4",
                         code: "permission4",
-                        value: "4"
+                        value: "4",
+                        hideDefault: true
                     }],
                 },
                 {
@@ -100,23 +102,23 @@ export const Variations: Story = {
           :gridItems="args.gridItems"
           :cols="2"
         >
-            <template v-slot:item-value-end.teleport-permissions-permission3="{ item }">
-                <FSText> Custom value </FSText>
+            <template v-slot:item-value-right.teleport-permissions-permission3="{ item }">
+                <FSText> {{ item.value }} </FSText>
             </template>
-            <template v-slot:item-value-end.core-permissions-permission2="{ item }">
+            <template v-slot:item-value-right.core-permissions-permission2="{ item }">
                 <FSButton
                     color="warning"
                     label="Remove"
                 />
             </template>
-            <template v-slot:item-value-end.admin-permissions-permission4="{ item }">
+            <template v-slot:item-value-right.admin-permissions-permission4="{ item }">
                 <FSIcon
                     :color="item.value ? 'success' : 'error'"
                 >
                     {{ item.value ? 'mdi-check-circle' : 'mdi-cancel-circle' }}
                 </FSIcon>
             </template>
-            <template v-slot:item-value.admin-permissions-permission3="{ item }">
+            <template v-slot:item-value-left.admin-permissions-permission3="{ item }">
                 <FSIcon
                     :color="item.value ? 'success' : 'error'"
                 >

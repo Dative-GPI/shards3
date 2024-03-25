@@ -32,16 +32,16 @@
             >
               <slot :name="`item-header.${gridItem.categoryCode}-${item.code}`" v-bind="{ item }">
                 <FSText
-                  :font="useSlot(`item-value-end.${gridItem.categoryCode}-${item.code}`) ? 'text-body' : 'text-overline'"
+                  :font="item.hideDefault ? 'text-body' : 'text-overline'"
                 >
                   {{ item.label }}
                 </FSText>
               </slot>
               <FSRow
-                v-if="!useSlot(`item-value-end.${gridItem.categoryCode}-${item.code}`)"
+                v-if="!item.hideDefault"
               >
                 <slot
-                  :name="`item-value.${gridItem.categoryCode}-${item.code}`"
+                  :name="`item-value-left.${gridItem.categoryCode}-${item.code}`"
                   v-bind="{ item }"
                 >
                   <FSText>
@@ -52,11 +52,11 @@
             </FSCol>
             <v-spacer />
             <FSRow
-              v-if="useSlot(`item-value-end.${gridItem.categoryCode}-${item.code}`)"
+              v-if="useSlot(`item-value-right.${gridItem.categoryCode}-${item.code}`)"
               align="center-right"
             >
               <slot
-                :name="`item-value-end.${gridItem.categoryCode}-${item.code}`"
+                :name="`item-value-right.${gridItem.categoryCode}-${item.code}`"
                 v-bind="{ item }"
               >
                 <FSText
