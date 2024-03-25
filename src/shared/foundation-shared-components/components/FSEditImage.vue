@@ -64,7 +64,6 @@ export default defineComponent({
         };
 
         const onRemove = () => {
-            console.log("onRemove");
             fileSelected.value.fileName = "";
             fileSelected.value.fileContent = "";
             emit("update:modelValue", fileSelected.value);
