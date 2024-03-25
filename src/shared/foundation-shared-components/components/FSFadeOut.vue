@@ -1,6 +1,7 @@
 <template>
   <div
     class="fs-fade-out"
+    ref="fadeOutRef"
     :style="style"
     @scroll="onScroll"
   >
@@ -11,9 +12,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
@@ -41,23 +42,26 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { windowWidth } = useBreakpoints();
+    const { debounce } = useDebounce();
     const { getColors } = useColors();
 
     const backgrounds = getColors(ColorEnum.Background);
 
+    const fadeOutRef = ref(null);
+    const bottomMaskHeight = ref("0px");
     const topMaskHeight = ref("0px");
-    const bottomMaskHeight = ref(sizeToVar(props.maskHeight));
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-fade-out-height"            : sizeToVar(props.height),
-        "--fs-fade-out-width"             : sizeToVar(props.width),
-        "--fs-fade-out-padding"           : sizeToVar(props.padding),
-        "--fs-fade-out-mask-color"        : backgrounds.base,
-        "--fs-fade-out-top-mask-height"   : topMaskHeight.value,
-        "--fs-fade-out-top-mask-top"      : topPadding.value,
-        "--fs-fade-out-bottom-mask-height": bottomMaskHeight.value,
-        "--fs-fade-out-bottom-mask-bottom": bottomPadding.value
+        "--fs-fade-out-height"             : sizeToVar(props.height),
+        "--fs-fade-out-width"              : sizeToVar(props.width),
+        "--fs-fade-out-padding"            : sizeToVar(props.padding),
+        "--fs-fade-out-mask-color"         : backgrounds.base,
+        "--fs-fade-out-top-mask-height"    : topMaskHeight.value,
+        "--fs-fade-out-top-mask-top"       : topPadding.value,
+        "--fs-fade-out-bottom-mask-height" : bottomMaskHeight.value,
+        "--fs-fade-out-bottom-mask-bottom" : bottomPadding.value
       };
     });
 
@@ -105,7 +109,16 @@ export default defineComponent({
       }
     });
 
-    const onScroll = ({ target }): void => {
+    const onScroll = ({ target }): void => debounce(() => {
+      const currentTopMaskHeight = target.children[0].clientHeight;
+      const currentBottomMaskHeight = target.children[target.children.length - 1].clientHeight;
+      const contentHeight = target.scrollHeight - currentTopMaskHeight - currentBottomMaskHeight;
+
+      if (target.clientHeight >= contentHeight) {
+        bottomMaskHeight.value = "0px";
+        topMaskHeight.value = "0px";
+        return;
+      }
       if (target.scrollHeight - target.scrollTop - target.clientHeight < 1) {
         bottomMaskHeight.value = "0px";
       }
@@ -118,9 +131,41 @@ export default defineComponent({
       else {
         topMaskHeight.value = sizeToVar(props.maskHeight);
       }
-    }
+    }, 25);
+
+    const onResize = (): void => debounce(() => {
+      if (fadeOutRef.value) {
+        const currentTopMaskHeight = fadeOutRef.value.children[0].clientHeight;
+        const currentBottomMaskHeight = fadeOutRef.value.children[fadeOutRef.value.children.length - 1].clientHeight;
+        const contentHeight = fadeOutRef.value.scrollHeight - currentTopMaskHeight - currentBottomMaskHeight;
+
+        if (fadeOutRef.value.clientHeight < contentHeight) {
+          if (fadeOutRef.value.scrollHeight - fadeOutRef.value.scrollTop - fadeOutRef.value.clientHeight > 0) {
+            bottomMaskHeight.value = sizeToVar(props.maskHeight);
+          }
+          if (fadeOutRef.value.scrollTop > 0) {
+            topMaskHeight.value = sizeToVar(props.maskHeight);
+          }
+        }
+        else {
+          bottomMaskHeight.value = "0px";
+          topMaskHeight.value = "0px";
+        }
+      }
+    }, 200);
+
+    onMounted((): void => {
+      if (fadeOutRef.value) {
+        if (fadeOutRef.value.clientHeight < fadeOutRef.value.scrollHeight) {
+          bottomMaskHeight.value = sizeToVar(props.maskHeight);
+        }
+      }
+    });
+
+    watch(() => windowWidth.value, onResize);
 
     return {
+      fadeOutRef,
       style,
       onScroll
     };

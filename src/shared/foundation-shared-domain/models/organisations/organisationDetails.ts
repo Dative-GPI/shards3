@@ -6,8 +6,6 @@ export class OrganisationDetails extends OrganisationInfos {
     organisationTypeId: string;
     mainDashboardId?: string;
     mainDashboardType: DashboardType;
-    adminId: string;
-    adminName: string;
     description: string;
     locationsCount: number;
     deviceOrganisationsCount: number;
@@ -19,8 +17,6 @@ export class OrganisationDetails extends OrganisationInfos {
         this.organisationTypeId = params.organisationTypeId;
         this.mainDashboardType = params.mainDashboardType;
         this.mainDashboardId = params.mainDashboardId;
-        this.adminId = params.adminId;
-        this.adminName = params.adminName;
         this.description = params.description;
         this.locationsCount = params.locationsCount;
         this.deviceOrganisationsCount = params.deviceOrganisationsCount;
@@ -32,8 +28,6 @@ export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
     organisationTypeId: string;
     mainDashboardId?: string;
     mainDashboardType: DashboardType;
-    adminId: string;
-    adminName: string;
     description: string;
     locationsCount: number;
     deviceOrganisationsCount: number;

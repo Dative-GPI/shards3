@@ -6,6 +6,8 @@ export class OrganisationInfos {
     imageWidth?: number;
     label: string;
     userOrganisationsCount: number;
+    adminId?: string;
+    adminName?: string;
 
     constructor(params: OrganisationInfosDTO) {
         this.id = params.id;
@@ -15,6 +17,8 @@ export class OrganisationInfos {
         this.imageWidth = params.imageWidth;
         this.label = params.label;
         this.userOrganisationsCount = params.userOrganisationsCount;
+        this.adminId = params.adminId;
+        this.adminName = params.adminName;
     }
 }
 
@@ -26,6 +30,8 @@ export interface OrganisationInfosDTO {
     imageWidth?: number;
     label: string;
     userOrganisationsCount: number;
+    adminId?: string;
+    adminName?: string;
 }
 
 export interface OrganisationFilters {

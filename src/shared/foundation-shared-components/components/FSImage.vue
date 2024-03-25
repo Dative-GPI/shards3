@@ -1,28 +1,44 @@
 <template>
   <v-img
     class="fs-image"
+    ref="imageRef"
     :height="computedHeight"
     :width="computedWidth"
     :cover="$props.cover"
     :style="style"
     :src="source"
+    @error="onError"
     v-bind="$attrs"
   >
     <template #placeholder>
       <FSLoader
-        class="fs-load-image"
+        class="fs-image-load"
         height="100%"
         width="100%"
         :borderRadius="$props.borderRadius"
+      />
+    </template>
+    <template #error>
+      <FSLoader
+        v-if="!blurHash"
+        class="fs-image-load"
+        height="100%"
+        width="100%"
+        :borderRadius="$props.borderRadius"
+      />
+      <canvas
+        ref="canvasRef"
       />
     </template>
   </v-img>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, watch } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
+import { decode, isBlurhashValid } from "blurhash";
 
-import { useImageRaw, useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
+import { useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
+import { IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSLoader from "./FSLoader.vue";
@@ -65,12 +81,15 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getting: fetchingRaw, get: fetchRaw, entity: image } = useImageRaw();
-    const { getting: fetchingBlurHash, get: fetchBlurHash, entity: blurHash } = useImageBlurHash();
+    const { get: fetchBlurHash, entity: blurHash } = useImageBlurHash();
+
+    const imageRef = ref(null);
+    const canvasRef = ref(null);
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-image-border-radius": sizeToVar(props.borderRadius)
+        "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
+        "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"
       }
     });
 
@@ -113,44 +132,41 @@ export default defineComponent({
     });
 
     const source = computed((): string | null => {
-      if (fetchingRaw.value) {
-        return null;
-      }
-      if (image.value) {
-        return image.value;
-      }
-      if (fetchingBlurHash.value) {
-        return null;
-      }
-      if (blurHash.value) {
-        return blurHash.value.blurHash;
+      if (props.imageId) {
+        return IMAGE_RAW_URL(props.imageId);
       }
       return null;
     });
 
-    onMounted(() => {
-      fetch();
-    });
-
-    watch(() => props.imageId, () => {
-      fetch();
-    });
-
-    const fetch = async () => {
-      if (!props.imageId) {
-        return;
+    const onError = (): void => {
+      if (props.imageId) {
+        fetchBlurHash(props.imageId);   
       }
-      await fetchRaw(props.imageId);
-      if (!image.value) {
-        await fetchBlurHash(props.imageId);
+    };
+
+    watch(() => blurHash.value, () => {
+      if (canvasRef.value && imageRef.value) {
+        if (blurHash.value && isBlurhashValid(blurHash.value.blurHash).result) {
+          const ctx = canvasRef.value.getContext("2d");
+          if (ctx) {
+            const pixels = decode(blurHash.value.blurHash, imageRef.value.$el.clientWidth, imageRef.value.$el.clientHeight);
+            const imageData = ctx.createImageData(imageRef.value.$el.clientWidth, imageRef.value.$el.clientHeight);
+            imageData.data.set(pixels);
+            ctx.putImageData(imageData, 0, 0);
+          }
+        }
       }
-    }
+    });
 
     return {
       computedHeight,
       computedWidth,
+      canvasRef,
+      imageRef,
+      blurHash,
       source,
-      style
+      style,
+      onError
     };
   }
 });

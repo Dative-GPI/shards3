@@ -99,7 +99,7 @@ export default defineComponent({
         return {
           "--fs-switch-translate-x": props.modelValue ? "8px" : "-8px",
           "--fs-switch-cursor"     : "default",
-          "--fs-switch-track-color": lights.dark,
+          "--fs-switch-track-color": props.modelValue ? colors.value.light : lights.base,
           "--fs-switch-thumb-color": backgrounds.base,
           "--fs-switch-color"      : lights.dark
         };
@@ -107,7 +107,7 @@ export default defineComponent({
       return {
         "--fs-switch-translate-x": props.modelValue ? "8px" : "-8px",
         "--fs-switch-cursor"     : "pointer",
-        "--fs-switch-track-color": props.modelValue ? colors.value.base : darks.base,
+        "--fs-switch-track-color": props.modelValue ? colors.value.base : lights.dark,
         "--fs-switch-thumb-color": backgrounds.base,
         "--fs-switch-color"      : darks.base
       };

@@ -102,7 +102,7 @@ export default defineComponent({
       if (!props.editable) {
         return {
           "--fs-checkbox-cursor"        : "default",
-          "--fs-checkbox-checkbox-color": lights.dark,
+          "--fs-checkbox-checkbox-color": (props.modelValue || props.indeterminate) ? colors.value.light : lights.base,
           "--fs-checkbox-color"         : lights.dark
         };
       }

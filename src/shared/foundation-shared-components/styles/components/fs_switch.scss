@@ -42,6 +42,7 @@
     @extend .fs-switch-size;
 
     background-color: var(--fs-switch-track-color) !important;
+    opacity: 1;
 }
 
 .v-switch__thumb {
