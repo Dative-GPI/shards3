@@ -1,0 +1,11 @@
+.fs-grid-item{
+    border-bottom: 1px solid var(--New-colors-White-White---Normal, #E1E2E3);
+    min-height: 56px;
+}
+
+.fs-grid-align{
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    width: 100%;
+}
