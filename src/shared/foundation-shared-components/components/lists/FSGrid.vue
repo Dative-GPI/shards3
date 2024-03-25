@@ -74,7 +74,6 @@ export default defineComponent({
         const { isExtraSmall } = useBreakpoints();
 
         const gridWith = computed(() => {
-            console.log("cols", isExtraSmall.value);
             return props.cols == 2 && !isExtraSmall.value ? "48%" : "100%";
         });
 
