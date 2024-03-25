@@ -3,9 +3,27 @@
     display: none;
 }
 
-// No default hover effect on switches and others
-.v-selection-control__input::before {
-    display: none;
+// No default hover effect on switches and others, no limited opacity, no limited width...
+.v-selection-control {
+    min-height: 0 !important;
+}
+
+.v-selection-control__wrapper {
+    height: auto !important;
+    width: auto !important;
+}
+
+.v-selection-control__input {
+    height: auto !important;
+    width: auto !important;
+
+    & > .v-icon {
+        opacity: 1 !important;
+    }
+
+    &::before {
+        display: none;
+    }
 }
 
 // Applies to all inputs
@@ -64,6 +82,10 @@
     }
 }
 
+// No input messages allowed
+.v-input__details {
+    display: none !important;
+}
 
 // No up / down buttons in input field of type number
 input[type=number] { 

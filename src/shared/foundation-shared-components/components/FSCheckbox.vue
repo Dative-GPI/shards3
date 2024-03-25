@@ -2,30 +2,43 @@
   <FSCol
     width="hug"
   >
-    <FSRow
-      width="hug"
-      align="center-left"
+    <v-checkbox
+      hide-details
+      :ripple="false"
+      :rules="$props.rules"
+      :validateOn="validateOn"
+      :modelValue="$props.modelValue"
+      @click.prevent
+      @blur="blurred = true"
+      v-bind="$attrs"
     >
-      <FSIcon
-        class="fs-checkbox"
-        size="l"
-        :style="style"
-        @click.stop="onToggle"
-      >
-        {{ icon }}
-      </FSIcon>
-      <slot>
-        <FSSpan
-          v-if="$props.label"
-          class="fs-checkbox-label"
+      <template #input>
+        <FSRow
+          align="center-left"
+          width="hug"
           :style="style"
-          :font="font"
           @click.stop="onToggle"
         >
-          {{ $props.label }}
-        </FSSpan>
-      </slot>
-    </FSRow>
+          <FSIcon
+            class="fs-checkbox"
+            size="l"
+            :style="style"
+          >
+            {{ icon }}
+          </FSIcon>
+          <slot>
+            <FSSpan
+              v-if="$props.label"
+              class="fs-checkbox-label"
+              :style="style"
+              :font="font"
+            >
+              {{ $props.label }}
+            </FSSpan>
+          </slot>
+        </FSRow>
+      </template>
+    </v-checkbox>
     <slot name="description">
       <FSSpan
         v-if="$props.description"
@@ -42,8 +55,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
+import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
@@ -74,15 +87,25 @@ export default defineComponent({
       required: false,
       default: false
     },
+    indeterminate: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
     },
-    indeterminate: {
-      type: Boolean,
+    rules: {
+      type: Array as PropType<Function[]>,
       required: false,
-      default: false
+      default: () => []
+    },
+    messages: {
+      type: Array as PropType<string[]>,
+      required: false,
+      default: null
     },
     editable: {
       type: Boolean,
@@ -92,9 +115,11 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { validateOn, blurred, getMessages } = useRules();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
+    const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
@@ -105,6 +130,13 @@ export default defineComponent({
           "--fs-checkbox-checkbox-color": (props.modelValue || props.indeterminate) ? colors.value.light : lights.base,
           "--fs-checkbox-color"         : lights.dark
         };
+      }
+      if (messages.value.length) {
+        return {
+          "--fs-checkbox-cursor"        : "pointer",
+          "--fs-checkbox-checkbox-color": errors.base,
+          "--fs-checkbox-color"         : darks.base
+        }
       }
       return {
         "--fs-checkbox-cursor"        : "pointer",
@@ -117,6 +149,8 @@ export default defineComponent({
 
     const font = computed((): string => props.modelValue ? "text-button" : "text-body");
 
+    const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
+
     const onToggle = (): void => {
       if (!props.editable) {
         return;
@@ -125,6 +159,9 @@ export default defineComponent({
     };
 
     return {
+      validateOn,
+      messages,
+      blurred,
       style,
       icon,
       font,

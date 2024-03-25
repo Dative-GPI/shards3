@@ -1,85 +1,131 @@
 <template>
-    <div class="fs-grid-align">
-        <FSRow v-for="gridItem in  gridItems"
-            :width="gridWith">
-            <FSCol :gap="16">
-                <FSText font="text-h3">
-                    {{ gridItem.categoryLabel }}
+  <FSRow
+    gap="32px"
+  >
+    <FSRow
+      v-for="(gridItem, index) in  gridItems"
+      :width="width"
+      :style="style"
+      :key="index"
+    >
+      <FSCol
+        gap="16px"
+      >
+        <FSText
+          font="text-h3"
+        >
+          {{ gridItem.categoryLabel }}
+        </FSText>
+        <FSCol
+          gap="0"
+        >
+          <FSRow
+            v-for="(item, index)  in  gridItem.items"
+            padding="0 8px"
+            align="center-center"
+            class="fs-grid-item"
+            height="hug"
+            :key="index"
+          >
+            <FSCol
+              gap="2px"
+            >
+              <slot :name="`item-header.${gridItem.categoryCode}-${item.code}`" v-bind="{ item }">
+                <FSText
+                  :font="item.hideDefault ? 'text-body' : 'text-overline'"
+                >
+                  {{ item.label }}
                 </FSText>
-                <FSCol :gap="0">
-                    <FSRow v-for="item  in  gridItem.items"
-                        class="fs-grid-item"
-                        height="hug"
-                        align="center-center">
-                        <FSCol :gap="2"
-                            class="pa-2">
-                            <FSText :font="item.valueLeft ? 'text-overline' : 'text-body'">
-                                {{ item.label }}
-                            </FSText>
-                            <FSRow>
-                                <slot :name="'item-value-left.' + gridItem.categoryCode + '-' + item.code"
-                                    v-bind="{ item }"
-                                    v-if="item.valueLeft">
-                                    <FSText font="text-body">{{ item.value }}</FSText>
-                                </slot>
-                            </FSRow>
-                        </FSCol>
-                        <v-spacer />
-                        <FSRow align="center-right"
-                            class="pa-2">
-                            <slot :name="'item-value-right.' + gridItem.categoryCode + '-' + item.code"
-                                v-bind="{ item }"
-                                v-if="item.valueRight">
-                                <FSText font="text-body">
-                                    {{ item.value }}
-                                </FSText>
-                            </slot>
-                        </FSRow>
-                    </FSRow>
-                </FSCol>
+              </slot>
+              <FSRow
+                v-if="!item.hideDefault"
+              >
+                <slot
+                  :name="`item-value-left.${gridItem.categoryCode}-${item.code}`"
+                  v-bind="{ item }"
+                >
+                  <FSText>
+                    {{ item.value }}
+                  </FSText>
+                </slot>
+              </FSRow>
             </FSCol>
-        </FSRow>
-    </div>
+            <v-spacer />
+            <FSRow
+              v-if="useSlot(`item-value-right.${gridItem.categoryCode}-${item.code}`)"
+              align="center-right"
+            >
+              <slot
+                :name="`item-value-right.${gridItem.categoryCode}-${item.code}`"
+                v-bind="{ item }"
+              >
+                <FSText
+                  font="text-body"
+                >
+                  {{ item.value }}
+                </FSText>
+              </slot>
+            </FSRow>
+          </FSRow>
+        </FSCol>
+      </FSCol>
+    </FSRow>
+  </FSRow>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Prop, PropType, ref } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
-import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import FSDivider from "@dative-gpi/foundation-shared-components/components/FSDivider.vue";
-import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
-import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum, GridItem } from "@dative-gpi/foundation-shared-components/models";
 
-import { Item, GridItem } from "@dative-gpi/foundation-shared-components/models";
+import FSDivider from "../FSDivider.vue";
+import FSText from "../FSText.vue";
 
 export default defineComponent({
-    name: "FSGrid",
-    components: {
-        FSDivider,
-        FSText
+  name: "FSGrid",
+  components: {
+    FSDivider,
+    FSText
+  },
+  props: {
+    gridItems: {
+      type: Array as PropType<GridItem[]>,
+      default: [],
+      required: false
     },
-    props: {
-        gridItems: {
-            type: Array as PropType<GridItem[]>,
-            default: [],
-            required: false
-        },
-        cols: {
-            type: Number as PropType<1 | 2>,
-            required: false,
-            default: "1"
-        }
-    },
-    setup(props) {
-        const { isExtraSmall } = useBreakpoints();
-
-        const gridWith = computed(() => {
-            return props.cols == 2 && !isExtraSmall.value ? "48%" : "100%";
-        });
-
-        return {
-            gridWith
-        }
+    cols: {
+      type: Number as PropType<1 | 2>,
+      required: false,
+      default: 1
     }
+  },
+  setup(props) {
+    const { isExtraSmall } = useBreakpoints();
+    const { getColors } = useColors();
+    const { slots } = useSlots();
+
+    const lights = getColors(ColorEnum.Light);
+
+    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+      return {
+        "--fs-grid-border-color": lights.dark
+      };
+    });
+
+    const width = computed(() => {
+        return props.cols == 2 && !isExtraSmall.value ? "calc(50% - 16px)" : "100%";
+    });
+
+    const useSlot = (name: string): boolean => {
+      return !!slots[name];
+    };
+
+    return {
+      width,
+      style,
+      useSlot
+    }
+  }
 })
 </script>
