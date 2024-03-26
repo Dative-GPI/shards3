@@ -6,11 +6,13 @@
       align="bottom-center"
     >
       <FSSearchField
+        v-if="$props.showSearch"
         prependInnerIcon="mdi-magnify"
         :hideHeader="true"
         v-model="innerSearch"
       />
       <FSButton
+        v-if="$props.showSearch"
         prependIcon="mdi-filter-variant"
         :variant="showFilters ? 'full' : 'standard'"
         @click="showFilters = !showFilters"
@@ -623,6 +625,11 @@ export default defineComponent({
       default: ColorEnum.Primary
     },
     showSelect: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    showSearch: {
       type: Boolean,
       required: false,
       default: true
