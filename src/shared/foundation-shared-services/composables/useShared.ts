@@ -1,4 +1,4 @@
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
@@ -10,7 +10,7 @@ let called = false;
 
 const ready = ref(false);
 
-export function useShared() {
+export async function useShared() {
   if (called) {
     return {
       ready
@@ -24,15 +24,24 @@ export function useShared() {
   const { getMany, entities } = useTranslations();
   const { set } = useTranslationsProvider();
 
-  onMounted(async () => {
-    await languageCodeReady
-    await timeZoneReady;
-    if (languageCode.value) {
-      await getMany(languageCode.value!);
-      set(entities.value.map(t => ({ code: t.code, value: t.value })));
-    }
-    ready.value = true;
-  });
+  console.log("useShared called");
+
+  await languageCodeReady;
+  await timeZoneReady;
+
+  console.log("languageCodeReady and timeZoneReady");
+
+  if (languageCode.value) {
+
+    console.log("languageCode.value", languageCode.value);
+
+    await getMany(languageCode.value);
+
+    console.log("entities.value", entities.value);
+    
+    set(entities.value.map(t => ({ code: t.code, value: t.value })));
+  }
+  ready.value = true;
 
   return {
     ready
