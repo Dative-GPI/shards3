@@ -3,9 +3,10 @@
     :class="classes"
     :style="style"
     :to="href"
+    v-slot="props"
     v-bind="$attrs"
   >
-    <slot>
+    <slot v-bind="props">
       {{ $props.label }}
     </slot>
   </router-link>

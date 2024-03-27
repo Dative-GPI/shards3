@@ -423,6 +423,7 @@
                 width="120px"
               >
                 <FSSelectField
+                  class="fs-data-table-rows-per-page"
                   :clearable="false"
                   :hideHeader="true"
                   :items="rowsPerPageOptions"
