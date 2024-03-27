@@ -21,7 +21,7 @@ export const DefaultTheme: Story = {
     <div style="display: flex; flex-wrap: wrap; gap: 20px;  margin-bottom: 40px; align-items: center;">
       <div style="display: flex; flex-direction: column;">
         primary #0059E5
-        <FSColor color="primary" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
+        <FSColor color="primary" :border="false" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-base);"></div>
@@ -31,7 +31,7 @@ export const DefaultTheme: Story = {
       </div>
       <div style="display: flex; flex-direction: column;">
         success #6DE038
-        <FSColor color="success" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
+        <FSColor color="success" :border="false" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-base);"></div>
@@ -41,7 +41,7 @@ export const DefaultTheme: Story = {
       </div>
       <div style="display: flex; flex-direction: column;">
         warning #E6A52E
-        <FSColor color="warning" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
+        <FSColor color="warning" :border="false" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-base);"></div>
@@ -51,7 +51,7 @@ export const DefaultTheme: Story = {
       </div>
       <div style="display: flex; flex-direction: column;">
         error #E01212
-        <FSColor color="error" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
+        <FSColor color="error" :border="false" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-base);"></div>
@@ -63,7 +63,7 @@ export const DefaultTheme: Story = {
     <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 40px; align-items: center;">
       <div style="display: flex; flex-direction: column;">
         light #E1E2E3
-        <FSColor color="light" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
+        <FSColor color="light" :border="false" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-base);"></div>
@@ -73,7 +73,7 @@ export const DefaultTheme: Story = {
       </div>
       <div style="display: flex; flex-direction: column;">
         dark #3F4040
-        <FSColor color="dark" style="background-color: transparent !important; border: 1px dotted black;" gap="0">
+        <FSColor color="dark" :border="false" gap="0">
           <FSRow style="background-color: transparent !important;" gap="0">
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-light);"></div>
             <div style="width: 50px; height: 50px; background-color: var(--fs-color-base);"></div>

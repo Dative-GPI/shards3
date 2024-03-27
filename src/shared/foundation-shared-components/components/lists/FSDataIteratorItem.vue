@@ -35,7 +35,7 @@
       </FSRow>
       <slot name="item.bottom" v-bind="{ item: $props.item }" />
     </FSCol>
-    <FSContainer
+    <FSCard
       v-if="$props.showSelect"
       class="fs-data-iterator-item-checkbox"
       :border="false"
@@ -45,7 +45,7 @@
         :modelValue="$props.modelValue"
         @update:modelValue="() => $emit('update:modelValue', $props.item)"
       />
-    </FSContainer>
+    </FSCard>
   </FSCard>
 </template>
 
@@ -54,16 +54,14 @@ import { defineComponent, PropType } from "vue";
 
 import { ColorEnum, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 
-import FSContainer from "../FSContainer.vue";
 import FSCheckbox from "../FSCheckbox.vue";
 import FSCard from "../FSCard.vue";
 import FSText from "../FSText.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSIteratorCard",
+  name: "FSDataIteratorItem",
   components: {
-    FSContainer,
     FSCheckbox,
     FSCard,
     FSText,

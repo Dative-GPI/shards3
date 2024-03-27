@@ -24,21 +24,11 @@ export async function useShared() {
   const { getMany, entities } = useTranslations();
   const { set } = useTranslationsProvider();
 
-  console.log("useShared called");
-
   await languageCodeReady;
   await timeZoneReady;
 
-  console.log("languageCodeReady and timeZoneReady");
-
   if (languageCode.value) {
-
-    console.log("languageCode.value", languageCode.value);
-
-    await getMany(languageCode.value);
-
-    console.log("entities.value", entities.value);
-    
+    await getMany(languageCode.value);    
     set(entities.value.map(t => ({ code: t.code, value: t.value })));
   }
   ready.value = true;
