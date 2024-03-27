@@ -1,11 +1,13 @@
 <template>
   <button
     v-if="!href"
-    :class="wrapperClasses"
     :type="$props.type"
+    :style="style"
     @click.stop="onClick"
   >
     <FSCard
+      :height="$props.height"
+      :width="$props.width"
       :class="classes"
       :style="style"
       v-bind="$attrs"
@@ -26,10 +28,12 @@
   </button>
   <router-link
     v-else
-    :class="wrapperClasses"
+    :style="style"
     :to="href"
   >
     <FSCard
+      :height="$props.height"
+      :width="$props.width"
       :class="classes"
       :style="style"
       v-bind="$attrs"
@@ -96,10 +100,15 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Light
     },
-    fullWidth: {
-      type: Boolean,
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
       required: false,
-      default: false
+      default: null
+    },
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+      required: false,
+      default: null
     },
     load: {
       type: Boolean,
@@ -128,7 +137,9 @@ export default defineComponent({
           "--fs-clickable-border-radius"   : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color": lights.light,
           "--fs-clickable-border-color"    : lights.dark,
-          "--fs-clickable-color"           : lights.dark
+          "--fs-clickable-color"           : lights.dark,
+          "--fs-clickable-height"          : sizeToVar(props.height),
+          "--fs-clickable-width"           : sizeToVar(props.width)
         };
       }
       switch (props.variant) {
@@ -143,7 +154,9 @@ export default defineComponent({
           "--fs-clickable-hover-color"            : colors.value.baseContrast,
           "--fs-clickable-active-background-color": colors.value.dark,
           "--fs-clickable-active-border-color"    : colors.value.darkContrast,
-          "--fs-clickable-active-color"           : colors.value.darkContrast
+          "--fs-clickable-active-color"           : colors.value.darkContrast,
+          "--fs-clickable-height"                 : sizeToVar(props.height),
+          "--fs-clickable-width"                  : sizeToVar(props.width)
         };
         case "full": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
@@ -156,7 +169,9 @@ export default defineComponent({
           "--fs-clickable-hover-color"            : colors.value.baseContrast,
           "--fs-clickable-active-background-color": colors.value.dark,
           "--fs-clickable-active-border-color"    : colors.value.dark,
-          "--fs-clickable-active-color"           : colors.value.darkContrast
+          "--fs-clickable-active-color"           : colors.value.darkContrast,
+          "--fs-clickable-height"                 : sizeToVar(props.height),
+          "--fs-clickable-width"                  : sizeToVar(props.width)
         };
       }
     });
@@ -165,14 +180,6 @@ export default defineComponent({
       const classNames: string[] = ["fs-clickable"];
       if (!props.editable) {
         classNames.push("fs-clickable-disabled");
-      }
-      return classNames;
-    });
-
-    const wrapperClasses = computed((): string[] => {
-      const classNames: string[] = [];
-      if (props.fullWidth) {
-        classNames.push("fs-clickable-wrapper-full-width");
       }
       return classNames;
     });
@@ -206,7 +213,6 @@ export default defineComponent({
     };
 
     return {
-      wrapperClasses,
       loadColor,
       classes,
       style,

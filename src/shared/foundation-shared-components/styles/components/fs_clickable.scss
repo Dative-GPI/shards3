@@ -26,19 +26,17 @@
 }
 
 a:has(.fs-clickable) {
+    position: relative !important;
     text-decoration: none;
     padding: 0 !important;
-    position: relative !important;
-    width: fit-content;
+    height: var(--fs-clickable-height);
+    width: var(--fs-clickable-width);
 }
 
 button:has(.fs-clickable) {
     position: relative !important;
-    width: fit-content;
-}
-
-.fs-clickable-wrapper-full-width {
-    width: 100% !important;
+    height: var(--fs-clickable-height);
+    width: var(--fs-clickable-width);
 }
 
 .fs-clickable-load {
