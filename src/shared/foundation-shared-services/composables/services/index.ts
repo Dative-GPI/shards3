@@ -1,6 +1,7 @@
 export * from "./useApplications";
 export * from "./useAuthTokens";
 export * from "./useImages";
+export * from "./useLanguages";
 export * from "./useOrganisations";
 export * from "./useTimeZones";
 export * from "./useTranslations";

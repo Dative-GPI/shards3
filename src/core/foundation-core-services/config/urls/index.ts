@@ -12,8 +12,6 @@ export * from "./deviceConnectivities";
 export * from "./deviceOrganisations";
 export * from "./deviceStatuses";
 export * from "./groups";
-export * from "./images";
-export * from "./languages";
 export * from "./locations";
 export * from "./manufacturers";
 export * from "./models";

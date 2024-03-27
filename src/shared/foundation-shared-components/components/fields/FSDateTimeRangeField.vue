@@ -77,7 +77,7 @@ import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSSubmitDialog from "../FSSubmitDialog.vue";
 import FSCalendarTwin from "../FSCalendarTwin.vue";
@@ -142,7 +142,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getUserOffsetMillis, epochToShortTimeFormat } = useTimeZone();
+    const { getUserOffsetMillis, epochToShortTimeFormat } = useAppTimeZone();
     const { validateOn, blurred, getMessages } = useRules();
     const { getColors } = useColors();
 

@@ -1,19 +1,15 @@
 <template>
-  <FSSelectField
-    itemTitle="id"
+  <FSSelectField itemTitle="id"
     :items="timeZones"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
-    v-bind="$attrs"
-  >
+    v-bind="$attrs">
     <template #append-inner>
       <slot name="append-inner">
-        <FSChip
-          v-if="offset"
+        <FSChip v-if="offset"
           variant="standard"
           :color="ColorEnum.Dark"
-          :label="offset"
-        />
+          :label="offset" />
       </slot>
     </template>
   </FSSelectField>
@@ -45,7 +41,7 @@ export default defineComponent({
   setup(props) {
     const { getMany: getTimeZones, entities: timeZones } = useTimeZones();
 
-    const offset = computed((): string => {
+    const offset = computed((): string | undefined => {
       return timeZones.value.find((entity) => entity.id === props.modelValue)?.offset;
     });
 

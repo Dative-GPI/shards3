@@ -54,6 +54,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    imageB64: {
+      type: String,
+      required: false,
+      default: null
+    },
     cover: {
       type: Boolean,
       required: false,
@@ -86,6 +91,14 @@ export default defineComponent({
     const imageRef = ref(null);
     const canvasRef = ref(null);
 
+    const signatures = ref<{ [key: string]: string }>({
+      JVBERi0    : "application/pdf",
+      R0lGODdh   : "image/gif",
+      R0lGODlh   : "image/gif",
+      iVBORw0KGgo: "image/png",
+      "/9j/"     : "image/jpg",
+    });
+
     const style = computed((): { [key: string] : string } => {
       return {
         "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
@@ -98,7 +111,7 @@ export default defineComponent({
         return props.height;
       }
       if (props.width) {
-        if (typeof(props.width) === "string") {
+        if (typeof (props.width) === "string") {
           return undefined;
         }
         if (props.aspectRatio) {
@@ -117,7 +130,7 @@ export default defineComponent({
         return props.width;
       }
       if (props.height) {
-        if (typeof(props.height) === "string") {
+        if (typeof (props.height) === "string") {
           return undefined;
         }
         if (props.aspectRatio) {
@@ -135,12 +148,38 @@ export default defineComponent({
       if (props.imageId) {
         return IMAGE_RAW_URL(props.imageId);
       }
+      else if (props.imageB64) {
+        if (imageType.value && imageData.value) {
+          return `${imageType.value},${imageData.value}`;
+        }
+      }
       return null;
+    });
+
+    const imageData = computed((): string => {
+      if (props.imageB64 && props.imageB64.includes(",")) {
+        return props.imageB64.split(",")[1];
+      }
+      return props.imageB64;
+    });
+
+    const imageType = computed((): string => {
+      if (props.imageB64 && props.imageB64.includes(",")) {
+        return props.imageB64.split(",")[0];
+      }
+      if (props.imageB64) {
+        for (const s in signatures.value) {
+          if (props.imageB64.startsWith(s)) {
+            return `data:${signatures.value[s]};base64`;
+          }
+        }
+      }
+      return "";
     });
 
     const onError = (): void => {
       if (props.imageId) {
-        fetchBlurHash(props.imageId);   
+        fetchBlurHash(props.imageId);
       }
     };
 
