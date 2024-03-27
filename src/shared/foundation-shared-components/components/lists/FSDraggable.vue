@@ -1,5 +1,5 @@
 <template>
-  <div
+  <FSRow
     :draggable="!$props.disabled"
     :class="classes"
     @touchstart="onTouchStart"
@@ -8,13 +8,15 @@
     @dragstart="onDragStart"
     @dragend="onDragEnd"
     @dragover.prevent
+    style="flex: 1 1 0;"
   >
     <slot />
-  </div>
+  </FSRow>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSDraggable",
@@ -31,6 +33,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    FSRow,
   },
   emits: ["update:dragstart", "update:dragend"],
   setup(props, { emit }) {

@@ -1105,7 +1105,8 @@ export default defineComponent({
             }
             else if (draggedY > targetY) {
               target.insertAdjacentElement("beforebegin", dragged);
-            } else {
+            }
+            else {
               const draggedX = dragged.getBoundingClientRect().left;
               const targetX = target.getBoundingClientRect().left;
               if (draggedX < targetX) {
