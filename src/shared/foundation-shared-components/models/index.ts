@@ -5,6 +5,7 @@ export * from "./deviceConnectivities";
 export * from "./deviceStatuses";
 export * from "./errors";
 export * from "./grids";
+export * from "./images";
 export * from "./modelStatuses";
 export * from "./rules";
 export * from "./tables";

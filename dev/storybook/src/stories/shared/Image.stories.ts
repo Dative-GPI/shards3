@@ -22,7 +22,8 @@ export const Variations: Story = {
       size1: {
         width: 80,
         height: 80
-      }
+      },
+      imgBase64: "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
     }
   },
   render: (args, { argTypes }) => ({
@@ -37,6 +38,12 @@ export const Variations: Story = {
         <FSImage
           style="border: 1px dotted black;"
           imageId="1"
+          :width="args.size1.width"
+          :height="args.size1.height"
+        />
+        <FSImage
+          style="border: 1px dotted black;"
+          :imageB64="args.imgBase64"
           :width="args.size1.width"
           :height="args.size1.height"
         />
