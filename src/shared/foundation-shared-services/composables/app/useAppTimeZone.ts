@@ -1,4 +1,4 @@
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
 import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
 import { format, subDays } from "date-fns";
@@ -6,14 +6,11 @@ import { format, subDays } from "date-fns";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 
-import { useLanguageCode } from "./useLanguageCode";
+import { useAppLanguageCode } from "./useAppLanguageCode";
 
-const timeZone = ref<TimeZoneInfos | null>({
-    id: "Europe/Paris",
-    offset: "UTC +02:00:00"
-});
+const timeZone = ref<TimeZoneInfos | null>(null);
 
-export const useTimeZone = () => {
+export const useAppTimeZone = () => {
     const setTimeZone = (payload: TimeZoneInfos) => {
         timeZone.value = payload;
     };
@@ -25,7 +22,7 @@ export const useTimeZone = () => {
     const getUserOffsetMillis = (): number => {
         const offset = timeZone?.value?.offset.slice(3) ?? "";
         const matchData = offset.match(/([+-])(\d+)(?::(\d+))?/);
-        if (matchData)  {
+        if (matchData) {
             const [_, sign, hour, minute] = matchData;
             return parseInt(sign + "1") * ((hour ? parseInt(hour) : 0) * 60 + (minute ? parseInt(minute) : 0)) * 60 * 1000;
         }
@@ -37,13 +34,13 @@ export const useTimeZone = () => {
             timeZoneName: "short",
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
         }).formatToParts().find((i) => i.type === "timeZoneName")?.value ?? "";
-    
+
         const offset = timeZoneName.slice(3);
         if (!offset) {
             return "UTC +00:00:00";
         }
         const matchData = offset.match(/([+-])(\d+)(?::(\d+))?/);
-        if (matchData)  {
+        if (matchData) {
             const [_, sign, hour, minute] = matchData;
             return `UTC ${sign}${hour.padStart(2, "0")}:${(minute ?? "").padStart(2, "0")}:00`;
         }
@@ -55,13 +52,13 @@ export const useTimeZone = () => {
             timeZoneName: "short",
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
         }).formatToParts().find((i) => i.type === "timeZoneName")?.value ?? "";
-    
+
         const offset = timeZoneName.slice(3);
         if (!offset) {
             return 0;
         }
         const matchData = offset.match(/([+-])(\d+)(?::(\d+))?/);
-        if (matchData)  {
+        if (matchData) {
             const [_, sign, hour, minute] = matchData;
             return parseInt(sign + "1") * ((hour ? parseInt(hour) : 0) * 60 + (minute ? parseInt(minute) : 0)) * 60 * 1000;
         }
@@ -147,11 +144,11 @@ export const useTimeZone = () => {
     const todayTimeFormat = (): string => {
         return `'${useTranslationsProvider().$tr("ui.time-zone.today-at", "Today at").replaceAll("'", "''")}' HH:mm:ss`;
     }
-    
+
     const yesterdayTimeFormat = (): string => {
         return `'${useTranslationsProvider().$tr("ui.time-zone.yesterday-at", "Yesterday at").replaceAll("'", "''")}' HH:mm:ss`;
     }
-      
+
     const overrideFormat = (date: Date, askedFormat: string): string => {
         let now = new Date();
         if (date.toDateString() === now.toDateString()) {
@@ -164,7 +161,7 @@ export const useTimeZone = () => {
     }
 
     const getLocale = (): Locale => {
-        switch (useLanguageCode().languageCode.value) {
+        switch (useAppLanguageCode().languageCode.value) {
             case "fr-FR": return fr;
             case "es-ES": return es;
             case "it-IT": return it;
@@ -174,18 +171,7 @@ export const useTimeZone = () => {
         }
     }
 
-    const ready = new Promise((resolve) => {
-        if (timeZone.value) {
-            resolve(timeZone.value);
-        }
-        else {
-            watch(timeZone, () => {
-                if (timeZone.value) {
-                    resolve(timeZone.value);
-                }
-            });
-        }
-    });
+    const ready = computed(() => timeZone.value !== null);
 
     return {
         ready,

@@ -1,16 +1,16 @@
 <template>
-    <v-app :theme="themeName">
-        <v-main v-if="ready">
-            <slot name="story"></slot>
-        </v-main>
-    </v-app>
+  <v-app :theme="themeName">
+    <v-main v-if="ready">
+      <slot name="story"></slot>
+    </v-main>
+  </v-app>
 </template>
-  
+
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 
-import { useCore, useOrganisationId } from "@dative-gpi/foundation-core-services/composables";
-import { useShared } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppLanguageCode, useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useFoundationCore, useAppOrganisationId } from "@dative-gpi/foundation-core-services/composables";
 
 export default defineComponent({
   name: "VuetifyAppWrapper",
@@ -18,15 +18,19 @@ export default defineComponent({
     themeName: String
   },
   setup() {
-    const { setOrganisationId } = useOrganisationId();
+    const { setOrganisationId } = useAppOrganisationId();
+    const { setLanguageCode } = useAppLanguageCode();
+    const { setTimeZone } = useAppTimeZone();
 
-    const ready = ref(false);
+    const { ready } = useFoundationCore();
 
     onMounted(async () => {
-      await useShared();
-      await useCore();
+      setLanguageCode("FR-fr");
       setOrganisationId("dative");
-      ready.value = true;
+      setTimeZone({
+        id: "Europe/Paris",
+        offset: "+01:00"
+      });
     });
 
     return {
@@ -38,6 +42,6 @@ export default defineComponent({
 
 <style>
 .v-application__wrap {
-    min-height: fit-content;
+  min-height: fit-content;
 }
 </style>

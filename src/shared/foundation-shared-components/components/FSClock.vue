@@ -73,7 +73,7 @@
 import { computed, defineComponent, PropType, ref, watch } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSlider from "./FSSlider.vue";
@@ -123,7 +123,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToLongDateFormat } = useTimeZone();
+    const { epochToLongDateFormat } = useAppTimeZone();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));

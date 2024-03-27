@@ -1,9 +1,9 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import { getTimeBestString } from "../utils";
 
-const { epochToLongDateFormat } = useTimeZone()!;
+const { epochToLongDateFormat } = useAppTimeZone()!;
 const { $tr } = useTranslationsProvider();
 
 export const TextRules = {

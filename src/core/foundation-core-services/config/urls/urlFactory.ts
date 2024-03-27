@@ -1,6 +1,6 @@
-import { useOrganisationId } from "../../composables/useOrganisationId";
+import { useAppOrganisationId } from "../../composables";
 
-const { organisationId } = useOrganisationId();
+const { organisationId } = useAppOrganisationId();
 
 export function urlFactory(url: (orgId: string) => string) {
     return () => {
