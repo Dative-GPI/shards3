@@ -1,10 +1,10 @@
-export interface GridItem {
+export interface GridMosaic {
     categoryLabel: string;
     categoryCode: string;
-    items: Item[];
+    items: GridItem[];
 }
 
-export interface Item {
+export interface GridItem {
     label: string;
     code: string;
     value: string;

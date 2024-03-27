@@ -39,7 +39,7 @@
         :width="widths.image"
       />
     </FSRow>
-    <FSContainer
+    <FSCard
       v-if="$props.editable"
       class="fs-tile-checkbox"
       :border="false"
@@ -48,7 +48,7 @@
         :modelValue="$props.modelValue"
         @update:modelValue="() => $emit('update:modelValue', !$props.modelValue)"
       />
-    </FSContainer>
+    </FSCard>
   </FSCard>
 </template>
 
@@ -58,7 +58,6 @@ import { computed, defineComponent } from "vue";
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSContainer from "../FSContainer.vue";
 import FSCheckbox from "../FSCheckbox.vue";
 import FSLoader from "../FSLoader.vue";
 import FSCard from "../FSCard.vue";
@@ -66,9 +65,8 @@ import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSTile",
+  name: "FSLoadTile",
   components: {
-    FSContainer,
     FSCheckbox,
     FSLoader,
     FSCard,

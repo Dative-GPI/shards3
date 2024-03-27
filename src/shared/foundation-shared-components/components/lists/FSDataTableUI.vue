@@ -321,8 +321,8 @@
       >
         <template #default="{ items }">
           <FSCol
-            width="fill"
             class="fs-data-iterator-container"
+            width="fill"
           >
             <FSDraggable
               v-for="(item, index) in items"
@@ -425,6 +425,7 @@
                 width="120px"
               >
                 <FSSelectField
+                  class="fs-data-table-rows-per-page"
                   :clearable="false"
                   :hideHeader="true"
                   :items="rowsPerPageOptions"

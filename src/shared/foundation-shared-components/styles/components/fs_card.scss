@@ -1,4 +1,18 @@
 .fs-card {
-    width: var(--fs-card-width);
+    border-radius: var(--fs-card-border-radius);
+    border: var(--fs-card-border-size) solid;
+    padding: var(--fs-card-padding);
     height: var(--fs-card-height);
+    width: var(--fs-card-width);
+    display: flex;
+    
+    background-color: var(--fs-card-background-color);
+    border-color: var(--fs-card-border-color);
+    color: var(--fs-card-color);
+
+    &-elevation {
+        box-shadow: 0px 1px 8px 0px #00000029;
+        border-radius: 4px;
+        margin: 4px;
+    }
 }

@@ -43,6 +43,7 @@
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
       :clearable="$props.editable && $props.clearable"
+      :returnObject="$props.returnObject"
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
@@ -115,6 +116,11 @@ export default defineComponent({
       default: null
     },
     hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    returnObject: {
       type: Boolean,
       required: false,
       default: false
