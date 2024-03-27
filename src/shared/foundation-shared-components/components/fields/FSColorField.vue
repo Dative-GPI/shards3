@@ -176,7 +176,7 @@ export default defineComponent({
     const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
     const fullColor = ref(innerColor.value + innerOpacity.value);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-color-field-color": lights.dark

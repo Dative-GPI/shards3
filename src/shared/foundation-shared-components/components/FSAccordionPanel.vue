@@ -109,7 +109,7 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       return {
         "--fs-accordion-panel-padding-title"         : sizeToVar(props.paddingTitle),
         "--fs-accordion-panel-padding-content"       : sizeToVar(props.paddingContent),

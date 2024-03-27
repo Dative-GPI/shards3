@@ -1,6 +1,6 @@
 import { ref, watch } from "vue";
 
-const languageCode = ref<string | null>("fr-FR");
+const languageCode = ref<string | undefined>("fr-FR");
 
 export const useLanguageCode = () => {
     const setLanguageCode = (payload: string) => {

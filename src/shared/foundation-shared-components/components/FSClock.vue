@@ -101,7 +101,7 @@ export default defineComponent({
       default: ColorEnum.Primary
     },
     date: {
-      type: Number,
+      type: Number as PropType<number | null>,
       required: false,
       default: null
     },
@@ -134,7 +134,7 @@ export default defineComponent({
     const innerHours = ref(props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0);
     const innerMinutes = ref(props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-clock-field-cursor"             : "default",
@@ -153,14 +153,22 @@ export default defineComponent({
       };
     });
 
-    const onChangeHours = (value: number): void => {
-      value = Math.min(23, Math.max(0, value));
-      innerHours.value = value;
+    const onChangeHours = (value: string): void => {
+      let number = parseInt(value);
+      if (isNaN(number) || !isFinite(number)) {
+        return;
+      }
+      number = Math.min(23, Math.max(0, number));
+      innerHours.value = number;
     };
 
-    const onChangeMinutes = (value: number): void => {
-      value = Math.min(59, Math.max(0, value));
-      innerMinutes.value = value;
+    const onChangeMinutes = (value: string): void => {
+      let number = parseInt(value);
+      if (isNaN(number) || !isFinite(number)) {
+        return;
+      }
+      number = Math.min(59, Math.max(0, number));
+      innerMinutes.value = number;
     };
 
     watch([innerHours, innerMinutes], () => {

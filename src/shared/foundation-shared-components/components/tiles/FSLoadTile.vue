@@ -108,7 +108,7 @@ export default defineComponent({
       }
     });
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       return {
         "--fs-load-tile-background-color": backgroundColors.base
       };

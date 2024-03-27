@@ -53,7 +53,6 @@
             v-model="innerDate"
           />
           <FSButton
-            :fullWidth="true"
             :color="$props.color"
             :label="$tr('ui.date-menu.validate', 'Validate')"
             @click="tabs++"
@@ -163,17 +162,17 @@ export default defineComponent({
 
     const menu = ref(false);
     const tabs = ref(0);
-
-    // FSClock just gives two numbers without consideration for the time zone
-    // We must adjust the time to the user's time zone
+    const innerDate = ref<number | null>(null);
     const innerTime = ref(0);
-    const innerDate = ref(null);
+
     if (props.modelValue) {
+      // FSClock just gives two numbers without consideration for the time zone
+      // We must adjust the time to the user's time zone
       innerTime.value = Math.floor((props.modelValue + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
       innerDate.value = props.modelValue - innerTime.value;
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark
@@ -194,7 +193,7 @@ export default defineComponent({
     };
 
     const onSubmit = (): void => {
-      emit("update:modelValue", innerDate.value + innerTime.value);
+      emit("update:modelValue", (innerDate.value ?? 0) + innerTime.value);
       menu.value = false;
     };
 

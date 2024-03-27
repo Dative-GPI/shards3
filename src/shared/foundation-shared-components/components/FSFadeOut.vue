@@ -52,7 +52,7 @@ export default defineComponent({
     const bottomMaskHeight = ref("0px");
     const topMaskHeight = ref("0px");
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       return {
         "--fs-fade-out-height"             : sizeToVar(props.height),
         "--fs-fade-out-width"              : sizeToVar(props.width),

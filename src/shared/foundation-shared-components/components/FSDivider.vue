@@ -75,7 +75,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       switch (props.variant) {
         case "base": return {
           "--fs-divider-width": sizeToVar(props.width),

@@ -43,7 +43,7 @@ export default defineComponent({
 
     const wrapGroupRef = ref(null);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string } => ({
       "--fs-group-padding"    : sizeToVar(props.padding),
       "--fs-group-gap"        : sizeToVar(props.gap),
       "--fs-group-color"      : darks.light,

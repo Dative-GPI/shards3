@@ -743,7 +743,7 @@ export default defineComponent({
       return slots;
     });
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       return {
         "--fs-data-table-background-color": backgrounds.base,
         "--fs-data-table-border-color": lights.base

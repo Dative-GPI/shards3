@@ -56,7 +56,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       return {
         "--fs-span-line-clamp": props.lineClamp.toString()
       };

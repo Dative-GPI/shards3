@@ -98,7 +98,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       switch (props.variant) {
         case "standard": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",

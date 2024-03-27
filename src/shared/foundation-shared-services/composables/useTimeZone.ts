@@ -76,25 +76,32 @@ export const useTimeZone = () => {
         return today.getTime() + getMachineOffsetMillis() - getUserOffsetMillis();
     }
 
-    const pickerToEpoch = (value: Date): number => {
-        // FSCalendar is always in machine time zone, so we need to convert it to user time zone
-        return value.getTime() + getMachineOffsetMillis() - getUserOffsetMillis();
+    const pickerToEpoch = (value: Date | null | undefined): number => {
+        if (value != null) {
+            // FSCalendar is always in machine time zone, so we need to convert it to user time zone
+            return value.getTime() + getMachineOffsetMillis() - getUserOffsetMillis();
+        }
+        return 0;
     };
 
-    const epochToPicker = (value: number): Date => {
-        // Epoch is always without time zone, so we need to convert it to user time zone
+    const epochToPicker = (value: number | null | undefined): Date => {
         const date = new Date(0);
-        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        if (value != null) {
+            // Epoch is always without time zone, so we need to convert it to user time zone
+            date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        }
         return date;
     };
 
     const epochToPickerHeader = (value: number): { d: number, m: number, y: number } => {
         const date = new Date(0);
-        date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        if (value != null) {
+            date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+        }
         return { d: date.getDate(), m: date.getMonth(), y: date.getFullYear() };
     };
 
-    const epochToLongDateFormat = (value: number): string => {
+    const epochToLongDateFormat = (value: number | null | undefined): string => {
         if (value == null || !isFinite(value)) {
             return "";
         }
@@ -103,7 +110,7 @@ export const useTimeZone = () => {
         return format(date, "EEEE dd LLLL yyyy", { locale: getLocale() });
     };
 
-    const epochToLongTimeFormat = (value: number): string => {
+    const epochToLongTimeFormat = (value: number | null | undefined): string => {
         if (value == null || !isFinite(value)) {
             return "";
         }
@@ -112,7 +119,7 @@ export const useTimeZone = () => {
         return format(date, overrideFormat(date, "EEEE dd LLLL yyyy HH:mm"), { locale: getLocale() })
     };
 
-    const epochToShortDateFormat = (value: number): string => {
+    const epochToShortDateFormat = (value: number | null | undefined): string => {
         if (value == null || !isFinite(value)) {
             return "";
         }
@@ -128,7 +135,7 @@ export const useTimeZone = () => {
         }
     };
 
-    const epochToShortTimeFormat = (value: number): string => {
+    const epochToShortTimeFormat = (value: number | null | undefined): string => {
         if (value == null || !isFinite(value)) {
             return "";
         }

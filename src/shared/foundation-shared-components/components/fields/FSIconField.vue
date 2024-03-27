@@ -133,7 +133,7 @@ export default defineComponent({
     const toggleSetRef = ref(null);
     const innerValue = ref(null);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-icon-field-color": lights.dark

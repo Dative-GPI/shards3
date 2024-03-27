@@ -39,7 +39,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
+    const style: Ref<{ [key: string] : string }> = ref({
       "--fs-color-background-color": colors.value.light,
       "--fs-color-border-color"    : colors.value.lightContrast,
       "--fs-color-color"           : colors.value.lightContrast,

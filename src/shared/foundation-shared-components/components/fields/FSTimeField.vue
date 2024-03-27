@@ -155,7 +155,7 @@ export default defineComponent({
       innerTime.value = props.modelValue / selectedUnit.value.id;
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-time-field-cursor"             : "default",

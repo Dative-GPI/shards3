@@ -39,7 +39,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       switch (props.variant) {
         case "full": return {
           "--fs-icon-background-color": colors.value.light

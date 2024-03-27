@@ -119,9 +119,9 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const dialog = ref(false);
-    const innerDateRange = ref(props.modelValue);
+    const innerDateRange = ref<number[] | null>(props.modelValue);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark

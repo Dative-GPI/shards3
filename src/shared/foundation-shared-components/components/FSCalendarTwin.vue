@@ -126,7 +126,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Array as PropType<number[]>,
+      type: Array as PropType<number[] | null>,
       required: false,
       default: null
     },
@@ -212,7 +212,7 @@ export default defineComponent({
       }
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
         "--fs-calendar-hover-background-color" : colors.value.light,
@@ -338,8 +338,9 @@ export default defineComponent({
       }
     };
 
-    const onClickLeft = (value: Date[]): void => {
-      const clicked = pickerToEpoch(value[value.length - 1]);
+    const onClickLeft = (value: unknown): void => {
+      const dates = value as Date[];
+      const clicked = pickerToEpoch(dates[dates.length - 1]);
       if (!props.modelValue || !props.modelValue.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
@@ -357,8 +358,10 @@ export default defineComponent({
       }
     };
 
-    const onClickRight = (value: Date[]): void => {
-      const clicked = pickerToEpoch(value[value.length - 1]);
+
+    const onClickRight = (value: unknown): void => {
+      const dates = value as Date[];
+      const clicked = pickerToEpoch(dates[dates.length - 1]);
       if (!props.modelValue || !props.modelValue.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
@@ -377,8 +380,9 @@ export default defineComponent({
       toggle.value = (++toggle.value) % 2;
     };
 
-    const allowedDates = (value: Date): boolean => {
-      const valueEpoch = pickerToEpoch(value);
+    const allowedDates = (value: unknown): boolean => {
+      const date = value as Date;
+      const valueEpoch = pickerToEpoch(date);
       switch (props.limit) {
         case "past":
           return valueEpoch <= todayToEpoch(true);

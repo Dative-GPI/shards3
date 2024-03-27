@@ -89,7 +89,7 @@ export default defineComponent({
 
     const slideGroupRef = ref(null);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string } => ({
       "--fs-group-arrows-width": props.dash ? "52px" : "32px",
       "--fs-group-padding"    : sizeToVar(props.padding),
       "--fs-group-gap"        : sizeToVar(props.gap),

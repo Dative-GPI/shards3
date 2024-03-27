@@ -59,7 +59,7 @@ export default defineComponent({
 
     const stars = ref(true);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-password-field-cursor"   : "default",

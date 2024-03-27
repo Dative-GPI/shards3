@@ -90,7 +90,7 @@ export default defineComponent({
     const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       switch (props.variant) {
         case "standard": return {
           "--fs-chip-background-color"       : backgrounds.base,

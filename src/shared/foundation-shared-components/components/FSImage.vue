@@ -86,7 +86,7 @@ export default defineComponent({
     const imageRef = ref(null);
     const canvasRef = ref(null);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       return {
         "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
         "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"

@@ -151,13 +151,13 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const dialog = ref(false);
-
-    // FSClock just gives two numbers without consideration for the time zone
-    // We must adjust the time to the user's time zone
-    const innerTimeLeft = ref(0);
+    const innerDateRange = ref<number[] | null>(null);
     const innerTimeRight = ref(0);
-    const innerDateRange = ref(null);
+    const innerTimeLeft = ref(0);
+
     if (props.modelValue && Array.isArray(props.modelValue)) {
+      // FSClock just gives two numbers without consideration for the time zone
+      // We must adjust the time to the user's time zone
       switch (props.modelValue.length) {
         case 0: {
           break;
@@ -174,7 +174,7 @@ export default defineComponent({
       }
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark

@@ -188,7 +188,7 @@ export default defineComponent({
       return acc;
     }, []);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-time-slot-field-cursor"             : "default",

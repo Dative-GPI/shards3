@@ -43,19 +43,26 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {    
-    const input = ref(null);
+  setup(props, { emit }) {
+    const input = ref<HTMLFormElement | null>(null);
 
     const clear = () => {
-      input.value!.form && input.value!.form.reset();
+      if (input.value) {
+        input.value.form && input.value.form.reset();
+      }
     };
 
     const onClick = () => {
-      input.value!.click();
+      if (input.value) {
+        input.value.click();
+      }
     }
 
     const onInput = () => {
-      const file = input.value!.files && input.value!.files[0];
+      if (!input.value) {
+        return;
+      }
+      const file = input.value.files && input.value.files[0];
       if (!file) {
         return;
       }

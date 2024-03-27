@@ -121,7 +121,7 @@ export default defineComponent({
 
     const innerValue = ref("");
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-tag-field-color": lights.dark

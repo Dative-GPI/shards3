@@ -298,7 +298,7 @@ export default defineComponent({
       return ["readonly"].includes(props.variant);
     });
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       let minHeight: string | undefined = "auto";
       if (!readonly.value) {
         const base = isMobileSized.value ? 30 : 42;

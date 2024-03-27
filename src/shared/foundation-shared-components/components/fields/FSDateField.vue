@@ -49,7 +49,6 @@
           v-model="innerDate"
         />
         <FSButton
-          :fullWidth="true"
           :color="$props.color"
           :label="$tr('ui.date-menu.validate', 'Validate')"
           @click="onSubmit"
@@ -93,7 +92,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Number,
+      type: Number as PropType<number | null>,
       required: false,
       default: null
     },
@@ -134,9 +133,9 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const menu = ref(false);
-    const innerDate = ref(props.modelValue);
+    const innerDate = ref<number | null>(props.modelValue);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark
