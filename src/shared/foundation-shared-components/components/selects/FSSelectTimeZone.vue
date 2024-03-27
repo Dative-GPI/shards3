@@ -1,10 +1,19 @@
 <template>
   <FSSelectField
+    itemTitle="id"
     :items="entities"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
-  />
+  >
+    <template #selection>
+      <FSRow>
+        <FSSpan font="text-underline" :style="style">
+          {{ entities.find((entity) => entity.id === $props.modelValue)?.id }}
+        </FSSpan>
+      </FSRow>
+    </template>
+  </FSSelectField>
 </template>
 
 <script lang="ts">

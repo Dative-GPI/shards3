@@ -319,8 +319,8 @@
       >
         <template #default="{ items }">
           <FSCol
-            width="fill"
             class="fs-data-iterator-container"
+            width="fill"
           >
             <FSDraggable
               v-for="(item, index) in items"

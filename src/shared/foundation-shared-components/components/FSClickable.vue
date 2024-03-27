@@ -6,7 +6,6 @@
     @click.stop="onClick"
   >
     <FSCard
-      :border="$props.border"
       :class="classes"
       :style="style"
       v-bind="$attrs"
@@ -31,7 +30,6 @@
     :to="href"
   >
     <FSCard
-      :border="$props.border"
       :class="classes"
       :style="style"
       v-bind="$attrs"

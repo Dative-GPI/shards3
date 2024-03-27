@@ -7,7 +7,7 @@
     :height="height"
   >
     <slot />
-    <FSContainer
+    <FSCard
       v-if="$props.editable"
       class="fs-tile-checkbox"
       :border="false"
@@ -17,11 +17,11 @@
         :modelValue="$props.modelValue"
         @update:modelValue="() => $emit('update:modelValue', !$props.modelValue)"
       />
-    </FSContainer>
-      <div
-        class="fs-tile-bottom"
-        :style="style"
-      />
+    </FSCard>
+    <div
+      class="fs-tile-bottom"
+      :style="style"
+    />
   </FSCard>  
 </template>
 
@@ -31,14 +31,12 @@ import { computed, defineComponent, PropType } from "vue";
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSContainer from "../FSContainer.vue";
 import FSCheckbox from "../FSCheckbox.vue";
 import FSCard from "../FSCard.vue";
 
 export default defineComponent({
   name: "FSTile",
   components: {
-    FSContainer,
     FSCheckbox,
     FSCard
   },

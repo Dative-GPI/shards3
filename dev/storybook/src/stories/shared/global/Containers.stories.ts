@@ -81,10 +81,10 @@ export const FadeOut: Story = {
 &lt;/FSFadeOut&gt;</pre>
           <FSFadeOut height="180px" style="width: 150px; border: 2px dotted black;">
             <FSCol style="background-color: plum; padding: 4px;">
-              <FSButton label="1" />
-              <FSButton label="2" />
-              <FSButton label="3" />
-              <FSButton label="4" />
+              <FSButton icon="mdi-numeric-1" />
+              <FSButton icon="mdi-numeric-2" />
+              <FSButton icon="mdi-numeric-3" />
+              <FSButton icon="mdi-numeric-4" />
             </FSCol>
           </FSFadeout>
           If the content starts to fit after mounting, the mask and scrollbar disappear
@@ -196,84 +196,102 @@ export const SlideGroup: Story = {
 
 export const Color: Story = {
   render: () => ({
-    components: { FSColor, FSIcon, FSSpan },
+    components: { FSColor, FSRow, FSSpan },
     template: `
     <div style="display: flex; flex-direction: column; gap: 20px;">
       <div style="display: flex; gap: 20px;">
         <FSColor color="primary" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> Primary </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> Primary </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
         <FSColor color="success" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> Success </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> Success </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
         <FSColor color="warning" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> Warning </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> Warning </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
         <FSColor color="error" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> Error </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> Error </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
       </div>
       <div style="display: flex; gap: 20px;">
         <FSColor color="light" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> Light </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> Light </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
         <FSColor color="dark" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> Dark </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> Dark </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
       </div>
       <div style="display: flex; gap: 20px;">
         <FSColor color="#FF0000" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> #FF0000 </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> #FF0000 </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
         <FSColor color="#00FF00" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> #00FF00 </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> #00FF00 </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
         <FSColor color="#0000FF" style="padding: 4px;">
           <template #default="{ color, colors }">
-            <FSSpan> #0000FF </FSSpan>
-            <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
-            <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
-            <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            <FSRow>
+              <FSSpan> #0000FF </FSSpan>
+              <FSSpan style="padding: 0 2px; background-color: var(--fs-color-base); color: var(--fs-color-light)"> Light </FSSpan>
+              <FSSpan style="color: var(--fs-color-base)"> Base </FSSpan>
+              <FSSpan style="color: var(--fs-color-dark)"> Dark </FSSpan>
+            </FSRow>
           </template>
         </FSColor>
       </div>
