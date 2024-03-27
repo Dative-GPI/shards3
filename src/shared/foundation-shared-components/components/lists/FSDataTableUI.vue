@@ -5,18 +5,18 @@
     <FSRow
       align="bottom-center"
     >
-      <FSSearchField
-        v-if="$props.showSearch"
-        prependInnerIcon="mdi-magnify"
-        :hideHeader="true"
-        v-model="innerSearch"
-      />
-      <FSButton
-        v-if="$props.showSearch"
-        prependIcon="mdi-filter-variant"
-        :variant="showFilters ? 'full' : 'standard'"
-        @click="showFilters = !showFilters"
-      />
+      <template v-if="$props.showSearch">
+        <FSSearchField
+          prependInnerIcon="mdi-magnify"
+          :hideHeader="true"
+          v-model="innerSearch"
+        />
+        <FSButton
+          prependIcon="mdi-filter-variant"
+          :variant="showFilters ? 'full' : 'standard'"
+          @click="showFilters = !showFilters"
+        />
+      </template>
       <slot name="toolbar" />
       <v-spacer />
       <FSOptionGroup
@@ -27,7 +27,7 @@
       />
     </FSRow>
     <FSRow
-      v-if="(showFilters && filterableHeaders.length > 0) || hiddenHeaders.length > 0"
+      v-if="showFiltersRow"
     >
       <template v-if="showFilters">
         <FSFilterButton
@@ -710,6 +710,10 @@ export default defineComponent({
       { id: -1, label: $tr("ui.data-table.all-rows", "All") }
     ];
 
+    const showFiltersRow = computed((): boolean => {
+      return (props.showSearch && showFilters.value && filterableHeaders.value.length > 0) || hiddenHeaders.value.length > 0;
+    });
+
     const innerSlots = computed((): { [label: string]: Slot<any> } => {
       const slots = { ...useSlots().slots };
       delete slots["toolbar"];
@@ -1210,6 +1214,7 @@ export default defineComponent({
       innerPage,
       pageOptions,
       showFilters,
+      showFiltersRow,
       extraHeaders,
       innerHeaders,
       hiddenHeaders,
