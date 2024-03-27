@@ -15,4 +15,21 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
+  args: {
+    args: {
+      timeZone1 :null
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSSelectTimeZone },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+        <FSSelectTimeZone
+          v-model="args.timeZone1"
+        />
+    `,
+  })
 };
