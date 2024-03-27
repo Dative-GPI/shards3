@@ -1,5 +1,6 @@
 <template>
-  <v-img class="fs-image"
+  <v-img
+    class="fs-image"
     ref="imageRef"
     :height="computedHeight"
     :width="computedWidth"
@@ -7,20 +8,27 @@
     :style="style"
     :src="source"
     @error="onError"
-    v-bind="$attrs">
+    v-bind="$attrs"
+  >
     <template #placeholder>
-      <FSLoader class="fs-image-load"
-        height="100%"
-        width="100%"
-        :borderRadius="$props.borderRadius" />
-    </template>
-    <template #error>
-      <FSLoader v-if="!blurHash"
+      <FSLoader
         class="fs-image-load"
         height="100%"
         width="100%"
-        :borderRadius="$props.borderRadius" />
-      <canvas ref="canvasRef" />
+        :borderRadius="$props.borderRadius"
+      />
+    </template>
+    <template #error>
+      <FSLoader
+        v-if="!blurHash"
+        class="fs-image-load"
+        height="100%"
+        width="100%"
+        :borderRadius="$props.borderRadius"
+      />
+      <canvas
+        ref="canvasRef"
+      />
     </template>
   </v-img>
 </template>
@@ -84,16 +92,16 @@ export default defineComponent({
     const canvasRef = ref(null);
 
     const signatures = ref<{ [key: string]: string }>({
-      JVBERi0: "application/pdf",
-      R0lGODdh: "image/gif",
-      R0lGODlh: "image/gif",
+      JVBERi0    : "application/pdf",
+      R0lGODdh   : "image/gif",
+      R0lGODlh   : "image/gif",
       iVBORw0KGgo: "image/png",
-      "/9j/": "image/jpg",
-    })
+      "/9j/"     : "image/jpg",
+    });
 
     const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
       return {
-        "--fs-image-border-radius": sizeToVar(props.borderRadius),
+        "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
         "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"
       }
     });
@@ -141,23 +149,31 @@ export default defineComponent({
         return IMAGE_RAW_URL(props.imageId);
       }
       else if (props.imageB64) {
-        if (imageType.value && imageData.value)
+        if (imageType.value && imageData.value) {
           return `${imageType.value},${imageData.value}`;
+        }
       }
       return null;
     });
 
     const imageData = computed((): string => {
-      if (props.imageB64 && props.imageB64.includes(",")) return props.imageB64.split(",")[1];
+      if (props.imageB64 && props.imageB64.includes(",")) {
+        return props.imageB64.split(",")[1];
+      }
       return props.imageB64;
     });
 
     const imageType = computed((): string => {
-      if (props.imageB64 && props.imageB64.includes(",")) return props.imageB64.split(",")[0];
-      if (props.imageB64)
-        for (const s in signatures.value)
-          if (props.imageB64.startsWith(s))
+      if (props.imageB64 && props.imageB64.includes(",")) {
+        return props.imageB64.split(",")[0];
+      }
+      if (props.imageB64) {
+        for (const s in signatures.value) {
+          if (props.imageB64.startsWith(s)) {
             return `data:${signatures.value[s]};base64`;
+          }
+        }
+      }
       return "";
     });
 
