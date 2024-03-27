@@ -29,8 +29,21 @@
 // Applies to all inputs
 .v-input {
     padding: 0px !important;
-    min-width: 200px;
-    width: 100%;
+
+    &:not(.v-checkbox) {
+        min-width: 200px;
+        width: 100%;
+    }
+
+    &.v-checkbox {
+        @include web {
+            min-width: 24px;
+        }
+
+        @include mobile {
+            min-width: 20px;
+        }
+    }
 
     & .v-input__prepend {
         margin-inline-end: 8px !important;

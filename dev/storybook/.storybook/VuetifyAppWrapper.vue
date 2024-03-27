@@ -1,13 +1,13 @@
 <template>
     <v-app :theme="themeName">
-        <v-main v-if="sharedReady && coreReady">
+        <v-main v-if="ready">
             <slot name="story"></slot>
         </v-main>
     </v-app>
 </template>
   
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 
 import { useCore, useOrganisationId } from "@dative-gpi/foundation-core-services/composables";
 import { useShared } from "@dative-gpi/foundation-shared-services/composables";
@@ -18,18 +18,19 @@ export default defineComponent({
     themeName: String
   },
   setup() {
-    const { ready: sharedReady } = useShared();
-    const { ready: coreReady } = useCore();
-
     const { setOrganisationId } = useOrganisationId();
 
+    const ready = ref(false);
+
     onMounted(async () => {
+      await useShared();
+      await useCore();
       setOrganisationId("dative");
+      ready.value = true;
     });
 
     return {
-      sharedReady,
-      coreReady
+      ready
     };
   }
 });

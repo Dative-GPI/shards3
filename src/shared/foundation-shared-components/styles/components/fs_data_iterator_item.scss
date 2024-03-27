@@ -1,6 +1,7 @@
 .fs-data-iterator-item {
     position: relative;
     min-height: 36px;
+    flex: 1 0 0;
 
     & > .fs-col > .fs-row:first-of-type > :last-child {
         padding-right: 22px;

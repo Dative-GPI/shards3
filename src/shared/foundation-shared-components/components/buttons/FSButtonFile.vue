@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButton from "../FSButton.vue";
@@ -34,12 +35,12 @@ export default defineComponent({
     accept: {
       type: String,
       required: false,
-      default: "",
+      default: ""
     },
     readFile: {
       type: Boolean,
       required: false,
-      default: true,
+      default: true
     }
   },
   emits: ["update:modelValue"],
