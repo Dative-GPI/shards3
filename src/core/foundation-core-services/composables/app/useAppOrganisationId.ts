@@ -4,7 +4,7 @@ const organisationId = ref<string | null>(null);
 
 export const useAppOrganisationId = () => {
 
-    const setOrganisationId = (payload: string) => {
+    const setAppOrganisationId = (payload: string) => {
         organisationId.value = payload;
     };
 
@@ -13,6 +13,6 @@ export const useAppOrganisationId = () => {
     return {
         ready,
         organisationId,
-        setOrganisationId
+        setAppOrganisationId
     };
 }

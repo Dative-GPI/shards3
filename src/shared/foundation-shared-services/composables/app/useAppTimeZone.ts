@@ -1,4 +1,4 @@
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 
 import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
 import { format, subDays } from "date-fns";
@@ -11,7 +11,7 @@ import { useAppLanguageCode } from "./useAppLanguageCode";
 const timeZone = ref<TimeZoneInfos | null>(null);
 
 export const useAppTimeZone = () => {
-    const setTimeZone = (payload: TimeZoneInfos) => {
+    const setAppTimeZone = (payload: TimeZoneInfos) => {
         timeZone.value = payload;
     };
 
@@ -183,7 +183,7 @@ export const useAppTimeZone = () => {
     return {
         ready,
         timeZone,
-        setTimeZone,
+        setAppTimeZone,
         getUserOffset,
         getMachineOffset,
         getUserOffsetMillis,

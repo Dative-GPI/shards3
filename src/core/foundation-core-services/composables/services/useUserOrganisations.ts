@@ -1,7 +1,5 @@
-import { onUnmounted, ref } from "vue";
-
 import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ComposableFactory, onEntityChanged, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { USER_ORGANISATIONS_URL, USER_ORGANISATION_CURRENT_URL, USER_ORGANISATION_URL } from "../../config/urls";
 
@@ -11,24 +9,9 @@ const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetail
     factory.addCreate<CreateUserOrganisationDTO>(USER_ORGANISATIONS_URL),
     factory.addUpdate<UpdateUserOrganisationDTO>(USER_ORGANISATION_URL),
     factory.addRemove(USER_ORGANISATION_URL),
-    factory.addNotify((notifyService) => ({
-        getCurrent: async (): Promise<UserOrganisationDetails> => {
-            const response = await ServiceFactory.http.get(USER_ORGANISATION_CURRENT_URL());
-            const result = new UserOrganisationDetails(response.data);
-
-            notifyService.notify("update", result);
-
-            return result;
-        },
-        updateCurrent: async(payload: UpdateUserOrganisationDTO): Promise<UserOrganisationDetails> => {
-            const response = await ServiceFactory.http.post(USER_ORGANISATION_CURRENT_URL(), payload);
-            const result = new UserOrganisationDetails(response.data);
-
-            notifyService.notify("update", result);
-
-            return result;
-        }
-    }))
+    factory.addCustom("getCurrent", (axios) => axios.get(USER_ORGANISATION_CURRENT_URL())),
+    factory.addCustom("updateCurrent", (axios, payload: UpdateUserOrganisationDTO) => axios.post(USER_ORGANISATION_CURRENT_URL(), payload)),
+    factory.addNotify()
 ));
 
 export const useUserOrganisation = ComposableFactory.get(UserOrganisationServiceFactory);
@@ -36,63 +19,5 @@ export const useUserOrganisations = ComposableFactory.getMany(UserOrganisationSe
 export const useCreateUserOrganisation = ComposableFactory.create(UserOrganisationServiceFactory);
 export const useUpdateUserOrganisation = ComposableFactory.update(UserOrganisationServiceFactory);
 export const useRemoveUserOrganisation = ComposableFactory.remove(UserOrganisationServiceFactory);
-export const useCurrentUserOrganisation = () => {
-    const service = UserOrganisationServiceFactory();
-    const subscribersIds: number[] = [];
-
-    const fetching = ref(false);
-    const fetched = ref<UserOrganisationDetails | null>(null);
-
-    onUnmounted(() => {
-        subscribersIds.forEach(id => service.unsubscribe(id));
-        subscribersIds.length = 0;
-    });
-
-    const fetch = async () => {
-        fetching.value = true;
-        try {
-            fetched.value = await service.getCurrent();
-        }
-        finally {
-            fetching.value = false;
-        }
-        subscribersIds.push(service.subscribe("all", onEntityChanged(fetched)));
-        return fetched;
-    }
-
-    return {
-        fetching,
-        fetch,
-        fetched
-    }
-}
-export const useUpdateCurrentUserOrganisation = () => {
-    const service = UserOrganisationServiceFactory();
-    const subscribersIds: number[] = [];
-
-    const updating = ref(false);
-    const updated = ref<UserOrganisationDetails | null>(null);
-
-    onUnmounted(() => {
-        subscribersIds.forEach(id => service.unsubscribe(id));
-        subscribersIds.length = 0;
-    });
-
-    const update = async (payload: UpdateUserOrganisationDTO) => {
-        updating.value = true;
-        try {
-            updated.value = await service.updateCurrent(payload);
-        }
-        finally {
-            updating.value = false;
-        }
-        subscribersIds.push(service.subscribe("all", onEntityChanged(updated)));
-        return updated;
-    }
-
-    return {
-        updating,
-        update,
-        updated
-    }
-}
+export const useCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory, UserOrganisationServiceFactory.getCurrent);
+export const useUpdateCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory, UserOrganisationServiceFactory.updateCurrent);

@@ -3,7 +3,7 @@ import { computed, ref } from "vue";
 const languageCode = ref<string | undefined>(undefined);
 
 export const useAppLanguageCode = () => {
-    const setLanguageCode = (payload: string) => {
+    const setAppLanguageCode = (payload: string) => {
         languageCode.value = payload;
     };
 
@@ -12,6 +12,6 @@ export const useAppLanguageCode = () => {
     return {
         ready,
         languageCode,
-        setLanguageCode
+        setAppLanguageCode
     };
 }
