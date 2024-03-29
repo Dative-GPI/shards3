@@ -6,7 +6,7 @@
     v-bind="$attrs"
   >
     <v-slide-group-item
-      v-for="(component, index) in getChildren()"
+      v-for="(component, index) in getChildren(undefined)"
       :key="index"
     >
       <component :is="component" />
@@ -43,7 +43,7 @@ export default defineComponent({
 
     const wrapGroupRef = ref(null);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string | undefined } => ({
       "--fs-group-padding"    : sizeToVar(props.padding),
       "--fs-group-gap"        : sizeToVar(props.gap),
       "--fs-group-color"      : darks.light,

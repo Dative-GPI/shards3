@@ -1,8 +1,8 @@
 <template>
   <FSCol width="hug">
     <FSRadio
-      v-for="item in $props.values"
-      :key="item.value"
+      v-for="(item, index) in $props.values"
+      :key="index"
       :label="item.label"
       :description="item.description"
       :selected="isSelected(item.value)"
@@ -30,7 +30,7 @@ export default defineComponent({
   },
   props: {
     values: {
-      type: Array as PropType<{ value: String | Boolean | Number, label?: String, description?: string }[]>,
+      type: Array as PropType<{ value: string | boolean | number, label?: string, description?: string }[]>,
       required: true,
       default: false
     },

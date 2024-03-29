@@ -58,22 +58,22 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     placeholder: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     prependInnerIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: "mdi-magnify"
     },
@@ -83,17 +83,17 @@ export default defineComponent({
       default: "instant"
     },
     buttonPrependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     buttonLabel: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     buttonAppendIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -103,7 +103,7 @@ export default defineComponent({
       default: "standard"
     },
     modelValue: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },

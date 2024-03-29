@@ -11,7 +11,7 @@
     v-bind="$attrs"
   >
     <template
-      v-for="(component, index) in getChildren()"
+      v-for="(component, index) in getChildren(undefined)"
       :key="index"
     >
       <component :is="component" />
@@ -46,7 +46,7 @@ export default defineComponent({
     const colors = computed(() => getColors(props.color));
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string | undefined } => ({
       "--fs-group-color"                 : darks.base,
       "--fs-group-disabled-color"        : darks.light,
       "--fs-group-hover-background-color": colors.value.light,

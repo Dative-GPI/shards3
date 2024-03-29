@@ -4,7 +4,7 @@
     v-bind="$attrs"
   >
     <v-window-item
-      v-for="(component, index) in getChildren()"
+      v-for="(component, index) in getChildren(undefined)"
       :value="value(component, index)"
       :key="index"
     >

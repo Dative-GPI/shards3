@@ -48,7 +48,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string | undefined } => ({
       "--fs-row-flex-wrap": props.wrap ? "wrap" : "nowrap",
       "--fs-row-padding"  : sizeToVar(props.padding),
       "--fs-row-gap"      : sizeToVar(props.gap),

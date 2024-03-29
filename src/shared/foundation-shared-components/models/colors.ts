@@ -19,4 +19,4 @@ export interface ColorVariations {
     darkContrast?: string;
 };
 
-export type ColorBase = (String | ColorEnum);
+export type ColorBase = (string | ColorEnum);

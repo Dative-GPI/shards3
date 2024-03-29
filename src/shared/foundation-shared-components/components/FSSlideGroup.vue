@@ -20,7 +20,7 @@
     </template>
     <template #default>
       <v-slide-group-item
-        v-for="(component, index) in getChildren()"
+        v-for="(component, index) in getChildren(undefined)"
         :key="index"
       >
         <component :is="component" />
@@ -87,9 +87,9 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
-    const slideGroupRef = ref(null);
+    const slideGroupRef = ref<HTMLElement | null>(null);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string | undefined } => ({
       "--fs-group-arrows-width": props.dash ? "52px" : "32px",
       "--fs-group-padding"    : sizeToVar(props.padding),
       "--fs-group-gap"        : sizeToVar(props.gap),
@@ -99,31 +99,31 @@ export default defineComponent({
 
     const goToStart = () => {
       if (slideGroupRef.value) {
-        slideGroupRef.value.scrollOffset = 0;
+        (slideGroupRef.value as any).scrollOffset = 0;
       }
     };
 
     const goToPrev = () => {
       if (slideGroupRef.value) {
-        slideGroupRef.value.scrollOffset = Math.max(0, slideGroupRef.value.scrollOffset - props.speed);
+        (slideGroupRef.value as any).scrollOffset = Math.max(0, (slideGroupRef.value as any).scrollOffset - props.speed);
       }
     };
 
     const goToEnd = () => {
       if (slideGroupRef.value) {
-        const contentSize = slideGroupRef.value.$el.children[1].children[0].clientWidth;
-        const containerSize = slideGroupRef.value.$el.clientWidth;
+        const contentSize = (slideGroupRef.value as any).$el.children[1].children[0].clientWidth;
+        const containerSize = (slideGroupRef.value as any).$el.clientWidth;
         const arrowsOffset = props.dash ? 104 : 64;
-        slideGroupRef.value.scrollOffset = (contentSize - containerSize + arrowsOffset);
+        (slideGroupRef.value as any).scrollOffset = (contentSize - containerSize + arrowsOffset);
       }
     };
 
     const goToNext = () => {
       if (slideGroupRef.value) {
-        const contentSize = slideGroupRef.value.$el.children[1].children[0].clientWidth;
-        const containerSize = slideGroupRef.value.$el.clientWidth;
+        const contentSize = (slideGroupRef.value as any).$el.children[1].children[0].clientWidth;
+        const containerSize = (slideGroupRef.value as any).$el.clientWidth;
         const arrowsOffset = props.dash ? 104 : 64;
-        slideGroupRef.value.scrollOffset = Math.min(contentSize - containerSize + arrowsOffset, slideGroupRef.value.scrollOffset + props.speed);
+        (slideGroupRef.value as any).scrollOffset = Math.min(contentSize - containerSize + arrowsOffset, (slideGroupRef.value as any).scrollOffset + props.speed);
       }
     };
 

@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panels variant="accordion">
     <template
-      v-for="(component, index) in getChildren()"
+      v-for="(component, index) in getChildren(undefined)"
       :key="index"
     >
       <component :is="component" />
@@ -21,7 +21,7 @@ export default defineComponent({
 
     return {
       getChildren
-    }
+    };
   }
-})
+});
 </script>

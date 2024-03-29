@@ -90,12 +90,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -114,7 +114,7 @@ export default defineComponent({
       default: "label"
     },
     modelValue: {
-      type: [Array, String] as PropType<string[] | string>,
+      type: [Array, String] as PropType<string[] | string | null>,
       required: false,
       default: null
     },
@@ -139,7 +139,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -169,7 +169,7 @@ export default defineComponent({
 
     const innerSearch = ref("");
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-autocomplete-field-cursor"             : "default",

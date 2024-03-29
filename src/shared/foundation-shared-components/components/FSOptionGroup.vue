@@ -146,9 +146,9 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: [Array, String, Number] as PropType<(string | number)[] | string | number>,
+      type: [Array, String, Number] as PropType<(string | number)[] | string | number | null>,
       required: false,
-      default: false
+      default: null
     },
     optionColor: {
       type: String as PropType<ColorBase>,
@@ -195,7 +195,7 @@ export default defineComponent({
 
     const firstChild = getFirstChild("item");
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
           "--fs-option-group-border-size"  : props.border ? "1px" : "0",
           "--fs-option-group-border-radius": sizeToVar(props.borderRadius),

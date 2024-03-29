@@ -4,10 +4,10 @@
 
 .fs-clock-field {
     padding: 0px !important;
-    width: 72px !important;
 
     &.v-input {
-        flex: 0 0 auto !important;
+        min-width: 76px !important;
+        max-width: 76px !important;
     }
 
     & > .v-input__control > .v-field {
@@ -15,6 +15,7 @@
         border: 1px solid var(--fs-clock-field-border-color) !important;
         border-radius: 4px !important;
         padding: 0 16px !important;
+        gap: 0 !important;
 
         &:not(.v-field--error):focus-within {
             border-color: var(--fs-clock-field-active-border-color) !important;

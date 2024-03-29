@@ -1,6 +1,6 @@
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 
-const languageCode = ref<string | null>(null);
+const languageCode = ref<string | undefined>(undefined);
 
 export const useAppLanguageCode = () => {
     const setLanguageCode = (payload: string) => {

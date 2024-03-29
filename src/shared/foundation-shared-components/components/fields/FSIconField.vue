@@ -61,12 +61,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -86,7 +86,7 @@ export default defineComponent({
       default: "standard"
     },
     modelValue: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -111,7 +111,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -130,10 +130,10 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const toggleSetRef = ref(null);
-    const innerValue = ref(null);
+    const toggleSetRef = ref<HTMLElement | null>(null);
+    const innerValue = ref<string | null>(null);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-icon-field-color": lights.dark
@@ -163,8 +163,8 @@ export default defineComponent({
       }
       else {
         const matchingIcons = Icons.filter((icon) => {
-          return icon.fullText.toLowerCase().includes(innerValue.value.toLowerCase());
-        }).sort((a, b) => sortByLevenshteinDistance(a.name, b.name, innerValue.value));
+          return icon.fullText.toLowerCase().includes(innerValue.value!.toLowerCase());
+        }).sort((a, b) => sortByLevenshteinDistance(a.name, b.name, innerValue.value!));
         innerIcons.push(...matchingIcons.slice(0, Math.min(32, matchingIcons.length)).map((icon) => ({
           id: icon.name,
           prependIcon: icon.name
@@ -190,7 +190,7 @@ export default defineComponent({
 
     watch(() => props.modelValue, () => {
       if (toggleSetRef.value) {
-        toggleSetRef.value.goToStart();
+        (toggleSetRef.value as any).goToStart();
       }
     });
 

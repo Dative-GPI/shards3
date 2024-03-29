@@ -42,15 +42,17 @@
         class="fs-calendar-divider"
         :style="style"
       />
-      <v-locale-provider :locale="languageCode">
+      <v-locale-provider
+        :locale="languageCode"
+      >
         <v-date-picker-month
           :month="innerMonth"
           :year="innerYear"
           :multiple="false"
           :showAdjacentMonths="true"
           :allowedDates="allowedDates"
-          :modelValue="epochToPicker($props.modelValue)"
-          @update:modelValue="(value) => $emit('update:modelValue', pickerToEpoch(value[0]))"
+          :modelValue="[epochToPicker($props.modelValue)]"
+          @update:modelValue="onClickDate"
           @update:month="null"
           @update:year="null"
         />
@@ -81,12 +83,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: Number,
+      type: Number as PropType<number | null>,
       required: false,
       default: null
     },
@@ -102,7 +104,7 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props) {
+  setup(props, { emit }) {
     const { epochToPicker, pickerToEpoch, todayToEpoch } = useAppTimeZone();
     const { languageCode } = useAppLanguageCode();
     const { getColors } = useColors();
@@ -114,7 +116,7 @@ export default defineComponent({
     const innerMonth = ref(props.modelValue ? epochToPicker(props.modelValue).getMonth() : new Date().getMonth());
     const innerYear = ref(props.modelValue ? epochToPicker(props.modelValue).getFullYear() : new Date().getFullYear());
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
         "--fs-calendar-hover-background-color" : colors.value.light,
@@ -155,8 +157,15 @@ export default defineComponent({
       }
     };
 
-    const allowedDates = (value: Date): boolean => {
-      const valueEpoch = pickerToEpoch(value);
+    const onClickDate = (value: unknown): void => {
+      const date = (value as Date[])[0];
+      const epoch = pickerToEpoch(date);
+      emit("update:modelValue", epoch);
+    };
+
+    const allowedDates = (value: unknown): boolean => {
+      const date = value as Date;
+      const valueEpoch = pickerToEpoch(date);
       switch (props.limit) {
         case "past":
           return valueEpoch <= todayToEpoch(true);
@@ -178,6 +187,7 @@ export default defineComponent({
       pickerToEpoch,
       onClickPrevious,
       onClickNext,
+      onClickDate,
       allowedDates
     };
   }

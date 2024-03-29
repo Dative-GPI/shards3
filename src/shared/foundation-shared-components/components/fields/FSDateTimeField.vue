@@ -42,6 +42,7 @@
       :modelValue="tabs"
     >
       <FSCard
+        padding="8px"
         width="346px"
         :elevation="true"
         :border="false"
@@ -53,7 +54,7 @@
             v-model="innerDate"
           />
           <FSButton
-            :fullWidth="true"
+            width="100%"
             :color="$props.color"
             :label="$tr('ui.date-menu.validate', 'Validate')"
             @click="tabs++"
@@ -61,6 +62,7 @@
         </FSCol>
       </FSCard>
       <FSCard
+        padding="8px"
         width="394px"
         :elevation="true"
         :border="false"
@@ -72,7 +74,7 @@
             v-model="innerTime"
           />
           <FSButton
-            :fullWidth="true"
+            width="100%"
             :color="$props.color"
             :label="$tr('ui.date-menu.validate', 'Validate')"
             @click="onSubmit"
@@ -111,17 +113,17 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: Number,
+      type: Number as PropType<number | null>,
       required: false,
       default: null
     },
@@ -141,7 +143,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -163,17 +165,17 @@ export default defineComponent({
 
     const menu = ref(false);
     const tabs = ref(0);
-
-    // FSClock just gives two numbers without consideration for the time zone
-    // We must adjust the time to the user's time zone
+    const innerDate = ref<number | null>(null);
     const innerTime = ref(0);
-    const innerDate = ref(null);
+
     if (props.modelValue) {
+      // FSClock just gives two numbers without consideration for the time zone
+      // We must adjust the time to the user's time zone
       innerTime.value = Math.floor((props.modelValue + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
       innerDate.value = props.modelValue - innerTime.value;
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark
@@ -194,7 +196,7 @@ export default defineComponent({
     };
 
     const onSubmit = (): void => {
-      emit("update:modelValue", innerDate.value + innerTime.value);
+      emit("update:modelValue", (innerDate.value ?? 0) + innerTime.value);
       menu.value = false;
     };
 

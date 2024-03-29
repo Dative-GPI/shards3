@@ -78,7 +78,7 @@ export default defineComponent({
       default: null
     },
     aspectRatio: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -88,7 +88,7 @@ export default defineComponent({
       default: "4px"
     },
     modelValue: {
-      type: String as PropType<string>,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     }
@@ -100,7 +100,10 @@ export default defineComponent({
     const fileSelected = ref<FileImage>({ fileName: "", fileContent: null });
 
     const realSource = computed(() => {
-      return fileSelected.value && fileSelected.value.fileName ? fileSelected.value.fileContent : props.modelValue;
+      if (fileSelected.value && fileSelected.value.fileName) {
+        return fileSelected.value.fileContent as string;
+      }
+      return props.modelValue;
     });
 
     const onUpload = (payload: File) => {

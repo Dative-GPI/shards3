@@ -39,6 +39,7 @@
       </FSTextField>
     </template>
     <FSCard
+      padding="8px"
       width="346px"
       :elevation="true"
       :border="false"
@@ -49,7 +50,7 @@
           v-model="innerDate"
         />
         <FSButton
-          :fullWidth="true"
+          width="100%"
           :color="$props.color"
           :label="$tr('ui.date-menu.validate', 'Validate')"
           @click="onSubmit"
@@ -83,17 +84,17 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: Number,
+      type: Number as PropType<number | null>,
       required: false,
       default: null
     },
@@ -113,7 +114,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -134,9 +135,9 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const menu = ref(false);
-    const innerDate = ref(props.modelValue);
+    const innerDate = ref<number | null>(props.modelValue);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark

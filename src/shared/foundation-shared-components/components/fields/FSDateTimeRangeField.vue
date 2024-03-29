@@ -50,7 +50,6 @@
             width="calc(50% - 4px)"
           >
             <FSClock
-              :reminder="true"
               :color="$props.color"
               :date="innerDateLeft"
               v-model="innerTimeLeft"
@@ -60,7 +59,6 @@
             width="calc(50% - 4px)"
           >
             <FSClock
-              :reminder="true"
               :color="$props.color"
               :date="innerDateRight"
               v-model="innerTimeRight"
@@ -100,17 +98,17 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: Array as PropType<number[]>,
+      type: Array as PropType<number[] | null>,
       required: false,
       default: null
     },
@@ -130,7 +128,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -151,13 +149,13 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const dialog = ref(false);
-
-    // FSClock just gives two numbers without consideration for the time zone
-    // We must adjust the time to the user's time zone
-    const innerTimeLeft = ref(0);
+    const innerDateRange = ref<number[] | null>(null);
     const innerTimeRight = ref(0);
-    const innerDateRange = ref(null);
+    const innerTimeLeft = ref(0);
+
     if (props.modelValue && Array.isArray(props.modelValue)) {
+      // FSClock just gives two numbers without consideration for the time zone
+      // We must adjust the time to the user's time zone
       switch (props.modelValue.length) {
         case 0: {
           break;
@@ -174,7 +172,7 @@ export default defineComponent({
       }
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark

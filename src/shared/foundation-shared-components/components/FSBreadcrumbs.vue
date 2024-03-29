@@ -42,7 +42,7 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
-    const style: Ref<{ [code: string]: string } & Partial<CSSStyleDeclaration>> = ref({
+    const style: Ref<{ [key: string] : string }> = ref({
       "--fs-breadcrumbs-color": darks.dark,
       "--fs-breadcrumbs-active-color": darks.base,
       "--fs-breadcrumbs-disabled-color": darks.light
