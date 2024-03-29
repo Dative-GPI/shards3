@@ -43,7 +43,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useFiles } from "@dative-gpi/foundation-shared-components/composables";
+import { useFiles } from "@dative-gpi/foundation-shared-services/composables";
 import { FileImage } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButtonRemoveIcon from "./buttons/FSButtonRemoveIcon.vue";
@@ -95,7 +95,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { read } = useFiles();
+    const { readFile } = useFiles();
 
     const fileSelected = ref<FileImage>({ fileName: "", fileContent: null });
 
@@ -106,12 +106,11 @@ export default defineComponent({
       return props.modelValue;
     });
 
-    const onUpload = (payload: File) => {
-      read(payload, (content: string) => {
-        fileSelected.value.fileName = payload.name;
-        fileSelected.value.fileContent = content;
-        emit("update:modelValue", content);
-      });
+    const onUpload = async (payload: File) => {
+      const content = await readFile(payload);
+      fileSelected.value.fileName = payload.name;
+      fileSelected.value.fileContent = content;
+      emit("update:modelValue", content);
     };
 
     const onRemove = () => {

@@ -30,7 +30,7 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: [String, null, undefined],
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
