@@ -48,7 +48,7 @@ export default defineComponent({
 
     const errors = getColors(ColorEnum.Error);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-error-toast-border-radius"   : sizeToVar(props.borderRadius),
         "--fs-error-toast-background-color": errors.base,

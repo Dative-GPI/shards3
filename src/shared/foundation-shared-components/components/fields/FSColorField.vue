@@ -101,7 +101,7 @@
 </template>
   
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
@@ -126,7 +126,7 @@ export default defineComponent({
   },
   props: {
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -176,7 +176,7 @@ export default defineComponent({
     const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
     const fullColor = ref(innerColor.value + innerOpacity.value);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-color-field-color": lights.dark

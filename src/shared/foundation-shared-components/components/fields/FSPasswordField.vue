@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -40,7 +40,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -59,7 +59,7 @@ export default defineComponent({
 
     const stars = ref(true);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-password-field-cursor"   : "default",
@@ -74,7 +74,7 @@ export default defineComponent({
       };
     });
 
-    const type = computed((): string => stars.value ? "password" : "text");
+    const type = computed((): "password" | "text" => stars.value ? "password" : "text");
 
     const icon = computed((): string => stars.value ? "mdi-eye-off-outline" : "mdi-eye-outline");
 

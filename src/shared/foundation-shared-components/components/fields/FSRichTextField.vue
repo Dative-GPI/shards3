@@ -29,7 +29,7 @@
           class="fs-rich-text-field-icon"
           :color="toolbarColors.undo"
           :style="style"
-          @click="editor.dispatchCommand(UNDO_COMMAND)"
+          @click="editor.dispatchCommand(UNDO_COMMAND, undefined)"
         >
           mdi-undo-variant
         </FSIcon>
@@ -186,17 +186,17 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -284,7 +284,7 @@ export default defineComponent({
 
       if (props.modelValue != null) {
         editor.update((): void => {
-          editor.setEditorState(editor.parseEditorState(props.modelValue));
+          editor.setEditorState(editor.parseEditorState(props.modelValue!));
         });
       }
       else {
@@ -298,7 +298,7 @@ export default defineComponent({
       return ["readonly"].includes(props.variant);
     });
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       let minHeight: string | undefined = "auto";
       if (!readonly.value) {
         const base = isMobileSized.value ? 30 : 42;
@@ -440,106 +440,96 @@ export default defineComponent({
         const selection = $getSelection();
         $setSelection(null);
 
-        const nodes = selection.extract();
+        if (selection != null) {
+          const nodes = selection.extract();
 
-        if (linkUrl.value === null) {
-          // Remove LinkNodes
-          nodes.forEach((node) => {
-            const parent = node.getParent();
-
-            if ($isLinkNode(parent)) {
-              const children = parent.getChildren();
-
-              for (let i = 0; i < children.length; i++) {
-                parent.insertBefore(children[i]);
-              }
-
-              parent.remove();
-            }
-          });
-        }
-        else {
-          if (nodes.length === 1) {
-            const firstNode = nodes[0];
-            const linkNode = getAncestor(firstNode, $isLinkNode);
-
-            if (linkNode !== null) {
-              linkNode.setURL(linkUrl.value);
-              if (target !== undefined) {
-                linkNode.setTarget(target);
-              }
-              if (rel !== null) {
-                linkNode.setRel(rel);
-              }
-              if (title !== undefined) {
-                linkNode.setTitle(title);
-              }
-              return;
-            }
-          }
-
-          let prevParent: ElementNode | LinkNode | null = null;
-          let linkNode: LinkNode | null = null;
-
-          nodes.forEach((node) => {
-            const parent = node.getParent();
-
-            if ( parent === linkNode || parent === null || ($isElementNode(node) && !node.isInline())) {
-              return;
-            }
-
-            if ($isLinkNode(parent)) {
-              linkNode = parent;
-              parent.setURL(linkUrl.value);
-              if (target !== undefined) {
-                parent.setTarget(target);
-              }
-              if (rel !== null) {
-                linkNode.setRel(rel);
-              }
-              if (title !== undefined) {
-                linkNode.setTitle(title);
-              }
-              return;
-            }
-
-            if (!parent.is(prevParent)) {
-              prevParent = parent;
-              linkNode = $createLinkNode(linkUrl.value, {rel, target, title});
-
+          if (linkUrl.value === null) {
+            // Remove LinkNodes
+            nodes.forEach((node) => {
+              const parent = node.getParent();
               if ($isLinkNode(parent)) {
-                if (node.getPreviousSibling() === null) {
-                  parent.insertBefore(linkNode);
+                const children = parent.getChildren();
+                for (let i = 0; i < children.length; i++) {
+                  parent.insertBefore(children[i]);
+                }
+                parent.remove();
+              }
+            });
+          }
+          else {
+            if (nodes.length === 1) {
+              const firstNode = nodes[0];
+              const linkNode = getAncestor(firstNode, $isLinkNode);
+              if (linkNode !== null) {
+                linkNode.setURL(linkUrl.value);
+                if (target !== undefined) {
+                  linkNode.setTarget(target);
+                }
+                if (rel !== null) {
+                  linkNode.setRel(rel);
+                }
+                if (title !== undefined) {
+                  linkNode.setTitle(title);
+                }
+                return;
+              }
+            }
+            let prevParent: ElementNode | LinkNode | null = null;
+            let linkNode: LinkNode | null = null;
+            nodes.forEach((node) => {
+              const parent = node.getParent();
+              if ( parent === linkNode || parent === null || ($isElementNode(node) && !node.isInline())) {
+                return;
+              }
+              if ($isLinkNode(parent)) {
+                linkNode = parent;
+                parent.setURL(linkUrl.value);
+                if (target !== undefined) {
+                  parent.setTarget(target);
+                }
+                if (rel !== null) {
+                  linkNode.setRel(rel);
+                }
+                if (title !== undefined) {
+                  linkNode.setTitle(title);
+                }
+                return;
+              }
+              if (!parent.is(prevParent)) {
+                prevParent = parent;
+                linkNode = $createLinkNode(linkUrl.value, {rel, target, title});
+
+                if ($isLinkNode(parent)) {
+                  if (node.getPreviousSibling() === null) {
+                    parent.insertBefore(linkNode);
+                  }
+                  else {
+                    parent.insertAfter(linkNode);
+                  }
                 }
                 else {
-                  parent.insertAfter(linkNode);
+                  node.insertBefore(linkNode);
                 }
               }
-              else {
-                node.insertBefore(linkNode);
-              }
-            }
+              if ($isLinkNode(node)) {
+                if (node.is(linkNode)) {
+                  return;
+                }
+                if (linkNode !== null) {
+                  const children = node.getChildren();
 
-            if ($isLinkNode(node)) {
-              if (node.is(linkNode)) {
+                  for (let i = 0; i < children.length; i++) {
+                    linkNode.append(children[i]);
+                  }
+                }
+                node.remove();
                 return;
               }
               if (linkNode !== null) {
-                const children = node.getChildren();
-
-                for (let i = 0; i < children.length; i++) {
-                  linkNode.append(children[i]);
-                }
+                linkNode.append(node);
               }
-
-              node.remove();
-              return;
-            }
-
-            if (linkNode !== null) {
-              linkNode.append(node);
-            }
-          });
+            });
+          }
         }
       });
       isLink.value = false;
@@ -549,7 +539,7 @@ export default defineComponent({
       if (JSON.stringify(editor.getEditorState().toJSON()) != props.modelValue) {
         if (props.modelValue != null) {
           editor.update(() => {
-            editor.setEditorState(editor.parseEditorState(props.modelValue));
+            editor.setEditorState(editor.parseEditorState(props.modelValue!));
           });
         }
         else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyState) {

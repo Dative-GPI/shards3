@@ -56,7 +56,6 @@
           class="fs-time-slot-field-number"
           :editable="$props.editable"
           :color="ColorEnum.Light"
-          :reminder="false"
           :slider="false"
           :style="style"
           :modelValue="$props.modelValue[0][1]"
@@ -80,7 +79,6 @@
           class="fs-time-slot-field-number"
           :editable="$props.editable"
           :color="ColorEnum.Light"
-          :reminder="false"
           :slider="false"
           :style="style"
           :modelValue="$props.modelValue[1][1]"
@@ -125,17 +123,17 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: Array as PropType<number[][]>,
+      type: Array as PropType<number[][] | null>,
       required: true,
       default: null
     },
@@ -150,7 +148,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -179,16 +177,16 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
     
     const daysObject: { id: number; label: string }[]  = Object.keys(Days).reduce((acc, key) => {
-      if(isNaN(Number(key))){
+      if (isNaN(Number(key))) {
         acc.push({
           id: Days[key],
           label: key
         });
       }
       return acc;
-    }, []);
+    }, [] as { id: number, label: string }[]);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-time-slot-field-cursor"             : "default",
@@ -208,45 +206,75 @@ export default defineComponent({
     });
 
     const dayStart = computed((): number => {
-      return props.modelValue[1][0] === 7 ? 7 : props.modelValue[0][0];
+      if (props.modelValue) {
+        return props.modelValue[1][0] === 7 ? 7 : props.modelValue[0][0];
+      }
+      return 0;
     });
 
     const dayEnd = computed((): number => {
-      return props.modelValue[0][0] === 7 ? 7 : props.modelValue[1][0];
+      if (props.modelValue) {
+        return props.modelValue[0][0] === 7 ? 7 : props.modelValue[1][0];
+      }
+      return 0;
     });
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
     const onChangeDayStart = (value: number) => {
       if (value === 7) {
-        emit("update:modelValue", [[7, props.modelValue[0][1]], [7, props.modelValue[1][1]]]);
+        if (props.modelValue) {
+          emit("update:modelValue", [[7, props.modelValue[0][1]], [7, props.modelValue[1][1]]]);
+          return;
+        }
+        emit("update:modelValue", [[7, 0], [7, 0]]);
         return;
       }
-      if (props.modelValue[1][0] === 7) {
-        emit("update:modelValue", [[value, props.modelValue[0][1]], [value, props.modelValue[1][1]]]);
+      if (props.modelValue) {
+        if (props.modelValue[1][0] === 7) {
+          emit("update:modelValue", [[value, props.modelValue[0][1]], [value, props.modelValue[1][1]]]);
+          return;
+        }
+        emit("update:modelValue", [[value, props.modelValue[0][1]], props.modelValue[1]]);
         return;
       }
-      emit("update:modelValue", [[value, props.modelValue[0][1]], props.modelValue[1]]);
+      emit("update:modelValue", [[value, 0], [value, 0]]);
     };
 
     const onChangeHourStart = (value: number) => {
-      emit("update:modelValue", [[props.modelValue[0][0], value], props.modelValue[1]]);
+      if (props.modelValue) {
+        emit("update:modelValue", [[props.modelValue[0][0], value], props.modelValue[1]]);
+        return;
+      }
+      emit("update:modelValue", [[0, value], [0, 0]]);
     };
 
     const onChangeDayEnd = (value: number) => {
       if (value === 7) {
-        emit("update:modelValue", [[7, props.modelValue[0][1]], [7, props.modelValue[1][1]]]);
+        if (props.modelValue) {
+          emit("update:modelValue", [[7, props.modelValue[0][1]], [7, props.modelValue[1][1]]]);
+          return;
+        }
+        emit("update:modelValue", [[7, 0], [7, 0]]);
         return;
       }
-      if (props.modelValue[0][0] === 7) {
-        emit("update:modelValue", [[value, props.modelValue[0][1]], [value, props.modelValue[1][1]]]);
+      if (props.modelValue) {
+        if (props.modelValue[0][0] === 7) {
+          emit("update:modelValue", [[value, props.modelValue[0][1]], [value, props.modelValue[1][1]]]);
+          return;
+        }
+        emit("update:modelValue", [props.modelValue[0], [value, props.modelValue[1][1]]]);
         return;
       }
-      emit("update:modelValue", [props.modelValue[0], [value, props.modelValue[1][1]]]);
+      emit("update:modelValue", [[value, 0], [value, 0]]);
     };
 
     const onChangeHourEnd = (value: number) => {
-      emit("update:modelValue", [props.modelValue[0], [props.modelValue[1][0], value]]);
+      if (props.modelValue) {
+        emit("update:modelValue", [props.modelValue[0], [props.modelValue[1][0], value]]);
+        return;
+      }
+      emit("update:modelValue", [[0, 0], [0, value]]);
     };
 
     return {

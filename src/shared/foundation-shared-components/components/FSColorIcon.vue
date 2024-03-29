@@ -39,7 +39,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       switch (props.variant) {
         case "full": return {
           "--fs-icon-background-color": colors.value.light

@@ -81,7 +81,7 @@ export default defineComponent({
 
     const backgroundColors = getColors(ColorEnum.Background);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-load-data-table-background-color": backgroundColors.base
       };

@@ -65,12 +65,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -100,7 +100,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -121,7 +121,7 @@ export default defineComponent({
 
     const innerValue = ref("");
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-tag-field-color": lights.dark

@@ -44,7 +44,7 @@ export default defineComponent({
 
     const backgrounds = getColors(ColorEnum.Background);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-carousel-height"          : sizeToVar(props.height),
         "--fs-carousel-background-color": backgrounds.base

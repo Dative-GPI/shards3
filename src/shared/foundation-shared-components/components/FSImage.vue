@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 import { decode, isBlurhashValid } from "blurhash";
 
 import { useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
@@ -50,12 +50,12 @@ export default defineComponent({
   },
   props: {
     imageId: {
-      type: [String, null, undefined],
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     imageB64: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -75,7 +75,7 @@ export default defineComponent({
       default: null
     },
     aspectRatio: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -88,8 +88,8 @@ export default defineComponent({
   setup(props) {
     const { get: fetchBlurHash, entity: blurHash } = useImageBlurHash();
 
-    const imageRef = ref(null);
-    const canvasRef = ref(null);
+    const imageRef = ref<HTMLFormElement | null>(null);
+    const canvasRef = ref<HTMLCanvasElement | null>(null);
 
     const signatures = ref<{ [key: string]: string }>({
       JVBERi0    : "application/pdf",
@@ -99,7 +99,7 @@ export default defineComponent({
       "/9j/"     : "image/jpg",
     });
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
         "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"
@@ -144,7 +144,7 @@ export default defineComponent({
       return undefined;
     });
 
-    const source = computed((): string | null => {
+    const source = computed((): string | undefined => {
       if (props.imageId) {
         return IMAGE_RAW_URL(props.imageId);
       }
@@ -153,17 +153,16 @@ export default defineComponent({
           return `${imageType.value},${imageData.value}`;
         }
       }
-      return null;
     });
 
-    const imageData = computed((): string => {
+    const imageData = computed((): string | null => {
       if (props.imageB64 && props.imageB64.includes(",")) {
         return props.imageB64.split(",")[1];
       }
       return props.imageB64;
     });
 
-    const imageType = computed((): string => {
+    const imageType = computed((): string | null => {
       if (props.imageB64 && props.imageB64.includes(",")) {
         return props.imageB64.split(",")[0];
       }
@@ -174,7 +173,7 @@ export default defineComponent({
           }
         }
       }
-      return "";
+      return null;
     });
 
     const onError = (): void => {
@@ -188,8 +187,8 @@ export default defineComponent({
         if (blurHash.value && isBlurhashValid(blurHash.value.blurHash).result) {
           const ctx = canvasRef.value.getContext("2d");
           if (ctx) {
-            const pixels = decode(blurHash.value.blurHash, imageRef.value.$el.clientWidth, imageRef.value.$el.clientHeight);
-            const imageData = ctx.createImageData(imageRef.value.$el.clientWidth, imageRef.value.$el.clientHeight);
+            const pixels = decode(blurHash.value.blurHash, (imageRef.value as any).$el.clientWidth, (imageRef.value as any).$el.clientHeight);
+            const imageData = ctx.createImageData((imageRef.value as any).$el.clientWidth, (imageRef.value as any).$el.clientHeight);
             imageData.data.set(pixels);
             ctx.putImageData(imageData, 0, 0);
           }

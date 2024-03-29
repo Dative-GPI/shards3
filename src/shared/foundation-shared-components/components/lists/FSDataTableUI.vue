@@ -743,7 +743,7 @@ export default defineComponent({
       return slots;
     });
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-data-table-background-color": backgrounds.base,
         "--fs-data-table-border-color": lights.base

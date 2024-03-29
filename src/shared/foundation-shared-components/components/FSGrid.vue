@@ -85,7 +85,7 @@ export default defineComponent({
 
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-grid-border-color": lights.dark
       };

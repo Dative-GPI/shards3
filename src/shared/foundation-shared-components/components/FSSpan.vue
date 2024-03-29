@@ -56,7 +56,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-span-line-clamp": props.lineClamp.toString()
       };

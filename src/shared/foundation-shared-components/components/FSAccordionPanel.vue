@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -58,17 +58,17 @@ export default defineComponent({
   },
   props: {
     prependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     title: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     content: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -109,7 +109,7 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-accordion-panel-padding-title"         : sizeToVar(props.paddingTitle),
         "--fs-accordion-panel-padding-content"       : sizeToVar(props.paddingContent),

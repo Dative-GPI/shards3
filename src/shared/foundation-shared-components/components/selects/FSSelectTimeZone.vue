@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, PropType } from "vue";
 
 import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -32,7 +32,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },

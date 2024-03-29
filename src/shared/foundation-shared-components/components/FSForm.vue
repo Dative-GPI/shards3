@@ -17,7 +17,7 @@ export default defineComponent({
   name: "FSForm",
   props: {
     modelValue: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | null>,
       required: false,
       default: null
     },
@@ -44,9 +44,9 @@ export default defineComponent({
       event.stopImmediatePropagation();
       event.preventDefault();
       submitted.value = true;
-      await formRef.value.validate();
-      emit("update:modelValue", !!formRef.value.isValid);
-      emit("submit", !!formRef.value.isValid);
+      await (formRef.value as any).validate();
+      emit("update:modelValue", !!(formRef.value as any).isValid);
+      emit("submit", !!(formRef.value as any).isValid);
       
     }; 
 

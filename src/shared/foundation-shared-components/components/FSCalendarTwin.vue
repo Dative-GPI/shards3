@@ -121,7 +121,7 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -212,7 +212,7 @@ export default defineComponent({
       }
     }
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
         "--fs-calendar-hover-background-color" : colors.value.light,

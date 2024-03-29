@@ -78,27 +78,27 @@ export default defineComponent({
       default: "auto"
     },
     title: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     subtitle: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     leftButtonPrependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     leftButtonLabel: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     leftButtonAppendIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -108,17 +108,17 @@ export default defineComponent({
       default: "standard"
     },
     rightButtonPrependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     rightButtonLabel: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     rightButtonAppendIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },

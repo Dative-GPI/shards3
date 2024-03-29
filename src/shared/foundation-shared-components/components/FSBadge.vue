@@ -24,7 +24,7 @@ export default defineComponent({
   name: "FSBadge",
   props: {
     content: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     }, 

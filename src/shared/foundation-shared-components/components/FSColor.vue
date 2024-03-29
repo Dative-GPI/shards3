@@ -39,13 +39,15 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style: Ref<{ [key: string] : string }> = ref({
-      "--fs-color-background-color": colors.value.light,
-      "--fs-color-border-color"    : colors.value.lightContrast,
-      "--fs-color-color"           : colors.value.lightContrast,
-      "--fs-color-light"           : colors.value.light,
-      "--fs-color-base"            : colors.value.base,
-      "--fs-color-dark"            : colors.value.dark
+    const style = computed((): { [key: string] : string | undefined } => {
+      return {
+        "--fs-color-background-color": colors.value.light,
+        "--fs-color-border-color"    : colors.value.lightContrast,
+        "--fs-color-color"           : colors.value.lightContrast,
+        "--fs-color-light"           : colors.value.light,
+        "--fs-color-base"            : colors.value.base,
+        "--fs-color-dark"            : colors.value.dark
+      };
     });
 
     const classes = computed((): string[] => {

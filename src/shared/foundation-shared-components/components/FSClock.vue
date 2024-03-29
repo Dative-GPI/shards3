@@ -7,38 +7,27 @@
       align="center-center"
       :wrap="false"
     >
-      <FSText
-        v-if="$props.reminder"
-      >
-        {{ epochToLongDateFormat($props.date) }}
-      </FSText>
-      <v-spacer v-if="$props.reminder" />
-      <FSRow
-        align="center-center"
-        :wrap="false"
-      >
-        <v-text-field
-          class="fs-clock-field"
-          variant="outlined"
-          type="number"
-          hide-details
-          :style="style"
-          :readonly="!$props.editable"
-          :modelValue="innerHours.toString().padStart(2, '0')"
-          @update:modelValue="onChangeHours"
-        />
-        :
-        <v-text-field
-          class="fs-clock-field"
-          variant="outlined"
-          type="number"
-          hide-details
-          :style="style"
-          :readonly="!$props.editable"
-          :modelValue="innerMinutes.toString().padStart(2, '0')"
-          @update:modelValue="onChangeMinutes"
-        />
-      </FSRow>
+      <v-text-field
+        class="fs-clock-field"
+        variant="outlined"
+        type="number"
+        hide-details
+        :style="style"
+        :readonly="!$props.editable"
+        :modelValue="innerHours.toString().padStart(2, '0')"
+        @update:modelValue="onChangeHours"
+      />
+      :
+      <v-text-field
+        class="fs-clock-field"
+        variant="outlined"
+        type="number"
+        hide-details
+        :style="style"
+        :readonly="!$props.editable"
+        :modelValue="innerMinutes.toString().padStart(2, '0')"
+        @update:modelValue="onChangeMinutes"
+      />
     </FSRow>
     <FSCol
       v-if="$props.slider"
@@ -91,7 +80,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Number,
+      type: Number as PropType<number | null>,
       required: false,
       default: null
     },
@@ -104,11 +93,6 @@ export default defineComponent({
       type: Number as PropType<number | null>,
       required: false,
       default: null
-    },
-    reminder: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     editable: {
       type: Boolean,
@@ -134,7 +118,7 @@ export default defineComponent({
     const innerHours = ref(props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0);
     const innerMinutes = ref(props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0);
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-clock-field-cursor"             : "default",

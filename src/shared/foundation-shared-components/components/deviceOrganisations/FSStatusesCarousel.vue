@@ -79,9 +79,8 @@ export default defineComponent({
       if (modelStatus.showDefault) {
         return [{
           label: modelStatus.label,
-          value: null,
-          icon: modelStatus.iconDefault,
-          color: modelStatus.colorDefault
+          icon: modelStatus.iconDefault!,
+          color: modelStatus.colorDefault!
         }];
       }
       return [];

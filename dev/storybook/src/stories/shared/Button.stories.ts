@@ -312,37 +312,6 @@ export const File: Story = {
   })
 }
 
-export const FullWidth: Story = {
-  render: () => ({
-    components: { FSButton },
-    template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Full width button" :fullWidth="true" />
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Many" :fullWidth="true" />
-        <FSButton label="full" :fullWidth="true" />
-        <FSButton label="width" :fullWidth="true" />
-        <FSButton label="buttons" :fullWidth="true" />
-        <FSButton label="on" :fullWidth="true" />
-        <FSButton label="the" :fullWidth="true" />
-        <FSButton label="same" :fullWidth="true" />
-        <FSButton label="row" :fullWidth="true" />
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Full width link" to="https://www.google.com" :fullWidth="true" />
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Several" to="https://www.google.com" :fullWidth="true" />
-        <FSButton label="full" to="https://www.google.com" :fullWidth="true" />
-        <FSButton label="width" to="https://www.google.com" :fullWidth="true" />
-        <FSButton label="links" to="https://www.google.com" :fullWidth="true" />
-      </div>
-    </div>`
-  })
-}
-
 export const Links: Story = {
   render: () => ({
     components: { FSButton },

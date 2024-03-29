@@ -64,7 +64,7 @@ export default defineComponent({
 
     const bottomColors = computed(() => getGradients(props.bottomColor));
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-tile-border-color": bottomColors.value.base
       };

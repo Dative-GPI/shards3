@@ -83,7 +83,7 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -116,7 +116,7 @@ export default defineComponent({
     const innerMonth = ref(props.modelValue ? epochToPicker(props.modelValue).getMonth() : new Date().getMonth());
     const innerYear = ref(props.modelValue ? epochToPicker(props.modelValue).getFullYear() : new Date().getFullYear());
 
-    const style = computed((): { [key: string] : string } => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
         "--fs-calendar-hover-background-color" : colors.value.light,
@@ -158,7 +158,7 @@ export default defineComponent({
     };
 
     const onClickDate = (value: unknown): void => {
-      const date = value as Date;
+      const date = (value as Date[])[0];
       const epoch = pickerToEpoch(date);
       emit("update:modelValue", epoch);
     };
