@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 
-import { useFiles } from "@dative-gpi/foundation-shared-components/composables";
+import { useFiles } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButton from "../FSButton.vue";
@@ -45,23 +45,23 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { read } = useFiles();
+    const { readFile } = useFiles();
 
     const input = ref<HTMLFormElement | null>(null);
 
-    const clear = () => {
+    const clear = (): void => {
       if (input.value) {
         input.value.form && input.value.form.reset();
       }
     };
 
-    const onClick = () => {
+    const onClick = (): void => {
       if (input.value) {
         input.value.click();
       }
     }
 
-    const onInput = () => {
+    const onInput = async (): Promise<void> => {
       if (!input.value) {
         return;
       }
@@ -74,9 +74,8 @@ export default defineComponent({
         clear();
       }
       else {
-        read(file, (content: string) => {
-          emit("update:modelValue", content);
-        });
+        const content = await readFile(file);
+        emit("update:modelValue", content);
       }
     };
 

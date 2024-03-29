@@ -20,7 +20,7 @@ export default defineComponent({
   name: "FSText",
   props: {
     label: {
-      type: [String, null, undefined],
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },

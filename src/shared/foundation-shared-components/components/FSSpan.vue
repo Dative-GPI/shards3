@@ -19,7 +19,7 @@ export default defineComponent({
   name: "FSSpan",
   props: {
     label: {
-      type: [String, null, undefined],
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
