@@ -62,18 +62,23 @@ export default defineComponent({
     FSText
   },
   props: {
-    padding: {
-      type: [String, Number],
-      required: false,
-      default: "8px"
-    },
-    width: {
-      type: [String, Number],
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: null
     },
-    height: {
-      type: [String, Number],
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
+    },
+    modelValue: {
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -86,11 +91,6 @@ export default defineComponent({
       type: [String, Number],
       required: false,
       default: "4px"
-    },
-    modelValue: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
     }
   },
   emits: ["update:modelValue"],

@@ -2,7 +2,6 @@ import { onMounted, ref, watch } from "vue";
 
 import * as signalR from "@microsoft/signalr";
 
-import { useNotifyDeviceStatus } from "../services/useDeviceStatuses";
 import { DEVICE_STATUSES_HUB_URL } from "../../config/urls";
 import { HUBS } from "../../config/literals";
 
@@ -24,7 +23,7 @@ export const useDeviceStatusesHub = () => {
                 await connection.value.start();
             }
             connection.value.invoke(HUBS.SUBSCRIBE);
-            connection.value.on(HUBS.UPDATE_DEVICE_STATUS, (deviceOrganisationId: string) => useNotifyDeviceStatus().fetch(deviceOrganisationId));
+            // connection.value.on(HUBS.UPDATE_DEVICE_STATUS, (deviceOrganisationId: string) => useNotifyDeviceStatus().fetch(deviceOrganisationId));
         });
 
         initialized = true;

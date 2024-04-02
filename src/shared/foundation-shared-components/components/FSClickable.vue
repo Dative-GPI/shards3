@@ -70,20 +70,20 @@ export default defineComponent({
     FSCard
   },
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
     to: {
       type: [String, Object] as PropType<string | RouteLocation>,
       required: false,
       default: null
-    },
-    border: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    borderRadius: {
-      type: [String, Number],
-      required: false,
-      default: "4px"
     },
     variant: {
       type: String as PropType<"standard" | "full">,
@@ -100,15 +100,15 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Light
     },
-    width: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+    border: {
+      type: Boolean,
       required: false,
-      default: null
+      default: true
     },
-    height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+    borderRadius: {
+      type: [String, Number],
       required: false,
-      default: null
+      default: "4px"
     },
     load: {
       type: Boolean,

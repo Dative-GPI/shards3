@@ -4,10 +4,23 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 import { USER_CURRENT_URL } from "../../config/urls";
 
 const UserServiceFactory = new ServiceFactory<UserDetailsDTO, UserDetails>("user", UserDetails).create(factory => factory.build(
-    factory.addCustom("getCurrent", (axios) => axios.get(USER_CURRENT_URL())),
-    factory.addCustom("updateCurrent", (axios, payload: UpdateUserDTO) => axios.post(USER_CURRENT_URL(), payload)),
-    factory.addNotify()
+    ServiceFactory.addCustom("getCurrent", (axios) => axios.get(USER_CURRENT_URL()), (dto: UserDetailsDTO) => new UserDetails(dto)),
+    factory.addNotify(notify => ({
+        ...ServiceFactory.addCustom("updateCurrent", (axios, payload: UpdateUserDTO) => axios.post(USER_CURRENT_URL(), payload), (dto: UserDetailsDTO) => {
+            const result = new UserDetails(dto);
+            notify.notify("update", result);
+            return result;
+        })
+    }))
 ));
 
-export const useCurrentUser = ComposableFactory.custom(UserServiceFactory, UserServiceFactory.getCurrent);
-export const useUpdateCurrentUser = ComposableFactory.custom(UserServiceFactory, UserServiceFactory.updateCurrent);
+export const useTrackUser = ComposableFactory.track(UserServiceFactory);
+
+export const useCurrentUser = ComposableFactory.custom(UserServiceFactory.getCurrent, () => {
+    const { track } = useTrackUser();
+ 
+    return (user) => {
+        track(user);
+    }
+});
+export const useUpdateCurrentUser = ComposableFactory.custom(UserServiceFactory.updateCurrent);

@@ -18,16 +18,16 @@ export default defineComponent({
     themeName: String
   },
   setup() {
-    const { setOrganisationId } = useAppOrganisationId();
-    const { setLanguageCode } = useAppLanguageCode();
-    const { setTimeZone } = useAppTimeZone();
+    const { setAppOrganisationId } = useAppOrganisationId();
+    const { setAppLanguageCode } = useAppLanguageCode();
+    const { setAppTimeZone } = useAppTimeZone();
 
     const { ready } = useFoundationCore();
 
     onMounted(async () => {
-      setLanguageCode("FR-fr");
-      setOrganisationId("dative");
-      setTimeZone({
+      setAppOrganisationId("dative");
+      setAppLanguageCode("FR-fr");
+      setAppTimeZone({
         id: "Europe/Paris",
         offset: "+01:00"
       });

@@ -1,7 +1,9 @@
 <template>
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
+      <FSRow
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
           class="fs-autocomplete-field-label"
@@ -36,6 +38,7 @@
       clearIcon="mdi-close"
       variant="outlined"
       :style="style"
+      :listProps="listStyle"
       :class="classes"
       :hideDetails="true"
       :items="$props.items"
@@ -163,6 +166,7 @@ export default defineComponent({
     delete slots.label;
     delete slots.description;
 
+    const backgrounds = getColors(ColorEnum.Background);
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
@@ -180,11 +184,18 @@ export default defineComponent({
       }
       return {
         "--fs-autocomplete-field-cursor"             : "text",
+        "--fs-autocomplete-field-background-color"   : backgrounds.base,
         "--fs-autocomplete-field-border-color"       : lights.dark,
         "--fs-autocomplete-field-color"              : darks.base,
         "--fs-autocomplete-field-active-border-color": darks.dark,
         "--fs-autocomplete-field-error-color"        : errors.base,
         "--fs-autocomplete-field-error-border-color" : errors.base
+      };
+    });
+
+    const listStyle = computed((): any => {
+      return {
+        style: style.value
       };
     });
 
@@ -208,13 +219,14 @@ export default defineComponent({
     });
 
     return {
+      innerSearch,
       validateOn,
+      listStyle,
       messages,
       blurred,
+      classes,
       slots,
       style,
-      classes,
-      innerSearch,
       onUpdate
     };
   }

@@ -67,16 +67,6 @@ export default defineComponent({
     FSRow
   },
   props: {
-    modelValue: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    width: {
-      type: [String, Number],
-      required: false,
-      default: "auto"
-    },
     title: {
       type: String as PropType<string | null>,
       required: false,
@@ -86,6 +76,16 @@ export default defineComponent({
       type: String as PropType<string | null>,
       required: false,
       default: null
+    },
+    width: {
+      type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
+      required: false,
+      default: "auto"
+    },
+    modelValue: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     leftButtonPrependIcon: {
       type: String as PropType<string | null>,

@@ -751,11 +751,11 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      const innerClasses = ["fs-data-table"];
+      const classNames = ["fs-data-table"];
       if (props.groupBy) {
-        innerClasses.push("fs-data-table-grouped");
+        classNames.push("fs-data-table-grouped");
       }
-      return innerClasses;
+      return classNames;
     });
 
     const extraHeaders = computed((): any[] => {

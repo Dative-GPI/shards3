@@ -32,3 +32,21 @@
 .fs-select-field-description {
     color: var(--fs-select-field-color);
 }
+
+.v-overlay-container > .v-overlay > .v-select__content {
+    box-shadow: 0px 5px 8px 0px #00000029;
+    border-radius: 4px;
+
+    & > .v-list {
+        @extend .fs-hide-y-scrollbar;
+
+        background-color: var(--fs-select-field-background-color);
+        border-radius: 4px;
+        margin-top: 4px;
+        padding: 2px;
+
+        & .v-list-item {
+            border-radius: 4px;
+        }
+    }
+}

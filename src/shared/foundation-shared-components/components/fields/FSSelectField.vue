@@ -1,7 +1,9 @@
 <template>
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
+      <FSRow
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
           class="fs-select-field-label"
@@ -37,6 +39,7 @@
       clearIcon="mdi-close"
       variant="outlined"
       :style="style"
+      :listProps="listStyle"
       :hideDetails="true"
       :items="$props.items"
       :itemTitle="$props.itemTitle"
@@ -155,6 +158,7 @@ export default defineComponent({
     delete slots.label;
     delete slots.description;
 
+    const backgrounds = getColors(ColorEnum.Background);
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
@@ -170,6 +174,7 @@ export default defineComponent({
       }
       return {
         "--fs-select-field-cursor"             : "pointer",
+        "--fs-select-field-background-color"   : backgrounds.base,
         "--fs-select-field-border-color"       : lights.dark,
         "--fs-select-field-color"              : darks.base,
         "--fs-select-field-active-border-color": darks.dark,
@@ -178,10 +183,17 @@ export default defineComponent({
       };
     });
 
+    const listStyle = computed((): any => {
+      return {
+        style: style.value
+      };
+    });
+
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
     return {
       validateOn,
+      listStyle,
       messages,
       blurred,
       slots,

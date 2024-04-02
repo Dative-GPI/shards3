@@ -1,4 +1,4 @@
-import { useSlots as useVueSlots } from "vue"
+import { Slot, useSlots as useVueSlots } from "vue"
 
 export const useSlots = () => {
     const getChildren = (name: string | undefined = undefined): any => {
@@ -36,7 +36,7 @@ export const useSlots = () => {
     };
 
     return {
-        slots: { ...useVueSlots() },
+        slots: { ...useVueSlots() } as { [label: string]: Slot<any> },
         getChildren,
         getFirstChild
     };
