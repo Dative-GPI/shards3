@@ -1085,7 +1085,7 @@ export default defineComponent({
       if (dragged != null) {
         const target = (event.target as HTMLElement)?.closest(elementSelector);
 
-        if (target != null) {
+        if (target != null && (target !== dragged || (props.sortDraggable && props.includeDraggable))) {
           if (props.includeDraggable) {
             if (!props.sortDraggable) {
               target.classList.add("fs-dropzone-include");
@@ -1110,13 +1110,23 @@ export default defineComponent({
             }
           }
           else if (props.sortDraggable) {
-            const rowHeight = target.clientHeight;
-            const y = event.clientY - target.getBoundingClientRect().top;
-            if (y > rowHeight / 2) {
+            const draggedY = dragged.getBoundingClientRect().top;
+            const targetY = target.getBoundingClientRect().top;
+            if (draggedY < targetY) {
               target.insertAdjacentElement("afterend", dragged);
             }
-            else {
+            else if (draggedY > targetY) {
               target.insertAdjacentElement("beforebegin", dragged);
+            }
+            else {
+              const draggedX = dragged.getBoundingClientRect().left;
+              const targetX = target.getBoundingClientRect().left;
+              if (draggedX < targetX) {
+                target.insertAdjacentElement("afterend", dragged);
+              }
+              else {
+                target.insertAdjacentElement("beforebegin", dragged);
+              }
             }
           }
         }
@@ -1157,7 +1167,7 @@ export default defineComponent({
         const itemsData = draggedData.item ?? draggedData.raw;
         const rowData = row.item ?? row.raw;
 
-        if (target != null) {
+        if (target != null && target !== draggedElement) {
           if (props.includeDraggable && itemsData[props.itemValue] != rowData[props.itemValue]) {
             emit("update:include", { draggedItem: itemsData, targetItem: rowData })
           }
