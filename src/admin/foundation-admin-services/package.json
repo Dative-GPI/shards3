@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dative-gpi/bones-ui": "^0.0.70",
+    "@dative-gpi/bones-ui": "^0.0.73",
     "@dative-gpi/foundation-admin-domain": "1.0.0",
     "@microsoft/signalr": "^8.0.0",
     "vue": "^3.2.0",

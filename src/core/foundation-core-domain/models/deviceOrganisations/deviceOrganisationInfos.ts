@@ -34,8 +34,8 @@ export class DeviceOrganisationInfos {
     online: number;
     meta: { [key: string]: string };
     modelStatuses: ModelStatusInfos[];
-    status?: DeviceStatusDetails;
-    connectivity?: DeviceConnectivityDetails;
+    status: DeviceStatusDetails;
+    connectivity: DeviceConnectivityDetails;
     alerts: DeviceOrganisationAlert[];
     worstAlert?: DeviceOrganisationAlert;
 
@@ -74,8 +74,8 @@ export class DeviceOrganisationInfos {
         this.online = params.online;
         this.meta = { ...params.meta };
         this.modelStatuses = params.modelStatuses.map(dto => new ModelStatusInfos(dto));
-        this.status = params.status != null ? new DeviceStatusDetails(params.status) : undefined;
-        this.connectivity = params.connectivity != null ? new DeviceConnectivityDetails({ ...params.connectivity, id: params.id }) : undefined;
+        this.status = new DeviceStatusDetails(params.status);
+        this.connectivity = new DeviceConnectivityDetails(params.connectivity);
         this.alerts = params.alerts.map(dto => new DeviceOrganisationAlert(dto));
         this.worstAlert = params.worstAlert != null ? new DeviceOrganisationAlert(params.worstAlert) : undefined;
     }
@@ -112,8 +112,8 @@ export interface DeviceOrganisationInfosDTO {
     online: number;
     meta: { [key: string]: string };
     modelStatuses: ModelStatusInfosDTO[];
-    status?: DeviceStatusDetailsDTO;
-    connectivity?: DeviceConnectivityDetailsDTO;
+    status: DeviceStatusDetailsDTO;
+    connectivity: DeviceConnectivityDetailsDTO;
     alerts: DeviceOrganisationAlertDTO[];
     worstAlert?: DeviceOrganisationAlertDTO;
 }
