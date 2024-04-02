@@ -1,6 +1,6 @@
-import { useOrganisationId } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppOrganisationId } from "../../composables";
 
-const { organisationId } = useOrganisationId();
+const { organisationId } = useAppOrganisationId();
 
 export function urlFactory(url: (orgId: string) => string) {
     return () => {

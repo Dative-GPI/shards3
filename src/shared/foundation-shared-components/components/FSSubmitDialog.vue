@@ -67,38 +67,38 @@ export default defineComponent({
     FSRow
   },
   props: {
+    title: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    subtitle: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    width: {
+      type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
+      required: false,
+      default: "auto"
+    },
     modelValue: {
       type: Boolean,
       required: false,
       default: false
     },
-    width: {
-      type: [String, Number],
-      required: false,
-      default: "auto"
-    },
-    title: {
-      type: String,
-      required: false,
-      default: null
-    },
-    subtitle: {
-      type: String,
-      required: false,
-      default: null
-    },
     leftButtonPrependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     leftButtonLabel: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     leftButtonAppendIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -108,17 +108,17 @@ export default defineComponent({
       default: "standard"
     },
     rightButtonPrependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     rightButtonLabel: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     rightButtonAppendIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },

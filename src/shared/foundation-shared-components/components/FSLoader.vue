@@ -16,30 +16,30 @@ import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 export default defineComponent({
   name: "FSLoader",
   props: {
-    width: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: null
     },
-    height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: null
     },
     padding: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "0"
-    },
-    borderRadius: {
-      type: [String, Number],
-      required: false,
-      default: "4px"
     },
     variant: {
       type: String as PropType<"standard" | "button" | "input" | "field" | "chip" | "text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
       required: false,
       default: "standard"
+    },
+    borderRadius: {
+      type: [String, Number],
+      required: false,
+      default: "4px"
     }
   },
   setup(props) {
@@ -48,7 +48,7 @@ export default defineComponent({
 
     const backgrounds = getColors(ColorEnum.Background);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-loader-background-color": backgrounds.base,
         "--fs-loader-border-radius"   : ["chip"].includes(props.variant) ? "50px" : sizeToVar(props.borderRadius),

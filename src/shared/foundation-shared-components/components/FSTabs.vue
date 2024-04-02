@@ -11,10 +11,11 @@
     v-bind="$attrs"
   >
     <template
-      v-for="(component, index) in getChildren()"
-      :key="index"
+      v-for="component in getChildren()"
     >
-      <component :is="component" />
+      <component
+        :is="component"
+      />
     </template>
   </v-tabs>
 </template>
@@ -46,7 +47,7 @@ export default defineComponent({
     const colors = computed(() => getColors(props.color));
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string | undefined } => ({
       "--fs-group-color"                 : darks.base,
       "--fs-group-disabled-color"        : darks.light,
       "--fs-group-hover-background-color": colors.value.light,

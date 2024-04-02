@@ -66,6 +66,8 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 10px;">
         <FSDataTableUI
           :showSelect="true"
+          :showSearch="false"
+          :disableIterator="true"
           :items="args.items1"
           :groupBy="args.groupBy"
           :sneakyHeaders="['column1']"
@@ -85,7 +87,8 @@ export const Variations: Story = {
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSDataTableUI
-          :showSelect="true"
+          :showSelect="false"
+          :showSearch="false"
           :items="args.items1"
           :sneakyHeaders="['column1']"
           @click:row="args.clickRow"

@@ -85,9 +85,11 @@ export default defineComponent({
       touchEndX.value = touch.clientX;
       touchEndY.value = touch.clientY;
 
-      draggedElementCopy.value.style.left = `${touchEndX.value - 25}px`;
-      draggedElementCopy.value.style.top = `${touchEndY.value - 25}px`;
-      document.body.appendChild(draggedElementCopy.value);
+      if (draggedElementCopy.value) {
+        draggedElementCopy.value.style.left = `${touchEndX.value - 25}px`;
+        draggedElementCopy.value.style.top = `${touchEndY.value - 25}px`;
+        document.body.appendChild(draggedElementCopy.value);
+      }
       const dragOverTarget = document.elementFromPoint(touchEndX.value, touchEndY.value)?.closest(props.elementSelector);
 
       if (dragOverTarget) {
@@ -121,8 +123,10 @@ export default defineComponent({
       }
       event.preventDefault();
       const dragged = (event.target as HTMLElement)?.closest(props.elementSelector);
-      draggedElementCopy.value.remove();
-      draggedElementCopy.value = null;
+      if (draggedElementCopy.value) {
+        draggedElementCopy.value.remove();
+        draggedElementCopy.value = null;
+      }
 
       const dropTarget = document.elementFromPoint(touchEndX.value, touchEndY.value);
       const dragEndEvent = new Event("dragend");
@@ -142,7 +146,9 @@ export default defineComponent({
       touchStartY.value = 0;
       touchEndX.value = 0;
       touchEndY.value = 0;
-      dragged.classList.remove("fs-draggable-dragging");
+      if (dragged) {
+        dragged.classList.remove("fs-draggable-dragging");
+      }
     };
 
     const onDragStart = (event: DragEvent) => {

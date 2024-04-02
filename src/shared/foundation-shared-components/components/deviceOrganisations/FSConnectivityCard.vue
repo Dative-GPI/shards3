@@ -44,7 +44,7 @@ import { computed, defineComponent, PropType } from "vue";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
-import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
@@ -70,7 +70,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat } = useTimeZone();
+    const { epochToLongTimeFormat } = useAppTimeZone();
     const { $tr } = useTranslationsProvider();
 
     const connectivityLabel = computed((): string => {

@@ -312,37 +312,6 @@ export const File: Story = {
   })
 }
 
-export const FullWidth: Story = {
-  render: () => ({
-    components: { FSButton },
-    template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Full width button" :fullWidth="true" />
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Many" :fullWidth="true" />
-        <FSButton label="full" :fullWidth="true" />
-        <FSButton label="width" :fullWidth="true" />
-        <FSButton label="buttons" :fullWidth="true" />
-        <FSButton label="on" :fullWidth="true" />
-        <FSButton label="the" :fullWidth="true" />
-        <FSButton label="same" :fullWidth="true" />
-        <FSButton label="row" :fullWidth="true" />
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Full width link" to="https://www.google.com" :fullWidth="true" />
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <FSButton label="Several" to="https://www.google.com" :fullWidth="true" />
-        <FSButton label="full" to="https://www.google.com" :fullWidth="true" />
-        <FSButton label="width" to="https://www.google.com" :fullWidth="true" />
-        <FSButton label="links" to="https://www.google.com" :fullWidth="true" />
-      </div>
-    </div>`
-  })
-}
-
 export const Links: Story = {
   render: () => ({
     components: { FSButton },
@@ -362,10 +331,11 @@ export const Links: Story = {
 
 import FSRichTextField from "@dative-gpi/foundation-shared-components/components/fields/FSRichTextField.vue";
 import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
+import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 import FSForm from  "@dative-gpi/foundation-shared-components/components/FSForm.vue";
 import FSText from  "@dative-gpi/foundation-shared-components/components/FSText.vue";
 
-import { TextRules } from "@dative-gpi/foundation-shared-components/models";
+import { TextRules, ToggleRules } from "@dative-gpi/foundation-shared-components/models";
 
 export const Submit: Story = {
   args: {
@@ -373,12 +343,14 @@ export const Submit: Story = {
       valid: false,
       text1: "",
       text2: "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Hello there\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
+      check1: false,
       textdefault: null,
-      rules: TextRules
+      textRules: TextRules,
+      toggleRules: ToggleRules
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSButton, FSForm, FSTextField, FSRichTextField, FSText },
+    components: { FSButton, FSForm, FSTextField, FSRichTextField, FSText, FSCheckbox },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -392,13 +364,20 @@ export const Submit: Story = {
           </FSText>
           <FSTextField
             :hideHeader="false"
-            :rules="[args.rules.required()]"
+            :rules="[args.textRules.required()]"
             v-model="args.text1"
           />
           <FSRichTextField
             :hideHeader="false"
-            :rules="[args.rules.required()]"
+            :rules="[args.textRules.required()]"
             v-model="args.text2"
+          />
+          <div> {{ args.text2 }} </div>
+          <FSCheckbox
+            :rules="[args.toggleRules.required()]"
+            label="Please check this checkbox"
+            description="This checkbox is mandatory"
+            v-model="args.check1"
           />
           <div style="display: flex; gap: 10px;">
             <FSButton

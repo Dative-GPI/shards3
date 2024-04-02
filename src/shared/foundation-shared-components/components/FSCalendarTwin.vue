@@ -102,7 +102,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 
-import { useTimeZone, useLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone, useAppLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -121,12 +121,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: Array as PropType<number[]>,
+      type: Array as PropType<number[] | null>,
       required: false,
       default: null
     },
@@ -143,8 +143,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useTimeZone();
-    const { languageCode } = useLanguageCode();
+    const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useAppTimeZone();
+    const { languageCode } = useAppLanguageCode();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
@@ -212,7 +212,7 @@ export default defineComponent({
       }
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
         "--fs-calendar-hover-background-color" : colors.value.light,
@@ -338,8 +338,9 @@ export default defineComponent({
       }
     };
 
-    const onClickLeft = (value: Date[]): void => {
-      const clicked = pickerToEpoch(value[value.length - 1]);
+    const onClickLeft = (value: unknown): void => {
+      const dates = value as Date[];
+      const clicked = pickerToEpoch(dates[dates.length - 1]);
       if (!props.modelValue || !props.modelValue.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
@@ -357,8 +358,10 @@ export default defineComponent({
       }
     };
 
-    const onClickRight = (value: Date[]): void => {
-      const clicked = pickerToEpoch(value[value.length - 1]);
+
+    const onClickRight = (value: unknown): void => {
+      const dates = value as Date[];
+      const clicked = pickerToEpoch(dates[dates.length - 1]);
       if (!props.modelValue || !props.modelValue.length) {
         emit("update:modelValue", [clicked, clicked]);
       }
@@ -377,8 +380,9 @@ export default defineComponent({
       toggle.value = (++toggle.value) % 2;
     };
 
-    const allowedDates = (value: Date): boolean => {
-      const valueEpoch = pickerToEpoch(value);
+    const allowedDates = (value: unknown): boolean => {
+      const date = value as Date;
+      const valueEpoch = pickerToEpoch(date);
       switch (props.limit) {
         case "past":
           return valueEpoch <= todayToEpoch(true);

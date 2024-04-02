@@ -44,12 +44,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     width: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "100%"
     },
@@ -58,15 +58,15 @@ export default defineComponent({
       required: false,
       default: "text-body"
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Light
-    },
     variant: {
       type: String as PropType<"base" | "light" | "dark">,
       required: false,
       default: "dark"
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Light
     }
   },
   setup(props) {
@@ -75,7 +75,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       switch (props.variant) {
         case "base": return {
           "--fs-divider-width": sizeToVar(props.width),
@@ -99,7 +99,7 @@ export default defineComponent({
     return {
       style,
       isEmpty
-    }
+    };
   }
 });
 </script>

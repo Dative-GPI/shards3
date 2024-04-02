@@ -3,9 +3,10 @@
     :class="classes"
     :style="style"
     :to="href"
+    v-slot="props"
     v-bind="$attrs"
   >
-    <slot>
+    <slot v-bind="props">
       {{ $props.label }}
     </slot>
   </router-link>
@@ -22,7 +23,7 @@ export default defineComponent({
   name: "FSLink",
   props: {
     label: {
-      type: [String, null, undefined],
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -78,7 +79,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       switch (props.variant) {
         case "base": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),

@@ -1,7 +1,9 @@
 <template>
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
+      <FSRow
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
           class="fs-autocomplete-field-label"
@@ -36,6 +38,7 @@
       clearIcon="mdi-close"
       variant="outlined"
       :style="style"
+      :listProps="listStyle"
       :class="classes"
       :hideDetails="true"
       :items="$props.items"
@@ -45,6 +48,7 @@
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
       :clearable="$props.editable && !!$props.modelValue"
+      :returnObject="$props.returnObject"
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
@@ -89,12 +93,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -113,7 +117,7 @@ export default defineComponent({
       default: "label"
     },
     modelValue: {
-      type: [Array, String] as PropType<string[] | string>,
+      type: [Array, String] as PropType<string[] | string | null>,
       required: false,
       default: null
     },
@@ -127,13 +131,18 @@ export default defineComponent({
       required: false,
       default: false
     },
+    returnObject: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     required: {
       type: Boolean,
       required: false,
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -157,13 +166,14 @@ export default defineComponent({
     delete slots.label;
     delete slots.description;
 
+    const backgrounds = getColors(ColorEnum.Background);
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
     const innerSearch = ref("");
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-autocomplete-field-cursor"             : "default",
@@ -174,11 +184,18 @@ export default defineComponent({
       }
       return {
         "--fs-autocomplete-field-cursor"             : "text",
+        "--fs-autocomplete-field-background-color"   : backgrounds.base,
         "--fs-autocomplete-field-border-color"       : lights.dark,
         "--fs-autocomplete-field-color"              : darks.base,
         "--fs-autocomplete-field-active-border-color": darks.dark,
         "--fs-autocomplete-field-error-color"        : errors.base,
         "--fs-autocomplete-field-error-border-color" : errors.base
+      };
+    });
+
+    const listStyle = computed((): any => {
+      return {
+        style: style.value
       };
     });
 
@@ -202,13 +219,14 @@ export default defineComponent({
     });
 
     return {
+      innerSearch,
       validateOn,
+      listStyle,
       messages,
       blurred,
+      classes,
       slots,
       style,
-      classes,
-      innerSearch,
       onUpdate
     };
   }

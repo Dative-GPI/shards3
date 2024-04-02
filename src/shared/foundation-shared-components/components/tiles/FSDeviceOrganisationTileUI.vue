@@ -103,17 +103,17 @@ export default defineComponent({
   },
   props: {
     imageId: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     code: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },

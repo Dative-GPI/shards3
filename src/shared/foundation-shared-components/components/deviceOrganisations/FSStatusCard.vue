@@ -54,7 +54,7 @@
 import { computed, defineComponent, PropType } from "vue";
 
 import { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
-import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
@@ -84,7 +84,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat } = useTimeZone();
+    const { epochToLongTimeFormat } = useAppTimeZone();
 
     const deviceTimestamp = computed((): string => {
       if (props.statusGroup.sourceTimestamp) {

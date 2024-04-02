@@ -43,7 +43,7 @@ import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
-import { useTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -71,7 +71,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat } = useTimeZone();
+    const { epochToLongTimeFormat } = useAppTimeZone();
     const { $tr } = useTranslationsProvider();
 
     const criticityColor = computed(() => {

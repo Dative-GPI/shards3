@@ -63,22 +63,22 @@ export default defineComponent({
   },
   props: {
     prependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     label: {
-      type: [String, Function],
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     appendIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     icon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },

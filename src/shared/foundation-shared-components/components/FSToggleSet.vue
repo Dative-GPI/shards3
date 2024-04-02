@@ -133,9 +133,9 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: [Array, String, Number] as PropType<(string | number)[] | string | number>,
+      type: [Array, String, Number] as PropType<(string | number)[] | string | number | null>,
       required: false,
-      default: false
+      default: null
     },
     buttonColor: {
       type: String as PropType<ColorBase>,
@@ -148,12 +148,12 @@ export default defineComponent({
       default: ColorEnum.Primary
     },
     padding: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "0"
     },
     gap: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "8px"
     },
@@ -277,13 +277,13 @@ export default defineComponent({
 
     const goToStart = () => {
       if (toggleSetRef.value) {
-        toggleSetRef.value.goToStart();
+        (toggleSetRef.value as any).goToStart();
       }
     };
 
     const goToEnd = () => {
       if (toggleSetRef.value) {
-        toggleSetRef.value.goToEnd();
+        (toggleSetRef.value as any).goToEnd();
       }
     };
 

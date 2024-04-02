@@ -16,15 +16,25 @@ import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 export default defineComponent({
   name: "FSRow",
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
+      required: false,
+      default: "hug"
+    },
     width: {
-      type: [String, Number] as PropType<"hug" | "fill" | string | number>,
+      type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
       required: false,
       default: "fill"
     },
-    height: {
-      type: [String, Number] as PropType<"hug" | "fill" | string | number>,
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "hug"
+      default: "0"
+    },
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
     },
     align: {
       type: String as PropType<"top-left" | "top-center" | "top-right" | "center-left" | "center-center" | "center-right" | "bottom-left" | "bottom-center" | "bottom-right">,
@@ -35,20 +45,10 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
-    },
-    padding: {
-      type: [String, Number],
-      required: false,
-      default: "0"
-    },
-    gap: {
-      type: [String, Number],
-      required: false,
-      default: "8px"
     }
   },
   setup(props) {
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => ({
+    const style = computed((): { [key: string] : string | undefined } => ({
       "--fs-row-flex-wrap": props.wrap ? "wrap" : "nowrap",
       "--fs-row-padding"  : sizeToVar(props.padding),
       "--fs-row-gap"      : sizeToVar(props.gap),

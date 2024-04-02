@@ -6,7 +6,7 @@ export const useRules = () => {
 
   const blurred = ref(false);
 
-  const validateOn = computed((): string => {
+  const validateOn = computed((): "input" | "submit" | "blur" => {
     switch (innerValidateOn.value) {
       case "submit": return submitted.value ? "input" : "submit";
       case "blur":   return blurred.value ? "input" : "blur";

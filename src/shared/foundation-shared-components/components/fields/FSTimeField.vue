@@ -94,17 +94,17 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     modelValue: {
-      type: Number,
+      type: Number as PropType<number | null>,
       required: false,
       default: null
     },
@@ -119,7 +119,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -147,15 +147,20 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
     
-    const innerTime = ref(props.modelValue);
+    const innerTime = ref(0);
     const selectedUnit = ref(timeScale[0]);
 
-    if (getTimeScaleIndex(props.modelValue) !== 0) {
-      selectedUnit.value = timeScale[getTimeScaleIndex(props.modelValue)];
-      innerTime.value = props.modelValue / selectedUnit.value.id;
+    if (props.modelValue) {
+      if (getTimeScaleIndex(props.modelValue) !== 0) {
+        selectedUnit.value = timeScale[getTimeScaleIndex(props.modelValue)];
+        innerTime.value = props.modelValue / selectedUnit.value.id;
+      }
+      else {
+        innerTime.value = props.modelValue;
+      }
     }
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-time-field-cursor"             : "default",
@@ -193,6 +198,7 @@ export default defineComponent({
       timeScale,
       messages,
       blurred,
+      slots,
       style,
       onSubmitTimeScale,
       onSubmitValue

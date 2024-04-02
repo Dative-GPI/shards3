@@ -84,9 +84,6 @@
         "FSToggleSet": {
             "from": "@dative-gpi/foundation-shared-components/components/FSToggleSet.vue"
         },
-        "FSContainer": {
-            "from": "@dative-gpi/foundation-shared-components/components/FSContainer.vue"
-        },
         "FSWindow": {
             "from": "@dative-gpi/foundation-shared-components/components/FSWindow.vue"
         },

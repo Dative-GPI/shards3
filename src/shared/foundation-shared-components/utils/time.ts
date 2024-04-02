@@ -25,5 +25,5 @@ export const getTimeScaleIndex = (value: number): number => {
 export const getTimeBestString = (value: number): string => {
   const unit = getTimeScaleIndex(value);
   const figure = value / timeScale[unit].id;
-  return `${figure} ${figure === 1 ? timeScale[unit].label.toLowerCase() : timeScale[unit].plural.toLowerCaser()}`;
+  return `${figure} ${figure === 1 ? timeScale[unit].label.toLowerCase() : timeScale[unit].plural.toLowerCase()}`;
 }

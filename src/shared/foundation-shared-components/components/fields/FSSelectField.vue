@@ -1,7 +1,9 @@
 <template>
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
+      <FSRow
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
           class="fs-select-field-label"
@@ -37,12 +39,14 @@
       clearIcon="mdi-close"
       variant="outlined"
       :style="style"
+      :listProps="listStyle"
       :hideDetails="true"
       :items="$props.items"
       :itemTitle="$props.itemTitle"
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
-      :clearable="$props.editable && $props.clearable"
+      :clearable="$props.editable && !!$props.modelValue"
+      :returnObject="$props.returnObject"
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
@@ -86,12 +90,12 @@ export default defineComponent({
   },
   props: {
     label: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     description: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -110,11 +114,16 @@ export default defineComponent({
       default: "label"
     },
     modelValue: {
-      type: [Array, String, Number] as PropType<(string | number)[] | string | number>,
+      type: [Array, String, Number] as PropType<(string | number)[] | string | number | null>,
       required: false,
       default: null
     },
     hideHeader: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    returnObject: {
       type: Boolean,
       required: false,
       default: false
@@ -125,7 +134,7 @@ export default defineComponent({
       default: false
     },
     rules: {
-      type: Array as PropType<Function[]>,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => []
     },
@@ -149,11 +158,12 @@ export default defineComponent({
     delete slots.label;
     delete slots.description;
 
+    const backgrounds = getColors(ColorEnum.Background);
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): {[code: string]: string} & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-select-field-cursor"             : "default",
@@ -164,6 +174,7 @@ export default defineComponent({
       }
       return {
         "--fs-select-field-cursor"             : "pointer",
+        "--fs-select-field-background-color"   : backgrounds.base,
         "--fs-select-field-border-color"       : lights.dark,
         "--fs-select-field-color"              : darks.base,
         "--fs-select-field-active-border-color": darks.dark,
@@ -172,10 +183,17 @@ export default defineComponent({
       };
     });
 
+    const listStyle = computed((): any => {
+      return {
+        style: style.value
+      };
+    });
+
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
     return {
       validateOn,
+      listStyle,
       messages,
       blurred,
       slots,

@@ -1,7 +1,6 @@
 <template>
   <FSClickable
     v-if="!['icon'].includes($props.variant)"
-    :fullWidth="$props.fullWidth"
     :editable="$props.editable"
     :height="['40px', '36px']"
     :variant="$props.variant"
@@ -121,7 +120,7 @@ export default defineComponent({
       default: null
     },
     prependIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -131,12 +130,12 @@ export default defineComponent({
       default: null
     },
     appendIcon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
     icon: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -175,7 +174,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [code: string]: string } & Partial<CSSStyleDeclaration> => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         switch (props.variant) {
           case "icon": return {
@@ -196,6 +195,7 @@ export default defineComponent({
           };
         }
       }
+      return {};
     });
 
     const iconClasses = computed((): string[] => {
