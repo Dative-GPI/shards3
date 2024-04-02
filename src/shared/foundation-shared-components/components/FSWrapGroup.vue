@@ -6,10 +6,11 @@
     v-bind="$attrs"
   >
     <v-slide-group-item
-      v-for="(component, index) in getChildren(undefined)"
-      :key="index"
+      v-for="component in getChildren()"
     >
-      <component :is="component" />
+      <component
+        :is="component"
+      />
     </v-slide-group-item>
   </v-slide-group>
 </template>

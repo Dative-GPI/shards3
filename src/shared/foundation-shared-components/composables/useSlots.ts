@@ -1,7 +1,7 @@
 import { useSlots as useVueSlots } from "vue"
 
 export const useSlots = () => {
-    const getChildren = (name: string | undefined): any => {
+    const getChildren = (name: string | undefined = undefined): any => {
         const innerSlots = { ...useVueSlots() };
         const innerName = name ?? "default";
         if (innerSlots[innerName] != null) {
@@ -27,7 +27,7 @@ export const useSlots = () => {
         return null;
     };
 
-    const getFirstChild = (name: string | undefined): any => {
+    const getFirstChild = (name: string | undefined = undefined): any => {
         const children = getChildren(name);
         if (children != null) {
             return children[0];
