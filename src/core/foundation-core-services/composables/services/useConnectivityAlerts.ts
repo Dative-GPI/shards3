@@ -1,5 +1,3 @@
-import { ref } from "vue";
-
 import { ConnectivityAlertDetails, ConnectivityAlertDetailsDTO, ConnectivityAlertFilters, ConnectivityAlertInfos, ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
@@ -9,51 +7,9 @@ const ConnectivityAlertServiceFactory = new ServiceFactory<ConnectivityAlertDeta
     factory.addGet(CONNECTIVITY_ALERT_URL),
     factory.addGetMany<ConnectivityAlertInfosDTO, ConnectivityAlertInfos, ConnectivityAlertFilters>(CONNECTIVITY_ALERTS_URL, ConnectivityAlertInfos),
     factory.addRemove(CONNECTIVITY_ALERT_URL),
-    factory.addNotify((notifyService) => ({
-        getNotify: async (connectivityAlertId: string): Promise<ConnectivityAlertDetails> => {
-            const response = await ServiceFactory.http.get(CONNECTIVITY_ALERT_URL(connectivityAlertId));
-            const result = new ConnectivityAlertDetails(response.data);
-
-            notifyService.notify("update", result);
-
-            return result;
-        },
-        removeNotify: (connectivityAlertId: string): void => {
-            notifyService.notify("delete", connectivityAlertId);
-        }
-    }))
+    factory.addNotify()
 ));
 
 export const useConnectivityAlert = ComposableFactory.get(ConnectivityAlertServiceFactory);
 export const useConnectivityAlerts = ComposableFactory.getMany(ConnectivityAlertServiceFactory);
 export const useRemoveConnectivityAlert = ComposableFactory.remove(ConnectivityAlertServiceFactory);
-export const useNotifyConnectivityAlert = () => {
-    const service = ConnectivityAlertServiceFactory();
-
-    const fetching = ref(false);
-    const fetched = ref<ConnectivityAlertDetails | null>(null);
-
-    const fetch = async (connectivityAlertId: string) => {
-        fetching.value = true;
-        try {
-            fetched.value = await service.getNotify(connectivityAlertId);
-        }
-        finally {
-            fetching.value = false;
-        }
-        return fetched;
-    }
-
-    return {
-        fetching,
-        fetch,
-        fetched
-    };
-}
-export const useNotifyRemoveConnectivityAlert = () => {
-    const service = ConnectivityAlertServiceFactory();
-
-    return {
-        remove: service.removeNotify
-    };
-}

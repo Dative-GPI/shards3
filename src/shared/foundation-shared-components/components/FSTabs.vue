@@ -11,10 +11,11 @@
     v-bind="$attrs"
   >
     <template
-      v-for="(component, index) in getChildren(undefined)"
-      :key="index"
+      v-for="component in getChildren()"
     >
-      <component :is="component" />
+      <component
+        :is="component"
+      />
     </template>
   </v-tabs>
 </template>

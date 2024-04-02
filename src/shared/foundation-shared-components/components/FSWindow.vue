@@ -4,11 +4,12 @@
     v-bind="$attrs"
   >
     <v-window-item
-      v-for="(component, index) in getChildren(undefined)"
+      v-for="(component, index) in getChildren()"
       :value="value(component, index)"
-      :key="index"
     >
-      <component :is="component" />
+      <component
+        :is="component"
+      />
     </v-window-item>
   </v-window>
 </template>
