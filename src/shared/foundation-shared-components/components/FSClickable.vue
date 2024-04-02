@@ -217,8 +217,8 @@ export default defineComponent({
         case ColorEnum.Primary:
         case ColorEnum.Success:
         case ColorEnum.Warning:
-        case ColorEnum.Error  : return ["standard"].includes(props.variant) ? colors.value.dark : colors.value.light;
-        default               : return ["standard"].includes(props.variant) ? darks.dark : darks.light;
+        case ColorEnum.Error  : return ["full"].includes(props.variant) ? colors.value.light : colors.value.dark;
+        default               : return ["full"].includes(props.variant) ? darks.light : darks.dark;
       }
     });
 
