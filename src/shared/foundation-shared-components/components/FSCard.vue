@@ -44,10 +44,35 @@ export default defineComponent({
     FSRow
   },
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
     padding: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "0"
+    },
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
+    },
+    variant: {
+      type: String as PropType<"background" | "standard">,
+      required: false,
+      default: "background"
+    },
+    color: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Background
     },
     border: {
       type: Boolean,
@@ -63,31 +88,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    },
-    variant: {
-      type: String as PropType<"background" | "standard">,
-      required: false,
-      default: "background"
-    },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Background
-    },
-    width: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
-      required: false,
-      default: null
-    },
-    height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
-      required: false,
-      default: null
-    },
-    gap: {
-      type: [String, Number],
-      required: false,
-      default: "8px"
     }
   },
   setup(props) {

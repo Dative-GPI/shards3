@@ -2,7 +2,6 @@
   <FSCol>
     <slot v-if="!$props.hideHeader" name="label">
       <FSRow
-        height="16px"
         :wrap="false"
       >
         <FSSpan

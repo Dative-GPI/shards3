@@ -70,23 +70,23 @@ export default defineComponent({
     FSCard
   },
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
     to: {
       type: [String, Object] as PropType<string | RouteLocation>,
       required: false,
       default: null
     },
-    border: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    borderRadius: {
-      type: [String, Number],
-      required: false,
-      default: "4px"
-    },
     variant: {
-      type: String as PropType<"standard" | "full">,
+      type: String as PropType<"standard" | "background" | "full">,
       required: false,
       default: "standard"
     },
@@ -100,15 +100,15 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Light
     },
-    width: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+    border: {
+      type: Boolean,
       required: false,
-      default: null
+      default: true
     },
-    height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+    borderRadius: {
+      type: [String, Number],
       required: false,
-      default: null
+      default: "4px"
     },
     load: {
       type: Boolean,
@@ -127,6 +127,7 @@ export default defineComponent({
     const router = useRouter();
 
     const colors = computed(() => getColors(props.color));
+    const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
@@ -149,6 +150,21 @@ export default defineComponent({
           "--fs-clickable-background-color"       : colors.value.light,
           "--fs-clickable-border-color"           : colors.value.lightContrast,
           "--fs-clickable-color"                  : colors.value.lightContrast,
+          "--fs-clickable-hover-background-color" : colors.value.base,
+          "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+          "--fs-clickable-hover-color"            : colors.value.baseContrast,
+          "--fs-clickable-active-background-color": colors.value.dark,
+          "--fs-clickable-active-border-color"    : colors.value.darkContrast,
+          "--fs-clickable-active-color"           : colors.value.darkContrast,
+          "--fs-clickable-height"                 : sizeToVar(props.height),
+          "--fs-clickable-width"                  : sizeToVar(props.width)
+        };
+        case "background": return {
+          "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+          "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
+          "--fs-clickable-background-color"       : backgrounds.base,
+          "--fs-clickable-border-color"           : lights.dark,
+          "--fs-clickable-color"                  : darks.base,
           "--fs-clickable-hover-background-color" : colors.value.base,
           "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
           "--fs-clickable-hover-color"            : colors.value.baseContrast,

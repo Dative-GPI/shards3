@@ -31,14 +31,14 @@ export default defineComponent({
   },
   props: {
     width: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: null
     },
     gap: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: 4
+      default: "4px"
     },
     pages: {
       type: Number,
@@ -80,11 +80,11 @@ export default defineComponent({
     });
 
     const classes = (page: number): string[] => {
-      const innerClasses = ["fs-pagination-page"];
+      const classNames = ["fs-pagination-page"];
       if (page <= props.modelValue) {
-        innerClasses.push("fs-pagination-active-page");
+        classNames.push("fs-pagination-active-page");
       }
-      return innerClasses;
+      return classNames;
     };
 
     return {

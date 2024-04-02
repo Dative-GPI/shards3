@@ -161,12 +161,12 @@ export default defineComponent({
       default: ColorEnum.Primary
     },
     padding: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "3px"
     },
     gap: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "0"
     },

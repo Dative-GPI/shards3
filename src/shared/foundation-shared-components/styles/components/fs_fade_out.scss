@@ -4,6 +4,8 @@
     max-height: var(--fs-fade-out-height);
     padding: var(--fs-fade-out-padding);
     width: var(--fs-fade-out-width);
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
     flex-direction: column;
     position: relative;
     display: flex;
@@ -15,7 +17,7 @@
     z-index: 10;
     min-height: var(--fs-fade-out-top-mask-height);
     width: 100%;
-    top: var(--fs-fade-out-top-mask-top);
+    top: 0;
     transition: all 0.14s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(to top, transparent 0, var(--fs-fade-out-mask-color) var(--fs-fade-out-top-mask-height));
 }
@@ -26,7 +28,7 @@
     z-index: 10;
     min-height: var(--fs-fade-out-bottom-mask-height);
     width: 100%;
-    bottom: var(--fs-fade-out-bottom-mask-bottom);
+    bottom: 0;
     transition: all 0.14s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(to bottom, transparent 0, var(--fs-fade-out-mask-color) var(--fs-fade-out-bottom-mask-height));
 }

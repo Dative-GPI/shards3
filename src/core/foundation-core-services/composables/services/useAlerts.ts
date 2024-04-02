@@ -1,5 +1,3 @@
-import { onUnmounted, ref } from "vue";
-
 import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
@@ -9,11 +7,16 @@ const AlertServiceFactory = new ServiceFactory<AlertDetailsDTO, AlertDetails>("a
     factory.addGet(ALERT_URL),
     factory.addGetMany<AlertInfosDTO, AlertInfos, AlertFilters>(ALERTS_URL, AlertInfos),
     factory.addRemove(ALERT_URL),
-    factory.addCustom("acknowledge", (axios, alertId: string) => axios.patch(ALERT_URL(alertId))),
-    factory.addNotify()
+    factory.addNotify(notify => ({
+        ...ServiceFactory.addCustom("acknowledge", (axios, alertId: string) => axios.patch(ALERT_URL(alertId)), (dto: AlertDetailsDTO) => {
+            const result = new AlertDetails(dto);
+            notify.notify("update", result);
+            return result;
+        })
+    }))
 ));
 
 export const useAlert = ComposableFactory.get(AlertServiceFactory);
 export const useAlerts = ComposableFactory.getMany(AlertServiceFactory);
 export const useRemoveAlert = ComposableFactory.remove(AlertServiceFactory);
-export const useAcknowledgeAlert = ComposableFactory.custom(AlertServiceFactory, AlertServiceFactory.acknowledge);
+export const useAcknowledgeAlert = ComposableFactory.custom(AlertServiceFactory.acknowledge);

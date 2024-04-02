@@ -22,21 +22,21 @@ export default defineComponent({
   name: "FSFadeOut",
   props: {
     height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: true
     },
     width: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number>,
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "100%"
     },
     padding: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "0"
     },
     maskHeight: {
-      type: [String, Number],
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "64px"
     }
@@ -59,54 +59,8 @@ export default defineComponent({
         "--fs-fade-out-padding"            : sizeToVar(props.padding),
         "--fs-fade-out-mask-color"         : backgrounds.base,
         "--fs-fade-out-top-mask-height"    : topMaskHeight.value,
-        "--fs-fade-out-top-mask-top"       : topPadding.value,
         "--fs-fade-out-bottom-mask-height" : bottomMaskHeight.value,
-        "--fs-fade-out-bottom-mask-bottom" : bottomPadding.value
       };
-    });
-
-    const topPadding = computed((): string => {
-      switch (typeof props.padding) {
-        case "number": return sizeToVar(props.padding);
-        default: 
-          const paddings = props.padding.split(" ");
-          let tempPadding = "0px";
-          switch (paddings.length) {
-            case 0 :
-              break;
-            default:
-              tempPadding = "-" + sizeToVar(paddings[0]);
-              break;
-          }
-          if (tempPadding === "0px") {
-            return "-1px";
-          }
-          return tempPadding;
-      }
-    });
-
-    const bottomPadding = computed((): string => {
-      switch (typeof props.padding) {
-        case "number": return sizeToVar(props.padding);
-        default: 
-          const paddings = props.padding.split(" ");
-          let tempPadding = "0px";
-          switch (paddings.length) {
-            case 0 :
-              break;
-            case 1 :
-            case 2 :
-              tempPadding = "-" + sizeToVar(paddings[0]);
-              break;
-            default:
-              tempPadding = "-" + sizeToVar(paddings[2]);
-              break;
-          }
-          if (tempPadding === "0px") {
-            return "-1px";
-          }
-          return tempPadding;
-      }
     });
 
     const onScroll = ({ target }): void => debounce(() => {
@@ -135,15 +89,15 @@ export default defineComponent({
 
     const onResize = (): void => debounce(() => {
       if (fadeOutRef.value) {
-        const currentTopMaskHeight = fadeOutRef.value.children[0].clientHeight;
-        const currentBottomMaskHeight = fadeOutRef.value.children[fadeOutRef.value.children.length - 1].clientHeight;
-        const contentHeight = fadeOutRef.value.scrollHeight - currentTopMaskHeight - currentBottomMaskHeight;
+        const currentTopMaskHeight = (fadeOutRef.value as any).children[0].clientHeight;
+        const currentBottomMaskHeight = (fadeOutRef.value as any).children[(fadeOutRef.value as any).children.length - 1].clientHeight;
+        const contentHeight = (fadeOutRef.value as any).scrollHeight - currentTopMaskHeight - currentBottomMaskHeight;
 
-        if (fadeOutRef.value.clientHeight < contentHeight) {
-          if (fadeOutRef.value.scrollHeight - fadeOutRef.value.scrollTop - fadeOutRef.value.clientHeight > 0) {
+        if ((fadeOutRef.value as any).clientHeight < contentHeight) {
+          if ((fadeOutRef.value as any).scrollHeight - (fadeOutRef.value as any).scrollTop - (fadeOutRef.value as any).clientHeight > 0) {
             bottomMaskHeight.value = sizeToVar(props.maskHeight);
           }
-          if (fadeOutRef.value.scrollTop > 0) {
+          if ((fadeOutRef.value as any).scrollTop > 0) {
             topMaskHeight.value = sizeToVar(props.maskHeight);
           }
         }
@@ -156,7 +110,7 @@ export default defineComponent({
 
     onMounted((): void => {
       if (fadeOutRef.value) {
-        if (fadeOutRef.value.clientHeight < fadeOutRef.value.scrollHeight) {
+        if ((fadeOutRef.value as any).clientHeight < (fadeOutRef.value as any).scrollHeight) {
           bottomMaskHeight.value = sizeToVar(props.maskHeight);
         }
       }

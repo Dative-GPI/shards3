@@ -2,7 +2,6 @@ import { onMounted, ref, watch } from "vue";
 
 import * as signalR from "@microsoft/signalr";
 
-import { useNotifyConnectivityAlert, useNotifyRemoveConnectivityAlert } from "../services/useConnectivityAlerts";
 import { CONNECTIVITY_ALERTS_HUB_URL } from "../../config/urls";
 import { HUBS } from "../../config/literals";
 
@@ -24,9 +23,9 @@ export const useConnectivityAlertsHub = () => {
                 await connection.value.start();
             }
             connection.value.invoke(HUBS.SUBSCRIBE);
-            connection.value.on(HUBS.CREATE_CONNECTIVITY_ALERT, (connectivityAlertId: string) => useNotifyConnectivityAlert().fetch(connectivityAlertId));
-            connection.value.on(HUBS.UPDATE_CONNECTIVITY_ALERT, (connectivityAlertId: string) => useNotifyConnectivityAlert().fetch(connectivityAlertId));
-            connection.value.on(HUBS.REMOVE_CONNECTIVITY_ALERT, (connectivityAlertId: string) => useNotifyRemoveConnectivityAlert().remove(connectivityAlertId));
+            // connection.value.on(HUBS.CREATE_CONNECTIVITY_ALERT, (connectivityAlertId: string) => useNotifyConnectivityAlert().fetch(connectivityAlertId));
+            // connection.value.on(HUBS.UPDATE_CONNECTIVITY_ALERT, (connectivityAlertId: string) => useNotifyConnectivityAlert().fetch(connectivityAlertId));
+            // connection.value.on(HUBS.REMOVE_CONNECTIVITY_ALERT, (connectivityAlertId: string) => useNotifyRemoveConnectivityAlert().remove(connectivityAlertId));
         });
 
         initialized = true;

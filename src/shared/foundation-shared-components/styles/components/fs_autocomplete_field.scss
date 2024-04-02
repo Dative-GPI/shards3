@@ -34,3 +34,19 @@
 .fs-autocomplete-field-description {
     color: var(--fs-autocomplete-field-color);
 }
+
+.v-overlay-container > .v-overlay > .v-autocomplete__content {
+    box-shadow: 0px 5px 8px 0px #00000029;
+    border-radius: 4px;
+
+    & .v-list {
+        background-color: var(--fs-autocomplete-field-background-color);
+        border-radius: 4px;
+        margin-top: 4px;
+        padding: 2px;
+
+        & .v-list-item {
+            border-radius: 4px;
+        }
+    }
+}
