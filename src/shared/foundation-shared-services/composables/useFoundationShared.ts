@@ -9,6 +9,6 @@ export function useFoundationShared() {
   const ready = computed(() => timeZoneReady.value && languageCodeReady.value);
 
   return {
-    ready,
+    ready
   };
 }

@@ -9,8 +9,13 @@ const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("g
     factory.addCreate<CreateGroupDTO>(GROUPS_URL),
     factory.addUpdate<UpdateGroupDTO>(GROUP_URL),
     factory.addRemove(GROUP_URL),
-    factory.addCustom("changeParent", (axios, groupdId: string, payload: ChangeGroupParentDTO) => axios.put(GROUP_URL(groupdId), payload)),
-    factory.addNotify()
+    factory.addNotify(notify => ({
+        ...ServiceFactory.addCustom("changeParent", (axios, groupdId: string, payload: ChangeGroupParentDTO) => axios.put(GROUP_URL(groupdId), payload), (dto: GroupDetailsDTO) => {
+            const result = new GroupDetails(dto);
+            notify.notify("update", result);
+            return result;
+        })
+    }))
 ));
 
 export const useGroup = ComposableFactory.get(GroupServiceFactory);
@@ -18,4 +23,4 @@ export const useGroups = ComposableFactory.getMany(GroupServiceFactory);
 export const useCreateGroup = ComposableFactory.create(GroupServiceFactory);
 export const useUpdateGroup = ComposableFactory.update(GroupServiceFactory);
 export const useRemoveGroup = ComposableFactory.remove(GroupServiceFactory);
-export const useChangeGroupParent = ComposableFactory.custom(GroupServiceFactory, GroupServiceFactory.changeParent);
+export const useChangeGroupParent = ComposableFactory.custom(GroupServiceFactory.changeParent);

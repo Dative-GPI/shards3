@@ -1,3 +1,12 @@
+.fs-draggable-item {
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+ 
+  &:has(.fs-data-iterator-item) {
+    flex: 1 1 0 !important;
+    width: 100% !important;
+  }
+}
+
 .fs-draggable-dragging {
   opacity: 0.4;
   filter: blur(1px);
@@ -6,10 +15,6 @@
 .fs-dropzone-include {
   transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   filter: brightness(0.85) contrast(1.1);
-}
-
-.fs-draggable-item {
-  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 div.fs-dropzone-include {

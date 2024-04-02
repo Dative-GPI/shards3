@@ -16,11 +16,15 @@ const AlertServiceFactory = new ServiceFactory<AlertDetailsDTO, AlertDetails>("a
     factory.addGet(ALERT_URL),
     factory.addGetMany<AlertInfosDTO, AlertInfos, AlertFilters>(ALERTS_URL, AlertInfos),
     factory.addRemove(ALERT_URL),
-    factory.addCustom("acknowledge", (axios, alertId: string) => axios.patch(ALERT_URL(alertId))),
     factory.addNotify(notify => ({
-        fakeCreate: (alert: AlertDetails) => notify.notify("add", alert),
-        fakeUpdate: (alert: AlertDetails) => notify.notify("update", alert),
-        fakeRemove: (alertId: string) => notify.notify("delete", alertId)
+        notifyCreate: (alert: AlertDetails) => notify.notify("add", alert),
+        notifyUpdate: (alert: AlertDetails) => notify.notify("update", alert),
+        notifyRemove: (alertId: string) => notify.notify("delete", alertId),
+        ...ServiceFactory.addCustom("acknowledge", (axios, alertId: string) => axios.patch(ALERT_URL(alertId)), (dto: AlertDetailsDTO) => {
+            const result = new AlertDetails(dto);
+            notify.notify("update", result);
+            return result;
+        })
     }))
 ));
 
@@ -56,20 +60,20 @@ const useAlertsHub = () => {
     const onCreate = async (alertId: string) => {
         if (watchManySubscribers > 0) {
             const alert = await AlertServiceFactory.get(alertId);
-            AlertServiceFactory.fakeCreate(alert);
+            AlertServiceFactory.notifyCreate(alert);
         }
     }
 
     const onUpdate = async (alertId: string) => {
         if (watchManySubscribers > 0 || watcheds.value.includes(alertId)) {
             const alert = await AlertServiceFactory.get(alertId);
-            AlertServiceFactory.fakeUpdate(alert);
+            AlertServiceFactory.notifyUpdate(alert);
         }
     }
 
     const onRemove = async (alertId: string) => {
         if (watchManySubscribers > 0 || watcheds.value.includes(alertId)) {
-            AlertServiceFactory.fakeRemove(alertId);
+            AlertServiceFactory.notifyRemove(alertId);
         }
     }
 
@@ -156,4 +160,4 @@ export const useAlerts = ComposableFactory.getMany(AlertServiceFactory, () => {
 });
 
 export const useRemoveAlert = ComposableFactory.remove(AlertServiceFactory);
-export const useAcknowledgeAlert = ComposableFactory.custom(AlertServiceFactory, AlertServiceFactory.acknowledge);
+export const useAcknowledgeAlert = ComposableFactory.custom(AlertServiceFactory.acknowledge);

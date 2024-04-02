@@ -39,7 +39,7 @@ import { decode, isBlurhashValid } from "blurhash";
 
 import { useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
 import { IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
-import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+import { sizeToVar, varToSize } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSLoader from "./FSLoader.vue";
 
@@ -49,6 +49,16 @@ export default defineComponent({
     FSLoader
   },
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    },
     imageId: {
       type: String as PropType<string | null>,
       required: false,
@@ -56,21 +66,6 @@ export default defineComponent({
     },
     imageB64: {
       type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    cover: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    width: {
-      type: [String, Number],
-      required: false,
-      default: null
-    },
-    height: {
-      type: [String, Number],
       required: false,
       default: null
     },
@@ -83,10 +78,15 @@ export default defineComponent({
       type: [String, Number],
       required: false,
       default: "4px"
+    },
+    cover: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   setup(props) {
-    const { get: fetchBlurHash, entity: blurHash } = useImageBlurHash();
+    const { fetch: fetchBlurHash, entity: blurHash } = useImageBlurHash();
 
     const imageRef = ref<HTMLFormElement | null>(null);
     const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -106,9 +106,9 @@ export default defineComponent({
       }
     });
 
-    const computedHeight = computed((): number | string | undefined => {
+    const computedHeight = computed((): string | undefined => {
       if (props.height) {
-        return props.height;
+        return sizeToVar(props.height);
       }
       if (props.width) {
         if (typeof (props.width) === "string") {
@@ -117,17 +117,17 @@ export default defineComponent({
         if (props.aspectRatio) {
           const split = props.aspectRatio.split('/');
           if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return props.width * (parseFloat(split[1]) / parseFloat(split[0]));
+            return sizeToVar(varToSize(props.width) * (parseFloat(split[1]) / parseFloat(split[0])));
           }
         }
-        return props.width;
+        return sizeToVar(props.width);
       }
       return undefined;
     });
 
-    const computedWidth = computed((): number | string | undefined => {
+    const computedWidth = computed((): string | undefined => {
       if (props.width) {
-        return props.width;
+        return sizeToVar(props.width);
       }
       if (props.height) {
         if (typeof (props.height) === "string") {
@@ -136,10 +136,10 @@ export default defineComponent({
         if (props.aspectRatio) {
           const split = props.aspectRatio.split('/');
           if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return props.height * (parseFloat(split[0]) / parseFloat(split[1]));
+            return sizeToVar(varToSize(props.height) * (parseFloat(split[0]) / parseFloat(split[1])));
           }
         }
-        return props.height;
+        return sizeToVar(props.height);
       }
       return undefined;
     });

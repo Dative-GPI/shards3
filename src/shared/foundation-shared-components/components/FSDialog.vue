@@ -9,10 +9,10 @@
     <FSCard
       padding="24px"
       gap="24px"
-      :width="width"
-      :class="classes"
-      :color="$props.color"
       :border="!isExtraSmall"
+      :color="$props.color"
+      :class="classes"
+      :width="width"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
@@ -20,8 +20,8 @@
     </FSCard>
     <FSButton
       class="fs-dialog-close-button"
-      variant="icon"
       icon="mdi-close"
+      variant="icon"
       :color="ColorEnum.Dark"
       @click="$emit('update:modelValue', false)"
     />
@@ -37,6 +37,7 @@ import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composa
 import FSButton from "./FSButton.vue";
 import FSCard from "./FSCard.vue";
 import FSCol from "./FSCol.vue";
+import { sizeToVar } from "../utils";
 
 export default defineComponent({
   name: "FSDialog",
@@ -46,25 +47,25 @@ export default defineComponent({
     FSCol
   },
   props: {
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "auto"
+    },
+    cardClasses: {
+      type: [Array, String] as PropType<string[] | string | null>,
+      required: false,
+      default: null
+    },
     modelValue: {
       type: Boolean,
       required: false,
       default: false
     },
-    width: {
-      type: [String, Number],
-      required: false,
-      default: "auto"
-    },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Dark
-    },
-    cardClasses: {
-      type: [Array, String] as PropType<string[] | string>,
-      required: false,
-      default: null
     }
   },
   emits: ["update:modelValue"],
@@ -72,24 +73,26 @@ export default defineComponent({
     const { isExtraSmall } = useBreakpoints();
 
     const classes = computed((): string[] => {
-      const innerClasses = ["fs-dialog"];
-      if (Array.isArray(props.cardClasses)) {
-        innerClasses.push(...props.cardClasses);
-      }
-      else {
-        innerClasses.push(props.cardClasses);
+      const classNames = ["fs-dialog"];
+      if (props.cardClasses) {
+        if (Array.isArray(props.cardClasses)) {
+          classNames.push(...props.cardClasses);
+        }
+        else {
+          classNames.push(props.cardClasses);
+        }
       }
       if (isExtraSmall.value) {
-        innerClasses.push("fs-dialog-mobile");
+        classNames.push("fs-dialog-mobile");
       }
-      return innerClasses;
+      return classNames;
     });
 
-    const width = computed((): string | number => {
+    const width = computed((): string => {
       if (isExtraSmall.value) {
         return "100%";
       }
-      return props.width;
+      return sizeToVar(props.width);
     });
 
     return {

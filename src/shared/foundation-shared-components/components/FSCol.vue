@@ -16,30 +16,30 @@ import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 export default defineComponent({
   name: "FSCol",
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
+      required: false,
+      default: "hug"
+    },
     width: {
-      type: [String, Number] as PropType<"hug" | "fill" | string | number>,
+      type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
       required: false,
       default: "fill"
     },
-    height: {
-      type: [String, Number] as PropType<"hug" | "fill" | string | number>,
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "hug"
+      default: "0"
+    },
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
     },
     align: {
       type: String as PropType<"top-left" | "top-center" | "top-right" | "center-left" | "center-center" | "center-right" | "bottom-left" | "bottom-center" | "bottom-right">,
       required: false,
       default: "top-left"
-    },
-    padding: {
-      type: [String, Number],
-      required: false,
-      default: "0"
-    },
-    gap: {
-      type: [String, Number],
-      required: false,
-      default: "8px"
     }
   },
   setup(props) {

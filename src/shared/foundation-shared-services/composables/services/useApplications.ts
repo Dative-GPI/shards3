@@ -3,9 +3,8 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { APPLICATION_CURRENT_URL } from "../../config/urls";
 
-const ApplicationServiceFactory = new ServiceFactory<ApplicationDetailsDTO, ApplicationDetails>("application", ApplicationDetails).create(factory => factory.build(
-    factory.addCustom("getCurrent", (axios) => axios.get(APPLICATION_CURRENT_URL())),
-    factory.addNotify()
-));
+const ApplicationServiceFactory = {
+    ...ServiceFactory.addCustom("getCurrent", (axios) => axios.get(APPLICATION_CURRENT_URL()), (dto: ApplicationDetailsDTO) => new ApplicationDetails(dto))
+};
 
-export const useCurrentApplication = ComposableFactory.custom(ApplicationServiceFactory, ApplicationServiceFactory.getCurrent);
+export const useCurrentApplication = ComposableFactory.custom(ApplicationServiceFactory.getCurrent);
