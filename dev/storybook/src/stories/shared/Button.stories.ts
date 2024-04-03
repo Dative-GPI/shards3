@@ -381,10 +381,10 @@ export const Submit: Story = {
           />
           <div style="display: flex; gap: 10px;">
             <FSButton
+              type="submit"
               label="Submit form"
             />
             <FSButton
-              type="button"
               label="Clear form"
               @click="() => { args.text1 = ''; args.text2 = args.textdefault; }"
             />
