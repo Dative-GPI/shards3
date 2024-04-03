@@ -1,11 +1,27 @@
-import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 
-import { DEVICE_STATUS_URL } from "../../config/urls";
+import { DEVICE_STATUSES_HUB_URL, DEVICE_STATUS_URL } from "../../config/urls";
+import { HUBS } from "../../config/literals";
 
 const DeviceStatusServiceFactory = new ServiceFactory<DeviceStatusDetailsDTO, DeviceStatusDetails>("deviceStatus", DeviceStatusDetails).create(factory => factory.build(
     factory.addGet(DEVICE_STATUS_URL),
-    factory.addNotify()
+    factory.addNotify(notify => ({
+        notifyUpdate: (status: DeviceStatusDetails) => notify.notify("update", status)
+    }))
 ));
 
+const useDeviceStatusesHub = HubFactory.create(DEVICE_STATUSES_HUB_URL,
+    (connection) => {
+        connection.on(HUBS.UPDATE_DEVICE_STATUS,
+            (payload: DeviceStatusDetailsDTO) => DeviceStatusServiceFactory.notifyUpdate(new DeviceStatusDetails(payload)));
+    },
+    async (connection) => {
+        await connection.invoke(HUBS.SUBSCRIBE);
+    }
+);
+
 export const useDeviceStatus = ComposableFactory.get(DeviceStatusServiceFactory);
+export const useTrackDeviceStatuses = ComposableFactory.track(DeviceStatusServiceFactory);
+export const useWatchDeviceStatuses = HubFactory.createWatcher(useDeviceStatusesHub);

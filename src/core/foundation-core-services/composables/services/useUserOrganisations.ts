@@ -1,5 +1,6 @@
-import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { Ref } from "vue";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { USER_ORGANISATIONS_URL, USER_ORGANISATION_CURRENT_URL, USER_ORGANISATION_URL } from "../../config/urls";
 
@@ -20,17 +21,21 @@ const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetail
 ));
 
 export const useTrackUserOrganisation = ComposableFactory.track(UserOrganisationServiceFactory);
+export const useTrackUserOrganisationRef = ComposableFactory.trackRef(UserOrganisationServiceFactory);
+
+const trackUserOrganisation = () => {
+    const { track } = useTrackUserOrganisationRef();
+
+    return (userOrganisation: Ref<UserOrganisationDetails>) => {
+        track(userOrganisation);
+    }
+}
 
 export const useUserOrganisation = ComposableFactory.get(UserOrganisationServiceFactory);
 export const useUserOrganisations = ComposableFactory.getMany(UserOrganisationServiceFactory);
 export const useCreateUserOrganisation = ComposableFactory.create(UserOrganisationServiceFactory);
 export const useUpdateUserOrganisation = ComposableFactory.update(UserOrganisationServiceFactory);
 export const useRemoveUserOrganisation = ComposableFactory.remove(UserOrganisationServiceFactory);
-export const useCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory.getCurrent, () => {
-    const { track } = useTrackUserOrganisation();
- 
-    return (userOrganisation) => {
-        track(userOrganisation);
-    }
-});
-export const useUpdateCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory.updateCurrent);
+
+export const useCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory.getCurrent, trackUserOrganisation);
+export const useUpdateCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory.updateCurrent, trackUserOrganisation);
