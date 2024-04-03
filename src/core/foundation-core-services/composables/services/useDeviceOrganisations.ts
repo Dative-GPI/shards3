@@ -4,8 +4,8 @@ import { ChangeDeviceOrganisationGroupDTO, ChangeDeviceOrganisationLocationDTO, 
 
 import { DEVICE_ORGANISATIONS_URL, DEVICE_ORGANISATION_URL, DEVICE_ORGANISATION_GROUP_URL, DEVICE_ORGANISATION_LOCATION_URL } from "../../config/urls";
 
-import { useTrackDeviceStatuses, useWatchDeviceStatuses } from "./useDeviceStatuses";
 import { useTrackDeviceConnectivity, useWatchDeviceConnectivity } from "./useDeviceConnectivities";
+import { useTrackDeviceStatuses, useWatchDeviceStatuses } from "./useDeviceStatuses";
 
 const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDetailsDTO, DeviceOrganisationDetails>("deviceOrganisation", DeviceOrganisationDetails)
   .create(factory => factory.build(
