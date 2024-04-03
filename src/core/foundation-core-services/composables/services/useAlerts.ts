@@ -9,13 +9,13 @@ const AlertServiceFactory = new ServiceFactory<AlertDetailsDTO, AlertDetails>("a
     factory.addGet(ALERT_URL),
     factory.addGetMany<AlertInfosDTO, AlertInfos, AlertFilters>(ALERTS_URL, AlertInfos),
     factory.addRemove(ALERT_URL),
-    factory.addNotify(notify => ({
-        notifyCreate: (alert: AlertDetails) => notify.notify("add", alert),
-        notifyUpdate: (alert: AlertDetails) => notify.notify("update", alert),
-        notifyRemove: (alertId: string) => notify.notify("delete", alertId),
+    factory.addNotify(notifyService => ({
+        notifyCreate: (alert: AlertDetails) => notifyService.notify("add", alert),
+        notifyUpdate: (alert: AlertDetails) => notifyService.notify("update", alert),
+        notifyRemove: (alertId: string) => notifyService.notify("delete", alertId),
         ...ServiceFactory.addCustom("acknowledge", (axios, alertId: string) => axios.patch(ALERT_URL(alertId)), (dto: AlertDetailsDTO) => {
             const result = new AlertDetails(dto);
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         })
     }))

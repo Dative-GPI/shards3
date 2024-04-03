@@ -2,6 +2,7 @@ import { UserInfos, UserInfosDTO } from "./userInfos";
 
 export class UserDetails extends UserInfos {
     adminAccess: boolean;
+    hasSignedPolicies: boolean;
     languageCode: string;
     timeZoneId: string;
     timeZoneOffset: string;
@@ -12,6 +13,7 @@ export class UserDetails extends UserInfos {
         super(params);
 
         this.adminAccess = params.adminAccess;
+        this.hasSignedPolicies = params.hasSignedPolicies;
         this.languageCode = params.languageCode;
         this.timeZoneId = params.timeZoneId;
         this.timeZoneOffset = params.timeZoneOffset;
@@ -22,6 +24,7 @@ export class UserDetails extends UserInfos {
 
 export interface UserDetailsDTO extends UserInfosDTO {
     adminAccess: boolean;
+    hasSignedPolicies: boolean;
     languageCode: string;
     timeZoneId: string;
     timeZoneOffset: string;

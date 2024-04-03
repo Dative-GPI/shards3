@@ -9,10 +9,10 @@ const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("g
     factory.addCreate<CreateGroupDTO>(GROUPS_URL),
     factory.addUpdate<UpdateGroupDTO>(GROUP_URL),
     factory.addRemove(GROUP_URL),
-    factory.addNotify(notify => ({
+    factory.addNotify(notifyService => ({
         ...ServiceFactory.addCustom("changeParent", (axios, groupdId: string, payload: ChangeGroupParentDTO) => axios.put(GROUP_URL(groupdId), payload), (dto: GroupDetailsDTO) => {
             const result = new GroupDetails(dto);
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         })
     }))
