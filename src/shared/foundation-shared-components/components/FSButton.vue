@@ -6,6 +6,7 @@
     :variant="$props.variant"
     :color="$props.color"
     :load="$props.load"
+    :href="$props.href"
     :padding="padding"
     :to="$props.to"
     :style="style"
@@ -59,6 +60,23 @@
         :indeterminate="true"
         :color="loadColor"
       />
+    </template>
+    <template v-else-if="$props.href">
+      <a
+        :href="$props.href"
+      >
+        <FSIcon
+          v-if="$props.icon"
+          size="l"
+        >
+          {{ $props.icon }}
+        </FSIcon>
+        <FSSpan
+          v-if="$props.label"
+        >
+          {{ $props.label }}
+        </FSSpan>
+      </a>
     </template>
     <template v-else-if="$props.to">
       <router-link
@@ -115,7 +133,12 @@ export default defineComponent({
   },
   props: {
     to: {
-      type: [String, Object] as PropType<string | RouteLocation>,
+      type: [String, Object] as PropType<string | RouteLocation | null>,
+      required: false,
+      default: null
+    },
+    href: {
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -232,7 +255,7 @@ export default defineComponent({
     });
 
     const onClick = (event: MouseEvent) => {
-      if (!props.to && props.editable && !props.load) {
+      if (!props.to && !props.href && props.editable && !props.load) {
         emit("click", event);
       }
     };

@@ -1,8 +1,18 @@
 <template>
+  <a
+    v-if="$props.href"
+    :href="$props.href"
+    :style="style"
+  >
+    <slot>
+      {{ $props.label }}
+    </slot>
+  </a>
   <router-link
+    v-else-if="$props.to"
+    :to="$props.to"
     :class="classes"
     :style="style"
-    :to="href"
     v-slot="props"
     v-bind="$attrs"
   >
@@ -28,9 +38,14 @@ export default defineComponent({
       default: null
     },
     to: {
-      type: [String, Object] as PropType<string | RouteLocation>,
+      type: [String, Object] as PropType<string | RouteLocation | null>,
       required: false,
-      default: "_blank"
+      default: null
+    },
+    href: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     font: {
       type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline" | "text-underline">,
@@ -96,19 +111,9 @@ export default defineComponent({
       }
     });
 
-    const href = computed((): string => {
-      if (typeof props.to === "string") {
-        return props.to;
-      }
-      else {
-        return router.resolve(props.to).href;
-      }
-    });
-
     return {
       classes,
-      style,
-      href
+      style
     };
   }
 });

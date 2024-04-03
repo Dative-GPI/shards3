@@ -322,7 +322,7 @@ export const Links: Story = {
         :to="{ name: 'Home', params: { deviceId: '1' }, query: { search: 'Device' } }"
       />
       <FSButton
-        to="https://www.google.fr"
+        href="https://www.google.fr"
         label="Using Google URL"
       />
     </div>`

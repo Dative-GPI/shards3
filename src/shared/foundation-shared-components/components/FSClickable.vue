@@ -1,6 +1,58 @@
 <template>
+  <a
+    v-if="$props.href"
+    :href="$props.href"
+    :style="style"
+  >
+    <FSCard
+      :height="$props.height"
+      :width="$props.width"
+      :class="classes"
+      :style="style"
+      v-bind="$attrs"
+    >
+      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </FSCard>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-clickable-load"
+        width="2"
+        size="24"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
+  </a>
+  <router-link
+    v-else-if="$props.to"
+    :style="style"
+    :to="$props.to"
+  >
+    <FSCard
+      :height="$props.height"
+      :width="$props.width"
+      :class="classes"
+      :style="style"
+      v-bind="$attrs"
+    >
+      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </FSCard>
+    <template v-if="$props.load">
+      <v-progress-circular
+        class="fs-clickable-load"
+        width="2"
+        size="24"
+        :indeterminate="true"
+        :color="loadColor"
+      />
+    </template>
+  </router-link>
   <button
-    v-if="!href"
+    v-else
     :type="$props.type"
     :style="style"
     @click.stop="onClick"
@@ -26,32 +78,6 @@
       />
     </template>
   </button>
-  <router-link
-    v-else
-    :style="style"
-    :to="href"
-  >
-    <FSCard
-      :height="$props.height"
-      :width="$props.width"
-      :class="classes"
-      :style="style"
-      v-bind="$attrs"
-    >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
-      </template>
-    </FSCard>
-    <template v-if="$props.load">
-      <v-progress-circular
-        class="fs-clickable-load"
-        width="2"
-        size="24"
-        :indeterminate="true"
-        :color="loadColor"
-      />
-    </template>
-  </router-link>
 </template>
 
 <script lang="ts">
@@ -81,7 +107,12 @@ export default defineComponent({
       default: null
     },
     to: {
-      type: [String, Object] as PropType<string | RouteLocation>,
+      type: [String, Object] as PropType<string | RouteLocation | null>,
+      required: false,
+      default: null
+    },
+    href: {
+      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -93,7 +124,7 @@ export default defineComponent({
     type: {
       type: String as PropType<"button" | "submit">,
       required: false,
-      default: "button"
+      default: "submit"
     },
     color: {
       type: String as PropType<ColorBase>,
@@ -200,18 +231,6 @@ export default defineComponent({
       return classNames;
     });
 
-    const href = computed((): string | null => {
-      if (!props.to || !props.editable || props.load) {
-        return null;
-      }
-      if (typeof props.to === "string") {
-        return props.to;
-      }
-      else {
-        return router.resolve(props.to).href;
-      }
-    });
-
     const loadColor = computed((): string => {
       switch (props.color) {
         case ColorEnum.Primary:
@@ -223,7 +242,7 @@ export default defineComponent({
     });
 
     const onClick = (event: MouseEvent) => {
-      if (!props.to && props.editable && !props.load) {
+      if (!props.to && !props.href && props.editable && !props.load) {
         emit("click", event);
       }
     };
@@ -232,7 +251,6 @@ export default defineComponent({
       loadColor,
       classes,
       style,
-      href,
       onClick
     };
   }
