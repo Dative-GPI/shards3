@@ -10,10 +10,10 @@ const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetail
     factory.addUpdate<UpdateUserOrganisationDTO>(USER_ORGANISATION_URL),
     factory.addRemove(USER_ORGANISATION_URL),
     ServiceFactory.addCustom("getCurrent", (axios) => axios.get(USER_ORGANISATION_CURRENT_URL()), (dto: UserOrganisationDetailsDTO) => new UserOrganisationDetails(dto)),
-    factory.addNotify(notify => ({
+    factory.addNotify(notifyService => ({
         ...ServiceFactory.addCustom("updateCurrent", (axios, payload: UpdateUserOrganisationDTO) => axios.post(USER_ORGANISATION_CURRENT_URL(), payload), (dto: UserOrganisationDetailsDTO) => {
             const result = new UserOrganisationDetails(dto)
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         }),
     }))

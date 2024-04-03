@@ -5,10 +5,10 @@ import { USER_CURRENT_URL } from "../../config/urls";
 
 const UserServiceFactory = new ServiceFactory<UserDetailsDTO, UserDetails>("user", UserDetails).create(factory => factory.build(
     ServiceFactory.addCustom("getCurrent", (axios) => axios.get(USER_CURRENT_URL()), (dto: UserDetailsDTO) => new UserDetails(dto)),
-    factory.addNotify(notify => ({
+    factory.addNotify(notifyService => ({
         ...ServiceFactory.addCustom("updateCurrent", (axios, payload: UpdateUserDTO) => axios.post(USER_CURRENT_URL(), payload), (dto: UserDetailsDTO) => {
             const result = new UserDetails(dto);
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         })
     }))

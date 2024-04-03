@@ -9,15 +9,15 @@ const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDe
     factory.addCreate<CreateDeviceOrganisationDTO>(DEVICE_ORGANISATIONS_URL),
     factory.addUpdate<UpdateDeviceOrganisationDTO>(DEVICE_ORGANISATION_URL),
     factory.addRemove(DEVICE_ORGANISATION_URL),
-    factory.addNotify(notify => ({
+    factory.addNotify(notifyService => ({
         ...ServiceFactory.addCustom("changeGroup", (axios, deviceOrganisationId: string, payload: ChangeDeviceOrganisationGroupDTO) => axios.put(DEVICE_ORGANISATION_GROUP_URL(deviceOrganisationId), payload), (dto: DeviceOrganisationDetailsDTO) => {
             const result = new DeviceOrganisationDetails(dto);
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         }),
         ...ServiceFactory.addCustom("changeLocation", (axios, deviceOrganisationId: string, payload: ChangeDeviceOrganisationLocationDTO) => axios.put(DEVICE_ORGANISATION_LOCATION_URL(deviceOrganisationId), payload), (dto: DeviceOrganisationDetailsDTO) => {
             const result = new DeviceOrganisationDetails(dto);
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         })
     }))

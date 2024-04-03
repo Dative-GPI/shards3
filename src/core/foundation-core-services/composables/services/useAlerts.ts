@@ -7,10 +7,10 @@ const AlertServiceFactory = new ServiceFactory<AlertDetailsDTO, AlertDetails>("a
     factory.addGet(ALERT_URL),
     factory.addGetMany<AlertInfosDTO, AlertInfos, AlertFilters>(ALERTS_URL, AlertInfos),
     factory.addRemove(ALERT_URL),
-    factory.addNotify(notify => ({
+    factory.addNotify(notifyService => ({
         ...ServiceFactory.addCustom("acknowledge", (axios, alertId: string) => axios.patch(ALERT_URL(alertId)), (dto: AlertDetailsDTO) => {
             const result = new AlertDetails(dto);
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         })
     }))

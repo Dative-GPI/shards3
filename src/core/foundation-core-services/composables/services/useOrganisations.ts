@@ -5,10 +5,10 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 import { ORGANISATION_DASHBOARD_URL } from "../../config/urls";
 
 const OrganisationServiceFactory = new ServiceFactory<OrganisationDetailsDTO, OrganisationDetails>("organisation", OrganisationDetails).create(factory => factory.build(
-    factory.addNotify(notify => ({
+    factory.addNotify(notifyService => ({
         ...ServiceFactory.addCustom("changeDashboard", (axios, payload: ChangeOrganisationDashboardDTO) => axios.put(ORGANISATION_DASHBOARD_URL(), payload), (dto: OrganisationDetailsDTO) => {
             const result = new OrganisationDetails(dto);
-            notify.notify("update", result);
+            notifyService.notify("update", result);
             return result;
         })
     }))
