@@ -92,11 +92,11 @@ export default defineComponent({
         target,
         onTop: topMaskHeight.value === "0px",
         onBottom: bottomMaskHeight.value === "0px",
-        goingUp: (currentTopMaskHeight !== 0 && bottomMaskHeight.value !== "0px") && target.scrollHeight <= lastScroll.value,
+        goingUp: (currentTopMaskHeight !== 0 && bottomMaskHeight.value !== "0px") && target.scrollTop < lastScroll.value,
       };
 
       emit("scroll", event);
-      lastScroll.value = target.scrollHeight;
+      lastScroll.value = target.scrollTop;
     }, 25);
 
     const onResize = (): void => debounce(() => {
