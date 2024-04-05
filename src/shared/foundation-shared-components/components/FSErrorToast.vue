@@ -4,6 +4,7 @@
     class="fs-error-toast"
     align="center-left"
     :style="style"
+    :wrap="false"
   >
     <FSIcon>
       mdi-alert-outline

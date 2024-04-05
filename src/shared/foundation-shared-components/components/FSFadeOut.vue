@@ -41,7 +41,8 @@ export default defineComponent({
       default: "64px"
     }
   },
-  setup(props) {
+  emits: ["scroll"],
+  setup(props, { emit }) {
     const { windowWidth } = useBreakpoints();
     const { debounce } = useDebounce();
     const { getColors } = useColors();
@@ -85,6 +86,14 @@ export default defineComponent({
       else {
         topMaskHeight.value = sizeToVar(props.maskHeight);
       }
+
+      const event = {
+        target,
+        onTop: topMaskHeight.value === "0px",
+        onBottom: bottomMaskHeight.value === "0px"
+      };
+
+      emit("scroll", event);
     }, 25);
 
     const onResize = (): void => debounce(() => {
