@@ -87,7 +87,13 @@ export default defineComponent({
         topMaskHeight.value = sizeToVar(props.maskHeight);
       }
 
-      emit("scroll", target);
+      const event = {
+        target,
+        onTop: topMaskHeight.value === "0px",
+        onBottom: bottomMaskHeight.value === "0px"
+      };
+
+      emit("scroll", event);
     }, 25);
 
     const onResize = (): void => debounce(() => {
