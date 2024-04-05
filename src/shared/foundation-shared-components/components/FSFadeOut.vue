@@ -52,6 +52,7 @@ export default defineComponent({
     const fadeOutRef = ref(null);
     const bottomMaskHeight = ref("0px");
     const topMaskHeight = ref("0px");
+    const lastScroll = ref(0);
 
     const style = computed((): { [key: string] : string | undefined } => {
       return {
@@ -90,10 +91,12 @@ export default defineComponent({
       const event = {
         target,
         onTop: topMaskHeight.value === "0px",
-        onBottom: bottomMaskHeight.value === "0px"
+        onBottom: bottomMaskHeight.value === "0px",
+        goingUp: (currentTopMaskHeight !== 0 && bottomMaskHeight.value !== "0px") && target.scrollHeight <= lastScroll.value,
       };
 
       emit("scroll", event);
+      lastScroll.value = target.scrollHeight;
     }, 25);
 
     const onResize = (): void => debounce(() => {
