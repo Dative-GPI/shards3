@@ -1,4 +1,4 @@
-import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-603b7e9b.js";import{F as v}from"./FSFadeOut-9b157235.js";import{_ as b}from"./FSButton-d020b8fa.js";import{F as u}from"./FSColor-bc8e13f7.js";import{_ as f}from"./FSSpan-ce1ed5e8.js";import{_ as i}from"./FSRow-632ce14e.js";import{_ as w}from"./FSCol-927ba931.js";import"./vue.esm-bundler-37de1696.js";import"./FSButtonNextIcon-a2de1883.js";import"./useColors-ba22af06.js";import"./_commonjsHelpers-725317a4.js";import"./index-a0e5e2a3.js";import"./theme-07d11e72.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./useSlots-df9def22.js";import"./css-cb27a64f.js";import"./VSlideGroup-62b1ce2b.js";import"./index-3a20b1dd.js";import"./useRender-ccb83440.js";import"./display-62cdc35d.js";import"./group-bc028d0d.js";import"./proxiedModel-e8e26ca7.js";import"./tag-9d688242.js";import"./locale-ee313da6.js";import"./resizeObserver-8d36419f.js";import"./VIcon-122293c7.js";import"./color-efc02365.js";import"./vue-router-f501b7d2.js";import"./FSCard-61ed401b.js";import"./VProgressCircular-aa80f032.js";import"./intersectionObserver-12fc3323.js";import"./FSIcon-486fd767.js";const ed={title:"Foundation/Shared/Global/Containers",tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},d={render:()=>({components:{FSFadeOut:v,FSCol:w,FSButton:b},template:`
+import{F as y}from"./FSSlideGroup-d397c1c0.js";import{_ as F}from"./FSWrapGroup-603b7e9b.js";import{F as v}from"./FSFadeOut-8633fd47.js";import{_ as b}from"./FSButton-d020b8fa.js";import{F as u}from"./FSColor-bc8e13f7.js";import{_ as f}from"./FSSpan-ce1ed5e8.js";import{_ as e}from"./FSRow-632ce14e.js";import{_ as w}from"./FSCol-927ba931.js";import"./vue.esm-bundler-37de1696.js";import"./FSButtonNextIcon-a2de1883.js";import"./useColors-ba22af06.js";import"./_commonjsHelpers-725317a4.js";import"./index-a0e5e2a3.js";import"./theme-07d11e72.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./useSlots-df9def22.js";import"./css-cb27a64f.js";import"./VSlideGroup-62b1ce2b.js";import"./index-3a20b1dd.js";import"./useRender-ccb83440.js";import"./display-62cdc35d.js";import"./group-bc028d0d.js";import"./proxiedModel-e8e26ca7.js";import"./tag-9d688242.js";import"./locale-ee313da6.js";import"./resizeObserver-8d36419f.js";import"./VIcon-122293c7.js";import"./color-efc02365.js";import"./vue-router-f501b7d2.js";import"./FSCard-61ed401b.js";import"./VProgressCircular-aa80f032.js";import"./intersectionObserver-12fc3323.js";import"./FSIcon-486fd767.js";const id={title:"Foundation/Shared/Global/Containers",tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},d={render:()=>({components:{FSFadeOut:v,FSCol:w,FSButton:b},template:`
     <div style="display: flex; flex-direction: column; gap: 80px;">
       <div style="display: flex; gap: 80px;">
         <div style="display: flex; flex-direction: column;">
@@ -7,13 +7,21 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
 &lt;/FSFadeOut&gt;</pre>
           <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
             <FSCol style="background-color: plum; padding: 4px;">
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 8 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 9 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 10 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 11 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 12 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 13 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 14 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 15 </div>
             </FSCol>
           </FSFadeout>
           FSFadeOut scrollbar is hidden but its space is reserved
@@ -65,7 +73,7 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
         </div>
       </div>
     </div>
-    `})},l={render:()=>({components:{FSWrapGroup:y,FSRow:i},template:`
+    `})},l={render:()=>({components:{FSWrapGroup:F,FSRow:e},template:`
     <div style="display: flex; gap: 80px; margin-bottom: 80px;">
       <div style="display: flex; flex-direction: column;">
         <pre>&lt;FSWrapGroup style="width: 500px; height: 150px;"&gt;
@@ -102,7 +110,7 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
         FSWrapGroup slides on mobile instead of wrapping
       </div>
     </div>
-    `})},o={render:()=>({components:{FSSlideGroup:m,FSRow:i},template:`
+    `})},o={render:()=>({components:{FSSlideGroup:y,FSRow:e},template:`
     <div style="display: flex; gap: 80px; margin-bottom: 80px;">
       <div style="display: flex; flex-direction: column;">
         <pre>&lt;FSSlideGroup style="width: 500px; height: 150px;"&gt;
@@ -150,7 +158,7 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
         FSSlideGroup arrows take the container's height on desktop, but are hidden on mobile
       </div>
     </div>
-    `})},e={render:()=>({components:{FSColor:u,FSRow:i,FSSpan:f},template:`
+    `})},i={render:()=>({components:{FSColor:u,FSRow:e,FSSpan:f},template:`
     <div style="display: flex; flex-direction: column; gap: 20px;">
       <div style="display: flex; gap: 20px;">
         <FSColor color="primary" style="padding: 4px;">
@@ -264,13 +272,21 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
 &lt;/FSFadeOut&gt;</pre>
           <FSFadeOut height="200px" style="width: 150px; border: 2px dotted black;">
             <FSCol style="background-color: plum; padding: 4px;">
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
-              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 3 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 4 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 5 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 6 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 7 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 8 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 9 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 10 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 11 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 12 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 13 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 14 </div>
+              <div style="display: flex; width: 72px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 15 </div>
             </FSCol>
           </FSFadeout>
           FSFadeOut scrollbar is hidden but its space is reserved
@@ -369,7 +385,7 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
     </div>
     \`
   })
-}`,...(c=(r=l.parameters)==null?void 0:r.docs)==null?void 0:c.source}}};var h,s,x;o.parameters={...o.parameters,docs:{...(h=o.parameters)==null?void 0:h.docs,source:{originalSource:`{
+}`,...(c=(r=l.parameters)==null?void 0:r.docs)==null?void 0:c.source}}};var h,x,s;o.parameters={...o.parameters,docs:{...(h=o.parameters)==null?void 0:h.docs,source:{originalSource:`{
   render: () => ({
     components: {
       FSSlideGroup,
@@ -425,7 +441,7 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
     </div>
     \`
   })
-}`,...(x=(s=o.parameters)==null?void 0:s.docs)==null?void 0:x.source}}};var g,S,F;e.parameters={...e.parameters,docs:{...(g=e.parameters)==null?void 0:g.docs,source:{originalSource:`{
+}`,...(s=(x=o.parameters)==null?void 0:x.docs)==null?void 0:s.source}}};var g,S,m;i.parameters={...i.parameters,docs:{...(g=i.parameters)==null?void 0:g.docs,source:{originalSource:`{
   render: () => ({
     components: {
       FSColor,
@@ -532,4 +548,4 @@ import{F as m}from"./FSSlideGroup-d397c1c0.js";import{_ as y}from"./FSWrapGroup-
       </div>
     </div>\`
   })
-}`,...(F=(S=e.parameters)==null?void 0:S.docs)==null?void 0:F.source}}};const id=["FadeOut","WrapGroup","SlideGroup","Color"];export{e as Color,d as FadeOut,o as SlideGroup,l as WrapGroup,id as __namedExportsOrder,ed as default};
+}`,...(m=(S=i.parameters)==null?void 0:S.docs)==null?void 0:m.source}}};const ed=["FadeOut","WrapGroup","SlideGroup","Color"];export{i as Color,d as FadeOut,o as SlideGroup,l as WrapGroup,ed as __namedExportsOrder,id as default};
