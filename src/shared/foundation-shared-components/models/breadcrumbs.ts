@@ -1,8 +1,9 @@
+import { RouteLocationRaw } from "vue-router";
 export interface FSBreadcrumbItem {
-  href: string | undefined,
-  replace: boolean | undefined,
-  to: string | undefined,
-  exact: boolean | undefined,
+  to?: RouteLocationRaw,
+  disabled?: boolean,
+  replace?: boolean,
+  exact?: boolean,
   title: string,
-  disabled: boolean
+  href?: string
 }
