@@ -1,6 +1,7 @@
 <template>
   <v-window
     class="fs-window"
+    :style="style"
     v-bind="$attrs"
   >
     <v-window-item
@@ -15,20 +16,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, VNode } from "vue";
+import { computed, defineComponent, PropType, VNode } from "vue";
 
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 export default defineComponent({
   name: "FSWindow",
-  setup() {
+  props: {
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
+    }
+  },
+  setup(props) {
     const { getChildren } = useSlots();
+
+    const style = computed((): { [key: string] : string | undefined } => ({
+      "--fs-window-width": sizeToVar(props.width)
+    }));
 
     const value = (component: VNode, index: number): any => {
       return component?.props?.value ?? index;
     };
 
     return {
+      style,
       getChildren,
       value
     }

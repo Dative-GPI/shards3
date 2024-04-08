@@ -3,6 +3,7 @@ import { OrganisationInfos, OrganisationInfosDTO } from "./organisationInfos";
 import { DashboardType } from "../enums/dashboardEnums";
 
 export class OrganisationDetails extends OrganisationInfos {
+    code: string;
     organisationTypeId: string;
     mainDashboardId?: string;
     mainDashboardType: DashboardType;
@@ -14,6 +15,7 @@ export class OrganisationDetails extends OrganisationInfos {
     constructor(params: OrganisationDetailsDTO) {
         super(params);
 
+        this.code = params.code;
         this.organisationTypeId = params.organisationTypeId;
         this.mainDashboardType = params.mainDashboardType;
         this.mainDashboardId = params.mainDashboardId;
@@ -25,6 +27,7 @@ export class OrganisationDetails extends OrganisationInfos {
 }
 
 export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
+    code: string;
     organisationTypeId: string;
     mainDashboardId?: string;
     mainDashboardType: DashboardType;
