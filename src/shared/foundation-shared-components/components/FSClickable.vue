@@ -82,7 +82,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
-import { RouteLocation, useRouter } from "vue-router";
+import { RouteLocation } from "vue-router";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -155,7 +155,6 @@ export default defineComponent({
   emits: ["click"],
   setup(props, { emit }) {
     const { getColors } = useColors();
-    const router = useRouter();
 
     const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
