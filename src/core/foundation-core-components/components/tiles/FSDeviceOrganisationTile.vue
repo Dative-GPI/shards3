@@ -18,6 +18,7 @@
     :editable="$props.editable"
     :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
+    v-bind="$attrs"
   />
 </template>
 
