@@ -17,7 +17,11 @@
         </FSText>
         <FSGrid
           :items="item.items"
-        />
+        >
+          <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+            <slot :name="name" v-bind="slotData" />
+          </template>
+        </FSGrid>
       </FSCol>
     </FSRow>
   </FSRow>
@@ -27,7 +31,7 @@
 import { computed, defineComponent, PropType } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
-import { GridMosaic } from "@dative-gpi/foundation-shared-components/models";
+import { FSGridMosaic } from "@dative-gpi/foundation-shared-components/models";
 
 import FSGrid from "./FSGrid.vue";
 import FSCol from "./FSCol.vue";
@@ -42,7 +46,7 @@ export default defineComponent({
   },
   props: {
     items: {
-      type: Array as PropType<GridMosaic[]>,
+      type: Array as PropType<FSGridMosaic[]>,
       default: [],
       required: false
     },
