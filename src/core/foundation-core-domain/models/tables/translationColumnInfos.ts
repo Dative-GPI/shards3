@@ -1,4 +1,4 @@
-export class TranslationColumnInfo {
+export class TranslationColumnInfos {
     languageCode: string;
     label: string;
 

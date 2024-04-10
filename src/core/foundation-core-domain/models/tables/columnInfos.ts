@@ -1,4 +1,4 @@
-import { TranslationColumnInfo, TranslationColumnInfosDTO } from "./translationColumnInfos";
+import { TranslationColumnInfos, TranslationColumnInfosDTO } from "./translationColumnInfos";
 
 export class ColumnInfos {
     columnId: string;
@@ -9,7 +9,7 @@ export class ColumnInfos {
     // Depends on [OrganisationType, UserOrganisation]
     index: number;
     hidden: boolean;
-    translations?: TranslationColumnInfo[]
+    translations?: TranslationColumnInfos[]
 
     constructor(dto: ColumnInfosDTO) {
         this.columnId = dto.columnId;
@@ -19,7 +19,7 @@ export class ColumnInfos {
         this.filterable = dto.filterable;
         this.index = dto.index;
         this.hidden = dto.hidden;
-        this.translations = dto.translations?.map(dto => new TranslationColumnInfo(dto));
+        this.translations = dto.translations?.map(dto => new TranslationColumnInfos(dto));
     }
 }
 
