@@ -107,10 +107,10 @@ export default defineComponent({
     });
 
     const onUpload = async (payload: File) => {
-      const content = await readFile(payload);
+      const content = (await readFile(payload)) as string;
       fileSelected.value.fileName = payload.name;
       fileSelected.value.fileContent = content;
-      emit("update:modelValue", content);
+      emit("update:modelValue", content.substring(content.indexOf(',') + 1));
     };
 
     const onRemove = () => {
