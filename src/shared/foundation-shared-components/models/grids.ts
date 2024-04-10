@@ -1,12 +1,12 @@
-export interface GridMosaic {
+export interface FSGridMosaic {
     categoryLabel: string;
     categoryCode: string;
-    items: GridItem[];
+    items: FSGridItem[];
 }
 
-export interface GridItem {
+export interface FSGridItem {
+    hideDefault: boolean;
     label: string;
     code: string;
-    value: string;
-    hideDefault: boolean;
+    value?: string;
 }

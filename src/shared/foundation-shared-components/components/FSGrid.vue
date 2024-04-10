@@ -59,7 +59,7 @@
 import { computed, defineComponent, PropType } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorEnum, GridItem } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, FSGridItem } from "@dative-gpi/foundation-shared-components/models";
 
 import FSText from "./FSText.vue";
 import FSCol from "./FSCol.vue";
@@ -74,7 +74,7 @@ export default defineComponent({
   },
   props: {
     items: {
-      type: Array as PropType<GridItem[]>,
+      type: Array as PropType<FSGridItem[]>,
       default: [],
       required: false
     }

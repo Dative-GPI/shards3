@@ -705,6 +705,7 @@ export default defineComponent({
     ];
 
     const rowsPerPageOptions: { id: number, label: string }[] = [
+      { id: 5, label: "5" },
       { id: 10, label: "10" },
       { id: 30, label: "30" },
       { id: -1, label: $tr("ui.data-table.all-rows", "All") }
