@@ -1,5 +1,9 @@
 <template>
-  <v-breadcrumbs v-bind="$attrs" :style="style" :items="$props.items">
+  <v-breadcrumbs
+    :style="style"
+    :items="$props.items"
+    v-bind="$attrs"
+  >
     <template #title="{ item }">
       <FSSpan :class="classes(item)">
         {{ item.title }}

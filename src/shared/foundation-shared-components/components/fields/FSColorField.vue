@@ -34,6 +34,7 @@
                 prependIcon="mdi-pencil"
                 variant="full"
                 :editable="$props.editable"
+                v-bind="props"
               />
             </template>
           </FSTextField>
@@ -64,6 +65,7 @@
                 prependIcon="mdi-pencil"
                 variant="full"
                 :editable="$props.editable"
+                v-bind="props"
               />
             </template>
           </FSTextField>
