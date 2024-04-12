@@ -9,6 +9,6 @@ export * from "./manufacturers.mock";
 export * from "./models.mock";
 export * from "./modelStatuses.mock";
 export * from "./organisations.mock";
-export * from "./tables.mock";
 export * from "./timeZones.mock";
 export * from './translations.mock';
+export * from "./userOrganisationTables.mock";

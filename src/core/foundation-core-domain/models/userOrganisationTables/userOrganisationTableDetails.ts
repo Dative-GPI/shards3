@@ -1,16 +1,16 @@
 import { UserOrganisationTableInfos, UserOrganisationTableInfosDTO } from "./userOrganisationTableInfos";
 import { UpdateUserOrganisationColumnDTO } from "../userOrganisationColumns/userOrganisationColumnDetails";
 
-export class TableDetails extends UserOrganisationTableInfos {
-    constructor(dto: TableDetailsDTO) {
+export class UserOrganisationTableDetails extends UserOrganisationTableInfos {
+    constructor(dto: UserOrganisationTableDetailsDTO) {
         super(dto);
     }
 }
 
-export interface TableDetailsDTO extends UserOrganisationTableInfosDTO {
+export interface UserOrganisationTableDetailsDTO extends UserOrganisationTableInfosDTO {
 }
 
-export interface UpdateTableDTO {
+export interface UpdateUserOrganisationTableDTO {
     mode: "table" | "iterator";
     rowsPerPage: number;
     sortByKey?: string;
