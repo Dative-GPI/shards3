@@ -22,16 +22,17 @@
             gap="6px"
             :width="infoWidth"
           >
-            <FSSpan
+            <FSText
               font="text-button"
             >
               {{ $props.label }}
-            </FSSpan>
-            <FSSpan
+            </FSText>
+            <FSText
               font="text-overline"
+              variant="light"
             >
               {{ $props.code }}
-            </FSSpan>
+            </FSText>
           </FSCol>
           <FSCol
             gap="6px"
@@ -55,11 +56,11 @@
                   </FSText>
                 </FSRow>
               </FSColor>
-              <FSSpan
+              <FSText
                 font="text-overline"
               >
                 {{ $tr("ui.group-tile.group(s)", "Group(s)") }}
-              </FSSpan>
+              </FSText>
             </FSRow>
             <FSRow
               align="center-left"
@@ -80,11 +81,11 @@
                   </FSText>
                 </FSRow>
               </FSColor>
-              <FSSpan
+              <FSText
                 font="text-overline"
               >
                 {{ $tr("ui.group-tile.device(s)", "Device(s)") }}
-              </FSSpan>
+              </FSText>
             </FSRow>
           </FSCol>
         </FSCol>
@@ -106,7 +107,6 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSImage from "../FSImage.vue";
 import FSColor from "../FSColor.vue";
-import FSSpan from "../FSSpan.vue";
 import FSText from "../FSText.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
@@ -117,7 +117,6 @@ export default defineComponent({
   components: {
     FSImage,
     FSColor,
-    FSSpan,
     FSText,
     FSTile,
     FSCol,

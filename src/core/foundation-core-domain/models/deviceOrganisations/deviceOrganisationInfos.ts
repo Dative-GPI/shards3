@@ -2,7 +2,6 @@ import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "../devi
 import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
 import { DeviceOrganisationAlert, DeviceOrganisationAlertDTO } from "./deviceOrganisationAlert";
 import { ModelStatusInfos, ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
-import { DeviceStatusDTO } from "../deviceStatuses/deviceStatusInfos";
 
 export class DeviceOrganisationInfos {
     id: string;
@@ -35,8 +34,8 @@ export class DeviceOrganisationInfos {
     online: number;
     meta: { [key: string]: string };
     modelStatuses: ModelStatusInfos[];
-    status?: DeviceStatusDetails;
-    connectivity?: DeviceConnectivityDetails;
+    status: DeviceStatusDetails;
+    connectivity: DeviceConnectivityDetails;
     alerts: DeviceOrganisationAlert[];
     worstAlert?: DeviceOrganisationAlert;
 
@@ -75,8 +74,8 @@ export class DeviceOrganisationInfos {
         this.online = params.online;
         this.meta = { ...params.meta };
         this.modelStatuses = params.modelStatuses.map(dto => new ModelStatusInfos(dto));
-        this.status = params.status != null ? new DeviceStatusDetails({ statuses: params.status, id: params.id }) : undefined; //new DeviceStatusDetails(params.status);
-        this.connectivity = params.connectivity != null ? new DeviceConnectivityDetails({ ...params.connectivity, id: params.id }) : undefined; //new DeviceConnectivityDetails(params.connectivity);
+        this.status = new DeviceStatusDetails(params.status);
+        this.connectivity = new DeviceConnectivityDetails(params.connectivity);
         this.alerts = params.alerts.map(dto => new DeviceOrganisationAlert(dto));
         this.worstAlert = params.worstAlert != null ? new DeviceOrganisationAlert(params.worstAlert) : undefined;
     }
@@ -113,7 +112,7 @@ export interface DeviceOrganisationInfosDTO {
     online: number;
     meta: { [key: string]: string };
     modelStatuses: ModelStatusInfosDTO[];
-    status: DeviceStatusDTO[];
+    status: DeviceStatusDetailsDTO;
     connectivity: DeviceConnectivityDetailsDTO;
     alerts: DeviceOrganisationAlertDTO[];
     worstAlert?: DeviceOrganisationAlertDTO;

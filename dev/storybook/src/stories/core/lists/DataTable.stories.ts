@@ -56,7 +56,7 @@ export const Variations: Story = {
           @click:row="args.clickRow"
           v-model="args.value"
         >
-          <template #[\`item.tile\`]="{ item, toggleSelect }">
+          <template #item.tile="{ item, toggleSelect }">
             <FSGroupTileUI
               :imageId="item.imageId"
               :label="item.label"

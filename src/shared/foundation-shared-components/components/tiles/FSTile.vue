@@ -48,6 +48,7 @@
       />
     </FSCard>
     <div
+      v-if="$props.bottomColor"
       class="fs-tile-bottom"
       :style="style"
     />
@@ -89,9 +90,9 @@ export default defineComponent({
       default: false
     },
     bottomColor: {
-      type: [Array, String] as PropType<ColorBase[] | ColorBase>,
+      type: [Array, String] as PropType<ColorBase[] | ColorBase | null>,
       required: false,
-      default: ColorEnum.Primary
+      default: null
     },
     editable: {
       type: Boolean,

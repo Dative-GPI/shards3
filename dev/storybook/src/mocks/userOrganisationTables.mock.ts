@@ -1,6 +1,6 @@
-import { TableInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { UserOrganisationTableInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
-export const TABLES: TableInfosDTO[] = [{
+export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [{
     id: "1",
     code: "groups1",
     mode: "table",
@@ -38,5 +38,6 @@ export const TABLES: TableInfosDTO[] = [{
         sortable: false,
         filterable: false
     }],
-    sortBy: undefined
+    sortByKey: undefined,
+    sortByOrder: undefined
 }];

@@ -1,17 +1,15 @@
-import { TranslationColumnInfos, TranslationColumnInfosDTO } from "./translationColumnInfos";
-
-export class ColumnInfos {
+export class UserOrganisationColumnInfos {
     columnId: string;
     text: string;
     value: string;
     sortable: boolean;
     filterable: boolean;
+
     // Depends on [OrganisationType, UserOrganisation]
     index: number;
     hidden: boolean;
-    translations?: TranslationColumnInfos[]
 
-    constructor(dto: ColumnInfosDTO) {
+    constructor(dto: UserOrganisationColumnInfosDTO) {
         this.columnId = dto.columnId;
         this.text = dto.text;
         this.value = dto.value;
@@ -19,11 +17,10 @@ export class ColumnInfos {
         this.filterable = dto.filterable;
         this.index = dto.index;
         this.hidden = dto.hidden;
-        this.translations = dto.translations?.map(dto => new TranslationColumnInfos(dto));
     }
 }
 
-export interface ColumnInfosDTO {
+export interface UserOrganisationColumnInfosDTO {
     columnId: string;
     text: string;
     value: string;
@@ -31,5 +28,4 @@ export interface ColumnInfosDTO {
     filterable: boolean;
     index: number;
     hidden: boolean;
-    translations?: TranslationColumnInfosDTO[]
 }

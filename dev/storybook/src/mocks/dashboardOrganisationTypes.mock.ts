@@ -1,0 +1,68 @@
+import { DashboardOrganisationTypeDetails } from "@dative-gpi/foundation-core-domain/models";
+
+
+export const DASHBOARDORGANISATIONTYPES: DashboardOrganisationTypeDetails[] = [
+    {
+        id: "1",
+        label: "label 1",
+        code: "code 1",
+        colors: ["#FF0000"],
+        icon: "mdi-shape",
+        tags: ["tag 1"],
+        dashboardId: "1",
+        locked: false,
+        singleEntity: false,
+        scope: 1,
+        autoRefresh: 0,
+        dynamicDates: false,
+        dynamicEntities: false,
+        globalEntitiesIds: [],
+        globalSelectedEntities: 0,
+        globalStartDate: "",
+        globalEndDate: "",
+        useAutoRefresh: false,
+        widgets: []
+    },
+    {
+        id: "2",
+        label: "label 2",
+        code: "code 2",
+        colors: ["#FF0000"],
+        icon: "mdi-shape",
+        tags: ["tag 2"],
+        dashboardId: "2",
+        locked: false,
+        singleEntity: false,
+        scope: 1,
+        autoRefresh: 0,
+        dynamicDates: false,
+        dynamicEntities: false,
+        globalEntitiesIds: [],
+        globalSelectedEntities: 0,
+        globalStartDate: "",
+        globalEndDate: "",
+        useAutoRefresh: false,
+        widgets: []
+    },
+    {
+        id: "3",
+        label: "label 3",
+        code: "code 3",
+        colors: ["#FF0000"],
+        icon: "mdi-shape",
+        tags: ["tag 3"],
+        dashboardId: "3",
+        locked: false,
+        singleEntity: false,
+        scope: 1,
+        autoRefresh: 0,
+        dynamicDates: false,
+        dynamicEntities: false,
+        globalEntitiesIds: [],
+        globalSelectedEntities: 0,
+        globalStartDate: "",
+        globalEndDate: "",
+        useAutoRefresh: false,
+        widgets: []
+    }
+]
