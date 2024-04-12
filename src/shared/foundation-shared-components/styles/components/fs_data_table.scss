@@ -1,4 +1,27 @@
 .fs-data-table {
+    table{
+        border-spacing: 0 var(--fs-data-table-row-gap) !important;
+        margin-top: var(--fs-data-table-row-gap-margin);
+    }
+    td span{
+        color : var(--fs-data-table-row-cell-color) !important
+    }
+    tr>td{
+
+        background-color: var(--fs-data-table-row-background-color) !important;
+        border-top: var(--fs-data-table-row-border-color);
+        border-bottom: var(--fs-data-table-row-border-color) !important;
+    }
+    tr>td:first-child{
+        border-top-left-radius: var(--fs-data-table-row-border-radius);
+        border-bottom-left-radius: var(--fs-data-table-row-border-radius);
+        border-left: var(--fs-data-table-row-border-color);
+    }
+    tr>td:last-child{
+        border-top-right-radius: var(--fs-data-table-row-border-radius);
+        border-bottom-right-radius: var(--fs-data-table-row-border-radius);
+        border-right: var(--fs-data-table-row-border-color);
+    }
     th,
     td {
         position: relative;

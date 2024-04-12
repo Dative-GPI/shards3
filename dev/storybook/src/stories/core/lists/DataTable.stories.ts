@@ -30,7 +30,18 @@ export const Variations: Story = {
     components: { FSDataTable, FSGroupTileUI },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      const getColor = (row: any) => {
+        console.log(row);
+        if (row && row.item) {
+          if (row!.item!.code.includes("number1")) {
+            return "primary";
+          }
+          else {
+            return "error";
+          }
+        }
+      }
+      return { ...args, getColor };
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -39,6 +50,8 @@ export const Variations: Story = {
           :tableCode="args.tableCode"
           :items="args.items"
           :mode="args.mode"
+          :itemColor="getColor"
+          :rowGap="5"
           :showSelect="true"
           @click:row="args.clickRow"
           v-model="args.value"
