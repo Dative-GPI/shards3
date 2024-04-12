@@ -22,13 +22,15 @@
             font="text-button"
             :lineClamp="2"
           >
-            {{ $props.name }}
+            {{ title }}
           </FSText>
           <FSRow
+            v-if="$props.roleLabel"
             align="center-left"
             gap="4px"
           >
             <FSIcon
+              v-if="$props.roleIcon"
               variant="light"
               :color="ColorEnum.Dark"
             >
@@ -57,6 +59,7 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { UserType } from "@dative-gpi/foundation-core-domain/models";
 
 import FSImage from "../FSImage.vue";
 import FSText from "../FSText.vue";
@@ -84,6 +87,16 @@ export default defineComponent({
       required: false,
       default: null
     },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    userType: {
+      type: Number as PropType<UserType>,
+      required: false,
+      default: UserType.User
+    },
     roleIcon: {
       type: String as PropType<string | null>,
       required: false,
@@ -108,6 +121,13 @@ export default defineComponent({
   setup(props) {
     const { isMobileSized } = useBreakpoints();
 
+    const title = computed((): string => {
+      switch (props.userType) {
+        case UserType.ServiceAccount: return props.label ?? "";
+        default: return props.name ?? "";
+      }
+    });
+
     const imageSize = computed((): number => {
       return isMobileSized.value ? 90 : 100;
     });
@@ -123,7 +143,8 @@ export default defineComponent({
     return {
       imageSize,
       infoWidth,
-      ColorEnum
+      ColorEnum,
+      title
     };
   }
 });
