@@ -1,14 +1,19 @@
 <template>
-  <FSCard :width="$props.size"
-    :height="$props.size"
-    :color="$props.backgroundColor"
+  <FSCard
     :variant="$props.backgroundColor == null ? 'background' : 'gradient'"
     :border="$props.backgroundColor == null"
+    :color="$props.backgroundColor"
+    :height="$props.size"
+    :width="$props.size"
+  >
+    <FSRow
+      align="center-center"
     >
-    <FSRow align="center-center">
-      <FSIcon :size="56"
+      <FSIcon 
+        variant="dark"
+        size="56"
         :color="$props.iconColor"
-        variant="dark">
+      >
         {{ $props.icon }}
       </FSIcon>
     </FSRow>
@@ -19,20 +24,21 @@
 import { defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import FSIcon from "./FSIcon.vue";
+
 import FSCard from "./FSCard.vue";
+import FSIcon from "./FSIcon.vue";
 
 export default defineComponent({
   name: "FSIconCard",
   components: {
-    FSIcon,
-    FSCard
+    FSCard,
+    FSIcon
   },
   props: {
     size: {
-      type: Number as PropType<number>,
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: 100
+      default: null
     },
     backgroundColor: {
       type: [Array, String] as PropType<ColorBase | ColorBase[]>,
@@ -49,11 +55,6 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Dark
     }
-  },
-  setup() {
-
-    return {
-    };
   }
 });
 </script>

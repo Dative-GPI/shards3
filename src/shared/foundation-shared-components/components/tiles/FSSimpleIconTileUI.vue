@@ -3,25 +3,38 @@
     :bottomColor="$props.bottomColor"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
-    v-bind="$attrs">
-    <FSCol align="center-center"
-      width="fill">
-      <FSRow align="center-center"
+    v-bind="$attrs"
+  >
+    <FSCol
+      align="center-center"
+      width="fill"
+    >
+      <FSRow
+        align="center-center"
         gap="24px"
+        :height="imageSize"
         :wrap="false"
-        :height="imageSize">
-        <FSCol gap="6px">
-          <FSText font="text-button" :lineClamp="2">
+      >
+        <FSCol
+          gap="6px"
+        >
+          <FSText
+            font="text-button"
+            :lineClamp="2"
+          >
             {{ $props.label }}
           </FSText>
-          <FSText font="text-overline"
-            variant="light">
+          <FSText
+            font="text-overline"
+            variant="light"
+          >
             {{ $props.code }}
           </FSText>
         </FSCol>
-        <FSIconCard 
+        <FSIconCard
           :backgroundColor="$props.iconBackgroundColor"
           :icon="$props.icon"
+          :size="imageSize"
         />
       </FSRow>
     </FSCol>
@@ -35,7 +48,6 @@ import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composa
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSIconCard from "../FSIconCard.vue";
-import FSColor from "../FSColor.vue";
 import FSText from "../FSText.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
@@ -45,7 +57,6 @@ export default defineComponent({
   name: "FSSimpleIconTileUI",
   components: {
     FSIconCard,
-    FSColor,
     FSText,
     FSTile,
     FSCol,
