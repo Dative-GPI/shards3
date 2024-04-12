@@ -1,1 +1,0 @@
-import{s as r,e as n,w as u}from"./vue.esm-bundler-a79f6a7e.js";import{p as l}from"./theme-1ec486f5.js";const m=l({eager:Boolean},"lazy");function p(a,o){const e=r(!1),s=n(()=>e.value||a.eager||o.value);u(o,()=>e.value=!0);function t(){a.eager||(e.value=!1)}return{isBooted:e,hasContent:s,onAfterLeave:t}}export{m,p as u};
