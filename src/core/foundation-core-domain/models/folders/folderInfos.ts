@@ -10,6 +10,7 @@ export class FolderInfos {
     icon: string;
     code: string;
     tags: string[];
+    colors: string[];
     imageId?: string;
     imageBlurHash: string;
     imageHeight?: number;
@@ -26,6 +27,7 @@ export class FolderInfos {
         this.icon = params.icon;
         this.code = params.code;
         this.tags = params.tags.slice();
+        this.colors = params.colors.slice();
         this.imageId = params.imageId;
         this.imageBlurHash = params.imageBlurHash;
         this.imageHeight = params.imageHeight;
@@ -44,6 +46,7 @@ export interface FolderInfosDTO {
     icon: string;
     code: string;
     tags: string[];
+    colors: string[];
     imageId?: string;
     imageBlurHash: string;
     imageHeight?: number;

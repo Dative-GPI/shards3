@@ -1,7 +1,8 @@
 <template>
   <v-icon
-    :class="classes"
+    class="fs-icon"
     :color="color"
+    :style="style"
     v-bind="$attrs"
   >
     <slot />
@@ -11,14 +12,15 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/models";
+import { sizeToVar } from "../utils";
 
 export default defineComponent({
   name: "FSIcon",
   props: {
     size: {
-      type: String as PropType<"s" | "m" | "l">,
+      type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
       required: false,
       default: "m"
     },
@@ -34,6 +36,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
     const color = computed((): string | null => {
@@ -43,13 +46,26 @@ export default defineComponent({
       return null;
     });
 
-    const classes = computed((): string[] => {
-      return [`fs-icon-${props.size}`];
+    const style = computed((): { [key: string] : string | undefined } => {
+      switch(props.size) {
+        case "s": return {
+          "--fs-icon-font-size": isMobileSized.value ? "14px" : "16px"
+        };
+        case "m": return {
+          "--fs-icon-font-size": isMobileSized.value ? "16px" : "20px"
+        };
+        case "l": return {
+          "--fs-icon-font-size": isMobileSized.value ? "20px" : "24px"
+        };
+        default: return {
+          "--fs-icon-font-size": sizeToVar(props.size)
+        };
+      }
     });
 
     return {
-      classes,
-      color
+      color,
+      style
     };
   }
 });

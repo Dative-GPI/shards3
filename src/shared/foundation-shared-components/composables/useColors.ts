@@ -101,17 +101,17 @@ export const useColors = () => {
         }
     };
 
-    const getGradients = (colors: ColorBase | ColorBase[]): ColorVariations => {
+    const getGradients = (colors: ColorBase | ColorBase[], rotation: number = 90): ColorVariations => {
         const variations = Array.isArray(colors) ? colors.map(getColors) : [getColors(colors)];
 
         if (variations.length === 1) {
             return variations[0];
         }
         return {
-            light: `linear-gradient(90deg, ${variations.map(v => v.light).join(", ")})`,
-            soft: `linear-gradient(90deg, ${variations.map(v => v.soft).join(", ")})`,
-            base: `linear-gradient(90deg, ${variations.map(v => v.base).join(", ")})`,
-            dark: `linear-gradient(90deg, ${variations.map(v => v.dark).join(", ")})`,
+            light: `linear-gradient(${rotation}deg, ${variations.map(v => v.light).join(", ")})`,
+            soft: `linear-gradient(${rotation}deg, ${variations.map(v => v.soft).join(", ")})`,
+            base: `linear-gradient(${rotation}deg, ${variations.map(v => v.base).join(", ")})`,
+            dark: `linear-gradient(${rotation}deg, ${variations.map(v => v.dark).join(", ")})`,
         };
     }
 
