@@ -13,6 +13,7 @@
       :userType="entity.userType"
       :roleLabel="entity.roleLabel"
       :roleIcon="entity.roleIcon"
+      :admin="entity.admin"
       :editable="$props.editable"
       :modelValue="modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
