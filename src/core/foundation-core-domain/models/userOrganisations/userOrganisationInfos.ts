@@ -8,6 +8,7 @@ export class UserOrganisationInfos {
     roleType: RoleType;
     roleId?: string;
     roleLabel: string;
+    roleIcon: string;
     imageId?: string;
     imageBlurHash?: string;
     imageHeight?: number;
@@ -32,6 +33,7 @@ export class UserOrganisationInfos {
         this.roleType = params.roleType;
         this.roleId = params.roleId;
         this.roleLabel = params.roleLabel;
+        this.roleIcon = params.roleIcon;
         this.imageId = params.imageId;
         this.imageBlurHash = params.imageBlurHash;
         this.imageHeight = params.imageHeight;
@@ -58,6 +60,7 @@ export interface UserOrganisationInfosDTO {
     roleType: RoleType;
     roleId?: string;
     roleLabel: string;
+    roleIcon: string;
     imageId?: string;
     imageBlurHash?: string;
     imageHeight?: number;

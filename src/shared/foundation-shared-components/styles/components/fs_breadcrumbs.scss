@@ -23,6 +23,14 @@
 .v-breadcrumbs {
     padding: 0 !important;
     gap: 8px !important;
+
+    @include web {
+        height: 24px;
+    }
+
+    @include mobile {
+        height: 20px;
+    }
 }
 
 .v-breadcrumbs-item {

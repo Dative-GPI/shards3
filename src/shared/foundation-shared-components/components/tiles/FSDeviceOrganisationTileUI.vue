@@ -22,17 +22,18 @@
             gap="6px"
             :width="infoWidth"
           >
-            <FSSpan
+            <FSText
               font="text-button"
               :lineClamp="2"
             >
               {{ $props.label }}
-            </FSSpan>
-            <FSSpan
+            </FSText>
+            <FSText
               font="text-overline"
+              variant="light"
             >
               {{ $props.code }}
-            </FSSpan>
+            </FSText>
           </FSCol>
           <FSRow
             gap="4px"
@@ -82,7 +83,7 @@ import FSStatusesRow from "../deviceOrganisations/FSStatusesRow.vue";
 import FSWorstAlert from "../deviceOrganisations/FSWorstAlert.vue";
 import FSDivider from "../FSDivider.vue";
 import FSImage from "../FSImage.vue";
-import FSSpan from "../FSSpan.vue";
+import FSText from "../FSText.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -96,8 +97,8 @@ export default defineComponent({
     FSWorstAlert,
     FSDivider,
     FSImage,
+    FSText,
     FSTile,
-    FSSpan,
     FSCol,
     FSRow
   },
