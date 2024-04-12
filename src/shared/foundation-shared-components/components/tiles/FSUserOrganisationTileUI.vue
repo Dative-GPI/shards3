@@ -1,6 +1,5 @@
 <template>
   <FSTile
-    :bottomColor="ColorEnum.Error"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
     v-bind="$attrs"
