@@ -11,6 +11,7 @@ export class DashboardOrganisationTypeInfos {
     code: string;
     icon: string;
     tags: string[];
+    colors: string[];
 
     constructor(params: DashboardOrganisationTypeInfosDTO) {
         this.id = params.id;
@@ -23,6 +24,7 @@ export class DashboardOrganisationTypeInfos {
         this.code = params.code;
         this.icon = params.icon;
         this.tags = params.tags.slice();
+        this.colors = params.colors.slice();
     }
 }
 
@@ -37,6 +39,7 @@ export interface DashboardOrganisationTypeInfosDTO {
     code: string;
     icon: string;
     tags: string[];
+    colors: string[];
 }
 
 export interface DashboardOrganisationTypeFilters {
