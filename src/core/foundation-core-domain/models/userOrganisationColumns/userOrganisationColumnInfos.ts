@@ -1,4 +1,4 @@
-export class ColumnInfos {
+export class UserOrganisationColumnInfos {
     columnId: string;
     text: string;
     value: string;
@@ -9,7 +9,7 @@ export class ColumnInfos {
     index: number;
     hidden: boolean;
 
-    constructor(dto: ColumnInfosDTO) {
+    constructor(dto: UserOrganisationColumnInfosDTO) {
         this.columnId = dto.columnId;
         this.text = dto.text;
         this.value = dto.value;
@@ -20,7 +20,7 @@ export class ColumnInfos {
     }
 }
 
-export interface ColumnInfosDTO {
+export interface UserOrganisationColumnInfosDTO {
     columnId: string;
     text: string;
     value: string;

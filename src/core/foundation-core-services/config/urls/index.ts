@@ -21,6 +21,6 @@ export * from "./permissionCategories";
 export * from "./permissions";
 export * from "./roleOrganisations";
 export * from "./roleOrganisationTypes";
-export * from "./tables";
 export * from "./userOrganisations";
+export * from "./userOrganisationTables";
 export * from "./users";

@@ -28,8 +28,8 @@
 import { defineComponent, onMounted, onUnmounted, ref, Ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
+import { useUserOrganisationTable, useUpdateUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
 import { FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
-import { useTable, useUpdateTable } from "@dative-gpi/foundation-core-services/composables";
 import { useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
@@ -48,9 +48,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { get, getting, entity } = useTable();
+    const { get, getting, entity } = useUserOrganisationTable();
+    const { update } = useUpdateUserOrganisationTable();
     const { debounce, cancel } = useDebounce();
-    const { update } = useUpdateTable();
     const router = useRouter();
 
     const innerHeaders: Ref<FSDataTableColumn[]> = ref([]);
@@ -65,7 +65,10 @@ export default defineComponent({
         const query = JSON.parse(router.currentRoute.value.query[props.tableCode] as string);
         innerHeaders.value = query.columns;
         innerRowsPerPage.value = query.rowsPerPage;
-        innerSortBy.value = query.sortBy;
+        innerSortBy.value = query.sortByKey ? {
+          key: query.sortByKey,
+          order: query.sortByOrder
+        } : null;
         innerMode.value = query.mode;
         innerFilters.value = query.filters;
         innerPage.value = query.page;
@@ -73,7 +76,10 @@ export default defineComponent({
       else {
         innerHeaders.value = entity.value.columns;
         innerRowsPerPage.value = entity.value.rowsPerPage;
-        innerSortBy.value = entity.value.sortBy;
+        innerSortBy.value = entity.value.sortByKey ? {
+          key: entity.value.sortByKey,
+          order: entity.value.sortByOrder
+        } : null;
         innerMode.value = entity.value.mode;
       }
     };
@@ -117,7 +123,8 @@ export default defineComponent({
           index: column.index
         })),
         rowsPerPage: innerRowsPerPage.value,
-        sortBy: innerSortBy.value,
+        sortByKey: innerSortBy.value?.key,
+        sortByOrder: innerSortBy.value?.order,
         mode: innerMode.value
       });
     };
@@ -130,7 +137,8 @@ export default defineComponent({
             [props.tableCode]: JSON.stringify({
               columns: innerHeaders.value,
               rowsPerPage: innerRowsPerPage.value,
-              sortBy: innerSortBy.value,
+              sortByKey: innerSortBy.value?.key,
+              sortByOrder: innerSortBy.value?.order,
               mode: innerMode.value,
               filters: innerFilters.value,
               page: innerPage.value
