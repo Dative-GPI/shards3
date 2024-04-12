@@ -8,9 +8,12 @@
     <FSGroupTileUI
       v-else-if="entity"
       :imageId="entity.imageId"
-      :name="name"
+      :name="entity.name"
+      :label="entity.label"
+      :userType="entity.userType"
       :roleLabel="entity.roleLabel"
       :roleIcon="entity.roleIcon"
+      :admin="entity.admin"
       :editable="$props.editable"
       :modelValue="modelValue"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
@@ -19,13 +22,12 @@
   </template>
   
 <script lang="ts">
-import { computed, defineComponent, onMounted, watch } from "vue";
+import { defineComponent, onMounted, watch } from "vue";
   
 import { useUserOrganisation } from "@dative-gpi/foundation-core-services/composables";
   
 import FSUserOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSUserOrganisationTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue";
-import { UserType } from "@dative-gpi/foundation-core-domain/models";
   
 export default defineComponent({
   name: "FSUserOrganisationTile",
@@ -52,16 +54,6 @@ export default defineComponent({
   setup(props) {
     const { get, getting, entity } = useUserOrganisation();
 
-    const name = computed((): string => {
-      if (entity.value) {
-        switch (entity.value.userType) {
-          case UserType.User: return entity.value.name;
-          default: return entity.value.label;
-        }
-      }
-      return "";
-    });
-
     onMounted(() => {
       get(props.userOrganisationId);
     });
@@ -72,8 +64,7 @@ export default defineComponent({
 
     return {
       getting,
-      entity,
-      name
+      entity
     };
   }
 });

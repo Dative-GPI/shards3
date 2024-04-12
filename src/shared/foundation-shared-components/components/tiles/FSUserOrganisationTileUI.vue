@@ -22,23 +22,25 @@
             font="text-button"
             :lineClamp="2"
           >
-            {{ $props.name }}
+            {{ title }}
           </FSText>
           <FSRow
+            v-if="roleLabel"
             align="center-left"
             gap="4px"
           >
             <FSIcon
+              v-if="roleIcon"
               variant="light"
               :color="ColorEnum.Dark"
             >
-              {{ $props.roleIcon }}
+              {{ roleIcon }}
             </FSIcon>
             <FSText
               font="text-overline"
               variant="light"
             >
-              {{ $props.roleLabel }}
+              {{ roleLabel }}
             </FSText>
           </FSRow>
         </FSCol>
@@ -55,8 +57,10 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { UserType } from "@dative-gpi/foundation-core-domain/models";
 
 import FSImage from "../FSImage.vue";
 import FSText from "../FSText.vue";
@@ -84,6 +88,16 @@ export default defineComponent({
       required: false,
       default: null
     },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    userType: {
+      type: Number as PropType<UserType>,
+      required: false,
+      default: UserType.User
+    },
     roleIcon: {
       type: String as PropType<string | null>,
       required: false,
@@ -93,6 +107,11 @@ export default defineComponent({
       type: String as PropType<string | null>,
       required: false,
       default: null
+    },
+    admin: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     modelValue: {
       type: Boolean,
@@ -107,6 +126,28 @@ export default defineComponent({
   },
   setup(props) {
     const { isMobileSized } = useBreakpoints();
+    const { $tr } = useTranslationsProvider();
+
+    const title = computed((): string | null => {
+      switch (props.userType) {
+        case UserType.ServiceAccount: return props.label;
+        default: return props.name;
+      }
+    });
+
+    const roleIcon = computed((): string | null => {
+      if (props.admin) {
+        return "mdi-crown-outline";
+      }
+      return props.roleIcon;
+    });
+
+    const roleLabel = computed((): string | null => {
+      if (props.admin) {
+        return $tr("ui.user-organisation.admin", "Administrator");
+      }
+      return props.roleLabel;
+    });
 
     const imageSize = computed((): number => {
       return isMobileSized.value ? 90 : 100;
@@ -123,7 +164,10 @@ export default defineComponent({
     return {
       imageSize,
       infoWidth,
-      ColorEnum
+      ColorEnum,
+      roleLabel,
+      roleIcon,
+      title
     };
   }
 });

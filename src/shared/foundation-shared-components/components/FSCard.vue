@@ -65,12 +65,12 @@ export default defineComponent({
       default: "8px"
     },
     variant: {
-      type: String as PropType<"background" | "standard">,
+      type: String as PropType<"background" | "standard" | "gradient">,
       required: false,
       default: "background"
     },
     color: {
-      type: String as PropType<ColorBase>,
+      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
       required: false,
       default: ColorEnum.Background
     },
@@ -91,9 +91,15 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getColors } = useColors();
+    const { getColors, getGradients } = useColors();
 
-    const colors = computed(() => getColors(props.color));
+    const colors = computed(() => {
+      if(Array.isArray(props.color)) {
+        return getColors(props.color[0]);
+      }
+      return getColors(props.color);
+    });
+    const gradients = computed(() => getGradients(props.color, 135));
     const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
@@ -120,11 +126,29 @@ export default defineComponent({
           "--fs-card-border-color"    : lights.dark,
           "--fs-card-color"           : darks.base
         }
+        case "gradient": return {
+          "--fs-card-border-size"     : props.border ? "1px" : "0",
+          "--fs-card-border-radius"   : sizeToVar(props.borderRadius),
+          "--fs-card-padding"         : sizeToVar(props.padding),
+          "--fs-card-height"          : sizeToVar(props.height),
+          "--fs-card-width"           : sizeToVar(props.width),
+          "--fs-card-background-color": gradients.value.base,
+          "--fs-card-border-color"    : colors.value.lightContrast,
+          "--fs-card-color"           : colors.value.lightContrast
+        }
       }
     });
 
     const classes = computed((): string[] => {
       const classNames = ["fs-card"];
+      switch(props.variant) {
+        case "gradient": 
+          classNames.push("fs-card-gradient"); 
+          break;
+        default: 
+          classNames.push("fs-card-background");
+          break;
+      }
       if (props.elevation) {
         classNames.push("fs-card-elevation");
       }

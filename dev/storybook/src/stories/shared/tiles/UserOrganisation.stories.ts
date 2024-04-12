@@ -20,21 +20,25 @@ export const Variations: Story = {
         values: [{
           id: "1",
           name: "Jean Martin",
-          roleLabel: "Administrator",
-          roleIcon: "mdi-shield-crown-outline",
-          imageId: "1"
+          userType: 0,
+          imageId: "1",
+          admin: true
         }, {
           id: "2",
-          name: "Service user",
+          label: "Service user",
+          userType: 1,
           roleLabel: "Service administrator",
           roleIcon: "mdi-cog",
-          imageId: "1"
+          imageId: "1",
+          admin: false
         }, {
           id: "3",
           name: "Juano Alphonso Santos de la Cruz de la Balina",
+          userType: 0,
           roleLabel: "User",
           roleIcon: "mdi-account-outline",
-          imageId: "1"
+          imageId: "1",
+          admin: false
         }],
         selected: [
           false,
@@ -56,8 +60,11 @@ export const Variations: Story = {
         :key="index"
         :imageId="userOrganisation.imageId"
         :name="userOrganisation.name"
-        :roleLabel="userOrganisation.roleLabel"
+        :label="userOrganisation.label"
+        :userType="userOrganisation.userType"
         :roleIcon="userOrganisation.roleIcon"
+        :roleLabel="userOrganisation.roleLabel"
+        :admin="userOrganisation.admin"
         v-model="args.selected[index]"
       />
     </div>`
@@ -70,18 +77,22 @@ export const Imageless: Story = {
       values: [{
         id: "1",
         name: "Jean Martin",
-        roleLabel: "Administrator",
-        roleIcon: "mdi-shield-crown-outline"
+        userType: 0,
+        admin: true
       }, {
         id: "2",
-        name: "Service user",
+        label: "Service user",
+        userType: 1,
         roleLabel: "Service administrator",
-        roleIcon: "mdi-cog"
+        roleIcon: "mdi-cog",
+        admin: false
       }, {
         id: "3",
         name: "Juano Alphonso Santos de la Cruz de la Balina",
+        userType: 0,
         roleLabel: "User",
-        roleIcon: "mdi-account-outline"
+        roleIcon: "mdi-account-outline",
+        admin: false
       }],
       selected: [
         false,
@@ -101,8 +112,11 @@ export const Imageless: Story = {
       v-for="(userOrganisation, index) in args.values"
       :key="index"
       :name="userOrganisation.name"
-      :roleLabel="userOrganisation.roleLabel"
+      :label="userOrganisation.label"
+      :userType="userOrganisation.userType"
       :roleIcon="userOrganisation.roleIcon"
+      :roleLabel="userOrganisation.roleLabel"
+      :admin="userOrganisation.admin"
       v-model="args.selected[index]"
     />
   </div>`
