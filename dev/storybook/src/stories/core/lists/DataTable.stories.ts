@@ -33,11 +33,19 @@ export const Variations: Story = {
       const getColor = (row: any) => {
         console.log(row);
         if (row && row.item) {
-          if (row!.item!.code.includes("number1")) {
+          if (row.item.code.includes("number1")) {
             return "primary";
           }
           else {
-            return "error";
+            return "success";
+          }
+        }
+        else if (row && row.code) {
+          if (row.code.includes("number1")) {
+            return "primary";
+          }
+          else {
+            return "success";
           }
         }
       }
@@ -61,6 +69,7 @@ export const Variations: Story = {
               :imageId="item.imageId"
               :label="item.label"
               :code="item.code"
+              color="primary"
               :modelValue="args.value.includes(item.id)"
               @update:modelValue="toggleSelect(item)"
             />

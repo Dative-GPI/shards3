@@ -5,6 +5,15 @@
     flex: 1 1 0 !important;
     width: 100% !important;
   }
+  .fs-card{
+    background-color: var(--fs-data-table-row-background-color) !important;
+  }
+  >.fs-card{
+    border : var(--fs-data-table-row-border-color);
+   } 
+   .fs-text{
+    color: var(--fs-data-table-row-cell-color) !important;
+   }
 }
 
 .fs-draggable-dragging {

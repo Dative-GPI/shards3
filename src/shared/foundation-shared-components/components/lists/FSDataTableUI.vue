@@ -339,6 +339,7 @@
               :disabled="draggableDisabled"
               :item="item"
               :key="index"
+              :style="tileStyle(item.raw)"
               @update:dragend="(event, dragged) => onDragEnd(event, dragged, '.fs-data-iterator-container')"
               @dragover="onDragOver($event, '.fs-draggable-item', '.fs-data-iterator-container')"
               @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
@@ -627,6 +628,8 @@ export default defineComponent({
             };
           case ColorEnum.Error:
             return { "style": "--fs-data-table-row-background-color: #FAE0E0; --fs-data-table-row-border-color: 1px solid #E01212; --fs-data-table-row-border-radius: 5px; --fs-data-table-row-cell-color : #BA0F0F" };
+          case ColorEnum.Success:
+            return { "style": "--fs-data-table-row-background-color: #E9FAE1; --fs-data-table-row-border-color: 1px solid #6DE038; --fs-data-table-row-border-radius: 5px; --fs-data-table-row-cell-color : #5BBA2F" };
           default:
             return {
               "style": "--fs-data-table-row-background-color: var(--fs-data-table-background-color) ; --fs-data-table-row-border-color: none;"
@@ -634,7 +637,48 @@ export default defineComponent({
         };
       }
       return {
-        "style": "--fs-data-table-row-background-color: var(--fs-data-table-background-color); --fs-data-table-row-border-color: none"
+        "style": "--fs-data-table-row-background-color: var(--fs-data-table-background-color); --fs-data-table-row-border-color: none;"
+      };
+    };
+
+    const tileStyle = (item: any): { [key: string]: string | undefined } => {
+      if (props.itemColor) {
+        switch (props.itemColor!(item)) {
+          case ColorEnum.Primary:
+            return {
+              "--fs-data-table-row-background-color": `#E6EFFF`,
+              "--fs-data-table-row-border-color": `1px solid #0059E5`,
+              "--fs-data-table-row-cell-color": `#002867`
+            };
+          case ColorEnum.Warning:
+            return {
+              "--fs-data-table-row-background-color": `#FFF5E5`,
+              "--fs-data-table-row-border-color": `1px solid #E5A139`,
+              "--fs-data-table-row-cell-color": `#6A0909`
+            };
+          case ColorEnum.Error:
+            return {
+              "--fs-data-table-row-background-color": `#FAE0E0`,
+              "--fs-data-table-row-border-color": `1px solid #E01212`,
+              "--fs-data-table-row-cell-color": `#BA0F0F`
+            };
+          case ColorEnum.Success:
+            return {
+              "--fs-data-table-row-background-color": `#E9FAE1`,
+              "--fs-data-table-row-border-color": `1px solid #6DE038`,
+              "--fs-data-table-row-cell-color": `#5BBA2F`
+            };
+
+          default:
+            return {
+              "--fs-data-table-row-background-color": `var(--fs-data-table-background-color)`,
+              "--fs-data-table-row-border-color": `none`
+            };
+        };
+      }
+      return {
+        "--fs-data-table-row-background-color": `var(--fs-data-table-background-color)`,
+        "--fs-data-table-row-border-color": `none`
       };
     };
 
@@ -1139,6 +1183,7 @@ export default defineComponent({
       onClickRow,
       isExtraSmall,
       draggableDisabled,
+      tileStyle,
       rowColor,
       toggleSelectAll,
       toggleSelect,
