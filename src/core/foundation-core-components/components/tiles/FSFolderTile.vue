@@ -5,12 +5,11 @@
     :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
   />
-  <FSSimpleIconTileUI
+  <FSFolderTileUI
     v-else-if="entity"
     :label="entity.label"
     :code="entity.code"
     :bottomColor="entity.colors"
-    :iconBackgroundColor="entity.colors"
     :icon="entity.icon"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
@@ -24,13 +23,13 @@ import { defineComponent, onMounted, watch } from "vue";
 
 import { useDashboardOrganisation, useFolder } from "@dative-gpi/foundation-core-services/composables";
 
-import FSSimpleIconTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSSimpleIconTileUI.vue";
+import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue";
 
 export default defineComponent({
-  name: "FSDashboardTile",
+  name: "FSFolderTile",
   components: {
-    FSSimpleIconTileUI,
+    FSFolderTileUI,
     FSLoadTile
   },
   props: {

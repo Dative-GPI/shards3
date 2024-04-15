@@ -5,7 +5,7 @@
     :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
   />
-  <FSDashboardOrganisationTileUI
+  <FSDashboardShallowTileUI
     v-else-if="entity"
     :label="entity.label"
     :code="entity.code"
@@ -21,19 +21,19 @@
 <script lang="ts">
 import { defineComponent, onMounted, watch } from "vue";
 
-import { useDashboardOrganisation } from "@dative-gpi/foundation-core-services/composables";
+import { useDashboardShallow } from "@dative-gpi/foundation-core-services/composables";
 
-import FSDashboardOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTileUI.vue";
+import FSDashboardShallowTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardShallowTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue";
 
 export default defineComponent({
-  name: "FSDashboardOrganisationTile",
+  name: "FSDashboardShallowTile",
   components: {
-    FSDashboardOrganisationTileUI,
+    FSDashboardShallowTileUI,
     FSLoadTile
   },
   props: {
-    dashboardOrganisationId: {
+    dashboardShallowId: {
       type: String,
       required: true
     },
@@ -49,14 +49,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { get, getting, entity } = useDashboardOrganisation();
+    const { get, getting, entity } = useDashboardShallow();
 
     onMounted(() => {
-      get(props.dashboardOrganisationId);
+      get(props.dashboardShallowId);
     });
 
-    watch(() => props.dashboardOrganisationId, () => {
-      get(props.dashboardOrganisationId);
+    watch(() => props.dashboardShallowId, () => {
+      get(props.dashboardShallowId);
     });
 
     return {
