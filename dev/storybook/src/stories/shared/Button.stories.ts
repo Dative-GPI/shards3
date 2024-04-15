@@ -106,6 +106,33 @@ export const Variations: Story = {
   })
 }
 
+import FSClickable from  "@dative-gpi/foundation-shared-components/components/FSClickable.vue";
+import FSText from  "@dative-gpi/foundation-shared-components/components/FSText.vue";
+import FSRow from  "@dative-gpi/foundation-shared-components/components/FSRow.vue";
+
+export const ContentVariant: Story = {
+  render: () => ({
+    components: { FSClickable, FSRow, FSIcon, FSText },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px;">
+        <FSClickable color="primary" padding="12px">
+          <template #default="{ contentVariant }">
+            <FSRow align="center-center">
+              <FSIcon color="success" :variant="contentVariant">
+                mdi-plus-circle-outline
+              </FSIcon>
+              <FSText color="error" :variant="contentVariant">
+                Create
+              </FSText>
+            <FSRow align="center-center">
+          </template>
+        </FSClickable>
+      </div>
+    </div>`
+  })
+}
+
 import FSButtonCancel from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancel.vue";
 import FSButtonCancelLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancelLabel.vue";
 import FSButtonCancelMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancelMini.vue";
@@ -333,7 +360,6 @@ import FSRichTextField from "@dative-gpi/foundation-shared-components/components
 import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
 import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 import FSForm from  "@dative-gpi/foundation-shared-components/components/FSForm.vue";
-import FSText from  "@dative-gpi/foundation-shared-components/components/FSText.vue";
 
 import { TextRules, ToggleRules } from "@dative-gpi/foundation-shared-components/models";
 
