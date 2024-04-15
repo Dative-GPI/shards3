@@ -145,13 +145,13 @@ export default defineComponent({
     });
 
     const source = computed((): string | undefined => {
-      if (props.imageId) {
-        return IMAGE_RAW_URL(props.imageId);
-      }
-      else if (props.imageB64) {
+      if (props.imageB64) {
         if (imageType.value && imageData.value) {
           return `${imageType.value},${imageData.value}`;
         }
+      }
+      else if (props.imageId) {
+        return IMAGE_RAW_URL(props.imageId);
       }
     });
 

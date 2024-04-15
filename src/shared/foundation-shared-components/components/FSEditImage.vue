@@ -1,21 +1,16 @@
 <template>
   <FSRow
-    width="fill"
     gap="24px"
   >
-    <FSCard
+    <FSImage
       class="fs-edit-image"
-      :borderRadius="$props.borderRadius"
-      :padding="$props.padding"
-    >
-      <FSImage
-        :borderRadius="$props.borderRadius"
-        :aspectRatio="$props.aspectRatio"
-        :height="$props.height"
-        :imageB64="realSource"
-        :width="$props.width"
-      />
-    </FSCard>
+      :aspectRatio="$props.aspectRatio"
+      :imageId="$props.imageId"
+      :height="$props.height"
+      :imageB64="realSource"
+      :width="$props.width"
+      :style="style"
+    />
     <FSCol
       height="fill"
       align="bottom-left"
@@ -43,14 +38,16 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { useFiles } from "@dative-gpi/foundation-shared-services/composables";
-import { FileImage } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, FileImage } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButtonRemoveIcon from "./buttons/FSButtonRemoveIcon.vue";
 import FSButtonFileIcon from "./buttons/FSButtonFileIcon.vue";
 import FSImage from "./FSImage.vue";
-import FSCard from "./FSCard.vue";
 import FSText from "./FSText.vue";
+import FSCol from "./FSCol.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSEditImage",
@@ -58,8 +55,9 @@ export default defineComponent({
     FSButtonRemoveIcon,
     FSButtonFileIcon,
     FSImage,
-    FSCard,
-    FSText
+    FSText,
+    FSCol,
+    FSRow
   },
   props: {
     height: {
@@ -72,12 +70,7 @@ export default defineComponent({
       required: false,
       default: null
     },
-    padding: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: false,
-      default: "8px"
-    },
-    modelValue: {
+    imageId: {
       type: String as PropType<string | null>,
       required: false,
       default: null
@@ -87,17 +80,26 @@ export default defineComponent({
       required: false,
       default: null
     },
-    borderRadius: {
-      type: [String, Number],
+    modelValue: {
+      type: String as PropType<string | null>,
       required: false,
-      default: "4px"
+      default: null
     }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { getColors } = useColors();
     const { readFile } = useFiles();
 
+    const lights = getColors(ColorEnum.Light);
+
     const fileSelected = ref<FileImage>({ fileName: "", fileContent: null });
+
+    const style = computed((): { [key: string] : string | undefined } => {
+      return {
+        "--fs-edit-image-border-color": lights.dark
+      };
+    });
 
     const realSource = computed(() => {
       if (fileSelected.value && fileSelected.value.fileName) {
@@ -122,6 +124,7 @@ export default defineComponent({
     return {
       fileSelected,
       realSource,
+      style,
       onUpload,
       onRemove
     };
