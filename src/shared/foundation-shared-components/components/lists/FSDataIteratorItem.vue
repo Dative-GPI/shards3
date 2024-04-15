@@ -3,6 +3,8 @@
     class="fs-data-iterator-item"
     padding="12px"
     width="100%"
+    :color="$props.itemColor"
+    :variant="variant"
   >
     <FSCol>
       <slot name="item.top" v-bind="{ item: $props.item }" />
@@ -38,6 +40,8 @@
     <FSCard
       v-if="$props.showSelect"
       class="fs-data-iterator-item-checkbox"
+      :color="$props.itemColor"
+      :variant="variant"
       :border="false"
     >
       <FSCheckbox
@@ -50,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorEnum, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 
@@ -86,6 +90,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    itemColor: {
+      type: String as PropType<ColorEnum>,
+      required: false,
+      default: ColorEnum.Background
+    },
     color: {
       type: String as PropType<ColorEnum>,
       required: false,
@@ -96,6 +105,19 @@ export default defineComponent({
       required: false,
       default: true
     }
+  },
+  setup(props) {
+    const variant = computed((): "standard" | "background" => {
+      switch (props.itemColor) {
+        case ColorEnum.Background:
+        case null: return "background";
+        default:   return "standard";
+      }
+    });
+
+    return {
+      variant
+    };
   }
 });
 </script>
