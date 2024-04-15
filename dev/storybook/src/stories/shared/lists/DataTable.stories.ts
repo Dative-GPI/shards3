@@ -84,6 +84,7 @@ export const Variations: Story = {
           v-model:headers="args.headers1"
           v-model="args.value1"
           :sortDraggable="true"
+          gap="20px"
         />
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSDataTableUI
