@@ -456,6 +456,7 @@
           <FSRow
             width="hug"
             class="fs-data-iterator-container"
+            :gap="$props.gap"
           >
             <FSDraggable
               v-for="(item, index) in items.filter((item) => item.type === 'item')"
@@ -604,6 +605,11 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 1
+    },
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
     },
     groupBy: {
       type: Object as PropType<FSDataTableOrder>,
