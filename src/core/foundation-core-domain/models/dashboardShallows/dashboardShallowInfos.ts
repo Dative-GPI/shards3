@@ -12,6 +12,7 @@ export class DashboardShallowInfos {
     code: string;
     icon: string;
     tags: string[];
+    colors: string[];
     dashboardId: string;
     scope: ApplicationScope;
 
@@ -27,6 +28,7 @@ export class DashboardShallowInfos {
         this.code = params.code;
         this.icon = params.icon;
         this.tags = params.tags.slice();
+        this.colors = params.colors.slice();
         this.dashboardId = params.dashboardId;
         this.scope = params.scope;
     }
@@ -44,6 +46,7 @@ export interface DashboardShallowInfosDTO {
     code: string;
     icon: string;
     tags: string[];
+    colors: string[];
     dashboardId: string;
     scope: ApplicationScope;
 }

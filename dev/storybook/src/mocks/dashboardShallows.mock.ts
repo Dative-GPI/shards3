@@ -1,11 +1,13 @@
-import { DashboardOrganisationDetails } from "@dative-gpi/foundation-core-domain/models";
+import { DashboardShallowDetails } from "@dative-gpi/foundation-core-domain/models";
 
 
-export const DASHBOARDORGANISATIONS: DashboardOrganisationDetails[] = [
+export const DASHBOARDSHALLOWS: DashboardShallowDetails[] = [
     {
         id: "1",
         label: "label 1",
         code: "code 1",
+        dashboardOrganisationTypeId: "1",
+        dashboardOrganisationTypeLabel: "dashboardOrganisationTypeLabel 1",
         colors: ["#FF0000"],
         icon: "mdi-shape",
         path: [],
@@ -15,7 +17,6 @@ export const DASHBOARDORGANISATIONS: DashboardOrganisationDetails[] = [
         folderId: "1",
         folderLabel: "folderLabel 1",
         folderIcon: "mdi-folder",
-        locked: false,
         singleEntity: false,
         scope: 1,
         autoRefresh: 0,
@@ -32,7 +33,9 @@ export const DASHBOARDORGANISATIONS: DashboardOrganisationDetails[] = [
         id: "2",
         label: "label 2",
         code: "code 2",
-        colors: ["#FF00FF"],
+        dashboardOrganisationTypeId: "2",
+        dashboardOrganisationTypeLabel: "dashboardOrganisationTypeLabel 2",
+        colors: ["#FF0000"],
         icon: "mdi-shape",
         path: [],
         tags: ["tag 2"],
@@ -41,7 +44,6 @@ export const DASHBOARDORGANISATIONS: DashboardOrganisationDetails[] = [
         folderId: "2",
         folderLabel: "folderLabel 2",
         folderIcon: "mdi-folder",
-        locked: false,
         singleEntity: false,
         scope: 1,
         autoRefresh: 0,
@@ -58,6 +60,8 @@ export const DASHBOARDORGANISATIONS: DashboardOrganisationDetails[] = [
         id: "3",
         label: "label 3",
         code: "code 3",
+        dashboardOrganisationTypeId: "3",
+        dashboardOrganisationTypeLabel: "dashboardOrganisationTypeLabel 3",
         colors: ["#FF0000"],
         icon: "mdi-shape",
         path: [],
@@ -67,7 +71,6 @@ export const DASHBOARDORGANISATIONS: DashboardOrganisationDetails[] = [
         folderId: "3",
         folderLabel: "folderLabel 3",
         folderIcon: "mdi-folder",
-        locked: false,
         singleEntity: false,
         scope: 1,
         autoRefresh: 0,

@@ -1,10 +1,10 @@
 <template>
   <FSCard
-    :variant="$props.backgroundColor == null ? 'background' : 'gradient'"
-    :border="$props.backgroundColor == null"
     :color="$props.backgroundColor"
     :height="$props.size"
     :width="$props.size"
+    :variant="variant"
+    :border="border"
   >
     <FSRow
       align="center-center"
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -55,6 +55,26 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Dark
     }
+  },
+  setup(props) {
+    const variant = computed((): "background" | "gradient" => {
+      switch (props.backgroundColor) {
+        case ColorEnum.Background: return "background";
+        default:                   return "gradient";
+      }
+    });
+
+    const border = computed((): boolean => {
+      switch (props.backgroundColor) {
+        case ColorEnum.Background: return true;
+        default:                   return false;
+      }
+    });
+
+    return {
+      variant,
+      border
+    };
   }
 });
 </script>

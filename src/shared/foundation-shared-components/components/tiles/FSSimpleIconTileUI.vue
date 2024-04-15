@@ -32,7 +32,7 @@
           </FSText>
         </FSCol>
         <FSIconCard
-          :backgroundColor="$props.iconBackgroundColor"
+          :backgroundColor="iconBackgroundColor"
           :icon="$props.icon"
           :size="imageSize"
         />
@@ -84,9 +84,9 @@ export default defineComponent({
       default: ColorEnum.Light
     },
     iconBackgroundColor: {
-      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
+      type: Boolean,
       required: false,
-      default: null
+      default: false
     },
     icon: {
       type: String as PropType<string>,
@@ -102,6 +102,10 @@ export default defineComponent({
   setup(props) {
     const { isMobileSized } = useBreakpoints();
 
+    const iconBackgroundColor = computed((): ColorBase | ColorBase[] => {
+      return props.iconBackgroundColor ? props.bottomColor : ColorEnum.Background;
+    });
+
     const imageSize = computed((): number => {
       return isMobileSized.value ? 90 : 100;
     });
@@ -115,6 +119,7 @@ export default defineComponent({
     });
 
     return {
+      iconBackgroundColor,
       ColorEnum,
       imageSize,
       infoWidth

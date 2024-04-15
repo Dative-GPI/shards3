@@ -1,8 +1,34 @@
 .fs-data-table {
-    th,
-    td {
-        position: relative;
+    table {
+        margin-top: calc(var(--fs-data-table-row-gap) * -1);
+        border-spacing: 0 var(--fs-data-table-row-gap) !important;
         background-color: var(--fs-data-table-background-color) !important;
+    }
+
+    .fs-data-table-custom-row > td {
+        border-bottom: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color) !important;
+        border-top: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color) !important;
+        background-color: var(--fs-data-table-row-background-color) !important;
+        color: var(--fs-data-table-row-color);
+        position: relative;
+    }
+
+    .fs-data-table-custom-row > td:first-child{
+        border-top-left-radius: var(--fs-data-table-row-border-radius) !important;
+        border-bottom-left-radius: var(--fs-data-table-row-border-radius) !important;
+        border-left: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color);
+    }
+
+    .fs-data-table-custom-row > td:last-child{
+        border-top-right-radius: var(--fs-data-table-row-border-radius) !important;
+        border-bottom-right-radius: var(--fs-data-table-row-border-radius) !important;
+        border-right: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color);
+    }
+
+    th,
+    :not(.fs-data-table-custom-row) > td {
+        background-color: var(--fs-data-table-background-color) !important;
+        position: relative;
     }
     
     th {

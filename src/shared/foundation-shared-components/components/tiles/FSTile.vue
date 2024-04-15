@@ -15,9 +15,9 @@
       v-if="$props.editable"
       class="fs-tile-checkbox"
       :border="false"
+      v-bind="$attrs"
     >
       <FSCheckbox
-        :color="ColorEnum.Dark"
         :modelValue="$props.modelValue"
         @update:modelValue="() => $emit('update:modelValue', !$props.modelValue)"
       />
@@ -34,15 +34,16 @@
     :style="style"
     :width="width"
     :height="height"
+    v-bind="$attrs"
   >
     <slot />
     <FSCard
       v-if="$props.editable"
       class="fs-tile-checkbox"
       :border="false"
+      v-bind="$attrs"
     >
       <FSCheckbox
-        :color="ColorEnum.Dark"
         :modelValue="$props.modelValue"
         @update:modelValue="() => $emit('update:modelValue', !$props.modelValue)"
       />
@@ -60,7 +61,7 @@ import { computed, defineComponent, PropType } from "vue";
 import { RouteLocation } from "vue-router";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorBase } from "@dative-gpi/foundation-shared-components/models";
 
 import FSClickable from "../FSClickable.vue";
 import FSCheckbox from "../FSCheckbox.vue";
@@ -105,12 +106,14 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { getGradients } = useColors();
 
-    const bottomColors = computed(() => getGradients(props.bottomColor));
-
     const style = computed((): { [key: string] : string | undefined } => {
-      return {
-        "--fs-tile-border-color": bottomColors.value.base
-      };
+      if (props.bottomColor) {
+        const bottomColors = getGradients(props.bottomColor);
+        return {
+          "--fs-tile-border-color": bottomColors.base
+        };
+      }
+      return {};
     });
 
     const width = computed(() => {
@@ -122,10 +125,9 @@ export default defineComponent({
     });
 
     return {
-      ColorEnum,
-      style,
+      height,
       width,
-      height
+      style
     };
   }
 });

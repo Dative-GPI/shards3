@@ -3,6 +3,10 @@
     v-if="$props.href"
     :href="$props.href"
     :style="style"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+    @mousedown="active = true"
+    @mouseup="active = false"
   >
     <FSCard
       :height="$props.height"
@@ -12,7 +16,7 @@
       v-bind="$attrs"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+        <slot :name="name" v-bind="{ ...slotData, contentVariant }" />
       </template>
     </FSCard>
     <template v-if="$props.load">
@@ -29,6 +33,10 @@
     v-else-if="$props.to"
     :style="style"
     :to="$props.to"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+    @mousedown="active = true"
+    @mouseup="active = false"
   >
     <FSCard
       :height="$props.height"
@@ -38,7 +46,7 @@
       v-bind="$attrs"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+        <slot :name="name" v-bind="{ ...slotData, contentVariant }" />
       </template>
     </FSCard>
     <template v-if="$props.load">
@@ -56,6 +64,10 @@
     :type="$props.type"
     :style="style"
     @click.stop="onClick"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+    @mousedown="active = true"
+    @mouseup="active = false"
   >
     <FSCard
       :height="$props.height"
@@ -65,7 +77,7 @@
       v-bind="$attrs"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+        <slot :name="name" v-bind="{ ...slotData, contentVariant }" />
       </template>
     </FSCard>
     <template v-if="$props.load">
@@ -81,7 +93,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 import { RouteLocation } from "vue-router";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -161,6 +173,9 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
+    const hover = ref(false);
+    const active = ref(false);
+
     const style = computed((): { [key: string] : string | undefined } => {
       if (!props.editable) {
         return {
@@ -222,6 +237,20 @@ export default defineComponent({
       }
     });
 
+    const contentVariant = computed((): "base" | "baseContrast" | "light" | "lightContrast" | "dark" | "darkContrast" => {
+      if (active.value) {
+        return "darkContrast";
+      }
+      if (hover.value) {
+        return "baseContrast";
+      }
+      switch (props.variant) {
+        case "standard"  : return "lightContrast";
+        case "background": return "base";
+        case "full"      : return "baseContrast";
+      }
+    });
+
     const classes = computed((): string[] => {
       const classNames: string[] = ["fs-clickable"];
       if (!props.editable) {
@@ -247,8 +276,11 @@ export default defineComponent({
     };
 
     return {
+      contentVariant,
       loadColor,
       classes,
+      active,
+      hover,
       style,
       onClick
     };

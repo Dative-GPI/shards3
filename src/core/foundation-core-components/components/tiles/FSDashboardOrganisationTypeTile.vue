@@ -5,7 +5,7 @@
     :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
   />
-  <FSSimpleIconTileUI
+  <FSDashboardOrganisationTypeTileUI
     v-else-if="entity"
     :label="entity.label"
     :code="entity.code"
@@ -23,13 +23,13 @@ import { defineComponent, onMounted, watch } from "vue";
 
 import { useDashboardOrganisationType } from "@dative-gpi/foundation-core-services/composables";
 
-import FSSimpleIconTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSSimpleIconTileUI.vue";
+import FSDashboardOrganisationTypeTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTypeTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue";
 
 export default defineComponent({
   name: "FSDashboardOrganisationTypeTile",
   components: {
-    FSSimpleIconTileUI,
+    FSDashboardOrganisationTypeTileUI,
     FSLoadTile
   },
   props: {

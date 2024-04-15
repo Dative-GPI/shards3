@@ -30,7 +30,7 @@ export default defineComponent({
       default: null
     },
     variant: {
-      type: String as PropType<"base" | "light" | "dark">,
+      type: String as PropType<"base" | "baseContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
       required: false,
       default: "base"
     }
@@ -41,7 +41,7 @@ export default defineComponent({
 
     const color = computed((): string | null => {
       if (props.color) {
-        return getColors(props.color)[props.variant];
+        return getColors(props.color)[props.variant]!;
       }
       return null;
     });
