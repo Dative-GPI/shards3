@@ -32,7 +32,7 @@
           </FSText>
         </FSCol>
         <FSIconCard
-          :backgroundColor="$props.iconBackgroundColor"
+          :backgroundColor="iconBackgroundColor ? $props.bottomColor : null"
           :icon="$props.icon"
           :size="imageSize"
         />
@@ -84,9 +84,9 @@ export default defineComponent({
       default: ColorEnum.Light
     },
     iconBackgroundColor: {
-      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
+      type: Boolean,
       required: false,
-      default: null
+      default: false
     },
     icon: {
       type: String as PropType<string>,

@@ -3,6 +3,7 @@ export * from "./dataCategories.mock";
 export * from "./dataDefinitions.mock";
 export * from "./dashboardOrganisations.mock";
 export * from "./dashboardOrganisationTypes.mock";
+export * from "./dashboardShallows.mock";
 export * from "./folders.mock";
 export * from "./groups.mock";
 export * from "./images.mock";
