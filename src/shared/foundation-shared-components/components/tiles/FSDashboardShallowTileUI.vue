@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent } from "vue";
 
 import FSSimpleIconTileUI from "./FSSimpleIconTileUI.vue";
 
@@ -13,10 +13,6 @@ export default defineComponent({
   name: "FSDashboardShallowTileUI",
   components: {
     FSSimpleIconTileUI
-  },
-  props: {
-  },
-  setup(props) {
   }
 });
 </script>

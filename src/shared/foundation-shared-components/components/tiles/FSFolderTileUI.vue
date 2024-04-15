@@ -1,7 +1,7 @@
 <template>
   <FSSimpleIconTileUI
+    :iconBackgroundColor="true"
     v-bind="$attrs"
-    :iconBackgroundColor="iconBackgroundColor"
   />
 </template>
 
@@ -14,15 +14,6 @@ export default defineComponent({
   name: "FSFolderTileUI",
   components: {
     FSSimpleIconTileUI
-  },
-  props: {
-    iconBackgroundColor: {
-      type: Boolean,
-      required: false,
-      default: true
-    }
-  },
-  setup(props) {
   }
 });
 </script>
