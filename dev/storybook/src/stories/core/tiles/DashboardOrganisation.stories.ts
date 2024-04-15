@@ -41,7 +41,7 @@ export const Variations: Story = {
         v-for="(dashboardOrganisationId, index) in args.values"
         :key="index"
         :dashboardOrganisationId="dashboardOrganisationId"
-        @auxclick="args.values.pop()"
+        href="/"
         v-model="args.selected[index]"
       />
     </div>`
