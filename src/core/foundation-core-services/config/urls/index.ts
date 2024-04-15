@@ -8,6 +8,7 @@ export * from "./customProperties";
 export * from "./customPropertyValues";
 export * from "./dashboardOrganisations";
 export * from "./dashboardOrganisationTypes";
+export * from "./dashboards";
 export * from "./dataCategories";
 export * from "./dataDefinitions";
 export * from "./deviceConnectivities";

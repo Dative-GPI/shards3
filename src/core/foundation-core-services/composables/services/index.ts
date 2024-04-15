@@ -8,6 +8,7 @@ export * from "./useCustomProperties";
 export * from "./useCustomPropertyValues";
 export * from "./useDashboardOrganisations";
 export * from "./useDashboardOrganisationTypes";
+export * from "./useDashboards";
 export * from "./useDashboardShallows";
 export * from "./useDataCategories";
 export * from "./useDataDefinitions";
