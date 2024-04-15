@@ -8,7 +8,7 @@
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
-      @click.prevent
+      @click.prevent.stop="onToggle"
       @blur="blurred = true"
       v-bind="$attrs"
     >
@@ -17,7 +17,6 @@
           align="center-left"
           width="hug"
           :style="style"
-          @click.stop="onToggle"
         >
           <FSIcon
             class="fs-checkbox"

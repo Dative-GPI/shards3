@@ -1,6 +1,7 @@
 <template>
   <FSClickable
     v-if="$props.href || $props.to || $attrs.onClick"
+    variant="background"
     class="fs-tile"
     padding="12px"
     :height="height"

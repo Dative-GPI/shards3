@@ -153,6 +153,11 @@ export default defineComponent({
       required: false,
       default: "4px"
     },
+    borderStyle: {
+      type: String as PropType<"solid" | "dashed" | "dotted" | "double" | "groove" | "ridge" | "inset" | "outset" | "none">,
+      required: false,
+      default: "solid"
+    },
     load: {
       type: Boolean,
       required: false,
@@ -180,6 +185,7 @@ export default defineComponent({
       if (!props.editable) {
         return {
           "--fs-clickable-border-size"     : props.border ? "1px" : "0",
+          "--fs-clickable-border-style"    : props.borderStyle,
           "--fs-clickable-border-radius"   : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color": lights.light,
           "--fs-clickable-border-color"    : lights.dark,
@@ -191,6 +197,7 @@ export default defineComponent({
       switch (props.variant) {
         case "standard": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+          "--fs-clickable-border-style"           : props.borderStyle,
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : colors.value.light,
           "--fs-clickable-border-color"           : colors.value.lightContrast,
@@ -206,6 +213,7 @@ export default defineComponent({
         };
         case "background": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+          "--fs-clickable-border-style"           : props.borderStyle,
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : backgrounds.base,
           "--fs-clickable-border-color"           : lights.dark,
@@ -221,6 +229,7 @@ export default defineComponent({
         };
         case "full": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+          "--fs-clickable-border-style"           : props.borderStyle,
           "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
           "--fs-clickable-background-color"       : colors.value.base,
           "--fs-clickable-border-color"           : colors.value.base,

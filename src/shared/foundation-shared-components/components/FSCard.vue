@@ -84,6 +84,11 @@ export default defineComponent({
       required: false,
       default: "4px"
     },
+    borderStyle: {
+      type: String as PropType<"solid" | "dashed" | "dotted" | "double" | "groove" | "ridge" | "inset" | "outset" | "none">,
+      required: false,
+      default: "solid"
+    },
     elevation: {
       type: Boolean,
       required: false,
@@ -108,6 +113,7 @@ export default defineComponent({
       switch (props.variant) {
         case "standard": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
+          "--fs-card-border-style"    : props.borderStyle,
           "--fs-card-border-radius"   : sizeToVar(props.borderRadius),
           "--fs-card-padding"         : sizeToVar(props.padding),
           "--fs-card-height"          : sizeToVar(props.height),
@@ -118,6 +124,7 @@ export default defineComponent({
         }
         case "background": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
+          "--fs-card-border-style"    : props.borderStyle,
           "--fs-card-border-radius"   : sizeToVar(props.borderRadius),
           "--fs-card-padding"         : sizeToVar(props.padding),
           "--fs-card-height"          : sizeToVar(props.height),
@@ -128,6 +135,7 @@ export default defineComponent({
         }
         case "gradient": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
+          "--fs-card-border-style"    : props.borderStyle,
           "--fs-card-border-radius"   : sizeToVar(props.borderRadius),
           "--fs-card-padding"         : sizeToVar(props.padding),
           "--fs-card-height"          : sizeToVar(props.height),
