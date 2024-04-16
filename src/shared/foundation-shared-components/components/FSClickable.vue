@@ -136,7 +136,7 @@ export default defineComponent({
     type: {
       type: String as PropType<"button" | "submit">,
       required: false,
-      default: "button"
+      default: "submit"
     },
     color: {
       type: String as PropType<ColorBase>,
