@@ -11,6 +11,7 @@
     >
       <FSIcon
         :color="$props.color"
+        :size="$props.size"
       >
         <slot />
       </FSIcon>
