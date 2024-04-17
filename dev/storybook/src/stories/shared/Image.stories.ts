@@ -36,13 +36,11 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <FSCol>
         <FSImage
-          style="border: 1px dotted black;"
           imageId="1"
           :width="args.size1.width"
           :height="args.size1.height"
         />
         <FSImage
-          style="border: 1px dotted black;"
           :imageB64="args.imgBase64"
           :width="args.size1.width"
           :height="args.size1.height"
