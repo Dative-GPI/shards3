@@ -9,9 +9,10 @@
         :color="criticityColor"
       >
         <FSColorIcon
+          class="fs-stopclick"
           size="m"
-          variant="full"
           :color="criticityColor"
+          @click.prevent.stop
           v-bind="props"
         >
           {{ statusIcon }}

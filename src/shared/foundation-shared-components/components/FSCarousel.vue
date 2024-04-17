@@ -1,7 +1,7 @@
 <template>
   <v-carousel
-    class="fs-carousel"
     :hideDelimiters="true"
+    :class="classes"
     :style="style"
     v-bind="$attrs"
   >
@@ -51,14 +51,20 @@ export default defineComponent({
       };
     });
 
+    const classes = computed((): string[] => {
+      const classNames = ["fs-carousel", "fs-background"];
+      return classNames;
+    });
+
     const value = (component: VNode, index: number): any => {
       return component?.props?.value ?? index;
     };
 
     return {
-      getChildren,
+      classes,
       slots,
       style,
+      getChildren,
       value
     };
   }

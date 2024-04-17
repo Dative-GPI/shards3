@@ -14,7 +14,7 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase } from "@dative-gpi/foundation-shared-components/models";
-import { sizeToVar } from "../utils";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 export default defineComponent({
   name: "FSIcon",

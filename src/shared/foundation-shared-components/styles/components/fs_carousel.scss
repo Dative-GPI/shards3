@@ -1,4 +1,9 @@
 .fs-carousel {
     background-color: var(--fs-carousel-background-color);
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     height: var(--fs-carousel-height) !important;
+
+    & > .v-window__container > .v-window-item {
+        cursor: inherit !important;
+    }
 }

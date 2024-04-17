@@ -5,19 +5,21 @@
     <template #prev="{ props }">
       <FSButton
         v-if="$props.modelStatuses.length > 1"
-        variant="icon"
         icon="mdi-chevron-left"
+        class="fs-stopclick"
+        variant="icon"
         :color="ColorEnum.Dark"
-        @click="props.onClick"
+        @click.prevent.stop="props.onClick"
       />
     </template>
     <template #next="{ props }">
       <FSButton
         v-if="$props.modelStatuses.length > 1"
-        variant="icon"
         icon="mdi-chevron-right"
+        class="fs-stopclick"
+        variant="icon"
         :color="ColorEnum.Dark"
-        @click="props.onClick"
+        @click.prevent.stop="props.onClick"
       />
     </template>
     <FSRow

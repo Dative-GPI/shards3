@@ -1,32 +1,46 @@
 <template>
-  <v-icon
+  <FSColor
+    class="fs-color-icon"
     :color="$props.color"
-    :class="classes"
-    :style="style"
-    v-bind="$attrs"
+    :border="false"
+    :height="size"
+    :width="size"
   >
-    <slot />
-  </v-icon>
+    <FSRow
+      align="center-center"
+    >
+      <FSIcon
+        :color="$props.color"
+        :size="$props.size"
+      >
+        <slot />
+      </FSIcon>
+    </FSRow>  
+</FSColor>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
+
+import FSColor from "./FSColor.vue";
+import FSIcon from "./FSIcon.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSColorIcon",
+  components: {
+    FSColor,
+    FSIcon,
+    FSRow
+  },
   props: {
     size: {
-      type: String as PropType<"s" | "m" | "l">,
+      type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
       required: false,
       default: "m"
-    },
-    variant: {
-      type: String as PropType<"standard" | "full">,
-      required: false,
-      default: "standard"
     },
     color: {
       type: String as PropType<ColorBase>,
@@ -35,34 +49,19 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getColors } = useColors();
+    const { isMobileSized } = useBreakpoints();
 
-    const colors = computed(() => getColors(props.color));
-
-    const style = computed((): { [key: string] : string | undefined } => {
-      switch (props.variant) {
-        case "full": return {
-          "--fs-icon-background-color": colors.value.light
-        };
-        default: return {
-          "--fs-icon-background-color": "transparent"
-        };
+    const size = computed((): string[] | number[] | string | number | null => {
+      switch(props.size) {
+        case "s": return isMobileSized.value ? "18px" : "20px";
+        case "m": return isMobileSized.value ? "20px" : "26px";
+        case "l": return isMobileSized.value ? "36px" : "40px";
+        default: return props.size;
       }
-    });
-
-    const classes = computed((): string[] => {
-      const classNames = [`fs-icon-${props.size}`];
-      switch (props.variant) {
-        case "full":
-          classNames.push("fs-color-icon");
-          break;
-      }
-      return classNames;
     });
 
     return {
-      style,
-      classes
+      size
     };
   }
 });

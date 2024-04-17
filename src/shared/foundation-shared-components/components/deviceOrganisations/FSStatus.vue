@@ -5,9 +5,10 @@
   >
     <template #activator="{ props }">
       <FSColorIcon
+        class="fs-stopclick"
         size="m"
-        variant="full"
         :color="$props.statusGroup.color"
+        @click.prevent.stop
         v-bind="props"
       >
         {{ $props.statusGroup.icon }}
