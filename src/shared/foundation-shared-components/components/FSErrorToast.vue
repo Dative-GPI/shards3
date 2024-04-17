@@ -1,23 +1,34 @@
 <template>
-  <FSCol class="fs-error-toast"
-    :gap="24"
-    :style="style"
+  <FSCol
     padding="18px 0 18px 32px"
-    align="center-center">
-    <FSRow :wrap="false">
-      <FSIcon>
-        mdi-alert-outline
-      </FSIcon>
-      <FSSpan>
-        {{ $tr(error.code, error.default) }}
-      </FSSpan>
-    </FSRow>
-    <slot name="footer"></slot>
+    class="fs-error-toast"
+    align="center-center"
+    gap="24px"
+    :style="style"
+  >
+    <slot
+      name="body"
+    >
+      <FSRow
+        align="top-center"
+        :wrap="false"
+      >
+        <FSIcon>
+          mdi-alert-outline
+        </FSIcon>
+        <FSSpan>
+          {{ $tr(error.code, error.default) }}
+        </FSSpan>
+      </FSRow>
+    </slot>
+    <slot
+      name="footer"
+    />
   </FSCol>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { getError, sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -27,7 +38,6 @@ import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
 import FSRow from "./FSRow.vue";
 import FSCol from "./FSCol.vue";
-import { PropType } from "vue";
 
 export default defineComponent({
   name: "FSErrorToast",
@@ -59,15 +69,13 @@ export default defineComponent({
     const errors = getColors(ColorEnum.Error);
 
     const style = computed((): { [key: string]: string | undefined } => {
-      if (props.variant === "standard") {
-        return {
+      switch (props.variant) {
+        case "standard": return {
           "--fs-error-toast-border-radius": sizeToVar(props.borderRadius),
           "--fs-error-toast-background-color": errors.light,
           "--fs-error-toast-color": errors.dark
         };
-      }
-      else {
-        return {
+        default: return {
           "--fs-error-toast-border-radius": sizeToVar(props.borderRadius),
           "--fs-error-toast-background-color": errors.base,
           "--fs-error-toast-color": errors.light
