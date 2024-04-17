@@ -1,18 +1,19 @@
 <template>
-  <FSRow
-    padding="18px 0 18px 32px"
-    class="fs-error-toast"
-    align="center-left"
+  <FSCol class="fs-error-toast"
+    :gap="24"
     :style="style"
-    :wrap="false"
-  >
-    <FSIcon>
-      mdi-alert-outline
-    </FSIcon>
-    <FSSpan>
-      {{ $tr(error.code, error.default) }}
-    </FSSpan>
-  </FSRow>
+    padding="18px 0 18px 32px"
+    align="center-center">
+    <FSRow :wrap="false">
+      <FSIcon>
+        mdi-alert-outline
+      </FSIcon>
+      <FSSpan>
+        {{ $tr(error.code, error.default) }}
+      </FSSpan>
+    </FSRow>
+    <slot name="footer"></slot>
+  </FSCol>
 </template>
 
 <script lang="ts">
@@ -25,18 +26,26 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
 import FSRow from "./FSRow.vue";
+import FSCol from "./FSCol.vue";
+import { PropType } from "vue";
 
 export default defineComponent({
   name: "FSErrorToast",
   components: {
     FSIcon,
     FSSpan,
-    FSRow
+    FSRow,
+    FSCol
   },
   props: {
     errorCode: {
       type: String,
       required: true
+    },
+    variant: {
+      type: String as PropType<"standard" | "full">,
+      required: false,
+      default: "full"
     },
     borderRadius: {
       type: [String, Number],
@@ -49,12 +58,21 @@ export default defineComponent({
 
     const errors = getColors(ColorEnum.Error);
 
-    const style = computed((): { [key: string] : string | undefined } => {
-      return {
-        "--fs-error-toast-border-radius"   : sizeToVar(props.borderRadius),
-        "--fs-error-toast-background-color": errors.base,
-        "--fs-error-toast-color"           : errors.light
-      };
+    const style = computed((): { [key: string]: string | undefined } => {
+      if (props.variant === "standard") {
+        return {
+          "--fs-error-toast-border-radius": sizeToVar(props.borderRadius),
+          "--fs-error-toast-background-color": errors.light,
+          "--fs-error-toast-color": errors.dark
+        };
+      }
+      else {
+        return {
+          "--fs-error-toast-border-radius": sizeToVar(props.borderRadius),
+          "--fs-error-toast-background-color": errors.base,
+          "--fs-error-toast-color": errors.light
+        };
+      }
     });
 
     const error = computed((): { code: string, default: string, status: number } => getError(props.errorCode));
