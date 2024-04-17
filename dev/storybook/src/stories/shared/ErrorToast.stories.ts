@@ -32,12 +32,15 @@ export const Variations: Story = {
       <FSRow gap="10px" align="bottom-center">
         <FSErrorToast
           :errorCode="args.code1"
-          :borderRadius="0"
           variant="standard"
         >
         <template #footer>
           <FSRow align="center-center">
-            <FSButton color="error" variant="full">Delete</FSButton>
+            <FSButton
+              color="error"
+              label="Delete"
+              variant="full"
+            />
           </FSRow>
         </template>
         </FSErrorToast>
