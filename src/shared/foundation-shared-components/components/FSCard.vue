@@ -148,7 +148,7 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      const classNames = ["fs-card"];
+      const classNames = ["fs-card", "fs-background"];
       switch(props.variant) {
         case "gradient": 
           classNames.push("fs-card-gradient"); 

@@ -357,7 +357,10 @@ export const Variations: Story = {
           false,
           false,
           false
-        ]
+        ],
+        onClick: (item: any) => {
+          console.log(item);
+        },
       }
     },
     render: (args, { argTypes }) => ({
@@ -379,6 +382,7 @@ export const Variations: Story = {
         :deviceAlerts="deviceOrganisation.deviceAlerts"
         :modelStatuses="deviceOrganisation.modelStatuses"
         :deviceStatuses="deviceOrganisation.deviceStatuses"
+        href="www.google.fr"
         v-model="args.selected[index]"
       />
     </div>`

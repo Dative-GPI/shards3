@@ -3,6 +3,7 @@
     width="hug"
   >
     <v-checkbox
+      class="fs-stopclick"
       hide-details
       :ripple="false"
       :rules="$props.rules"
