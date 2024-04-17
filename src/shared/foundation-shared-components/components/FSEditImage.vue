@@ -1,19 +1,21 @@
 <template>
   <FSRow
+    width="hug"
     gap="24px"
   >
     <FSImage
       class="fs-edit-image"
       :aspectRatio="$props.aspectRatio"
-      :imageId="$props.imageId"
       :height="$props.height"
-      :imageB64="realSource"
       :width="$props.width"
+      :imageId="$props.imageId"
+      :imageB64="realSource"
       :style="style"
     />
     <FSCol
-      height="fill"
       align="bottom-left"
+      height="fill"
+      width="hug"
     >
       <FSText
         v-if="fileSelected"
