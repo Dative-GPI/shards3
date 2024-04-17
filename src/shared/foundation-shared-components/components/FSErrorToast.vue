@@ -1,6 +1,6 @@
 <template>
   <FSCol
-    padding="18px 0 18px 32px"
+    padding="18px 32px"
     class="fs-error-toast"
     align="center-center"
     gap="24px"
@@ -10,7 +10,7 @@
       name="body"
     >
       <FSRow
-        align="top-center"
+        align="center-center"
         :wrap="false"
       >
         <FSIcon>
