@@ -8,11 +8,11 @@
   >
     <FSCard
       padding="24px"
+      width="100%"
       gap="24px"
       :border="!isExtraSmall"
       :color="$props.color"
       :class="classes"
-      :width="width"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
@@ -33,11 +33,11 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSButton from "./FSButton.vue";
 import FSCard from "./FSCard.vue";
 import FSCol from "./FSCol.vue";
-import { sizeToVar } from "../utils";
 
 export default defineComponent({
   name: "FSDialog",

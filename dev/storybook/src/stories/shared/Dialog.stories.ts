@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSDateRangeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue";
 import FSDateField from "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue";
+import FSToggleSet from "@dative-gpi/foundation-shared-components/components/FSToggleSet.vue";
 import FSSubmitDialog from "@dative-gpi/foundation-shared-components/components/FSSubmitDialog.vue";
 import FSRemoveDialog from "@dative-gpi/foundation-shared-components/components/FSRemoveDialog.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
@@ -26,13 +27,18 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
+      buttons1: [...Array(5).keys()].map(i => ({
+        id: i.toString(),
+        label: `Choice number ${i + 1}`
+      })),
+      selected1: [],
       value1: false,
       value2: false,
       value3: false
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSDialog, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    components: { FSDialog, FSButton, FSCard, FSToggleSet, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -45,14 +51,25 @@ export const Variations: Story = {
         @click="() => args.value1 = true"
       />
       <FSDialog
+        width="90%"
         color="primary"
         v-model="args.value1"
       >
         <template #header>
-          <FSSpan font="text-button">Obiwan kenobi</FSSpan>
+          <FSSpan font="text-button">Toggle set</FSSpan>
         </template>
         <template #body>
-          <FSSpan> - Hello there!</FSSpan>
+          <FSToggleSet
+            variant="wrap"
+            buttonVariant="standard"
+            activeVariant="standard"
+            buttonColor="light"
+            activeColor="primary"
+            :multiple="false"
+            :required="false"
+            :values="args.buttons1"
+            v-model="args.selected1"
+          />
         </template>
       </FSDialog>
       <FSButton
