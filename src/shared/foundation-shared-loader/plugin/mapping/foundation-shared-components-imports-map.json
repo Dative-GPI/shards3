@@ -9,8 +9,8 @@
         "FSSlideGroup": {
             "from": "@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue"
         },
-        "FSRemoveDialog": {
-            "from": "@dative-gpi/foundation-shared-components/components/FSRemoveDialog.vue"
+        "FSDialogRemove": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSDialogRemove.vue"
         },
         "FSCard": {
             "from": "@dative-gpi/foundation-shared-components/components/FSCard.vue"
@@ -27,8 +27,8 @@
         "FSText": {
             "from": "@dative-gpi/foundation-shared-components/components/FSText.vue"
         },
-        "FSSubmitDialog": {
-            "from": "@dative-gpi/foundation-shared-components/components/FSSubmitDialog.vue"
+        "FSDialogSubmit": {
+            "from": "@dative-gpi/foundation-shared-components/components/FSDialogSubmit.vue"
         },
         "FSCol": {
             "from": "@dative-gpi/foundation-shared-components/components/FSCol.vue"

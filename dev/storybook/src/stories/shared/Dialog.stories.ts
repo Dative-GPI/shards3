@@ -2,9 +2,11 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSDateRangeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue";
 import FSDateField from "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue";
+import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
+import FSDialogSubmit from "@dative-gpi/foundation-shared-components/components/FSDialogSubmit.vue";
+import FSDialogRemove from "@dative-gpi/foundation-shared-components/components/FSDialogRemove.vue";
+import FSDialogForm from "@dative-gpi/foundation-shared-components/components/FSDialogForm.vue";
 import FSToggleSet from "@dative-gpi/foundation-shared-components/components/FSToggleSet.vue";
-import FSSubmitDialog from "@dative-gpi/foundation-shared-components/components/FSSubmitDialog.vue";
-import FSRemoveDialog from "@dative-gpi/foundation-shared-components/components/FSRemoveDialog.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSDialog from "@dative-gpi/foundation-shared-components/components/FSDialog.vue";
 import FSCard from "@dative-gpi/foundation-shared-components/components/FSCard.vue";
@@ -127,7 +129,7 @@ export const Submit: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSSubmitDialog, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    components: { FSDialogSubmit, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -139,7 +141,7 @@ export const Submit: Story = {
         label="Dialog - primary color - title, subtitle"
         @click="() => args.value1 = true"
       />
-      <FSSubmitDialog
+      <FSDialogSubmit
         color="primary"
         title="Star wars 1"
         subtitle="The phantom menace"
@@ -150,7 +152,7 @@ export const Submit: Story = {
         label="Dialog - title, subtitle, default actions"
         @click="() => args.value2 = true"
       />
-      <FSSubmitDialog
+      <FSDialogSubmit
         title="Star wars 2"
         subtitle="Attack of the clones"
         :actions="true"
@@ -161,7 +163,7 @@ export const Submit: Story = {
         label="Dialog - slots"
         @click="() => args.value3 = true"
       />
-      <FSSubmitDialog
+      <FSDialogSubmit
         v-model="args.value3"
       >
         <template #header>
@@ -179,7 +181,49 @@ export const Submit: Story = {
             />
           </FSRow>
         </template>
-      </FSSubmitDialog>
+      </FSDialogSubmit>
+    </div>`
+  })
+}
+
+export const Form: Story = {
+  args: {
+    args: {
+      value1: false,
+      label: "",
+      rightButton: () => {
+        console.log("Form is valid");
+      }
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; gap: 10px;">
+      <FSButton
+        color="primary"
+        label="Dialog - primary color - title, subtitle"
+        @click="() => args.value1 = true"
+      />
+      <FSDialogForm
+        color="primary"
+        title="Star wars 1"
+        subtitle="The phantom menace"
+        @click:rightButton="args.rightButton"
+        v-model="args.value1"
+      >
+        <template #body>
+          <FSTextField
+            label="Label"
+            :rules="[v => !!v || 'Label is required']"
+            v-model="args.label"
+          />
+        </template>
+      </FSDialogForm>
     </div>`
   })
 }
@@ -196,7 +240,7 @@ export const Remove: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSRemoveDialog, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    components: { FSDialogRemove, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -207,7 +251,7 @@ export const Remove: Story = {
         label="Dialog - singular"
         @click="() => args.value1 = true"
       />
-      <FSRemoveDialog
+      <FSDialogRemove
         :removeTotal="1"
         :removing="args.removing1"
         @click:rightButton="() => args.removing1 = true"
@@ -217,7 +261,7 @@ export const Remove: Story = {
         label="Dialog - plural"
         @click="() => args.value2 = true"
       />
-      <FSRemoveDialog
+      <FSDialogRemove
         :removeTotal="12"
         :removing="args.removing2"
         @click:rightButton="() => args.removing2 = true"
@@ -227,7 +271,7 @@ export const Remove: Story = {
         label="Dialog - large number"
         @click="() => args.value3 = true"
       />
-      <FSRemoveDialog
+      <FSDialogRemove
         :removeTotal="9999999"
         :removing="args.removing3"
         @click:rightButton="() => args.removing3 = true"
@@ -246,7 +290,7 @@ export const ChainedDialogs: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSSubmitDialog, FSButton, FSDateField, FSDateRangeField, FSSpan, FSCard, FSCol, FSRow },
+    components: { FSDialogSubmit, FSButton, FSDateField, FSDateRangeField, FSSpan, FSCard, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -258,7 +302,7 @@ export const ChainedDialogs: Story = {
         label="Dialog - slots"
         @click="() => args.value1 = true"
       />
-      <FSSubmitDialog
+      <FSDialogSubmit
         v-model="args.value1"
       >
         <template #header>
@@ -285,7 +329,7 @@ export const ChainedDialogs: Story = {
             />
           </FSRow>
         </template>
-      </FSSubmitDialog>
+      </FSDialogSubmit>
     </div>`
   })
 }

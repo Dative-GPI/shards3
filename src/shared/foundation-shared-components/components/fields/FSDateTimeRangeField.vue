@@ -31,7 +31,7 @@
       <slot :name="name" v-bind="slotData" />
     </template>
   </FSTextField>
-  <FSSubmitDialog
+  <FSDialogSubmit
     :title="$props.label"
     :rightButtonColor="$props.color"
     @click:rightButton="onSubmit"
@@ -67,7 +67,7 @@
         </FSRow>
       </FSCol>
     </template>
-  </FSSubmitDialog>
+  </FSDialogSubmit>
 </template>
 
 <script lang="ts">
@@ -77,7 +77,7 @@ import { useColors, useRules } from "@dative-gpi/foundation-shared-components/co
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
-import FSSubmitDialog from "../FSSubmitDialog.vue";
+import FSDialogSubmit from "../FSDialogSubmit.vue";
 import FSCalendarTwin from "../FSCalendarTwin.vue";
 import FSTextField from "./FSTextField.vue";
 import FSButton from "../FSButton.vue";
@@ -88,7 +88,7 @@ import FSRow from "../FSRow.vue";
 export default defineComponent({
   name: "FSDateTimeRangeField",
   components: {
-    FSSubmitDialog,
+    FSDialogSubmit,
     FSCalendarTwin,
     FSTextField,
     FSButton,
