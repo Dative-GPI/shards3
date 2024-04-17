@@ -37,7 +37,8 @@
 import { computed, defineComponent, PropType, ref, watch } from "vue";
 import { decode, isBlurhashValid } from "blurhash";
 
-import { useImageBlurHash, useRawImage } from "@dative-gpi/foundation-shared-services/composables";
+import { IMAGE_RAW_EXTENSION_URL, IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
+import { useExtensionJwt, useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
 import { sizeToVar, varToSize } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSLoader from "./FSLoader.vue";
@@ -86,7 +87,7 @@ export default defineComponent({
   },
   setup(props) {
     const { fetch: fetchBlurHash, entity: blurHash } = useImageBlurHash();
-    const { fetch: fetchRawImage, entity: image } = useRawImage();
+    const { jwt } = useExtensionJwt();
 
     const imageRef = ref<HTMLFormElement | null>(null);
     const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -150,10 +151,11 @@ export default defineComponent({
           return `${imageType.value},${imageData.value}`;
         }
       }
-      if (props.imageId) {
-        if (image.value) {
-          return image.value;
+      else if (props.imageId) {
+        if (jwt.value) {
+          return IMAGE_RAW_EXTENSION_URL(props.imageId, jwt.value);
         }
+        return IMAGE_RAW_URL(props.imageId);
       }
     });
 
@@ -183,12 +185,6 @@ export default defineComponent({
         fetchBlurHash(props.imageId);
       }
     };
-
-    watch(() => props.imageId, () => {
-      if (props.imageId) {
-        fetchRawImage(props.imageId);
-      }
-    }, { immediate: true });
 
     watch(() => blurHash.value, () => {
       if (canvasRef.value && imageRef.value) {
