@@ -1,5 +1,5 @@
 <template>
-  <FSSubmitDialog
+  <FSDialogSubmit
     :rightButtonLabel="$tr('ui.button.remove', 'Remove')"
     :rightButtonColor="ColorEnum.Error"
     :title="title"
@@ -7,7 +7,9 @@
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
-    <template #body>
+    <template
+      #body
+    >
       <FSCol
         gap="16px"
       >
@@ -35,7 +37,10 @@
         </FSSpan>
       </FSCol>
     </template>
-    <template #footer v-if="$props.removing">
+    <template
+      #footer
+      v-if="$props.removing"
+    >
       <FSRow
         align="center-right"
         :height="footerHeight"
@@ -49,7 +54,7 @@
         />
       </FSRow>
     </template>
-  </FSSubmitDialog>
+  </FSDialogSubmit>
 </template>
 
 <script lang="ts">
@@ -59,16 +64,16 @@ import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSSubmitDialog from "./FSSubmitDialog.vue";
+import FSDialogSubmit from "./FSDialogSubmit.vue";
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
-  name: "FSRemoveDialog",
+  name: "FSDialogRemove",
   components: {
-    FSSubmitDialog,
+    FSDialogSubmit,
     FSIcon,
     FSSpan,
     FSCol,
@@ -102,10 +107,10 @@ export default defineComponent({
 
     const title = computed((): string => {
       if (props.removeTotal > 1) {
-        return $tr("ui.remove-dialog.remove-plural", "Remove {0} entities", props.removeTotal.toString());
+        return $tr("ui.dialog-remove.remove-plural", "Remove {0} entities", props.removeTotal.toString());
       }
       else {
-        return $tr("ui.remove-dialog.remove-singular", "Remove an entity");
+        return $tr("ui.dialog-remove.remove-singular", "Remove an entity");
       }
     });
 

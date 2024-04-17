@@ -1,69 +1,89 @@
 <template>
   <FSDialog
-    cardClasses="fs-submit-dialog"
     :width="$props.width"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
-    <template #header>
-      <slot name="header">
-        <FSCol v-if="$props.title">
-          <FSSpan font="text-h2">
+    <template
+      #header
+    >
+      <slot
+        name="header"
+      >
+        <FSCol
+          v-if="$props.title"
+        >
+          <FSSpan
+            font="text-h2"
+          >
             {{ $props.title }}
           </FSSpan>
-          <FSSpan v-if="$props.subtitle">
+          <FSSpan
+            v-if="$props.subtitle"
+          >
             {{ $props.subtitle }}
           </FSSpan>
         </FSCol>
       </slot>
     </template>
-    <template #body>
-      <slot name="body" />
-    </template>
-    <template #footer>
-      <slot name="footer">
-        <FSRow
-          class="fs-submit-dialog-actions"
-          align="top-right"
-          :wrap="false"
+    <template
+      #body
+    >
+      <FSForm
+        v-model="valid"
+      >
+        <FSCol
+          gap="32px"
         >
-          <FSButton
-            :prependIcon="$props.leftButtonPrependIcon"
-            :label="cancelButtonLabel"
-            :appendIcon="$props.leftButtonAppendIcon"
-            :variant="$props.leftButtonVariant"
-            :color="$props.leftButtonColor"
-            @click="() => $emit('update:modelValue', false)"
+          <slot
+            name="body"
           />
-          <FSButton
-            :prependIcon="$props.rightButtonPrependIcon"
-            :label="submitButtonLabel"
-            :appendIcon="$props.rightButtonAppendIcon"
-            :variant="$props.rightButtonVariant"
-            :color="$props.rightButtonColor"
-            :editable="$props.editable"
-            @click="() => $emit('click:rightButton')"
-          />
-        </FSRow>
-      </slot>
+          <FSRow
+            class="fs-dialog-actions"
+            align="top-right"
+            :wrap="false"
+          >
+            <FSButton
+              :prependIcon="$props.leftButtonPrependIcon"
+              :label="cancelButtonLabel"
+              :appendIcon="$props.leftButtonAppendIcon"
+              :variant="$props.leftButtonVariant"
+              :color="$props.leftButtonColor"
+              @click="() => $emit('update:modelValue', false)"
+            />
+            <FSButton
+              type="submit"
+              :prependIcon="$props.rightButtonPrependIcon"
+              :label="submitButtonLabel"
+              :appendIcon="$props.rightButtonAppendIcon"
+              :variant="$props.rightButtonVariant"
+              :color="$props.rightButtonColor"
+              :editable="$props.editable"
+              @click="onSubmit"
+            />
+          </FSRow>
+        </FSCol>
+      </FSForm>
     </template>
   </FSDialog>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSDialog from "./FSDialog.vue";
+import FSForm from "./FSForm.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
-  name: "FSSubmitDialog",
+  name: "FSDialogForm",
   components: {
     FSDialog,
+    FSForm,
     FSRow
   },
   props: {
@@ -144,8 +164,10 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue", "click:rightButton"],
-  setup(props) {
+  setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
+
+    const valid = ref(false);
 
     const cancelButtonLabel = computed(() => {
       return props.leftButtonLabel ?? $tr("ui.button.cancel", "Cancel");
@@ -155,10 +177,18 @@ export default defineComponent({
       return props.rightButtonLabel ??  $tr("ui.button.validate", "Validate");
     });
 
+    const onSubmit = () => {
+      if (valid.value) {
+        emit("click:rightButton");
+      }
+    };
+
     return {
-      ColorEnum,
       cancelButtonLabel,
-      submitButtonLabel
+      submitButtonLabel,
+      ColorEnum,
+      valid,
+      onSubmit
     };
   }
 });
