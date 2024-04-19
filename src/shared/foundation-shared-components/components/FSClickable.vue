@@ -9,6 +9,8 @@
     @mouseup="active = false"
   >
     <FSCard
+      :borderRadius="$props.borderRadius"
+      :borderStyle="$props.borderStyle"
       :height="$props.height"
       :width="$props.width"
       :class="classes"
@@ -39,6 +41,8 @@
     @mouseup="active = false"
   >
     <FSCard
+      :borderRadius="$props.borderRadius"
+      :borderStyle="$props.borderStyle"
       :height="$props.height"
       :width="$props.width"
       :class="classes"
@@ -70,6 +74,8 @@
     @mouseup="active = false"
   >
     <FSCard
+      :borderRadius="$props.borderRadius"
+      :borderStyle="$props.borderStyle"
       :height="$props.height"
       :width="$props.width"
       :class="classes"
