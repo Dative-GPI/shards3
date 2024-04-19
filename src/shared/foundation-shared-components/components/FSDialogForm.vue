@@ -31,6 +31,7 @@
       #body
     >
       <FSForm
+        :variant="$props.variant"
         v-model="valid"
       >
         <FSCol
@@ -39,29 +40,35 @@
           <slot
             name="body"
           />
-          <FSRow
-            class="fs-dialog-actions"
-            align="top-right"
-            :wrap="false"
-          >
-            <FSButton
-              :prependIcon="$props.leftButtonPrependIcon"
-              :label="cancelButtonLabel"
-              :appendIcon="$props.leftButtonAppendIcon"
-              :variant="$props.leftButtonVariant"
-              :color="$props.leftButtonColor"
-              @click="() => $emit('update:modelValue', false)"
+          <FSRow>
+            <slot
+              name="left-footer"
             />
-            <FSButton
-              type="submit"
-              :prependIcon="$props.rightButtonPrependIcon"
-              :label="submitButtonLabel"
-              :appendIcon="$props.rightButtonAppendIcon"
-              :variant="$props.rightButtonVariant"
-              :color="$props.rightButtonColor"
-              :editable="$props.editable"
-              @click="onSubmit"
-            />
+            <FSRow
+              class="fs-dialog-actions"
+              align="top-right"
+              :wrap="false"
+            >
+              <FSButton
+                :prependIcon="$props.leftButtonPrependIcon"
+                :label="cancelButtonLabel"
+                :appendIcon="$props.leftButtonAppendIcon"
+                :variant="$props.leftButtonVariant"
+                :color="$props.leftButtonColor"
+                @click="() => $emit('update:modelValue', false)"
+              />
+              <FSButton
+                type="submit"
+                :prependIcon="$props.rightButtonPrependIcon"
+                :label="submitButtonLabel"
+                :appendIcon="$props.rightButtonAppendIcon"
+                :variant="$props.rightButtonVariant"
+                :color="$props.rightButtonColor"
+                :load="$props.load"
+                :editable="$props.editable"
+                @click="onSubmit"
+              />
+            </FSRow>
           </FSRow>
         </FSCol>
       </FSForm>
@@ -101,6 +108,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
       required: false,
       default: "auto"
+    },
+    variant: {
+      type: String as PropType<"standard" | "lazy" | "submit">,
+      required: false,
+      default: "submit"
     },
     modelValue: {
       type: Boolean,
@@ -156,6 +168,11 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    load: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     editable: {
       type: Boolean,

@@ -6,7 +6,7 @@ export const DASHBOARDORGANISATIONS: DashboardOrganisationDetails[] = [
         id: "1",
         label: "label 1",
         code: "code 1",
-        colors: ["#FF0000"],
+        colors: [],
         icon: "mdi-shape",
         path: [],
         tags: ["tag 1"],

@@ -28,7 +28,7 @@ export const FOLDERS: FolderDetails[] = [
         id: "3",
         label: "folder 3",
         code: "code 3",
-        colors: ["#FF0000", "#00FF00", "#0000FF"],
+        colors: [],
         icon: "mdi-folder-outline",
         path: [],
         tags: ["tag 3"],
