@@ -39,7 +39,7 @@
             </template>
           </FSTextField>
           <FSTextField
-            v-if="$props.allowOpacity"
+            v-if="$props.allowOpacity && !$props.onlyBaseColors"
             class="fs-color-field-opacity"
             :label="$tr('ui.color-field.opacity', 'Opacity')"
             :hideHeader="$props.hideHeader"
@@ -90,12 +90,26 @@
         width="fill"
       >
         <v-color-picker
+          v-if="!$props.onlyBaseColors"
           class="fs-color-field-picker"
           mode="hexa"
           :elevation="0"
           :modes="allowOpacity ? ['hexa', 'rgba'] : ['hex', 'rgb']"
           :modelValue="fullColor"
           @update:modelValue="onSubmit"
+        />
+        <v-color-picker
+          v-else
+          class="fs-color-field-picker"
+          :elevation="0"
+          :modelValue="fullColor"
+          @update:modelValue="onSubmit"
+          swatches-max-height="400px"
+          show-swatches
+          hide-inputs
+          hide-canvas
+          hide-sliders
+          :swatches="getBasePaletteColors()"
         />
       </FSCol>
     </FSCard>
@@ -161,11 +175,16 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    onlyBaseColors: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue", "update:opacity"],
   setup(props, { emit }) {
-    const { getColors } = useColors();
+    const { getColors, getBasePaletteColors } = useColors();
     const { slots } = useSlots();
 
     delete slots.description;
@@ -200,6 +219,7 @@ export default defineComponent({
 
     return {
       getPercentageFromHex,
+      getBasePaletteColors,
       innerOpacity,
       innerColor,
       fullColor,
