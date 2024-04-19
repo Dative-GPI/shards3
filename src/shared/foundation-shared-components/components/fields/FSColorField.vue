@@ -1,9 +1,9 @@
-<template> 
+<template>
   <v-menu
     :closeOnContentClick="false"
     :modelValue="menu && $props.editable"
     @update:modelValue="(value) => menu = value"
-  >  
+  >
     <template #activator="{ props }">
       <FSCol>
         <FSRow
@@ -22,14 +22,12 @@
           >
             <template #prepend-inner>
               <slot name="prepend-inner">
-                <FSIcon
-                  :color="innerColor"
-                >
+                <FSIcon :color="innerColor">
                   mdi-circle
                 </FSIcon>
               </slot>
             </template>
-            <template #append> 
+            <template #append>
               <FSButton
                 prependIcon="mdi-pencil"
                 variant="full"
@@ -47,7 +45,7 @@
             :editable="$props.editable"
             :clearable="false"
             :readonly="true"
-            :modelValue="(Math.round(getPercentageFromHex(innerOpacity)*100)) + ' %'"
+            :modelValue="(Math.round(getPercentageFromHex(innerOpacity) * 100)) + ' %'"
           >
             <template #prepend-inner>
               <slot name="prepend-inner">
@@ -60,7 +58,7 @@
                 </FSIcon>
               </slot>
             </template>
-            <template #append> 
+            <template #append>
               <FSButton
                 prependIcon="mdi-pencil"
                 variant="full"
@@ -81,14 +79,12 @@
           </FSSpan>
         </slot>
       </FSCol>
-    </template> 
+    </template>
     <FSCard
       :elevation="true"
       :border="false"
     >
-      <FSCol
-        width="fill"
-      >
+      <FSCol width="fill">
         <v-color-picker
           v-if="!$props.onlyBaseColors"
           class="fs-color-field-picker"
@@ -115,7 +111,7 @@
     </FSCard>
   </v-menu>
 </template>
-  
+
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
@@ -197,7 +193,7 @@ export default defineComponent({
     const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
     const fullColor = ref(innerColor.value + innerOpacity.value);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
         return {
           "--fs-color-field-color": lights.dark
