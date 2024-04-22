@@ -63,6 +63,13 @@ export const Variations: Story = {
         v-model="args.value3"
         v-model:opacityValue="args.opacity3"
       />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSColorField
+        label="Base color picker"
+        :onlyBaseColors="true"      
+        v-model="args.value3"
+        v-model:opacityValue="args.opacity3"
+      />
     </FSCol>`
   })
 }

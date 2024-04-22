@@ -6,6 +6,8 @@ import { ColorBase, ColorEnum, ColorVariations } from "@dative-gpi/foundation-sh
 
 export const useColors = () => {
     const theme = useTheme().current.value;
+    const baseMinSaturation = 55;
+    const baseFixedBrightness = 90;
 
     const isGrayScale = (color: Color): boolean => {
         const maxDiff = Math.max(
@@ -35,7 +37,8 @@ export const useColors = () => {
         if (isGrayScale(base)) {
             return base.saturationv(1);
         }
-        return base.saturationv(((base.saturationv() * 30) / 100) + 70).value(90);
+        const saturation = base.saturationv() > baseMinSaturation ? base.saturationv() : baseMinSaturation;
+        return base.saturationv(saturation).value(baseFixedBrightness);
     };
 
     const getDark = (base: Color): Color => {
@@ -58,7 +61,7 @@ export const useColors = () => {
         const themed = (Object as any).values(ColorEnum).includes(color);
 
         const seed = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
-        
+
         const base = getBase(seed);
         const light = getLight(base);
         const soft = getSoft(base);
@@ -115,8 +118,30 @@ export const useColors = () => {
         };
     }
 
+    const getBasePaletteColors = (): string[][] => {
+        const columnCount = 5
+        const colors: string[][] = [];
+        for (let saturation = baseMinSaturation; saturation <= 100; saturation += (100 - baseMinSaturation) / (columnCount - 1)) {
+            let colorsRow = [];
+            for (let hue = 0; hue < 360; hue += 15) {
+                const color = new Color({ h: hue, s: saturation, v: baseFixedBrightness });
+                colorsRow.push(color.hex());
+            }
+            colors.push(colorsRow)
+        }
+        let i = 0;
+        for (let brightness = 5; brightness <= 95; brightness += (90 / (columnCount - 1))) {
+            const color = new Color({ h: 0, s: 1, v: 100 - brightness });
+            colors[i].unshift(color.hex());
+            i++;
+        }
+        return colors;
+    }
+
+
     return {
         getColors,
-        getGradients
+        getGradients,
+        getBasePaletteColors
     };
 }
