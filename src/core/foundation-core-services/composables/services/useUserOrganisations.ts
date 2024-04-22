@@ -1,8 +1,8 @@
 import { Ref } from "vue";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
-import { CreateUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { CreateUserOrganisationDTO, CreateServiceUserOrganisationDTO, UpdateUserOrganisationDTO, UserOrganisationDetails, UserOrganisationDetailsDTO, UserOrganisationFilters, UserOrganisationInfos, UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
-import { USER_ORGANISATIONS_URL, USER_ORGANISATION_CURRENT_URL, USER_ORGANISATION_URL } from "../../config/urls";
+import { USER_ORGANISATIONS_URL, USER_ORGANISATIONS_SERVICE_URL, USER_ORGANISATION_CURRENT_URL, USER_ORGANISATION_URL } from "../../config/urls";
 
 const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetailsDTO, UserOrganisationDetails>("userOrganisation", UserOrganisationDetails).create(factory => factory.build(
     factory.addGet(USER_ORGANISATION_URL),
@@ -12,6 +12,11 @@ const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetail
     factory.addRemove(USER_ORGANISATION_URL),
     ServiceFactory.addCustom("getCurrent", (axios) => axios.get(USER_ORGANISATION_CURRENT_URL()), (dto: UserOrganisationDetailsDTO) => new UserOrganisationDetails(dto)),
     factory.addNotify(notifyService => ({
+        ...ServiceFactory.addCustom("createService", (axios, payload: CreateServiceUserOrganisationDTO) => axios.post(USER_ORGANISATIONS_SERVICE_URL(), payload), (dto: UserOrganisationDetailsDTO) => {
+            const result = new UserOrganisationDetails(dto)
+            notifyService.notify("add", result);
+            return result;
+        }),
         ...ServiceFactory.addCustom("updateCurrent", (axios, payload: UpdateUserOrganisationDTO) => axios.post(USER_ORGANISATION_CURRENT_URL(), payload), (dto: UserOrganisationDetailsDTO) => {
             const result = new UserOrganisationDetails(dto)
             notifyService.notify("update", result);
@@ -39,3 +44,4 @@ export const useRemoveUserOrganisation = ComposableFactory.remove(UserOrganisati
 
 export const useCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory.getCurrent, trackUserOrganisation);
 export const useUpdateCurrentUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory.updateCurrent, trackUserOrganisation);
+export const useCreateServiceUserOrganisation = ComposableFactory.custom(UserOrganisationServiceFactory.createService, trackUserOrganisation);
