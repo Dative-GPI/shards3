@@ -70,6 +70,14 @@ export const Variations: Story = {
         :items="args.items"
         v-model="args.value4"
       />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteField
+        label="With toggle set enable with treshold at 8"
+        :enableToggleSet="true"
+        :toggleSetTreshold="8"
+        :items="args.items"
+        v-model="args.value5"
+      />
     </FSCol>`
   })
 }

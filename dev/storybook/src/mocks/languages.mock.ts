@@ -10,4 +10,9 @@ export const LANGUAGES: LanguageInfosDTO[] = [{
     label: "English (United States)",
     icon: "$unitedStates",
     code: "en-US"
+}, {
+    id: "3",
+    label: "Spanish (Spain)",
+    icon: "$spain",
+    code: "sp-SP"
 }];

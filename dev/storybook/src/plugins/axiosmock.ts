@@ -2,12 +2,14 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
-import { DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS } from '@/mocks';
+import { DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS } from '@/mocks';
 
 export function mockApp() {
     const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
     mock.onGet("/api/foundation/shared/v1/translations/fr-FR").reply(200, TRANSLATIONS);
     mock.onGet("/api/foundation/shared/v1/time-zones").reply(200, TIMEZONES);
+    mock.onGet("/api/foundation/shared/v1/organisations").reply(200, ORGANISATIONS);
+    mock.onGet("/api/foundation/shared/v1/languages").reply(200, LANGUAGES);
     mock.onGet("/api/foundation/core/v1/organisations/dative/dashboard-organisations/1").reply(200, DASHBOARDORGANISATIONS[0]);
     mock.onGet("/api/foundation/core/v1/organisations/dative/dashboard-organisations/2").reply(200, DASHBOARDORGANISATIONS[1]);
     mock.onGet("/api/foundation/core/v1/organisations/dative/dashboard-organisations/3").reply(200, DASHBOARDORGANISATIONS[2]);
