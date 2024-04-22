@@ -28,3 +28,4 @@ export * from "./roleOrganisationTypes";
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";
 export * from "./users";
+export * from "./widgetTemplates";
