@@ -12,6 +12,7 @@
   >
     <template #placeholder>
       <FSLoader
+        v-if="$props.imageId"
         class="fs-image-load"
         height="100%"
         width="100%"

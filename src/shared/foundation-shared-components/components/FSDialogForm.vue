@@ -33,6 +33,7 @@
     >
       <FSForm
         :variant="$props.variant"
+        @submit="onSubmit"
         v-model="valid"
       >
         <FSCol
@@ -74,7 +75,6 @@
                 :color="$props.rightButtonColor"
                 :load="$props.load"
                 :editable="$props.editable"
-                @click="onSubmit"
               />
             </FSRow>
           </FSRow>
