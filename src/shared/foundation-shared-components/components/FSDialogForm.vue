@@ -32,6 +32,7 @@
       #body
     >
       <FSForm
+        :variant="$props.variant"
         v-model="valid"
       >
         <FSCol
@@ -71,6 +72,7 @@
                 :appendIcon="$props.rightButtonAppendIcon"
                 :variant="$props.rightButtonVariant"
                 :color="$props.rightButtonColor"
+                :load="$props.load"
                 :editable="$props.editable"
                 @click="onSubmit"
               />
@@ -119,6 +121,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
       required: false,
       default: "auto"
+    },
+    variant: {
+      type: String as PropType<"standard" | "lazy" | "submit">,
+      required: false,
+      default: "submit"
     },
     modelValue: {
       type: Boolean,
@@ -174,6 +181,11 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    load: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     editable: {
       type: Boolean,

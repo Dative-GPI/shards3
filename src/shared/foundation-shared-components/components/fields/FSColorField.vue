@@ -4,7 +4,9 @@
     :modelValue="menu && $props.editable"
     @update:modelValue="(value) => menu = value"
   >
-    <template #activator="{ props }">
+    <template
+      #activator="{ props }"
+    >
       <FSCol>
         <FSRow
           height="fill"
@@ -20,14 +22,22 @@
             :modelValue="innerColor"
             v-bind="$attrs"
           >
-            <template #prepend-inner>
-              <slot name="prepend-inner">
-                <FSIcon :color="innerColor">
+            <template
+              #prepend-inner
+            >
+              <slot
+                name="prepend-inner"
+              >
+                <FSIcon
+                  :color="innerColor"
+                >
                   mdi-circle
                 </FSIcon>
               </slot>
             </template>
-            <template #append>
+            <template
+              #append
+            >
               <FSButton
                 prependIcon="mdi-pencil"
                 variant="full"
@@ -47,8 +57,12 @@
             :readonly="true"
             :modelValue="(Math.round(getPercentageFromHex(innerOpacity) * 100)) + ' %'"
           >
-            <template #prepend-inner>
-              <slot name="prepend-inner">
+            <template
+              #prepend-inner
+            >
+              <slot
+                name="prepend-inner"
+              >
                 <FSIcon
                   :color="ColorEnum.Dark"
                   :editable="$props.editable"
@@ -58,7 +72,9 @@
                 </FSIcon>
               </slot>
             </template>
-            <template #append>
+            <template
+              #append
+            >
               <FSButton
                 prependIcon="mdi-pencil"
                 variant="full"
@@ -68,7 +84,9 @@
             </template>
           </FSTextField>
         </FSRow>
-        <slot name="description">
+        <slot
+          name="description"
+        >
           <FSSpan
             v-if="$props.description"
             class="fs-color-field-description"
@@ -84,7 +102,9 @@
       :elevation="true"
       :border="false"
     >
-      <FSCol width="fill">
+      <FSCol
+        width="fill"
+      >
         <v-color-picker
           v-if="!$props.onlyBaseColors"
           class="fs-color-field-picker"

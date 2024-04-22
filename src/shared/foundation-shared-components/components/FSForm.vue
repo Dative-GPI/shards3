@@ -24,7 +24,7 @@ export default defineComponent({
     variant: {
       type: String as PropType<"standard" | "lazy" | "submit">,
       required: false,
-      default: "standard"
+      default: "submit"
     }
   },
   emits: ["update:modelValue", "submit"],
