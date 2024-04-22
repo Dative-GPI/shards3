@@ -35,7 +35,6 @@
     </slot>
     <v-text-field
       class="fs-text-field"
-      clearIcon="mdi-close"
       variant="outlined"
       :style="style"
       :type="$props.type"
@@ -51,6 +50,15 @@
     >
       <template v-for="(_, name) in slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
+      </template>
+      <template #clear>
+        <FSButton
+          v-if="$props.editable && $props.modelValue"
+          icon="mdi-close"
+          variant="icon"
+          :color="ColorEnum.Dark"
+          @click="$emit('update:modelValue', null)"
+        />
       </template>
     </v-text-field>
     <slot name="description">
@@ -72,6 +80,7 @@ import { computed, defineComponent, PropType } from "vue";
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSButton from "../FSButton.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -79,6 +88,7 @@ import FSRow from "../FSRow.vue";
 export default defineComponent({
   name: "FSTextField",
   components: {
+    FSButton,
     FSSpan,
     FSCol,
     FSRow
@@ -166,6 +176,7 @@ export default defineComponent({
 
     return {
       validateOn,
+      ColorEnum,
       messages,
       blurred,
       slots,

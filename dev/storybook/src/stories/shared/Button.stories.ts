@@ -125,7 +125,7 @@ export const ContentVariant: Story = {
               <FSText color="error" :variant="contentVariant">
                 Create
               </FSText>
-            <FSRow align="center-center">
+            </FSRow>
           </template>
         </FSClickable>
       </div>

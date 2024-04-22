@@ -15,6 +15,9 @@
       v-model="innerValue"
       v-bind="$attrs"
     >
+      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
       <template #append-inner>
         <slot name="append-inner">
           <FSButton
@@ -25,9 +28,6 @@
             @click="onAdd"
           />
         </slot>
-      </template>
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
       </template>
     </FSTextField>
     <FSTagGroup
