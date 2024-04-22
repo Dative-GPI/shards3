@@ -88,7 +88,7 @@ export default defineComponent({
       default: null
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "update:imageId"],
   setup(props, { emit }) {
     const { getColors } = useColors();
     const { readFile } = useFiles();
@@ -120,7 +120,12 @@ export default defineComponent({
     const onRemove = () => {
       fileSelected.value.fileName = "";
       fileSelected.value.fileContent = null;
-      emit("update:modelValue", null);
+      if (props.modelValue) {
+        emit("update:modelValue", null);
+      }
+      else {
+        emit("update:imageId", null);
+      }
     };
 
     return {

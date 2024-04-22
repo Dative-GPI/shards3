@@ -17,8 +17,9 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      imageId: "1",
-      source: ""
+      imageId1: "1",
+      source1: "",
+      source2: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -32,8 +33,13 @@ export const Variations: Story = {
       <FSEditImage
         height="96px"
         width="96px"
-        :imageId="args.imageId"
-        v-model="args.source"
+        :imageId="args.imageId1"
+        v-model="args.source1"
+      />
+      <FSEditImage
+        height="96px"
+        width="96px"
+        v-model="args.source2"
       />
     </div>`
   })
