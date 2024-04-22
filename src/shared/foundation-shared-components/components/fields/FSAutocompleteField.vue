@@ -1,39 +1,43 @@
 <template>
   <FSCol>
-    <slot v-if="!$props.hideHeader" name="label">
-      <FSRow
-        :wrap="false"
-      >
-        <FSSpan
-          v-if="$props.label"
+    <slot v-if="!$props.hideHeader"
+      name="label">
+      <FSRow :wrap="false">
+        <FSSpan v-if="$props.label"
           class="fs-autocomplete-field-label"
           font="text-overline"
-          :style="style"
-        >
+          :style="style">
           {{ $props.label }}
         </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
+        <FSSpan v-if="$props.label && $props.required"
           class="fs-autocomplete-field-label"
           style="margin-left: -8px;"
           font="text-overline"
           :ellipsis="false"
-          :style="style"
-        >
+          :style="style">
           *
         </FSSpan>
         <v-spacer style="min-width: 40px;" />
-        <FSSpan
-          v-if="messages.length > 0"
+        <FSSpan v-if="messages.length > 0"
           class="fs-autocomplete-field-messages"
           font="text-overline"
-          :style="style"
-        >
+          :style="style">
           {{ messages.join(", ") }}
         </FSSpan>
       </FSRow>
     </slot>
-    <v-autocomplete
+    <template v-if="!$props.disableToggleSet && $props.items.length < $props.toggleSetTreshold">
+      <FSLoader v-if="$props.loading"
+        width="100%"
+        :height="['40px', '36px']" />
+      <FSToggleSet v-else
+        :values="$props.items"
+        :multiple="$props.multiple"
+        :modelValue="$props.modelValue"
+        @update:modelValue="onUpdate"
+        v-bind="$attrs" />
+    </template>
+    <v-autocomplete v-else
       menuIcon="mdi-chevron-down"
       clearIcon="mdi-close"
       variant="outlined"
@@ -47,6 +51,7 @@
       :itemTitle="$props.itemTitle"
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
+      :loading="$props.loading"
       :clearable="$props.editable && !!$props.modelValue"
       :returnObject="$props.returnObject"
       :rules="$props.rules"
@@ -55,19 +60,18 @@
       @update:modelValue="onUpdate"
       @blur="blurred = true"
       v-model:search="innerSearch"
-      v-bind="$attrs"
-    >
-      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      v-bind="$attrs">
+      <template v-for="(_, name) in slots"
+        v-slot:[name]="slotData">
+        <slot :name="name"
+          v-bind="slotData" />
       </template>
     </v-autocomplete>
     <slot name="description">
-      <FSSpan
-        v-if="$props.description"
+      <FSSpan v-if="$props.description"
         class="fs-autocomplete-field-description"
         font="text-underline"
-        :style="style"
-      >
+        :style="style">
         {{ $props.description }}
       </FSSpan>
     </slot>
@@ -83,13 +87,17 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
+import FSLoader from "../FSLoader.vue";
+import FSToggleSet from "../FSToggleSet.vue";
 
 export default defineComponent({
   name: "FSAutocompleteField",
   components: {
     FSSpan,
     FSCol,
-    FSRow
+    FSRow,
+    FSLoader,
+    FSToggleSet
   },
   props: {
     label: {
@@ -155,6 +163,21 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    disableToggleSet: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    toggleSetTreshold: {
+      type: Number,
+      required: false,
+      default: 6
     }
   },
   emits: ["update:modelValue", "update:search"],
@@ -173,23 +196,23 @@ export default defineComponent({
 
     const innerSearch = ref("");
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
         return {
-          "--fs-autocomplete-field-cursor"             : "default",
-          "--fs-autocomplete-field-border-color"       : lights.base,
-          "--fs-autocomplete-field-color"              : lights.dark,
+          "--fs-autocomplete-field-cursor": "default",
+          "--fs-autocomplete-field-border-color": lights.base,
+          "--fs-autocomplete-field-color": lights.dark,
           "--fs-autocomplete-field-active-border-color": lights.base
         };
       }
       return {
-        "--fs-autocomplete-field-cursor"             : "text",
-        "--fs-autocomplete-field-background-color"   : backgrounds.base,
-        "--fs-autocomplete-field-border-color"       : lights.dark,
-        "--fs-autocomplete-field-color"              : darks.base,
+        "--fs-autocomplete-field-cursor": "text",
+        "--fs-autocomplete-field-background-color": backgrounds.base,
+        "--fs-autocomplete-field-border-color": lights.dark,
+        "--fs-autocomplete-field-color": darks.base,
         "--fs-autocomplete-field-active-border-color": darks.dark,
-        "--fs-autocomplete-field-error-color"        : errors.base,
-        "--fs-autocomplete-field-error-border-color" : errors.base
+        "--fs-autocomplete-field-error-color": errors.base,
+        "--fs-autocomplete-field-error-border-color": errors.base
       };
     });
 
