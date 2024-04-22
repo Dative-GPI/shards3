@@ -13,6 +13,7 @@
       >
         <FSCol
           v-if="$props.title"
+          padding="0 16px 0 0"
         >
           <FSSpan
             font="text-h2"
@@ -30,9 +31,14 @@
     <template
       #body
     >
-      <slot
-        name="body"
-      />
+      <FSFadeOut
+        :height="height"
+        padding="0 8px 0 0"
+      >
+        <slot
+          name="body"
+        />
+      </FSFadeOut>
     </template>
     <template
       #footer
@@ -41,27 +47,33 @@
         name="footer"
       >
         <FSRow
-          class="fs-dialog-actions"
-          align="top-right"
-          :wrap="false"
+          padding="0 16px 0 0"
         >
-          <FSButton
-            :prependIcon="$props.leftButtonPrependIcon"
-            :label="cancelButtonLabel"
-            :appendIcon="$props.leftButtonAppendIcon"
-            :variant="$props.leftButtonVariant"
-            :color="$props.leftButtonColor"
-            @click="() => $emit('update:modelValue', false)"
+          <slot
+            name="left-footer"
           />
-          <FSButton
-            :prependIcon="$props.rightButtonPrependIcon"
-            :label="submitButtonLabel"
-            :appendIcon="$props.rightButtonAppendIcon"
-            :variant="$props.rightButtonVariant"
-            :color="$props.rightButtonColor"
-            :editable="$props.editable"
-            @click="() => $emit('click:rightButton')"
-          />
+          <FSRow
+            align="top-right"
+            :wrap="false"
+          >
+            <FSButton
+              :prependIcon="$props.leftButtonPrependIcon"
+              :label="cancelButtonLabel"
+              :appendIcon="$props.leftButtonAppendIcon"
+              :variant="$props.leftButtonVariant"
+              :color="$props.leftButtonColor"
+              @click="() => $emit('update:modelValue', false)"
+            />
+            <FSButton
+              :prependIcon="$props.rightButtonPrependIcon"
+              :label="submitButtonLabel"
+              :appendIcon="$props.rightButtonAppendIcon"
+              :variant="$props.rightButtonVariant"
+              :color="$props.rightButtonColor"
+              :editable="$props.editable"
+              @click="() => $emit('click:rightButton')"
+            />
+          </FSRow>
         </FSRow>
       </slot>
     </template>
@@ -73,13 +85,18 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
+import FSFadeOut from "./FSFadeOut.vue";
+import FSButton from "./FSButton.vue";
 import FSDialog from "./FSDialog.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSDialogSubmit",
   components: {
+    FSFadeOut,
+    FSButton,
     FSDialog,
     FSRow
   },
@@ -162,7 +179,18 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "click:rightButton"],
   setup(props) {
+    const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
+
+    const height = computed(() => {
+      const other = 24 + 24                                                      // Paddings
+                  + (props.title ? isMobileSized.value ? 24 : 32 : 0)            // Title
+                  + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
+                  + (isMobileSized.value ? 36 : 40)                              // Footer
+                  + 64;                                                          // Debug mask
+      console.log(document.documentElement.clientHeight, document.documentElement.clientHeight*0.9 - other);
+      return `calc(90vh - ${other}px)`;
+    });
 
     const cancelButtonLabel = computed(() => {
       return props.leftButtonLabel ?? $tr("ui.button.cancel", "Cancel");
@@ -175,7 +203,8 @@ export default defineComponent({
     return {
       cancelButtonLabel,
       submitButtonLabel,
-      ColorEnum
+      ColorEnum,
+      height
     };
   }
 });

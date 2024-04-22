@@ -13,6 +13,7 @@
       >
         <FSCol
           v-if="$props.title"
+          padding="0 16px 0 0"
         >
           <FSSpan
             font="text-h2"
@@ -34,34 +35,46 @@
         v-model="valid"
       >
         <FSCol
-          gap="32px"
+          gap="24px"
         >
-          <slot
-            name="body"
-          />
-          <FSRow
-            class="fs-dialog-actions"
-            align="top-right"
-            :wrap="false"
+          <FSFadeOut
+            :height="height"
+            padding="0 8px 0 0"
           >
-            <FSButton
-              :prependIcon="$props.leftButtonPrependIcon"
-              :label="cancelButtonLabel"
-              :appendIcon="$props.leftButtonAppendIcon"
-              :variant="$props.leftButtonVariant"
-              :color="$props.leftButtonColor"
-              @click="() => $emit('update:modelValue', false)"
+            <slot
+              name="body"
             />
-            <FSButton
-              type="submit"
-              :prependIcon="$props.rightButtonPrependIcon"
-              :label="submitButtonLabel"
-              :appendIcon="$props.rightButtonAppendIcon"
-              :variant="$props.rightButtonVariant"
-              :color="$props.rightButtonColor"
-              :editable="$props.editable"
-              @click="onSubmit"
+          </FSFadeOut>
+          <FSRow
+            padding="0 16px 0 0"
+          >
+            <slot
+              name="left-footer"
             />
+            <FSRow
+              class="fs-dialog-actions"
+              align="top-right"
+              :wrap="false"
+            >
+              <FSButton
+                :prependIcon="$props.leftButtonPrependIcon"
+                :label="cancelButtonLabel"
+                :appendIcon="$props.leftButtonAppendIcon"
+                :variant="$props.leftButtonVariant"
+                :color="$props.leftButtonColor"
+                @click="() => $emit('update:modelValue', false)"
+              />
+              <FSButton
+                type="submit"
+                :prependIcon="$props.rightButtonPrependIcon"
+                :label="submitButtonLabel"
+                :appendIcon="$props.rightButtonAppendIcon"
+                :variant="$props.rightButtonVariant"
+                :color="$props.rightButtonColor"
+                :editable="$props.editable"
+                @click="onSubmit"
+              />
+            </FSRow>
           </FSRow>
         </FSCol>
       </FSForm>
@@ -74,7 +87,10 @@ import { computed, defineComponent, PropType, ref } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
+import FSFadeOut from "./FSFadeOut.vue";
+import FSButton from "./FSButton.vue";
 import FSDialog from "./FSDialog.vue";
 import FSForm from "./FSForm.vue";
 import FSRow from "./FSRow.vue";
@@ -82,6 +98,8 @@ import FSRow from "./FSRow.vue";
 export default defineComponent({
   name: "FSDialogForm",
   components: {
+    FSFadeOut,
+    FSButton,
     FSDialog,
     FSForm,
     FSRow
@@ -165,9 +183,19 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "click:rightButton"],
   setup(props, { emit }) {
+    const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const valid = ref(false);
+
+    const height = computed(() => {
+      const other = 24 + 24                                                      // Paddings
+                  + (props.title ? isMobileSized.value ? 24 : 32 : 0)            // Title
+                  + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
+                  + (isMobileSized.value ? 36 : 40)                              // Footer
+                  + 64;                                                          // Debug mask
+      return `calc(90vh - ${other}px)`;
+    });
 
     const cancelButtonLabel = computed(() => {
       return props.leftButtonLabel ?? $tr("ui.button.cancel", "Cancel");
@@ -187,6 +215,7 @@ export default defineComponent({
       cancelButtonLabel,
       submitButtonLabel,
       ColorEnum,
+      height,
       valid,
       onSubmit
     };

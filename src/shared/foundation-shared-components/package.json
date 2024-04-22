@@ -25,7 +25,7 @@
     "blurhash": "^2.0.5",
     "color": "^4.2.3",
     "lexical": "^0.12.5",
-    "vue": "^3.2.0"
+    "vue": "^3.4.23"
   },
   "devDependencies": {
     "@types/color": "^3.0.6",

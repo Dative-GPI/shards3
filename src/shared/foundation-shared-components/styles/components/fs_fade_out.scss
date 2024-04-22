@@ -2,15 +2,14 @@
     @extend .fs-hide-y-scrollbar;
     
     max-height: var(--fs-fade-out-height);
+
     padding: var(--fs-fade-out-padding);
     width: var(--fs-fade-out-width);
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
     flex-direction: column;
     position: relative;
     display: flex;
 }
-
+// TODO
 .fs-fade-out-top {
     pointer-events: none;
     position: sticky;
