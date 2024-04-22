@@ -264,11 +264,23 @@ export default defineComponent({
       else {
         if (props.modelValue === value.id) {
           if (!props.required) {
+            if (props.multiple) {
+              emit("update:modelValue", []);
+              return;
+            }
             emit("update:modelValue", null);
             return;
           }
         }
         else {
+          if (props.multiple) {
+            if (props.modelValue) {
+              emit("update:modelValue", [props.modelValue, value.id]);
+              return;
+            }
+            emit("update:modelValue", [value.id]);
+            return;
+          }
           emit("update:modelValue", value.id);
           return;
         }
