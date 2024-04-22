@@ -1,6 +1,9 @@
 <template>
   <FSCol>
-    <slot v-if="!$props.hideHeader" name="label">
+    <slot
+      v-if="!$props.hideHeader"
+      name="label"
+    >
       <FSRow
         :wrap="false"
       >
@@ -22,7 +25,9 @@
         >
           *
         </FSSpan>
-        <v-spacer style="min-width: 40px;" />
+        <v-spacer
+          style="min-width: 40px;"
+        />
         <FSSpan
           v-if="messages.length > 0"
           class="fs-autocomplete-field-messages"
@@ -33,8 +38,28 @@
         </FSSpan>
       </FSRow>
     </slot>
+    <template
+      v-if="!$props.disableToggleSet && $props.items.length < $props.toggleSetTreshold"
+    >
+      <FSLoader
+        v-if="$props.loading"
+        width="100%"
+        :height="['40px', '36px']"
+      />
+      <FSToggleSet
+        v-else
+        :values="$props.items"
+        :multiple="$props.multiple"
+        :modelValue="$props.modelValue"
+        @update:modelValue="onUpdate"
+        v-bind="$attrs"
+      />
+    </template>
     <v-autocomplete
+      v-else
       class="fs-autocomplete-field"
+      menuIcon="mdi-chevron-down"
+      clearIcon="mdi-close"
       variant="outlined"
       :menuIcon="null"
       :style="style"
@@ -47,6 +72,7 @@
       :itemTitle="$props.itemTitle"
       :itemValue="$props.itemValue"
       :readonly="!$props.editable"
+      :loading="$props.loading"
       :clearable="$props.editable && !!$props.modelValue"
       :returnObject="$props.returnObject"
       :rules="$props.rules"
@@ -55,13 +81,22 @@
       @update:modelValue="onUpdate"
       @blur="blurred = true"
       v-model:search="innerSearch"
-      v-bind="$attrs"
-    >
-      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      v-bind="$attrs">
+      <template
+        v-for="(_, name) in slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
       </template>
-      <template #clear>
-        <slot name="clear">
+      <template
+        #clear
+      >
+        <slot
+          name="clear"
+        >
           <FSButton
             v-if="$props.editable && $props.modelValue"
             icon="mdi-close"
@@ -71,8 +106,12 @@
           />
         </slot>
       </template>
-      <template #append-inner>
-        <slot name="append-inner">
+      <template
+        #append-inner
+      >
+        <slot
+          name="append-inner"
+        >
           <FSButton
             icon="mdi-chevron-down"
             variant="icon"
@@ -82,7 +121,9 @@
         </slot>
       </template>
     </v-autocomplete>
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="$props.description"
         class="fs-autocomplete-field-description"
@@ -105,6 +146,8 @@ import FSButton from "../FSButton.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
+import FSLoader from "../FSLoader.vue";
+import FSToggleSet from "../FSToggleSet.vue";
 
 export default defineComponent({
   name: "FSAutocompleteField",
@@ -112,7 +155,9 @@ export default defineComponent({
     FSButton,
     FSSpan,
     FSCol,
-    FSRow
+    FSRow,
+    FSLoader,
+    FSToggleSet
   },
   props: {
     label: {
@@ -178,6 +223,21 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    disableToggleSet: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    toggleSetTreshold: {
+      type: Number,
+      required: false,
+      default: 6
     }
   },
   emits: ["update:modelValue", "update:search"],
@@ -196,23 +256,23 @@ export default defineComponent({
 
     const innerSearch = ref("");
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
         return {
-          "--fs-autocomplete-field-cursor"             : "default",
-          "--fs-autocomplete-field-border-color"       : lights.base,
-          "--fs-autocomplete-field-color"              : lights.dark,
+          "--fs-autocomplete-field-cursor": "default",
+          "--fs-autocomplete-field-border-color": lights.base,
+          "--fs-autocomplete-field-color": lights.dark,
           "--fs-autocomplete-field-active-border-color": lights.base
         };
       }
       return {
-        "--fs-autocomplete-field-cursor"             : "text",
-        "--fs-autocomplete-field-background-color"   : backgrounds.base,
-        "--fs-autocomplete-field-border-color"       : lights.dark,
-        "--fs-autocomplete-field-color"              : darks.base,
+        "--fs-autocomplete-field-cursor": "text",
+        "--fs-autocomplete-field-background-color": backgrounds.base,
+        "--fs-autocomplete-field-border-color": lights.dark,
+        "--fs-autocomplete-field-color": darks.base,
         "--fs-autocomplete-field-active-border-color": darks.dark,
-        "--fs-autocomplete-field-error-color"        : errors.base,
-        "--fs-autocomplete-field-error-border-color" : errors.base
+        "--fs-autocomplete-field-error-color": errors.base,
+        "--fs-autocomplete-field-error-border-color": errors.base
       };
     });
 
