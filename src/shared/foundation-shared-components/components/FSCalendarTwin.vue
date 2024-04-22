@@ -1,8 +1,9 @@
 <template>
   <FSCol>
-    <FSRow>
+    <FSRow
+      v-if="$props.label"
+    >
       <FSSpan
-        v-if="$props.label"
         class="fs-calendar-label"
         font="text-overline"
       >

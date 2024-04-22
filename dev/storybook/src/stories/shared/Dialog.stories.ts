@@ -190,7 +190,16 @@ export const Form: Story = {
   args: {
     args: {
       value1: false,
-      label: "",
+      label1: "",
+      label2: "",
+      label3: "",
+      label4: "",
+      label5: "",
+      label6: "",
+      label7: "",
+      label8: "",
+      label9: "",
+      label10: "",
       rightButton: () => {
         console.log("Form is valid");
       }
@@ -217,11 +226,58 @@ export const Form: Story = {
         v-model="args.value1"
       >
         <template #body>
-          <FSTextField
-            label="Label"
-            :rules="[v => !!v || 'Label is required']"
-            v-model="args.label"
-          />
+          <FSCol>
+            <FSTextField
+              label="Label 1"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label1"
+            />
+            <FSTextField
+              label="Label 2"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label2"
+            />
+            <FSTextField
+              label="Label 3"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label3"
+            />
+            <FSTextField
+              label="Label 4"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label4"
+            />
+            <FSTextField
+              label="Label 5"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label5"
+            />
+            <FSTextField
+              label="Label 6"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label6"
+            />
+            <FSTextField
+              label="Label 7"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label7"
+            />
+            <FSTextField
+              label="Label 8"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label8"
+            />
+            <FSTextField
+              label="Label 9"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label9"
+            />
+            <FSTextField
+              label="Label 10"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label10"
+            />
+          </FSCol>
         </template>
       </FSDialogForm>
     </div>`

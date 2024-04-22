@@ -34,7 +34,7 @@
       </FSRow>
     </slot>
     <v-textarea
-      clearIcon="mdi-close"
+      class="fs-text-area"
       variant="outlined"
       :style="style"
       :class="classes"
@@ -53,6 +53,15 @@
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
+      </template>
+      <template #clear>
+        <FSButton
+          v-if="$props.editable && $props.modelValue"
+          icon="mdi-close"
+          variant="icon"
+          :color="ColorEnum.Dark"
+          @click="$emit('update:modelValue', null)"
+        />
       </template>
     </v-textarea>
     <slot name="description">
@@ -200,10 +209,11 @@ export default defineComponent({
 
     return {
       validateOn,
+      ColorEnum,
       messages,
       blurred,
+      classes,
       style,
-      classes
     };
   }
 });

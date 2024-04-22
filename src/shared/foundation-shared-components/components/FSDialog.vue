@@ -7,7 +7,7 @@
     v-bind="$attrs"
   >
     <FSCard
-      padding="24px"
+      padding="24px 8px 24px 24px"
       width="100%"
       gap="24px"
       :border="!isExtraSmall"

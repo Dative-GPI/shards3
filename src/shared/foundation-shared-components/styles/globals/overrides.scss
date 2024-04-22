@@ -70,7 +70,6 @@
 
     &:not(.fs-text-area) > .v-input__control > .v-field {
         padding: 0 16px !important;
-        gap: 8px;
 
         & > .v-field__field > .v-field__input {
             @extend .text-body;

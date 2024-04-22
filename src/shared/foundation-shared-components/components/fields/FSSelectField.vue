@@ -35,9 +35,8 @@
     </slot>
     <v-select
       class="fs-select-field"
-      menuIcon="mdi-chevron-down"
-      clearIcon="mdi-close"
       variant="outlined"
+      :menuIcon="null"
       :style="style"
       :listProps="listStyle"
       :hideDetails="true"
@@ -56,6 +55,27 @@
     >
       <template v-for="(_, name) in slots" v-slot:[name]="slotData">
         <slot :name="name" v-bind="slotData" />
+      </template>
+      <template #clear>
+        <slot name="clear">
+          <FSButton
+            v-if="$props.editable && $props.modelValue"
+            icon="mdi-close"
+            variant="icon"
+            :color="ColorEnum.Dark"
+            @click="$emit('update:modelValue', null)"
+          />
+        </slot>
+      </template>
+      <template #append-inner>
+        <slot name="append-inner">
+          <FSButton
+            icon="mdi-chevron-down"
+            variant="icon"
+            :editable="$props.editable"
+            :color="ColorEnum.Dark"
+          />
+        </slot>
       </template>
     </v-select>
     <slot name="description">
@@ -77,6 +97,7 @@ import { computed, defineComponent, PropType } from "vue";
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSButton from "../FSButton.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -84,6 +105,7 @@ import FSRow from "../FSRow.vue";
 export default defineComponent({
   name: "FSSelectField",
   components: {
+    FSButton,
     FSSpan,
     FSCol,
     FSRow
@@ -193,6 +215,7 @@ export default defineComponent({
 
     return {
       validateOn,
+      ColorEnum,
       listStyle,
       messages,
       blurred,
