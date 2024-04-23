@@ -81,7 +81,8 @@
       @update:modelValue="onUpdate"
       @blur="blurred = true"
       v-model:search="innerSearch"
-      v-bind="$attrs">
+      v-bind="$attrs"
+    >
       <template
         v-for="(_, name) in slots"
         v-slot:[name]="slotData"

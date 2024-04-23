@@ -420,7 +420,7 @@
                       v-bind="props"
                     >
                       <FSSpan
-                        :key="index"
+                        font="text-overline"
                       >
                         {{ props.item[item.value] }}
                       </FSSpan>
@@ -569,11 +569,11 @@
                       :name="item.slotName"
                       v-bind="props"
                     >
-                      <FSText
-                        :key="index"
+                      <FSSpan
+                        font="text-overline"
                       >
                         {{ props.item[item.value] }}
-                      </FSText>
+                      </FSSpan>
                     </slot>
                   </template>
                   <template
