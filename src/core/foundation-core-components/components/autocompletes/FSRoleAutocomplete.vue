@@ -1,10 +1,12 @@
 <template>
-  <FSAutocompleteField :loading="fetchingRoleOrganisations && fetchingRoleOrganisationTypes"
+  <FSAutocompleteField
+    :loading="fetchingRoleOrganisations && fetchingRoleOrganisationTypes"
     :items="roles"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-model:search="search"
-    v-bind="$attrs" />
+    v-bind="$attrs"
+  />
 </template>
 
 <script lang="ts">
@@ -106,5 +108,5 @@ interface Role {
   icon: string;
   label: string;
   type: RoleType;
-};
+}
 </script>
