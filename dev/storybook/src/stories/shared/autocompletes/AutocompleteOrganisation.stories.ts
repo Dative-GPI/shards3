@@ -41,8 +41,8 @@ export const Variations: Story = {
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteOrganisation
-        label="Organisation with toggleset enabled"
-        :enableToggleSet="true"
+        label="Organisation with toggleset disabled"
+        :disableToggleSet="true"
         v-model="args.value1"
       />
     </FSCol>`

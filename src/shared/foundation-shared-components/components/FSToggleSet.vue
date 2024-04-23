@@ -1,86 +1,108 @@
 <template>
-  <FSWrapGroup
-    v-if="['wrap'].includes($props.variant)"
-    ref="toggleSetRef"
-    :padding="$props.padding"
-    :gap="$props.gap"
+  <v-input 
+    ref="inputRef"
+    :modelValue="$props.modelValue"
+    :rules="$props.rules"
   >
-    <template v-if="$props.values.length">
-      <template v-if="!firstChild">
-        <FSButton
-          v-for="(item, index) in $props.values"
-          :prependIcon="item.prependIcon"
-          :appendIcon="item.appendIcon"
-          :editable="$props.editable"
-          :variant="getVariant(item)"
-          :color="getColor(item)"
-          :class="getClass(item)"
-          :label="item.label"
-          :icon="item.icon"
-          :key="index"
-          @click="toggle(item)"
-        />
+    <FSWrapGroup
+      v-if="['wrap'].includes($props.variant)"
+      ref="toggleSetRef"
+      :padding="$props.padding"
+      :gap="$props.gap"
+    >
+      <template
+        v-if="$props.values.length"
+      >
+        <template
+          v-if="!firstChild"
+        >
+          <FSButton
+            v-for="(item, index) in $props.values"
+            :prependIcon="item.prependIcon"
+            :appendIcon="item.appendIcon"
+            :editable="$props.editable"
+            :variant="getVariant(item)"
+            :color="getColor(item)"
+            :class="getClass(item)"
+            :label="item.label"
+            :icon="item.icon"
+            :key="index"
+            @click="toggle(item)"
+          />
+        </template>
+        <template
+          v-else
+        >
+          <component
+            v-for="(item, index) in $props.values"
+            :key="index"
+            :is="firstChild"
+            :prependIcon="getFromFirstChild('prependIcon', item)"
+            :appendIcon="getFromFirstChild('appendIcon', item)"
+            :variant="getFromFirstChild('variant', item)"
+            :color="getFromFirstChild('color', item)"
+            :class="getFromFirstChild('class', item)"
+            :label="getFromFirstChild('label', item)"
+            :icon="getFromFirstChild('icon', item)"
+            :editable="$props.editable"
+            @click="toggle(item)"
+          />
+        </template>
       </template>
-      <template v-else>
-        <component
-          v-for="(item, index) in $props.values"
-          :key="index"
-          :is="firstChild"
-          :prependIcon="getFromFirstChild('prependIcon', item)"
-          :appendIcon="getFromFirstChild('appendIcon', item)"
-          :variant="getFromFirstChild('variant', item)"
-          :color="getFromFirstChild('color', item)"
-          :class="getFromFirstChild('class', item)"
-          :label="getFromFirstChild('label', item)"
-          :icon="getFromFirstChild('icon', item)"
-          :editable="$props.editable"
-          @click="toggle(item)"
-        />
+      <slot
+        v-else
+      />
+    </FSWrapGroup>
+    <FSSlideGroup
+      v-else
+      ref="toggleSetRef"
+      :padding="$props.padding"
+      :gap="$props.gap"
+    >
+      <template
+        v-if="$props.values.length"
+      >
+        <template
+          v-if="!firstChild"
+        >
+          <FSButton
+            v-for="(item, index) in $props.values"
+            :prependIcon="item.prependIcon"
+            :appendIcon="item.appendIcon"
+            :editable="$props.editable"
+            :variant="getVariant(item)"
+            :color="getColor(item)"
+            :class="getClass(item)"
+            :label="item.label"
+            :icon="item.icon"
+            :key="index"
+            @click="toggle(item)"
+          />
+        </template>
+        <template
+          v-else
+        >
+          <component
+            v-for="(item, index) in $props.values"
+            :key="index"
+            :is="firstChild"
+            :prependIcon="getFromFirstChild('prependIcon', item)"
+            :appendIcon="getFromFirstChild('appendIcon', item)"
+            :variant="getFromFirstChild('variant', item)"
+            :color="getFromFirstChild('color', item)"
+            :class="getFromFirstChild('class', item)"
+            :label="getFromFirstChild('label', item)"
+            :icon="getFromFirstChild('icon', item)"
+            :editable="$props.editable"
+            @click="toggle(item)"
+          />
+        </template>
       </template>
-    </template>
-    <slot v-else />
-  </FSWrapGroup>
-  <FSSlideGroup
-    v-else
-    ref="toggleSetRef"
-    :padding="$props.padding"
-    :gap="$props.gap"
-  >
-    <template v-if="$props.values.length">
-      <template v-if="!firstChild">
-        <FSButton
-          v-for="(item, index) in $props.values"
-          :prependIcon="item.prependIcon"
-          :appendIcon="item.appendIcon"
-          :editable="$props.editable"
-          :variant="getVariant(item)"
-          :color="getColor(item)"
-          :class="getClass(item)"
-          :label="item.label"
-          :icon="item.icon"
-          :key="index"
-          @click="toggle(item)"
-        />
-      </template>
-      <template v-else>
-        <component
-          v-for="(item, index) in $props.values"
-          :key="index"
-          :is="firstChild"
-          :prependIcon="getFromFirstChild('prependIcon', item)"
-          :appendIcon="getFromFirstChild('appendIcon', item)"
-          :variant="getFromFirstChild('variant', item)"
-          :color="getFromFirstChild('color', item)"
-          :class="getFromFirstChild('class', item)"
-          :label="getFromFirstChild('label', item)"
-          :icon="getFromFirstChild('icon', item)"
-          :editable="$props.editable"
-          @click="toggle(item)"
-        />
-      </template>
-    </template>
-    <slot v-else />
-  </FSSlideGroup>
+      <slot
+        v-else
+      />
+    </FSSlideGroup>
+  </v-input>
 </template>
 
 <script lang="ts">
@@ -88,7 +110,7 @@ import { defineComponent, PropType, ref } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { FSToggle } from "@dative-gpi/foundation-shared-components/models"; 
+import { FSToggle } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSlideGroup from "./FSSlideGroup.vue";
 import FSWrapGroup from "./FSWrapGroup.vue";
@@ -157,6 +179,11 @@ export default defineComponent({
       required: false,
       default: "8px"
     },
+    rules: {
+      type: Array as PropType<any[]>,
+      required: false,
+      default: () => []
+    },
     multiple: {
       type: Boolean,
       required: false,
@@ -176,9 +203,10 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getFirstChild } = useSlots();
-
+    
     const firstChild = getFirstChild("item");
-
+    
+    const inputRef = ref(null);
     const toggleSetRef = ref(null);
 
     const getFromFirstChild = (prop: string, value: FSToggle): any => {
@@ -300,6 +328,7 @@ export default defineComponent({
     };
 
     return {
+      inputRef,
       toggleSetRef,
       firstChild,
       getFromFirstChild,

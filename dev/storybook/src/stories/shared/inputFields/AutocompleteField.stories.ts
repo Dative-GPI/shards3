@@ -45,6 +45,7 @@ export const Variations: Story = {
       <FSAutocompleteField
         label="Autocomplete"
         :items="args.items"
+        :disableToggleSet="true"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -52,6 +53,7 @@ export const Variations: Story = {
         label="Multiple select"
         :items="args.items"
         :multiple="true"
+        :disableToggleSet="true"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -59,6 +61,7 @@ export const Variations: Story = {
         label="Required select, with description"
         description="Description for this field"
         :required="true"
+        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value3"
       />
@@ -67,13 +70,13 @@ export const Variations: Story = {
         label="Uneditable select, with description"
         description="Uneditable description"
         :editable="false"
+        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteField
         label="With toggle set enable with treshold at 8"
-        :enableToggleSet="true"
         :toggleSetTreshold="8"
         :items="args.items"
         v-model="args.value5"
@@ -93,6 +96,7 @@ export const Rules: Story = {
       value1: null,
       value2: null,
       value3: null,
+      value4: null,
       rules: AutocompleteRules
     }
   },
@@ -103,17 +107,19 @@ export const Rules: Story = {
       return { ...args };
     },
     template: `
-    <FSForm v-model="args.valid">
+    <FSForm v-model="args.valid"
+      variant="standard">
       <FSCol>
         <FSRow>
           <div class="text-body">
-            Form validity: {{ args.valid ?? "false" }}
+          Form validity: {{ args.valid ?? "false" }}
           </div>
-        </FSRow>
-        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-        <FSAutocompleteField
+          </FSRow>
+          <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+          <FSAutocompleteField
           label="Rules: required"
           :rules="[args.rules.required()]"
+          :disableToggleSet="true"
           :items="args.items"
           :required="true"
           v-model="args.value1"
@@ -122,6 +128,7 @@ export const Rules: Story = {
         <FSAutocompleteField
           label="Rules: min 2 options"
           :rules="[args.rules.min(2)]"
+          :disableToggleSet="true"
           :items="args.items"
           :multiple="true"
           :required="true"
@@ -131,10 +138,20 @@ export const Rules: Story = {
         <FSAutocompleteField
           label="Rules: required & min 2 options & max 3 options"
           :rules="[args.rules.required(), args.rules.min(2), args.rules.max(3)]"
+          :disableToggleSet="true"
           :items="args.items"
           :multiple="true"
           :required="true"
           v-model="args.value3"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSAutocompleteField
+          label="Rules: required & min 2 options & max 3 options"
+          :rules="[args.rules.required(), args.rules.min(2), args.rules.max(3)]"
+          :items="args.items"
+          :multiple="true"
+          :required="true"
+          v-model="args.value4"
         />
       </FSCol>
     </FSForm>`
