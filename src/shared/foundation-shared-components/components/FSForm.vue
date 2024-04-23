@@ -36,7 +36,7 @@ export default defineComponent({
       switch (props.variant) {
         case "standard": return "input";
         case "lazy":     return "blur";
-        case "submit":   return "submit";
+        default:         return "submit";
       }
     });
 

@@ -48,8 +48,9 @@
       />
       <FSToggleSet
         v-else
-        :values="$props.items"
         :multiple="$props.multiple"
+        :values="$props.items"
+        :rules="$props.rules"
         :modelValue="$props.modelValue"
         @update:modelValue="onUpdate"
         v-bind="$attrs"
@@ -58,8 +59,6 @@
     <v-autocomplete
       v-else
       class="fs-autocomplete-field"
-      menuIcon="mdi-chevron-down"
-      clearIcon="mdi-close"
       variant="outlined"
       :menuIcon="null"
       :style="style"
