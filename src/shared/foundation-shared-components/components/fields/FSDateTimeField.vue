@@ -4,7 +4,9 @@
     :modelValue="menu && $props.editable"
     @update:modelValue="(value) => menu = value"
   >
-    <template #activator="{ props }">
+    <template
+#activator="{ props }"
+>
       <FSTextField
         class="fs-date-field"
         :label="$props.label"
@@ -19,12 +21,16 @@
         :validateOn="validateOn"
         :validationValue="$props.modelValue"
         :modelValue="epochToLongTimeFormat($props.modelValue)"
-        @click:clear="onClear"
+        @update:modelValue="onClear"
         @blur="blurred = true"
         v-bind="props"
       >
-        <template #prepend-inner>
-          <slot name="prepend-inner">
+        <template
+          #prepend-inner
+        >
+          <slot
+            name="prepend-inner"
+          >
             <FSButton
               variant="icon"
               icon="mdi-calendar"
@@ -33,8 +39,14 @@
             />
           </slot>
         </template>
-        <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-          <slot :name="name" v-bind="slotData" />
+        <template
+          v-for="(_, name) in $slots"
+          v-slot:[name]="slotData"
+        >
+          <slot
+            :name="name"
+            v-bind="slotData"
+          />
         </template>
       </FSTextField>
     </template>
@@ -48,7 +60,9 @@
         :border="false"
         :value="0"
       >
-        <FSCol width="fill">
+        <FSCol
+          width="fill"
+        >
           <FSCalendar
             :color="$props.color"
             v-model="innerDate"
@@ -68,7 +82,9 @@
         :border="false"
         :value="1"
       >
-        <FSCol width="fill">
+        <FSCol
+          width="fill"
+        >
           <FSClock
             :color="$props.color"
             v-model="innerTime"

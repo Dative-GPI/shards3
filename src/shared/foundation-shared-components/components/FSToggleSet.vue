@@ -1,5 +1,6 @@
 <template>
-  <v-input 
+  <v-input
+    class="fs-toggle-set"
     ref="inputRef"
     :modelValue="$props.modelValue"
     :rules="$props.rules"

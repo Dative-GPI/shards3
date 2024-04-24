@@ -1,6 +1,9 @@
 <template>
   <FSCol>
-    <slot v-if="!$props.hideHeader" name="label">
+    <slot
+      v-if="!$props.hideHeader"
+      name="label"
+    >
       <FSRow
         :wrap="false"
       >
@@ -22,7 +25,9 @@
         >
           *
         </FSSpan>
-        <v-spacer style="min-width: 40px;" />
+        <v-spacer
+          style="min-width: 40px;"
+        />
         <FSSpan
           v-if="messages.length > 0"
           class="fs-text-field-messages"
@@ -48,10 +53,18 @@
       @blur="blurred = true"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      <template
+        v-for="(_, name) in slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
       </template>
-      <template #clear>
+      <template
+        #clear
+      >
         <FSButton
           v-if="$props.editable && $props.modelValue"
           icon="mdi-close"
@@ -61,7 +74,9 @@
         />
       </template>
     </v-text-field>
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="$props.description"
         class="fs-text-field-description"

@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
-import { DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS } from '@/mocks';
+import { DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS, ROLEORGANISATIONS, ROLEORGANISATIONTYPES, LOCATIONS } from '@/mocks';
 
 export function mockApp() {
     const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
@@ -29,6 +29,10 @@ export function mockApp() {
     mock.onGet("/api/foundation/core/v1/organisations/dative/groups/2").reply(200, GROUPS[1]);
     mock.onGet("/api/foundation/core/v1/organisations/dative/user-organisation-tables/groups1").reply(200, USERORGANISATIONTABLES[0]);
     mock.onGet("/api/foundation/core/v1/organisations/dative/languages").reply(200, LANGUAGES);
+
+    mock.onGet("/api/foundation/core/v1/organisations/dative/role-organisations").reply(200, ROLEORGANISATIONS);
+    mock.onGet("/api/foundation/core/v1/organisations/dative/role-organisation-types").reply(200, ROLEORGANISATIONTYPES);
+    mock.onGet("/api/foundation/core/v1/organisations/dative/locations").reply(200, LOCATIONS);
 
     mock.onGet("/api/shared/v1/images/raw/1").reply(200, IMAGES[0].raw);
     mock.onGet("/api/shared/v1/images/blurHash/1").reply(200, IMAGES[0].blurHash);

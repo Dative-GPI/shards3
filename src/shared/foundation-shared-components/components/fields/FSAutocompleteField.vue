@@ -38,16 +38,17 @@
         </FSSpan>
       </FSRow>
     </slot>
+    <FSLoader
+      v-if="$props.loading"
+      width="100%"
+      :height="['40px', '36px']"
+    />
     <template
-      v-if="!$props.disableToggleSet && $props.items.length < $props.toggleSetTreshold"
+      v-else
     >
-      <FSLoader
-        v-if="$props.loading"
-        width="100%"
-        :height="['40px', '36px']"
-      />
       <FSToggleSet
-        v-else
+        v-if="$props.toggleSet"
+        variant="slide"
         :multiple="$props.multiple"
         :values="$props.items"
         :rules="$props.rules"
@@ -55,72 +56,72 @@
         @update:modelValue="onUpdate"
         v-bind="$attrs"
       />
+      <v-autocomplete
+        v-else
+        class="fs-autocomplete-field"
+        variant="outlined"
+        :menuIcon="null"
+        :style="style"
+        :listProps="listStyle"
+        :class="classes"
+        :hideDetails="true"
+        :items="$props.items"
+        :autoSelectFirst="true"
+        :multiple="$props.multiple"
+        :itemTitle="$props.itemTitle"
+        :itemValue="$props.itemValue"
+        :readonly="!$props.editable"
+        :loading="$props.loading"
+        :clearable="$props.editable && !!$props.modelValue"
+        :returnObject="$props.returnObject"
+        :rules="$props.rules"
+        :validateOn="validateOn"
+        :modelValue="$props.modelValue"
+        @update:modelValue="onUpdate"
+        @blur="blurred = true"
+        v-model:search="innerSearch"
+        v-bind="$attrs"
+      >
+        <template
+          v-for="(_, name) in slots"
+          v-slot:[name]="slotData"
+        >
+          <slot
+            :name="name"
+            v-bind="slotData"
+          />
+        </template>
+        <template
+          #clear
+        >
+          <slot
+            name="clear"
+          >
+            <FSButton
+              v-if="$props.editable && $props.modelValue"
+              icon="mdi-close"
+              variant="icon"
+              :color="ColorEnum.Dark"
+              @click="$emit('update:modelValue', null)"
+            />
+          </slot>
+        </template>
+        <template
+          #append-inner
+        >
+          <slot
+            name="append-inner"
+          >
+            <FSButton
+              icon="mdi-chevron-down"
+              variant="icon"
+              :editable="$props.editable"
+              :color="ColorEnum.Dark"
+            />
+          </slot>
+        </template>
+      </v-autocomplete>
     </template>
-    <v-autocomplete
-      v-else
-      class="fs-autocomplete-field"
-      variant="outlined"
-      :menuIcon="null"
-      :style="style"
-      :listProps="listStyle"
-      :class="classes"
-      :hideDetails="true"
-      :items="$props.items"
-      :autoSelectFirst="true"
-      :multiple="$props.multiple"
-      :itemTitle="$props.itemTitle"
-      :itemValue="$props.itemValue"
-      :readonly="!$props.editable"
-      :loading="$props.loading"
-      :clearable="$props.editable && !!$props.modelValue"
-      :returnObject="$props.returnObject"
-      :rules="$props.rules"
-      :validateOn="validateOn"
-      :modelValue="$props.modelValue"
-      @update:modelValue="onUpdate"
-      @blur="blurred = true"
-      v-model:search="innerSearch"
-      v-bind="$attrs"
-    >
-      <template
-        v-for="(_, name) in slots"
-        v-slot:[name]="slotData"
-      >
-        <slot
-          :name="name"
-          v-bind="slotData"
-        />
-      </template>
-      <template
-        #clear
-      >
-        <slot
-          name="clear"
-        >
-          <FSButton
-            v-if="$props.editable && $props.modelValue"
-            icon="mdi-close"
-            variant="icon"
-            :color="ColorEnum.Dark"
-            @click="$emit('update:modelValue', null)"
-          />
-        </slot>
-      </template>
-      <template
-        #append-inner
-      >
-        <slot
-          name="append-inner"
-        >
-          <FSButton
-            icon="mdi-chevron-down"
-            variant="icon"
-            :editable="$props.editable"
-            :color="ColorEnum.Dark"
-          />
-        </slot>
-      </template>
-    </v-autocomplete>
     <slot
       name="description"
     >
@@ -152,12 +153,12 @@ import FSToggleSet from "../FSToggleSet.vue";
 export default defineComponent({
   name: "FSAutocompleteField",
   components: {
+    FSToggleSet,
     FSButton,
+    FSLoader,
     FSSpan,
     FSCol,
     FSRow,
-    FSLoader,
-    FSToggleSet
   },
   props: {
     label: {
@@ -229,15 +230,10 @@ export default defineComponent({
       required: false,
       default: false
     },
-    disableToggleSet: {
+    toggleSet: {
       type: Boolean,
       required: false,
       default: false
-    },
-    toggleSetTreshold: {
-      type: Number,
-      required: false,
-      default: 6
     }
   },
   emits: ["update:modelValue", "update:search"],
@@ -294,7 +290,6 @@ export default defineComponent({
 
     const onUpdate = (value: string[] | string) => {
       emit('update:modelValue', value);
-      innerSearch.value = "";
     };
 
     watch(innerSearch, () => {
