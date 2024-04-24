@@ -1,40 +1,65 @@
 <template>
-  <FSAutocompleteField :loading="fetching"
+  <FSAutocompleteField
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :loading="loading"
     :items="languages"
     :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
-    v-bind="$attrs">
-    <template #selection="{ item }">
-      <FSRow align="center-center">
-        <FSIcon>{{ item.raw.icon }}</FSIcon>
-        <FSSpan> {{ item.raw.label }}</FSSpan>
+    @update:modelValue="onUpdate"
+    v-model:search="search"
+    v-bind="$attrs"
+  >
+    <template
+      #selection="{ item }"
+    >
+      <FSRow
+        align="center-center"
+      >
+        <FSIcon>
+          {{ item.raw.icon }}
+        </FSIcon>
+        <FSSpan>
+          {{ item.raw.label }}
+        </FSSpan>
       </FSRow>
     </template>
-    <template #item="{ props, item }">
-      <v-list-item v-bind="{ ...props, title: '' }">
-        <FSRow align="center-left">
-          <FSCheckbox v-if="$props.multiple"
-            :modelValue="isSelected(item.value)" />
-          <FSIcon>{{ item.raw.icon }}</FSIcon>
-          <FSSpan> {{ item.raw.label }}</FSSpan>
+    <template
+      #item="{ props, item }"
+    >
+      <v-list-item
+        v-bind="{ ...props, title: '' }"
+      >
+        <FSRow
+          align="center-left"
+        >
+          <FSCheckbox
+            v-if="$props.multiple"
+            :modelValue="isSelected(item.value)"
+          />
+          <FSIcon>
+            {{ item.raw.icon }}
+          </FSIcon>
+          <FSSpan>
+            {{ item.raw.label }}
+          </FSSpan>
         </FSRow>
       </v-list-item>
     </template>
   </FSAutocompleteField>
 </template>
+
 <script lang="ts">
-import { PropType, defineComponent, watch } from 'vue'
-import _ from 'lodash';
+import { computed, PropType, defineComponent } from "vue"
 
-import { LanguageFilters } from '@dative-gpi/foundation-shared-domain/models';
-import { useLanguages } from '@dative-gpi/foundation-shared-services/composables';
+import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
+import { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
 
-import FSCheckbox from '../FSCheckbox.vue'
-import FSAutocompleteField from '../fields/FSAutocompleteField.vue'
+import FSCheckbox from "../FSCheckbox.vue"
+import FSAutocompleteField from "../fields/FSAutocompleteField.vue"
 
 export default defineComponent({
-  name: 'FSAutocompleteLanguage',
+  name: "FSAutocompleteLanguage",
   components: {
     FSAutocompleteField,
     FSCheckbox
@@ -54,26 +79,44 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    toggleSetDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
-  setup(props) {
-    const { entities: languages, fetching, getMany } = useLanguages();
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
+
+    const innerFetch = (search: string | null) => {
+      return getManyLanguages({ ...props.languageFilters, search: search ?? undefined });
+    };
+
+    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+      languages,
+      [() => props.languageFilters],
+      emit,
+      innerFetch
+    );
 
     const isSelected = (id: any) => {
       return props.modelValue?.includes(id);
     }
 
-    watch(() => props.languageFilters, async (newValue, oldValue) => {
-      if (!_.isEqual(newValue, oldValue)) {
-        await getMany(newValue);
-      }
-    }, { immediate: true });
+    const loading = computed((): boolean => {
+      return init.value && fetchingLanguages.value;
+    });
 
     return {
       languages,
-      fetching,
-      isSelected
-    }
+      toggleSet,
+      loading,
+      search,
+      isSelected,
+      onUpdate
+    };
   }
 })
 </script>

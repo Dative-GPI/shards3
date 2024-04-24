@@ -2,14 +2,9 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSAutocompleteOrganisation from "@dative-gpi/foundation-shared-components/components/autocompletes/FSAutocompleteOrganisation.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
-
-import { AutocompleteRules } from '@dative-gpi/foundation-shared-components/models';
-
-const international = ["Alpha", "Beta", "Charly", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliett", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu"];
 
 const meta = {
-  title: 'Foundation/Shared/Autcompletes/OrganisationAutocomplete',
+  title: 'Foundation/Shared/Autocompletes/AutocompleteOrganisation',
   component: FSAutocompleteOrganisation,
   tags: ['autodocs'],
   argTypes: {
