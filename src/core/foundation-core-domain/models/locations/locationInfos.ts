@@ -26,7 +26,7 @@ export class LocationInfos {
     }
 }
 
-export class LocationInfosDTO {
+export interface LocationInfosDTO {
     id: string;
     organisationId: string;
     icon: string;

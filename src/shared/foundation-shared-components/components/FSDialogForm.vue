@@ -32,6 +32,7 @@
       #body
     >
       <FSForm
+        ref="formRef"
         :variant="$props.variant"
         @submit="onSubmit"
         v-model="valid"
@@ -198,6 +199,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
+    const formRef = ref<HTMLElement | null>(null);
     const valid = ref(false);
 
     const height = computed(() => {
@@ -227,6 +229,7 @@ export default defineComponent({
       cancelButtonLabel,
       submitButtonLabel,
       ColorEnum,
+      formRef,
       height,
       valid,
       onSubmit

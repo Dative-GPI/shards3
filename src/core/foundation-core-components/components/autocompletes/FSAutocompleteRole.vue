@@ -1,6 +1,7 @@
 <template>
   <FSAutocompleteField
-    :loading="fetchingRoleOrganisations && fetchingRoleOrganisationTypes"
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :loading="loading"
     :items="roles"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
@@ -10,11 +11,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from "vue";
-import _ from "lodash";
+import { computed, defineComponent, PropType } from "vue";
 
-import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { RoleOrganisationFilters, RoleOrganisationTypeFilters, RoleType } from "@dative-gpi/foundation-core-domain/models";
+import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
+import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -38,14 +39,17 @@ export default defineComponent({
       type: [Array, String] as PropType<string[] | string | null>,
       required: false,
       default: null
+    },
+    toggleSetDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue", "update:type"],
   setup(props, { emit }) {
     const { getMany: getManyRoleOrganisationTypes, fetching: fetchingRoleOrganisationTypes, entities: roleOrganisationTypes } = useRoleOrganisationTypes();
     const { getMany: getManyRoleOrganisations, fetching: fetchingRoleOrganisations, entities: roleOrganisations } = useRoleOrganisations();
-
-    const search = ref<string | null>(null);
 
     const roles = computed(() => {
       return roleOrganisationTypes.value.map(rot => ({
@@ -61,29 +65,50 @@ export default defineComponent({
       })));
     });
 
-    const onUpdate = (value: string[] | string | null) => {
-      emit("update:modelValue", value);
+    const innerUpdate = (value: Role[] | Role | null) => {
       if (Array.isArray(value)) {
-        emit("update:type", value.map(v => roles.value.find(r => r.id === v)?.type));
+        emit("update:modelValue", value.map(v => v.id));
+        emit("update:type", value.map(v => v.type));
       }
       else {
-        emit("update:type", roles.value.find(r => r.id === value)?.type);
+        emit("update:modelValue", value?.id);
+        emit("update:type", value?.type);
       }
     };
 
-    watch([() => props.roleOrganisationTypeFilters, () => props.roleOrganisationFilters, () => search.value], async (newValue, oldValue) => {
-      if (!_.isEqual(newValue, oldValue)) {
-        await getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search.value ?? undefined });
-        await getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search.value ?? undefined });
-      }
-    }, { immediate: true });
+    const innerFetch = (search: string | null) => {
+      return Promise.all([
+        getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search ?? undefined }),
+        getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search ?? undefined })
+      ]);
+    };
+
+    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+      roles,
+      [() => props.roleOrganisationTypeFilters, () => props.roleOrganisationFilters],
+      emit,
+      innerFetch,
+      innerUpdate
+    );
+
+    const loading = computed((): boolean => {
+      return init.value && (fetchingRoleOrganisationTypes.value || fetchingRoleOrganisations.value);
+    });
 
     return {
-      fetchingRoleOrganisationTypes,
-      fetchingRoleOrganisations,
+      toggleSet,
+      loading,
+      search,
       roles,
       onUpdate
     };
   }
 });
+
+interface Role {
+  id: string;
+  icon: string;
+  label: string;
+  type: RoleType;
+}
 </script>

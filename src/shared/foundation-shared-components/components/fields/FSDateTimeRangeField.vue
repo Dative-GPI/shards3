@@ -14,11 +14,15 @@
     :validationValue="$props.modelValue"
     :modelValue="toShortTimeFormat"
     @click="onClick"
-    @click:clear="onClear"
+    @update:modelValue="onClear"
     @blur="blurred = true"
   >
-    <template #prepend-inner>
-      <slot name="prepend-inner">
+    <template
+      #prepend-inner
+    >
+      <slot
+        name="prepend-inner"
+      >
         <FSButton
           variant="icon"
           icon="mdi-calendar"
@@ -27,8 +31,14 @@
         />
       </slot>
     </template>
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
     </template>
   </FSTextField>
   <FSDialogSubmit
@@ -37,7 +47,9 @@
     @click:rightButton="onSubmit"
     v-model="dialog"
   >
-    <template #body>
+    <template
+      #body
+    >
       <FSCol>
         <FSCalendarTwin
           :color="$props.color"
@@ -163,11 +175,13 @@ export default defineComponent({
         case 1: {
           innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
           innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
+          break;
         }
         default: {
           innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
           innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
           innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
+          break;
         }
       }
     }

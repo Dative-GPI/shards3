@@ -14,11 +14,15 @@
     :validationValue="$props.modelValue"
     :modelValue="toShortDateFormat"
     @click="onClick"
-    @click:clear="onClear"
+    @update:modelValue="onClear"
     @blur="blurred = true"
   >
-    <template #prepend-inner>
-      <slot name="prepend-inner">
+    <template
+      #prepend-inner
+    >
+      <slot
+        name="prepend-inner"
+      >
         <FSButton
           variant="icon"
           icon="mdi-calendar"
@@ -27,8 +31,14 @@
         />
       </slot>
     </template>
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
     </template>
   </FSTextField>
   <FSDialogSubmit
@@ -37,7 +47,9 @@
     @click:rightButton="onSubmit"
     v-model="dialog"
   >
-    <template #body>
+    <template
+      #body
+    >
       <FSCalendarTwin
         :color="$props.color"
         v-model="innerDateRange"
