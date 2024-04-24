@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :toggleSet="$props.toggleSetDisabled && toggleSet"
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :loading="loading"
     :items="locations"
     :modelValue="$props.modelValue"

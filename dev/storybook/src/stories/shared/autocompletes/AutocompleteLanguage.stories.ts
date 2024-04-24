@@ -4,7 +4,7 @@ import FSAutocompleteLanguage from "@dative-gpi/foundation-shared-components/com
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
-  title: 'Foundation/Shared/Autcompletes/LanguageAutocomplete',
+  title: 'Foundation/Shared/Autocompletes/AutocompleteLanguage',
   component: FSAutocompleteLanguage,
   tags: ['autodocs'],
   argTypes: {
@@ -35,11 +35,11 @@ export const Variations: Story = {
       <FSAutocompleteLanguage
         label="Language"
         v-model="args.value1"
-        />
-        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-        <FSAutocompleteLanguage
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteLanguage
         label="Language with toggleset disabled"
-        :disableToggleSet="true"
+        :toggleSetDisabled="true"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -52,7 +52,7 @@ export const Variations: Story = {
       <FSAutocompleteLanguage
         label="Language with multiple and toggleSet disabled"
         :multiple="true"
-        :disableToggleSet="true"
+        :toggleSetDisabled="true"
         v-model="args.value4"
       />
     </FSCol>`
