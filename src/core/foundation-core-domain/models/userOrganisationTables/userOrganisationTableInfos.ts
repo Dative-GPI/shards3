@@ -9,7 +9,7 @@ export class UserOrganisationTableInfos {
     mode: "table" | "iterator";
     rowsPerPage: number;
     sortByKey?: string;
-    sortByOrder?: string;
+    sortByOrder?: "asc" | "desc";
 
     constructor(dto: UserOrganisationTableInfosDTO) {
         this.id = dto.id;
@@ -28,6 +28,6 @@ export interface UserOrganisationTableInfosDTO {
     mode: "table" | "iterator";
     rowsPerPage: number;
     sortByKey?: string;
-    sortByOrder?: string;
+    sortByOrder?: "asc" | "desc";
     columns: UserOrganisationColumnInfosDTO[];
 }

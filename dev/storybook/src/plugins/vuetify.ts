@@ -7,7 +7,7 @@ import { createVuetify } from "vuetify";
 import "@dative-gpi/foundation-core-components/styles/main.scss";
 
 import { DefaultTheme } from "@dative-gpi/foundation-shared-components/themes";
-import { Flags } from "@dative-gpi/foundation-shared-components/icons/sets";
+import { Flags, Widgets } from "@dative-gpi/foundation-shared-components/icons/sets";
 
 export default createVuetify({
   theme: {
@@ -19,7 +19,8 @@ export default createVuetify({
   icons: {
     defaultSet: "mdi",
     aliases: {
-      ...Flags
+      ...Flags,
+      ...Widgets
     }
   }
 });

@@ -23,8 +23,6 @@ export class UserOrganisationInfos {
     firstName: string;
     lastName: string;
     name: string;
-    label: string;
-    description: string;
     tags: string[];
 
     constructor(params: UserOrganisationInfosDTO) {
@@ -48,9 +46,7 @@ export class UserOrganisationInfos {
         this.phoneNumber = params.phoneNumber;
         this.firstName = params.firstName;
         this.lastName = params.lastName;
-        this.name = params.name ?? params.label;
-        this.label = params.name ?? params.label;
-        this.description = params.description;
+        this.name = params.name;
         this.tags = params.tags && params.tags.slice() || [];
     }
 }
@@ -77,12 +73,9 @@ export interface UserOrganisationInfosDTO {
     firstName: string;
     lastName: string;
     name: string;
-    label: string;
-    description: string;
     tags: string[] | null;
 }
 
 export interface UserOrganisationFilters {
-    userType?: UserType;
     search?: string;
 }

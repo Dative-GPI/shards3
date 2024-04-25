@@ -1,6 +1,6 @@
 <template>
   <FSLoadDataTable
-    v-if="getting"
+    v-if="gettingUserOrganisationTable"
   />
   <FSDataTableUI
     v-else
@@ -18,14 +18,20 @@
     @update:page="updatePage"
     v-bind="$attrs"
   >
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
     </template>
   </FSDataTableUI>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref, Ref, watch } from "vue";
+import { defineComponent, onUnmounted, ref, Ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { useUserOrganisationTable, useUpdateUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
@@ -48,8 +54,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { get, getting, entity } = useUserOrganisationTable();
-    const { update } = useUpdateUserOrganisationTable();
+    const { get: getUserOrganisationTable, getting: gettingUserOrganisationTable, entity: userOrganisationTable } = useUserOrganisationTable();
+    const { update: updateUserOrganisationTable } = useUpdateUserOrganisationTable();
     const { debounce, cancel } = useDebounce();
     const router = useRouter();
 
@@ -63,24 +69,26 @@ export default defineComponent({
     const reset = (): void => {
       if (router && router.currentRoute.value.query[props.tableCode]) {
         const query = JSON.parse(router.currentRoute.value.query[props.tableCode] as string);
-        innerHeaders.value = query.columns;
+        // innerHeaders.value = query.columns;
+        // innerFilters.value = query.filters;
         innerRowsPerPage.value = query.rowsPerPage;
         innerSortBy.value = query.sortByKey ? {
           key: query.sortByKey,
           order: query.sortByOrder
         } : null;
         innerMode.value = query.mode;
-        innerFilters.value = query.filters;
         innerPage.value = query.page;
       }
-      else {
-        innerHeaders.value = entity.value.columns;
-        innerRowsPerPage.value = entity.value.rowsPerPage;
-        innerSortBy.value = entity.value.sortByKey ? {
-          key: entity.value.sortByKey,
-          order: entity.value.sortByOrder
+      else if (userOrganisationTable.value) {
+        innerRowsPerPage.value = userOrganisationTable.value.rowsPerPage;
+        innerSortBy.value = userOrganisationTable.value.sortByKey ? {
+          key: userOrganisationTable.value.sortByKey!,
+          order: userOrganisationTable.value.sortByOrder!
         } : null;
-        innerMode.value = entity.value.mode;
+        innerMode.value = userOrganisationTable.value.mode;
+      }
+      if (userOrganisationTable.value) {
+        innerHeaders.value = userOrganisationTable.value.columns;
       }
     };
 
@@ -116,7 +124,7 @@ export default defineComponent({
 
     const updateTable = (): void => {
       updateRouter();
-      update(props.tableCode, {
+      updateUserOrganisationTable(props.tableCode, {
         columns: innerHeaders.value.map(column => ({
           columnId: column.columnId,
           hidden: column.hidden,
@@ -135,12 +143,12 @@ export default defineComponent({
           query: {
             ...router.currentRoute.value.query,
             [props.tableCode]: JSON.stringify({
-              columns: innerHeaders.value,
+              // columns: innerHeaders.value,
+              // filters: innerFilters.value,
               rowsPerPage: innerRowsPerPage.value,
               sortByKey: innerSortBy.value?.key,
               sortByOrder: innerSortBy.value?.order,
               mode: innerMode.value,
-              filters: innerFilters.value,
               page: innerPage.value
             })
           }
@@ -148,36 +156,34 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      get(props.tableCode);
-    });
-
     onUnmounted(() => {
       cancel();
       updateTable();
     });
 
     watch(() => props.tableCode, () => {
-      get(props.tableCode);
-    });
+      if (props.tableCode) {
+        getUserOrganisationTable(props.tableCode);
+      }
+    }, { immediate: true });
 
-    watch(entity, () => {
+    watch(userOrganisationTable, () => {
       reset();
     });
 
     return {
-      getting,
-      innerHeaders,
+      gettingUserOrganisationTable,
       innerRowsPerPage,
+      innerFilters,
+      innerHeaders,
       innerSortBy,
       innerMode,
-      innerFilters,
       innerPage,
-      updateHeaders,
-      updateMode,
-      updateSortBy,
       updateRowsPerPage,
       updateFilters,
+      updateHeaders,
+      updateSortBy,
+      updateMode,
       updatePage
     };
   },
