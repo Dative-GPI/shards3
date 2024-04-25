@@ -12,6 +12,11 @@ export class AlertInfos {
     scenarioLabel: string;
     organisationId: string;
     deviceOrganisationId: string;
+    deviceOrganisationImageId: string;
+    deviceOrganisationImageBlurHash: string;
+    deviceOrganisationImageHeight: number;
+    deviceOrganisationImageWidth: number;
+    deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     icon: string;
     code: string;
@@ -44,6 +49,11 @@ export class AlertInfos {
         this.scenarioLabel = params.scenarioLabel;
         this.organisationId = params.organisationId;
         this.deviceOrganisationId = params.deviceOrganisationId;
+        this.deviceOrganisationImageId = params.deviceOrganisationImageId;
+        this.deviceOrganisationImageBlurHash = params.deviceOrganisationImageBlurHash;
+        this.deviceOrganisationImageHeight = params.deviceOrganisationImageHeight;
+        this.deviceOrganisationImageWidth = params.deviceOrganisationImageWidth;
+        this.deviceOrganisationCode = params.deviceOrganisationCode;
         this.deviceOrganisationLabel = params.deviceOrganisationLabel;
         this.icon = params.icon;
         this.code = params.code;
@@ -78,6 +88,11 @@ export interface AlertInfosDTO {
     scenarioLabel: string;
     organisationId: string;
     deviceOrganisationId: string;
+    deviceOrganisationImageId: string;
+    deviceOrganisationImageBlurHash: string;
+    deviceOrganisationImageHeight: number;
+    deviceOrganisationImageWidth: number;
+    deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     icon: string;
     code: string;
@@ -112,7 +127,7 @@ export interface AlertFilters {
     acknowledged?: boolean;
     startDate?: string;
     endDate?: string;
-    selectedEntities?: SelectedEntities; 
+    selectedEntities?: SelectedEntities;
     entitiesIds?: string[];
     dateVariables?: DateVariable[];
 }
