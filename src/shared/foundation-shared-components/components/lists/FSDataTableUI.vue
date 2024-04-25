@@ -772,7 +772,7 @@ export default defineComponent({
     tileGap: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "8px"
+      default: "12px"
     },
   },
   emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],

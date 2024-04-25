@@ -25,7 +25,7 @@ export * from "./useOrganisationTypes";
 export * from "./usePermissionCategories";
 export * from "./useRoleOrganisations";
 export * from "./useRoleOrganisationTypes";
+export * from "./useServiceAccounts";
 export * from "./useUserOrganisations";
 export * from "./useUserOrganisationTables";
-export * from "./useUsers";
 export * from "./useWidgetTemplates";

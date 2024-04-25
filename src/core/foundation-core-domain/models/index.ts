@@ -37,6 +37,7 @@ export * from "./scenarioDiffusions";
 export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
 export * from "./shared";                       // No service
+export * from "./serviceAccounts";
 export * from "./userOrganisationColumns";      // No service
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";
