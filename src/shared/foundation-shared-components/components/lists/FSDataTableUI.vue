@@ -1226,7 +1226,7 @@ export default defineComponent({
               else if (dragged?.getAttribute("data-initial-index") !== null) {
                 target.classList.add("fs-dropzone-include");
                 const tbodyElement = (event.target as HTMLElement)?.closest(elementContainerSelector) as HTMLElement;
-                resetRowIndex(+dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
+                resetRowIndex(+dragged?.getAttribute('data-initial-index')!, Array.from(tbodyElement!.children).indexOf(dragged), dragged, tbodyElement!);
               }
             }
           }
@@ -1280,11 +1280,11 @@ export default defineComponent({
     };
 
     const onDrop = (event: DragEvent, row: any, elementSelector: string) => {
-      const draggedElement = document.querySelector(".fs-draggable-dragging");
+      const draggedElement = document.querySelector(".fs-draggable-dragging") as HTMLElement;
 
       if (draggedElement != null) {
         const target = (event.target as HTMLElement)?.closest(elementSelector);
-        const draggedData = JSON.parse(event.dataTransfer?.getData("text/plain") ?? "");
+        const draggedData = JSON.parse(event.dataTransfer?.getData("text/plain") ?? draggedElement.dataset.item ?? '{}');
         const itemsData = draggedData.item ?? draggedData.raw;
         const rowData = row.item ?? row.raw;
 

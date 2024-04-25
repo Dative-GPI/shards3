@@ -81,9 +81,7 @@ export default defineComponent({
     };
 
     const onTouchMove = (event: TouchEvent) => {
-      if (props.disabled) {
-        return;
-      }
+      if (props.disabled) return;
       if (Date.now() - touchStartTime.value < mobileGrabThreshold || touchStartTime.value === 0) {
         touchStartTime.value = 0;
         return;
@@ -126,11 +124,13 @@ export default defineComponent({
     };
 
     const onTouchEnd = (event: TouchEvent) => {
-      if (props.disabled) {
-        return;
-      }
+      if (props.disabled) return;
+
+      const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
+      if(dragged === null || touchStartTime.value === 0) return;
+
       event.preventDefault();
-      const dragged = (event.target as HTMLElement)?.closest(props.elementSelector);
+
       if (draggedElementCopy.value) {
         draggedElementCopy.value.remove();
         draggedElementCopy.value = null;
@@ -138,7 +138,7 @@ export default defineComponent({
 
       const dropTarget = document.elementFromPoint(touchEndX.value, touchEndY.value);
       const dragEndEvent = new Event("dragend");
-      Object.defineProperty(dragEndEvent, "srcElement", {
+      Object.defineProperty(dragEndEvent, "target", {
         get: function () { return event.target; }
       });
       emit("update:dragend", dragEndEvent, dragged);
@@ -147,7 +147,7 @@ export default defineComponent({
         bubbles: true,
         cancelable: true,
       });
-      dropEvent.dataTransfer?.setData("text/plain", JSON.stringify(props.item));
+      dragged!.dataset.item = JSON.stringify(props.item);
       dropTarget?.dispatchEvent(dropEvent);
 
       touchStartX.value = 0;
