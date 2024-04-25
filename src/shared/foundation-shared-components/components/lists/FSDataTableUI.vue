@@ -1204,6 +1204,7 @@ export default defineComponent({
 
       if (dragged != null) {
         const target = (event.target as HTMLElement)?.closest(elementSelector);
+        dragged.classList.remove("fs-draggable-dragging-grabbegin");
 
         if (target != null && (target !== dragged || (props.sortDraggable && props.includeDraggable))) {
           if (props.includeDraggable) {
