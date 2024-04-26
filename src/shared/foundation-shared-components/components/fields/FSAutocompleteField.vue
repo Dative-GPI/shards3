@@ -1,63 +1,44 @@
 <template>
   <FSCol>
-    <slot
-      v-if="!$props.hideHeader"
-      name="label"
-    >
-      <FSRow
-        :wrap="false"
-      >
-        <FSSpan
-          v-if="$props.label"
+    <slot v-if="!$props.hideHeader"
+      name="label">
+      <FSRow :wrap="false">
+        <FSSpan v-if="$props.label"
           class="fs-autocomplete-field-label"
           font="text-overline"
-          :style="style"
-        >
+          :style="style">
           {{ $props.label }}
         </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
+        <FSSpan v-if="$props.label && $props.required"
           class="fs-autocomplete-field-label"
           style="margin-left: -8px;"
           font="text-overline"
           :ellipsis="false"
-          :style="style"
-        >
+          :style="style">
           *
         </FSSpan>
-        <v-spacer
-          style="min-width: 40px;"
-        />
-        <FSSpan
-          v-if="messages.length > 0"
+        <v-spacer style="min-width: 40px;" />
+        <FSSpan v-if="messages.length > 0"
           class="fs-autocomplete-field-messages"
           font="text-overline"
-          :style="style"
-        >
+          :style="style">
           {{ messages.join(", ") }}
         </FSSpan>
       </FSRow>
     </slot>
-    <FSLoader
-      v-if="$props.loading"
+    <FSLoader v-if="$props.loading"
       width="100%"
-      :height="['40px', '36px']"
-    />
-    <template
-      v-else
-    >
-      <FSToggleSet
-        v-if="$props.toggleSet"
+      :height="['40px', '36px']" />
+    <template v-else>
+      <FSToggleSet v-if="$props.toggleSet"
         variant="slide"
         :multiple="$props.multiple"
         :values="$props.items"
         :rules="$props.rules"
         :modelValue="$props.modelValue"
         @update:modelValue="onUpdate"
-        v-bind="$attrs"
-      />
-      <v-autocomplete
-        v-else
+        v-bind="$attrs" />
+      <v-autocomplete v-else
         class="fs-autocomplete-field"
         variant="outlined"
         :menuIcon="null"
@@ -80,57 +61,36 @@
         @update:modelValue="onUpdate"
         @blur="blurred = true"
         v-model:search="innerSearch"
-        v-bind="$attrs"
-      >
-        <template
-          v-for="(_, name) in slots"
-          v-slot:[name]="slotData"
-        >
-          <slot
-            :name="name"
-            v-bind="slotData"
-          />
+        v-bind="$attrs">
+        <template v-for="(_, name) in slots"
+          v-slot:[name]="slotData">
+          <slot :name="name"
+            v-bind="slotData" />
         </template>
-        <template
-          #clear
-        >
-          <slot
-            name="clear"
-          >
-            <FSButton
-              v-if="$props.editable && $props.modelValue"
+        <template #clear>
+          <slot name="clear">
+            <FSButton v-if="$props.editable && $props.modelValue"
               icon="mdi-close"
               variant="icon"
               :color="ColorEnum.Dark"
-              @click="$emit('update:modelValue', null)"
-            />
+              @click="$emit('update:modelValue', null)" />
           </slot>
         </template>
-        <template
-          #append-inner
-        >
-          <slot
-            name="append-inner"
-          >
-            <FSButton
-              icon="mdi-chevron-down"
+        <template #append-inner>
+          <slot name="append-inner">
+            <FSButton icon="mdi-chevron-down"
               variant="icon"
               :editable="$props.editable"
-              :color="ColorEnum.Dark"
-            />
+              :color="ColorEnum.Dark" />
           </slot>
         </template>
       </v-autocomplete>
     </template>
-    <slot
-      name="description"
-    >
-      <FSSpan
-        v-if="$props.description"
+    <slot name="description">
+      <FSSpan v-if="$props.description"
         class="fs-autocomplete-field-description"
         font="text-underline"
-        :style="style"
-      >
+        :style="style">
         {{ $props.description }}
       </FSSpan>
     </slot>

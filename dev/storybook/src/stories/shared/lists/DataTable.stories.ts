@@ -52,6 +52,30 @@ export const Variations: Story = {
         key: "column4",
         order: "asc"
       },
+      headers2: [{
+        text: "Column 1 - sortable",
+        value: "column1",
+        index: 0,
+        hidden: false,
+        width: "100px",
+        sortable: true,
+        filterable: false
+      }, {
+        text: "Column 2",
+        value: "column2",
+        index: 1,
+        hidden: false,
+        width: "80px"
+      }, {
+        text: "Column 3",
+        value: "column3",
+        index: 2,
+        hidden: false,
+        width: "120px",
+        sortable: true,
+        filterable: false
+      }],
+      disableItemTo: true,
       itemTo: (item: any) => ({ name: 'device', params: { deviceId: item.id } }),
       clickRow: () => { console.log("clicked"); }
     }
@@ -104,6 +128,18 @@ export const Variations: Story = {
           :sneakyHeaders="['column1']"
           @click:row="args.clickRow"
           v-model:headers="args.headers1"
+          v-model="args.value1"
+          :includeDraggable="true"
+          :sortDraggable="true"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSDataTableUI
+          :showSelect="true"
+          :items="args.items1"
+          :singleSelect="true"
+          :sneakyHeaders="['column1']"
+          :itemTo="args.disableItemTo ? null : args.itemTo"
+          v-model:headers="args.headers2"
           v-model="args.value1"
           :includeDraggable="true"
           :sortDraggable="true"
