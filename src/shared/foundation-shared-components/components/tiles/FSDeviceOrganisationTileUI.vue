@@ -39,7 +39,7 @@
             gap="4px"
           >
             <FSConnectivity
-              v-if="$props.deviceConnectivity"
+              v-if="$props.deviceConnectivity && $props.deviceConnectivity.status != 0"
               :deviceConnectivity="$props.deviceConnectivity"
             />
             <FSWorstAlert

@@ -633,7 +633,7 @@ export default defineComponent({
 
     const style = computed((): { [key: string]: string | undefined } => {
       return {
-        "--fs-data-table-background-color": backgrounds.base,
+        "--fs-data-table-background-color": backgrounds.light,
         "--fs-data-table-border-color": lights.base,
         "--fs-data-table-row-gap": sizeToVar(props.rowGap)
       };
