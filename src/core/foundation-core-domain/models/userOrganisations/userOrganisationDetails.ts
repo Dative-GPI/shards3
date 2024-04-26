@@ -46,17 +46,6 @@ export interface CreateUserOrganisationDTO {
     tags: string[];
 }
 
-export interface CreateServiceUserOrganisationDTO {
-    roleType: RoleType;
-    roleId?: string;
-    languageCode: string;
-    timeZoneId: string;
-    image?: string;
-    label: string;
-    description: string;
-    tags: string[];
-}
-
 export interface UpdateUserOrganisationDTO {
     roleType: RoleType;
     roleId?: string;
@@ -65,7 +54,7 @@ export interface UpdateUserOrganisationDTO {
     tags: string[];
 }
 
-export interface ChangeUserOrganisationDashboardDTO {
+export interface ChangeCurrentUserOrganisationDashboardDTO {
     mainDashboardType: DashboardType;
     mainDashboardId?: string;
 }

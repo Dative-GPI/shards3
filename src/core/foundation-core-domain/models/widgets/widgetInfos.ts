@@ -7,6 +7,7 @@ export class WidgetInfos {
     height: number;
     x: number;
     y: number;
+    targetScreenSize: "s" | "m" | "l" | "xl";
     meta: { [key: string]: string };
 
     constructor(params: WidgetInfosDTO) {
@@ -18,6 +19,7 @@ export class WidgetInfos {
         this.height = params.height;
         this.x = params.x;
         this.y = params.y;
+        this.targetScreenSize = params.targetScreenSize;
         this.meta = { ...params.meta };
     }
 }
@@ -31,5 +33,6 @@ export interface WidgetInfosDTO {
     height: number;
     x: number;
     y: number;
+    targetScreenSize: "s" | "m" | "l" | "xl";
     meta: { [key: string]: string };
 }

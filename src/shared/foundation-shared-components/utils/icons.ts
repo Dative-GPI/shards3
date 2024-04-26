@@ -1,5 +1,3 @@
-import { Flags } from "../icons/sets";
-
 const MdiIcons = [
     {
         "name": "ab-testing",
@@ -75493,10 +75491,148 @@ const FlagIcons = [
     }
 ];
 
+const WidgetIcons = [
+    {
+        "name": "alertsPodiumWidget",
+        "aliases": [
+            "alerts-podium-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Alerts"
+        ]
+    },
+    {
+        "name": "alertsWidget",
+        "aliases": [
+            "alerts-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Alerts"
+        ]
+    },
+    {
+        "name": "chartsWidget",
+        "aliases": [
+            "charts-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Charts"
+        ]
+    },
+    {
+        "name": "dashboardsWidget",
+        "aliases": [
+            "dashboards-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Dashboards"
+        ]
+    },
+    {
+        "name": "devicesWidget",
+        "aliases": [
+            "devices-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Devices"
+        ]
+    },
+    {
+        "name": "editWidget",
+        "aliases": [
+            "edit-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Text"
+        ]
+    },
+    {
+        "name": "groupsWidget",
+        "aliases": [
+            "groups-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Groups"
+        ]
+    },
+    {
+        "name": "locationsWidget",
+        "aliases": [
+            "locations-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Locations"
+        ]
+    },
+    {
+        "name": "mapWidget",
+        "aliases": [
+            "map-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Map"
+        ]
+    },
+    {
+        "name": "modelsWidget",
+        "aliases": [
+            "models-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Models"
+        ]
+    },
+    {
+        "name": "profileWidget",
+        "aliases": [
+            "profile-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Profile"
+        ]
+    },
+    {
+        "name": "textWidget",
+        "aliases": [
+            "text-widget"
+        ],
+        "styles": [],
+        "tags": [
+            "Widgets",
+            "Text"
+        ]
+    }
+];
+
 export const Icons: { name: string, fullText: string }[] = MdiIcons.map((icon) => ({
     name: "mdi-" + icon.name,
     fullText: icon.name + icon.name.split("-").join(" ") + " " + icon.aliases.join(" ") + " " + icon.tags.join(" ") + " " + icon.styles.join(" ")
 })).concat(FlagIcons.map((icon) => ({
     name: "$" + icon.name,
-    fullText: icon.name + icon.name.split("-").join(" ") + " " + icon.aliases.join(" ") + " " + icon.tags.join(" ") + " " + icon.styles.join(" ")
+    fullText: icon.name + icon.name.split("-").join(" ") + " " + icon.aliases.join(" ") + " " + icon.tags.join(" ")
+}))).concat(WidgetIcons.map((icon) => ({
+    name: "$" + icon.name,
+    fullText: icon.name + icon.name.split("-").join(" ") + " " + icon.aliases.join(" ") + " " + icon.tags.join(" ")
 })));

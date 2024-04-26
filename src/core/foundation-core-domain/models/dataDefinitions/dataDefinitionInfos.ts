@@ -1,5 +1,5 @@
 import { DataDefinitionMappingInfos, DataDefinitionMappingInfosDTO } from "../dataDefinitionMappings/dataDefinitionMappingInfos";
-import { DataTable } from "../enums/dataDefinitionEnums";
+import { DataTable } from "../enums/sharedEnums";
 
 export class DataDefinitionInfos {
     id: string;

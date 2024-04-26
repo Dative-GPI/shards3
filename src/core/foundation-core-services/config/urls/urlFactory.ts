@@ -1,4 +1,4 @@
-import { useAppOrganisationId } from "../../composables";
+import { useAppOrganisationId } from "../../composables/app/useAppOrganisationId";
 
 const { organisationId } = useAppOrganisationId();
 

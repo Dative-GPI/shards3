@@ -15,7 +15,6 @@ export interface LocationDetailsDTO extends LocationInfosDTO {
     description: string;
 }
 
-
 export interface CreateLocationDTO {
     icon: string;
     code: string;

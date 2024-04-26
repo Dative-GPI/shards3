@@ -1,4 +1,4 @@
-import { Days } from "../enums/sharedEnums";
+import { Days } from "@dative-gpi/foundation-shared-domain/models";
 
 export class TimeRange {
   startDay: Days;
