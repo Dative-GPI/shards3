@@ -46,6 +46,14 @@ const connectivities = [{
   status: 4,
   icon: "mdi-wifi",
   color: "#FF0000"
+}, {
+  id: "5",
+  sourceTimestamp: 1623345600000,
+  enqueuedTimestamp: 1623345600000,
+  processedTimestamp: 1623345600000,
+  status: 0,
+  icon: null,
+  color: null
 }];
 
 const alerts = [{
@@ -299,7 +307,7 @@ export const Variations: Story = {
           label: "Bakery Guiomar Hernandes de Medeiros",
           code: "9300000000099206",
           imageId: "1",
-          deviceConnectivity: connectivities[0],
+          deviceConnectivity: connectivities[4],
           deviceWorstAlert: alerts[0],
           deviceAlerts: alerts,
           modelStatuses: modelStatuses,
@@ -448,7 +456,7 @@ export const Imageless: Story = {
         deviceStatuses: []
       }, {
         id: "7",
-        label: "Bakery Guiomar Hernandes de Medeiros",
+        label: "Bakery Guiomar Hernandes de Medeiras",
         code: "9300000000099206",
         deviceConnectivity: connectivities[0],
         deviceWorstAlert: alerts[0],
