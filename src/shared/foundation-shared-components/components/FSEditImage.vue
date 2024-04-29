@@ -82,7 +82,7 @@
   </FSCard>
   <FSRow v-else-if="$props.imageId || realSource"
     :width="$props.width"
-    style="position: relative;"
+    class="fs-edit-image-rowfull"
   >
     <FSImage
       :aspectRatio="$props.aspectRatio"
@@ -93,7 +93,7 @@
     />
     <FSRow
       :wrap="false"
-      style="position: absolute; top: 0; right: 0;"
+      class="fs-edit-image-fixed-rowbuttons"
       padding="12px"
     >
       <FSButtonFileMini
@@ -130,7 +130,7 @@
       </FSText>
       <FSButtonFileMini
         ref="invisibleButton"
-        style="display: none"
+        class="fs-edit-image-hidden-button"
         icon=""
         accept="image/*"
         :readFile="false"
