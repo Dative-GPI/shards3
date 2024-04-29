@@ -36,18 +36,21 @@ export const Variations: Story = {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
       Variant Standard : <br>
       <FSEditImage
         height="96px"
         width="96px"
         v-model="args.source2"
+        label="Edit Image"
       />
       <FSEditImage
         height="96px"
         width="96px"
         v-model:imageId="args.imageId1"
         v-model="args.source1"
+        :required="true"
+        label="Edit Image with already set image ID"
       />
 
       <br>
