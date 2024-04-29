@@ -46,7 +46,7 @@ export const Variations: Story = {
       <FSEditImage
         height="96px"
         width="96px"
-        :imageId="args.imageId1"
+        v-model:imageId="args.imageId1"
         v-model="args.source1"
       />
 
@@ -62,7 +62,7 @@ export const Variations: Story = {
         variant="full"
         height="150px"
         width="300px"
-        :imageId="args.imageId3"
+        v-model:imageId="args.imageId3"
         v-model="args.source3"
       />
       <FSEditImage
@@ -70,14 +70,14 @@ export const Variations: Story = {
         :width="500"
         aspectRatio="16/9"
         v-model="args.source5"
-        :imageId="args.imageId5"
+        v-model:imageId="args.imageId5"
       />
       <FSEditImage
         variant="full"
         height="222px"
         width="100%"
         v-model="args.source6"
-        :imageId="args.imageId6"
+        v-model:imageId="args.imageId6"
       />
     </div>`
   })
