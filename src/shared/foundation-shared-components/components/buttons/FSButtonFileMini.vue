@@ -1,7 +1,7 @@
 <template>
   <div>
     <FSButton
-      prependIcon="mdi-upload-outline"
+      :prependIcon="$props.icon"
       :color="ColorEnum.Light"
       @click="onClick"
       v-bind="$attrs"
@@ -41,6 +41,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: "mdi-upload-outline"
     }
   },
   emits: ["update:modelValue"],
