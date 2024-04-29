@@ -1,6 +1,5 @@
 <template>
-  <FSCol gap="8px"
-  >
+  <FSCol gap="8px">
     <slot
       v-if="!$props.hideHeader"
       name="label"
@@ -273,6 +272,9 @@ export default defineComponent({
       fileSelected.value.fileName = payload.name;
       fileSelected.value.fileContent = content;
       emit("update:modelValue", content.substring(content.indexOf(',') + 1));
+      if (props.imageId) {
+        emit("update:imageId", null);
+      }
     };
 
     const onRemove = () => {
