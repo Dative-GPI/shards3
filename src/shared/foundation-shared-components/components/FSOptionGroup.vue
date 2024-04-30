@@ -160,6 +160,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    singleColor: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     padding: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
@@ -168,7 +173,7 @@ export default defineComponent({
     gap: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "0"
+      default: "8px"
     },
     multiple: {
       type: Boolean,
@@ -192,6 +197,8 @@ export default defineComponent({
     const { getColors } = useColors();
 
     const lights = getColors(ColorEnum.Light);
+
+    const colors = getColors(props.optionColor);
 
     const firstChild = getFirstChild("item");
 
@@ -234,12 +241,12 @@ export default defineComponent({
 
     const getColor = (value: FSToggle): ColorBase => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
-        return props.activeColor;
+        return props.singleColor ? colors.dark : props.activeColor;
       }
       if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
-        return props.activeColor;
+        return props.singleColor ? colors.dark : props.activeColor;
       }
-      return props.optionColor;
+      return props.singleColor ? colors.base : props.optionColor;
     };
 
     const getClass = (value: FSToggle): string[] | string => {

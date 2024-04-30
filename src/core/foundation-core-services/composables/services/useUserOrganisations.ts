@@ -17,7 +17,7 @@ const UserOrganisationServiceFactory = new ServiceFactory<UserOrganisationDetail
             notifyService.notify("update", result);
             return result;
         }),
-        ...ServiceFactory.addCustom("changeCurrentDashboard", (axios, payload: ChangeCurrentUserOrganisationDashboardDTO) => axios.post(USER_ORGANISATION_CURRENT_DASHBOARD_URL(), payload), (dto: UserOrganisationDetailsDTO) => {
+        ...ServiceFactory.addCustom("changeCurrentDashboard", (axios, payload: ChangeCurrentUserOrganisationDashboardDTO) => axios.put(USER_ORGANISATION_CURRENT_DASHBOARD_URL(), payload), (dto: UserOrganisationDetailsDTO) => {
             const result = new UserOrganisationDetails(dto)
             notifyService.notify("update", result);
             return result;
