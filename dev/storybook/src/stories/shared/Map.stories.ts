@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSMap from "@dative-gpi/foundation-shared-components/components/FSMap.vue";
+import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
 
 const meta = {
   title: 'Foundation/Shared/Map',
@@ -17,22 +17,23 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      location1: {
+      locations1: [{
         name: "lyon",
         label: "Lyon",
         lat: 45.74,
         lng: 4.84,
         icon: "mdi-home",
         color: "red"
-      },
-      location2: {
+      }],
+      locations2: [{
         name: "lyon",
         label: "Lyon",
         lat: 45.74,
         lng: 4.84,
         icon: "mdi-home",
         color: "red"
-      },
+      }],
+      locations3: []
     }
   },
   render: (args, { argTypes }) => ({
@@ -45,15 +46,10 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 30px;">
       <FSMap
         :editable="true"
-        :modelValue="[args.location1]"
+        v-model="args.locations1"
+        height="600px"
       />
-      <FSMap
-        height="200px"
-        selectedLayer="light"
-        :editable="false"
-        :showLayerChoice="false"
-        :modelValue="[args.location2]"
-      />
+      
     </div>`
   })
 }

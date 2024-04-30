@@ -3,6 +3,26 @@
 .fs-map {
   position: relative;
 
+  .leaflet-container {
+    border-radius: 4px;
+  }
+
+  .fs-map-overlay-layer-choice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 950;
+    margin: 8px;
+    
+    > * {
+      opacity: 0.7;
+      transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    > *:hover {
+      opacity: 1;
+    }
+  }
+
   .fs-map-overlay-container {
     position: absolute;
     bottom: 0;
