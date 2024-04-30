@@ -219,6 +219,7 @@ export const Form: Story = {
         @click="() => args.value1 = true"
       />
       <FSDialogForm
+        width="500px"
         color="primary"
         title="Star wars 1"
         subtitle="The phantom menace"
