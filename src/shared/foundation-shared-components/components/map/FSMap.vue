@@ -142,7 +142,7 @@ export default defineComponent({
     };
 
     const initMap = () => {
-      map.value = L.map(mapId, {zoomAnimation: false}).setView([props.center[0], props.center[1]], 13);
+      map.value = L.map(mapId, { zoomAnimation: false }).setView([props.center[0], props.center[1]], 13);
 
       map.value.zoomControl.remove();
 
@@ -153,7 +153,7 @@ export default defineComponent({
 
       map.value.on('click', (e) => {
         if (props.editable) {
-          if(props.singlePoint){
+          if (props.singlePoint) {
             innerModelValue.value = [
               {
                 ...innerModelValue.value[0],
@@ -165,7 +165,7 @@ export default defineComponent({
               },
             ];
             selectedLocation.value = innerModelValue.value[0];
-          }else{
+          } else {
             // Not implemented
             alert('Not implemented');
           }
@@ -181,25 +181,37 @@ export default defineComponent({
     };
 
     const onNewCoordEntered = (newCoord: Address) => {
-      const newLocation = new LocationInfos({
-        id: '',
-        organisationId: '',
-        icon: 'mdi-circle',
-        code: "",
-        label: newCoord.formattedAddress,
-        tags: [],
-        address: new Address({
-          ...newCoord
-        }),
-        modelsIds: [],
-        deviceOrganisationsIds: [],
-        deviceOrganisationsCount: 0
-      })
-      selectedLocation.value = newLocation;
-      if(props.singlePoint){
-        innerModelValue.value= [newLocation];
+      if (props.singlePoint) {
+        let newLocation:LocationInfos;
+        if (innerModelValue.value.length === 1) {
+          newLocation = {
+            ...innerModelValue.value[0],
+            address: {
+              ...newCoord
+            }
+          }
+          console.log(innerModelValue.value)
+        } else {
+          newLocation = new LocationInfos({
+            id: '',
+            organisationId: '',
+            icon: 'mdi-circle',
+            code: "",
+            label: newCoord.formattedAddress,
+            tags: [],
+            address: new Address({
+              ...newCoord
+            }),
+            modelsIds: [],
+            deviceOrganisationsIds: [],
+            deviceOrganisationsCount: 0
+          })
+        }
+        console.log(newLocation)
+        innerModelValue.value = [newLocation];
+        selectedLocation.value = innerModelValue.value[0]
         map.value?.flyTo([newCoord.latitude, newCoord.longitude], 13);
-      }else{
+      } else {
         // Not implemented
         alert('Not implemented');
       }

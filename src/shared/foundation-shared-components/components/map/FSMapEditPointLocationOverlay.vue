@@ -96,11 +96,15 @@ export default defineComponent({
     const longitude = ref(props.modelValue.longitude);
 
     const onCoordinateChange = () => {
-      const newModelValue = {
-        ...props.modelValue,
-        lat: latitude.value,
-        lng: longitude.value,
-      };
+      const newModelValue = new Address({
+        country: "",
+        formattedAddress: "",
+        locality: "",
+        placeId: "",
+        placeLabel: "",
+        latitude: latitude.value,
+        longitude: longitude.value,
+      });
       emit('update:locationCoord', newModelValue);
       console.log('update:locationCoord', newModelValue);
     };
