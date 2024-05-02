@@ -1,5 +1,4 @@
 <template>
-
   <FSCol class="fs-map">
     <FSRow
       v-if="showLayerChoice"
@@ -28,7 +27,7 @@
     >
       <FSMapEditPointLocationOverlay
         v-if="$props.editable"
-        :modelValue="selectedPinnedLocation"
+        :modelValue="selectedLocation.address"
         @update:locationCoord="($event) => onNewCoordEntered($event)"
       />
     </FSCol>
@@ -49,9 +48,10 @@ import FSChip from '../FSChip.vue'
 import FSMapEditPointLocationOverlay from "./FSMapEditPointLocationOverlay.vue";
 
 import L from "leaflet";
-import { PinnedLocation, mapLayers } from "../../models/map";
-import { ColorEnum } from "../../models";
+import { ColorEnum, mapLayers } from "../../models";
 import { useColors } from "../../composables";
+import { Address } from "../../../../core/foundation-core-domain/models/locations/address";
+import { LocationInfos } from "../../../../core/foundation-core-domain/models/locations/locationInfos";
 
 
 export default defineComponent({
@@ -86,7 +86,7 @@ export default defineComponent({
       default: false,
     },
     modelValue: {
-      type: Array<PinnedLocation>,
+      type: Array<LocationInfos>,
       required: false,
       default: () => [],
     },
@@ -107,7 +107,7 @@ export default defineComponent({
     const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
     const map = ref<L.Map>();
-    const selectedPinnedLocation = ref<PinnedLocation | null>(null);
+    const selectedLocation = ref<LocationInfos | null>(null);
 
     const mapId = `map-${uuidv4()}`;
     const pinLayerGroup = new L.LayerGroup();
@@ -116,7 +116,7 @@ export default defineComponent({
     const { getColors } = useColors();
 
     if (props.singlePoint && props.modelValue.length >= 1) {
-      selectedPinnedLocation.value = props.modelValue[0];
+      selectedLocation.value = props.modelValue[0];
     }
 
     const style = computed((): { [key: string]: string | undefined } => {
@@ -125,10 +125,10 @@ export default defineComponent({
       };
     });
 
-    const displayPinnedLocations = () => {
+    const displayLocations = () => {
       pinLayerGroup.clearLayers();
-      innerModelValue.value.forEach((pinnedLocation) => {
-        const iconHtml = `<div class="fs-map-location-pin"><i class="${pinnedLocation.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 20px;"  ></i></div>`;
+      innerModelValue.value.forEach((location) => {
+        const iconHtml = `<div class="fs-map-location-pin"><i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 20px;"  ></i></div>`;
 
         const icon = L.divIcon({
           html: iconHtml,
@@ -137,7 +137,7 @@ export default defineComponent({
           iconAnchor: [15, 42],
         });
 
-        L.marker([pinnedLocation.lat, pinnedLocation.lng], { icon }).addTo(pinLayerGroup).bindPopup(pinnedLocation.label);
+        L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(pinLayerGroup).bindPopup(location.label);
       });
     };
 
@@ -149,7 +149,7 @@ export default defineComponent({
       baseLayerGroup.addTo(map.value);
       pinLayerGroup.addTo(map.value);
       setMapBaseLayer(props.selectedLayer);
-      displayPinnedLocations();
+      displayLocations();
 
       map.value.on('click', (e) => {
         if (props.editable) {
@@ -157,11 +157,14 @@ export default defineComponent({
             innerModelValue.value = [
               {
                 ...innerModelValue.value[0],
-                lat: e.latlng.lat,
-                lng: e.latlng.lng,
+                address: {
+                  ...innerModelValue.value[0].address,
+                  latitude: e.latlng.lat,
+                  longitude: e.latlng.lng,
+                },
               },
             ];
-            selectedPinnedLocation.value = innerModelValue.value[0];
+            selectedLocation.value = innerModelValue.value[0];
           }else{
             // Not implemented
             alert('Not implemented');
@@ -177,12 +180,25 @@ export default defineComponent({
       layer.layer.addTo(baseLayerGroup);
     };
 
-    const onNewCoordEntered = (newCoord: PinnedLocation) => {
-      selectedPinnedLocation.value = newCoord;
-      console.log('newCoord', newCoord)
+    const onNewCoordEntered = (newCoord: Address) => {
+      const newLocation = new LocationInfos({
+        id: '',
+        organisationId: '',
+        icon: 'mdi-circle',
+        code: "",
+        label: newCoord.formattedAddress,
+        tags: [],
+        address: new Address({
+          ...newCoord
+        }),
+        modelsIds: [],
+        deviceOrganisationsIds: [],
+        deviceOrganisationsCount: 0
+      })
+      selectedLocation.value = newLocation;
       if(props.singlePoint){
-        innerModelValue.value= [newCoord];
-        map.value?.flyTo([newCoord.lat, newCoord.lng], 13);
+        innerModelValue.value= [newLocation];
+        map.value?.flyTo([newCoord.latitude, newCoord.longitude], 13);
       }else{
         // Not implemented
         alert('Not implemented');
@@ -194,7 +210,7 @@ export default defineComponent({
     });
 
     watch(() => innerModelValue.value, () => {
-      displayPinnedLocations();
+      displayLocations();
     });
 
     return {
@@ -203,7 +219,7 @@ export default defineComponent({
       innerSelectedLayer,
       mapId,
       style,
-      selectedPinnedLocation,
+      selectedLocation,
       mapLayers,
     };
   },

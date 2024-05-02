@@ -59,7 +59,6 @@
 
 <script lang="ts">
 import { PropType, defineComponent, ref, watch } from "vue";
-import { PinnedLocation } from "../../models/map";
 
 import FSCard from '../FSCard.vue'
 import FSCol from '../FSCol.vue'
@@ -68,6 +67,7 @@ import FSText from '../FSText.vue'
 import FSButton from '../FSButton.vue'
 import FSNumberField from '../fields/FSNumberField.vue'
 import FSForm from '../FSForm.vue'
+import { Address } from "../../../../core/foundation-core-domain/models/locations/address";
 
 
 export default defineComponent({
@@ -83,7 +83,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object as PropType<PinnedLocation>,
+      type: Object as PropType<Address>,
       default: null,
       required: false,
     },
@@ -92,8 +92,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const menuLocationCoord = ref(false);
 
-    const latitude = ref(props.modelValue.lat);
-    const longitude = ref(props.modelValue.lng);
+    const latitude = ref(props.modelValue.latitude);
+    const longitude = ref(props.modelValue.longitude);
 
     const onCoordinateChange = () => {
       const newModelValue = {
@@ -106,8 +106,8 @@ export default defineComponent({
     };
 
     watch(() => props.modelValue, (value) => {
-      latitude.value = value.lat;
-      longitude.value = value.lng;
+      latitude.value = value.latitude;
+      longitude.value = value.longitude;
     });
 
     return {
