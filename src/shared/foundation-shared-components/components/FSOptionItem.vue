@@ -1,6 +1,6 @@
 <template>
   <FSClickable
-    padding="12px 0"
+    padding="4px"
     :editable="$props.editable"
     :height="['32px', '28px']"
     :variant="$props.variant"
@@ -46,6 +46,7 @@
 import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { sizeToVar, varToSize } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSClickable from "./FSClickable.vue";
@@ -87,6 +88,11 @@ export default defineComponent({
       required: false,
       default: "full"
     },
+    ItemWidth: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: ["32px","28px"]
+    },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
@@ -113,7 +119,7 @@ export default defineComponent({
       if (props.label) {
         return "fit-content";
       }
-      return "72px";
+      return sizeToVar(varToSize(props.ItemWidth));
     });
 
     const onClick = (event: MouseEvent) => {

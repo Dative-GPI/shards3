@@ -1,6 +1,8 @@
 <template>
   <FSCol gap="16px">
-    <FSRow align="bottom-center">
+    <FSRow align="bottom-center"
+      :wrap="isExtraSmall ? false : true"
+      width="fill">
       <template v-if="$props.showSearch">
         <FSSearchField prependInnerIcon="mdi-magnify"
           :hideHeader="true"
@@ -10,12 +12,21 @@
           :variant="showFilters ? 'full' : 'standard'"
           @click="showFilters = !showFilters" />
       </template>
-      <slot name="toolbar" />
+      <slot v-if="!isExtraSmall"
+        name="toolbar" />
       <v-spacer />
-      <FSOptionGroup v-if="!$props.disableTable && !$props.disableIterator"
-        :values="modeOptions"
-        :required="true"
-        v-model="innerMode" />
+      <FSRow v-if="!$props.disableTable && !$props.disableIterator"
+        align="center-right">
+        <FSOptionGroup :values="modeOptions"
+          :singleColor="true"
+          :required="true"
+          v-model="innerMode" />
+      </FSRow>
+    </FSRow>
+    <FSRow v-if="isExtraSmall && hasToolbar">
+      <FSWrapGroup>
+        <slot name="toolbar" />
+      </FSWrapGroup>
     </FSRow>
     <FSRow v-if="showFiltersRow">
       <template v-if="showFilters">
@@ -602,6 +613,10 @@ export default defineComponent({
       return (props.showSearch && showFilters.value && filterableHeaders.value.length > 0) || hiddenHeaders.value.length > 0;
     });
 
+    const hasToolbar = computed((): boolean => {
+      return !!useSlots().slots["toolbar"];
+    });
+
     const innerSlots = computed((): { [label: string]: Slot<any> } => {
       const slots = { ...useSlots().slots };
       delete slots["toolbar"];
@@ -633,7 +648,7 @@ export default defineComponent({
 
     const style = computed((): { [key: string]: string | undefined } => {
       return {
-        "--fs-data-table-background-color": backgrounds.light,
+        "--fs-data-table-background-color": backgrounds.base,
         "--fs-data-table-border-color": lights.base,
         "--fs-data-table-row-gap": sizeToVar(props.rowGap)
       };
@@ -1135,6 +1150,7 @@ export default defineComponent({
       innerMode,
       modeOptions,
       innerPage,
+      hasToolbar,
       pageOptions,
       showFilters,
       showFiltersRow,
