@@ -2,6 +2,8 @@
   <FSCard
     padding="16px"
     width="100%"
+    height="100%"
+    :elevation="true"
   >
     <FSCol gap="24px">
       <FSRow>
@@ -51,11 +53,15 @@
         </FSForm>
       </FSCol>
       <FSRow align="center-right">
-        <FSButton :label="$tr('ui.map.cancel', 'Cancel')" />
+        <FSButton
+          :label="$tr('ui.map.cancel', 'Cancel')"
+          @click="onCancel"
+        />
         <FSButton
           :label="$tr('ui.map.save', 'Save')"
           color="primary"
           prepend-icon="mdi-content-save"
+          @click="onSubmit"
         />
       </FSRow>
     </FSCol>
@@ -96,7 +102,7 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ['update:modelValue', 'update:locationCoord'],
+  emits: ['update:modelValue', 'update:locationCoord', 'cancel'],
   setup(props, { emit }) {
     const menuLocationCoord = ref(false);
 
@@ -119,8 +125,16 @@ export default defineComponent({
     };
 
     const onAddressFieldSubmit = (address: Address) => {
-      console.log('address typed', address);
       emit('update:locationCoord', address);
+    };
+
+    const onSubmit = () => {
+      console.log('submit')
+      emit('update:modelValue', props.modelValue);
+    };
+
+    const onCancel = () => {
+      emit('cancel');
     };
 
     watch(() => props.modelValue, (value) => {
@@ -131,6 +145,8 @@ export default defineComponent({
     return {
       onAddressFieldSubmit,
       onCoordinateChange,
+      onSubmit,
+      onCancel,
       latitude,
       longitude,
       menuLocationCoord,

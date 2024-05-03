@@ -13,14 +13,23 @@
     left: 0;
     z-index: 950;
     margin: 8px;
-    
-    > * {
+
+    >* {
       opacity: 0.7;
       transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    > *:hover {
+
+    >*:hover {
       opacity: 1;
     }
+  }
+
+  .fs-map-overlay-edit-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 960;
+    margin: 8px;
   }
 
   .fs-map-overlay-container {
@@ -28,8 +37,50 @@
     bottom: 0;
     left: 0;
     z-index: 1000;
-    margin: .5%;
-    width: 99%;
+    margin: 4px 8px;
+    width: calc(100% - 16px);
+
+
+    .fs-map-zoom-overlay {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      z-index: 1001;
+      margin-bottom: 8px;
+
+      .fs-map-zoom-plus {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom: solid 1px var(--fs-card-border-color) !important;
+      }
+
+      .fs-map-zoom-minus {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        border-top: solid 1px var(--fs-card-border-color) !important;
+      }
+    }
+  }
+
+  .fs-map-mylocation {
+    background-color: var(--fs-map-location-pin-color);
+    border: 3px solid white;
+    border-radius: 100%;
+    animation: fs-map-shadow 1.4s linear infinite;
+
+    @keyframes fs-map-shadow {
+      0% {
+        box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
+      }
+
+      50% {
+        box-shadow: 0 0 0px 7px var(--fs-map-mylocation-pin-color-alpha);
+      }
+
+      100% {
+        box-shadow: 0 0 0px 20px transparent;
+      }
+    }
   }
 
   .fs-map-location {
@@ -37,16 +88,20 @@
     padding-top: 8px;
     color: var(--fs-map-location-pin-color);
     background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="50"%3E%3Cpath fill="%23FAFBFC" d="M12 0C7.316 0 3.378 3.936 3.378 8.625c0 6.742 6.539 14.216 8.625 14.216 2.086 0 8.625-7.474 8.625-14.216C20.622 3.936 16.684 0 12 0z"/%3E%3C/svg%3E');
-    filter: drop-shadow( 0px 2px 4px black);
+    filter: drop-shadow(0px 2px 4px black);
 
     .mdi-loading {
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   }
 }
-
-

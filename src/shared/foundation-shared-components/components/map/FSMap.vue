@@ -1,12 +1,15 @@
 <template>
-  <FSCol class="fs-map">
+  <FSCol
+    class="fs-map"
+    :width="$props.width"
+  >
     <FSRow
-      v-if="showLayerChoice"
+      v-if="showLayerChoice && selectableLayers.length > 1"
       gap="2px"
       class="fs-map-overlay-layer-choice"
     >
       <FSChip
-        v-for="mapLayer in mapLayers"
+        v-for="mapLayer in mapLayers.filter((layer) => selectableLayers.includes(layer.name))"
         :key="mapLayer"
         :label="mapLayer.label"
         :editable="true"
@@ -15,20 +18,68 @@
         @click="setMapBaseLayer(mapLayer.name)"
       />
     </FSRow>
+    <FSRow
+      v-if="$props.editable && !editing"
+      class="fs-map-overlay-edit-button"
+    >
+      <FSButton
+        prepend-icon="mdi-pencil"
+        :label="$tr('ui.map.modify', 'Modify')"
+        @click="editing = true"
+      />
+    </FSRow>
     <FSCol :style="style">
       <div
         :id="mapId"
         :style="{ height: $props.height, width: '100%' }"
       ></div>
     </FSCol>
+
     <FSCol
       class="fs-map-overlay-container"
       align="center-center"
     >
+      <FSCol
+        width="hug"
+        class="fs-map-zoom-overlay"
+        align="bottom-center"
+      >
+        <FSButton
+          v-if="$props.showMyLocation"
+          :elevation="true"
+          :border="false"
+          color="primary"
+          variant="full"
+          prepend-icon="mdi-navigation-variant-outline"
+          @click="locate"
+        />
+        <FSCol
+          v-if="$props.showZoomButtons"
+          gap="0"
+        >
+          <FSButton
+            :elevation="true"
+            class="fs-map-zoom-plus"
+            prepend-icon="mdi-plus"
+            @click="zoomIn"
+            :border="false"
+          />
+          <FSButton
+            :elevation="true"
+            class="fs-map-zoom-minus"
+            prepend-icon="mdi-minus"
+            :border="false"
+            @click="zoomOut"
+          />
+        </FSCol>
+      </FSCol>
       <FSMapEditPointAddressOverlay
-        v-if="$props.editable"
+        v-if="editing"
+        :label="$tr('ui.map.address', 'Address')"
         :modelValue="(innerModelValue.find((loc) => loc.id === selectedLocationId))?.address"
         @update:locationCoord="($event) => onNewCoordEntered($event)"
+        @cancel="onCancel"
+        @update:modelValue="onSubmit"
       />
     </FSCol>
   </FSCol>
@@ -67,19 +118,15 @@ export default defineComponent({
     FSMapEditPointAddressOverlay,
   },
   props: {
-    selectedLayer: {
-      type: String,
-      default: "osm",
-    },
     height: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: '400px'
     },
-    showLayerChoice: {
-      type: Boolean,
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: true,
+      default: '100%'
     },
     editable: {
       type: Boolean,
@@ -96,6 +143,34 @@ export default defineComponent({
       default: [45.71, 5.07],
       required: false
     },
+    selectedLayer: {
+      type: String,
+      default: "osm",
+    },
+    selectableLayers: {
+      type: Array<string>,
+      default: ["osm", "imagery"],
+    },
+    showLayerChoice: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    showMyLocation: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    showZoomButtons: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    showLocationAddressPopup: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     singlePoint: {
       type: Boolean,
       required: false,
@@ -104,18 +179,19 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
+    const { getColors } = useColors();
     const { getAddressFromCoordinates } = useAddress();
 
     const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
     const map = ref<L.Map>();
     const selectedLocationId = ref<string | null>(null);
+    const editing = ref(false);
 
     const mapId = `map-${uuidv4()}`;
     const pinLayerGroup = new L.LayerGroup();
     const baseLayerGroup = new L.LayerGroup();
-
-    const { getColors } = useColors();
+    const myLocationLayerGroup = new L.LayerGroup();
 
     if (props.singlePoint && props.modelValue.length >= 1) {
       selectedLocationId.value = props.modelValue[0].id;
@@ -123,15 +199,16 @@ export default defineComponent({
 
     const style = computed((): { [key: string]: string | undefined } => {
       return {
-        "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base
+        "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
+        "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
       };
     });
 
     const displayLocations = () => {
       pinLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-        const iconHtml = `<div class="fs-map-location-pin"><i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 20px;"  ></i></div>`;
 
+        const iconHtml = `<div class="fs-map-location-pin"><i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 20px;"  ></i></div>`;
         const icon = L.divIcon({
           html: iconHtml,
           className: 'fs-map-location',
@@ -139,7 +216,22 @@ export default defineComponent({
           iconAnchor: [20, 45],
         });
 
-        L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(pinLayerGroup).bindPopup(location.label);
+        const marker = L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(pinLayerGroup);
+
+        if (props.showLocationAddressPopup) {
+          const popupHtml = `
+          <div class="fs-map-location-popup">
+            <h3 class="fs-text text-h3 fs-span-ellipsis">
+              <i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;"></i>
+              ${location.label}
+            </h3>
+            <p>${location.address.formattedAddress}</p>
+          </div>`;
+          const popup = L.popup({
+            offset: [0, -20],
+          }).setContent(popupHtml);
+          marker.bindPopup(popup);
+        }
       });
     };
 
@@ -169,17 +261,23 @@ export default defineComponent({
     };
 
     const initMap = () => {
-      map.value = L.map(mapId, { zoomAnimation: false }).setView([props.center[0], props.center[1]], 13);
-
-      map.value.zoomControl.remove();
+      const mapOptions = {
+        zoomAnimation: false,
+        zoomControl: false,
+        scrollWheelZoom: false,
+      };
+      map.value = L.map(mapId, mapOptions).setView([props.center[0], props.center[1]], 13);
+      map.value.attributionControl.remove();
+      L.control.attribution({ position: 'bottomleft' }).addTo(map.value);
 
       baseLayerGroup.addTo(map.value);
       pinLayerGroup.addTo(map.value);
+      myLocationLayerGroup.addTo(map.value);
       setMapBaseLayer(props.selectedLayer);
       displayLocations();
 
       map.value.on('click', (e) => {
-        if (props.editable) {
+        if (editing.value) {
           onNewCoordEntered(new Address({
             latitude: parseFloat(e.latlng.lat.toFixed(6)),
             longitude: parseFloat(e.latlng.lng.toFixed(6)),
@@ -222,6 +320,45 @@ export default defineComponent({
       map.value?.flyTo([newCoord.latitude, newCoord.longitude], map.value?.getZoom() ?? 13);
     };
 
+    const zoomIn = () => {
+      map.value?.zoomIn();
+    };
+
+    const zoomOut = () => {
+      map.value?.zoomOut();
+    };
+
+    const locate = () => {
+      map.value?.locate();
+      map.value?.on('locationfound', (e) => {
+        map.value?.flyTo(e.latlng, 13);
+
+        const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
+
+        const icon = L.divIcon({
+          html: iconHtml,
+          className: 'fs-map-mylocation',
+          iconSize: [16, 16],
+          iconAnchor: [8, 8],
+        });
+        myLocationLayerGroup.clearLayers();
+
+        L.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
+
+      });
+    };
+
+    const onCancel = () => {
+      editing.value = false;
+      innerModelValue.value = props.modelValue;
+      map.value?.flyTo([props.center[0], props.center[1]], map.value?.getZoom() ?? 13);
+    };
+
+    const onSubmit = () => {
+      emit('update:modelValue', innerModelValue.value);
+      editing.value = false;
+    };
+
     onMounted(() => {
       initMap();
     });
@@ -232,10 +369,16 @@ export default defineComponent({
 
     return {
       onNewCoordEntered,
+      onCancel,
+      onSubmit,
       setMapBaseLayer,
+      zoomIn,
+      zoomOut,
+      locate,
       innerSelectedLayer,
       mapId,
       style,
+      editing,
       selectedLocationId,
       innerModelValue,
       mapLayers,

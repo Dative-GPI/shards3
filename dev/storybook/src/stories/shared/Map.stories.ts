@@ -64,6 +64,9 @@ export const Variations: Story = {
     args: {
       locations1: [
         { ...location1 }
+      ],
+      locations2: [
+        { ...location1 }
       ]
     }
   },
@@ -80,6 +83,18 @@ export const Variations: Story = {
         v-model="args.locations1"
         :center="[args.locations1[0].address.latitude, args.locations1[0].address.longitude]"
         height="600px"
+      />
+
+      <FSMap
+        :editable="false"
+        v-model="args.locations2"
+        :center="[args.locations1[0].address.latitude, args.locations1[0].address.longitude]"
+        height="300px"
+        width="300px"
+        selectedLayer="light"
+        :showLayerChoice="false"
+        :showMyLocation="false"
+        :showZoomButtons="false"
       />
       
     </div>`
