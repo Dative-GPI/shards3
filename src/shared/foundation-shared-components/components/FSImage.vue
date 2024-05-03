@@ -5,12 +5,14 @@
     :height="computedHeight"
     :width="computedWidth"
     :cover="$props.cover"
+    :src="realSource"
     :style="style"
-    :src="source"
     @error="onError"
     v-bind="$attrs"
   >
-    <template #placeholder>
+    <template
+      #placeholder
+    >
       <FSLoader
         v-if="$props.imageId"
         class="fs-image-load"
@@ -19,7 +21,9 @@
         :borderRadius="$props.borderRadius"
       />
     </template>
-    <template #error>
+    <template
+      #error
+    >
       <FSLoader
         v-if="!blurHash"
         class="fs-image-load"
@@ -66,6 +70,11 @@ export default defineComponent({
       default: null
     },
     imageB64: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    source: {
       type: String as PropType<string | null>,
       required: false,
       default: null
@@ -146,7 +155,7 @@ export default defineComponent({
       return undefined;
     });
 
-    const source = computed((): string | undefined => {
+    const realSource = computed((): string | null => {
       if (props.imageB64) {
         if (imageType.value && imageData.value) {
           return `${imageType.value},${imageData.value}`;
@@ -158,6 +167,7 @@ export default defineComponent({
         }
         return IMAGE_RAW_URL(props.imageId);
       }
+      return props.source;
     });
 
     const imageData = computed((): string | null => {
@@ -208,10 +218,10 @@ export default defineComponent({
     return {
       computedHeight,
       computedWidth,
+      realSource,
       canvasRef,
       imageRef,
       blurHash,
-      source,
       style,
       onError
     };

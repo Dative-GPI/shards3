@@ -20,6 +20,7 @@ module.exports = {
     }],
     "vue/require-v-for-key": "off",
     "vue/valid-v-slot": "off",
+    "vue/return-in-computed-property": "off",
     "vue/multi-word-component-names": 'off',
     "vue/first-attribute-linebreak": ["error", {
       "singleline": "below",

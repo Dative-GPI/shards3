@@ -1,13 +1,17 @@
 <template>
-  <FSCol gap="8px">
+  <FSCol
+    gap="8px"
+  >
     <slot
       v-if="!$props.hideHeader"
       name="label"
     >
-      <FSRow :wrap="false">
+      <FSRow
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
-          class="fs-text-field-label"
+          class="fs-edit-image-label"
           font="text-overline"
           :style="style"
         >
@@ -15,7 +19,7 @@
         </FSSpan>
         <FSSpan
           v-if="$props.label && $props.required"
-          class="fs-text-field-label"
+          class="fs-edit-image-label"
           style="margin-left: -8px;"
           font="text-overline"
           :ellipsis="false"
@@ -26,10 +30,9 @@
       </FSRow>
     </slot>
     <FSCard
-      v-if="$props.variant === 'standard'"
-      width="100%"
-      height="fill"
+      v-if="['standard'].includes($props.variant)"
       padding="12px"
+      width="100%"
     >
       <FSRow
         align="center-left"
@@ -37,7 +40,6 @@
       >
         <FSRow
           gap="24px"
-          width="hug"
           :wrap="false"
         >
           <FSImage
@@ -48,8 +50,9 @@
             :imageId="$props.imageId"
             :imageB64="realSource"
           />
-          <FSImage
+          <FSCard
             v-else
+            borderStyle="dashed"
             :aspectRatio="$props.aspectRatio"
             :height="$props.height"
             :width="$props.width"
@@ -58,49 +61,45 @@
             align="center-left"
             height="fill"
             width="hug"
+            gap="10px"
           >
             <FSText
-              v-if="$props.imageId || realSource"
+              v-if="fileSelected && fileSelected.fileName"
               lineClamp="2"
               font="text-body"
             >
               {{ fileSelected.fileName }}
             </FSText>
-            <FSText
-              v-else
-              lineClamp="2"
-              font="text-body"
+            <FSCol
+              gap="0"
             >
-              {{ $tr('ui.edit-image.no-image', 'No image uploaded.') }}
-            </FSText>
-            <FSText
-              lineClamp="2"
-              class="fs-edit-image-overline"
-              font="text-overline"
-              :style="style"
-            >
-              {{ $tr('ui.edit-image.format', 'PNG or JPG format') }} <br />
-              {{ $tr('ui.edit-image.size', '10 MB Maximum') }}
-            </FSText>
+              <FSText
+                class="fs-edit-image-overline"
+                font="text-overline"
+                :style="style"
+              >
+                {{ $tr('ui.edit-image.format', 'PNG or JPG format') }}
+              </FSText>
+              <FSText
+                class="fs-edit-image-overline"
+                font="text-overline"
+                :style="style"
+              >
+                {{ $tr('ui.edit-image.size', '10 MB Maximum') }}
+              </FSText>
+            </FSCol>
           </FSCol>
         </FSRow>
         <v-spacer />
-        <FSRow width="hug">
+        <FSRow
+          width="hug"
+        >
           <FSButtonFileMini
-            v-if="$props.imageId || realSource"
-            icon="mdi-pencil-outline"
-            accept="image/*"
-            :readFile="false"
-            @update:modelValue="onUpload"
-          />
-          <FSButtonFileMini
-            v-else
             accept="image/*"
             :readFile="false"
             @update:modelValue="onUpload"
           />
           <FSButtonRemoveMini
-            v-if="!isExtraSmall"
             @click="onRemove"
           />
         </FSRow>
@@ -109,7 +108,7 @@
     <FSRow
       v-else-if="$props.imageId || realSource"
       :width="$props.width"
-      class="fs-edit-image-rowfull"
+      class="fs-edit-image-full"
     >
       <FSImage
         :aspectRatio="$props.aspectRatio"
@@ -119,36 +118,34 @@
         :imageB64="realSource"
       />
       <FSRow
-        :wrap="false"
-        class="fs-edit-image-fixed-rowbuttons"
-        padding="12px"
+        class="fs-edit-image-full-toolbar"
+        padding="4px"
       >
         <FSButtonFileMini
-          icon="mdi-pencil-outline"
           accept="image/*"
           :readFile="false"
           @update:modelValue="onUpload"
         />
-        <FSButtonRemoveMini @click="onRemove" />
+        <FSButtonRemoveMini
+          @click="onRemove"
+        />
       </FSRow>
     </FSRow>
     <FSClickable
       v-else
-      width="100%"
-      height="97px"
-      padding="12px"
       borderStyle="dashed"
       variant="background"
-      @click="() => invisibleButton.input.click()"
+      :height="$props.height"
+      :width="$props.width"
+      @click="() => invisibleButtonRef.input.click()"
     >
       <FSRow
         align="center-center"
         :wrap="false"
       >
-        <FSIcon
-          icon="mdi-plus-box-outline"
-          size="l"
-        />
+        <FSIcon>
+          mdi-plus-box-outline
+        </FSIcon>
         <FSText
           lineClamp="2"
           font="text-body"
@@ -156,9 +153,8 @@
           {{ $tr('ui.edit-image.add-image', 'Add an image.') }}
         </FSText>
         <FSButtonFileMini
-          ref="invisibleButton"
+          ref="invisibleButtonRef"
           class="fs-edit-image-hidden-button"
-          icon=""
           accept="image/*"
           :readFile="false"
           @update:modelValue="onUpload"
@@ -177,24 +173,24 @@ import { ColorEnum, FileImage } from "@dative-gpi/foundation-shared-components/m
 
 import FSButtonRemoveMini from "./buttons/FSButtonRemoveMini.vue";
 import FSButtonFileMini from "./buttons/FSButtonFileMini.vue";
+import FSClickable from "./FSClickable.vue";
 import FSImage from "./FSImage.vue";
+import FSCard from "./FSCard.vue";
 import FSText from "./FSText.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
-import FSCard from "./FSCard.vue";
-import FSClickable from "./FSClickable.vue";
 
 export default defineComponent({
   name: "FSEditImage",
   components: {
     FSButtonRemoveMini,
     FSButtonFileMini,
+    FSClickable,
     FSImage,
+    FSCard,
     FSText,
     FSCol,
-    FSRow,
-    FSCard,
-    FSClickable
+    FSRow
   },
   props: {
     height: {
@@ -245,18 +241,22 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:imageId"],
   setup(props, { emit }) {
+    const { isExtraSmall } = useBreakpoints();
     const { getColors } = useColors();
     const { readFile } = useFiles();
-    const { isExtraSmall } = useBreakpoints();
-
-    const lights = getColors(ColorEnum.Light);
-    const invisibleButton = ref<HTMLFormElement | null>(null);
 
     const fileSelected = ref<FileImage>({ fileName: "", fileContent: null });
+    const invisibleButtonRef = ref<HTMLFormElement | null>(null);
+
+    const errors = getColors(ColorEnum.Error);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [key: string]: string | undefined } => {
       return {
-        "--fs-edit-image-overline-text-color": lights.dark
+        "--fs-edit-image-overline-text-color": lights.dark,
+        "--fs-edit-image-color"              : darks.base,
+        "--fs-edit-image-error-color"        : errors.base
       };
     });
 
@@ -289,11 +289,11 @@ export default defineComponent({
     };
 
     return {
-      invisibleButton,
+      invisibleButtonRef,
       fileSelected,
+      isExtraSmall,
       realSource,
       style,
-      isExtraSmall,
       onUpload,
       onRemove
     };

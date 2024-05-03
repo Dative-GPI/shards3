@@ -6,12 +6,25 @@
     display: none;
 }
 
-.fs-edit-image-rowfull {
+.fs-edit-image-full {
     position: relative;
 
-    .fs-edit-image-fixed-rowbuttons {
+    .fs-edit-image-full-toolbar {
         position: absolute;
-        top: 0;
         right: 0;
+        top: 0;
     }
+}
+
+.fs-edit-image-label {
+    color: var(--fs-edit-image-color);
+}
+
+.fs-edit-image-messages {
+    align-self: stretch;
+    color: var(--fs-edit-image-error-color);
+}
+
+.fs-edit-image-description {
+    color: var(--fs-edit-image-color);
 }

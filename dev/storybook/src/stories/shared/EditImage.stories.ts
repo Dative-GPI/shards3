@@ -36,7 +36,7 @@ export const Variations: Story = {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
       Variant Standard : <br>
       <FSEditImage
         height="96px"
@@ -57,7 +57,7 @@ export const Variations: Story = {
       Variant Full : <br>
       <FSEditImage
         variant="full"
-        height="350px"
+        height="50px"
         width="100%"
         v-model="args.source4"
       />
