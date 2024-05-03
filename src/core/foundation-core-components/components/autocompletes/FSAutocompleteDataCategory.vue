@@ -1,10 +1,10 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :toggleSetItems="languages"
+    :toggleSetItems="toggleSetItems"
     :multiple="$props.multiple"
+    :items="dataCategories"
     :loading="loading"
-    :items="languages"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
@@ -17,10 +17,8 @@
         align="center-center"
         :wrap="false"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
+        <FSIcon>
+          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
         </FSIcon>
         <FSSpan>
           {{ item.raw.label }}
@@ -38,12 +36,10 @@
         >
           <FSCheckbox
             v-if="$props.multiple"
-            :modelValue="$props.modelValue.includes(item.value)"
+            :modelValue="$props.modelValue?.includes(item.value)"
           />
-          <FSIcon
-            v-if="item.raw.icon"
-          >
-            {{ item.raw.icon }}
+          <FSIcon>
+            {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
           </FSIcon>
           <FSSpan>
             {{ item.raw.label }}
@@ -55,20 +51,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue"
+import { computed, defineComponent, PropType } from "vue";
 
+import { DataCategoryFilters, DataCategoryInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
-import { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
+import { useDataCategories } from "@dative-gpi/foundation-core-services/composables";
 
-import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
-import FSCheckbox from "../FSCheckbox.vue";
-import FSIcon from "../FSIcon.vue";
-import FSSpan from "../FSSpan.vue";
-import FSRow from "../FSRow.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
+import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
-  name: "FSAutocompleteLanguage",
+  name: "FSAutocompleteDataCategory",
   components: {
     FSAutocompleteField,
     FSCheckbox,
@@ -77,8 +73,8 @@ export default defineComponent({
     FSRow
   },
   props: {
-    languageFilters: {
-      type: Object as PropType<LanguageFilters>,
+    dataCategoriesFilters: {
+      type: Object as PropType<DataCategoryFilters>,
       required: false,
       default: null
     },
@@ -100,25 +96,34 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
+    const { getMany: getManyDataCategories, fetching: fetchingDataCategories, entities: dataCategories } = useDataCategories();
 
     const loading = computed((): boolean => {
-      return init.value && fetchingLanguages.value;
+      return init.value && fetchingDataCategories.value;
+    });
+
+    const toggleSetItems = computed((): any[] => {
+      return dataCategories.value.map((dataCategory: DataCategoryInfos) => ({
+          id: dataCategory.id,
+          prependIcon: dataCategory.correlated ? 'mdi-link' : 'mdi-link-off',
+          label: dataCategory.label
+      }));
     });
 
     const innerFetch = (search: string | null) => {
-      return getManyLanguages({ ...props.languageFilters, search: search ?? undefined });
+      return getManyDataCategories({ ...props.dataCategoriesFilters, search: search ?? undefined });
     };
 
     const { toggleSet, init, onUpdate } = useAutocomplete(
-      languages,
-      [() => props.languageFilters],
+      dataCategories,
+      [() => props.dataCategoriesFilters],
       emit,
       innerFetch
     );
 
     return {
-      languages,
+      dataCategories,
+      toggleSetItems,
       toggleSet,
       loading,
       onUpdate

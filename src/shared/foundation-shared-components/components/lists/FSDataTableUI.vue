@@ -4,6 +4,8 @@
   >
     <FSRow
       align="bottom-center"
+      :wrap="isExtraSmall ? false : true"
+      width="fill"
     >
       <template
         v-if="$props.showSearch"
@@ -14,21 +16,37 @@
           v-model="innerSearch"
         />
         <FSButton
+          v-if="filterableHeaders.length > 0"
           prependIcon="mdi-filter-variant"
           :variant="showFilters ? 'full' : 'standard'"
           @click="showFilters = !showFilters"
         />
       </template>
       <slot
+        v-if="!isExtraSmall"
         name="toolbar"
       />
       <v-spacer />
-      <FSOptionGroup
+      <FSRow
         v-if="!$props.disableTable && !$props.disableIterator"
-        :values="modeOptions"
-        :required="true"
-        v-model="innerMode"
-      />
+        align="center-right"
+      >
+        <FSOptionGroup
+          :values="modeOptions"
+          :singleColor="true"
+          :required="true"
+          v-model="innerMode"
+        />
+      </FSRow>
+    </FSRow>
+    <FSRow
+      v-if="isExtraSmall && hasToolbar"
+    >
+      <FSWrapGroup>
+        <slot
+          name="toolbar"
+        />
+      </FSWrapGroup>
     </FSRow>
     <FSRow
       v-if="showFiltersRow"
@@ -73,10 +91,9 @@
     >
       <v-data-table
         v-if="!isExtraSmall"
-        selectStrategy="all"
+        :selectStrategy="$props.singleSelect ? 'single' : 'all'"
         :itemValue="$props.itemValue"
         :showSelect="$props.showSelect"
-        :singleSelect="$props.singleSelect"
         :headers="extraHeaders.concat(innerHeaders)"
         :groupBy="$props.groupBy ? [$props.groupBy] : []"
         :sortBy="innerSortBy ? [innerSortBy] : []"
@@ -317,7 +334,8 @@
                 v-else
               >
                 <FSText>
-                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
+                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString())
+                  }}
                 </FSText>
               </template>
             </template>
@@ -412,7 +430,7 @@
                     />
                   </template>
                   <template
-                    v-for="(item, index) in itemsSlots"
+                    v-for="item in itemsSlots"
                     #[item.slotName]="props"
                   >
                     <slot
@@ -471,7 +489,8 @@
                 v-else
               >
                 <FSText>
-                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
+                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString())
+                  }}
                 </FSText>
               </template>
             </template>
@@ -562,7 +581,7 @@
                     />
                   </template>
                   <template
-                    v-for="(item, index) in itemsSlots"
+                    v-for="item in itemsSlots"
                     #[item.slotName]="props"
                   >
                     <slot
@@ -598,7 +617,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, onMounted, onUnmounted, PropType, ref, Slot, watch } from "vue";
+import { computed, defineComponent, getCurrentInstance, onMounted, onUnmounted, PropType, ref, Ref, Slot, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
@@ -786,12 +805,12 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
 
     const filters = ref<{ [key: string]: FSDataTableFilter[] }>({});
+    const innerSearch: Ref<string | null> = ref(null);
     const innerRowsPerPage = ref(props.rowsPerPage);
     const innerValue = ref(props.modelValue);
     const innerSortBy = ref(props.sortBy);
     const innerMode = ref(props.mode);
     const innerPage = ref(props.page);
-    const innerSearch = ref(null);
     const showFilters = ref(true);
     const resetable = ref(false);
 
@@ -814,6 +833,10 @@ export default defineComponent({
       return (props.showSearch && showFilters.value && filterableHeaders.value.length > 0) || hiddenHeaders.value.length > 0;
     });
 
+    const hasToolbar = computed((): boolean => {
+      return !!useSlots().slots["toolbar"];
+    });
+
     const innerSlots = computed((): { [label: string]: Slot<any> } => {
       const slots = { ...useSlots().slots };
       delete slots["toolbar"];
@@ -831,14 +854,14 @@ export default defineComponent({
         delete slots[filterSlot(header)];
       }
       for (const header of headersSlots.value) {
-        delete slots[header.slotName];
+        delete slots[header.slotName!];
         delete slots[header.slotName + "-prepend"];
         delete slots[header.slotName + "-title"];
         delete slots[header.slotName + "-append"];
         delete slots[header.slotName + "-configuration"];
       }
       for (const item of itemsSlots.value) {
-        delete slots[item.slotName];
+        delete slots[item.slotName!];
       }
       return slots;
     });
@@ -907,7 +930,7 @@ export default defineComponent({
     const innerItems = computed((): any[] => {
       const activeFilters: { key: string, filter: FSDataTableFilter }[] = Object.keys(filters.value).reduce((acc, key) => {
         return acc.concat(filters.value[key].filter((filter) => filter.hidden).map((filter) => ({ key, filter })));
-      }, []);
+      }, [] as { key: string, filter: FSDataTableFilter }[]);
       if (props.items && props.items.length) {
         return props.items.filter((item) => {
           if (props.selectedOnly && !innerValue.value.includes(item[props.itemValue])) {
@@ -918,7 +941,7 @@ export default defineComponent({
               return false;
             }
           }
-          if (activeFilters.some(af => af.filter.filter(af.filter.value, item[af.key], item))) {
+          if (activeFilters.some(af => af.filter.filter && af.filter.filter(af.filter.value, item[af.key], item))) {
             return false;
           }
           return true;
@@ -1003,7 +1026,12 @@ export default defineComponent({
         innerValue.value.splice(index, 1);
       }
       else {
-        innerValue.value.push(item[props.itemValue]);
+        if (props.singleSelect) {
+          innerValue.value = [item[props.itemValue]];
+        }
+        else {
+          innerValue.value.push(item[props.itemValue]);
+        }
       }
       emit("update:modelValue", innerValue.value);
     };
@@ -1139,7 +1167,7 @@ export default defineComponent({
       switch (innerMode.value) {
         case "table":
           if (intersectionObserver.value && document.querySelector(".fs-data-table-intersection")) {
-            intersectionObserver.value.unobserve(document.querySelector(".fs-data-table-intersection"));
+            intersectionObserver.value.unobserve(document.querySelector(".fs-data-table-intersection")!);
           }
           return;
         case "iterator":
@@ -1155,7 +1183,7 @@ export default defineComponent({
             }, { threshold: [0.9] });
           }
           if (document.querySelector(".fs-data-table-intersection")) {
-            intersectionObserver.value.observe(document.querySelector(".fs-data-table-intersection"));
+            intersectionObserver.value.observe(document.querySelector(".fs-data-table-intersection")!);
           }
           return;
       }
@@ -1167,11 +1195,11 @@ export default defineComponent({
         return {
           class: "fs-data-table-custom-row",
           style: {
-            "--fs-data-table-row-border-size"     : "1px",
-            "--fs-data-table-row-border-radius"   : sizeToVar(props.rowBorderRadius),
+            "--fs-data-table-row-border-size": "1px",
+            "--fs-data-table-row-border-radius": sizeToVar(props.rowBorderRadius),
             "--fs-data-table-row-background-color": rowColors.light,
-            "--fs-data-table-row-border-color"    : rowColors.lightContrast,
-            "--fs-data-table-row-color"           : rowColors.lightContrast
+            "--fs-data-table-row-border-color": rowColors.lightContrast,
+            "--fs-data-table-row-color": rowColors.lightContrast
           }
         };
       }
@@ -1225,7 +1253,7 @@ export default defineComponent({
               else if (dragged?.getAttribute("data-initial-index") !== null) {
                 target.classList.add("fs-dropzone-include");
                 const tbodyElement = (event.target as HTMLElement)?.closest(elementContainerSelector) as HTMLElement;
-                resetRowIndex(+dragged?.getAttribute('data-initial-index'), Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
+                resetRowIndex(+dragged?.getAttribute('data-initial-index')!, Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
               }
             }
           }
@@ -1342,6 +1370,7 @@ export default defineComponent({
       innerMode,
       modeOptions,
       innerPage,
+      hasToolbar,
       pageOptions,
       showFilters,
       showFiltersRow,

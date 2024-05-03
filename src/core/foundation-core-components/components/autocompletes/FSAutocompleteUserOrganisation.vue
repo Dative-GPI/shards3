@@ -1,14 +1,14 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="toggleSetItems"
     :multiple="$props.multiple"
-    :toggleSetItems="locations"
+    :items="userOrganisations"
     :loading="loading"
-    :items="locations"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
-  >
+>
     <template
       #autocomplete-selection="{ item }"
     >
@@ -17,13 +17,14 @@
         align="center-center"
         :wrap="false"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
+        <FSImage
+          v-if="item.raw.imageId"
+          height="26px"
+          width="26px"
+          :imageId="item.raw.imageId"
+        />
         <FSSpan>
-          {{ item.raw.label }}
+          {{ item.raw.name }}
         </FSSpan>
       </FSRow>
     </template>
@@ -40,13 +41,14 @@
             v-if="$props.multiple"
             :modelValue="$props.modelValue?.includes(item.value)"
           />
-          <FSIcon
-            v-if="item.raw.icon"
-          >
-            {{ item.raw.icon }}
-          </FSIcon>
+          <FSImage
+            v-if="item.raw.imageId"
+            height="26px"
+            width="26px"
+            :imageId="item.raw.imageId"
+          />
           <FSSpan>
-            {{ item.raw.label }}
+            {{ item.raw.name }}
           </FSSpan>
         </FSRow>
       </v-list-item>
@@ -56,29 +58,27 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
-
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { useLocations } from "@dative-gpi/foundation-core-services/composables";
-import { LocationFilters } from "@dative-gpi/foundation-core-domain/models";
+import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
+import { UserOrganisationFilters, UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
-import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
-
 export default defineComponent({
-  name: "FSAutocompleteLocation",
+  name: "FSAutocompleteUserOrganisation",
   components: {
     FSAutocompleteField,
     FSCheckbox,
-    FSIcon,
+    FSImage,
     FSSpan,
     FSRow
   },
   props: {
-    locationFilters: {
-      type: Object as PropType<LocationFilters>,
+    userOrganisationFilters: {
+      type: Object as PropType<UserOrganisationFilters>,
       required: false,
       default: null
     },
@@ -100,27 +100,39 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getMany: getManyLocations, fetching: fetchingLocations, entities: locations } = useLocations();
-
-    const innerFetch = (search: string | null) => {
-      return getManyLocations({ ...props.locationFilters, search: search ?? undefined });
-    };
-
-    const { toggleSet, init, onUpdate } = useAutocomplete(
-      locations,
-      [() => props.locationFilters],
-      emit,
-      innerFetch
-    );
+    const { getMany: getManyUserOrganisations, fetching: fetchingUserOrganisations, entities: userOrganisations } = useUserOrganisations();
 
     const loading = computed((): boolean => {
-      return init.value && fetchingLocations.value;
+      return init.value && fetchingUserOrganisations.value;
     });
 
+    const toggleSetItems = computed((): any[] => {
+      return userOrganisations.value.map((userOrganisation: UserOrganisationInfos) => ({
+          id: userOrganisation.id,
+          label: userOrganisation.name
+      }));
+    });
+    
+    const innerFetch = (search: string | null) => {
+      return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
+    };
+
+    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+      userOrganisations,
+      [() => props.userOrganisationFilters],
+      emit,
+      innerFetch,
+      null,
+      (item: UserOrganisationInfos) => item.id,
+      (item: UserOrganisationInfos) => item.name
+    );
+
     return {
-      locations,
+      userOrganisations,
+      toggleSetItems,
       toggleSet,
       loading,
+      search,
       onUpdate
     };
   }

@@ -3,7 +3,9 @@
     :closeOnContentClick="false"
     v-model="expanded"
   >
-    <template #activator="{ props }">
+    <template
+      #activator="{ props }"
+    >
       <FSChip
         class="fs-filter-button"
         variant="standard"
@@ -57,8 +59,12 @@
               :variant="getVariant(filter)"
               @click="() => onToggle(filter)"
             >
-              <template #default>
-                <slot v-bind="{ filter }" />
+              <template
+                #default
+              >
+                <slot
+                  v-bind="{ filter }"
+                />
               </template>
             </FSChip>
           </FSCol>
@@ -117,7 +123,7 @@ export default defineComponent({
 
     const label = computed((): string | null => {
       if (props.header.text) {
-          if (props.filters) {
+        if (props.filters) {
           const hidden = props.filters.filter(f => f.hidden).length;
           if (hidden > 0) {
             return $tr("ui.data-table.some-filters-visible", "{0}: {1} visible", props.header.text, (props.filters.length - hidden).toString());

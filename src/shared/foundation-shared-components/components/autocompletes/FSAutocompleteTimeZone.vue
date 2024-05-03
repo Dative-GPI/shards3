@@ -1,6 +1,7 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="timeZones"
     :multiple="$props.multiple"
     :loading="loading"
     :items="timeZones"
@@ -19,9 +20,9 @@
         <FSChip
           :label="item.raw.offset"
         />
-        <FSText>
+        <FSSpan>
           {{ item.raw.id }}
-        </FSText>
+        </FSSpan>
       </FSRow>
     </template>
     <template
@@ -40,20 +41,11 @@
           <FSChip
             :label="item.raw.offset"
           />
-          <FSText>
+          <FSSpan>
             {{ item.raw.id }}
-          </FSText>
+          </FSSpan>
         </FSRow>
       </v-list-item>
-    </template>
-    <template
-      #toggle-set-default
-    >
-      <FSButton
-        v-for="tz in timeZones"
-        :label="tz.id"
-        :key="tz.id"
-      />
     </template>
   </FSAutocompleteField>
 </template>
@@ -61,14 +53,14 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { TimeZoneFilters } from "@dative-gpi/foundation-shared-domain/models";
+import { TimeZoneFilters, TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
 import FSCheckbox from "../FSCheckbox.vue"
 import FSChip from "../FSChip.vue";
-import FSText from "../FSText.vue";
+import FSSpan from "../FSSpan.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
@@ -77,7 +69,7 @@ export default defineComponent({
     FSAutocompleteField,
     FSCheckbox,
     FSChip,
-    FSText,
+    FSSpan,
     FSRow
   },
   props: {
@@ -106,6 +98,10 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyTimeZones, fetching: fetchingTimeZones, entities: timeZones } = useTimeZones();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingTimeZones.value;
+    });
+
     const innerFetch = (search: string | null) => {
       return getManyTimeZones({ ...props.timeZoneFilters, search: search ?? undefined });
     };
@@ -116,24 +112,15 @@ export default defineComponent({
       emit,
       innerFetch,
       null,
-      (item: any) => item.id,
-      (item: any) => item.id
+      (item: TimeZoneInfos) => item.id,
+      (item: TimeZoneInfos) => item.id
     );
-
-    const isSelected = (id: any) => {
-      return props.modelValue?.includes(id);
-    };
-
-    const loading = computed((): boolean => {
-      return init.value && fetchingTimeZones.value;
-    });
 
     return {
       timeZones,
       toggleSet,
       loading,
       search,
-      isSelected,
       onUpdate
     };
   }

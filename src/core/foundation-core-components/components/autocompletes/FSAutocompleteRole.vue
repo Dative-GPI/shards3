@@ -1,14 +1,57 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :multiple="$props.multiple"
     :toggleSetItems="roles"
     :loading="loading"
     :items="roles"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
     v-bind="$attrs"
-  />
+  >
+    <template
+      #autocomplete-selection="{ item }"
+    >
+      <FSRow
+        v-if="$props.modelValue"
+        align="center-center"
+        :wrap="false"
+      >
+        <FSIcon
+          v-if="item.raw.icon"
+        >
+          {{ item.raw.icon }}
+        </FSIcon>
+        <FSSpan>
+          {{ item.raw.label }}
+        </FSSpan>
+      </FSRow>
+    </template>
+    <template
+      #autocomplete-item="{ props, item }"
+    >
+      <v-list-item
+        v-bind="{ ...props, title: '' }"
+      >
+        <FSRow
+          align="center-left"
+        >
+          <FSCheckbox
+            v-if="$props.multiple"
+            :modelValue="$props.modelValue?.includes(item.value)"
+          />
+          <FSIcon
+            v-if="item.raw.icon"
+          >
+            {{ item.raw.icon }}
+          </FSIcon>
+          <FSSpan>
+            {{ item.raw.label }}
+          </FSSpan>
+        </FSRow>
+      </v-list-item>
+    </template>
+  </FSAutocompleteField>
 </template>
 
 <script lang="ts">
@@ -19,11 +62,20 @@ import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foun
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
+import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
+
 
 export default defineComponent({
   name: "FSAutocompleteRole",
   components: {
-    FSAutocompleteField
+    FSAutocompleteField,
+    FSCheckbox,
+    FSIcon,
+    FSSpan,
+    FSRow
   },
   props: {
     roleOrganisationTypeFilters: {
@@ -40,6 +92,11 @@ export default defineComponent({
       type: [Array, String] as PropType<string[] | string | null>,
       required: false,
       default: null
+    },
+    multiple: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     toggleSetDisabled: {
       type: Boolean,
@@ -64,6 +121,10 @@ export default defineComponent({
         label: ro.label,
         type: RoleType.Organisation
       })));
+    });
+
+    const loading = computed((): boolean => {
+      return init.value && (fetchingRoleOrganisationTypes.value || fetchingRoleOrganisations.value);
     });
 
     const innerUpdate = (value: Role[] | Role | null) => {
@@ -91,10 +152,6 @@ export default defineComponent({
       innerFetch,
       innerUpdate
     );
-
-    const loading = computed((): boolean => {
-      return init.value && (fetchingRoleOrganisationTypes.value || fetchingRoleOrganisations.value);
-    });
 
     return {
       toggleSet,

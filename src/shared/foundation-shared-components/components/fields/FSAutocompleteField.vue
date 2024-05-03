@@ -92,6 +92,25 @@
         v-bind="$attrs"
       >
         <template
+          #item="{ props, item }"
+        >
+          <v-list-item
+            v-bind="{ ...props, title: '' }"
+          >
+            <FSRow
+              align="center-left"
+            >
+              <FSCheckbox
+                v-if="$props.multiple"
+                :modelValue="$props.modelValue?.includes(item.raw.id)"
+              />
+              <FSSpan>
+                {{ item.raw.label }}
+              </FSSpan>
+            </FSRow>
+          </v-list-item>
+        </template>
+        <template
           v-for="(_, name) in autocompleteSlots"
           v-slot:[name]="slotData"
         >
@@ -153,6 +172,7 @@ import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-com
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSToggleSet from "../FSToggleSet.vue";
+import FSCheckbox from "../FSCheckbox.vue";
 import FSButton from "../FSButton.vue";
 import FSLoader from "../FSLoader.vue";
 import FSSpan from "../FSSpan.vue";
@@ -163,6 +183,7 @@ export default defineComponent({
   name: "FSAutocompleteField",
   components: {
     FSToggleSet,
+    FSCheckbox,
     FSButton,
     FSLoader,
     FSSpan,

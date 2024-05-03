@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSDataTableUI from "@dative-gpi/foundation-shared-components/components/lists/FSDataTableUI.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
 const meta = {
   title: 'Foundation/Shared/Lists/DataTable',
@@ -52,12 +53,36 @@ export const Variations: Story = {
         key: "column4",
         order: "asc"
       },
+      headers2: [{
+        text: "Column 1 - sortable",
+        value: "column1",
+        index: 0,
+        hidden: false,
+        width: "100px",
+        sortable: true,
+        filterable: false
+      }, {
+        text: "Column 2",
+        value: "column2",
+        index: 1,
+        hidden: false,
+        width: "80px"
+      }, {
+        text: "Column 3",
+        value: "column3",
+        index: 2,
+        hidden: false,
+        width: "120px",
+        sortable: true,
+        filterable: false
+      }],
+      disableItemTo: true,
       itemTo: (item: any) => ({ name: 'device', params: { deviceId: item.id } }),
       clickRow: () => { console.log("clicked"); }
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSDataTableUI },
+    components: { FSDataTableUI, FSButton },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -80,6 +105,7 @@ export const Variations: Story = {
           :showSelect="true"
           :items="args.items1"
           :sneakyHeaders="['column1']"
+          :disableIterator="true"
           @click:row="args.clickRow"
           v-model:headers="args.headers1"
           v-model="args.value1"
@@ -108,6 +134,38 @@ export const Variations: Story = {
           :includeDraggable="true"
           :sortDraggable="true"
         />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSDataTableUI
+          :showSelect="true"
+          :items="args.items1"
+          :singleSelect="true"
+          :sneakyHeaders="['column1']"
+          :itemTo="args.disableItemTo ? null : args.itemTo"
+          v-model:headers="args.headers2"
+          v-model="args.value1"
+          :includeDraggable="true"
+          :sortDraggable="true"
+        />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSDataTableUI
+        :showSelect="true"
+        :items="args.items1"
+        :sneakyHeaders="['column1']"
+        @click:row="args.clickRow"
+        v-model:headers="args.headers1"
+        v-model="args.value1"
+        :includeDraggable="true"
+        :sortDraggable="true"
+        >
+          <template #toolbar>
+            <FSButton>Toolbar 1</FSButton>
+            <FSButton>Toolbar button 2</FSButton>
+            <FSButton>Toolbar button 3</FSButton>
+            <FSButton>Toolbar button 4</FSButton>
+            <FSButton>Toolbar button 5</FSButton>
+            <FSButton>Toolbar button 6</FSButton>
+          </template> 
+        </FSDataTableUI>
     </div>`
   })
 }

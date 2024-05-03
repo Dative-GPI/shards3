@@ -11,4 +11,12 @@ export const MODELS: ModelInfosDTO[] = [{
     code: "oven.model1",
     label: "Model 1",
     connectable: true
+},{
+    id: "2",
+    manufacturerId: MANUFACTURERS[0].id,
+    manufacturerLabel: MANUFACTURERS[0].label,
+    imageId: IMAGES[0].id,
+    code: "oven.model2",
+    label: "Model 2",
+    connectable: false
 }];

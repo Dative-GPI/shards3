@@ -220,7 +220,7 @@ export default defineComponent({
         case "color":       return firstChild?.props?.color ?? getColor(value);
         default:            return (firstChild?.props && firstChild?.props[prop]) || null;
       }
-    }
+    };
 
     const getVariant = (value: FSToggle): "standard" | "full" | "icon" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {

@@ -1,10 +1,10 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :toggleSetItems="languages"
+    :toggleSetItems="dataDefinitions"
     :multiple="$props.multiple"
+    :items="dataDefinitions"
     :loading="loading"
-    :items="languages"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
@@ -17,11 +17,10 @@
         align="center-center"
         :wrap="false"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
+        <FSChip
+          v-if="item.raw.unit"
+          :label="item.raw.unit"
+        />
         <FSSpan>
           {{ item.raw.label }}
         </FSSpan>
@@ -38,13 +37,12 @@
         >
           <FSCheckbox
             v-if="$props.multiple"
-            :modelValue="$props.modelValue.includes(item.value)"
+            :modelValue="$props.modelValue?.includes(item.value)"
           />
-          <FSIcon
-            v-if="item.raw.icon"
-          >
-            {{ item.raw.icon }}
-          </FSIcon>
+          <FSChip
+            v-if="item.raw.unit"
+            :label="item.raw.unit"
+          />
           <FSSpan>
             {{ item.raw.label }}
           </FSSpan>
@@ -55,30 +53,30 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue"
+import { computed, defineComponent, PropType } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
-import { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
+import { useDataDefinitions } from "@dative-gpi/foundation-core-services/composables";
+import { DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
 
-import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
-import FSCheckbox from "../FSCheckbox.vue";
-import FSIcon from "../FSIcon.vue";
-import FSSpan from "../FSSpan.vue";
-import FSRow from "../FSRow.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
+import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
-  name: "FSAutocompleteLanguage",
+  name: "FSAutocompleteDataDefinition",
   components: {
     FSAutocompleteField,
     FSCheckbox,
-    FSIcon,
+    FSChip,
     FSSpan,
     FSRow
   },
   props: {
-    languageFilters: {
-      type: Object as PropType<LanguageFilters>,
+    dataDefinitionFilters: {
+      type: Object as PropType<DataDefinitionFilters>,
       required: false,
       default: null
     },
@@ -100,25 +98,25 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
+    const { getMany: getManyDataDefinitions, fetching: fetchingDataDefinitions, entities: dataDefinitions } = useDataDefinitions();
 
     const loading = computed((): boolean => {
-      return init.value && fetchingLanguages.value;
+      return init.value && fetchingDataDefinitions.value;
     });
 
     const innerFetch = (search: string | null) => {
-      return getManyLanguages({ ...props.languageFilters, search: search ?? undefined });
+      return getManyDataDefinitions({ ...props.dataDefinitionFilters, search: search ?? undefined });
     };
 
     const { toggleSet, init, onUpdate } = useAutocomplete(
-      languages,
-      [() => props.languageFilters],
+      dataDefinitions,
+      [() => props.dataDefinitionFilters],
       emit,
       innerFetch
     );
 
     return {
-      languages,
+      dataDefinitions,
       toggleSet,
       loading,
       onUpdate

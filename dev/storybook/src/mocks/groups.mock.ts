@@ -7,7 +7,7 @@ export const GROUPS: GroupInfosDTO[] = [{
     id: "1",
     organisationId: ORGANISATIONS[0].id,
     imageId: IMAGES[0].id,
-    icon: "",
+    icon: "mdi-numeric-1-circle",
     code: "number1",
     label: "First group",
     tags: [],

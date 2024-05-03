@@ -43,7 +43,7 @@ export const Variations: Story = {
           <FSTab label="Tab 4" :value="3" />
           <FSTab label="Tab 5" :value="4" />
         </FSTabs>
-        <FSWindow :modelValue="args.tab1">
+        <FSWindow v-model="args.tab1">
           <FSCol v-for="arg in 5" :key="arg">
             <FSCol>
               <FSText font="text-h1">
