@@ -1232,6 +1232,7 @@ export default defineComponent({
 
       if (dragged != null) {
         const target = (event.target as HTMLElement)?.closest(elementSelector);
+        dragged.classList.remove("fs-draggable-dragging-grabbegin");
 
         if (target != null && (target !== dragged || (props.sortDraggable && props.includeDraggable))) {
           if (props.includeDraggable) {
@@ -1307,11 +1308,11 @@ export default defineComponent({
     };
 
     const onDrop = (event: DragEvent, row: any, elementSelector: string) => {
-      const draggedElement = document.querySelector(".fs-draggable-dragging");
+      const draggedElement = document.querySelector(".fs-draggable-dragging") as HTMLElement;
 
       if (draggedElement != null) {
         const target = (event.target as HTMLElement)?.closest(elementSelector);
-        const draggedData = JSON.parse(event.dataTransfer?.getData("text/plain") ?? "");
+        const draggedData = JSON.parse(event.dataTransfer?.getData("text/plain") ?? draggedElement.dataset.item ?? '{}');
         const itemsData = draggedData.item ?? draggedData.raw;
         const rowData = row.item ?? row.raw;
 

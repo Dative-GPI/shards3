@@ -5,6 +5,7 @@ module.exports = {
   },
   extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/eslint-config-typescript', 'plugin:storybook/recommended'],
   rules: {
+    "curly": ["error", "all"],
     "vue/html-indent": ["error", 2, {
       "baseIndent": 1,
       "closeBracket": 0,
