@@ -22,29 +22,34 @@
           @click="menuLocationCoord = !menuLocationCoord"
         />
       </FSRow>
-      <FSForm
-        v-if="menuLocationCoord"
-        variant="standard"
-        @submit="onCoordinateChange()"
-      >
-        <FSRow>
-          <FSNumberField
-            :label="$tr('ui.map.latitude', 'Latitude')"
-            v-model="latitude"
-          />
-          <FSNumberField
-            :label="$tr('ui.map.longitude', 'Longitude')"
-            v-model="longitude"
-          />
-        </FSRow>
-        <FSButton
-          :label="$tr('ui.map.save', 'Save')"
-          color="primary"
-          prepend-icon="mdi-content-save"
-          type="submit"
-          style="display: none;"
+      <FSCol v-if="menuLocationCoord">
+        <FSAutoCompleteAddress
+          :modelValue="$props.modelValue"
+          @update:modelValue="onAddressFieldSubmit($event)"
         />
-      </FSForm>
+        <FSForm
+          variant="standard"
+          @submit="onCoordinateChange()"
+        >
+          <FSRow>
+            <FSNumberField
+              :label="$tr('ui.map.latitude', 'Latitude')"
+              v-model="latitude"
+            />
+            <FSNumberField
+              :label="$tr('ui.map.longitude', 'Longitude')"
+              v-model="longitude"
+            />
+          </FSRow>
+          <FSButton
+            :label="$tr('ui.map.save', 'Save')"
+            color="primary"
+            prepend-icon="mdi-content-save"
+            type="submit"
+            style="display: none;"
+          />
+        </FSForm>
+      </FSCol>
       <FSRow align="center-right">
         <FSButton :label="$tr('ui.map.cancel', 'Cancel')" />
         <FSButton
@@ -67,11 +72,13 @@ import FSText from '../FSText.vue'
 import FSButton from '../FSButton.vue'
 import FSNumberField from '../fields/FSNumberField.vue'
 import FSForm from '../FSForm.vue'
-import { Address } from "../../../../core/foundation-core-domain/models/locations/address";
+import FSAutoCompleteAddress from '../autocompletes/FSAutoCompleteAddress.vue'
+
+import { Address } from "@dative-gpi/foundation-core-domain/models/locations/address";
 
 
 export default defineComponent({
-  name: "FSMapEditPointLocationOverlay.vue",
+  name: "FSMapEditPointAddressOverlay.vue",
   components: {
     FSCard,
     FSCol,
@@ -79,6 +86,7 @@ export default defineComponent({
     FSText,
     FSButton,
     FSNumberField,
+    FSAutoCompleteAddress,
     FSForm
   },
   props: {
@@ -91,6 +99,8 @@ export default defineComponent({
   emits: ['update:modelValue', 'update:locationCoord'],
   setup(props, { emit }) {
     const menuLocationCoord = ref(false);
+
+    console.log(props.modelValue)
 
     const latitude = ref(props.modelValue.latitude);
     const longitude = ref(props.modelValue.longitude);
@@ -106,7 +116,11 @@ export default defineComponent({
         longitude: longitude.value,
       });
       emit('update:locationCoord', newModelValue);
-      console.log('update:locationCoord', newModelValue);
+    };
+
+    const onAddressFieldSubmit = (address: Address) => {
+      console.log('address typed', address);
+      emit('update:locationCoord', address);
     };
 
     watch(() => props.modelValue, (value) => {
@@ -115,6 +129,7 @@ export default defineComponent({
     });
 
     return {
+      onAddressFieldSubmit,
       onCoordinateChange,
       latitude,
       longitude,

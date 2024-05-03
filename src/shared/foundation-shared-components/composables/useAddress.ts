@@ -16,8 +16,8 @@ export const useAddress = () => {
       formattedAddress: (feature.properties.name ?? feature.properties.street ?? feature.properties.address ?? '') + ', ' + (feature.properties.city ?? feature.properties.town ?? feature.properties.village ?? feature.properties.hamlet ?? feature.properties.suburb ?? feature.properties.city_district ?? feature.properties.neighbourhood ?? feature.properties.postcode ?? '') + ', ' + (feature.properties.country ?? ''),
       locality: feature.properties.city ?? feature.properties.town ?? feature.properties.village ?? feature.properties.hamlet ?? feature.properties.suburb ?? feature.properties.city_district ?? feature.properties.neighbourhood ?? feature.properties.postcode ?? '',
       country: feature.properties.country ?? '',
-      latitude: feature.geometry.coordinates[0],
-      longitude: feature.geometry.coordinates[1]
+      latitude: feature.geometry.coordinates[1],
+      longitude: feature.geometry.coordinates[0]
     })
   }
 
@@ -61,7 +61,12 @@ export const useAddress = () => {
     fetching.value = false;
     if (response.ok) {
       const objectResponse = await response.json()
-      return getAddressFromFeature(objectResponse.features[0])
+      if(objectResponse.features.length !== 0) {
+        const enhancedAdress = getAddressFromFeature(objectResponse.features[0])
+        enhancedAdress.latitude = lat
+        enhancedAdress.longitude = lng
+        return enhancedAdress
+      }
     }
     return new Address({
       placeId: '',
@@ -69,8 +74,8 @@ export const useAddress = () => {
       formattedAddress: '',
       locality: '',
       country: '',
-      latitude: 0,
-      longitude: 0
+      latitude: lat,
+      longitude: lng
     })
   }
 

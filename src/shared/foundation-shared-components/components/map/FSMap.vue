@@ -25,9 +25,9 @@
       class="fs-map-overlay-container"
       align="center-center"
     >
-      <FSMapEditPointLocationOverlay
+      <FSMapEditPointAddressOverlay
         v-if="$props.editable"
-        :modelValue="selectedLocation.address"
+        :modelValue="(innerModelValue.find((loc) => loc.id === selectedLocationId))?.address"
         @update:locationCoord="($event) => onNewCoordEntered($event)"
       />
     </FSCol>
@@ -45,13 +45,14 @@ import FSText from '../FSText.vue'
 import FSButton from '../FSButton.vue'
 import FSChip from '../FSChip.vue'
 
-import FSMapEditPointLocationOverlay from "./FSMapEditPointLocationOverlay.vue";
+import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 
 import L from "leaflet";
 import { ColorEnum, mapLayers } from "../../models";
 import { useColors } from "../../composables";
 import { Address } from "../../../../core/foundation-core-domain/models/locations/address";
 import { LocationInfos } from "../../../../core/foundation-core-domain/models/locations/locationInfos";
+import { useAddress } from "../../composables/useAddress";
 
 
 export default defineComponent({
@@ -63,7 +64,7 @@ export default defineComponent({
     FSText,
     FSButton,
     FSChip,
-    FSMapEditPointLocationOverlay,
+    FSMapEditPointAddressOverlay,
   },
   props: {
     selectedLayer: {
@@ -103,11 +104,12 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
+    const { getAddressFromCoordinates } = useAddress();
 
     const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
     const map = ref<L.Map>();
-    const selectedLocation = ref<LocationInfos | null>(null);
+    const selectedLocationId = ref<string | null>(null);
 
     const mapId = `map-${uuidv4()}`;
     const pinLayerGroup = new L.LayerGroup();
@@ -116,7 +118,7 @@ export default defineComponent({
     const { getColors } = useColors();
 
     if (props.singlePoint && props.modelValue.length >= 1) {
-      selectedLocation.value = props.modelValue[0];
+      selectedLocationId.value = props.modelValue[0].id;
     }
 
     const style = computed((): { [key: string]: string | undefined } => {
@@ -134,11 +136,36 @@ export default defineComponent({
           html: iconHtml,
           className: 'fs-map-location',
           iconSize: [40, 50],
-          iconAnchor: [15, 42],
+          iconAnchor: [20, 45],
         });
 
         L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(pinLayerGroup).bindPopup(location.label);
       });
+    };
+
+    const enhanceAddressLocation = async (location: LocationInfos, initialIcon: string) => {
+      const address = location.address;
+      const enhancedAddress = await getAddressFromCoordinates(address.latitude, address.longitude)
+      if (enhancedAddress.formattedAddress !== "") {
+        location.address = enhancedAddress;
+      }
+      location.icon = initialIcon;
+      innerModelValue.value = innerModelValue.value.map((loc) => loc.id === location.id ? location : loc);
+    }
+
+    const modifyLocationAddress = (locationId: string, newAddress: Address) => {
+      const location = innerModelValue.value.find((loc) => loc.id === locationId);
+      if (!location) return;
+      const initialIcon = location.icon;
+      const newLocation = {
+        ...location,
+        icon: 'mdi-loading',
+        address: {
+          ...newAddress
+        },
+      };
+      innerModelValue.value = innerModelValue.value.map((loc) => loc.id === locationId ? newLocation : loc);
+      enhanceAddressLocation(newLocation, initialIcon);
     };
 
     const initMap = () => {
@@ -153,22 +180,15 @@ export default defineComponent({
 
       map.value.on('click', (e) => {
         if (props.editable) {
-          if (props.singlePoint) {
-            innerModelValue.value = [
-              {
-                ...innerModelValue.value[0],
-                address: {
-                  ...innerModelValue.value[0].address,
-                  latitude: e.latlng.lat,
-                  longitude: e.latlng.lng,
-                },
-              },
-            ];
-            selectedLocation.value = innerModelValue.value[0];
-          } else {
-            // Not implemented
-            alert('Not implemented');
-          }
+          onNewCoordEntered(new Address({
+            latitude: parseFloat(e.latlng.lat.toFixed(6)),
+            longitude: parseFloat(e.latlng.lng.toFixed(6)),
+            placeId: "",
+            placeLabel: "",
+            formattedAddress: "",
+            locality: "",
+            country: ""
+          }));
         }
       });
     };
@@ -181,40 +201,25 @@ export default defineComponent({
     };
 
     const onNewCoordEntered = (newCoord: Address) => {
-      if (props.singlePoint) {
-        let newLocation:LocationInfos;
-        if (innerModelValue.value.length === 1) {
-          newLocation = {
-            ...innerModelValue.value[0],
-            address: {
-              ...newCoord
-            }
-          }
-          console.log(innerModelValue.value)
-        } else {
-          newLocation = new LocationInfos({
-            id: '',
-            organisationId: '',
-            icon: 'mdi-circle',
-            code: "",
-            label: newCoord.formattedAddress,
-            tags: [],
-            address: new Address({
-              ...newCoord
-            }),
-            modelsIds: [],
-            deviceOrganisationsIds: [],
-            deviceOrganisationsCount: 0
-          })
-        }
-        console.log(newLocation)
-        innerModelValue.value = [newLocation];
-        selectedLocation.value = innerModelValue.value[0]
-        map.value?.flyTo([newCoord.latitude, newCoord.longitude], 13);
+      if (selectedLocationId.value) {
+        modifyLocationAddress(selectedLocationId.value, newCoord);
       } else {
-        // Not implemented
-        alert('Not implemented');
+        const newLocation = new LocationInfos({
+          id: uuidv4(),
+          label: 'New location',
+          icon: 'mdi-circle',
+          address: newCoord,
+          organisationId: '',
+          code: "",
+          tags: [],
+          modelsIds: [],
+          deviceOrganisationsIds: [],
+          deviceOrganisationsCount: 0
+        });
+        innerModelValue.value = [...innerModelValue.value, newLocation];
+        modifyLocationAddress(newLocation.id, newCoord);
       }
+      map.value?.flyTo([newCoord.latitude, newCoord.longitude], map.value?.getZoom() ?? 13);
     };
 
     onMounted(() => {
@@ -231,7 +236,8 @@ export default defineComponent({
       innerSelectedLayer,
       mapId,
       style,
-      selectedLocation,
+      selectedLocationId,
+      innerModelValue,
       mapLayers,
     };
   },
