@@ -1,3 +1,17 @@
-.fs-edit-image {
-    border: 1px dashed var(--fs-edit-image-border-color);
+.fs-edit-image-overline {
+    color: var(--fs-edit-image-overline-text-color) !important;
+}
+
+.fs-edit-image-hidden-button {
+    display: none;
+}
+
+.fs-edit-image-rowfull {
+    position: relative;
+
+    .fs-edit-image-fixed-rowbuttons {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 }

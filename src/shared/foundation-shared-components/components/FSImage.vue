@@ -192,8 +192,12 @@ export default defineComponent({
         if (blurHash.value && isBlurhashValid(blurHash.value.blurHash).result) {
           const ctx = canvasRef.value.getContext("2d");
           if (ctx) {
-            const pixels = decode(blurHash.value.blurHash, (imageRef.value as any).$el.clientWidth, (imageRef.value as any).$el.clientHeight);
-            const imageData = ctx.createImageData((imageRef.value as any).$el.clientWidth, (imageRef.value as any).$el.clientHeight);
+            const width = (imageRef.value as any).$el.clientWidth;
+            const height = (imageRef.value as any).$el.clientHeight;
+            const pixels = decode(blurHash.value.blurHash, width, height);
+            const imageData = ctx.createImageData(width, height);
+            canvasRef.value.width = width;
+            canvasRef.value.height = height;
             imageData.data.set(pixels);
             ctx.putImageData(imageData, 0, 0);
           }
