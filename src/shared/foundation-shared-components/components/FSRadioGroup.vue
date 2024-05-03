@@ -1,5 +1,8 @@
 <template>
-  <FSCol width="hug">
+  <FSCol
+    width="hug"
+    :gap="$props.gap"
+  >
     <FSRadio
       v-for="(item, index) in $props.values"
       :key="index"
@@ -48,6 +51,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    gap: {
+      type: String,
+      required: false,
+      default: "8px"
     }
   },
   emits: ["update:modelValue"],
