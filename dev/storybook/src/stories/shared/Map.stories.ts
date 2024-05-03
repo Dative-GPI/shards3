@@ -43,7 +43,7 @@ const location1 = new LocationInfos({
     "808479dc-6e96-4380-9c35-df21bd155c22"
   ],
   "label": "Le Mans GERAL",
-  "icon": "mdi-home",
+  "icon": "mdi-factory",
   "code": "",
   "deviceOrganisationsCount": 16,
   "tags": [],
@@ -59,6 +59,28 @@ const location1 = new LocationInfos({
   }
 })
 
+const location2 = new LocationInfos({
+  "id": "83963f32-6bd5-453d-b271-2b5a41672966",
+  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
+  "deviceOrganisationsIds": [],
+  "modelsIds": [],
+  "label": "GERAL Beley",
+  "icon": "mdi-home",
+  "code": "",
+  "deviceOrganisationsCount": 0,
+  "tags": [],
+  "address": {
+    "formattedAddress": "ZI La Pélissière – Route de Lyon – BP 49, 01302 BELLEY cedex, France",
+    "locality": "Belley",
+    "country": "France",
+    "latitude": 45.741951,
+    "longitude": 5.6751896,
+    "placeId": "",
+    "placeLabel": "Rue Gérard Perreir, Belley, France"
+
+  }
+})
+
 export const Variations: Story = {
   args: {
     args: {
@@ -67,6 +89,10 @@ export const Variations: Story = {
       ],
       locations2: [
         { ...location1 }
+      ],
+      locations3: [
+        { ...location1 },
+        { ...location2 }
       ]
     }
   },
@@ -81,14 +107,11 @@ export const Variations: Story = {
       <FSMap
         :editable="true"
         v-model="args.locations1"
-        :center="[args.locations1[0].address.latitude, args.locations1[0].address.longitude]"
         height="600px"
       />
-
       <FSMap
         :editable="false"
         v-model="args.locations2"
-        :center="[args.locations1[0].address.latitude, args.locations1[0].address.longitude]"
         height="300px"
         width="300px"
         selectedLayer="light"
@@ -97,6 +120,11 @@ export const Variations: Story = {
         :showZoomButtons="false"
       />
       
+      <FSMap
+        :editable="false"
+        :modelValue="args.locations3"
+        height="600px"
+      />
     </div>`
   })
 }

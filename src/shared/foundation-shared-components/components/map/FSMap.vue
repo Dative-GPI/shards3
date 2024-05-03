@@ -99,7 +99,7 @@ import FSChip from '../FSChip.vue'
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 
 import L from "leaflet";
-import { ColorEnum, mapLayers } from "../../models";
+import { ColorEnum, MapLayer } from "../../models";
 import { useColors } from "../../composables";
 import { Address } from "../../../../core/foundation-core-domain/models/locations/address";
 import { LocationInfos } from "../../../../core/foundation-core-domain/models/locations/locationInfos";
@@ -184,14 +184,40 @@ export default defineComponent({
 
     const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
-    const map = ref<L.Map>();
     const selectedLocationId = ref<string | null>(null);
     const editing = ref(false);
 
     const mapId = `map-${uuidv4()}`;
-    const pinLayerGroup = new L.LayerGroup();
+    let map: L.Map;
+    const pinLayerGroup = new L.FeatureGroup();
     const baseLayerGroup = new L.LayerGroup();
     const myLocationLayerGroup = new L.LayerGroup();
+    const mapLayers: MapLayer[] = [
+      {
+        name: "osm",
+        label: "OpenStreetMap",
+        layer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '© OpenStreetMap'
+        })
+      },
+      {
+        name: "imagery",
+        label: "Imagery",
+        layer: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.jpg', {
+          maxZoom: 20,
+          attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        }),
+      },
+      {
+        name: "light",
+        label: "Light",
+        layer: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+          maxZoom: 20,
+          attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        })
+      }
+    ];
 
     if (props.singlePoint && props.modelValue.length >= 1) {
       selectedLocationId.value = props.modelValue[0].id;
@@ -262,21 +288,23 @@ export default defineComponent({
 
     const initMap = () => {
       const mapOptions = {
-        zoomAnimation: false,
         zoomControl: false,
         scrollWheelZoom: false,
       };
-      map.value = L.map(mapId, mapOptions).setView([props.center[0], props.center[1]], 13);
-      map.value.attributionControl.remove();
-      L.control.attribution({ position: 'bottomleft' }).addTo(map.value);
+      map = L.map(mapId, mapOptions).setView([props.center[0], props.center[1]], 13);
+      map.attributionControl.remove();
+      L.control.attribution({ position: 'bottomleft' }).addTo(map);
 
-      baseLayerGroup.addTo(map.value);
-      pinLayerGroup.addTo(map.value);
-      myLocationLayerGroup.addTo(map.value);
+      baseLayerGroup.addTo(map);
+      pinLayerGroup.addTo(map);
+      myLocationLayerGroup.addTo(map);
       setMapBaseLayer(props.selectedLayer);
       displayLocations();
+      if (innerModelValue.value.length > 0) {
+        map.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
+      }
 
-      map.value.on('click', (e) => {
+      map.on('click', (e) => {
         if (editing.value) {
           onNewCoordEntered(new Address({
             latitude: parseFloat(e.latlng.lat.toFixed(6)),
@@ -317,21 +345,21 @@ export default defineComponent({
         innerModelValue.value = [...innerModelValue.value, newLocation];
         modifyLocationAddress(newLocation.id, newCoord);
       }
-      map.value?.flyTo([newCoord.latitude, newCoord.longitude], map.value?.getZoom() ?? 13);
+      map?.flyTo([newCoord.latitude, newCoord.longitude], map?.getZoom() ?? 13);
     };
 
     const zoomIn = () => {
-      map.value?.zoomIn();
+      map?.zoomIn();
     };
 
     const zoomOut = () => {
-      map.value?.zoomOut();
+      map?.zoomOut();
     };
 
     const locate = () => {
-      map.value?.locate();
-      map.value?.on('locationfound', (e) => {
-        map.value?.flyTo(e.latlng, 13);
+      map?.locate();
+      map?.on('locationfound', (e) => {
+        map?.flyTo(e.latlng, 13);
 
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
 
@@ -351,12 +379,23 @@ export default defineComponent({
     const onCancel = () => {
       editing.value = false;
       innerModelValue.value = props.modelValue;
-      map.value?.flyTo([props.center[0], props.center[1]], map.value?.getZoom() ?? 13);
+      displayLocations();
+      if (innerModelValue.value.length > 0) {
+        map?.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
+      } else {
+        map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? 13);
+      }
+
     };
 
     const onSubmit = () => {
       emit('update:modelValue', innerModelValue.value);
       editing.value = false;
+      if (innerModelValue.value.length > 0) {
+        map?.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
+      } else {
+        map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? 13);
+      }
     };
 
     onMounted(() => {
