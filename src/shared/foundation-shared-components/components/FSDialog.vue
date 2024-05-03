@@ -14,8 +14,14 @@
       :color="$props.color"
       :class="classes"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
       </template>
     </FSCard>
     <FSButton
@@ -37,14 +43,12 @@ import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSButton from "./FSButton.vue";
 import FSCard from "./FSCard.vue";
-import FSCol from "./FSCol.vue";
 
 export default defineComponent({
   name: "FSDialog",
   components: {
     FSButton,
-    FSCard,
-    FSCol
+    FSCard
   },
   props: {
     width: {

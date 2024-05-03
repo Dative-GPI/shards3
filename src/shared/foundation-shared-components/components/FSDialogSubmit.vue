@@ -188,7 +188,6 @@ export default defineComponent({
                   + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
                   + (isMobileSized.value ? 36 : 40)                              // Footer
                   + 64;                                                          // Debug mask
-      console.log(document.documentElement.clientHeight, document.documentElement.clientHeight*0.9 - other);
       return `calc(90vh - ${other}px)`;
     });
 

@@ -1,30 +1,33 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="languages"
     :multiple="$props.multiple"
     :loading="loading"
     :items="languages"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
     v-bind="$attrs"
   >
     <template
-      #selection="{ item }"
+      #autocomplete-selection="{ item }"
     >
       <FSRow
+        v-if="$props.modelValue"
         align="center-center"
+        :wrap="false"
       >
+        {{  item.label  }}
         <FSIcon>
           {{ item.raw.icon }}
         </FSIcon>
-        <FSSpan>
+        <FSText>
           {{ item.raw.label }}
-        </FSSpan>
+        </FSText>
       </FSRow>
     </template>
     <template
-      #item="{ props, item }"
+      #autocomplete-item="{ props, item }"
     >
       <v-list-item
         v-bind="{ ...props, title: '' }"
@@ -39,9 +42,9 @@
           <FSIcon>
             {{ item.raw.icon }}
           </FSIcon>
-          <FSSpan>
+          <FSText>
             {{ item.raw.label }}
-          </FSSpan>
+          </FSText>
         </FSRow>
       </v-list-item>
     </template>
@@ -55,14 +58,20 @@ import { useAutocomplete } from "@dative-gpi/foundation-shared-components/compos
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
 import { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
 
-import FSCheckbox from "../FSCheckbox.vue"
-import FSAutocompleteField from "../fields/FSAutocompleteField.vue"
+import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
+import FSCheckbox from "../FSCheckbox.vue";
+import FSIcon from "../FSIcon.vue";
+import FSText from "../FSText.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteLanguage",
   components: {
     FSAutocompleteField,
-    FSCheckbox
+    FSCheckbox,
+    FSIcon,
+    FSText,
+    FSRow
   },
   props: {
     languageFilters: {
@@ -103,7 +112,7 @@ export default defineComponent({
 
     const isSelected = (id: any) => {
       return props.modelValue?.includes(id);
-    }
+    };
 
     const loading = computed((): boolean => {
       return init.value && fetchingLanguages.value;
@@ -118,5 +127,5 @@ export default defineComponent({
       onUpdate
     };
   }
-})
+});
 </script>

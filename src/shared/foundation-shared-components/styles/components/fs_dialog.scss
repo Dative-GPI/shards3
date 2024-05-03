@@ -11,6 +11,12 @@
     margin: 0px !important;
 }
 
+.v-overlay__content:has(.fs-dialog :not(.fs-dialog-mobile)) {
+    min-width: 35vw !important;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+}
+
 .fs-dialog {
     position: relative;
     min-width: 35vw !important;

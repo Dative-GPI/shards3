@@ -2,11 +2,13 @@
   <v-window
     class="fs-window"
     :style="style"
+    :touch="false"
     v-bind="$attrs"
   >
     <v-window-item
       v-for="(component, index) in getChildren()"
       :value="value(component, index)"
+      :key="index"
     >
       <component
         :is="component"

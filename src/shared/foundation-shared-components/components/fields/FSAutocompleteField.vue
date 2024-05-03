@@ -49,13 +49,22 @@
       <FSToggleSet
         v-if="$props.toggleSet"
         variant="slide"
+        :values="$props.toggleSetItems"
         :multiple="$props.multiple"
-        :values="$props.items"
         :rules="$props.rules"
         :modelValue="$props.modelValue"
         @update:modelValue="onUpdate"
         v-bind="$attrs"
-      />
+      >
+        <template
+          v-for="(_, name) in toggleSetSlots"
+          v-slot:[name]
+        >
+          <slot
+            :name="`toggle-set-${name}`"
+          />
+        </template>
+      </FSToggleSet>
       <v-autocomplete
         v-else
         class="fs-autocomplete-field"
@@ -83,11 +92,11 @@
         v-bind="$attrs"
       >
         <template
-          v-for="(_, name) in slots"
+          v-for="(_, name) in autocompleteSlots"
           v-slot:[name]="slotData"
         >
           <slot
-            :name="name"
+            :name="`autocomplete-${name}`"
             v-bind="slotData"
           />
         </template>
@@ -143,12 +152,12 @@ import { computed, defineComponent, PropType, ref, watch } from "vue";
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSToggleSet from "../FSToggleSet.vue";
 import FSButton from "../FSButton.vue";
+import FSLoader from "../FSLoader.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import FSLoader from "../FSLoader.vue";
-import FSToggleSet from "../FSToggleSet.vue";
 
 export default defineComponent({
   name: "FSAutocompleteField",
@@ -234,6 +243,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    toggleSetItems: {
+      type: Array as PropType<any[]>,
+      required: false,
+      default: () => []
     }
   },
   emits: ["update:modelValue", "update:search"],
@@ -255,21 +269,35 @@ export default defineComponent({
     const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
         return {
-          "--fs-autocomplete-field-cursor": "default",
-          "--fs-autocomplete-field-border-color": lights.base,
-          "--fs-autocomplete-field-color": lights.dark,
+          "--fs-autocomplete-field-cursor":              "default",
+          "--fs-autocomplete-field-border-color":        lights.base,
+          "--fs-autocomplete-field-color":               lights.dark,
           "--fs-autocomplete-field-active-border-color": lights.base
         };
       }
       return {
-        "--fs-autocomplete-field-cursor": "text",
-        "--fs-autocomplete-field-background-color": backgrounds.base,
-        "--fs-autocomplete-field-border-color": lights.dark,
-        "--fs-autocomplete-field-color": darks.base,
+        "--fs-autocomplete-field-cursor":              "text",
+        "--fs-autocomplete-field-background-color":    backgrounds.base,
+        "--fs-autocomplete-field-border-color":        lights.dark,
+        "--fs-autocomplete-field-color":               darks.base,
         "--fs-autocomplete-field-active-border-color": darks.dark,
-        "--fs-autocomplete-field-error-color": errors.base,
-        "--fs-autocomplete-field-error-border-color": errors.base
+        "--fs-autocomplete-field-error-color":         errors.base,
+        "--fs-autocomplete-field-error-border-color":  errors.base
       };
+    });
+
+    const autocompleteSlots = computed((): any => {
+      return Object.keys(slots).filter(k => k.startsWith("autocomplete-")).reduce((acc, key) => {
+        acc[key.substring("autocomplete-".length)] = slots[key];
+        return acc;
+      }, {});
+    });
+
+    const toggleSetSlots = computed((): any => {
+      return Object.keys(slots).filter(k => k.startsWith("toggle-set-")).reduce((acc, key) => {
+        acc[key.substring("toggle-set-".length)] = slots[key];
+        return acc;
+      }, {});
     });
 
     const listStyle = computed((): any => {
@@ -297,6 +325,8 @@ export default defineComponent({
     });
 
     return {
+      autocompleteSlots,
+      toggleSetSlots,
       innerSearch,
       validateOn,
       ColorEnum,
