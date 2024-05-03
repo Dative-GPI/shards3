@@ -6,6 +6,7 @@
     :variant="$props.variant"
     :color="$props.color"
     :load="$props.load"
+    :border="false"
     :width="width"
     @click.stop="onClick"
     v-bind="$attrs"
@@ -15,7 +16,10 @@
       width="fill"
       :wrap="false"
     >
-      <slot name="prepend" v-bind="{ color: $props.color, colors }">
+      <slot
+        name="prepend"
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSIcon
           v-if="$props.prependIcon || $props.icon"
           size="l"
@@ -23,14 +27,19 @@
           {{ $props.prependIcon ?? $props.icon }}
         </FSIcon>
       </slot>
-      <slot v-bind="{ color: $props.color, colors }">
+      <slot
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSSpan
           v-if="$props.label"
         >
           {{ $props.label }}
         </FSSpan>
       </slot>
-      <slot name="append" v-bind="{ color: $props.color, colors }">
+      <slot
+        name="append"
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSIcon
           v-if="$props.appendIcon"
           size="l"
@@ -84,14 +93,14 @@ export default defineComponent({
       default: null
     },
     variant: {
-      type: String as PropType<"standard" | "full">,
+      type: String as PropType<"standard" | "background" | "full">,
       required: false,
-      default: "full"
+      default: "standard"
     },
     ItemWidth: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: ["32px","28px"]
+      default: () => ["32px","28px"]
     },
     color: {
       type: String as PropType<ColorBase>,
