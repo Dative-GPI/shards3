@@ -108,6 +108,7 @@ export const Variations: Story = {
         :editable="true"
         v-model="args.locations1"
         height="600px"
+        :border="false"
       />
       <FSMap
         :editable="false"
@@ -119,7 +120,6 @@ export const Variations: Story = {
         :showMyLocation="false"
         :showZoomButtons="false"
       />
-      
       <FSMap
         :editable="false"
         :modelValue="args.locations3"

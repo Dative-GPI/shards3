@@ -1,88 +1,93 @@
 <template>
-  <FSCol
-    class="fs-map"
+  <FSCard
     :width="$props.width"
+    v-bind="$attrs"
   >
-    <FSRow
-      v-if="showLayerChoice && selectableLayers.length > 1"
-      gap="2px"
-      class="fs-map-overlay-layer-choice"
-    >
-      <FSChip
-        v-for="mapLayer in mapLayers.filter((layer) => selectableLayers.includes(layer.name))"
-        :key="mapLayer"
-        :label="mapLayer.label"
-        :editable="true"
-        :color="innerSelectedLayer === mapLayer.name ? 'dark' : 'light'"
-        variant="full"
-        @click="setMapBaseLayer(mapLayer.name)"
-      />
-    </FSRow>
-    <FSRow
-      v-if="$props.editable && !editing"
-      class="fs-map-overlay-edit-button"
-    >
-      <FSButton
-        prepend-icon="mdi-pencil"
-        :label="$tr('ui.map.modify', 'Modify')"
-        @click="editing = true"
-      />
-    </FSRow>
-    <FSCol :style="style">
-      <div
-        :id="mapId"
-        :style="{ height: $props.height, width: '100%' }"
-      ></div>
-    </FSCol>
-
     <FSCol
-      class="fs-map-overlay-container"
-      align="center-center"
+      class="fs-map"
+      width="fill"
     >
-      <FSCol
-        width="hug"
-        class="fs-map-zoom-overlay"
-        align="bottom-center"
+      <FSRow
+        v-if="showLayerChoice && selectableLayers.length > 1"
+        gap="2px"
+        class="fs-map-overlay-layer-choice"
+      >
+        <FSChip
+          v-for="mapLayer in mapLayers.filter((layer) => selectableLayers.includes(layer.name))"
+          :key="mapLayer"
+          :label="mapLayer.label"
+          :editable="true"
+          :color="innerSelectedLayer === mapLayer.name ? 'dark' : 'light'"
+          variant="full"
+          @click="setMapBaseLayer(mapLayer.name)"
+        />
+      </FSRow>
+      <FSRow
+        v-if="$props.editable && !editing"
+        class="fs-map-overlay-edit-button"
       >
         <FSButton
-          v-if="$props.showMyLocation"
-          :elevation="true"
-          :border="false"
-          color="primary"
-          variant="full"
-          prepend-icon="mdi-navigation-variant-outline"
-          @click="locate"
+          prepend-icon="mdi-pencil"
+          :label="$tr('ui.map.modify', 'Modify')"
+          @click="editing = true"
         />
+      </FSRow>
+      <FSCol :style="style">
+        <div
+          :id="mapId"
+          :style="{ height: $props.height, width: '100%' }"
+        ></div>
+      </FSCol>
+
+      <FSCol
+        class="fs-map-overlay-container"
+        align="center-center"
+      >
         <FSCol
-          v-if="$props.showZoomButtons"
-          gap="0"
+          width="hug"
+          class="fs-map-zoom-overlay"
+          align="bottom-center"
         >
           <FSButton
+            v-if="$props.showMyLocation"
             :elevation="true"
-            class="fs-map-zoom-plus"
-            prepend-icon="mdi-plus"
-            @click="zoomIn"
             :border="false"
+            color="primary"
+            variant="full"
+            prepend-icon="mdi-navigation-variant-outline"
+            @click="locate"
           />
-          <FSButton
-            :elevation="true"
-            class="fs-map-zoom-minus"
-            prepend-icon="mdi-minus"
-            :border="false"
-            @click="zoomOut"
-          />
+          <FSCol
+            v-if="$props.showZoomButtons"
+            gap="0"
+          >
+            <FSButton
+              :elevation="true"
+              class="fs-map-zoom-plus"
+              prepend-icon="mdi-plus"
+              @click="zoomIn"
+              :border="false"
+            />
+            <FSButton
+              :elevation="true"
+              class="fs-map-zoom-minus"
+              prepend-icon="mdi-minus"
+              :border="false"
+              @click="zoomOut"
+            />
+          </FSCol>
         </FSCol>
+        <FSMapEditPointAddressOverlay
+          v-if="editing"
+          :label="$tr('ui.map.address', 'Address')"
+          :modelValue="(innerModelValue.find((loc) => loc.id === selectedLocationId))?.address"
+          @update:locationCoord="($event) => onNewCoordEntered($event)"
+          @cancel="onCancel"
+          @update:modelValue="onSubmit"
+        />
       </FSCol>
-      <FSMapEditPointAddressOverlay
-        v-if="editing"
-        :label="$tr('ui.map.address', 'Address')"
-        :modelValue="(innerModelValue.find((loc) => loc.id === selectedLocationId))?.address"
-        @update:locationCoord="($event) => onNewCoordEntered($event)"
-        @cancel="onCancel"
-        @update:modelValue="onSubmit"
-      />
     </FSCol>
-  </FSCol>
+  </FSCard>
 </template>
 
 <script lang="ts">
@@ -264,7 +269,7 @@ export default defineComponent({
     const enhanceAddressLocation = async (location: LocationInfos, initialIcon: string) => {
       const address = location.address;
       const enhancedAddress = await getAddressFromCoordinates(address.latitude, address.longitude)
-      if (enhancedAddress.formattedAddress !== "") {
+      if (enhancedAddress && enhancedAddress.formattedAddress !== "") {
         location.address = enhancedAddress;
       }
       location.icon = initialIcon;
@@ -290,6 +295,9 @@ export default defineComponent({
       const mapOptions = {
         zoomControl: false,
         scrollWheelZoom: false,
+        minZoom: 2,
+        maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)),
+        maxBoundsViscosity: 1.0
       };
       map = L.map(mapId, mapOptions).setView([props.center[0], props.center[1]], 13);
       map.attributionControl.remove();

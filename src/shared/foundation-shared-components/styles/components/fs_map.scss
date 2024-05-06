@@ -52,9 +52,11 @@
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
         border-bottom: solid 1px var(--fs-card-border-color) !important;
+        margin-bottom: 0;
       }
 
       .fs-map-zoom-minus {
+        margin-top: 0;
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
         border-top: solid 1px var(--fs-card-border-color) !important;

@@ -106,8 +106,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const menuLocationCoord = ref(false);
 
-    console.log(props.modelValue)
-
     const latitude = ref(props.modelValue.latitude);
     const longitude = ref(props.modelValue.longitude);
 
