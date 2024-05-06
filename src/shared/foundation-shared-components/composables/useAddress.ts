@@ -25,8 +25,8 @@ export const useAddress = () => {
       locality: locality,
       placeLabel: address,
       formattedAddress: formattedAddress,
-      latitude: feature.geometry.coordinates[0],
-      longitude: feature.geometry.coordinates[1]
+      latitude: feature.geometry.coordinates[1],
+      longitude: feature.geometry.coordinates[0]
     })
   }
 
