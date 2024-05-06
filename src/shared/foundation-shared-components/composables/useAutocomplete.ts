@@ -23,7 +23,6 @@ export const useAutocomplete = <TInfos>(
   const init = ref(false);
 
   const toggleSet = computed((): boolean => {
-    console.log(allowToggleSet, entitiesLength.value, breakpointToggleSet);
     return allowToggleSet && entitiesLength.value < breakpointToggleSet;
   });
 
