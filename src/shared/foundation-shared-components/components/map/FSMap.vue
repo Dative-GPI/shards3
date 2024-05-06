@@ -23,13 +23,13 @@
         />
       </FSRow>
       <FSRow
-        v-if="$props.editable && !editing"
+        v-if="$props.editable && !editingLocation && selectedLocationId !== null"
         class="fs-map-overlay-edit-button"
       >
         <FSButton
           prepend-icon="mdi-pencil"
           :label="$tr('ui.map.modify', 'Modify')"
-          @click="editing = true"
+          @click="editingLocation = true"
         />
       </FSRow>
       <FSCol :style="style">
@@ -78,7 +78,7 @@
           </FSCol>
         </FSCol>
         <FSMapEditPointAddressOverlay
-          v-if="editing"
+          v-if="editingLocation"
           :label="$tr('ui.map.address', 'Address')"
           :modelValue="(innerModelValue.find((loc) => loc.id === selectedLocationId))?.address"
           @update:locationCoord="($event) => onNewCoordEntered($event)"
@@ -106,8 +106,7 @@ import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import L from "leaflet";
 import { ColorEnum, MapLayer } from "../../models";
 import { useColors } from "../../composables";
-import { Address } from "../../../../core/foundation-core-domain/models/locations/address";
-import { LocationInfos } from "../../../../core/foundation-core-domain/models/locations/locationInfos";
+import { Address, AreaInfos, LocationInfos } from '@dative-gpi/foundation-core-domain/models';
 import { useAddress } from "../../composables/useAddress";
 
 
@@ -140,6 +139,11 @@ export default defineComponent({
     },
     modelValue: {
       type: Array<LocationInfos>,
+      required: false,
+      default: () => [],
+    },
+    areas: {
+      type: Array<AreaInfos>,
       required: false,
       default: () => [],
     },
@@ -176,10 +180,10 @@ export default defineComponent({
       required: false,
       default: true,
     },
-    singlePoint: {
+    singleLocation: {
       type: Boolean,
       required: false,
-      default: true,
+      default: false,
     },
   },
   emits: ['update:modelValue'],
@@ -190,11 +194,12 @@ export default defineComponent({
     const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
     const selectedLocationId = ref<string | null>(null);
-    const editing = ref(false);
+    const editingLocation = ref(false);
 
     const mapId = `map-${uuidv4()}`;
     let map: L.Map;
     const pinLayerGroup = new L.FeatureGroup();
+    const areaLayerGroup = new L.FeatureGroup();
     const baseLayerGroup = new L.LayerGroup();
     const myLocationLayerGroup = new L.LayerGroup();
     const mapLayers: MapLayer[] = [
@@ -224,7 +229,7 @@ export default defineComponent({
       }
     ];
 
-    if (props.singlePoint && props.modelValue.length >= 1) {
+    if (props.singleLocation && props.modelValue.length >= 1) {
       selectedLocationId.value = props.modelValue[0].id;
     }
 
@@ -262,9 +267,26 @@ export default defineComponent({
             offset: [0, -20],
           }).setContent(popupHtml);
           marker.bindPopup(popup);
+          marker.on('click', () => {
+            selectedLocationId.value = location.id;
+          });
         }
       });
     };
+
+    const displayAreas = () => {
+      areaLayerGroup.clearLayers();
+      props.areas.forEach((area) => {
+        const polygon = L.polygon(area.coordinates.map(
+          (coord) => [coord.latitude, coord.longitude]
+        ), {
+          color: area.color,
+          fillColor: area.color + "50",
+          fillOpacity: 0.5,
+        }).addTo(areaLayerGroup);
+        polygon.bindPopup(area.label);
+      });
+    }
 
     const enhanceAddressLocation = async (location: LocationInfos, initialIcon: string) => {
       const address = location.address;
@@ -304,16 +326,18 @@ export default defineComponent({
       L.control.attribution({ position: 'bottomleft' }).addTo(map);
 
       baseLayerGroup.addTo(map);
+      areaLayerGroup.addTo(map);
       pinLayerGroup.addTo(map);
       myLocationLayerGroup.addTo(map);
       setMapBaseLayer(props.selectedLayer);
+      displayAreas();
       displayLocations();
       if (innerModelValue.value.length > 0) {
         map.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
       }
 
       map.on('click', (e) => {
-        if (editing.value) {
+        if (editingLocation.value) {
           onNewCoordEntered(new Address({
             latitude: parseFloat(e.latlng.lat.toFixed(6)),
             longitude: parseFloat(e.latlng.lng.toFixed(6)),
@@ -385,7 +409,7 @@ export default defineComponent({
     };
 
     const onCancel = () => {
-      editing.value = false;
+      editingLocation.value = false;
       innerModelValue.value = props.modelValue;
       displayLocations();
       if (innerModelValue.value.length > 0) {
@@ -393,16 +417,21 @@ export default defineComponent({
       } else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? 13);
       }
-
+      if(!props.singleLocation) {
+        selectedLocationId.value = null;
+      }
     };
 
     const onSubmit = () => {
       emit('update:modelValue', innerModelValue.value);
-      editing.value = false;
+      editingLocation.value = false;
       if (innerModelValue.value.length > 0) {
         map?.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
       } else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? 13);
+      }
+      if(!props.singleLocation) {
+        selectedLocationId.value = null;
       }
     };
 
@@ -412,6 +441,10 @@ export default defineComponent({
 
     watch(() => innerModelValue.value, () => {
       displayLocations();
+    });
+
+    watch(() => props.areas, () => {
+      displayAreas();
     });
 
     return {
@@ -425,7 +458,7 @@ export default defineComponent({
       innerSelectedLayer,
       mapId,
       style,
-      editing,
+      editingLocation,
       selectedLocationId,
       innerModelValue,
       mapLayers,

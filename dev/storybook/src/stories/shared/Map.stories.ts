@@ -1,15 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
-import { LocationInfos } from '@dative-gpi/foundation-core-domain/models';
+
+import { AreaInfos, LocationInfos } from '@dative-gpi/foundation-core-domain/models';
 
 const meta = {
   title: 'Foundation/Shared/Map',
   component: FSMap,
-  tags: ['autodocs'],
-  argTypes: {
-    onClick: { action: 'clicked' }
-  }
+  tags: ['autodocs']
 } satisfies Meta<typeof FSMap>;
 
 export default meta;
@@ -81,6 +79,20 @@ const location2 = new LocationInfos({
   }
 })
 
+const area1 = new AreaInfos({
+  "id": "3fb7ebf0-3227-4767-bb96-001384efdd57",
+  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
+  "label": "Le Mans GERAL",
+  "color": "#0000ff",
+  "coordinates": [
+    [45.7, 4.8],
+    [45.7, 5.0],
+    [45.8, 5.0],
+    [45.8, 4.8],
+    [45.75, 4.85]
+  ]
+})
+
 export const Variations: Story = {
   args: {
     args: {
@@ -93,6 +105,9 @@ export const Variations: Story = {
       locations3: [
         { ...location1 },
         { ...location2 }
+      ],
+      areas1: [
+        { ...area1 }
       ]
     }
   },
@@ -104,10 +119,11 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
-      <FSMap
+      <!--<FSMap
         :editable="true"
         v-model="args.locations1"
         height="600px"
+        :singleLocation="true"
         :border="false"
       />
       <FSMap
@@ -119,10 +135,11 @@ export const Variations: Story = {
         :showLayerChoice="false"
         :showMyLocation="false"
         :showZoomButtons="false"
-      />
+      />-->
       <FSMap
-        :editable="false"
+        :editable="true"
         :modelValue="args.locations3"
+        :areas="args.areas1"
         height="600px"
       />
     </div>`
