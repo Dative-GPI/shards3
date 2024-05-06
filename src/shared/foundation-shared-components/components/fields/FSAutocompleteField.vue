@@ -1,43 +1,12 @@
 <template>
-  <FSCol>
-    <slot
-      v-if="!$props.hideHeader"
-      name="label"
-    >
-      <FSRow
-        :wrap="false"
-      >
-        <FSSpan
-          v-if="$props.label"
-          class="fs-autocomplete-field-label"
-          font="text-overline"
-          :style="style"
-        >
-          {{ $props.label }}
-        </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
-          class="fs-autocomplete-field-label"
-          style="margin-left: -8px;"
-          font="text-overline"
-          :ellipsis="false"
-          :style="style"
-        >
-          *
-        </FSSpan>
-        <v-spacer
-          style="min-width: 40px;"
-        />
-        <FSSpan
-          v-if="messages.length > 0"
-          class="fs-autocomplete-field-messages"
-          font="text-overline"
-          :style="style"
-        >
-          {{ messages.join(", ") }}
-        </FSSpan>
-      </FSRow>
-    </slot>
+  <FSBaseField
+    :label="$props.label"
+    :description="$props.description"
+    :hideHeader="$props.hideHeader"
+    :required="$props.required"
+    :editable="$props.editable"
+    :messages="messages"
+  >
     <FSLoader
       v-if="$props.loading"
       width="100%"
@@ -81,7 +50,7 @@
         :itemValue="$props.itemValue"
         :readonly="!$props.editable"
         :loading="$props.loading"
-        :clearable="$props.editable && !!$props.modelValue"
+        :clearable="$props.clearable && $props.editable && !!$props.modelValue"
         :returnObject="$props.returnObject"
         :rules="$props.rules"
         :validateOn="validateOn"
@@ -126,7 +95,7 @@
             name="clear"
           >
             <FSButton
-              v-if="$props.editable && $props.modelValue"
+              v-if="$props.clearable && $props.editable && !!$props.modelValue"
               icon="mdi-close"
               variant="icon"
               :color="ColorEnum.Dark"
@@ -148,21 +117,20 @@
             />
           </slot>
         </template>
+        <template
+          #no-data
+        >
+          <FSRow
+            padding="17px"
+          >
+            <FSSpan>
+              {{ $tr("ui.common.no-data", "No data") }}
+            </FSSpan>
+          </FSRow>
+        </template>
       </v-autocomplete>
     </template>
-    <slot
-      name="description"
-    >
-      <FSSpan
-        v-if="$props.description"
-        class="fs-autocomplete-field-description"
-        font="text-underline"
-        :style="style"
-      >
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
+  </FSBaseField>
 </template>
 
 <script lang="ts">
@@ -172,23 +140,23 @@ import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-com
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSToggleSet from "../FSToggleSet.vue";
+import FSBaseField from "./FSBaseField.vue";
 import FSCheckbox from "../FSCheckbox.vue";
 import FSButton from "../FSButton.vue";
 import FSLoader from "../FSLoader.vue";
 import FSSpan from "../FSSpan.vue";
-import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteField",
   components: {
     FSToggleSet,
+    FSBaseField,
     FSCheckbox,
     FSButton,
     FSLoader,
     FSSpan,
-    FSCol,
-    FSRow,
+    FSRow
   },
   props: {
     label: {
@@ -249,6 +217,11 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: false,
       default: null
+    },
+    clearable: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     editable: {
       type: Boolean,

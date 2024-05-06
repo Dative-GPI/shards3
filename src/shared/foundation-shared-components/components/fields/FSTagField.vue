@@ -15,11 +15,21 @@
       v-model="innerValue"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
       </template>
-      <template #append-inner>
-        <slot name="append-inner">
+      <template
+        #append-inner
+      >
+        <slot
+          name="append-inner"
+        >
           <FSButton
             variant="icon"
             icon="mdi-tag-outline"
@@ -49,9 +59,7 @@ import { useColors, useRules } from "@dative-gpi/foundation-shared-components/co
 import FSTextField from "./FSTextField.vue";
 import FSTagGroup from "../FSTagGroup.vue";
 import FSButton from "../FSButton.vue";
-import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTagField",
@@ -59,9 +67,7 @@ export default defineComponent({
     FSTextField,
     FSTagGroup,
     FSButton,
-    FSSpan,
-    FSCol,
-    FSRow
+    FSCol
   },
   props: {
     label: {

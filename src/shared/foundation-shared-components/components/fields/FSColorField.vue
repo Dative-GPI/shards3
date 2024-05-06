@@ -2,7 +2,7 @@
   <v-menu
     :closeOnContentClick="false"
     :modelValue="menu && $props.editable"
-    @update:modelValue="(value) => menu = value"
+    @update:modelValue="menu = $event"
   >
     <template
       #activator="{ props }"

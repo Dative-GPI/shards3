@@ -1,36 +1,12 @@
 <template>
-  <FSCol>
-    <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
-        <FSSpan
-          v-if="$props.label"
-          class="fs-time-field-label"
-          font="text-overline"
-          :style="style"
-        >
-          {{ $props.label }}
-        </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
-          class="fs-time-field-label"
-          style="margin-left: -8px;"
-          font="text-overline"
-          :ellipsis="false"
-          :style="style"
-        >
-          *
-        </FSSpan>
-        <v-spacer style="min-width: 40px;" />
-        <FSSpan
-          v-if="messages.length > 0"
-          class="fs-time-field-messages"
-          font="text-overline"
-          :style="style"
-        >
-          {{ messages.join(", ") }}
-        </FSSpan>
-      </FSRow>
-    </slot>
+  <FSBaseField
+    :label="$props.label"
+    :description="$props.description"
+    :hideHeader="$props.hideHeader"
+    :required="$props.required"
+    :editable="$props.editable"
+    :messages="messages"
+  >
     <FSRow>
       <FSNumberField
         :editable="$props.editable"
@@ -42,9 +18,15 @@
         :modelValue="innerTime"
         @update:modelValue="onSubmitValue"
         v-bind="$attrs"
+      >
+        <template
+          v-for="(_, name) in $slots"
+          v-slot:[name]="slotData"
         >
-        <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-          <slot :name="name" v-bind="slotData" />
+          <slot
+            :name="name"
+            v-bind="slotData"
+          />
         </template>
       </FSNumberField>
       <FSSelectField
@@ -57,30 +39,19 @@
         @update:modelValue="onSubmitTimeScale"
       />
     </FSRow>
-    <slot name="description">
-      <FSSpan
-        v-if="$props.description"
-        class="fs-time-field-description"
-        font="text-underline"
-        :style="style"
-      >
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
+  </FSBaseField>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
 import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-components/utils";
-import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSNumberField from "./FSNumberField.vue";
 import FSSelectField from "./FSSelectField.vue";
-import FSSpan from "../FSSpan.vue";
-import FSCol from "../FSCol.vue";
+import FSBaseField from "./FSBaseField.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
@@ -88,8 +59,7 @@ export default defineComponent({
   components: {
     FSNumberField,
     FSSelectField,
-    FSSpan,
-    FSCol,
+    FSBaseField,
     FSRow
   },
   props: {
@@ -138,10 +108,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const { validateOn, blurred, getMessages } = useRules();
     const { getColors } = useColors();
-    const { slots } = useSlots();
-
-    delete slots.label;
-    delete slots.description;
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
@@ -198,7 +164,6 @@ export default defineComponent({
       timeScale,
       messages,
       blurred,
-      slots,
       style,
       onSubmitTimeScale,
       onSubmitValue

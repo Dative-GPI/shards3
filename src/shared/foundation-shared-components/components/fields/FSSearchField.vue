@@ -170,10 +170,10 @@ export default defineComponent({
     });
 
     return {
-      ColorEnum,
       placeholder,
       buttonLabel,
-      innerValue
+      innerValue,
+      ColorEnum
     };
   }
 });

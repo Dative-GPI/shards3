@@ -1,5 +1,7 @@
 <template>
-  <FSCol>
+  <FSCol
+    width="hug"
+  >
     <FSRow>
       <FSSpan
         v-if="$props.label"

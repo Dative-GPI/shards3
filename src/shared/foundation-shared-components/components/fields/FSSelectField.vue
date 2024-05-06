@@ -1,167 +1,211 @@
 <template>
   <FSCol>
-    <slot
-      v-if="!$props.hideHeader"
-      name="label"
+    <template
+      v-if="isExtraSmall"
     >
-      <FSRow :wrap="false">
-        <FSSpan
-          v-if="$props.label"
-          class="fs-select-field-label"
-          font="text-overline"
-          :style="style"
-        >
-          {{ $props.label }}
-        </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
-          class="fs-select-field-label"
-          style="margin-left: -8px;"
-          font="text-overline"
-          :ellipsis="false"
-          :style="style"
-        >
-          *
-        </FSSpan>
-        <v-spacer style="min-width: 40px;" />
-        <FSSpan
-          v-if="messages.length > 0"
-          class="fs-select-field-messages"
-          font="text-overline"
-          :style="style"
-        >
-          {{ messages.join(", ") }}
-        </FSSpan>
-      </FSRow>
-    </slot>
-    <v-select
-      class="fs-select-field"
-      variant="outlined"
-      :menuIcon="null"
-      :style="style"
-      :listProps="listStyle"
-      :hideDetails="true"
-      :items="$props.items"
-      :itemTitle="$props.itemTitle"
-      :itemValue="$props.itemValue"
-      :readonly="!$props.editable"
-      :clearable="$props.editable && !!$props.modelValue"
-      :returnObject="$props.returnObject"
-      :rules="$props.rules"
-      :validateOn="validateOn"
-      :modelValue="$props.modelValue"
-      v-model:menu="menu"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
-      @click="isExtraSmall ? openMobileOverlay() : null"
-      @blur="blurred = true"
-      v-bind="$attrs"
-    >
-      <template
-        v-for="(_, name) in slots"
-        v-slot:[name]="slotData"
+      <FSTextField
+        :label="$props.label"
+        :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :clearable="$props.clearable"
+        :editable="$props.editable"
+        :readonly="true"
+        :rules="$props.rules"
+        :messages="messages"
+        :validateOn="validateOn"
+        :validationValue="$props.modelValue"
+        :modelValue="mobileValue"
+        @update:modelValue="$emit('update:modelValue', $event)"
+        @click="openMobileOverlay"
+        @blur="blurred = true"
+        v-bind="$attrs"
       >
-        <slot
-          :name="name"
-          v-bind="slotData"
-        />
-      </template>
-      <template #clear>
-        <slot name="clear">
-          <FSButton
-            v-if="$props.editable && $props.modelValue"
-            icon="mdi-close"
-            variant="icon"
-            :color="ColorEnum.Dark"
-            @click="$emit('update:modelValue', null)"
-          />
-        </slot>
-      </template>
-      <template #append-inner>
-        <slot name="append-inner">
-          <FSButton
-            icon="mdi-chevron-down"
-            @click="isExtraSmall ? openMobileOverlay() : null"
-            variant="icon"
-            :editable="$props.editable"
-            :color="ColorEnum.Dark"
-          />
-        </slot>
-      </template>
-    </v-select>
-    <slot name="description">
-      <FSSpan
-        v-if="$props.description"
-        class="fs-select-field-description"
-        font="text-underline"
-        :style="style"
-      >
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
-  <v-dialog
-    max-height="60%"
-    v-model="menuMobile"
-  >
-    <FSCard
-      :elevation="'true'"
-      padding="24px 8px 24px 24px"
-      width="fill"
-      gap="24px"
-    >
-      <FSFadeOut height="60vh">
-        <FSCol
-          v-if="$props.multiple"
-          gap="12px"
+        <template
+          v-for="(_, name) in slots"
+          v-slot:[name]="slotData"
         >
-          <FSRow v-for="(item, index) in $props.items">
-            <FSCheckbox
-              :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
-              :label="item[$props.itemTitle]"
+          <slot
+            :name="name"
+            v-bind="slotData"
+          />
+        </template>
+        <template
+          #append-inner
+        >
+          <slot
+            name="append-inner"
+          >
+            <FSButton
+              icon="mdi-chevron-down"
+              variant="icon"
               :editable="$props.editable"
-              @update:modelValue="() => onMobileCheckBoxChange(item[$props.itemValue], modelValue)"
+              :color="ColorEnum.Dark"
+              @click="openMobileOverlay"
             />
-          </FSRow>
-        </FSCol>
-        <FSRadioGroup
-          v-else
-          gap="12px"
-          :values="$props.items.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle] }))"
+          </slot>
+        </template>
+      </FSTextField>
+      <FSDialogMenu
+        v-model="dialog"
+      >
+        <template
+          #body
+        >
+          <FSFadeOut
+            height="calc(90vh - 164px)"
+          >
+            <FSCol
+              v-if="$props.multiple"
+              gap="12px"
+            >
+              <FSRow
+                v-for="(item, index) in $props.items"
+                :key="index"
+              >
+                <FSCheckbox
+                  :label="item[$props.itemTitle]"
+                  :editable="$props.editable"
+                  :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
+                  @update:modelValue="() => onCheckboxChange(item[$props.itemValue])"
+                />
+              </FSRow>
+            </FSCol>
+            <FSRadioGroup
+              v-else
+              gap="12px"
+              :values="$props.items.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle] }))"
+              :modelValue="$props.modelValue"
+              :editable="$props.editable"
+              @update:modelValue="onRadioChange"
+            />
+          </FSFadeOut>
+        </template>
+      </FSDialogMenu>
+    </template>
+    <template
+      v-else
+    >
+      <FSBaseField
+        :label="$props.label"
+        :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :editable="$props.editable"
+        :messages="messages"
+      >
+        <v-select
+          class="fs-select-field"
+          variant="outlined"
+          :menuIcon="null"
+          :style="style"
+          :listProps="listStyle"
+          :hideDetails="true"
+          :items="$props.items"
+          :itemTitle="$props.itemTitle"
+          :itemValue="$props.itemValue"
+          :readonly="!$props.editable"
+          :clearable="$props.clearable && $props.editable && !!$props.modelValue"
+          :returnObject="$props.returnObject"
+          :rules="$props.rules"
+          :validateOn="validateOn"
+          :multiple="$props.multiple"
           :modelValue="$props.modelValue"
-          :editable="$props.editable"
-          @update:modelValue="onMobileRadioGroupSubmit"
-        />
-      </FSFadeOut>
-    </FSCard>
-  </v-dialog>
+          @update:modelValue="$emit('update:modelValue', $event)"
+          @blur="blurred = true"
+          v-bind="$attrs"
+        >
+          <template
+            #item="{ props, item }"
+          >
+            <v-list-item
+              v-bind="{ ...props, title: '' }"
+            >
+              <FSRow
+                align="center-left"
+              >
+                <FSCheckbox
+                  v-if="$props.multiple"
+                  :modelValue="$props.modelValue?.includes(item.raw.id)"
+                />
+                <FSSpan>
+                  {{ item.raw.label }}
+                </FSSpan>
+              </FSRow>
+            </v-list-item>
+          </template>
+          <template
+            v-for="(_, name) in slots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="name"
+              v-bind="slotData"
+            />
+          </template>
+          <template
+            #clear
+          >
+            <slot
+              name="clear"
+            >
+              <FSButton
+                v-if="$props.clearable && $props.editable && !!$props.modelValue"
+                icon="mdi-close"
+                variant="icon"
+                :color="ColorEnum.Dark"
+                @click="$emit('update:modelValue', null)"
+              />
+            </slot>
+          </template>
+          <template
+            #append-inner
+          >
+            <slot
+              name="append-inner"
+            >
+              <FSButton
+                icon="mdi-chevron-down"
+                variant="icon"
+                :editable="$props.editable"
+                :color="ColorEnum.Dark"
+              />
+            </slot>
+          </template>
+        </v-select>
+      </FSBaseField>
+    </template>
+  </FSCol>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSDialogMenu from "../FSDialogMenu.vue";
+import FSRadioGroup from "../FSRadioGroup.vue";
+import FSBaseField from "./FSBaseField.vue";
+import FSCheckbox from "../FSCheckbox.vue";
+import FSFadeOut from "../FSFadeOut.vue";
 import FSButton from "../FSButton.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import FSCard from "../FSCard.vue";
-import FSRadioGroup from "../FSRadioGroup.vue";
-import FSCheckbox from "../FSCheckbox.vue";
-import FSFadeOut from "../FSFadeOut.vue";
 
 export default defineComponent({
   name: "FSSelectField",
   components: {
+    FSDialogMenu,
+    FSRadioGroup,
+    FSBaseField,
+    FSCheckbox,
+    FSFadeOut,
     FSButton,
     FSSpan,
     FSCol,
-    FSRow,
-    FSCard,
-    FSRadioGroup,
-    FSCheckbox,
-    FSFadeOut
+    FSRow
   },
   props: {
     label: {
@@ -208,6 +252,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    multiple: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     rules: {
       type: Array as PropType<any[]>,
       required: false,
@@ -218,29 +267,24 @@ export default defineComponent({
       required: false,
       default: null
     },
-    editable: {
+    clearable: {
       type: Boolean,
       required: false,
       default: true
     },
-    multiple: {
+    editable: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     }
   },
   emits: ["update:modelValue"],
-  setup(props, ctx) {
+  setup(props, { emit }) {
     const { validateOn, blurred, getMessages } = useRules();
     const { isExtraSmall } = useBreakpoints();
     const { getColors } = useColors();
-    const { slots } = useSlots();
 
-    delete slots.label;
-    delete slots.description;
-
-    const menu = ref(false);
-    const menuMobile = ref(false);
+    const dialog = ref(false);
 
     const backgrounds = getColors(ColorEnum.Background);
     const errors = getColors(ColorEnum.Error);
@@ -262,12 +306,11 @@ export default defineComponent({
         "--fs-select-field-border-color"       : lights.dark,
         "--fs-select-field-color"              : darks.base,
         "--fs-select-field-active-border-color": darks.dark,
-        "--fs-select-field-error-color"        : errors.base,
         "--fs-select-field-error-border-color" : errors.base
       };
     });
 
-    const listStyle = computed((): any => {
+    const listStyle = computed((): { [key: string] : Object } => {
       return {
         style: style.value
       };
@@ -275,44 +318,70 @@ export default defineComponent({
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
+    const mobileValue = computed((): string | null => {
+      if (props.multiple) {
+        if (Array.isArray(props.modelValue)) {
+          return props.modelValue.map((value: any) => {
+            const item = props.items.find((item: Object) => item[props.itemValue] === value);
+            if (item) {
+              return item[props.itemTitle];
+            }
+          }).filter(value => !!value).join(", ");
+        }
+      }
+      if (props.modelValue) {
+        const item = props.items.find((item: Object) => item[props.itemValue] === props.modelValue);
+        if (item) {
+          return item[props.itemTitle];
+        }
+      }
+      return null;
+    });
+
     const openMobileOverlay = () => {
       if (!props.editable) {
         return;
       }
-      menu.value = false;
-      menuMobile.value = true;
+      dialog.value = true;
     };
 
-    const onMobileRadioGroupSubmit = (modelValue: any) => {
-      ctx.emit('update:modelValue', modelValue)
-      menuMobile.value = false;
+    const onRadioChange = (value: any) => {
+      emit('update:modelValue', value);
+      dialog.value = false;
     };
 
-    const onMobileCheckBoxChange = (value: any, modelValue: any) => {
-      const innerValue = ref(modelValue);
-      if (modelValue?.includes(value)) {
-        innerValue.value = modelValue.filter((item: any) => item !== value);
+    const onCheckboxChange = (value: any) => {
+      if (Array.isArray(props.modelValue)) {
+        if (props.modelValue.includes(value)) {
+          emit('update:modelValue', props.modelValue.filter((item: any) => item !== value));
+        }
+        else {
+          emit('update:modelValue', [...props.modelValue, value]);
+        }
       }
       else {
-        innerValue.value = modelValue ? [...modelValue, value] : [value];
+        if (props.modelValue === value) {
+          emit('update:modelValue', []);
+        }
+        else {
+          emit('update:modelValue', [props.modelValue, value]);
+        }
       }
-      ctx.emit('update:modelValue', innerValue.value);
     };
 
     return {
-      openMobileOverlay,
-      onMobileRadioGroupSubmit,
-      onMobileCheckBoxChange,
       isExtraSmall,
+      mobileValue,
       validateOn,
       ColorEnum,
       listStyle,
       messages,
       blurred,
-      slots,
-      menu,
-      menuMobile,
-      style
+      dialog,
+      style,
+      openMobileOverlay,
+      onCheckboxChange,
+      onRadioChange
     };
   }
 });

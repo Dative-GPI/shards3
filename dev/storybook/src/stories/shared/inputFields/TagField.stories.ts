@@ -83,7 +83,7 @@ export const Rules: Story = {
       return { ...args };
     },
     template: `
-    <FSForm v-model="args.valid">
+    <FSForm v-model="args.valid" variant="standard">
       <FSCol>
         <FSRow>
           <div class="text-body">

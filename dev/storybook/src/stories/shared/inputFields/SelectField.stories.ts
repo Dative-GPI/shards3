@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      items: Array.from(Array(20).keys()).map(i => ({
+      items: Array.from(Array(40).keys()).map(i => ({
         id: i.toString(),
         label: `Option ${i + 1}`
       })),
@@ -93,7 +93,7 @@ export const Rules: Story = {
       return { ...args };
     },
     template: `
-    <FSForm v-model="args.valid">
+    <FSForm v-model="args.valid" variant="standard">
       <FSCol>
         <FSRow>
           <div class="text-body">

@@ -23,6 +23,7 @@ export const useAppTimeZone = () => {
         const offset = timeZone?.value?.offset.slice(3) ?? "";
         const matchData = offset.match(/([+-])(\d+)(?::(\d+))?/);
         if (matchData) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const [_, sign, hour, minute] = matchData;
             return parseInt(sign + "1") * ((hour ? parseInt(hour) : 0) * 60 + (minute ? parseInt(minute) : 0)) * 60 * 1000;
         }
@@ -41,6 +42,7 @@ export const useAppTimeZone = () => {
         }
         const matchData = offset.match(/([+-])(\d+)(?::(\d+))?/);
         if (matchData) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const [_, sign, hour, minute] = matchData;
             return `UTC ${sign}${hour.padStart(2, "0")}:${(minute ?? "").padStart(2, "0")}:00`;
         }
@@ -59,6 +61,7 @@ export const useAppTimeZone = () => {
         }
         const matchData = offset.match(/([+-])(\d+)(?::(\d+))?/);
         if (matchData) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const [_, sign, hour, minute] = matchData;
             return parseInt(sign + "1") * ((hour ? parseInt(hour) : 0) * 60 + (minute ? parseInt(minute) : 0)) * 60 * 1000;
         }
@@ -149,15 +152,15 @@ export const useAppTimeZone = () => {
     };
 
     const todayTimeFormat = (): string => {
-        return `'${useTranslationsProvider().$tr("ui.time-zone.today-at", "Today at").replaceAll("'", "''")}' HH:mm:ss`;
+        return `'${useTranslationsProvider().$tr("ui.time-zone.today-at", "Today at").replace(/'/g, "''")}' HH:mm:ss`;
     }
 
     const yesterdayTimeFormat = (): string => {
-        return `'${useTranslationsProvider().$tr("ui.time-zone.yesterday-at", "Yesterday at").replaceAll("'", "''")}' HH:mm:ss`;
+        return `'${useTranslationsProvider().$tr("ui.time-zone.yesterday-at", "Yesterday at").replace(/'/g, "''")}' HH:mm:ss`;
     }
 
     const overrideFormat = (date: Date, askedFormat: string): string => {
-        let now = new Date();
+        const now = new Date();
         if (date.toDateString() === now.toDateString()) {
             return todayTimeFormat();
         }

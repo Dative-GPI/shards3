@@ -32,10 +32,15 @@ export default defineComponent({
     FSCol
   },
   props: {
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
+    },
     values: {
       type: Array as PropType<{ value: string | boolean | number, label?: string, description?: string }[]>,
       required: true,
-      default: false
+      default: null
     },
     modelValue: {
       type: [String, Boolean, Number],
@@ -52,11 +57,6 @@ export default defineComponent({
       required: false,
       default: true
     },
-    gap: {
-      type: String,
-      required: false,
-      default: "8px"
-    }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
