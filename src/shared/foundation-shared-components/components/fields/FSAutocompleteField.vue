@@ -146,7 +146,7 @@ export default defineComponent({
       default: "label"
     },
     modelValue: {
-      type: [Array, String] as PropType<string[] | string | null>,
+      type: [Array, String, Object] as PropType<string[] | string | null | any>,
       required: false,
       default: null
     },

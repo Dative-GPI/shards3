@@ -49,12 +49,16 @@ export default defineComponent({
       return Promise.resolve([]);
     };
 
+    const innerOnUpdate = (value: Address| Address[] | null) => {
+      emit("update:modelValue", value);
+    };
+
     const { search, onUpdate } = useAutocomplete(
       addresses,
       [],
       emit,
       innerFetch,
-      null,
+      innerOnUpdate,
       (item) => item.formattedAddress,
       (item) => encodeURI(item.formattedAddress),
       true
