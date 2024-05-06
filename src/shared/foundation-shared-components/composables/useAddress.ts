@@ -1,10 +1,9 @@
 import { Address } from "@dative-gpi/foundation-core-domain/models"
 import { NotifyService } from "@dative-gpi/bones-ui";
 import { ref } from "vue"
+import { KOMOOT_API_REVERSE_URL, KOMOOT_API_URL } from "../../foundation-shared-services/config/urls";
 
 export const useAddress = () => {
-  const API_URL = 'https://photon.komoot.io/api/'
-  const API_REVERSE_URL = 'https://photon.komoot.io/reverse/'
   const fetching = ref(false);
 
   const notifyService = new NotifyService("Address")
@@ -31,7 +30,7 @@ export const useAddress = () => {
   }
 
   const searchAddress = async (search: string): Promise<Address[]> => {
-    const url = `${API_URL}?q=${encodeURI(search)}&limit=5`;
+    const url = `${KOMOOT_API_URL}?q=${encodeURI(search)}&limit=5`;
     fetching.value = true;
     const response = await fetch(url);
     fetching.value = false;
@@ -47,7 +46,7 @@ export const useAddress = () => {
 
   const getAddressFromString = async (search: string): Promise<Address | undefined> => {
     fetching.value = true;
-    const response = await fetch(`${API_URL}?q=${search}&limit=1`);
+    const response = await fetch(`${KOMOOT_API_URL}?q=${search}&limit=1`);
     fetching.value = false;
     if (response.ok) {
       const objectResponse = await response.json();
@@ -58,7 +57,7 @@ export const useAddress = () => {
 
   const getAddressFromCoordinates = async (lat: number, lng: number): Promise<Address | undefined> => {
     fetching.value = true;
-    const response = await fetch(`${API_REVERSE_URL}?lat=${lat}&lon=${lng}`);
+    const response = await fetch(`${KOMOOT_API_REVERSE_URL}?lat=${lat}&lon=${lng}`);
     fetching.value = false;
     if (response.ok) {
       const objectResponse = await response.json();

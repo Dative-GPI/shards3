@@ -1,4 +1,5 @@
 export * from "./authTokens";
+export * from "./address";
 export * from "./files";
 export * from "./images";
 export * from "./languages";

@@ -8,6 +8,7 @@
     @update:modelValue="onUpdate"
     v-model:search="search"
     v-bind="$attrs"
+    :returnObject="true"
     :no-data-text="$tr('ui.autocomplete.address.noDataText', 'No address corresponding')"
   />
 </template>
@@ -49,16 +50,12 @@ export default defineComponent({
       return Promise.resolve([]);
     };
 
-    const innerOnUpdate = (value: Address| Address[] | null) => {
-      emit("update:modelValue", value);
-    };
-
     const { search, onUpdate } = useAutocomplete(
       addresses,
       [],
       emit,
       innerFetch,
-      innerOnUpdate,
+      null,
       (item) => item.formattedAddress,
       (item) => encodeURI(item.formattedAddress),
       true
