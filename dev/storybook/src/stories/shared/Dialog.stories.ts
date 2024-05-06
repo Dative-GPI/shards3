@@ -53,7 +53,7 @@ export const Variations: Story = {
         @click="() => args.value1 = true"
       />
       <FSDialog
-        width="90%"
+        width="400px"
         color="primary"
         v-model="args.value1"
       >

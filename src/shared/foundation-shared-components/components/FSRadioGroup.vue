@@ -1,5 +1,8 @@
 <template>
-  <FSCol width="hug">
+  <FSCol
+    width="hug"
+    :gap="$props.gap"
+  >
     <FSRadio
       v-for="(item, index) in $props.values"
       :key="index"
@@ -29,10 +32,15 @@ export default defineComponent({
     FSCol
   },
   props: {
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
+    },
     values: {
       type: Array as PropType<{ value: string | boolean | number, label?: string, description?: string }[]>,
       required: true,
-      default: false
+      default: null
     },
     modelValue: {
       type: [String, Boolean, Number],
@@ -48,7 +56,7 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
-    }
+    },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {

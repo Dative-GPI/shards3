@@ -14,7 +14,9 @@
       v-model="innerValue"
       v-bind="$attrs"
     >
-      <template #append-inner>
+      <template
+        #append-inner
+      >
         <FSIcon
           v-if="$props.modelValue"
           size="l"
@@ -33,7 +35,7 @@
       :required="$props.required"
       :editable="$props.editable"
       :values="icons"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>

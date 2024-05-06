@@ -1,12 +1,8 @@
 <template>
-  <v-menu
-    :closeOnContentClick="false"
-    :modelValue="menu && $props.editable"
-    @update:modelValue="(value) => menu = value"
-  >
+  <FSCol>
     <template
-#activator="{ props }"
->
+      v-if="isExtraSmall"
+    >
       <FSTextField
         class="fs-date-field"
         :label="$props.label"
@@ -22,8 +18,8 @@
         :validationValue="$props.modelValue"
         :modelValue="epochToLongTimeFormat($props.modelValue)"
         @update:modelValue="onClear"
+        @click="openMobileOverlay"
         @blur="blurred = true"
-        v-bind="props"
       >
         <template
           #prepend-inner
@@ -36,6 +32,7 @@
               icon="mdi-calendar"
               :editable="$props.editable"
               :color="ColorEnum.Dark"
+              @click="openMobileOverlay"
             />
           </slot>
         </template>
@@ -49,65 +46,162 @@
           />
         </template>
       </FSTextField>
+      <FSDialogMenu
+        v-model="dialog"
+      >
+        <template
+          #body
+        >
+          <FSWindow
+            :modelValue="tabs"
+          >
+            <FSCol
+              width="hug"
+              :value="0"
+            >
+              <FSCalendar
+                :color="$props.color"
+                v-model="innerDate"
+              />
+              <FSButton
+                width="100%"
+                :color="$props.color"
+                :label="$tr('ui.common.validate', 'Validate')"
+                @click="tabs++"
+              />
+            </FSCol>
+            <FSCol
+              width="hug"
+              :value="1"
+            >
+              <FSClock
+                :color="$props.color"
+                v-model="innerTime"
+              />
+              <FSButton
+                width="100%"
+                :color="$props.color"
+                :label="$tr('ui.common.validate', 'Validate')"
+                @click="onSubmit"
+              />
+            </FSCol>
+          </FSWindow>
+        </template>
+      </FSDialogMenu>
     </template>
-    <FSWindow
-      :modelValue="tabs"
+    <template
+      v-else
     >
-      <FSCard
-        padding="8px"
-        width="346px"
-        :elevation="true"
-        :border="false"
-        :value="0"
+      <v-menu
+        :closeOnContentClick="false"
+        :modelValue="menu && $props.editable"
+        @update:modelValue="menu = $event"
       >
-        <FSCol
-          width="fill"
+        <template
+          #activator="{ props }"
         >
-          <FSCalendar
+          <FSTextField
+            class="fs-date-field"
+            :label="$props.label"
+            :description="$props.description"
             :color="$props.color"
-            v-model="innerDate"
-          />
-          <FSButton
-            width="100%"
-            :color="$props.color"
-            :label="$tr('ui.date-menu.validate', 'Validate')"
-            @click="tabs++"
-          />
-        </FSCol>
-      </FSCard>
-      <FSCard
-        padding="8px"
-        width="394px"
-        :elevation="true"
-        :border="false"
-        :value="1"
-      >
-        <FSCol
-          width="fill"
+            :hideHeader="$props.hideHeader"
+            :required="$props.required"
+            :editable="$props.editable"
+            :readonly="true"
+            :rules="$props.rules"
+            :messages="messages"
+            :validateOn="validateOn"
+            :validationValue="$props.modelValue"
+            :modelValue="epochToLongTimeFormat($props.modelValue)"
+            @update:modelValue="onClear"
+            @blur="blurred = true"
+            v-bind="props"
+          >
+            <template
+              #prepend-inner
+            >
+              <slot
+                name="prepend-inner"
+              >
+                <FSButton
+                  variant="icon"
+                  icon="mdi-calendar"
+                  :editable="$props.editable"
+                  :color="ColorEnum.Dark"
+                />
+              </slot>
+            </template>
+            <template
+              v-for="(_, name) in $slots"
+              v-slot:[name]="slotData"
+            >
+              <slot
+                :name="name"
+                v-bind="slotData"
+              />
+            </template>
+          </FSTextField>
+        </template>
+        <FSWindow
+          :modelValue="tabs"
         >
-          <FSClock
-            :color="$props.color"
-            v-model="innerTime"
-          />
-          <FSButton
-            width="100%"
-            :color="$props.color"
-            :label="$tr('ui.date-menu.validate', 'Validate')"
-            @click="onSubmit"
-          />
-        </FSCol>
-      </FSCard>
-    </FSWindow>
-  </v-menu>
+          <FSCard
+            padding="8px"
+            :elevation="true"
+            :border="false"
+            :value="0"
+          >
+            <FSCol
+              width="fill"
+            >
+              <FSCalendar
+                :color="$props.color"
+                v-model="innerDate"
+              />
+              <FSButton
+                width="100%"
+                :color="$props.color"
+                :label="$tr('ui.common.validate', 'Validate')"
+                @click="tabs++"
+              />
+            </FSCol>
+          </FSCard>
+          <FSCard
+            padding="8px"
+            :elevation="true"
+            :border="false"
+            :value="1"
+          >
+            <FSCol
+              width="hug"
+            >
+              <FSClock
+                :color="$props.color"
+                v-model="innerTime"
+              />
+              <FSButton
+                width="100%"
+                :color="$props.color"
+                :label="$tr('ui.common.validate', 'Validate')"
+                @click="onSubmit"
+              />
+            </FSCol>
+          </FSCard>
+        </FSWindow>
+      </v-menu>
+    </template>
+  </FSCol>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from "vue";
 
-import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
+import FSDialogMenu from "../FSDialogMenu.vue";
 import FSTextField from "./FSTextField.vue";
 import FSCalendar from "../FSCalendar.vue";
 import FSWindow from "../FSWindow.vue";
@@ -119,6 +213,7 @@ import FSCol from "../FSCol.vue";
 export default defineComponent({
   name: "FSDateTimeField",
   components: {
+    FSDialogMenu,
     FSTextField,
     FSCalendar,
     FSWindow,
@@ -173,16 +268,18 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getUserOffsetMillis, epochToLongTimeFormat } = useAppTimeZone();
     const { validateOn, blurred, getMessages } = useRules();
+    const { isExtraSmall } = useBreakpoints();
     const { getColors } = useColors();
 
-    const errors = getColors(ColorEnum.Error);
-    const lights = getColors(ColorEnum.Light);
-    const darks = getColors(ColorEnum.Dark);
-
+    const dialog = ref(false);
     const menu = ref(false);
     const tabs = ref(0);
     const innerDate = ref<number | null>(null);
     const innerTime = ref(0);
+
+    const errors = getColors(ColorEnum.Error);
+    const lights = getColors(ColorEnum.Light);
+    const darks = getColors(ColorEnum.Dark);
 
     if (props.modelValue) {
       // FSClock just gives two numbers without consideration for the time zone
@@ -205,6 +302,13 @@ export default defineComponent({
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
+    const openMobileOverlay = () => {
+      if (!props.editable) {
+        return;
+      }
+      dialog.value = true;
+    };
+
     const onClear = (): void => {
       emit("update:modelValue", null);
       innerDate.value = null;
@@ -213,28 +317,32 @@ export default defineComponent({
 
     const onSubmit = (): void => {
       emit("update:modelValue", (innerDate.value ?? 0) + innerTime.value);
+      dialog.value = false;
       menu.value = false;
     };
 
-    watch(menu, (): void => {
-      if (!menu.value) {
-        setTimeout(() => tabs.value = 0, 100);
+    watch([menu, dialog], (): void => {
+      if (!menu.value && !dialog.value) {
+        setTimeout(() => tabs.value = 0, 290);
       }
     });
 
     return {
+      isExtraSmall,
+      validateOn,
       ColorEnum,
       innerDate,
       innerTime,
-      validateOn,
       messages,
       blurred,
+      dialog,
       style,
       menu,
       tabs,
-      onClear,
+      epochToLongTimeFormat,
+      openMobileOverlay,
       onSubmit,
-      epochToLongTimeFormat
+      onClear
     };
   }
 });

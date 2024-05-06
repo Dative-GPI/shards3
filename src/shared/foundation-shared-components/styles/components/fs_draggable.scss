@@ -12,6 +12,18 @@
   filter: blur(1px);
 }
 
+.fs-draggable-dragging-grabbegin {
+  animation: tilt-shaking 0.1s 2;
+}
+
+@keyframes tilt-shaking {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
 .fs-dropzone-include {
   transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   filter: brightness(0.85) contrast(1.1);

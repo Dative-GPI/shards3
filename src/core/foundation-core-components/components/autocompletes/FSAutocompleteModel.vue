@@ -1,11 +1,13 @@
 <template>
-  <FSAutocompleteField :toggleSet="!$props.toggleSetDisabled && toggleSet"
+  <FSAutocompleteField
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="models"
     :loading="loading"
     :items="models"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
-    v-bind="$attrs" />
+    v-bind="$attrs"
+  />
 </template>
 
 <script lang="ts">
@@ -43,26 +45,25 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyModels, fetching: fetchingModels, entities: models } = useModels();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingModels.value;
+    });
+
     const innerFetch = (search: string | null) => {
       return getManyModels({ ...props.modelFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       models,
       [() => props.modelFilters],
       emit,
       innerFetch
     );
 
-    const loading = computed((): boolean => {
-      return init.value && fetchingModels.value;
-    });
-
     return {
       models,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }

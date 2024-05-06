@@ -1,5 +1,7 @@
 <template>
-  <FSCol>
+  <FSCol
+    width="hug"
+  >
     <FSRow
       v-if="$props.label"
     >
@@ -12,10 +14,13 @@
     </FSRow>
     <FSRow
       class="fs-calendar-twin"
+      align="center-center"
+      width="hug"
       :style="style"
     >
       <FSCol
         align="top-center"
+        width="hug"
         :class="leftClasses"
         :style="style"
       >
@@ -42,7 +47,9 @@
           class="fs-calendar-divider"
           :style="style"
         />
-        <v-locale-provider :locale="languageCode">
+        <v-locale-provider
+          :locale="languageCode"
+        >
           <v-date-picker-month
             :month="innerLeftMonth"
             :year="innerLeftYear"
@@ -57,6 +64,7 @@
       </FSCol>
       <FSCol
         align="top-center"
+        width="hug"
         :class="rightClasses"
         :style="style"
       >
@@ -83,7 +91,9 @@
           class="fs-calendar-divider"
           :style="style"
         />
-        <v-locale-provider :locale="languageCode">
+        <v-locale-provider
+          :locale="languageCode"
+        >
           <v-date-picker-month
             :month="innerRightMonth"
             :year="innerRightYear"
@@ -193,21 +203,21 @@ export default defineComponent({
           switch (side) {
             case "left":
               return innerLeftYear.value > date.y || (innerLeftYear.value === date.y && innerLeftMonth.value > date.m);
-            case "right":
+            default:
               return innerRightYear.value > date.y || (innerRightYear.value === date.y && innerRightMonth.value > date.m);
           }
         case "during":
           switch (side) {
             case "left":
               return innerLeftYear.value === date.y && innerLeftMonth.value === date.m;
-            case "right":
+            default:
               return innerRightYear.value === date.y && innerRightMonth.value === date.m;
           }
         case "after":
           switch (side) {
             case "left":
               return innerLeftYear.value < date.y || (innerLeftYear.value === date.y && innerLeftMonth.value < date.m);
-            case "right":
+            default:
               return innerRightYear.value < date.y || (innerRightYear.value === date.y && innerRightMonth.value < date.m);
           }
       }

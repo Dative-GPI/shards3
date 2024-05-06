@@ -11,8 +11,13 @@
     v-model="innerValue"
     v-bind="$attrs"
   >
-    <template v-if="$props.prependInnerIcon" #prepend-inner>
-      <slot name="prepend-inner">
+    <template
+      v-if="$props.prependInnerIcon"
+      #prepend-inner
+    >
+      <slot
+        name="prepend-inner"
+      >
         <FSButton
           variant="icon"
           :icon="$props.prependInnerIcon"
@@ -22,8 +27,13 @@
         />
       </slot>
     </template>
-    <template v-if="!['instant'].includes($props.variant)" #append>
-      <slot name="append">
+    <template
+      v-if="!['instant'].includes($props.variant)"
+      #append
+    >
+      <slot
+        name="append"
+      >
         <FSButton
           :prependIcon="$props.buttonPrependIcon"
           :label="buttonLabel"
@@ -35,8 +45,14 @@
         />
       </slot>
     </template>
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
     </template>
   </FSTextField>
 </template>
@@ -154,10 +170,10 @@ export default defineComponent({
     });
 
     return {
-      ColorEnum,
       placeholder,
       buttonLabel,
-      innerValue
+      innerValue,
+      ColorEnum
     };
   }
 });

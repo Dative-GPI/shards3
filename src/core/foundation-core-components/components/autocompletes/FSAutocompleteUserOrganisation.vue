@@ -1,34 +1,55 @@
 <template>
-  <FSAutocompleteField :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :loading="loading"
-    :items="userOrganisations"
+  <FSAutocompleteField
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="toggleSetItems"
     :multiple="$props.multiple"
+    :items="userOrganisations"
+    :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
-    v-bind="$attrs">
-    <template #selection="{ item }">
-      <FSRow align="center-center"
-        :wrap="false">
-        <FSImage height="26px"
+    v-bind="$attrs"
+>
+    <template
+      #autocomplete-selection="{ item }"
+    >
+      <FSRow
+        v-if="$props.modelValue"
+        align="center-center"
+        :wrap="false"
+      >
+        <FSImage
+          v-if="item.raw.imageId"
+          height="26px"
           width="26px"
-          :imageId="item.raw.imageId" />
-        <FSText>
-          {{ item.raw.label }}
-        </FSText>
+          :imageId="item.raw.imageId"
+        />
+        <FSSpan>
+          {{ item.raw.name }}
+        </FSSpan>
       </FSRow>
     </template>
-    <template #item="{ props, item }">
-      <v-list-item v-bind="{ ...props, title: '' }">
-        <FSRow align="center-left">
-          <FSCheckbox v-if="$props.multiple"
-            :modelValue="isSelected(item.value)" />
-          <FSImage height="26px"
+    <template
+      #autocomplete-item="{ props, item }"
+    >
+      <v-list-item
+        v-bind="{ ...props, title: '' }"
+      >
+        <FSRow
+          align="center-left"
+        >
+          <FSCheckbox
+            v-if="$props.multiple"
+            :modelValue="$props.modelValue?.includes(item.value)"
+          />
+          <FSImage
+            v-if="item.raw.imageId"
+            height="26px"
             width="26px"
-            :imageId="item.raw.imageId" />
-          <FSText>
-            {{ item.raw.label }}
-          </FSText>
+            :imageId="item.raw.imageId"
+          />
+          <FSSpan>
+            {{ item.raw.name }}
+          </FSSpan>
         </FSRow>
       </v-list-item>
     </template>
@@ -39,18 +60,21 @@
 import { computed, defineComponent, PropType } from "vue";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
-import { UserOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
+import { UserOrganisationFilters, UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
-import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
-
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 export default defineComponent({
   name: "FSAutocompleteUserOrganisation",
   components: {
     FSAutocompleteField,
+    FSCheckbox,
     FSImage,
-    FSText
+    FSSpan,
+    FSRow
   },
   props: {
     userOrganisationFilters: {
@@ -78,6 +102,17 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyUserOrganisations, fetching: fetchingUserOrganisations, entities: userOrganisations } = useUserOrganisations();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingUserOrganisations.value;
+    });
+
+    const toggleSetItems = computed((): any[] => {
+      return userOrganisations.value.map((userOrganisation: UserOrganisationInfos) => ({
+          id: userOrganisation.id,
+          label: userOrganisation.name
+      }));
+    });
+    
     const innerFetch = (search: string | null) => {
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
@@ -86,22 +121,18 @@ export default defineComponent({
       userOrganisations,
       [() => props.userOrganisationFilters],
       emit,
-      innerFetch
+      innerFetch,
+      null,
+      (item: UserOrganisationInfos) => item.id,
+      (item: UserOrganisationInfos) => item.name
     );
-
-    const isSelected = (id: any) => {
-      return props.modelValue?.includes(id);
-    }
-    const loading = computed((): boolean => {
-      return init.value && fetchingUserOrganisations.value;
-    });
 
     return {
       userOrganisations,
+      toggleSetItems,
       toggleSet,
       loading,
       search,
-      isSelected,
       onUpdate
     };
   }

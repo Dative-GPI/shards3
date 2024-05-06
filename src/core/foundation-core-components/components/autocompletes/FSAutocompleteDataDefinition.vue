@@ -1,37 +1,51 @@
 <template>
-  <FSAutocompleteField :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :loading="loading"
-    :items="dataDefinitions"
+  <FSAutocompleteField
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="dataDefinitions"
     :multiple="$props.multiple"
+    :items="dataDefinitions"
+    :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
-    v-bind="$attrs">
-    <template #selection="{ item }">
-      <FSRow align="center-center"
+    v-bind="$attrs"
+  >
+    <template
+      #autocomplete-selection="{ item }"
+    >
+      <FSRow
+        v-if="$props.modelValue"
+        align="center-center"
         :wrap="false"
-        :gap="0">
-        <FSText>
+      >
+        <FSChip
+          v-if="item.raw.unit"
+          :label="item.raw.unit"
+        />
+        <FSSpan>
           {{ item.raw.label }}
-        </FSText>
-        <FSText v-if="item.raw.unit">
-          ({{ item.raw.unit }})
-        </FSText>
+        </FSSpan>
       </FSRow>
     </template>
-    <template #item="{ props, item }">
-      <v-list-item v-bind="{ ...props, title: '' }">
-        <FSRow align="center-left">
-          <FSCheckbox v-if="$props.multiple"
-            :modelValue="isSelected(item.value)" />
-          <FSRow :gap="0">
-            <FSText>
-              {{ item.raw.label }}
-            </FSText>
-            <FSText v-if="item.raw.unit">
-              ({{ item.raw.unit }})
-            </FSText>
-          </FSRow>
+    <template
+      #autocomplete-item="{ props, item }"
+    >
+      <v-list-item
+        v-bind="{ ...props, title: '' }"
+      >
+        <FSRow
+          align="center-left"
+        >
+          <FSCheckbox
+            v-if="$props.multiple"
+            :modelValue="$props.modelValue?.includes(item.value)"
+          />
+          <FSChip
+            v-if="item.raw.unit"
+            :label="item.raw.unit"
+          />
+          <FSSpan>
+            {{ item.raw.label }}
+          </FSSpan>
         </FSRow>
       </v-list-item>
     </template>
@@ -46,13 +60,19 @@ import { useDataDefinitions } from "@dative-gpi/foundation-core-services/composa
 import { DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
-import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
+import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
+import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteDataDefinition",
   components: {
     FSAutocompleteField,
-    FSText
+    FSCheckbox,
+    FSChip,
+    FSSpan,
+    FSRow
   },
   props: {
     dataDefinitionFilters: {
@@ -80,32 +100,26 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyDataDefinitions, fetching: fetchingDataDefinitions, entities: dataDefinitions } = useDataDefinitions();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingDataDefinitions.value;
+    });
+
     const innerFetch = (search: string | null) => {
       return getManyDataDefinitions({ ...props.dataDefinitionFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       dataDefinitions,
       [() => props.dataDefinitionFilters],
       emit,
       innerFetch
     );
 
-    const loading = computed((): boolean => {
-      return init.value && fetchingDataDefinitions.value;
-    });
-
-    const isSelected = (id: any) => {
-      return props.modelValue?.includes(id);
-    }
-
     return {
       dataDefinitions,
       toggleSet,
       loading,
-      search,
-      onUpdate,
-      isSelected
+      onUpdate
     };
   }
 });

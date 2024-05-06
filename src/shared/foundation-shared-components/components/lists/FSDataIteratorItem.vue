@@ -7,14 +7,20 @@
     :variant="variant"
   >
     <FSCol>
-      <slot name="item.top" v-bind="{ item: $props.item }" />
+      <slot
+        name="item.top"
+        v-bind="{ item: $props.item }"
+      />
       <FSRow
         v-for="(header, index) in $props.headers"
         align="center-left"
         :wrap="false"
         :key="index"
       >
-        <slot :name="`header.${header.value}`" v-bind="{ header }">
+        <slot
+          :name="`header.${header.value}`"
+          v-bind="{ header }"
+        >
           <FSRow
             align="center-left"
           >
@@ -25,7 +31,10 @@
             </FSText>
           </FSRow>
         </slot>
-        <slot :name="`item.${header.value}`" v-bind="{ item: $props.item }">
+        <slot
+          :name="`item.${header.value}`"
+          v-bind="{ item: $props.item }"
+        >
           <FSRow
             align="center-left"
           >
@@ -35,7 +44,10 @@
           </FSRow>
         </slot>
       </FSRow>
-      <slot name="item.bottom" v-bind="{ item: $props.item }" />
+      <slot
+        name="item.bottom"
+        v-bind="{ item: $props.item }"
+      />
     </FSCol>
     <FSCard
       v-if="$props.showSelect"

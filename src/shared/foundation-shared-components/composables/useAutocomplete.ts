@@ -23,8 +23,7 @@ export const useAutocomplete = <TInfos>(
   const init = ref(true);
 
   const toggleSet = computed((): boolean => {
-    console.log(allowToggleSet, entitiesLength.value, breakpointToggleSet);
-    return allowToggleSet && entitiesLength.value < breakpointToggleSet;
+    return allowToggleSet && entitiesLength.value <= breakpointToggleSet;
   });
 
   const debouncedFetch = () => debounce(() => customFetch(search.value), debounceInterval);
@@ -52,9 +51,9 @@ export const useAutocomplete = <TInfos>(
 
   watch(search, (newValue, oldValue) => {
     if (newValue !== oldValue) {
-      const found = entities.value.map(e => toText(e)).includes(search.value);
-      if (!found && (!search.value || !search.value.length || search.value.length > 2)) {
-        if (fetchOnSearch) {
+      if (fetchOnSearch) {
+        const found = entities.value.map(e => toText(e)).includes(search.value);
+        if (!found && (!search.value || !search.value.length || search.value.length > 2)) {
           debouncedFetch();
         }
       }

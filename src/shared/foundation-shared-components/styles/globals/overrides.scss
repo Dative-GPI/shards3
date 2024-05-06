@@ -99,6 +99,10 @@
     display: none !important;
 }
 
+.v-overlay__content {
+    min-width: fit-content !important;
+}
+
 // No up / down buttons in input field of type number
 input[type=number] { 
     -moz-appearance: textfield;

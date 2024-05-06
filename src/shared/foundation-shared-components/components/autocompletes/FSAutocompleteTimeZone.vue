@@ -1,49 +1,128 @@
 <template>
   <FSAutocompleteField
-    :loading="fetchingTimeZones"
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="timeZones"
+    :multiple="$props.multiple"
+    :loading="loading"
     :items="timeZones"
-    v-model:search="search"
+    :modelValue="$props.modelValue"
+    @update:modelValue="onUpdate"
     v-bind="$attrs"
-  />
+  >
+    <template
+      #autocomplete-selection="{ item }"
+    >
+      <FSRow
+        v-if="$props.modelValue"
+        align="center-center"
+        :wrap="false"
+      >
+        <FSChip
+          :label="item.raw.offset"
+        />
+        <FSSpan>
+          {{ item.raw.id }}
+        </FSSpan>
+      </FSRow>
+    </template>
+    <template
+      #autocomplete-item="{ props, item }"
+    >
+      <v-list-item
+        v-bind="{ ...props, title: '' }"
+      >
+        <FSRow
+          align="center-left"
+        >
+          <FSCheckbox
+            v-if="$props.multiple"
+            :modelValue="isSelected(item.value)"
+          />
+          <FSChip
+            :label="item.raw.offset"
+          />
+          <FSSpan>
+            {{ item.raw.id }}
+          </FSSpan>
+        </FSRow>
+      </v-list-item>
+    </template>
+  </FSAutocompleteField>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from "vue";
-import _ from "lodash";
+import { computed, defineComponent, PropType } from "vue";
 
+import { TimeZoneFilters, TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
+import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables";
-import { TimeZoneFilters } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
+import FSCheckbox from "../FSCheckbox.vue"
+import FSChip from "../FSChip.vue";
+import FSSpan from "../FSSpan.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteTimeZone",
   components: {
-    FSAutocompleteField
+    FSAutocompleteField,
+    FSCheckbox,
+    FSChip,
+    FSSpan,
+    FSRow
   },
   props: {
     timeZoneFilters: {
       type: Object as PropType<TimeZoneFilters>,
       required: false,
       default: null
+    },
+    modelValue: {
+      type: [Array, String] as PropType<string[] | string | null>,
+      required: false,
+      default: null
+    },
+    multiple: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    toggleSetDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
-  setup(props) {
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
     const { getMany: getManyTimeZones, fetching: fetchingTimeZones, entities: timeZones } = useTimeZones();
 
-    const search = ref<string | null>(null);
+    const loading = computed((): boolean => {
+      return init.value && fetchingTimeZones.value;
+    });
 
-    watch([() => props.timeZoneFilters, () => search.value], async (newValue, oldValue) => {
-      if (!_.isEqual(newValue, oldValue)) {
-        await getManyTimeZones({ ...props.timeZoneFilters, search: search.value ?? undefined });
-      }
-    }, { immediate: true });
+    const innerFetch = (search: string | null) => {
+      return getManyTimeZones({ ...props.timeZoneFilters, search: search ?? undefined });
+    };
+
+    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+      timeZones,
+      [() => props.timeZoneFilters],
+      emit,
+      innerFetch,
+      null,
+      (item: TimeZoneInfos) => item.id,
+      (item: TimeZoneInfos) => item.id
+    );
 
     return {
-      fetchingTimeZones,
       timeZones,
-      search
-    }
+      toggleSet,
+      loading,
+      search,
+      onUpdate
+    };
   }
 });
 </script>

@@ -3,7 +3,9 @@
     :closeOnContentClick="false"
     v-model="expanded"
   >
-    <template #activator="{ props }">
+    <template
+      #activator="{ props }"
+    >
       <FSChip
         prependIcon="mdi-eye-off-outline"
         :color="ColorEnum.Light"

@@ -1,3 +1,30 @@
-.fs-edit-image {
-    border: 1px dashed var(--fs-edit-image-border-color);
+.fs-edit-image-overline {
+    color: var(--fs-edit-image-overline-text-color) !important;
+}
+
+.fs-edit-image-hidden-button {
+    display: none;
+}
+
+.fs-edit-image-full {
+    position: relative;
+
+    .fs-edit-image-full-toolbar {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+
+.fs-edit-image-label {
+    color: var(--fs-edit-image-color);
+}
+
+.fs-edit-image-messages {
+    align-self: stretch;
+    color: var(--fs-edit-image-error-color);
+}
+
+.fs-edit-image-description {
+    color: var(--fs-edit-image-color);
 }

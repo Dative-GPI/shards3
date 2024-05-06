@@ -1,11 +1,13 @@
 <template>
-  <FSAutocompleteField :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :loading="loading"
+  <FSAutocompleteField
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :toggleSetItems="manufacturers"
     :items="manufacturers"
+    :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
-    v-bind="$attrs" />
+    v-bind="$attrs"
+  />
 </template>
 
 <script lang="ts">
@@ -47,7 +49,7 @@ export default defineComponent({
       return getManyManufacturers({ ...props.manufacturerFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       manufacturers,
       [() => props.manufacturerFilters],
       emit,
@@ -62,7 +64,6 @@ export default defineComponent({
       manufacturers,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }

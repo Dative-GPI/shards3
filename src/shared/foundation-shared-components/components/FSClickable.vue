@@ -17,11 +17,19 @@
       :style="style"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="{ ...slotData, contentVariant }" />
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="{ ...slotData, contentVariant }"
+        />
       </template>
     </FSCard>
-    <template v-if="$props.load">
+    <template
+      v-if="$props.load"
+    >
       <v-progress-circular
         class="fs-clickable-load"
         width="2"
@@ -49,11 +57,19 @@
       :style="style"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="{ ...slotData, contentVariant }" />
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="{ ...slotData, contentVariant }"
+        />
       </template>
     </FSCard>
-    <template v-if="$props.load">
+    <template
+      v-if="$props.load"
+    >
       <v-progress-circular
         class="fs-clickable-load"
         width="2"
@@ -82,11 +98,19 @@
       :style="style"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="{ ...slotData, contentVariant }" />
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="{ ...slotData, contentVariant }"
+        />
       </template>
     </FSCard>
-    <template v-if="$props.load">
+    <template
+      v-if="$props.load"
+    >
       <v-progress-circular
         class="fs-clickable-load"
         width="2"

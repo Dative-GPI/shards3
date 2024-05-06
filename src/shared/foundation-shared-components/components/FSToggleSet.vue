@@ -212,22 +212,15 @@ export default defineComponent({
 
     const getFromFirstChild = (prop: string, value: FSToggle): any => {
       switch (prop) {
-        case "prependIcon":
-          return firstChild.props.prependIcon ?? value.prependIcon;
-        case "label":
-          return firstChild.props.label ?? value.label;
-        case "appendIcon":
-          return firstChild.props.appendIcon ?? value.appendIcon;
-        case "icon":
-          return firstChild.props.icon ?? value.icon;
-        case "variant":
-          return firstChild.props.variant ?? getVariant(value);
-        case "color":
-          return firstChild.props.color ?? getColor(value);
-        default:
-          return firstChild.props[prop];
+        case "prependIcon": return firstChild?.props?.prependIcon ?? value.prependIcon;
+        case "label":       return firstChild?.props?.label ?? value.label;
+        case "appendIcon":  return firstChild?.props?.appendIcon ?? value.appendIcon;
+        case "icon":        return firstChild?.props?.icon ?? value.icon;
+        case "variant":     return firstChild?.props?.variant ?? getVariant(value);
+        case "color":       return firstChild?.props?.color ?? getColor(value);
+        default:            return (firstChild?.props && firstChild?.props[prop]) || null;
       }
-    }
+    };
 
     const getVariant = (value: FSToggle): "standard" | "full" | "icon" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {

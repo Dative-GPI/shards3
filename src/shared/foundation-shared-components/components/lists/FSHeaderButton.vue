@@ -2,7 +2,9 @@
   <v-menu
     v-model="expanded"
   >
-    <template #activator="{ props }">
+    <template
+      #activator="{ props }"
+    >
       <FSButton
         class="fs-header-button"
         icon="mdi-dots-vertical"
