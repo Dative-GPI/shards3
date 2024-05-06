@@ -4,7 +4,7 @@
     :multiple="false"
     :modelValue="$props.modelValue"
     itemTitle="formattedAddress"
-    :custom-filter="() => true"
+    :no-filter="true"
     @update:modelValue="onUpdate"
     v-model:search="search"
     v-bind="$attrs"
