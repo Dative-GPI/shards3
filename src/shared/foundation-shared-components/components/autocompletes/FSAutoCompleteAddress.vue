@@ -6,7 +6,6 @@
     itemTitle="formattedAddress"
     :custom-filter="() => true"
     @update:modelValue="onUpdate"
-    @update:search="onSearch"
     v-model:search="search"
     v-bind="$attrs"
     :no-data-text="$tr('ui.autocomplete.address.noDataText', 'No address corresponding')"
