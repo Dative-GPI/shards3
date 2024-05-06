@@ -1,6 +1,5 @@
 <template>
   <FSAutocompleteField
-    :loading="loading"
     :items="addresses"
     :multiple="false"
     :modelValue="$props.modelValue"
@@ -9,13 +8,13 @@
     @update:modelValue="onUpdate"
     @update:search="onSearch"
     v-model:search="search"
-    v-model:menu="menu"
     v-bind="$attrs"
+    :no-data-text="$tr('ui.autocomplete.address.noDataText', 'No address corresponding')"
   />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
@@ -51,29 +50,16 @@ export default defineComponent({
       return Promise.resolve([]);
     };
 
-    const innerUpdate = (value: Address | null) => {
-      if (value === null) {
-        return;
-      }
-      menu.value = false;
-      emit("update:modelValue", value);
-    };
-
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { search, onUpdate } = useAutocomplete(
       addresses,
       [],
       emit,
       innerFetch,
-      innerUpdate,
+      null,
       (item) => item.formattedAddress,
       (item) => encodeURI(item.formattedAddress),
       true
     );
-
-    const loading = computed((): boolean => {
-      //return init.value;
-      return false;
-    });
 
     const onSearch = () => {
       menu.value = false;
@@ -82,7 +68,6 @@ export default defineComponent({
     return {
       menu,
       addresses,
-      loading,
       search,
       onUpdate,
       onSearch
