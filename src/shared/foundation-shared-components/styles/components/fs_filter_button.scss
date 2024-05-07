@@ -7,10 +7,10 @@
     }
 }
 
-.fs-filter-button-all {
-    width: calc(100% - 16px) !important;
-}
-
 .fs-filter-button-chip {
     width: 100%;
+}
+
+.fs-filter-button-search > .v-input > .v-input__control > .v-field {
+    border-radius: 44px!important;
 }

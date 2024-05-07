@@ -74,6 +74,7 @@
           v-if="resetable"
           variant="standard"
           :label="$tr('ui.data-table.reset-filters', 'Reset')"
+          :height="[30, 24]"
           :color="ColorEnum.Error"
           :editable="true"
           @click="resetFilter"

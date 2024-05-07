@@ -3,17 +3,11 @@
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: var(--fs-chip-background-color) !important;
     border: 1px solid var(--fs-chip-border-color) !important;
+    height: var(--fs-chip-height) !important;
     color: var(--fs-chip-color) !important;
     border-radius: 50px !important;
     padding: 2px 20px !important;
-
-    @include web {
-        height: 24px !important;
-    }
-
-    @include mobile {
-        height: 20px !important;
-    }
+    
 }
 
 .fs-chip-editable {

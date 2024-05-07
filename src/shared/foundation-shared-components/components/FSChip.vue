@@ -40,6 +40,7 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
@@ -68,8 +69,13 @@ export default defineComponent({
       required: false,
       default: null
     },
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: [24, 20]
+    },
     variant: {
-      type: String as PropType<"standard" | "full">,
+      type: String as PropType<"standard" | "full" | "borderless">,
       required: false,
       default: "full"
     },
@@ -89,6 +95,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
+    const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [key: string] : string | undefined } => {
       switch (props.variant) {
@@ -101,18 +108,32 @@ export default defineComponent({
           "--fs-chip-hover-color"            : colors.value.base,
           "--fs-chip-active-background-color": backgrounds.base,
           "--fs-chip-active-border-color"    : colors.value.dark,
-          "--fs-chip-active-color"           : colors.value.dark
+          "--fs-chip-active-color"           : colors.value.dark,
+          "--fs-chip-height"                 : sizeToVar(props.height)
         };
         case "full": return {
           "--fs-chip-background-color"       : colors.value.base,
           "--fs-chip-border-color"           : colors.value.baseContrast,
           "--fs-chip-color"                  : colors.value.baseContrast,
           "--fs-chip-hover-background-color" : colors.value.base,
-          "--fs-chip-hover-border-color"     : colors.value.baseContrast,
+          "--fs-chip-hover-border-color"     : colors.value.base,
           "--fs-chip-hover-color"            : colors.value.baseContrast,
           "--fs-chip-active-background-color": colors.value.dark,
           "--fs-chip-active-border-color"    : colors.value.darkContrast,
-          "--fs-chip-active-color"           : colors.value.darkContrast
+          "--fs-chip-active-color"           : colors.value.darkContrast,
+          "--fs-chip-height"                 : sizeToVar(props.height)
+        };
+        case "borderless": return {
+          "--fs-chip-background-color"       : backgrounds.base,
+          "--fs-chip-border-color"           : backgrounds.base,
+          "--fs-chip-color"                  : darks.base,
+          "--fs-chip-hover-background-color" : colors.value.light,
+          "--fs-chip-hover-border-color"     : colors.value.light,
+          "--fs-chip-hover-color"            : colors.value.base,
+          "--fs-chip-active-background-color": colors.value.light,
+          "--fs-chip-active-border-color"    : colors.value.light,
+          "--fs-chip-active-color"           : colors.value.base,
+          "--fs-chip-height"                 : sizeToVar(props.height)
         };
       }
     });
