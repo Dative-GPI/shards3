@@ -36,6 +36,7 @@
           <FSCheckbox
             v-if="$props.multiple"
             :modelValue="$props.modelValue?.includes(item.value)"
+            @click="props.onClick"
           />
           <FSChip
             :label="item.raw.offset"

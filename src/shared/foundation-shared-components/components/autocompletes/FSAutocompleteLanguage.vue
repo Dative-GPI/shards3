@@ -38,6 +38,7 @@
           <FSCheckbox
             v-if="$props.multiple"
             :modelValue="$props.modelValue?.includes(item.value)"
+            @click="props.onClick"
           />
           <FSIcon
             v-if="item.raw.icon"
