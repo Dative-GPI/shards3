@@ -1,14 +1,13 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :toggleSetItems="toggleSetItems"
     :multiple="$props.multiple"
     :items="userOrganisations"
     :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
->
+  >
     <template
       #autocomplete-selection="{ item }"
     >
@@ -36,10 +35,12 @@
       >
         <FSRow
           align="center-left"
+          :wrap="false"
         >
           <FSCheckbox
             v-if="$props.multiple"
             :modelValue="$props.modelValue?.includes(item.value)"
+            @click="props.onClick"
           />
           <FSImage
             v-if="item.raw.imageId"
@@ -53,25 +54,54 @@
         </FSRow>
       </v-list-item>
     </template>
+    <template
+      #toggle-set-item="props"
+    >
+      <FSButton
+        :variant="props.getVariant(props.item)"
+        :color="props.getColor(props.item)"
+        :class="props.getClass(props.item)"
+        @click="props.toggle(props.item)"
+      >
+        <FSRow
+          align="center-center"
+          :wrap="false"
+        >
+          <FSImage
+            v-if="props.item.imageId"
+            height="26px"
+            width="26px"
+            :imageId="props.item.imageId"
+          />
+          <FSSpan>
+            {{ props.item.name }}
+          </FSSpan>
+        </FSRow>
+      </FSButton>
+    </template>
   </FSAutocompleteField>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
-import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
+
 import { UserOrganisationFilters, UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
+import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
+import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
+
 export default defineComponent({
   name: "FSAutocompleteUserOrganisation",
   components: {
     FSAutocompleteField,
     FSCheckbox,
+    FSButton,
     FSImage,
     FSSpan,
     FSRow
@@ -108,8 +138,8 @@ export default defineComponent({
 
     const toggleSetItems = computed((): any[] => {
       return userOrganisations.value.map((userOrganisation: UserOrganisationInfos) => ({
-          id: userOrganisation.id,
-          label: userOrganisation.name
+        id: userOrganisation.id,
+        label: userOrganisation.name
       }));
     });
     

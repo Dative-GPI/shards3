@@ -1,7 +1,6 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :toggleSetItems="languages"
     :multiple="$props.multiple"
     :loading="loading"
     :items="languages"
@@ -38,7 +37,7 @@
         >
           <FSCheckbox
             v-if="$props.multiple"
-            :modelValue="$props.modelValue.includes(item.value)"
+            :modelValue="$props.modelValue?.includes(item.value)"
           />
           <FSIcon
             v-if="item.raw.icon"

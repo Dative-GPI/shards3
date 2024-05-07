@@ -1,7 +1,6 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :toggleSetItems="dataDefinitions"
     :multiple="$props.multiple"
     :items="dataDefinitions"
     :loading="loading"
@@ -34,10 +33,12 @@
       >
         <FSRow
           align="center-left"
+          :wrap="false"
         >
           <FSCheckbox
             v-if="$props.multiple"
             :modelValue="$props.modelValue?.includes(item.value)"
+            @click="props.onClick"
           />
           <FSChip
             v-if="item.raw.unit"
@@ -48,6 +49,26 @@
           </FSSpan>
         </FSRow>
       </v-list-item>
+    </template>
+    <template
+      #toggle-set-item="props"
+    >
+      <FSButton
+        :variant="props.getVariant(props.item)"
+        :color="props.getColor(props.item)"
+        :class="props.getClass(props.item)"
+        :label="props.item.label"
+        @click="props.toggle(props.item)"
+      >
+        <template
+          #prepend
+        >
+          <FSChip
+            v-if="props.item.unit"
+            :label="props.item.unit"
+          />
+        </template>
+      </FSButton>
     </template>
   </FSAutocompleteField>
 </template>
@@ -61,6 +82,7 @@ import { DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
@@ -70,6 +92,7 @@ export default defineComponent({
   components: {
     FSAutocompleteField,
     FSCheckbox,
+    FSButton,
     FSChip,
     FSSpan,
     FSRow

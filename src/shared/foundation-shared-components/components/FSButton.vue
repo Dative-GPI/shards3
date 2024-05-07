@@ -19,7 +19,10 @@
       width="fill"
       :wrap="false"
     >
-      <slot name="prepend" v-bind="{ color: $props.color, colors }">
+      <slot
+        name="prepend"
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSIcon
           v-if="$props.prependIcon || $props.icon"
           size="l"
@@ -27,14 +30,19 @@
           {{ $props.prependIcon ?? $props.icon }}
         </FSIcon>
       </slot>
-      <slot v-bind="{ color: $props.color, colors }">
+      <slot
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSSpan
           v-if="$props.label"
         >
           {{ $props.label }}
         </FSSpan>
       </slot>
-      <slot name="append" v-bind="{ color: $props.color, colors }">
+      <slot
+        name="append"
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSIcon
           v-if="$props.appendIcon"
           size="l"
@@ -52,7 +60,9 @@
     @click.stop="onClick"
     v-bind="$attrs"
   >
-    <template v-if="$props.load">
+    <template
+      v-if="$props.load"
+    >
       <v-progress-circular
         class="fs-button-load"
         width="2"
@@ -61,7 +71,9 @@
         :color="loadColor"
       />
     </template>
-    <template v-else-if="$props.href">
+    <template
+      v-else-if="$props.href"
+    >
       <a
         :href="$props.href"
       >
@@ -78,7 +90,9 @@
         </FSSpan>
       </a>
     </template>
-    <template v-else-if="$props.to">
+    <template
+      v-else-if="$props.to"
+    >
       <router-link
         :to="$props.to"
       >
@@ -95,7 +109,9 @@
         </FSSpan>
       </router-link>
     </template>
-    <template v-else>
+    <template
+      v-else
+    >
       <FSIcon
         v-if="$props.icon"
         size="l"
