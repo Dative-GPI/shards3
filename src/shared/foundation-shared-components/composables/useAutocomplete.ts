@@ -7,7 +7,7 @@ export const useAutocomplete = <TInfos>(
   entities: Ref<TInfos[]>,
   filters: (() => any)[],
   emit: (event: "update:modelValue", value: string[] | string | null) => void,
-  customFetch: (search: string | null) => Promise<any>,
+  customFetch: (search: string) => Promise<any>,
   customUpdate: ((item: TInfos[] | TInfos | null) => void) | null = null,
   toId: (item: TInfos) => string | null = (item: TInfos) => (item as any).id,
   toText: (item: TInfos) => string | null = (item: TInfos) => (item as any).label,
@@ -18,7 +18,7 @@ export const useAutocomplete = <TInfos>(
 ) => {
   const { debounce } = useDebounce();
 
-  const search = ref<string | null>(null);
+  const search = ref<string>("");
   const entitiesLength = ref(0);
   const init = ref(true);
 
