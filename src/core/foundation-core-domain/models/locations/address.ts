@@ -27,3 +27,8 @@ export interface AddressDTO {
     latitude: number;
     longitude: number;
 }
+
+export interface Place {
+    id: string;
+    label: string;
+}

@@ -15,5 +15,8 @@
     "@microsoft/signalr": "^8.0.0",
     "vue": "^3.4.23",
     "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.55.7"
   }
 }

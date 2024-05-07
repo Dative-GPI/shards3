@@ -37,7 +37,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(_props, { emit }) {
-    const { searchAddress } = useAddress();
+    const { search: searchAddress } = useAddress();
 
     const addresses = ref<Address[]>([]);
     const menu = ref(false);
