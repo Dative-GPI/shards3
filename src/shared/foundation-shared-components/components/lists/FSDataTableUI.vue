@@ -208,7 +208,7 @@
             >
               <slot
                 name="group-header"
-                v-bind="props"
+                v-bind="{ ...props, toggleSelectGroup }"
               >
                 <FSCard
                   padding="12px 16px"
@@ -220,7 +220,7 @@
                     <FSCheckbox
                       v-if="showSelect"
                       :modelValue="props.item.items.every((item) => innerValue.includes(item.key))"
-                      :indeterminate="!props.item.items.every((item) => innerValue.includes(item.key)) && innerValue.some((id) => props.item.items.some((item) => item.key === id))"
+                      :indeterminate="innerValue.some((id) => props.item.items.some((item) => item.key === id)) && !props.item.items.every((item) => innerValue.includes(item.key))"
                       @update:modelValue="toggleSelectGroup(props.item)"
                     />
                     <FSText>
@@ -340,8 +340,7 @@
                 v-else
               >
                 <FSText>
-                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString())
-                  }}
+                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
                 </FSText>
               </template>
             </template>
@@ -495,8 +494,7 @@
                 v-else
               >
                 <FSText>
-                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString())
-                  }}
+                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
                 </FSText>
               </template>
             </template>
@@ -1027,11 +1025,11 @@ export default defineComponent({
     };
 
     const toggleSelectGroup = (group: any): void => {
-      if (group.items.every((item) => innerValue.value.includes(item.key))) {
-        innerValue.value = innerValue.value.filter((id) => !group.items.some((item) => item.key === id));
+      if (group.items.every((item: any) => innerValue.value.includes(item.key))) {
+        innerValue.value = innerValue.value.filter((id) => !group.items.some((item: any) => item.key === id));
       }
       else {
-        innerValue.value = innerValue.value.concat(group.items.map((item) => item.key));
+        innerValue.value = [...new Set(innerValue.value.concat(group.items.map((item: any) => item.key)))];
       }
       emit("update:modelValue", innerValue.value);
     };

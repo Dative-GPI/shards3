@@ -22,7 +22,7 @@
         v-bind="$attrs"
       >
         <template
-          v-for="(_, name) in slots"
+          v-for="(_, name) in $slots"
           v-slot:[name]="slotData"
         >
           <slot
@@ -135,7 +135,7 @@
             </v-list-item>
           </template>
           <template
-            v-for="(_, name) in slots"
+            v-for="(_, name) in $slots"
             v-slot:[name]="slotData"
           >
             <slot
