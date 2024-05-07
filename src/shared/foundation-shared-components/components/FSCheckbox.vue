@@ -13,7 +13,9 @@
       @blur="blurred = true"
       v-bind="$attrs"
     >
-      <template #input>
+      <template
+        #input
+      >
         <FSRow
           align="center-left"
           width="hug"
@@ -39,7 +41,9 @@
         </FSRow>
       </template>
     </v-checkbox>
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="$props.description"
         class="fs-checkbox-description"

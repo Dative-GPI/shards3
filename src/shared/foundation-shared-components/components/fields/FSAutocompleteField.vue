@@ -18,7 +18,7 @@
       <FSToggleSet
         v-if="$props.toggleSet"
         variant="slide"
-        :values="$props.toggleSetItems"
+        :values="$props.items"
         :multiple="$props.multiple"
         :rules="$props.rules"
         :modelValue="$props.modelValue"
@@ -27,10 +27,11 @@
       >
         <template
           v-for="(_, name) in toggleSetSlots"
-          v-slot:[name]
+          v-slot:[name]="slotData"
         >
           <slot
             :name="`toggle-set-${name}`"
+            v-bind="slotData"
           />
         </template>
       </FSToggleSet>
@@ -68,13 +69,15 @@
           >
             <FSRow
               align="center-left"
+              :wrap="false"
             >
               <FSCheckbox
                 v-if="$props.multiple"
-                :modelValue="$props.modelValue?.includes(item.raw.id)"
+                :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
+                @click="test(props, item)"
               />
               <FSSpan>
-                {{ item.raw.label }}
+                {{ item.raw[$props.itemTitle] }}
               </FSSpan>
             </FSRow>
           </v-list-item>
@@ -237,11 +240,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    },
-    toggleSetItems: {
-      type: Array as PropType<any[]>,
-      required: false,
-      default: () => []
     }
   },
   emits: ["update:modelValue", "update:search"],
@@ -314,6 +312,10 @@ export default defineComponent({
       emit('update:modelValue', value);
     };
 
+    const test = (props: any, item: any) => {
+      console.log(props, item);
+    };
+
     watch(innerSearch, () => {
       emit("update:search", innerSearch.value);
     });
@@ -330,7 +332,8 @@ export default defineComponent({
       classes,
       slots,
       style,
-      onUpdate
+      onUpdate,
+      test
     };
   }
 });

@@ -1,7 +1,6 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :toggleSetItems="timeZones"
     :multiple="$props.multiple"
     :loading="loading"
     :items="timeZones"
@@ -36,7 +35,7 @@
         >
           <FSCheckbox
             v-if="$props.multiple"
-            :modelValue="isSelected(item.value)"
+            :modelValue="$props.modelValue?.includes(item.value)"
           />
           <FSChip
             :label="item.raw.offset"
@@ -46,6 +45,25 @@
           </FSSpan>
         </FSRow>
       </v-list-item>
+    </template>
+    <template
+      #toggle-set-item="props"
+    >
+      <FSButton
+        :variant="props.getVariant(props.item)"
+        :color="props.getColor(props.item)"
+        :class="props.getClass(props.item)"
+        :label="props.item.id"
+        @click="props.toggle(props.item)"
+      >
+        <template
+          #prepend
+        >
+          <FSChip
+            :label="props.item.offset.split(':')[0]"
+          />
+        </template>
+      </FSButton>
     </template>
   </FSAutocompleteField>
 </template>
@@ -59,6 +77,7 @@ import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
 import FSCheckbox from "../FSCheckbox.vue"
+import FSButton from "../FSButton.vue";
 import FSChip from "../FSChip.vue";
 import FSSpan from "../FSSpan.vue";
 import FSRow from "../FSRow.vue";
@@ -68,6 +87,7 @@ export default defineComponent({
   components: {
     FSAutocompleteField,
     FSCheckbox,
+    FSButton,
     FSChip,
     FSSpan,
     FSRow

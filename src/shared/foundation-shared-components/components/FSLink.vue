@@ -13,10 +13,12 @@
     :to="$props.to"
     :class="classes"
     :style="style"
-    v-slot="props"
     v-bind="$attrs"
+    v-slot="props"
   >
-    <slot v-bind="props">
+    <slot
+      v-bind="props"
+    >
       {{ $props.label }}
     </slot>
   </router-link>

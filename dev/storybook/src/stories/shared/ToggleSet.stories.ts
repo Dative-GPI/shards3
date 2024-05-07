@@ -96,9 +96,14 @@ export const Variations: Story = {
         :values="args.values3"
         v-model="args.value3"
       >
-        <template #item>
+        <template #item="props">
           <FSButton
             appendIcon="mdi-ski-water"
+            :variant="props.getVariant(props.item)"
+            :color="props.getColor(props.item)"
+            :class="props.getClass(props.item)"
+            :label="props.item.label"
+            @click="props.toggle(props.item)"
           />
         </template>
       </FSToggleSet>

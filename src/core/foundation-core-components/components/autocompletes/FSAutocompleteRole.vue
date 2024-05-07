@@ -2,7 +2,6 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
-    :toggleSetItems="roles"
     :loading="loading"
     :items="roles"
     :modelValue="$props.modelValue"
@@ -35,10 +34,12 @@
       >
         <FSRow
           align="center-left"
+          :wrap="false"
         >
           <FSCheckbox
             v-if="$props.multiple"
             :modelValue="$props.modelValue?.includes(item.value)"
+            @click="props.onClick"
           />
           <FSIcon
             v-if="item.raw.icon"

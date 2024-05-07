@@ -24,17 +24,8 @@ export const useSlots = () => {
         return null;
     };
 
-    const getFirstChild = (name: string | undefined = undefined): any => {
-        const children = getChildren(name);
-        if (children != null) {
-            return children[0];
-        }
-        return null;
-    };
-
     return {
         slots: { ...useVueSlots() } as { [label: string]: Slot<any> },
-        getChildren,
-        getFirstChild
+        getChildren
     };
 }
