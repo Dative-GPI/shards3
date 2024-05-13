@@ -1,6 +1,6 @@
 <template>
   <FSCard
-    padding="2px"
+    padding="2px 2px 8px 2px"
     :elevation="true"
     :border="false"
   >
@@ -41,7 +41,7 @@
       </FSCol>
       <FSRow
         v-if="deviceTimestamp"
-        padding="0px 24px 6px 24px"
+        padding="0px 24px"
         width="hug"
       >
         <FSSpan

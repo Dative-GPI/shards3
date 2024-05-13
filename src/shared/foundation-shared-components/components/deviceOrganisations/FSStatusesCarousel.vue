@@ -1,43 +1,41 @@
 <template>
-  <FSCarousel
-    :height="['26px', '20px']"
+  <FSRow
+    :wrap="false"
   >
-    <template #prev="{ props }">
-      <FSButton
-        v-if="$props.modelStatuses.length > 1"
-        icon="mdi-chevron-left"
-        class="fs-stopclick"
-        variant="icon"
-        :color="ColorEnum.Dark"
-        @click.prevent.stop="props.onClick"
-      />
-    </template>
-    <template #next="{ props }">
-      <FSButton
-        v-if="$props.modelStatuses.length > 1"
-        icon="mdi-chevron-right"
-        class="fs-stopclick"
-        variant="icon"
-        :color="ColorEnum.Dark"
-        @click.prevent.stop="props.onClick"
-      />
-    </template>
-    <FSRow
-      v-for="(modelStatus, index) in $props.modelStatuses"
-      align="center-center"
-      width="hug"
-      gap="4px"
-      :key="index"
-      :wrap="false"
+    <FSButton
+      v-if="$props.modelStatuses.length > 1"
+      icon="mdi-chevron-left"
+      class="fs-stopclick"
+      variant="icon"
+      @click.prevent.stop="previous"
+    />
+    <FSWindow
+      width="100%"
+      :modelValue="tab"
     >
-      <FSStatus
-        v-for="(statusGroup, index) in deviceStatus(modelStatus)"
-        :modelStatus="modelStatus"
-        :statusGroup="statusGroup"
+      <FSRow
+        v-for="(modelStatus, index) in $props.modelStatuses"
+        align="center-center"
+        gap="4px"
+        :wrap="false"
         :key="index"
-      />
-    </FSRow>
-  </FSCarousel>
+      >
+        <FSStatus
+          v-for="(statusGroup, index) in deviceStatus(modelStatus)"
+          :modelStatus="modelStatus"
+          :statusGroup="statusGroup"
+          :key="index"
+        />
+      </FSRow>
+    </FSWindow>
+    <FSButton
+      v-if="$props.modelStatuses.length > 1"
+      icon="mdi-chevron-right"
+      class="fs-stopclick"
+      variant="icon"
+      @click.prevent.stop="next"
+    />
+  </FSRow>
 </template>
 
 <script lang="ts">
@@ -46,16 +44,16 @@ import { defineComponent, PropType, ref } from "vue";
 import { FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSCarousel from "../FSCarousel.vue";
 import FSButton from "../FSButton.vue";
+import FSWindow from "../FSWindow.vue";
 import FSStatus from "./FSStatus.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSStatusesCarousel",
   components: {
-    FSCarousel,
     FSButton,
+    FSWindow,
     FSStatus,
     FSRow
   },
@@ -71,6 +69,24 @@ export default defineComponent({
   },
   setup(props) {
     const tab = ref(0);
+
+    const previous = () => {
+      if (tab.value > 0) {
+        tab.value--;
+      }
+      else {
+        tab.value = props.modelStatuses.length - 1;
+      }
+    };
+
+    const next = () => {
+      if (tab.value < props.modelStatuses.length - 1) {
+        tab.value++;
+      }
+      else {
+        tab.value = 0;
+      }
+    };
 
     const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup[] => {
       const deviceStatus = props.deviceStatuses
@@ -91,7 +107,9 @@ export default defineComponent({
     return {
       ColorEnum,
       tab,
-      deviceStatus
+      deviceStatus,
+      previous,
+      next
     };
   }
 });

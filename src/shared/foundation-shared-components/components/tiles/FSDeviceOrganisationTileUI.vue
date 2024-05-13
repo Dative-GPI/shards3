@@ -59,7 +59,9 @@
           :width="imageSize"
         />
       </FSRow>
-      <template v-if="carouselModelStatuses.length">
+      <template
+        v-if="carouselModelStatuses.length"
+      >
         <FSDivider />
         <FSStatusesCarousel
           :modelStatuses="carouselModelStatuses"

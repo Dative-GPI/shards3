@@ -50,41 +50,58 @@
     </FSRow>
     <FSRow
       v-if="showFiltersRow"
+      gap="16px"
     >
-      <template
-        v-if="showFilters"
+      <FSCol
+        v-if="showFilters && hasVisibleFilters"
+        width="hug"
       >
-        <FSFilterButton
-          v-for="(header, index) in filterableHeaders"
-          :key="index"
-          :header="header"
-          :filters="filters[header.value]"
-          @update:filter="(value) => toggleFilter(header.value, value)"
+        <FSRow
+          gap="8px"
         >
-          <template
-            #default="{ filter }"
+          <FSFilterButton
+            v-for="(header, index) in filterableHeaders"
+            :key="index"
+            :header="header"
+            :filters="filters[header.value]"
+            @update:filter="(value) => toggleFilter(header.value, value)"
           >
-            <slot
-              :name="filterSlot(header)"
-              v-bind="{ filter }"
-            />
-          </template>
-        </FSFilterButton>
-        <FSChip
-          v-if="resetable"
-          variant="standard"
-          :label="$tr('ui.data-table.reset-filters', 'Reset')"
-          :color="ColorEnum.Error"
-          :editable="true"
-          @click="resetFilter"
-        />
-      </template>
-      <FSHiddenButton
-        v-if="innerMode === 'table' && hiddenHeaders.length > 0"
-        :headers="hiddenHeaders"
-        :color="$props.color"
-        @update:show="(value) => updateHeader(value, 'hidden', false)"
+            <template
+              #default="{ filter }"
+            >
+              <slot
+                :name="filterSlot(header)"
+                v-bind="{ filter }"
+              />
+            </template>
+          </FSFilterButton>
+        </FSRow>
+      </FSCol>
+      <FSDivider
+        v-if="showFiltersDivider"
+        :vertical="true"
       />
+      <FSCol>
+        <FSRow
+          gap="8px"
+        >
+          <FSChip
+            v-if="showFilters && resetable"
+            variant="standard"
+            :label="$tr('ui.data-table.reset-filters', 'Reset')"
+            :height="[30, 24]"
+            :color="ColorEnum.Error"
+            :editable="true"
+            @click="resetFilter"
+          />
+          <FSHiddenButton
+            v-if="innerMode === 'table' && hiddenHeaders.length > 0"
+            :headers="hiddenHeaders"
+            :color="$props.color"
+            @update:show="(value) => updateHeader(value, 'hidden', false)"
+          />
+        </FSRow>
+      </FSCol>
     </FSRow>
     <template
       v-if="innerMode === 'table'"
@@ -279,6 +296,7 @@
                   variant="icon"
                   :color="sortColor(header, props)"
                   :icon="sortIcon(header, props)"
+                  @click="toggleSort(header)"
                 />
               </slot>
             </FSRow>
@@ -639,6 +657,7 @@ import FSOptionGroup from "../FSOptionGroup.vue";
 import FSToggleSet from "../FSToggleSet.vue";
 import FSDraggable from "./FSDraggable.vue";
 import FSCheckbox from "../FSCheckbox.vue";
+import FSDivider from "../FSDivider.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSIcon from "../FSIcon.vue";
@@ -660,6 +679,7 @@ export default defineComponent({
     FSDraggable,
     FSToggleSet,
     FSCheckbox,
+    FSDivider,
     FSCard,
     FSChip,
     FSIcon,
@@ -713,7 +733,7 @@ export default defineComponent({
       default: null
     },
     sortBy: {
-      type: Object as PropType<FSDataTableOrder>,
+      type: Object as PropType<FSDataTableOrder | null>,
       required: false,
       default: null
     },
@@ -835,6 +855,14 @@ export default defineComponent({
 
     const showFiltersRow = computed((): boolean => {
       return (props.showSearch && showFilters.value && filterableHeaders.value.length > 0) || hiddenHeaders.value.length > 0;
+    });
+
+    const hasVisibleFilters = computed((): boolean => {
+      return filterableHeaders.value.some((header) => !hiddenHeaders.value.includes(header));
+    });
+
+    const showFiltersDivider = computed((): boolean => {
+      return resetable.value || (hiddenHeaders.value.length > 0 && hasVisibleFilters.value);
     });
 
     const hasToolbar = computed((): boolean => {
@@ -1053,7 +1081,7 @@ export default defineComponent({
     const toggleFilter = (header: string, value: FSDataTableFilter[]): void => {
       filters.value[header] = value;
       emit("update:filters", filters.value);
-      // If a filter is hidden, the reset button will be shown
+      // If a filter is hidden, the associated filter is reseted
       resetable.value = Object.keys(filters.value)
         .some((key) => filters.value[key].some((filter) => filter.hidden));
     };
@@ -1077,6 +1105,12 @@ export default defineComponent({
         switch (property) {
           case "hidden":
             innerColumn.hidden = value as boolean;
+            if (value) {
+              filters.value[header.value!] = filters.value[header.value!].map((filter) => ({ ...filter, hidden: false }));
+              resetable.value = Object.keys(filters.value)
+                .some((key) => filters.value[key].some((filter) => filter.hidden));
+              emit("update:filters", filters.value);
+            }
             break;
           case "index":
             switch (value) {
@@ -1176,6 +1210,18 @@ export default defineComponent({
       }
       return "mdi-sort-variant-off";
     };
+
+    const toggleSort = (header: FSDataTableColumn) => {
+      if (header.value == null) {return}
+
+      if (innerSortBy.value?.key !== header.value) {
+        innerSortBy.value = { key: header.value, order: 'asc' };
+      } else if (innerSortBy.value.order === 'asc') {
+        innerSortBy.value.order = 'desc' ;
+      } else {
+        innerSortBy.value = null;
+      }
+    }
 
     const observeIntersection = (): void => {
       switch (innerMode.value) {
@@ -1389,6 +1435,8 @@ export default defineComponent({
       pageOptions,
       showFilters,
       showFiltersRow,
+      showFiltersDivider,
+      hasVisibleFilters,
       extraHeaders,
       innerHeaders,
       hiddenHeaders,
@@ -1409,6 +1457,7 @@ export default defineComponent({
       toggleSelectAll,
       toggleSelectGroup,
       toggleSelect,
+      toggleSort,
       updateHeader,
       toggleFilter,
       resetFilter,

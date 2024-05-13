@@ -300,7 +300,7 @@ export const Variations: Story = {
           deviceConnectivity: connectivities[0],
           deviceWorstAlert: alerts[0],
           deviceAlerts: alerts,
-          modelStatuses: modelStatuses,
+          modelStatuses: [modelStatuses[0], modelStatuses[1], modelStatuses[2], modelStatuses[3], modelStatuses[4]],
           deviceStatuses: []
         }, {
           id: "7",
@@ -452,7 +452,7 @@ export const Imageless: Story = {
         deviceConnectivity: connectivities[0],
         deviceWorstAlert: alerts[0],
         deviceAlerts: alerts,
-        modelStatuses: modelStatuses,
+        modelStatuses: [modelStatuses[0], modelStatuses[1], modelStatuses[2], modelStatuses[3], modelStatuses[4]],
         deviceStatuses: []
       }, {
         id: "7",

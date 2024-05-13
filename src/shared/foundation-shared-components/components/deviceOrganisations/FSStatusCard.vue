@@ -1,8 +1,8 @@
 <template>
   <FSCard
+    padding="2px 2px 8px 2px"
     :elevation="true"
     :border="false"
-    padding="2px"
   >
     <FSCol
       align="center-center"
@@ -28,7 +28,7 @@
           <FSChip
             :prependIcon="$props.statusGroup.icon"
             :color="$props.statusGroup.color"
-            :label="$props.statusGroup.label"
+            :label="statusLabel"
           />
           <FSRow
             v-if="$props.statusGroup.value"
@@ -54,7 +54,7 @@
       </FSCol>
       <FSRow
         v-if="deviceTimestamp"
-        padding="0px 24px 6px 24px"
+        padding="0px 24px"
         width="hug"
       >
         <FSSpan
@@ -106,6 +106,10 @@ export default defineComponent({
   setup(props) {
     const { epochToLongTimeFormat } = useAppTimeZone();
 
+    const statusLabel = computed((): string => {
+      return props.statusGroup.label || props.modelStatus.label;
+    });
+
     const deviceTimestamp = computed((): string => {
       if (props.statusGroup.sourceTimestamp) {
         return epochToLongTimeFormat(props.statusGroup.sourceTimestamp);
@@ -114,7 +118,8 @@ export default defineComponent({
     });
 
     return {
-      deviceTimestamp
+      deviceTimestamp,
+      statusLabel
     };
   }
 });
