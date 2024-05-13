@@ -8,8 +8,7 @@
     flex-direction: column;
     position: relative;
     display: flex;
-
-    overflow-y: auto;
+    
     mask:
         linear-gradient(to top, transparent 0, var(--fs-fade-out-mask-color)) 0 (0 / calc(100% - 8px)) var(--fs-fade-out-top-mask-height), 
         linear-gradient(to bottom, transparent 0, var(--fs-fade-out-mask-color)) 0 (100% / calc(100% - 8px)) var(--fs-fade-out-bottom-mask-height),

@@ -20,7 +20,7 @@ export default defineComponent({
     bottomColor: {
       type: [Array, String] as PropType<ColorBase | ColorBase[]>,
       required: false,
-      default: [ColorEnum.Light, ColorEnum.Primary]
+      default: () => [ColorEnum.Light, ColorEnum.Primary]
     },
     icon: {
       type: String,

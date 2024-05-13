@@ -1,7 +1,12 @@
 <template>
   <div
-    v-if="isEmpty"
-    class="fs-divider"
+    v-if="isEmpty && !vertical"
+    class="fs-divider-horizontal"
+    :style="style"
+  />
+  <div
+    v-else-if="isEmpty && vertical"
+    class="fs-divider-vertical"
     :style="style"
   />
   <FSRow
@@ -48,7 +53,7 @@ export default defineComponent({
       required: false,
       default: null
     },
-    width: {
+    size: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "100%"
@@ -62,6 +67,11 @@ export default defineComponent({
       type: String as PropType<"base" | "light" | "dark">,
       required: false,
       default: "dark"
+    },
+    vertical: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false
     },
     color: {
       type: String as PropType<ColorBase>,
@@ -78,15 +88,15 @@ export default defineComponent({
     const style = computed((): { [key: string] : string | undefined } => {
       switch (props.variant) {
         case "base": return {
-          "--fs-divider-width": sizeToVar(props.width),
+          "--fs-divider-size" : sizeToVar(props.size),
           "--fs-divider-color": colors.value.base
         };
         case "light": return {
-          "--fs-divider-width": sizeToVar(props.width),
+          "--fs-divider-size" : sizeToVar(props.size),
           "--fs-divider-color": colors.value.light
         };
         case "dark": return {
-          "--fs-divider-width": sizeToVar(props.width),
+          "--fs-divider-size" : sizeToVar(props.size),
           "--fs-divider-color": colors.value.dark
         };
       }
