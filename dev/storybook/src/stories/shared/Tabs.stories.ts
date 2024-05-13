@@ -36,6 +36,28 @@ export const Variations: Story = {
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 30px;">
+        <FSText> Tabs in FadeOut </FSText>
+        <FSFadeOut height="200px">
+          <FSCol>
+            <FSTabs v-model:tab="args.tab4" color="success">
+              <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
+              <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
+            </FSTabs>
+            <FSWindow :modelValue="args.tab4" width="100%">
+              <FSCol :value="0">
+                <FSText v-for="(arg, index) in 50">
+                  Line {{ index }}
+                </FSText>
+              </FSCol>
+              <FSCol :value="1">
+                <FSText v-for="(arg, index) in 5">
+                  Line {{ index }}
+                </FSText>
+              </FSCol>
+            </FSWindow>
+          </FSCol>
+        </FSFadeOut>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Fade outs in tabs </FSText>
         <FSTabs v-model:tab="args.tab4" color="success">
           <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
@@ -58,6 +80,7 @@ export const Variations: Story = {
           </FSFadeOut>
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        
         <FSText> Primary color, labels only </FSText>
         <FSTabs v-model:tab="args.tab1">
           <FSTab label="Tab 1" :value="0" />
