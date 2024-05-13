@@ -2,6 +2,7 @@
   <FSCard
     :elevation="true"
     :border="false"
+    padding="12px 6px 6px 6px"
   >
     <FSCol
       align="center-center"
@@ -16,9 +17,7 @@
           :prependIcon="statusIcon"
           :color="criticityColor"
         />
-        <FSRow
-          width="hug"
-        >
+        <FSRow width="hug">
           <FSText>
             {{ statusLabel }}
           </FSText>
@@ -30,6 +29,7 @@
       >
         <FSSpan
           font="text-overline"
+          class="fs-worst-alert-card-timestamp-span"
         >
           {{ deviceTimestamp }}
         </FSSpan>
@@ -39,13 +39,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
-import { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { FSDeviceAlert, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";

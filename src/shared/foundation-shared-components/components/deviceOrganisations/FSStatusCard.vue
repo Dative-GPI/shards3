@@ -2,6 +2,7 @@
   <FSCard
     :elevation="true"
     :border="false"
+    padding="12px 6px 6px 6px"
   >
     <FSCol
       align="center-center"
@@ -42,6 +43,7 @@
       >
         <FSSpan
           font="text-overline"
+          class="fs-status-card-timestamp-span"
         >
           {{ deviceTimestamp }}
         </FSSpan>
