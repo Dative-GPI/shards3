@@ -1,42 +1,40 @@
 <template>
-  <v-menu
-    :closeOnContentClick="false"
-    v-model="expanded"
-  >
-    <template
-      #activator="{ props }"
-    >
-      <FSChip
-        prependIcon="mdi-eye-off-outline"
+  <v-menu :closeOnContentClick="false"
+    v-model="expanded">
+    <template #activator="{ props }">
+      <FSChip prependIcon="mdi-eye-off-outline"
+        :height="[30, 24]"
         :color="ColorEnum.Light"
         :editable="true"
         :label="$tr('ui.data-table.hidden-columns', '{0} hidden column(s)', $props.headers.length.toString())"
-        v-bind="props"
-      />
+        v-bind="props" />
     </template>
-    <FSCard
-      class="fs-hidden-button-menu"
+    <FSCard class="fs-hidden-button-menu"
       :elevation="true"
-      :border="false"
-    >
-      <FSCol
-        gap="16px"
-        padding="6px 16px"
-      >
-        <FSSpan
-          font="text-overline"
-        >
-          {{ $tr("ui.data-table.show-columns", "Show columns") }}
-        </FSSpan>
-        <FSChip
-          v-for="(header, index) in $props.headers"
-          class="fs-hidden-button-chip"
-          :color="$props.color"
-          :label="header.text"
-          :editable="true"
-          :key="index"
-          @click="$emit('update:show', header)"
-        />
+      :border="false">
+      <FSCol gap="12px"
+        padding="16px 0px 24px 16px">
+        <FSCol gap="12px"
+          padding="0 16px 0 0">
+          <FSSpan font="text-overline">
+            {{ $tr("ui.data-table.show-columns", "Show columns") }}
+          </FSSpan>
+        </FSCol>
+        <FSFadeOut padding="0 8px 0 0"
+          height="360px">
+          <FSCol gap="6px">
+            <FSChip v-for="(header, index) in $props.headers"
+              class="fs-hidden-button-chip"
+              :height="[30, 24]"
+              :key="index"
+              :editable="true"
+              :label="header.text"
+              :color="$props.color"
+              variant="full"
+              @click="$emit('update:show', header)">
+            </FSChip>
+          </FSCol>
+        </FSFadeOut>
       </FSCol>
     </FSCard>
   </v-menu>

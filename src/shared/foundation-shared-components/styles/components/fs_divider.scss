@@ -1,6 +1,12 @@
-.fs-divider {
+.fs-divider-horizontal {
     width: var(--fs-divider-width);
     border-bottom: 1.3px solid var(--fs-divider-color);
+    border-radius: 3px;
+}
+
+.fs-divider-vertical {
+    height: var(--fs-divider-width);
+    border-right: 1.3px solid var(--fs-divider-color);
     border-radius: 3px;
 }
 

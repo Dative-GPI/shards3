@@ -1,7 +1,12 @@
 <template>
   <div
-    v-if="isEmpty"
-    class="fs-divider"
+    v-if="isEmpty && !vertical"
+    class="fs-divider-horizontal"
+    :style="style"
+  />
+  <div
+    v-else-if="isEmpty && vertical"
+    class="fs-divider-vertical"
     :style="style"
   />
   <FSRow
@@ -62,6 +67,11 @@ export default defineComponent({
       type: String as PropType<"base" | "light" | "dark">,
       required: false,
       default: "dark"
+    },
+    vertical: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false
     },
     color: {
       type: String as PropType<ColorBase>,

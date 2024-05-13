@@ -1,57 +1,43 @@
 <template>
-  <v-menu
-    v-model="expanded"
-  >
-    <template
-      #activator="{ props }"
-    >
-      <FSButton
-        class="fs-header-button"
+  <v-menu v-model="expanded">
+    <template #activator="{ props }">
+      <FSButton class="fs-header-button"
         icon="mdi-dots-vertical"
         variant="icon"
         :color="ColorEnum.Light"
-        v-bind="props"
-      />
+        v-bind="props" />
     </template>
-    <FSCard
-      :elevation="true"
-      :border="false"
-    >
-      <FSCol
-        gap="16px"
-        padding="16px"
-      >
-        <FSSpan
-          font="text-overline"
-        >
+    <FSCard :elevation="true"
+      :border="false">
+      <FSCol gap="16px"
+        padding="16px">
+        <FSSpan font="text-overline">
           {{ $tr("ui.data-table.column-options", "Options for this column") }}
         </FSSpan>
-        <FSCol
-          padding="16px"
-        >
-          <FSButton
-            variant="icon"
-            icon="mdi-eye-off-outline"
+        <FSCol padding="6px">
+          <FSChip prependIcon="mdi-eye-off-outline"
+            class="fs-header-button-chip"
+            variant="borderless"
             :label="$tr('ui.data-table.hide-column', 'Hide column')"
-            :color="ColorEnum.Dark"
-            @click="$emit('update:hide')"
-          />
-          <FSButton
-            v-if="!$props.first"
-            variant="icon"
-            icon="mdi-chevron-left"
+            :height="[30, 24]"
+            :editable="true"
+            @click="$emit('update:hide')" />
+          <FSChip v-if="!$props.first"
+            class="fs-header-button-chip"
+            variant="borderless"
+            prependIcon="mdi-chevron-left"
             :label="$tr('ui.data-table.move-left', 'Move to the left')"
-            :color="ColorEnum.Dark"
-            @click="$emit('update:left')"
-          />
-          <FSButton
-            v-if="!$props.last"
-            variant="icon"
-            icon="mdi-chevron-right"
+            :height="[30, 24]"
+            :editable="true"
+            @click="$emit('update:left')" />
+          <FSChip v-if="!$props.last"
+            class="fs-header-button-chip"
+            variant="borderless"
+            prependIcon="mdi-chevron-right"
             :label="$tr('ui.data-table.move-right', 'Move to the right')"
-            :color="ColorEnum.Dark"
-            @click="$emit('update:right')"
-          />
+            :height="[30, 24]"
+            :editable="true"
+            @click="$emit('update:right')" />
         </FSCol>
       </FSCol>
     </FSCard>
@@ -66,6 +52,7 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSSpan from "../FSSpan.vue";
+import FSChip from "../FSChip.vue";
 import FSCol from "../FSCol.vue";
 
 export default defineComponent({
@@ -73,6 +60,7 @@ export default defineComponent({
   components: {
     FSButton,
     FSCard,
+    FSChip,
     FSSpan,
     FSCol
   },
