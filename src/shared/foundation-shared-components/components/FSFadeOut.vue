@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, PropType, ref, watch } from "vue";
 
 import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -51,6 +51,8 @@ export default defineComponent({
     const bottomMaskHeight = ref("0px");
     const topMaskHeight = ref("0px");
     const lastScroll = ref(0);
+
+    const resizeObserver = ref<ResizeObserver | null>(null);
 
     const style = computed((): { [key: string] : string | undefined } => {
       return {
@@ -99,6 +101,21 @@ export default defineComponent({
 
     onMounted((): void => {
       debounceMasks();
+
+      resizeObserver.value = new ResizeObserver(entries => {
+        entries.forEach(() => {
+          debounceMasks();
+        });
+      });
+      if (document.querySelector(".fs-fade-out")) {
+        resizeObserver.value.observe(document.querySelector(".fs-fade-out")!);
+      }
+    });
+
+    onUnmounted((): void => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
+      }
     });
 
     watch([() => windowWidth.value, () => windowHeight.value], debounceMasks);

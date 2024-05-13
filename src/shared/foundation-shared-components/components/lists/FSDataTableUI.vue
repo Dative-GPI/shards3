@@ -1212,13 +1212,16 @@ export default defineComponent({
     };
 
     const toggleSort = (header: FSDataTableColumn) => {
-      if (header.value == null) {return}
-
+      if (header.value == null) {
+        return;
+      }
       if (innerSortBy.value?.key !== header.value) {
         innerSortBy.value = { key: header.value, order: 'asc' };
-      } else if (innerSortBy.value.order === 'asc') {
+      }
+      else if (innerSortBy.value.order === 'asc') {
         innerSortBy.value.order = 'desc' ;
-      } else {
+      }
+      else {
         innerSortBy.value = null;
       }
     }
