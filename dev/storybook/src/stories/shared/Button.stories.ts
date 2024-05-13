@@ -106,6 +106,31 @@ export const Variations: Story = {
   })
 }
 
+export const ColorVariations: Story = {
+  render: () => ({
+    components: { FSButton, FSIcon, FSSpan },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px;">
+        <FSButton color="light" label="Light" icon="mdi-pencil" />
+        <FSButton color="dark" label="Dark" icon="mdi-pencil" />
+        <FSButton color="primary" label="Primary" icon="mdi-pencil" />
+        <FSButton color="warning" label="Warning" icon="mdi-pencil" />
+        <FSButton color="error" label="Error" icon="mdi-pencil" />
+        <FSButton color="success" label="Success" icon="mdi-pencil" />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButton variant="full" color="light" label="Light" icon="mdi-pencil" />
+        <FSButton variant="full" color="dark" label="Dark" icon="mdi-pencil" />
+        <FSButton variant="full" color="primary" label="Primary" icon="mdi-pencil" />
+        <FSButton variant="full" color="warning" label="Warning" icon="mdi-pencil" />
+        <FSButton variant="full" color="error" label="Error" icon="mdi-pencil" />
+        <FSButton variant="full" color="success" label="Success" icon="mdi-pencil" />
+      </div>
+    </div>`
+  })
+}
+
 import FSClickable from  "@dative-gpi/foundation-shared-components/components/FSClickable.vue";
 import FSText from  "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSRow from  "@dative-gpi/foundation-shared-components/components/FSRow.vue";
