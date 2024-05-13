@@ -1,31 +1,47 @@
 <template>
   <FSCard
+    padding="2px"
     :elevation="true"
     :border="false"
   >
     <FSCol
       align="center-center"
-      padding="6px 24px"
     >
       <FSCol
         align="center-center"
-        gap="12px"
+        gap="0px"
       >
-        <FSChip
-          :color="$props.deviceConnectivity.color"
-          :prependIcon="$props.deviceConnectivity.icon"
-          :label="connectivityLabel"
-        />
         <FSRow
-          width="hug"
+          align="center-right"
         >
-          <FSText>
-            {{ $tr("ui.shared.device-connectivity.last-message", "Last message") }}
-          </FSText>
+          <FSButton
+            icon="mdi-close"
+            variant="icon"
+            @click="$emit('close')"
+          />
         </FSRow>
+        <FSCol
+          align="center-center"
+          padding="0px 24px"
+          gap="12px"
+        >
+          <FSChip
+            :prependIcon="$props.deviceConnectivity.icon"
+            :color="$props.deviceConnectivity.color"
+            :label="connectivityLabel"
+          />
+          <FSRow
+            width="hug"
+          >
+            <FSText>
+              {{ $tr("ui.shared.device-connectivity.last-message", "Last message") }}
+            </FSText>
+          </FSRow>
+        </FSCol>
       </FSCol>
       <FSRow
         v-if="deviceTimestamp"
+        padding="0px 24px 6px 24px"
         width="hug"
       >
         <FSSpan
@@ -43,9 +59,10 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
-import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
 
+import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
@@ -56,6 +73,7 @@ import FSRow from "../FSRow.vue";
 export default defineComponent({
   name: "FSConnectivityCard",
   components: {
+    FSButton,
     FSCard,
     FSChip,
     FSText,
@@ -69,6 +87,7 @@ export default defineComponent({
       required: true
     }
   },
+  emit: ["close"],
   setup(props) {
     const { epochToLongTimeFormat } = useAppTimeZone();
     const { $tr } = useTranslationsProvider();
