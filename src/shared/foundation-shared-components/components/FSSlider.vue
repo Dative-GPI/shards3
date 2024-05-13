@@ -1,7 +1,11 @@
 <template>
   <FSCol>
-    <slot name="label">
-      <FSRow :wrap="false">
+    <slot
+      name="label"
+    >
+      <FSRow
+        :wrap="false"
+      >
         <FSSpan
           v-if="$props.label"
           class="fs-slider-label"
@@ -34,11 +38,19 @@
       @update:modelValue="(value) => $emit('update:modelValue', value)"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
       </template>
     </v-slider>
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="$props.description"
         class="fs-slider-description"
@@ -117,10 +129,10 @@ export default defineComponent({
         };
       }
       return {
-          "--fs-slider-cursor"     : "pointer",
-          "--fs-slider-track-color": colors.value.light,
-          "--fs-slider-thumb-color": colors.value.base,
-          "--fs-slider-color"      : darks.base
+        "--fs-slider-cursor"     : "pointer",
+        "--fs-slider-track-color": colors.value.light,
+        "--fs-slider-thumb-color": colors.value.base,
+        "--fs-slider-color"      : darks.base
       };
     });
 

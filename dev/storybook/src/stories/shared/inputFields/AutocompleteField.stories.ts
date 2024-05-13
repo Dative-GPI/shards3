@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      items: Array.from(Array(5).keys()).map(i => ({
+      items: Array.from(Array(30).keys()).map(i => ({
         id: i.toString(),
         label: `Option ${i + 1}`
       })),

@@ -3,11 +3,9 @@
     class="fs-fade-out"
     ref="fadeOutRef"
     :style="style"
-    @scroll="onScroll"
+    @scroll="debounceMasks"
   >
-    <div class="fs-fade-out-top" />
     <slot />
-    <div class="fs-fade-out-bottom" />
   </div>
 </template>
 
@@ -43,7 +41,7 @@ export default defineComponent({
   },
   emits: ["scroll"],
   setup(props, { emit }) {
-    const { windowWidth } = useBreakpoints();
+    const { windowHeight, windowWidth } = useBreakpoints();
     const { debounce } = useDebounce();
     const { getColors } = useColors();
 
@@ -65,75 +63,50 @@ export default defineComponent({
       };
     });
 
-    const onScroll = ({ target }): void => debounce(() => {
-      const currentTopMaskHeight = target.children[0].clientHeight;
-      const currentBottomMaskHeight = target.children[target.children.length - 1].clientHeight;
-      const contentHeight = target.scrollHeight - currentTopMaskHeight - currentBottomMaskHeight;
-
-      if (target.clientHeight >= contentHeight) {
-        bottomMaskHeight.value = "0px";
-        topMaskHeight.value = "0px";
-        return;
-      }
-      if (target.scrollHeight - target.scrollTop - target.clientHeight < 1) {
-        bottomMaskHeight.value = "0px";
-      }
-      else {
-        bottomMaskHeight.value = sizeToVar(props.maskHeight);
-      }
-      if (target.scrollTop === 0) {
-        topMaskHeight.value = "0px";
-      }
-      else {
-        topMaskHeight.value = sizeToVar(props.maskHeight);
-      }
-
-      const event = {
-        target,
-        onTop: topMaskHeight.value === "0px",
-        onBottom: bottomMaskHeight.value === "0px",
-        goingUp: (currentTopMaskHeight !== 0 && bottomMaskHeight.value !== "0px") && target.scrollTop < lastScroll.value,
-      };
-
-      emit("scroll", event);
-      lastScroll.value = target.scrollTop;
-    }, 25);
-
-    const onResize = (): void => debounce(() => {
+    const handleMasks = () => {
       if (fadeOutRef.value) {
-        const currentTopMaskHeight = (fadeOutRef.value as any).children[0].clientHeight;
-        const currentBottomMaskHeight = (fadeOutRef.value as any).children[(fadeOutRef.value as any).children.length - 1].clientHeight;
-        const contentHeight = (fadeOutRef.value as any).scrollHeight - currentTopMaskHeight - currentBottomMaskHeight;
-
-        if ((fadeOutRef.value as any).clientHeight < contentHeight) {
-          if ((fadeOutRef.value as any).scrollHeight - (fadeOutRef.value as any).scrollTop - (fadeOutRef.value as any).clientHeight > 0) {
-            bottomMaskHeight.value = sizeToVar(props.maskHeight);
-          }
-          if ((fadeOutRef.value as any).scrollTop > 0) {
-            topMaskHeight.value = sizeToVar(props.maskHeight);
-          }
-        }
-        else {
+        if ((fadeOutRef.value as any).clientHeight >= (fadeOutRef.value as any).scrollHeight) {
           bottomMaskHeight.value = "0px";
           topMaskHeight.value = "0px";
+          return;
         }
-      }
-    }, 200);
-
-    onMounted((): void => {
-      if (fadeOutRef.value) {
-        if ((fadeOutRef.value as any).clientHeight < (fadeOutRef.value as any).scrollHeight) {
+        if ((fadeOutRef.value as any).scrollHeight - (fadeOutRef.value as any).scrollTop - (fadeOutRef.value as any).clientHeight < 1) {
+          bottomMaskHeight.value = "0px";
+        }
+        else {
           bottomMaskHeight.value = sizeToVar(props.maskHeight);
         }
+        if ((fadeOutRef.value as any).scrollTop === 0) {
+          topMaskHeight.value = "0px";
+        }
+        else {
+          topMaskHeight.value = sizeToVar(props.maskHeight);
+        }
+
+        const event = {
+          target: fadeOutRef.value,
+          onTop: topMaskHeight.value === "0px",
+          onBottom: bottomMaskHeight.value === "0px",
+          goingUp: (fadeOutRef.value as any).scrollTop < lastScroll.value,
+        };
+
+        emit("scroll", event);
+        lastScroll.value = (fadeOutRef.value as any).scrollTop;
       }
+    };
+
+    const debounceMasks = (): void => debounce(handleMasks, 50);
+
+    onMounted((): void => {
+      debounceMasks();
     });
 
-    watch(() => windowWidth.value, onResize);
+    watch([() => windowWidth.value, () => windowHeight.value], debounceMasks);
 
     return {
       fadeOutRef,
       style,
-      onScroll
+      debounceMasks
     };
   }
 });

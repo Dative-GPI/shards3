@@ -1,7 +1,6 @@
 <template>
   <FSCol
     width="fill"
-    gap="16px"
   >
     <FSRow
       align="center-center"
@@ -66,7 +65,6 @@ import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composabl
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSlider from "./FSSlider.vue";
-import FSText from "./FSText.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
@@ -74,7 +72,6 @@ export default defineComponent({
   name: "FSClock",
   components: {
     FSSlider,
-    FSText,
     FSCol,
     FSRow
   },

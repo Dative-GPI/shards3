@@ -1,33 +1,12 @@
 <template>
   <FSDialog
+    :title="$props.title"
+    :subtitle="$props.subtitle"
     :width="$props.width"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
-    <template
-      #header
-    >
-      <slot
-        name="header"
-      >
-        <FSCol
-          v-if="$props.title"
-          padding="0 16px 0 0"
-        >
-          <FSSpan
-            font="text-h2"
-          >
-            {{ $props.title }}
-          </FSSpan>
-          <FSSpan
-            v-if="$props.subtitle"
-          >
-            {{ $props.subtitle }}
-          </FSSpan>
-        </FSCol>
-      </slot>
-    </template>
     <template
       #body
     >
@@ -203,11 +182,11 @@ export default defineComponent({
     const valid = ref(false);
 
     const height = computed(() => {
-      const other = 24 + 24                                                      // Paddings
-                  + (props.title ? isMobileSized.value ? 24 : 32 : 0)            // Title
-                  + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
-                  + (isMobileSized.value ? 36 : 40)                              // Footer
-                  + 64;                                                          // Debug mask
+      const other = 24 + 24                                            // Paddings
+        + (props.title ? isMobileSized.value ? 24 : 32 : 0)            // Title
+        + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
+        + (isMobileSized.value ? 36 : 40)                              // Footer
+        + 64;                                                          // Debug mask
       return `calc(90vh - ${other}px)`;
     });
 

@@ -5,7 +5,6 @@ import FSWrapGroup from "@dative-gpi/foundation-shared-components/components/FSW
 import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSColor from "@dative-gpi/foundation-shared-components/components/FSColor.vue";
-import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";

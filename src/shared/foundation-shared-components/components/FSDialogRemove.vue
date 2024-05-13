@@ -1,8 +1,8 @@
 <template>
   <FSDialogSubmit
+    :title="title"
     :rightButtonLabel="$tr('ui.button.remove', 'Remove')"
     :rightButtonColor="ColorEnum.Error"
-    :title="title"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -42,6 +42,7 @@
       v-if="$props.removing"
     >
       <FSRow
+        padding="0 16px 0 0"
         align="center-right"
         :height="footerHeight"
       >

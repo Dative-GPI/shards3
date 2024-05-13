@@ -218,7 +218,7 @@
                     width="hug"
                   >
                     <FSCheckbox
-                      v-if="showSelect"
+                      v-if="$props.showSelect"
                       :modelValue="props.item.items.every((item) => innerValue.includes(item.key))"
                       :indeterminate="innerValue.some((id) => props.item.items.some((item) => item.key === id)) && !props.item.items.every((item) => innerValue.includes(item.key))"
                       @update:modelValue="toggleSelectGroup(props.item)"

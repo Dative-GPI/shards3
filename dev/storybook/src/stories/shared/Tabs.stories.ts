@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
 import FSWindow from "@dative-gpi/foundation-shared-components/components/FSWindow.vue";
 import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSTabs from "@dative-gpi/foundation-shared-components/components/FSTabs.vue";
@@ -28,13 +29,35 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSTabs, FSTab, FSText, FSWindow, FSCol },
+    components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSFadeOut },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 30px;">
+        <FSText> Fade outs in tabs </FSText>
+        <FSTabs v-model:tab="args.tab4" color="success">
+          <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
+          <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
+        </FSTabs>
+        <FSWindow v-model="args.tab4" width="100%">
+          <FSFadeOut :value="0" height="200px">
+            <FSCol>
+              <FSText v-for="(arg, index) in 50">
+                Line {{ index }}
+              </FSText>
+            </FSCol>
+          </FSFadeOut>
+          <FSFadeOut :value="1" height="200px">
+            <FSCol>
+              <FSText v-for="(arg, index) in 5">
+                Line {{ index }}
+              </FSText>
+            </FSCol>
+          </FSFadeOut>
+        </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Primary color, labels only </FSText>
         <FSTabs v-model:tab="args.tab1">
           <FSTab label="Tab 1" :value="0" />
