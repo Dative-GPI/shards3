@@ -74,7 +74,7 @@
               <FSCheckbox
                 v-if="$props.multiple"
                 :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
-                @click="test(props, item)"
+                @click="props.onClick"
               />
               <FSSpan>
                 {{ item.raw[$props.itemTitle] }}
@@ -312,10 +312,6 @@ export default defineComponent({
       emit('update:modelValue', value);
     };
 
-    const test = (props: any, item: any) => {
-      console.log(props, item);
-    };
-
     watch(innerSearch, () => {
       emit("update:search", innerSearch.value);
     });
@@ -332,8 +328,7 @@ export default defineComponent({
       classes,
       slots,
       style,
-      onUpdate,
-      test
+      onUpdate
     };
   }
 });

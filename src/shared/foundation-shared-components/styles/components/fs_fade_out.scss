@@ -1,33 +1,19 @@
 .fs-fade-out {
     @extend .fs-hide-y-scrollbar;
     
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     max-height: var(--fs-fade-out-height);
-
     padding: var(--fs-fade-out-padding);
     width: var(--fs-fade-out-width);
     flex-direction: column;
     position: relative;
     display: flex;
-}
-// TODO
-.fs-fade-out-top {
-    pointer-events: none;
-    position: sticky;
-    z-index: 10;
-    min-height: var(--fs-fade-out-top-mask-height);
-    width: 100%;
-    top: 0;
-    transition: all 0.14s cubic-bezier(0.4, 0, 0.2, 1);
-    background: linear-gradient(to top, transparent 0, var(--fs-fade-out-mask-color) var(--fs-fade-out-top-mask-height));
-}
 
-.fs-fade-out-bottom {
-    pointer-events: none;
-    position: sticky;
-    z-index: 10;
-    min-height: var(--fs-fade-out-bottom-mask-height);
-    width: 100%;
-    bottom: 0;
-    transition: all 0.14s cubic-bezier(0.4, 0, 0.2, 1);
-    background: linear-gradient(to bottom, transparent 0, var(--fs-fade-out-mask-color) var(--fs-fade-out-bottom-mask-height));
+    overflow-y: auto;
+    mask:
+        linear-gradient(to top, transparent 0, var(--fs-fade-out-mask-color)) 0 (0 / calc(100% - 8px)) var(--fs-fade-out-top-mask-height), 
+        linear-gradient(to bottom, transparent 0, var(--fs-fade-out-mask-color)) 0 (100% / calc(100% - 8px)) var(--fs-fade-out-bottom-mask-height),
+        linear-gradient(var(--fs-fade-out-mask-color) 0 0);
+    mask-composite:exclude;
+    mask-repeat: no-repeat;
 }

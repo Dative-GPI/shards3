@@ -6,34 +6,22 @@
     justify-content: flex-end;
     align-self: flex-end;
     margin-top: 20vh !important;
-    max-width: 100% !important;
-    width: 100% !important;
+    width: 100vw !important;
     margin: 0px !important;
 }
 
 .v-overlay__content:has(.fs-dialog) {
-    min-width: 35vw !important;
-    max-width: 90vw !important;
+    width: fit-content !important;
     max-height: 90vh !important;
-
-    &.v-overlay__content:has(.fs-dialog-mobile) {
-        max-width: 100vw !important;
-    }
+    min-width: 35vw !important;
 }
 
 .fs-dialog {
-    position: relative;
-    min-width: 35vw !important;
-    max-width: 90vw !important;
+    width: fit-content !important;
     max-height: 90vh !important;
+    min-width: 35vw !important;
 
     &.fs-dialog-mobile {
-        max-width: 100vw !important;
+        width: 100vw !important;
     }
-}
-
-.fs-dialog-close-button {
-    position: absolute;
-    top: 6px;
-    right: 6px;
 }

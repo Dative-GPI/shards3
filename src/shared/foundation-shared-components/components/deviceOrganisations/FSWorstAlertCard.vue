@@ -2,30 +2,46 @@
   <FSCard
     :elevation="true"
     :border="false"
+    padding="2px"
   >
     <FSCol
       align="center-center"
-      padding="6px 24px"
     >
       <FSCol
         align="center-center"
-        gap="12px"
+        gap="0px"
       >
-        <FSChip
-          :label="$props.deviceAlert.label"
-          :prependIcon="statusIcon"
-          :color="criticityColor"
-        />
         <FSRow
-          width="hug"
+          align="center-right"
         >
-          <FSText>
-            {{ statusLabel }}
-          </FSText>
+          <FSButton
+            icon="mdi-close"
+            variant="icon"
+            @click="$emit('close')"
+          />
         </FSRow>
+        <FSCol
+          align="center-center"
+          padding="0px 24px"
+          gap="12px"
+        >
+          <FSChip
+            :label="$props.deviceAlert.label"
+            :prependIcon="statusIcon"
+            :color="criticityColor"
+          />
+          <FSRow
+            width="hug"
+          >
+            <FSText>
+              {{ statusLabel }}
+            </FSText>
+          </FSRow>
+        </FSCol>
       </FSCol>
       <FSRow
         v-if="deviceTimestamp"
+        padding="0px 24px 6px 24px"
         width="hug"
       >
         <FSSpan
@@ -39,14 +55,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
+import { FSDeviceAlert, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
-import { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
@@ -57,6 +73,7 @@ import FSRow from "../FSRow.vue";
 export default defineComponent({
   name: "FSWorstAlertCard",
   components: {
+    FSButton,
     FSCard,
     FSChip,
     FSText,
@@ -70,6 +87,7 @@ export default defineComponent({
       required: true
     }
   },
+  emits: ["close"],
   setup(props) {
     const { epochToLongTimeFormat } = useAppTimeZone();
     const { $tr } = useTranslationsProvider();

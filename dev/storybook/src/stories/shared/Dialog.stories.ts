@@ -29,14 +29,13 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      buttons1: [...Array(5).keys()].map(i => ({
+      buttons1: [...Array(4).keys()].map(i => ({
         id: i.toString(),
         label: `Choice number ${i + 1}`
       })),
       selected1: [],
       value1: false,
-      value2: false,
-      value3: false
+      value2: false
     }
   },
   render: (args, { argTypes }) => ({
@@ -53,25 +52,27 @@ export const Variations: Story = {
         @click="() => args.value1 = true"
       />
       <FSDialog
+        title="Dialog - primary color - header, body"
         width="400px"
         color="primary"
         v-model="args.value1"
       >
-        <template #header>
-          <FSSpan font="text-button">Toggle set</FSSpan>
-        </template>
         <template #body>
-          <FSToggleSet
-            variant="wrap"
-            buttonVariant="standard"
-            activeVariant="standard"
-            buttonColor="light"
-            activeColor="primary"
-            :multiple="false"
-            :required="false"
-            :values="args.buttons1"
-            v-model="args.selected1"
-          />
+          <FSRow
+            padding="0 16px 0 0"
+          >
+            <FSToggleSet
+              variant="wrap"
+              buttonVariant="standard"
+              activeVariant="standard"
+              buttonColor="light"
+              activeColor="primary"
+              :multiple="false"
+              :required="false"
+              :values="args.buttons1"
+              v-model="args.selected1"
+            />
+          </FSRow>
         </template>
       </FSDialog>
       <FSButton
@@ -80,38 +81,18 @@ export const Variations: Story = {
         @click="() => args.value2 = true"
       />
       <FSDialog
+        title="Dialog - footer"
         v-model="args.value2"
       >
-        <template #header>
-          <FSSpan font="text-button">General Grievous</FSSpan>
-        </template>
-        <template #body>
-          <FSSpan> - General Kenobi!</FSSpan>
-        </template>
         <template #footer>
-          <FSSpan font="text-underline">(suprised)</FSSpan>
-        </template>
-      </FSDialog>
-      <FSButton
-        color="primary"
-        label="Dialog - slots"
-        @click="() => args.value3 = true"
-      />
-      <FSDialog
-        v-model="args.value3"
-      >
-        <template #header>
-          <FSSpan font="text-h2"> Start wars 3 </FSSpan>
-        </template>
-        <template #body>
-          <FSSpan> Revenge of the Siths </FSSpan>
-        </template>
-        <template #footer>
-          <FSRow align="center-right">
+          <FSRow
+            padding="0 16px 0 0"
+            align="center-right"
+          >
             <FSButton
               color="primary"
               label="Close"
-              @click="() => args.value3 = false"
+              @click="() => args.value2 = false"
             />
           </FSRow>
         </template>
@@ -123,9 +104,7 @@ export const Variations: Story = {
 export const Submit: Story = {
   args: {
     args: {
-      value1: false,
-      value2: false,
-      value3: false
+      value1: false
     }
   },
   render: (args, { argTypes }) => ({
@@ -147,41 +126,6 @@ export const Submit: Story = {
         subtitle="The phantom menace"
         v-model="args.value1"
       />
-      <FSButton
-        color="primary"
-        label="Dialog - title, subtitle, default actions"
-        @click="() => args.value2 = true"
-      />
-      <FSDialogSubmit
-        title="Star wars 2"
-        subtitle="Attack of the clones"
-        :actions="true"
-        v-model="args.value2"
-      />
-      <FSButton
-        color="primary"
-        label="Dialog - slots"
-        @click="() => args.value3 = true"
-      />
-      <FSDialogSubmit
-        v-model="args.value3"
-      >
-        <template #header>
-          <FSSpan font="text-h2"> Start wars 3 </FSSpan>
-        </template>
-        <template #body>
-          <FSSpan > Revenge of the Siths </FSSpan>
-        </template>
-        <template #footer>
-          <FSRow align="center-right">
-            <FSButton
-              color="primary"
-              label="Close"
-              @click="() => args.value3 = false"
-            />
-          </FSRow>
-        </template>
-      </FSDialogSubmit>
     </div>`
   })
 }
@@ -360,13 +304,13 @@ export const ChainedDialogs: Story = {
         @click="() => args.value1 = true"
       />
       <FSDialogSubmit
+        title="Form"
         v-model="args.value1"
       >
-        <template #header>
-          <FSSpan font="text-h2"> Form </FSSpan>
-        </template>
         <template #body>
-          <FSCol>
+          <FSCol
+            padding="0 16px 0 0"
+          >
             <FSDateField
               label="Date"
               v-model="args.date1"

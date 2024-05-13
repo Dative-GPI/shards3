@@ -3,7 +3,9 @@
     :closeOnContentClick="false"
     v-model="menu"
   >
-    <template #activator="{ props }">
+    <template
+      #activator="{ props }"
+    >
       <FSColorIcon
         class="fs-stopclick"
         size="m"
@@ -16,6 +18,7 @@
     </template>
     <FSConnectivityCard
       :deviceConnectivity="$props.deviceConnectivity"
+      @close="menu = false"
     />
   </v-menu>
 </template>

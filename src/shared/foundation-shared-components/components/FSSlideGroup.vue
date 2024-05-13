@@ -6,7 +6,9 @@
     :style="style"
     v-bind="$attrs"
   >
-    <template #prev>
+    <template
+      #prev
+    >
       <FSButton
         v-if="$props.dash"
         icon="mdi-chevron-double-left"
@@ -18,14 +20,21 @@
         @click="goToPrev"
       />
     </template>
-    <template #default>
+    <template
+      #default
+    >
       <v-slide-group-item
-        v-for="(component) in getChildren()"
+        v-for="(component, index) in getChildren()"
+        :key="index"
       >
-        <component :is="component" />
+        <component
+          :is="component"
+        />
       </v-slide-group-item>
     </template>
-    <template #next>
+    <template
+      #next
+    >
       <FSButtonNextIcon
         :color="ColorEnum.Dark"
         @click="goToNext"

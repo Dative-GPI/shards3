@@ -127,6 +127,7 @@
                 <FSCheckbox
                   v-if="$props.multiple"
                   :modelValue="$props.modelValue?.includes(item.raw.id)"
+                  @click="props.onClick"
                 />
                 <FSSpan>
                   {{ item.raw.label }}

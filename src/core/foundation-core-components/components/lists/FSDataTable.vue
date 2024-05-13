@@ -63,32 +63,31 @@ export default defineComponent({
     const innerSortBy: Ref<FSDataTableOrder | null> = ref(null);
     const innerMode: Ref<"table" | "iterator"> = ref("table");
     const innerRowsPerPage = ref(10);
+
     const innerFilters = ref<{ [key: string]: FSDataTableFilter[] }>({});
     const innerPage = ref(1);
 
     const reset = (): void => {
-      if (router && router.currentRoute.value.query[props.tableCode]) {
-        const query = JSON.parse(router.currentRoute.value.query[props.tableCode] as string);
-        // innerHeaders.value = query.columns;
-        // innerFilters.value = query.filters;
-        innerRowsPerPage.value = query.rowsPerPage;
-        innerSortBy.value = query.sortByKey ? {
-          key: query.sortByKey,
-          order: query.sortByOrder
-        } : null;
-        innerMode.value = query.mode;
-        innerPage.value = query.page;
+      if (router && router.currentRoute.value.meta[props.tableCode]) {
+        const meta = router.currentRoute.value.meta[props.tableCode] as any;
+        innerHeaders.value = meta.columns;
+        innerRowsPerPage.value = meta.rowsPerPage;
+        innerSortBy.value = meta.sortBy;
+        innerMode.value = meta.mode;
+        
+        innerFilters.value = meta.filters;
+        innerPage.value = meta.page;
       }
       else if (userOrganisationTable.value) {
-        innerRowsPerPage.value = userOrganisationTable.value.rowsPerPage;
-        innerSortBy.value = userOrganisationTable.value.sortByKey ? {
-          key: userOrganisationTable.value.sortByKey!,
-          order: userOrganisationTable.value.sortByOrder!
-        } : null;
-        innerMode.value = userOrganisationTable.value.mode;
-      }
-      if (userOrganisationTable.value) {
         innerHeaders.value = userOrganisationTable.value.columns;
+        innerRowsPerPage.value = userOrganisationTable.value.rowsPerPage;
+        if (userOrganisationTable.value.sortByKey && userOrganisationTable.value.sortByOrder) {
+          innerSortBy.value = {
+            key: userOrganisationTable.value.sortByKey,
+            order: userOrganisationTable.value.sortByOrder
+          };
+        }
+        innerMode.value = userOrganisationTable.value.mode;
       }
     };
 
@@ -139,20 +138,17 @@ export default defineComponent({
 
     const updateRouter = (): void => {
       if (router) {
-        router.replace({
-          query: {
-            ...router.currentRoute.value.query,
-            [props.tableCode]: JSON.stringify({
-              // columns: innerHeaders.value,
-              // filters: innerFilters.value,
-              rowsPerPage: innerRowsPerPage.value,
-              sortByKey: innerSortBy.value?.key,
-              sortByOrder: innerSortBy.value?.order,
-              mode: innerMode.value,
-              page: innerPage.value
-            })
+        router.currentRoute.value.meta = {
+          ...router.currentRoute.value.meta,
+          [props.tableCode]: {
+            columns: innerHeaders.value,
+            filters: innerFilters.value,
+            rowsPerPage: innerRowsPerPage.value,
+            sortBy: innerSortBy.value,
+            mode: innerMode.value,
+            page: innerPage.value
           }
-        });
+        };
       }
     };
 

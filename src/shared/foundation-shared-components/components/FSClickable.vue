@@ -225,22 +225,44 @@ export default defineComponent({
         };
       }
       switch (props.variant) {
-        case "standard": return {
-          "--fs-clickable-border-size"            : props.border ? "1px" : "0",
-          "--fs-clickable-border-style"           : props.borderStyle,
-          "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
-          "--fs-clickable-background-color"       : colors.value.light,
-          "--fs-clickable-border-color"           : colors.value.lightContrast,
-          "--fs-clickable-color"                  : colors.value.lightContrast,
-          "--fs-clickable-hover-background-color" : colors.value.base,
-          "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
-          "--fs-clickable-hover-color"            : colors.value.baseContrast,
-          "--fs-clickable-active-background-color": colors.value.dark,
-          "--fs-clickable-active-border-color"    : colors.value.darkContrast,
-          "--fs-clickable-active-color"           : colors.value.darkContrast,
-          "--fs-clickable-height"                 : sizeToVar(props.height),
-          "--fs-clickable-width"                  : sizeToVar(props.width)
-        };
+        case "standard":
+          switch (props.color) {
+            case ColorEnum.Dark:
+            case ColorEnum.Light:
+              return {
+                "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+                "--fs-clickable-border-style"           : props.borderStyle,
+                "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
+                "--fs-clickable-background-color"       : backgrounds.base,
+                "--fs-clickable-border-color"           : lights.dark,
+                "--fs-clickable-color"                  : lights.lightContrast,
+                "--fs-clickable-hover-background-color" : lights.base,
+                "--fs-clickable-hover-border-color"     : lights.dark,
+                "--fs-clickable-hover-color"            : lights.baseContrast,
+                "--fs-clickable-active-background-color": lights.dark,
+                "--fs-clickable-active-border-color"    : lights.dark,
+                "--fs-clickable-active-color"           : lights.darkContrast,
+                "--fs-clickable-height"                 : sizeToVar(props.height),
+                "--fs-clickable-width"                  : sizeToVar(props.width)
+              };
+            default:
+              return {
+                "--fs-clickable-border-size"            : props.border ? "1px" : "0",
+                "--fs-clickable-border-style"           : props.borderStyle,
+                "--fs-clickable-border-radius"          : sizeToVar(props.borderRadius),
+                "--fs-clickable-background-color"       : colors.value.light,
+                "--fs-clickable-border-color"           : colors.value.lightContrast,
+                "--fs-clickable-color"                  : colors.value.lightContrast,
+                "--fs-clickable-hover-background-color" : colors.value.base,
+                "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+                "--fs-clickable-hover-color"            : colors.value.baseContrast,
+                "--fs-clickable-active-background-color": colors.value.dark,
+                "--fs-clickable-active-border-color"    : colors.value.darkContrast,
+                "--fs-clickable-active-color"           : colors.value.darkContrast,
+                "--fs-clickable-height"                 : sizeToVar(props.height),
+                "--fs-clickable-width"                  : sizeToVar(props.width)
+              };
+          }
         case "background": return {
           "--fs-clickable-border-size"            : props.border ? "1px" : "0",
           "--fs-clickable-border-style"           : props.borderStyle,
