@@ -22,5 +22,5 @@ export const useChartOrganisations = ComposableFactory.getMany(ChartOrganisation
 export const useCreateChartOrganisation = ComposableFactory.create(ChartOrganisationServiceFactory);
 export const useUpdateChartOrganisation = ComposableFactory.update(ChartOrganisationServiceFactory);
 export const useRemoveChartOrganisation = ComposableFactory.remove(ChartOrganisationServiceFactory);
-export const useChangeDashboardOrganisation = ComposableFactory.custom(ChartOrganisationServiceFactoryIncomplete.chartOrganisation);
+export const useDuplicateChartOrganisation = ComposableFactory.custom(ChartOrganisationServiceFactoryIncomplete.chartOrganisation);
 
