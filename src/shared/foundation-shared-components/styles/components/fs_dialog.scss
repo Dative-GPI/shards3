@@ -11,17 +11,17 @@
 }
 
 .v-overlay__content:has(.fs-dialog) {
-    width: fit-content !important;
+    width: var(--fs-dialog-width) !important;
     max-height: 90vh !important;
     min-width: 35vw !important;
 }
 
 .fs-dialog {
-    width: fit-content !important;
+    width: var(--fs-dialog-width) !important;
     max-height: 90vh !important;
     min-width: 35vw !important;
+}
 
-    &.fs-dialog-mobile {
-        width: 100vw !important;
-    }
+.fs-dialog-mobile {
+    width: 100vw !important;
 }

@@ -53,7 +53,7 @@ export const Variations: Story = {
       />
       <FSDialog
         title="Dialog - primary color - header, body"
-        width="400px"
+        width="800px"
         color="primary"
         v-model="args.value1"
       >
