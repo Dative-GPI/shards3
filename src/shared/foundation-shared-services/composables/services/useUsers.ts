@@ -13,7 +13,7 @@ const UserServiceFactory = new ServiceFactory<UserDetailsDTO, UserDetails>("user
             notifyService.notify("update", result);
             return result;
         }),
-        ...ServiceFactory.addCustom("updateCurrentEmail", (axios, payload: UpdateCurrentUserEmailDTO) => axios.post(USER_CURRENT_URL(), payload), (dto: UserDetailsDTO) => {
+        ...ServiceFactory.addCustom("updateCurrentEmail", (axios, payload: UpdateCurrentUserEmailDTO) => axios.put(USER_CURRENT_URL(), payload), (dto: UserDetailsDTO) => {
             const result = new UserDetails(dto);
             notifyService.notify("update", result);
             return result;
