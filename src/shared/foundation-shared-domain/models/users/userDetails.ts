@@ -39,10 +39,7 @@ export interface UpdateUserDTO {
     image?: string;
     allowSms: boolean;
     allowEmails: boolean;
-    email: string;
     phoneNumber: string;
     firstName: string;
     lastName: string;
-    label: string;
-    description: string;
 }

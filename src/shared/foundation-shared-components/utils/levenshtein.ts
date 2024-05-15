@@ -9,7 +9,7 @@ export const levenshteinDistance = (a: string, b: string) => {
     }
 
     if (a.length > b.length) {
-      let tmp = a;
+      const tmp = a;
       a = b;
       b = tmp;
     }
@@ -49,14 +49,14 @@ export const levenshteinDistance = (a: string, b: string) => {
     let bx2: number;
     let bx3: number;
 
-    let vector: number[] = [];
+    const vector: number[] = [];
 
     for (y = 0; y < la; y++) {
       vector.push(y + 1);
       vector.push(a.charCodeAt(offset + y));
     }
 
-    let len = vector.length - 1;
+    const len = vector.length - 1;
 
     for (; x < lb - 3;) {
       bx0 = b.charCodeAt(offset + (d0 = x));

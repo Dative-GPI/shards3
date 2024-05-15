@@ -445,3 +445,32 @@ export const Submit: Story = {
     </div>`
   })
 }
+import FSButtonCheckbox from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCheckbox.vue";
+
+export const Checkbox: Story = {
+  args: {
+    args: {
+      value1: false,
+      value2: false
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSButtonCheckbox },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <FSButtonCheckbox
+        label="Checkbox"
+        v-model="args.value1"
+      />
+      <FSButtonCheckbox
+        label="Checkbox colored"
+        color="success"
+        v-model="args.value2"
+      />
+    </div>`
+  })
+}

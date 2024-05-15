@@ -303,7 +303,7 @@
           </slot>
         </template>
         <template
-          v-for="(item, index) in itemsSlots"
+          v-for="item in itemsSlots"
           #[item.slotName]="props"
         >
           <div
@@ -315,7 +315,6 @@
             >
               <FSRow
                 align="center-left"
-                :key="index"
               >
                 <FSSpan
                   font="text-overline"
