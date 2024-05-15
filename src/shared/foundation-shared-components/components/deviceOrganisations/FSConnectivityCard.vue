@@ -28,7 +28,7 @@
           <FSChip
             :prependIcon="$props.deviceConnectivity.icon"
             :color="$props.deviceConnectivity.color"
-            :label="connectivityLabel"
+            :label="connectivityLabel($props.deviceConnectivity.status)"
           />
           <FSRow
             width="hug"
@@ -57,10 +57,10 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
-import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
+
+import { connectivityLabel } from "../../utils";
 
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
@@ -90,16 +90,6 @@ export default defineComponent({
   emit: ["close"],
   setup(props) {
     const { epochToLongTimeFormat } = useAppTimeZone();
-    const { $tr } = useTranslationsProvider();
-
-    const connectivityLabel = computed((): string => {
-      switch (props.deviceConnectivity.status) {
-        case ConnectivityStatus.Connected:          return $tr("ui.connectivity-status.connected", "Connected");
-        case ConnectivityStatus.PartiallyConnected: return $tr("ui.connectivity-status.partially-connected", "Partially connected");
-        case ConnectivityStatus.AlmostOffline:      return $tr("ui.connectivity-status.almost-offline", "Almost offline");
-        default:                                    return $tr("ui.connectivity-status.offline", "Offline");
-      }
-    });
 
     const deviceTimestamp = computed((): string => {
       if (props.deviceConnectivity.sourceTimestamp) {
@@ -109,8 +99,8 @@ export default defineComponent({
     });
 
     return {
-      connectivityLabel,
-      deviceTimestamp
+      deviceTimestamp,
+      connectivityLabel
     };
   }
 });
