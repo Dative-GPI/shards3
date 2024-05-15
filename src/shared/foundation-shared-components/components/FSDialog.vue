@@ -1,7 +1,8 @@
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    :width="width"
+    class="fs-dialog"
+    :style="style"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -127,18 +128,22 @@ export default defineComponent({
       return classNames;
     });
 
-    const width = computed((): string => {
+    const style = computed((): { [key: string] : string | undefined } => {
       if (isExtraSmall.value) {
-        return "100%";
+        return {
+          "--fs-dialog-width": "100%"
+        };
       }
-      return sizeToVar(props.width);
+      return {
+        "--fs-dialog-width": sizeToVar(props.width)
+      };
     });
 
     return {
       isExtraSmall,
       ColorEnum,
       classes,
-      width
+      style
     };
   }
 });

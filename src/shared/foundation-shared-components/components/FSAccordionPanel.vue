@@ -8,8 +8,12 @@
     :style="style"
     v-bind="$attrs"
   >
-    <template #title>
-      <slot name="title">
+    <template
+      #title
+    >
+      <slot
+        name="title"
+      >
         <FSRow>
           <FSIcon
             v-if="$props.prependIcon"
@@ -24,8 +28,12 @@
         </FSRow>
       </slot>
     </template>
-    <template #text>
-      <slot name="content">
+    <template
+      #text
+    >
+      <slot
+        name="content"
+      >
         <FSText
           :lineClamp="$props.lineClampContent"
         >
