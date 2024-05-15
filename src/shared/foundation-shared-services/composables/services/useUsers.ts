@@ -34,4 +34,4 @@ const trackUser = () => {
 
 export const useCurrentUser = ComposableFactory.custom(UserServiceFactory.getCurrent, trackUser);
 export const useUpdateCurrentUser = ComposableFactory.custom(UserServiceFactory.updateCurrent, trackUser);
-export const useUpdateCurrentUserEmail = ComposableFactory.custom(UserServiceFactory.updateCurrent, trackUser);
+export const useUpdateCurrentUserEmail = ComposableFactory.custom(UserServiceFactory.updateCurrentEmail, trackUser);
