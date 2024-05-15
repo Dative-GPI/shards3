@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { PropertyDataType } from '@dative-gpi/foundation-core-domain/models';
+
 import FSMetaValue from "@dative-gpi/foundation-core-components/components/customProperties/FSMetaValue.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
@@ -55,7 +56,12 @@ export const Variations: Story = {
         history: false,
         historySize: 0,
         colorful: false,
-        colorMap: [],
+        colorMap: [{
+          priority: 1,
+          filterType: 0,
+          filterValues: [],
+          color: "#FF00FF"
+        }],
         useOnlyAllowedValues: false,
         allowedValues: {}
       },
@@ -94,8 +100,13 @@ export const Variations: Story = {
         defaultValue: "",
         history: false,
         historySize: 0,
-        colorful: false,
-        colorMap: [],
+        colorful: true,
+        colorMap: [{
+          priority: 1,
+          filterType: 0,
+          filterValues: [],
+          color: "#FF00FF"
+        }],
         useOnlyAllowedValues: false,
         allowedValues: {}
       },

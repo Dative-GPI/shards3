@@ -6,7 +6,7 @@
     :modelValue="$props.modelValue"
     @update:modelValue="(event) => $emit('update:modelValue', event)">
     <template #selection="{ item }">
-      <FSSpan v-if="!isNullOrSpaces(customProperty.allowedValues[item.value])"
+      <FSSpan v-if="customProperty.allowedValues[item.value] != null"
         class="text-body-1">
         {{ customProperty.allowedValues[item.value] }}
       </FSSpan>
@@ -22,7 +22,7 @@
     <template #item="{ props, item }">
       <v-list-item v-bind="{ ...props, title: '' }">
         <FSRow align="center-left">
-          <FSSpan v-if="!isNullOrSpaces(customProperty.allowedValues[item.value])"
+          <FSSpan v-if="customProperty.allowedValues[item.value] != null"
             class="text-body-1">
             {{ customProperty.allowedValues[item.value] }}
           </FSSpan>
@@ -44,7 +44,7 @@
     </template>
   </FSSelectField>
   <template v-else>
-    <FSTextField v-if="$props.customProperty.dataType === PropertyDataType.Number"
+    <FSNumberField v-if="$props.customProperty.dataType === PropertyDataType.Number"
       :label="$props.customProperty.label"
       :disabled="!editable"
       :modelValue="asNumber()"
@@ -63,7 +63,7 @@
       :label="$props.customProperty.label"
       :editable="editable"
       :modelValue="asNumber()"
-      @update:modelValue="(event) => $emit('update:modelValue', event.toString())" />
+      @update:modelValue="(event) => $emit('update:modelValue', (event + getMachineOffsetMillis - getUserOffsetMillis).toString())" />
     <FSIconField v-else-if="$props.customProperty.dataType === PropertyDataType.Icon"
       :label="$props.customProperty.label" 
       :editable="editable"
@@ -78,6 +78,7 @@ import { defineComponent } from "vue";
 import FSSwitch from "@dative-gpi/foundation-shared-components/components/FSSwitch.vue";
 import FSIconField from "@dative-gpi/foundation-shared-components/components/fields/FSIconField.vue";
 import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSNumberField from "@dative-gpi/foundation-shared-components/components/fields/FSNumberField.vue";
 import FSDateTimeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateTimeField.vue";
 
 import { CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
@@ -90,6 +91,7 @@ export default defineComponent({
     FSSwitch,
     FSIconField,
     FSSelectField,
+    FSNumberField,
     FSDateTimeField
   },
   props: {
@@ -108,11 +110,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat, epochToPicker } = useAppTimeZone();
-
-    const isNullOrSpaces = (value: string | null | undefined): boolean => {
-      return (value == null || value.match(/^ *$/) !== null);
-    }
+    const { epochToLongTimeFormat, epochToPicker, getUserOffsetMillis, getMachineOffsetMillis } = useAppTimeZone();
 
     const asSelector = (item: string): string => {
       switch (props.customProperty.dataType) {
@@ -152,7 +150,8 @@ export default defineComponent({
 
     return {
       PropertyDataType,
-      isNullOrSpaces,
+      getMachineOffsetMillis,
+      getUserOffsetMillis,
       asSelector,
       asDateTime,
       asBoolean,

@@ -1,13 +1,16 @@
 <template>
-  <FSSpan
-    v-if="customProperty.useOnlyAllowedValues && !isNullOrSpaces(customProperty.allowedValues[meta[customProperty.code]])">
+  <FSText
+    v-if="$props.customProperty.useOnlyAllowedValues && $props.customProperty.allowedValues[meta[$props.customProperty.code]] != null"
+    :color="getColor($props.customProperty, meta[$props.customProperty.code])">
     {{ value }}
-  </FSSpan>
-  <FSSpan
-    v-else-if="[PropertyDataType.Number, PropertyDataType.String, PropertyDataType.DateTime].includes(customProperty.dataType)">
+  </FSText>
+  <FSText
+    v-else-if="[PropertyDataType.Number, PropertyDataType.String, PropertyDataType.DateTime].includes($props.customProperty.dataType)"
+    :color="getColor($props.customProperty, meta[$props.customProperty.code])">
     {{ value }}
-</FSSpan>
-  <FSIcon v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes(customProperty.dataType)">
+  </FSText>
+  <FSIcon v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes($props.customProperty.dataType)"
+    :color="getColor($props.customProperty, meta[$props.customProperty.code])">
     {{ value }}
   </FSIcon>
 </template>
@@ -15,22 +18,26 @@
 <script lang="ts">
 import { PropType, computed, defineComponent } from "vue";
 
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+
+import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSSwitch from "@dative-gpi/foundation-shared-components/components/FSSwitch.vue";
 import FSIconField from "@dative-gpi/foundation-shared-components/components/fields/FSIconField.vue";
 import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
 import FSDateTimeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateTimeField.vue";
 
+import { getColor } from "./helpers";
 import { CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 
 export default defineComponent({
   name: "FSMetaValue",
   components: {
-    FSSwitch,
-    FSIconField,
+    FSDateTimeField,
     FSSelectField,
-    FSDateTimeField
+    FSIconField,
+    FSSwitch,
+    FSText
   },
   props: {
     customProperty: {
@@ -43,15 +50,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat, epochToPicker } = useAppTimeZone();
-
-    const isNullOrSpaces = (value: string | null | undefined): boolean => {
-      return (value == null || value.match(/^ *$/) !== null);
-    }
+    const { epochToLongTimeFormat } = useAppTimeZone();
 
     const value = computed((): string => {
       if (props.customProperty.useOnlyAllowedValues) {
-        if (!isNullOrSpaces(props.customProperty.allowedValues[props.meta[props.customProperty.code]])) {
+        if (props.customProperty.allowedValues[props.meta[props.customProperty.code]] != null) {
           return props.customProperty.allowedValues[props.meta[props.customProperty.code]];
         }
       }
@@ -73,7 +76,7 @@ export default defineComponent({
 
     return {
       PropertyDataType,
-      isNullOrSpaces,
+      getColor,
       value
     };
   }
