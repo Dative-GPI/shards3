@@ -1,4 +1,5 @@
 export * from "./articles.mock";
+export * from "./customPropertyValues.mock";
 export * from "./dataCategories.mock";
 export * from "./dataDefinitions.mock";
 export * from "./dashboardOrganisations.mock";

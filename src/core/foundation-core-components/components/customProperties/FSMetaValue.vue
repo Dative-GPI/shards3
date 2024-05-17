@@ -41,7 +41,7 @@ export default defineComponent({
   },
   props: {
     customProperty: {
-      type: CustomPropertyInfos,
+      type: Object as PropType<CustomPropertyInfos>,
       required: true
     },
     meta: {

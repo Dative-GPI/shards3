@@ -1,7 +1,7 @@
-import { DashboardShallowDetails } from "@dative-gpi/foundation-core-domain/models";
+import { DashboardShallowDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 
 
-export const DASHBOARDSHALLOWS: DashboardShallowDetails[] = [
+export const DASHBOARDSHALLOWS: DashboardShallowDetailsDTO[] = [
     {
         id: "1",
         label: "label 1",

@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { PropType, defineComponent } from "vue";
 
 import FSSwitch from "@dative-gpi/foundation-shared-components/components/FSSwitch.vue";
 import FSIconField from "@dative-gpi/foundation-shared-components/components/fields/FSIconField.vue";
@@ -96,7 +96,7 @@ export default defineComponent({
   },
   props: {
     customProperty: {
-      type: CustomPropertyInfos,
+      type: Object as PropType<CustomPropertyInfos>,
       required: true
     },
     modelValue: {

@@ -3,6 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
 import { DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS, ROLEORGANISATIONS, ROLEORGANISATIONTYPES, LOCATIONS, MANUFACTURERS, USERORGANISATIONS, ORGANISATIONTYPES, MODELS, DATACATEGORIES, DATADEFINITIONS } from '@/mocks';
+import { CUSTOMPROPERTYVALUES } from '@/mocks/customPropertyValues.mock';
 
 const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
 
@@ -40,6 +41,7 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups/1", GROUPS[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups/2", GROUPS[1]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/groups1", USERORGANISATIONTABLES[0]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/custom-property-values/1/1/code", CUSTOMPROPERTYVALUES);
 
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/role-organisation-types", ROLEORGANISATIONTYPES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/role-organisations", ROLEORGANISATIONS);
