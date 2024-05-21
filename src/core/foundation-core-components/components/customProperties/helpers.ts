@@ -84,20 +84,20 @@ const getEpoch = (expression: string): string => {
         return expression;
     }
 
-    let date = new Date();
+    const date = new Date();
     if (expression.startsWith("now")) {
         expression = expression.substring(3).replace(/\s/g, "");
     }
     else {
         return (date.getTime()).toString();
     }
-    let match = /^(?:(?:([-\+])(\d*))?(\w+))?(?:\/(\w))?/g.exec(expression);
+    let match = /^(?:(?:([-+])(\d*))?(\w+))?(?:\/(\w))?/g.exec(expression);
     while (match != null && (match[0] != null && match[0].length > 0)) {
         if (match[1] != null && match[3] != null) {
             if (!["-", "+"].includes(match[1]) || isNaN(parseInt(match[2])) || !["s", "m", "h", "d", "w", "M", "y"].includes(match[3])) {
                 return (date.getTime()).toString();
             }
-            let offset = match[1] == "-" ? -1 * parseInt(match[2]): 1* parseInt(match[2]);
+            const offset = match[1] == "-" ? -1 * parseInt(match[2]): 1* parseInt(match[2]);
             switch (match[3]) {
                 case "s": {
                     date.setSeconds(date.getSeconds() + offset);
@@ -105,6 +105,7 @@ const getEpoch = (expression: string): string => {
                 }
                 case "m": {
                     date.setMinutes(date.getMinutes() + offset);
+                    break;
                 }
                 case "h": {
                     date.setHours(date.getHours() + offset);
@@ -183,7 +184,7 @@ const getEpoch = (expression: string): string => {
             }
         }
         expression = expression.substring(match[0].length);
-        match = /(?:(?:([-\+])(\d*))?(\w+))?(?:\/(\w))?/g.exec(expression);
+        match = /(?:(?:([-+])(\d*))?(\w+))?(?:\/(\w))?/g.exec(expression);
     }
     return (date.getTime() + getMachineOffsetMillis() - getUserOffsetMillis()).toString();
 }

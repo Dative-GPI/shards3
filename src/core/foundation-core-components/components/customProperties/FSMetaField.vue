@@ -1,74 +1,107 @@
 <template>
-  <FSSelectField v-if="$props.customProperty.useOnlyAllowedValues"
+  <FSSelectField
+    v-if="$props.customProperty.useOnlyAllowedValues"
     :label="$props.customProperty.label"
     :items="Object.keys($props.customProperty.allowedValues)"
     :disabled="!editable"
     :modelValue="$props.modelValue"
-    @update:modelValue="(event) => $emit('update:modelValue', event)">
-    <template #selection="{ item }">
-      <FSSpan v-if="customProperty.allowedValues[item.value] != null"
-        class="text-body-1">
+    @update:modelValue="(event) => $emit('update:modelValue', event)"
+  >
+    <template
+      #selection="{ item }"
+    >
+      <FSSpan
+        v-if="customProperty.allowedValues[item.value] != null"
+        class="text-body-1"
+      >
         {{ customProperty.allowedValues[item.value] }}
       </FSSpan>
       <FSSpan
         v-else-if="[PropertyDataType.Number, PropertyDataType.String, PropertyDataType.DateTime].includes(customProperty.dataType)"
-        class="text-body-1">
+        class="text-body-1"
+      >
         {{ asSelector(item.value) }}
       </FSSpan>
-      <FSIcon v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes(customProperty.dataType)">
+      <FSIcon
+        v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes(customProperty.dataType)"
+      >
         {{ asSelector(item.value) }}
       </FSIcon>
     </template>
-    <template #item="{ props, item }">
-      <v-list-item v-bind="{ ...props, title: '' }">
-        <FSRow align="center-left">
-          <FSSpan v-if="customProperty.allowedValues[item.value] != null"
-            class="text-body-1">
+    <template
+      #item="{ props, item }"
+    >
+      <v-list-item
+        v-bind="{ ...props, title: '' }"
+      >
+        <FSRow
+          align="center-left"
+        >
+          <FSSpan
+            v-if="customProperty.allowedValues[item.value] != null"
+            class="text-body-1"
+          >
             {{ customProperty.allowedValues[item.value] }}
           </FSSpan>
           <FSSpan
             v-else-if="[PropertyDataType.Number, PropertyDataType.String].includes($props.customProperty.dataType)"
-            class="text-body-1">
+            class="text-body-1"
+          >
             {{ asSelector(item.value) }}
           </FSSpan>
-          <FSSpan v-else-if="[PropertyDataType.DateTime].includes($props.customProperty.dataType)"
-            class="text-body-1">
+          <FSSpan
+            v-else-if="[PropertyDataType.DateTime].includes($props.customProperty.dataType)"
+            class="text-body-1"
+          >
             {{ asSelector(item.value) }}
           </FSSpan>
           <FSIcon
-            v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes($props.customProperty.dataType)">
+            v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes($props.customProperty.dataType)"
+          >
             {{ asSelector(item.value) }}
           </FSIcon>
         </FSRow>
       </v-list-item>
     </template>
   </FSSelectField>
-  <template v-else>
-    <FSNumberField v-if="$props.customProperty.dataType === PropertyDataType.Number"
+  <template
+    v-else
+  >
+    <FSNumberField
+      v-if="$props.customProperty.dataType === PropertyDataType.Number"
       :label="$props.customProperty.label"
       :disabled="!editable"
       :modelValue="asNumber()"
-      @update:modelValue="(event) => $emit('update:modelValue', event.toString())" />
-    <FSSwitch v-else-if="$props.customProperty.dataType === PropertyDataType.Boolean"
+      @update:modelValue="(event) => $emit('update:modelValue', event.toString())"
+    />
+    <FSSwitch
+      v-else-if="$props.customProperty.dataType === PropertyDataType.Boolean"
       :label="$props.customProperty.label"
       :editable="editable"
       :modelValue="asBoolean()"
-      @update:modelValue="(event) => $emit('update:modelValue', event.toString())" />
-    <FSTextField v-else-if="$props.customProperty.dataType === PropertyDataType.String"
+      @update:modelValue="(event) => $emit('update:modelValue', event.toString())"
+    />
+    <FSTextField
+      v-else-if="$props.customProperty.dataType === PropertyDataType.String"
       :label="$props.customProperty.label"
       :disabled="!editable"
       :modelValue="$props.modelValue"
-      @update:modelValue="(event) => $emit('update:modelValue', event)" />
-    <FSDateTimeField v-else-if="$props.customProperty.dataType === PropertyDataType.DateTime"
+      @update:modelValue="(event) => $emit('update:modelValue', event)"
+    />
+    <FSDateTimeField
+      v-else-if="$props.customProperty.dataType === PropertyDataType.DateTime"
       :label="$props.customProperty.label"
       :editable="editable"
       :modelValue="asNumber()"
-      @update:modelValue="(event) => $emit('update:modelValue', (event + getMachineOffsetMillis - getUserOffsetMillis).toString())" />
-    <FSIconField v-else-if="$props.customProperty.dataType === PropertyDataType.Icon"
+      @update:modelValue="(event) => $emit('update:modelValue', (event + getMachineOffsetMillis - getUserOffsetMillis).toString())"
+    />
+    <FSIconField
+      v-else-if="$props.customProperty.dataType === PropertyDataType.Icon"
       :label="$props.customProperty.label" 
       :editable="editable"
       :modelValue="modelValue"
-      @update:modelValue="(event) => $emit('update:modelValue', event.toString()) "/>
+      @update:modelValue="(event) => $emit('update:modelValue', event.toString()) "
+    />
   </template>
 </template>
 

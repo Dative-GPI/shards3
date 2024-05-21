@@ -1,21 +1,33 @@
 <template>
-  <FSButton prependIcon="mdi-history"
+  <FSButton
+    prependIcon="mdi-history"
     label="history"
-    @click="dialog = !dialog" />
-  <FSDialog title="History"
+    @click="dialog = !dialog"
+  />
+  <FSDialog
+    title="History"
     width="500px"
-    v-model="dialog">
-    <template #body>
+    v-model="dialog"
+  >
+    <template
+      #body
+    >
       <FSCol>
-      <FSRow v-for="customPropertyValue in customPropertyValues">
-        <FSText>{{ epochToLongTimeFormat(customPropertyValue.timestamp) }}</FSText>
-        <FSCol
-          padding="0 8px 0 0"
-          align="center-right">
-          <FSMetaValue :customProperty="$props.customProperty"
-          :meta="{ code: customPropertyValue.value }" />
-        </FSCol>
-      </FSRow>
+        <FSRow
+          v-for="(customPropertyValue, index) in customPropertyValues"
+          :key="index"
+        >
+          <FSText>{{ epochToLongTimeFormat(customPropertyValue.timestamp) }}</FSText>
+          <FSCol
+            padding="0 8px 0 0"
+            align="center-right"
+          >
+            <FSMetaValue
+              :customProperty="$props.customProperty"
+              :meta="{ code: customPropertyValue.value }"
+            />
+          </FSCol>
+        </FSRow>
       </FSCol>
     </template>
   </FSDialog>
@@ -57,7 +69,7 @@ export default defineComponent({
   },
   setup(props) {
     const { epochToLongTimeFormat } = useAppTimeZone();
-    const { fetching, fetch, entity: customPropertyValues } = useCustomPropertyValues();
+    const { fetch, entity: customPropertyValues } = useCustomPropertyValues();
 
     const dialog = ref(false);
 
