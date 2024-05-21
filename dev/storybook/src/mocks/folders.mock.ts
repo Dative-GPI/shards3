@@ -1,7 +1,7 @@
-import { FolderDetails } from "@dative-gpi/foundation-core-domain/models";
+import { FolderDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 
 
-export const FOLDERS: FolderDetails[] = [
+export const FOLDERS: FolderDetailsDTO[] = [
     {
         id: "1",
         label: "folder 1",
