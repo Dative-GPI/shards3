@@ -1,17 +1,27 @@
 <template>
-  <FSCol :gap="24">
-    <FSCol v-for="(properties, category) in categories"
-    :gap="16">
-    <FSRow>
-      <FSText font="text-h3">
-        {{ category }}
-      </FSText>
-    </FSRow>
-    <FSMetaField v-for="property in properties"
-      :customProperty="property"
-      :modelValue="modelValue[property.code]"
-      @update:modelValue="(event) => $emit('update:modelValue', { ...modelValue, [property.code]: event})"
-      :editable="editable" />
+  <FSCol
+    :gap="24"
+  >
+    <FSCol
+      v-for="(properties, category) in categories"
+      :key="category"
+      :gap="16"
+    >
+      <FSRow>
+        <FSText
+          font="text-h3"
+        >
+          {{ category }}
+        </FSText>
+      </FSRow>
+      <FSMetaField
+        v-for="(property, index) in properties"
+        :customProperty="property"
+        :editable="editable"
+        :key="index"
+        :modelValue="modelValue[property.code]"
+        @update:modelValue="(event) => $emit('update:modelValue', { ...modelValue, [property.code]: event})"
+      />
     </FSCol>
   </FSCol>
 </template>
@@ -26,11 +36,11 @@ import FSText from '@dative-gpi/foundation-shared-components/components/FSText.v
 import FSMetaField from './FSMetaField.vue';
 
 export default defineComponent({
+  name: "FSMetaFormContent",
   components: {
     FSMetaField,
     FSText
   },
-  name: "FSMetaFormContent",
   props: {
     customProperties: {
       type: [Object] as PropType<CustomPropertyInfos[]>,
@@ -47,7 +57,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-
     const categories = props.customProperties.reduce((acc, curr) => {
       if (acc[curr.categoryLabel] === undefined) {
         acc[curr.categoryLabel] = [];
@@ -58,7 +67,7 @@ export default defineComponent({
 
     return {
       categories
-    }
+    };
   }
-})
+});
 </script>

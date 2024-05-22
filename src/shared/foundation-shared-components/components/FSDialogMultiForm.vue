@@ -1,42 +1,66 @@
 <template>
-  <FSDialog :title="$props.title"
+  <FSDialog
+    :title="$props.title"
     :subtitle="$props.subtitle"
     :width="$props.width"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
-    v-bind="$attrs">
-    <template #body>
-      <FSWindow width="100%" 
-        :modelValue="currentStep-1">
-        <FSForm v-for="(step, index) in $props.steps" 
+    v-bind="$attrs"
+  >
+    <template
+      #body
+    >
+      <FSWindow
+        width="100%"
+        :modelValue="currentStep - 1"
+      >
+        <FSForm
+          v-for="(step, index) in $props.steps"
           :key="index"
           :variant="$props.variant"
           @submit="onSubmit"
-          v-model="valid">
-          <FSCol gap="24px">
-            <FSFadeOut :height="height"
-              padding="0 8px 0 0">
-              <slot :name="`step-${step}`" />
+          v-model="valid"
+        >
+          <FSCol
+            gap="24px"
+          >
+            <FSFadeOut
+              :height="height"
+              padding="0 8px 0 0"
+            >
+              <slot
+                :name="`step-${step}`"
+              />
             </FSFadeOut>
-            <FSRow padding="0 16px 0 0">
-              <slot name="left-footer" />
-              <FSRow class="fs-dialog-actions"
+            <FSRow
+              padding="0 16px 0 0"
+            >
+              <slot
+                name="left-footer"
+              />
+              <FSRow
+                class="fs-dialog-actions"
                 align="top-right"
-                :wrap="false">
-                <FSButton :prependIcon="$props.leftButtonPrependIcon"
+                :wrap="false"
+              >
+                <FSButton
+                  :prependIcon="$props.leftButtonPrependIcon"
                   :label="previousButtonLabel"
                   :appendIcon="$props.leftButtonAppendIcon"
                   :variant="$props.leftButtonVariant"
                   :color="$props.leftButtonColor"
-                  @click="onPrevious()" />
-                <FSButton type="submit"
+                  @click="onPrevious()"
+                />
+                <FSButton
+                  type="submit"
                   :prependIcon="$props.rightButtonPrependIcon"
                   :label="nextButtonLabel"
                   :appendIcon="$props.rightButtonAppendIcon"
                   :variant="nextButtonVariant"
                   :color="$props.rightButtonColor"
                   :load="$props.load"
-                  :editable="$props.editable" />
+                  :editable="$props.editable"
+                />
               </FSRow>
             </FSRow>
           </FSCol>
@@ -194,7 +218,7 @@ export default defineComponent({
         ? props.rightButtonVariant ?? "full"
         : "standard";
     });
-    
+
     const onPrevious = () => {
       if (currentStep.value > 1) {
         currentStep.value--;
