@@ -39,7 +39,7 @@
             gap="4px"
           >
             <FSConnectivity
-              v-if="$props.deviceConnectivity && $props.deviceConnectivity.status != 0"
+              v-if="$props.deviceConnectivity && $props.deviceConnectivity.status != ConnectivityStatus.None"
               :deviceConnectivity="$props.deviceConnectivity"
             />
             <FSWorstAlert
@@ -77,6 +77,7 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { FSModelStatus, FSDeviceStatus, FSDeviceAlert, FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
+import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSStatusesCarousel from "../deviceOrganisations/FSStatusesCarousel.vue";
@@ -221,6 +222,7 @@ export default defineComponent({
       ColorEnum,
       lineModelStatuses,
       lineDeviceStatuses,
+      ConnectivityStatus,
       carouselModelStatuses,
       carouselDeviceStatuses,
       imageSize,

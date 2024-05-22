@@ -93,7 +93,7 @@
       :label="$props.customProperty.label"
       :editable="editable"
       :modelValue="asNumber()"
-      @update:modelValue="(event) => $emit('update:modelValue', (event + getMachineOffsetMillis - getUserOffsetMillis).toString())"
+      @update:modelValue="(event) => $emit('update:modelValue', (event + getMachineOffsetMillis() - getUserOffsetMillis()).toString())"
     />
     <FSIconField
       v-else-if="$props.customProperty.dataType === PropertyDataType.Icon"
