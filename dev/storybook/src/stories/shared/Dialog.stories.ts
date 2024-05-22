@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSDateRangeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue";
+import FSDialogMultiForm from "@dative-gpi/foundation-shared-components/components/FSDialogMultiForm.vue";
 import FSDateField from "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue";
 import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
 import FSDialogSubmit from "@dative-gpi/foundation-shared-components/components/FSDialogSubmit.vue";
@@ -225,6 +226,101 @@ export const Form: Story = {
           </FSCol>
         </template>
       </FSDialogForm>
+    </div>`
+  })
+}
+
+export const MultipleForm: Story = {
+  args: {
+    args: {
+      value1: false,
+      label1: "",
+      label2: "",
+      label3: "",
+      label4: "",
+      label5: "",
+      label6: "",
+      label7: "",
+      label8: "",
+      rightButton: () => {
+        console.log("Form is valid");
+      }
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSDialogMultiForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; gap: 10px;">
+      <FSButton
+        color="primary"
+        label="Dialog - primary color - title, subtitle"
+        @click="() => args.value1 = true"
+      />
+      <FSDialogMultiForm
+        width="500px"
+        color="primary"
+        title="Star wars 1"
+        subtitle="The phantom menace"
+        :steps="3"
+        @click:rightButton="args.rightButton"
+        v-model="args.value1"
+      >
+        <template #step-1>
+          <FSCol>
+            <FSTextField
+            label="Label 1"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label1"
+              />
+              <FSTextField
+                label="Label 2"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label2"
+              />
+              <FSTextField
+                label="Label 3"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label3"
+              />
+              <FSTextField
+                label="Label 4"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label4"
+              />
+          </FSCol>
+        </template>
+        <template #step-2>
+          EMPTY STEP
+        </template>
+        <template #step-3>
+          <FSCol>
+            <FSTextField
+              label="Label 5"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label5"
+            />
+            <FSTextField
+              label="Label 6"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label6"
+            />
+            <FSTextField
+              label="Label 7"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label7"
+            />
+            <FSTextField
+            label="Label 8"
+            :rules="[v => !!v || 'Label is required']"
+            v-model="args.label8"
+            />
+          </FSCol>
+        </template>
+      </FSDialogMultiForm>
     </div>`
   })
 }

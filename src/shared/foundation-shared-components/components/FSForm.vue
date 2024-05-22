@@ -45,8 +45,8 @@ export default defineComponent({
       event.preventDefault();
       submitted.value = true;
       await (formRef.value as any).validate();
-      emit("update:modelValue", !!(formRef.value as any).isValid);
-      emit("submit", !!(formRef.value as any).isValid);
+      emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
+      emit("submit", !!((formRef.value as any).isValid ?? true));
       
     }; 
 
