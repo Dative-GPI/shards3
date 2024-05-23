@@ -1,5 +1,3 @@
-
-
 export const FormTools = {
   isNullOrSpaces: (value: string | null | undefined): boolean => {
     return (value == null || value.match(/^ *$/) !== null);

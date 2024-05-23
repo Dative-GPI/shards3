@@ -5,21 +5,6 @@ export enum DashboardType {
   Shallow = 3
 }
 
-
-export enum StructureLevel {
-  None = 0,
-  OrganisationDashboard = 1,
-  OrganisationTypeDashboard = 2,
-  OrganisationWidget = 3,
-  OrganisationTypeWidget = 4,
-  GroupDashboard = 5,
-  GroupWidget = 6,
-  AlertDashboard = 7,
-  AlertWidget = 8,
-  OrganisationList = 9
-}
-
-
 export enum AutoRefresh {
   None = 0,
   FifteenSeconds = 1,

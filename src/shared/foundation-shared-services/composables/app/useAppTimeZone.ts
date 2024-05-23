@@ -1,10 +1,11 @@
 import { computed, ref } from "vue";
 
 import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
-import { format, subDays } from "date-fns";
+import { format, subDays, addDays, addMilliseconds, parse } from "date-fns";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
+import { fromExpression, isoTimeFormat } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { useAppLanguageCode } from "./useAppLanguageCode";
 
@@ -13,6 +14,47 @@ const timeZone = ref<TimeZoneInfos | null>(null);
 export const useAppTimeZone = () => {
     const setAppTimeZone = (payload: TimeZoneInfos) => {
         timeZone.value = payload;
+    };
+
+    const getOffsetNumber = (offsetString: string, hours: boolean = false): number => {
+        let offset = 0;
+        switch (offsetString.toLowerCase().replaceAll(" ", "")) {
+            case "utc-11:00:00": offset = -11; break;
+            case "utc-10:00:00": offset = -10; break;
+            case "utc-09:00:00": offset = -9; break;
+            case "utc-08:00:00": offset = -8; break;
+            case "utc-07:00:00": offset = -7; break;
+            case "utc-06:00:00": offset = -6; break;
+            case "utc-05:00:00": offset = -5; break;
+            case "utc-04:00:00": offset = -4; break;
+            case "utc-03:00:00": offset = -3; break;
+            case "utc-02:00:00": offset = -2; break;
+            case "utc-01:00:00": offset = -1; break;
+            case "utc+01:00:00": offset = +1; break;
+            case "utc+02:00:00": offset = +2; break;
+            case "utc+03:00:00": offset = +3; break;
+            case "utc+04:00:00": offset = +4; break;
+            case "utc+05:00:00": offset = +5; break;
+            case "utc+06:00:00": offset = +6; break;
+            case "utc+07:00:00": offset = +7; break;
+            case "utc+08:00:00": offset = +8; break;
+            case "utc+09:00:00": offset = +9; break;
+            case "utc+10:00:00": offset = +10; break;
+            case "utc+11:00:00": offset = +11; break;
+            case "utc+12:00:00": offset = +12; break;
+            case "utc+13:00:00": offset = +13; break;
+            case "utc+14:00:00": offset = +14; break;
+        }
+
+        return hours ? offset : offset * 60 * 60 * 1000;
+    }
+
+    const userOffset = (): number => {
+        return getOffsetNumber(getUserOffset());
+    };
+
+    const machineOffset = (): number => {
+        return getOffsetNumber(getMachineOffset());
     };
 
     const getUserOffset = (): string => {
@@ -181,6 +223,34 @@ export const useAppTimeZone = () => {
         }
     }
 
+    const parseForPicker = (value: string, dateFormat: string = isoTimeFormat()): number | null => {
+        let date = parse(value!, dateFormat, new Date());
+        date = addMilliseconds(date, userOffset());
+        if (!isFinite(date.getTime())) {
+            return null;
+        }
+        return date.getTime();
+    };
+
+    const formatCurrentForPicker = (daysOffset: number = -1): string => {
+        let date = new Date();
+        date.setSeconds(0, 0);
+        date = addMilliseconds(addDays(date, daysOffset), -machineOffset());
+        return format(date, isoTimeFormat());
+    };
+
+    const formatFromPicker = (date: number | null): string => {
+        if (date != null) {
+            const epoch = date - machineOffset() + (machineOffset() - userOffset());
+            return format(epoch, isoTimeFormat());
+        }
+        return "";
+    };
+
+    const validateExpression = (expression: string, variant: 'default' | 'before-after'): boolean => {
+        return (fromExpression(expression!, variant));
+    };
+
     const ready = computed(() => timeZone.value !== null);
 
     return {
@@ -198,6 +268,10 @@ export const useAppTimeZone = () => {
         epochToLongDateFormat,
         epochToLongTimeFormat,
         epochToShortDateFormat,
-        epochToShortTimeFormat
+        epochToShortTimeFormat,
+        parseForPicker,
+        formatCurrentForPicker,
+        formatFromPicker,
+        validateExpression,
     };
 }

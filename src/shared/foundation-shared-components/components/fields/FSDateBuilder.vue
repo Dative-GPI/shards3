@@ -1,45 +1,70 @@
 <template>
-  <FSForm v-model="valid">
-    <FSRow align="bottom-left">
-      <FSCol width="hug">
-        <FSDateSettingSelector :rules="[v => v != null]"
-          :structureLevel="structureLevel"
-          :model-value="localDateSetting"
-          @update:model-value="localDateSettingChange"
-          v-bind="$attrs" />
+  <FSForm
+    v-model="valid"
+  >
+    <FSRow
+      align="bottom-left"
+    >
+      <FSCol
+        width="hug"
+      >
+        <FSDateSettingSelector
+          :rules="[v => v != null]"
+          :variant="variant"
+          :lastPeriod="lastPeriod"
+          :modelValue="localDateSetting"
+          @update:modelValue="localDateSettingChange"
+          v-bind="$attrs"
+        />
       </FSCol>
-      <FSCol v-if="pastSettings.includes(localDateSetting)"
-        width="hug">
-        <FSNumberField :rules="[v => v > 0]"
-          :model-value="localDateValue"
-          @update:model-value="localDateValueChange"
-          v-bind="$attrs" />
+      <FSCol
+        v-if="pastSettings.includes(localDateSetting)"
+        width="hug"
+      >
+        <FSNumberField
+          :rules="[v => v > 0]"
+          :modelValue="localDateValue"
+          @update:modelValue="localDateValueChange"
+          v-bind="$attrs"
+        />
       </FSCol>
-      <FSCol v-if="[DateSetting.Expression].includes(localDateSetting)"
-        width="hug">
-        <FSTextField :label="$tr('ui.common.start', 'Start')"
-          :rules="[v => DatesTools.validateExpression(v, structureLevel)]"
-          :model-value="localStartDate"
-          @update:model-value="localStartDateChange"
-          v-bind="$attrs" />
+      <FSCol
+        v-if="[DateSetting.Expression].includes(localDateSetting)"
+        width="hug"
+      >
+        <FSTextField
+          :label="$tr('ui.common.start', 'Start')"
+          :rules="[v => validateExpression(v, variant)]"
+          :modelValue="localStartDate"
+          @update:modelValue="localStartDateChange"
+          v-bind="$attrs"
+        />
       </FSCol>
-      <FSCol v-if="[DateSetting.Expression].includes(localDateSetting)"
-        width="hug">
-        <FSTextField :label="$tr('ui.common.end', 'End')"
-          :rules="[v => DatesTools.validateExpression(v, structureLevel)]"
-          :model-value="localEndDate"
-          @update:model-value="localEndDateChange"
-          v-bind="$attrs" />
+      <FSCol
+        v-if="[DateSetting.Expression].includes(localDateSetting)"
+        width="hug"
+      >
+        <FSTextField
+          :label="$tr('ui.common.end', 'End')"
+          :rules="[v => validateExpression(v, variant)]"
+          :modelValue="localEndDate"
+          @update:modelValue="localEndDateChange"
+          v-bind="$attrs"
+        />
       </FSCol>
-      <FSCol v-if="[DateSetting.Pick].includes(localDateSetting)"
-        width="hug">
-        <FSDateTimeRangeField :label="$tr('ui.common.pick-time-range', 'Pick time range')"
+      <FSCol
+        v-if="[DateSetting.Pick].includes(localDateSetting)"
+        width="hug"
+      >
+        <FSDateTimeRangeField
+          :label="$tr('ui.common.pick-time-range', 'Pick time range')"
           :model-value="[
-    DatesTools.parseForPicker(localStartDate)!,
-    DatesTools.parseForPicker(localEndDate)!
-  ]"
+            parseForPicker(localStartDate)!,
+            parseForPicker(localEndDate)!
+          ]"
           @update:model-value="onPickDates"
-          v-bind="$attrs" />
+          v-bind="$attrs"
+        />
       </FSCol>
     </FSRow>
   </FSForm>
@@ -50,9 +75,9 @@ import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue"
 
 import _ from "lodash";
 
-import { DateSetting, StructureLevel } from "../../models";
+import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DatesTools, shortTimeFormat } from "@dative-gpi/foundation-shared-domain/tools";
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSForm from "../FSForm.vue";
 import FSRow from "../FSRow.vue";
@@ -81,14 +106,21 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    structureLevel: {
-      type: Number as PropType<StructureLevel>,
+    variant : {
+      type: String as PropType<"default" | "before-after">,
       required: false,
-      default: StructureLevel.AlertWidget
+      default: "default"
+    },
+    lastPeriod: {
+      type: Boolean,
+      required: false,
+      default: false
     },
   },
   emits: ["update:startDate", "update:endDate"],
   setup(props, { emit }) {
+
+    const { parseForPicker,formatFromPicker, formatCurrentForPicker, validateExpression } = useAppTimeZone();
 
     const localDateSetting = ref<DateSetting>(DateSetting.PastDays);
     const localDateValue = ref<number>(1);
@@ -105,19 +137,11 @@ export default defineComponent({
       ];
     });
 
-    const widgetStructureLevels = computed((): StructureLevel[] => {
-      return [StructureLevel.AlertWidget, StructureLevel.GroupWidget, StructureLevel.OrganisationWidget, StructureLevel.OrganisationTypeWidget];
-    });
-
-    const alertStructureLevels = computed((): StructureLevel[] => {
-      return [StructureLevel.AlertDashboard];
-    });
-
     const reset = () => {
       localStartDate.value = props.startDate;
       localEndDate.value = props.endDate;
 
-      if (alertStructureLevels.value.includes(props.structureLevel)) {
+      if (props.variant === "before-after") {
         if (props.endDate === "alertend") {
           let match = /^alertstart-([\d]+)([mhdw])$/g.exec(props.startDate.replaceAll(" ", ""));
           if (match != null) {
@@ -183,7 +207,7 @@ export default defineComponent({
         }
       }
 
-      if (widgetStructureLevels.value.includes(props.structureLevel) && props.endDate === "from" && props.startDate === "from - to + from") {
+      if (props.variant === "default" && props.lastPeriod) {
         localDateSetting.value = DateSetting.LastPeriod;
         return;
       }
@@ -295,7 +319,7 @@ export default defineComponent({
         }
       }
 
-      if (DatesTools.parseForPicker(props.endDate) != null && DatesTools.parseForPicker(props.startDate) != null) {
+      if (parseForPicker(props.endDate) != null && parseForPicker(props.startDate) != null) {
         localDateSetting.value = DateSetting.Pick;
         localDateValue.value = 1;
         return;
@@ -312,7 +336,7 @@ export default defineComponent({
 
     const onStartDateChange = (value: string) => {
       localStartDate.value = value;
-      if (valid) {
+      if (valid.value) {
         emit("update:startDate", value);
       }
     }
@@ -327,7 +351,7 @@ export default defineComponent({
 
     const onEndDateChange = (value: string) => {
       localEndDate.value = value;
-      if (valid) {
+      if (valid.value) {
         emit("update:endDate", value);
       }
     }
@@ -474,7 +498,7 @@ export default defineComponent({
           break;
         }
         case DateSetting.Expression: {
-          if ([StructureLevel.AlertWidget, StructureLevel.AlertDashboard].includes(props.structureLevel)) {
+          if (props.variant === "before-after") {
             localStartDate.value = `alertstart - ${localDateValue.value}d`;
             localEndDate.value = "alertend";
           }
@@ -485,8 +509,8 @@ export default defineComponent({
           break;
         }
         case DateSetting.Pick: {
-          localEndDate.value = DatesTools.formatCurrentForPicker(0);
-          localStartDate.value = DatesTools.formatCurrentForPicker(-1);
+          localEndDate.value = formatCurrentForPicker(0);
+          localStartDate.value = formatCurrentForPicker(-1);
           break;
         }
       }
@@ -572,22 +596,22 @@ export default defineComponent({
 
     const onPickDates = (value: number[] | null) => {
       if (!value) {
-        localEndDate.value = DatesTools.formatCurrentForPicker(0);
-        localStartDate.value = DatesTools.formatCurrentForPicker(-1);
+        localEndDate.value = formatCurrentForPicker(0);
+        localStartDate.value = formatCurrentForPicker(-1);
         if (valid.value) {
           emit("update:startDate", localStartDate.value);
           emit("update:endDate", localEndDate.value);
         }
       }
       else {
-        if (value && value[0] != null && DatesTools.formatFromPicker(value[0]) !== localStartDate.value) {
-          localStartDate.value = DatesTools.formatFromPicker(value[0]);
+        if (value && value[0] != null && formatFromPicker(value[0]) !== localStartDate.value) {
+          localStartDate.value = formatFromPicker(value[0]);
           if (valid.value) {
             emit("update:startDate", localStartDate.value);
           }
         }
-        if (value && value[1] != null && DatesTools.formatFromPicker(value[1]) !== localEndDate.value) {
-          localEndDate.value = DatesTools.formatFromPicker(value[1]);
+        if (value && value[1] != null && formatFromPicker(value[1]) !== localEndDate.value) {
+          localEndDate.value = formatFromPicker(value[1]);
           if (valid.value) {
             emit("update:endDate", localEndDate.value);
           }
@@ -599,13 +623,13 @@ export default defineComponent({
       reset();
     });
 
-    watch(() => props.startDate, (newVal, oldVal) => {
+    watch(() => props.startDate, (newVal) => {
       if (newVal !== localStartDate.value) {
         reset();
       }
     });
 
-    watch(() => props.endDate, (newVal, oldVal) => {
+    watch(() => props.endDate, (newVal) => {
       if (newVal !== localEndDate.value) {
         reset();
       }
@@ -613,10 +637,7 @@ export default defineComponent({
 
     return {
       pastSettings,
-      widgetStructureLevels,
-      alertStructureLevels,
       DateSetting,
-      DatesTools,
       localDateSetting,
       localDateValue,
       localStartDate,
@@ -628,7 +649,8 @@ export default defineComponent({
       localDateSettingChange,
       localDateValueChange,
       onPickDates,
-      shortTimeFormat
+      parseForPicker,
+      validateExpression,
     }
   }
 })

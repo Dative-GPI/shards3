@@ -1,17 +1,20 @@
 <template>
-  <FSSelectField v-bind="$attrs"
-    item-title="label"
-    item-value="id"
+  <FSSelectField
+    v-bind="$attrs"
+    itemTitle="label"
+    itemValue="id"
     :editable="editable"
     :label="$tr('ui.common.date-setting', 'Date setting')"
     :items="dateSettings"
     :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)" />
+    @update:modelValue="$emit('update:modelValue', $event)"
+  />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
-import { DateSetting, StructureLevel } from "../../models";
+
+import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
@@ -23,10 +26,10 @@ export default defineComponent({
     FSSelectField
   },
   props: {
-    structureLevel: {
-      type: Number as PropType<StructureLevel>,
+    variant: {
+      type: String as PropType<"default" | "before-after">,
       required: false,
-      default: StructureLevel.None
+      default: "default"
     },
     editable: {
       type: Boolean,
@@ -36,6 +39,11 @@ export default defineComponent({
     modelValue: {
       type: Number as PropType<DateSetting>,
       required: true
+    },
+    lastPeriod: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue"],
@@ -44,7 +52,7 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const dateSettings = computed((): { id: DateSetting, label: string }[] => {
-      if ([StructureLevel.AlertDashboard].includes(props.structureLevel)) {
+      if (props.variant === "before-after") {
         return [
           { id: DateSetting.Pick, label: $tr("ui.common.pick-dates", "Pick dates") },
           { id: DateSetting.MinutesBeforeAfter, label: $tr("ui.common.x-minutes-before-after-hour", "x Minutes before/after") },
@@ -80,7 +88,7 @@ export default defineComponent({
         { id: DateSetting.PastYears, label: $tr("ui.common.past-x-years", "Past x years") },
         { id: DateSetting.Expression, label: $tr("ui.common.expression", "Expression") }
       ];
-      if ([StructureLevel.AlertWidget, StructureLevel.GroupWidget, StructureLevel.OrganisationWidget, StructureLevel.OrganisationTypeWidget].includes(props.structureLevel)) {
+      if (props.lastPeriod) {
         dateSettings.push({ id: DateSetting.LastPeriod, label: $tr("ui.common.last-period", "Last period") });
       }
       return dateSettings;
