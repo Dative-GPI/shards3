@@ -1,5 +1,4 @@
 import { parse } from "date-fns";
-import { FormTools } from ".";
 
 const removeArtifacts = (date: string): string => {
     return date.substring(0, 19) + "Z";
@@ -41,9 +40,9 @@ export const fromExpression = (expression: string, variant: 'default' | 'before-
         }
     }
     let match = /^(?:(?:([-\+])(\d*))?(\w+))?(?:\/(\w))?/g.exec(expression);
-    while (match != null && !FormTools.isNullOrSpaces(match[0])) {
+    while (match != null && !(match[0] == null || (match[0].match(/^ *$/) !== null))) {
         let doSomething = false;
-        if (!FormTools.isNullOrSpaces(match[1]) && !FormTools.isNullOrSpaces(match[3])) {
+        if (!(match[1] == null || (match[1].match(/^ *$/) !== null)) && !(match[3] == null || (match[3].match(/^ *$/) !== null))) {
             if (!["-", "+"].includes(match[1])) {
                 return false
             }
@@ -54,7 +53,7 @@ export const fromExpression = (expression: string, variant: 'default' | 'before-
             }
             doSomething = true;
         }
-        if (!FormTools.isNullOrSpaces(match[4])) {
+        if (!(match[4] == null || (match[4].match(/^ *$/) !== null))) {
             if (!["s", "m", "h", "d", "w", "M", "y"].includes(match[4])) {
                 return false;
             }
