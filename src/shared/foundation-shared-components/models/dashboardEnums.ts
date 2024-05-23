@@ -1,11 +1,3 @@
-export enum DashboardType {
-  None = 0,
-  Organisation = 1,
-  OrganisationType = 2,
-  Shallow = 3
-}
-
-
 export enum StructureLevel {
   None = 0,
   OrganisationDashboard = 1,
@@ -19,6 +11,12 @@ export enum StructureLevel {
   OrganisationList = 9
 }
 
+export enum DashboardType {
+  None = 0,
+  Organisation = 1,
+  OrganisationType = 2,
+  Shallow = 3
+}
 
 export enum AutoRefresh {
   None = 0,
