@@ -329,7 +329,6 @@ export default defineComponent({
       localDateValue.value = 1;
     }
 
-
     const localStartDateChange = (value: string) => {
       debouncedStartDate(value);
     }
@@ -342,8 +341,6 @@ export default defineComponent({
     }
 
     const debouncedStartDate = _.debounce(onStartDateChange, 1000);
-
-
 
     const localEndDateChange = (value: string) => {
       debouncedEndDate(value);
