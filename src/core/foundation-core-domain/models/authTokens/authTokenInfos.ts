@@ -2,7 +2,7 @@ import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class AuthTokenInfos {
     id: string;
-    userId?: string;
+    userId?: string | null;
     label: string;
     creationDate: number;
     dateMax: number;
@@ -18,12 +18,12 @@ export class AuthTokenInfos {
 
 export interface AuthTokenInfosDTO {
     id: string;
-    userId?: string;
+    userId?: string | null;
     label: string;
     creationDate: string;
     dateMax: string;
 }
 
 export interface AuthTokenFilters {
-    userId?: string;
+    userId?: string | null;
 }

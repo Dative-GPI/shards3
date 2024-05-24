@@ -4,11 +4,8 @@ export class ConnectivityScenarioInfos {
     id: string
     organisationId: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string;
-    deviceOrganisationImageBlurHash?: string;
-    deviceOrganisationImageHeight?: number;
-    deviceOrganisationImageWidth?: number;
-    deviceOrganisationConnectivity?: DeviceConnectivityDetails;
+    deviceOrganisationImageId?: string | null;
+    deviceOrganisationConnectivity?: DeviceConnectivityDetails | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     time: number;
@@ -21,10 +18,8 @@ export class ConnectivityScenarioInfos {
         this.organisationId = params.organisationId;
         this.deviceOrganisationId = params.deviceOrganisationId;
         this.deviceOrganisationImageId = params.deviceOrganisationImageId;
-        this.deviceOrganisationImageBlurHash = params.deviceOrganisationImageBlurHash;
-        this.deviceOrganisationImageHeight = params.deviceOrganisationImageHeight;
-        this.deviceOrganisationImageWidth = params.deviceOrganisationImageWidth;
-        this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ? new DeviceConnectivityDetails(params.deviceOrganisationConnectivity) : undefined;
+        this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ?
+            new DeviceConnectivityDetails(params.deviceOrganisationConnectivity) : undefined;
         this.deviceOrganisationCode = params.deviceOrganisationCode;
         this.deviceOrganisationLabel = params.deviceOrganisationLabel;
         this.time = params.time;
@@ -38,11 +33,8 @@ export interface ConnectivityScenarioInfosDTO {
     id: string;
     organisationId: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string;
-    deviceOrganisationImageBlurHash?: string;
-    deviceOrganisationImageHeight?: number;
-    deviceOrganisationImageWidth?: number;
-    deviceOrganisationConnectivity?: DeviceConnectivityDetailsDTO;
+    deviceOrganisationImageId?: string | null;
+    deviceOrganisationConnectivity?: DeviceConnectivityDetailsDTO | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     time: number;
@@ -52,5 +44,5 @@ export interface ConnectivityScenarioInfosDTO {
 }
 
 export interface ConnectivityScenarioFilters {
-    deviceOrganisationId?: string;
+    deviceOrganisationId?: string | null;
 }

@@ -50,7 +50,7 @@ export interface DashboardOrganisationDetailsDTO extends DashboardOrganisationIn
 }
 
 export interface CreateDashboardOrganisationDTO {
-    folderId?: string;
+    folderId?: string | null;
     label: string;
     code: string;
     icon: string;
@@ -58,7 +58,7 @@ export interface CreateDashboardOrganisationDTO {
 }
 
 export interface UpdateDashboardOrganisationDTO {
-    folderId?: string;
+    folderId?: string | null;
     label: string;
     code: string;
     icon: string;
@@ -80,5 +80,5 @@ export interface LockDashboardOrganisationDTO {
 }
 
 export interface ChangeDashboardOrganisationFolderDTO {
-    folderId?: string;
+    folderId?: string | null;
 }

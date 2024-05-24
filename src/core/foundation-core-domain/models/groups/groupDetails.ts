@@ -1,8 +1,8 @@
 import { GroupInfos, GroupInfosDTO } from "./groupInfos";
 
 export class GroupDetails extends GroupInfos {
-    parentIcon?: string;
-    parentLabel?: string;
+    parentIcon?: string | null;
+    parentLabel?: string | null;
 
     constructor(params: GroupDetailsDTO) {
         super(params);
@@ -13,13 +13,13 @@ export class GroupDetails extends GroupInfos {
 }
 
 export interface GroupDetailsDTO extends GroupInfosDTO {
-    parentIcon?: string;
-    parentLabel?: string;
+    parentIcon?: string | null;
+    parentLabel?: string | null;
 }
 
 export interface CreateGroupDTO {
-    parentId?: string;
-    image?: string;
+    parentId?: string | null;
+    image?: string | null;
     icon: string;
     code: string;
     label: string;
@@ -27,9 +27,9 @@ export interface CreateGroupDTO {
 }
 
 export interface UpdateGroupDTO {
-    parentId?: string;
-    imageId?: string;
-    image?: string;
+    parentId?: string | null;
+    imageId?: string | null;
+    image?: string | null;
     icon: string;
     code: string;
     label: string;
@@ -37,5 +37,5 @@ export interface UpdateGroupDTO {
 }
 
 export interface ChangeGroupParentDTO {
-    parentId?: string;
+    parentId?: string | null;
 }

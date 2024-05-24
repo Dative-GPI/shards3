@@ -6,17 +6,14 @@ export class ScenarioDeviceOrganisationInfos {
     scenarioId: string;
     scenarioLabel: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string;
-    deviceOrganisationImageBlurHash?: string;
-    deviceOrganisationImageHeight?: number;
-    deviceOrganisationImageWidth?: number;
+    deviceOrganisationImageId?: string | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     overrideConditions: boolean;
-    triggerCondition?: string;
-    autoResolveCondition?: string;
+    triggerCondition?: string | null;
+    autoResolveCondition?: string | null;
     overrideTimeRanges: boolean;
-    timeRanges?: TimeRange[];
+    timeRanges?: TimeRange[] | null;
     overrideEntities: boolean;
     selectedEntities: SelectedEntities;
     entitiesIds: string[];
@@ -27,9 +24,6 @@ export class ScenarioDeviceOrganisationInfos {
         this.scenarioLabel = params.scenarioLabel;
         this.deviceOrganisationId = params.deviceOrganisationId;
         this.deviceOrganisationImageId = params.deviceOrganisationImageId;
-        this.deviceOrganisationImageBlurHash = params.deviceOrganisationImageBlurHash;
-        this.deviceOrganisationImageWidth = params.deviceOrganisationImageWidth;
-        this.deviceOrganisationImageHeight = params.deviceOrganisationImageHeight;
         this.deviceOrganisationCode = params.deviceOrganisationCode;
         this.deviceOrganisationLabel = params.deviceOrganisationLabel;
         this.overrideConditions = params.overrideConditions;
@@ -48,23 +42,20 @@ export interface ScenarioDeviceOrganisationInfosDTO {
     scenarioId: string;
     scenarioLabel: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string;
-    deviceOrganisationImageBlurHash?: string;
-    deviceOrganisationImageHeight?: number;
-    deviceOrganisationImageWidth?: number;
+    deviceOrganisationImageId?: string | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     overrideConditions: boolean;
-    triggerCondition?: string;
-    autoResolveCondition?: string;
+    triggerCondition?: string | null;
+    autoResolveCondition?: string | null;
     overrideTimeRanges: boolean;
-    timeRanges?: TimeRangeDTO[];
+    timeRanges?: TimeRangeDTO[] | null;
     overrideEntities: boolean;
     selectedEntities: number;
     entitiesIds: string[];
 }
 
 export interface ScenarioDeviceOrganisationFilters {
-    scenarioId?: string;
-    deviceOrganisationId?: string;
+    scenarioId?: string | null;
+    deviceOrganisationId?: string | null;
 }
