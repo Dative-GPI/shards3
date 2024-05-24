@@ -1,7 +1,7 @@
 export interface FSToggle {
     id: string | number;
-    prependIcon?: string;
-    label?: string;
-    appendIcon?: string;
-    icon?: string;
+    prependIcon?: string | null;
+    label?: string | null;
+    appendIcon?: string | null;
+    icon?: string | null;
 }
