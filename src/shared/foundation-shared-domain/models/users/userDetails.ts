@@ -35,8 +35,8 @@ export interface UserDetailsDTO extends UserInfosDTO {
 export interface UpdateCurrentUserDTO {
     languageCode: string;
     timeZoneId: string;
-    imageId?: string;
-    image?: string;
+    imageId?: string | null;
+    image?: string | null;
     allowSms: boolean;
     allowEmails: boolean;
     phoneNumber: string;

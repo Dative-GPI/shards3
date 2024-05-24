@@ -12,10 +12,7 @@ export class AlertInfos {
     scenarioLabel: string;
     organisationId: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string;
-    deviceOrganisationImageBlurHash?: string;
-    deviceOrganisationImageHeight?: number;
-    deviceOrganisationImageWidth?: number;
+    deviceOrganisationImageId?: string | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     icon: string;
@@ -23,21 +20,18 @@ export class AlertInfos {
     label: string;
     criticity: Criticity;
     acknowledged: boolean;
-    acknowledgingUserId?: string;
-    acknowledgingUserName?: string;
-    acknowledgingUserImageId?: string;
-    acknowledgingUserImageBlurHash?: string;
-    acknowledgingUserImageWidth?: number;
-    acknowledgingUserImageHeight?: number;
-    acknowledgingTimestamp?: number;
+    acknowledgingUserId?: string | null;
+    acknowledgingUserName?: string | null;
+    acknowledgingUserImageId?: string | null;
+    acknowledgingTimestamp?: number | null;
     initialState: AlertState;
-    triggerSourceTimestamp?: number;
-    triggerEnqueuedTimestamp?: number;
-    triggerProcessedTimestamp?: number;
+    triggerSourceTimestamp?: number | null;
+    triggerEnqueuedTimestamp?: number | null;
+    triggerProcessedTimestamp?: number | null;
     lastState: AlertState;
-    currentSourceTimestamp?: number;
-    currentEnqueuedTimestamp?: number;
-    currentProcessedTimestamp?: number;
+    currentSourceTimestamp?: number | null;
+    currentEnqueuedTimestamp?: number | null;
+    currentProcessedTimestamp?: number | null;
     status: AlertStatus;
     tags: string[];
     history: AlertState[];
@@ -50,9 +44,6 @@ export class AlertInfos {
         this.organisationId = params.organisationId;
         this.deviceOrganisationId = params.deviceOrganisationId;
         this.deviceOrganisationImageId = params.deviceOrganisationImageId;
-        this.deviceOrganisationImageBlurHash = params.deviceOrganisationImageBlurHash;
-        this.deviceOrganisationImageHeight = params.deviceOrganisationImageHeight;
-        this.deviceOrganisationImageWidth = params.deviceOrganisationImageWidth;
         this.deviceOrganisationCode = params.deviceOrganisationCode;
         this.deviceOrganisationLabel = params.deviceOrganisationLabel;
         this.icon = params.icon;
@@ -63,18 +54,22 @@ export class AlertInfos {
         this.acknowledgingUserId = params.acknowledgingUserId;
         this.acknowledgingUserName = params.acknowledgingUserName;
         this.acknowledgingUserImageId = params.acknowledgingUserImageId;
-        this.acknowledgingUserImageBlurHash = params.acknowledgingUserImageBlurHash;
-        this.acknowledgingUserImageWidth = params.acknowledgingUserImageWidth;
-        this.acknowledgingUserImageHeight = params.acknowledgingUserImageHeight;
-        this.acknowledgingTimestamp = params.acknowledgingTimestamp ? DatesTools.utcToEpoch(params.acknowledgingTimestamp) : undefined;
+        this.acknowledgingTimestamp = params.acknowledgingTimestamp ?
+            DatesTools.utcToEpoch(params.acknowledgingTimestamp) : undefined;
         this.initialState = new AlertState(params.initialState);
-        this.triggerSourceTimestamp = params.triggerSourceTimestamp ? DatesTools.utcToEpoch(params.triggerSourceTimestamp) : undefined;
-        this.triggerEnqueuedTimestamp = params.triggerEnqueuedTimestamp ? DatesTools.utcToEpoch(params.triggerEnqueuedTimestamp) : undefined;
-        this.triggerProcessedTimestamp = params.triggerProcessedTimestamp ? DatesTools.utcToEpoch(params.triggerProcessedTimestamp) : undefined;
+        this.triggerSourceTimestamp = params.triggerSourceTimestamp ?
+            DatesTools.utcToEpoch(params.triggerSourceTimestamp) : undefined;
+        this.triggerEnqueuedTimestamp = params.triggerEnqueuedTimestamp ?
+            DatesTools.utcToEpoch(params.triggerEnqueuedTimestamp) : undefined;
+        this.triggerProcessedTimestamp = params.triggerProcessedTimestamp ?
+            DatesTools.utcToEpoch(params.triggerProcessedTimestamp) : undefined;
         this.lastState = new AlertState(params.lastState);
-        this.currentSourceTimestamp = params.currentSourceTimestamp ? DatesTools.utcToEpoch(params.currentSourceTimestamp) : undefined;
-        this.currentEnqueuedTimestamp = params.currentEnqueuedTimestamp ? DatesTools.utcToEpoch(params.currentEnqueuedTimestamp) : undefined;
-        this.currentProcessedTimestamp = params.currentProcessedTimestamp ? DatesTools.utcToEpoch(params.currentProcessedTimestamp) : undefined;
+        this.currentSourceTimestamp = params.currentSourceTimestamp ?
+            DatesTools.utcToEpoch(params.currentSourceTimestamp) : undefined;
+        this.currentEnqueuedTimestamp = params.currentEnqueuedTimestamp ?
+            DatesTools.utcToEpoch(params.currentEnqueuedTimestamp) : undefined;
+        this.currentProcessedTimestamp = params.currentProcessedTimestamp ?
+            DatesTools.utcToEpoch(params.currentProcessedTimestamp) : undefined;
         this.status = params.status;
         this.tags = params.tags;
         this.history = params.history.map(dto => new AlertState(dto));
@@ -88,10 +83,7 @@ export interface AlertInfosDTO {
     scenarioLabel: string;
     organisationId: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string;
-    deviceOrganisationImageBlurHash?: string;
-    deviceOrganisationImageHeight?: number;
-    deviceOrganisationImageWidth?: number;
+    deviceOrganisationImageId?: string | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     icon: string;
@@ -99,21 +91,18 @@ export interface AlertInfosDTO {
     label: string;
     criticity: Criticity;
     acknowledged: boolean;
-    acknowledgingUserId?: string;
-    acknowledgingUserName?: string;
-    acknowledgingUserImageId?: string;
-    acknowledgingUserImageBlurHash?: string;
-    acknowledgingUserImageWidth?: number;
-    acknowledgingUserImageHeight?: number;
-    acknowledgingTimestamp?: string;
+    acknowledgingUserId?: string | null;
+    acknowledgingUserName?: string | null;
+    acknowledgingUserImageId?: string | null;
+    acknowledgingTimestamp?: string | null;
     initialState: AlertStateDTO;
-    triggerSourceTimestamp?: string;
-    triggerEnqueuedTimestamp?: string;
-    triggerProcessedTimestamp?: string;
+    triggerSourceTimestamp?: string | null;
+    triggerEnqueuedTimestamp?: string | null;
+    triggerProcessedTimestamp?: string | null;
     lastState: AlertStateDTO;
-    currentSourceTimestamp?: string;
-    currentEnqueuedTimestamp?: string;
-    currentProcessedTimestamp?: string;
+    currentSourceTimestamp?: string | null;
+    currentEnqueuedTimestamp?: string | null;
+    currentProcessedTimestamp?: string | null;
     status: AlertStatus;
     tags: string[];
     history: AlertStateDTO[];
@@ -121,13 +110,13 @@ export interface AlertInfosDTO {
 }
 
 export interface AlertFilters {
-    scenarioId?: string;
-    deviceOrganisationId?: string;
-    statuses?: AlertStatus[];
-    acknowledged?: boolean;
-    startDate?: string;
-    endDate?: string;
-    selectedEntities?: SelectedEntities;
-    entitiesIds?: string[];
-    dateVariables?: DateVariable[];
+    scenarioId?: string | null;
+    deviceOrganisationId?: string | null;
+    statuses?: AlertStatus[] | null;
+    acknowledged?: boolean | null;
+    startDate?: string | null;
+    endDate?: string | null;
+    selectedEntities?: SelectedEntities | null;
+    entitiesIds?: string[] | null;
+    dateVariables?: DateVariable[] | null;
 }

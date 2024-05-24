@@ -57,5 +57,5 @@ export interface ScenarioOrganisationInfosDTO {
 }
 
 export interface ScenarioOrganisationFilters {
-     modelId?: string;
+     modelId?: string | null;
 }

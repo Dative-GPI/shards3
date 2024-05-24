@@ -4,12 +4,18 @@
     :items="$props.items"
     v-bind="$attrs"
   >
-    <template #title="{ item }">
-      <FSSpan :class="classes(item)">
+    <template
+      #title="{ item }"
+    >
+      <FSSpan
+        :class="classes(item)"
+      >
         {{ item.title }}
       </FSSpan>
     </template>
-    <template #divider>
+    <template
+      #divider
+    >
       <FSIcon
         class="fs-breadcrumbs-divider"
         size="m"

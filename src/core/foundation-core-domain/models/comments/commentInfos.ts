@@ -5,14 +5,11 @@ export class CommentInfos {
     alertId: string;
     userId: string;
     userName: string;
-    userImageId?: string;
-    userImageBlurHash: string;
-    userImageHeight?: number;
-    userImageWidth?: number;
+    userImageId?: string | null;
     timestamp: number;
     comment: string;
     edited: boolean;
-    editTimestamp?: number;
+    editTimestamp?: number | null;
     
     constructor(params: CommentInfosDTO) {
         this.id = params.id;
@@ -20,13 +17,11 @@ export class CommentInfos {
         this.userId = params.userId;
         this.userName = params.userName;
         this.userImageId = params.userImageId;
-        this.userImageBlurHash = params.userImageBlurHash;
-        this.userImageHeight = params.userImageHeight;
-        this.userImageWidth = params.userImageWidth;
         this.timestamp = DatesTools.utcToEpoch(params.timestamp)!;
         this.comment = params.comment;
         this.edited = params.edited;
-        this.editTimestamp = params.editTimestamp ? DatesTools.utcToEpoch(params.editTimestamp) : undefined;
+        this.editTimestamp = params.editTimestamp ?
+            DatesTools.utcToEpoch(params.editTimestamp) : undefined;
     }
 }
 
@@ -35,14 +30,11 @@ export interface CommentInfosDTO {
     alertId: string;
     userId: string;
     userName: string;
-    userImageId?: string;
-    userImageBlurHash: string;
-    userImageHeight?: number;
-    userImageWidth?: number;
+    userImageId?: string | null;
     timestamp: string;
     comment: string;
     edited: boolean;
-    editTimestamp?: string;
+    editTimestamp?: string | null;
 }
 
 export interface CommentFilters {

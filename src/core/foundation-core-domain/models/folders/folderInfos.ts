@@ -3,18 +3,15 @@ import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
 export class FolderInfos {
     id: string;
     organisationId: string;
-    parentId?: string;
-    parentLabel?: string;
-    parentIcon?: string;
+    parentId?: string | null;
+    parentLabel?: string | null;
+    parentIcon?: string | null;
     label: string;
     icon: string;
     code: string;
     tags: string[];
     colors: string[];
-    imageId?: string;
-    imageBlurHash: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId?: string | null;
     path: PathCrumb[];
 
     constructor(params: FolderInfosDTO) {
@@ -29,9 +26,6 @@ export class FolderInfos {
         this.tags = params.tags.slice();
         this.colors = params.colors.slice();
         this.imageId = params.imageId;
-        this.imageBlurHash = params.imageBlurHash;
-        this.imageHeight = params.imageHeight;
-        this.imageWidth = params.imageWidth;
         this.path = params.path.map(dto => new PathCrumb(dto)).sort((a, b) => b.index - a.index);
     }
 }
@@ -39,23 +33,20 @@ export class FolderInfos {
 export interface FolderInfosDTO {
     id: string;
     organisationId: string;
-    parentId?: string;
-    parentLabel?: string;
-    parentIcon?: string;
+    parentId?: string | null;
+    parentLabel?: string | null;
+    parentIcon?: string | null;
     label: string;
     icon: string;
     code: string;
     tags: string[];
     colors: string[];
-    imageId?: string;
-    imageBlurHash: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId?: string | null;
     path: PathCrumbDTO[];
 }
 
 export interface FolderFilters {
-    parentId?: string;
-    root?: boolean;
-    search?: string;
+    parentId?: string | null;
+    root?: boolean | null;
+    search?: string | null;
 }

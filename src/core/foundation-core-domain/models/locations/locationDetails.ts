@@ -21,7 +21,7 @@ export interface CreateLocationDTO {
     label: string;
     description: string;
     tags: string[];
-    address?: AddressDTO;
+    address?: AddressDTO | null;
 }
 
 export interface UpdateLocationDTO {
@@ -30,5 +30,5 @@ export interface UpdateLocationDTO {
     label: string;
     description: string;
     tags: string[];
-    address?: AddressDTO;
+    address?: AddressDTO | null;
 }

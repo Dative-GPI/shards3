@@ -5,7 +5,7 @@ import { DashboardType } from "../enums/dashboardEnums";
 export class OrganisationDetails extends OrganisationInfos {
     code: string;
     organisationTypeId: string;
-    mainDashboardId?: string;
+    mainDashboardId?: string | null;
     mainDashboardType: DashboardType;
     description: string;
     locationsCount: number;
@@ -29,7 +29,7 @@ export class OrganisationDetails extends OrganisationInfos {
 export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
     code: string;
     organisationTypeId: string;
-    mainDashboardId?: string;
+    mainDashboardId?: string | null;
     mainDashboardType: DashboardType;
     description: string;
     locationsCount: number;
@@ -38,8 +38,8 @@ export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
 }
 
 export interface UpdateOrganisationDTO {
-    imageId?: string;
-    image?: string;
+    imageId?: string | null;
+    image?: string | null;
     label: string;
     description: string;
 }

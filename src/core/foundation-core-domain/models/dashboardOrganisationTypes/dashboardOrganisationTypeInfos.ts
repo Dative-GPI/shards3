@@ -3,8 +3,8 @@ import { ApplicationScope } from "../enums/applicationEnums";
 export class DashboardOrganisationTypeInfos {
     id: string;
     dashboardId: string;
-    organisationTypeId?: string;
-    organisationTypeLabel?: string;
+    organisationTypeId?: string | null;
+    organisationTypeLabel?: string | null;
     scope: ApplicationScope;
     locked: boolean;
     label: string;
@@ -31,8 +31,8 @@ export class DashboardOrganisationTypeInfos {
 export interface DashboardOrganisationTypeInfosDTO {
     id: string;
     dashboardId: string;
-    organisationTypeId?: string;
-    organisationTypeLabel?: string;
+    organisationTypeId?: string | null;
+    organisationTypeLabel?: string | null;
     scope: ApplicationScope;
     locked: boolean;
     label: string;
@@ -43,5 +43,5 @@ export interface DashboardOrganisationTypeInfosDTO {
 }
 
 export interface DashboardOrganisationTypeFilters {
-    search?: string;
+    search?: string | null;
 }

@@ -14,5 +14,5 @@ export interface TimeZoneInfosDTO {
 }
 
 export interface TimeZoneFilters {
-    search?: string;
+    search?: string | null;
 }

@@ -13,7 +13,7 @@ export interface UserOrganisationTableDetailsDTO extends UserOrganisationTableIn
 export interface UpdateUserOrganisationTableDTO {
     mode: "table" | "iterator";
     rowsPerPage: number;
-    sortByKey?: string;
-    sortByOrder?: string;
+    sortByKey?: string | null;
+    sortByOrder?: string | null;
     columns: UpdateUserOrganisationColumnDTO[];
 }

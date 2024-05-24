@@ -25,10 +25,10 @@ export interface ServiceAccountDetailsDTO extends ServiceAccountInfosDTO {
 
 export interface CreateServiceAccountDTO {
   roleType: RoleType;
-  roleId?: string;
+  roleId?: string | null;
   languageCode: string;
   timeZoneId: string;
-  image?: string;
+  image?: string | null;
   label: string;
   description: string;
   tags: string[];
@@ -36,11 +36,11 @@ export interface CreateServiceAccountDTO {
 
 export interface UpdateServiceAccountDTO {
   roleType: RoleType;
-  roleId?: string;
+  roleId?: string | null;
   languageCode: string;
   timeZoneId: string;
-  imageId?: string;
-  image?: string;
+  imageId?: string | null;
+  image?: string | null;
   label: string;
   description: string;
   tags: string[];

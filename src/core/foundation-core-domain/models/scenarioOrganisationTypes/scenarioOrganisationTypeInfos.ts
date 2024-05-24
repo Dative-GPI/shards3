@@ -5,8 +5,8 @@ import { ApplicationScope } from "../enums/applicationEnums";
 export class ScenarioOrganisationTypeInfos {
     id: string;
     scenarioId: string;
-    organisationTypeId?: string;
-    organisationTypeLabel?: string;
+    organisationTypeId?: string | null;
+    organisationTypeLabel?: string | null;
     scope: ApplicationScope;
     modelId: string;
     modelLabel: string;
@@ -43,8 +43,8 @@ export class ScenarioOrganisationTypeInfos {
 export interface ScenarioOrganisationTypeInfosDTO {
     id: string;
     scenarioId: string;
-    organisationTypeId?: string;
-    organisationTypeLabel?: string;
+    organisationTypeId?: string | null;
+    organisationTypeLabel?: string | null;
     scope: number;
     modelId: string;
     modelLabel: string;
@@ -60,5 +60,5 @@ export interface ScenarioOrganisationTypeInfosDTO {
 }
 
 export interface ScenarioOrganisationTypeFilters {
-    modelId?: string;
+    modelId?: string | null;
 }

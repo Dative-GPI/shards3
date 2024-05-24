@@ -16,6 +16,6 @@ export interface OrganisationTypeDetailsDTO extends OrganisationTypeInfosDTO  {
 }
 
 export interface ChangeOrganisationTypeDashboardDTO {
-    mainDashboardId?: string;
+    mainDashboardId?: string | null;
     mainDashboardType: DashboardType;
 }

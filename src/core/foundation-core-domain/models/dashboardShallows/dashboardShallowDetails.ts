@@ -6,15 +6,15 @@ import { AutoRefresh } from "../enums/dashboardEnums";
 
 export class DashboardShallowDetails extends DashboardShallowInfos {
   path: PathCrumb[];
-  overrideSingleEntity?: boolean;
-  overrideDynamicEntities?: boolean;
-  overrideGlobalSelectedEntities?: SelectedEntities;
-  overrideGlobalEntitiesIds?: string[];
-  overrideDynamicDates?: boolean;
-  overrideGlobalStartDate?: string;
-  overrideGlobalEndDate?: string;
-  overrideUseAutoRefresh?: boolean;
-  overrideAutoRefresh?: AutoRefresh;
+  overrideSingleEntity?: boolean | null;
+  overrideDynamicEntities?: boolean | null;
+  overrideGlobalSelectedEntities?: SelectedEntities | null;
+  overrideGlobalEntitiesIds?: string[] | null;
+  overrideDynamicDates?: boolean | null;
+  overrideGlobalStartDate?: string | null;
+  overrideGlobalEndDate?: string | null;
+  overrideUseAutoRefresh?: boolean | null;
+  overrideAutoRefresh?: AutoRefresh | null;
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
@@ -54,15 +54,15 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
 
 export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
     path: PathCrumbDTO[];
-    overrideSingleEntity?: boolean;
-    overrideDynamicEntities?: boolean;
-    overrideGlobalSelectedEntities?: SelectedEntities;
-    overrideGlobalEntitiesIds?: string[];
-    overrideDynamicDates?: boolean;
-    overrideGlobalStartDate?: string;
-    overrideGlobalEndDate?: string;
-    overrideUseAutoRefresh?: boolean;
-    overrideAutoRefresh?: number;
+    overrideSingleEntity?: boolean | null;
+    overrideDynamicEntities?: boolean | null;
+    overrideGlobalSelectedEntities?: SelectedEntities | null;
+    overrideGlobalEntitiesIds?: string[] | null;
+    overrideDynamicDates?: boolean | null;
+    overrideGlobalStartDate?: string | null;
+    overrideGlobalEndDate?: string | null;
+    overrideUseAutoRefresh?: boolean | null;
+    overrideAutoRefresh?: number | null;
     dashboardId: string;
     scope: number;
     singleEntity: boolean;
@@ -82,22 +82,22 @@ export interface CreateDashboardShallowDTO {
 }
 
 export interface UpdateDashboardShallowDTO {
-    folderId?: string;
+    folderId?: string | null;
     label: string;
     code: string;
     icon: string;
     tags: string[];
-    overrideSingleEntity?: boolean;
-    overrideDynamicEntities?: boolean;
-    overrideGlobalSelectedEntities?: SelectedEntities;
-    overrideGlobalEntitiesIds?: string[];
-    overrideDynamicDates?: boolean;
-    overrideGlobalStartDate?: string;
-    overrideGlobalEndDate?: string;
-    overrideUseAutoRefresh?: boolean;
-    overrideAutoRefresh?: number;
+    overrideSingleEntity?: boolean | null;
+    overrideDynamicEntities?: boolean | null;
+    overrideGlobalSelectedEntities?: SelectedEntities | null;
+    overrideGlobalEntitiesIds?: string[] | null;
+    overrideDynamicDates?: boolean | null;
+    overrideGlobalStartDate?: string | null;
+    overrideGlobalEndDate?: string | null;
+    overrideUseAutoRefresh?: boolean | null;
+    overrideAutoRefresh?: number | null;
 }
 
 export interface ChangeDashboardShallowFolderDTO {
-    folderId?: string;
+    folderId?: string | null;
 }
