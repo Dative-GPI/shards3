@@ -1,27 +1,25 @@
 <template>
   <FSSelectField
-    v-bind="$attrs"
-    itemTitle="label"
-    itemValue="id"
-    :editable="editable"
-    :label="$tr('ui.common.date-setting', 'Date setting')"
+    :editable="$props.editable"
     :items="dateSettings"
-    :modelValue="modelValue"
+    :hideHeader="true"
+    :clearable="false"
+    :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
   />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-
-import FSSelectField from "./FSSelectField.vue";
+import FSSelectField from "../fields/FSSelectField.vue";
 
 export default defineComponent({
-  name: "FSDateSettingSelector",
+  name: "FSSelectDateSetting",
   components: {
     FSSelectField
   },
@@ -31,11 +29,6 @@ export default defineComponent({
       required: false,
       default: "default"
     },
-    editable: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
     modelValue: {
       type: Number as PropType<DateSetting>,
       required: true
@@ -44,11 +37,15 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   emits: ["update:modelValue"],
   setup(props) {
-
     const { $tr } = useTranslationsProvider();
 
     const dateSettings = computed((): { id: DateSetting, label: string }[] => {
@@ -96,7 +93,7 @@ export default defineComponent({
 
     return {
       dateSettings
-    }
+    };
   }
-})
+});
 </script>

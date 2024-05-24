@@ -1,4 +1,4 @@
-import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
+import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class CommentInfos {
     id: string;
@@ -23,10 +23,10 @@ export class CommentInfos {
         this.userImageBlurHash = params.userImageBlurHash;
         this.userImageHeight = params.userImageHeight;
         this.userImageWidth = params.userImageWidth;
-        this.timestamp = DatesTools.utcToEpoch(params.timestamp)!;
+        this.timestamp = utcToEpoch(params.timestamp)!;
         this.comment = params.comment;
         this.edited = params.edited;
-        this.editTimestamp = params.editTimestamp ? DatesTools.utcToEpoch(params.editTimestamp) : undefined;
+        this.editTimestamp = params.editTimestamp ? utcToEpoch(params.editTimestamp) : undefined;
     }
 }
 

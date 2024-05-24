@@ -1,4 +1,4 @@
-import { DatesTools } from "../../tools";
+import { utcToEpoch } from "../../tools";
 
 export class AuthTokenInfos {
     id?: string;
@@ -8,7 +8,7 @@ export class AuthTokenInfos {
     constructor(params: AuthTokenInfosDTO) {
         this.id = params.id;
         this.token = params.token;
-        this.dateMax = params?.dateMax ? DatesTools.utcToEpoch(params.dateMax) : undefined;
+        this.dateMax = params?.dateMax ? utcToEpoch(params.dateMax) : undefined;
     }
 }
 

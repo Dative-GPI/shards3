@@ -124,7 +124,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
@@ -238,7 +238,6 @@ export default defineComponent({
       ColorEnum,
       dayStart,
       messages,
-      blurred,
       dayEnd,
       style,
       onChangeHourStart,

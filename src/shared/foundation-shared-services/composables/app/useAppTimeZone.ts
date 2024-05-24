@@ -1,11 +1,10 @@
-import { computed, ref } from "vue";
-
-import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
 import { format, subDays, addDays, addMilliseconds, parse } from "date-fns";
+import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
+import { computed, ref } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
-import { fromExpression, isoTimeFormat } from "@dative-gpi/foundation-shared-domain/tools";
+import { isoTimeFormat } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { useAppLanguageCode } from "./useAppLanguageCode";
 
@@ -45,7 +44,6 @@ export const useAppTimeZone = () => {
             case "utc+13:00:00": offset = +13; break;
             case "utc+14:00:00": offset = +14; break;
         }
-
         return hours ? offset : offset * 60 * 60 * 1000;
     }
 
@@ -116,7 +114,7 @@ export const useAppTimeZone = () => {
             today.setHours(0, 0, 0, 0);
         }
         return today.getTime() + getMachineOffsetMillis() - getUserOffsetMillis();
-    }
+    };
 
     const pickerToEpoch = (value: Date | null | undefined): number => {
         if (value != null) {
@@ -221,7 +219,7 @@ export const useAppTimeZone = () => {
             case "de-DE": return de;
             default: return enUS;
         }
-    }
+    };
 
     const parseForPicker = (value: string, dateFormat: string = isoTimeFormat()): number | null => {
         let date = parse(value!, dateFormat, new Date());
@@ -247,10 +245,6 @@ export const useAppTimeZone = () => {
         return "";
     };
 
-    const validateExpression = (expression: string, variant: 'default' | 'before-after'): boolean => {
-        return (fromExpression(expression!, variant));
-    };
-
     const ready = computed(() => timeZone.value !== null);
 
     return {
@@ -271,7 +265,6 @@ export const useAppTimeZone = () => {
         epochToShortTimeFormat,
         parseForPicker,
         formatCurrentForPicker,
-        formatFromPicker,
-        validateExpression,
+        formatFromPicker
     };
 }

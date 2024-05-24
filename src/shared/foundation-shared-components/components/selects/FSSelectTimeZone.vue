@@ -1,15 +1,23 @@
 <template>
-  <FSSelectField itemTitle="id"
+  <FSSelectField
+    itemTitle="id"
     :items="timeZones"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
-    v-bind="$attrs">
-    <template #append-inner>
-      <slot name="append-inner">
-        <FSChip v-if="offset"
+    v-bind="$attrs"
+  >
+    <template
+      #append-inner
+    >
+      <slot
+        name="append-inner"
+      >
+        <FSChip
+          v-if="offset"
           variant="standard"
           :color="ColorEnum.Dark"
-          :label="offset" />
+          :label="offset"
+        />
       </slot>
     </template>
   </FSSelectField>

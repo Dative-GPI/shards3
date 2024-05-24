@@ -1,5 +1,5 @@
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
-import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
+import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { AlertDataDefinition, AlertDataDefinitionDTO } from "./alertDataDefinition";
 import { AlertState, AlertStateDTO } from "./alertState";
@@ -66,15 +66,15 @@ export class AlertInfos {
         this.acknowledgingUserImageBlurHash = params.acknowledgingUserImageBlurHash;
         this.acknowledgingUserImageWidth = params.acknowledgingUserImageWidth;
         this.acknowledgingUserImageHeight = params.acknowledgingUserImageHeight;
-        this.acknowledgingTimestamp = params.acknowledgingTimestamp ? DatesTools.utcToEpoch(params.acknowledgingTimestamp) : undefined;
+        this.acknowledgingTimestamp = params.acknowledgingTimestamp ? utcToEpoch(params.acknowledgingTimestamp) : undefined;
         this.initialState = new AlertState(params.initialState);
-        this.triggerSourceTimestamp = params.triggerSourceTimestamp ? DatesTools.utcToEpoch(params.triggerSourceTimestamp) : undefined;
-        this.triggerEnqueuedTimestamp = params.triggerEnqueuedTimestamp ? DatesTools.utcToEpoch(params.triggerEnqueuedTimestamp) : undefined;
-        this.triggerProcessedTimestamp = params.triggerProcessedTimestamp ? DatesTools.utcToEpoch(params.triggerProcessedTimestamp) : undefined;
+        this.triggerSourceTimestamp = params.triggerSourceTimestamp ? utcToEpoch(params.triggerSourceTimestamp) : undefined;
+        this.triggerEnqueuedTimestamp = params.triggerEnqueuedTimestamp ? utcToEpoch(params.triggerEnqueuedTimestamp) : undefined;
+        this.triggerProcessedTimestamp = params.triggerProcessedTimestamp ? utcToEpoch(params.triggerProcessedTimestamp) : undefined;
         this.lastState = new AlertState(params.lastState);
-        this.currentSourceTimestamp = params.currentSourceTimestamp ? DatesTools.utcToEpoch(params.currentSourceTimestamp) : undefined;
-        this.currentEnqueuedTimestamp = params.currentEnqueuedTimestamp ? DatesTools.utcToEpoch(params.currentEnqueuedTimestamp) : undefined;
-        this.currentProcessedTimestamp = params.currentProcessedTimestamp ? DatesTools.utcToEpoch(params.currentProcessedTimestamp) : undefined;
+        this.currentSourceTimestamp = params.currentSourceTimestamp ? utcToEpoch(params.currentSourceTimestamp) : undefined;
+        this.currentEnqueuedTimestamp = params.currentEnqueuedTimestamp ? utcToEpoch(params.currentEnqueuedTimestamp) : undefined;
+        this.currentProcessedTimestamp = params.currentProcessedTimestamp ? utcToEpoch(params.currentProcessedTimestamp) : undefined;
         this.status = params.status;
         this.tags = params.tags;
         this.history = params.history.map(dto => new AlertState(dto));
