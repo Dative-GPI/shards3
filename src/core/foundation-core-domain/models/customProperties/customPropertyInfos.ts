@@ -62,7 +62,7 @@ export class CustomPropertyInfos {
   }
   
   export interface CustomPropertyFilters {
-    entities?: PropertyEntity[] | null;
-    editableCore?: boolean | null;
-    search?: string | null;
+    entities: PropertyEntity[] | null;
+    editableCore: boolean | null;
+    search: string | null;
   }

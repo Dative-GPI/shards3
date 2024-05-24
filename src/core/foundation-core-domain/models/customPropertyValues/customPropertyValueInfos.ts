@@ -2,16 +2,16 @@ import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class CustomPropertyValueInfos {
   value: string;
-  timestamp?: number | null;
+  timestamp: number | null;
 
   constructor(params: CustomPropertyValueInfosDTO) {
     this.value = params.value;
     this.timestamp = params.timestamp ?
-      DatesTools.utcToEpoch(params.timestamp) : undefined;
+      DatesTools.utcToEpoch(params.timestamp) : null;
   }
 }
 
 export interface CustomPropertyValueInfosDTO {
   value: string;
-  timestamp?: string | null;
+  timestamp: string | null;
 }

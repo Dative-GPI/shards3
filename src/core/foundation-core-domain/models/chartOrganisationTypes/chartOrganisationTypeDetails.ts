@@ -8,9 +8,9 @@ import { ColorSets } from "../enums/chartEnums";
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
     colorSet: ColorSets;
     colorSeed: string;
-    xAxis?: ChartAxis | null;
-    aggregates?: boolean | null;
-    dynamicVariables?: boolean | null;
+    xAxis: ChartAxis | null;
+    aggregates: boolean | null;
+    dynamicVariables: boolean | null;
     chartVariables: ChartVariable[];
     chartPlots: ChartPlot[];
 
@@ -20,7 +20,7 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
         this.colorSet = params.colorSet as ColorSets;
         this.colorSeed = params.colorSeed;
         this.xAxis = params.xAxis ?
-            new ChartAxis(params.xAxis) : undefined;
+            new ChartAxis(params.xAxis) : null;
         this.aggregates = params.aggregates;
         this.dynamicVariables = params.dynamicVariables;
         this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
@@ -31,16 +31,16 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
 export interface ChartOrganisationTypeDetailsDTO extends ChartOrganisationTypeInfosDTO {
     colorSet: number;
     colorSeed: string;
-    xAxis?: ChartAxisDTO | null;
-    aggregates?: boolean | null;
-    dynamicVariables?: boolean | null;
+    xAxis: ChartAxisDTO | null;
+    aggregates: boolean | null;
+    dynamicVariables: boolean | null;
     chartVariables: ChartVariableDTO[];
     chartPlots: ChartPlotDTO[];
 }
 
 export interface CreateChartOrganisationTypeDTO {
     chartOrganisationId: string;
-    organisationTypeId?: string | null;
+    organisationTypeId: string | null;
 }
 
 export interface UpdateChartOrganisationTypeDTO {
@@ -51,9 +51,9 @@ export interface UpdateChartOrganisationTypeDTO {
     chartType: number;
     colorSet: number;
     colorSeed: string;
-    xAxis?: CreateChartAxisDTO | null;
-    aggregates?: boolean | null;
-    dynamicVariables?: boolean | null;
+    xAxis: CreateChartAxisDTO | null;
+    aggregates: boolean | null;
+    dynamicVariables: boolean | null;
     chartVariables: CreateChartVariableDTO[];
     chartPlots: CreateChartPlotDTO[];
     labelDefault: string;

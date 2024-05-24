@@ -1,7 +1,7 @@
 export class ApplicationInfos {
     id: string;
     fallbackLanguageCode: string;
-    logoId?: string | null;
+    logoId: string | null;
     label: string;
 
     constructor(params: ApplicationInfosDTO) {
@@ -15,6 +15,6 @@ export class ApplicationInfos {
 export interface ApplicationInfosDTO {
     id: string;
     fallbackLanguageCode: string;
-    logoId?: string | null;
+    logoId: string | null;
     label: string;
 }

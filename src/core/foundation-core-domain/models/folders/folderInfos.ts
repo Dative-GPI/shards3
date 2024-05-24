@@ -3,15 +3,15 @@ import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
 export class FolderInfos {
     id: string;
     organisationId: string;
-    parentId?: string | null;
-    parentLabel?: string | null;
-    parentIcon?: string | null;
+    parentId: string | null;
+    parentLabel: string | null;
+    parentIcon: string | null;
     label: string;
     icon: string;
     code: string;
     tags: string[];
     colors: string[];
-    imageId?: string | null;
+    imageId: string | null;
     path: PathCrumb[];
 
     constructor(params: FolderInfosDTO) {
@@ -33,20 +33,20 @@ export class FolderInfos {
 export interface FolderInfosDTO {
     id: string;
     organisationId: string;
-    parentId?: string | null;
-    parentLabel?: string | null;
-    parentIcon?: string | null;
+    parentId: string | null;
+    parentLabel: string | null;
+    parentIcon: string | null;
     label: string;
     icon: string;
     code: string;
     tags: string[];
     colors: string[];
-    imageId?: string | null;
+    imageId: string | null;
     path: PathCrumbDTO[];
 }
 
 export interface FolderFilters {
-    parentId?: string | null;
-    root?: boolean | null;
-    search?: string | null;
+    parentId: string | null;
+    root: boolean | null;
+    search: string | null;
 }

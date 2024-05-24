@@ -10,9 +10,9 @@ import { ChartPlot, ChartPlotDTO } from "./chartPlot";
 export class ChartDetails extends ChartInfos {
   colorSet: ColorSets;
   colorSeed: string;
-  xAxis?: ChartAxis | null;
-  aggregates?: boolean | null;
-  dynamicVariables?: boolean | null;
+  xAxis: ChartAxis | null;
+  aggregates: boolean | null;
+  dynamicVariables: boolean | null;
   chartVariables: ChartVariable[];
   chartPlots: ChartPlot[];
 
@@ -22,7 +22,7 @@ export class ChartDetails extends ChartInfos {
     this.colorSet = params.colorSet as ColorSets;
     this.colorSeed = params.colorSeed;
     this.xAxis = params.xAxis ?
-      new ChartAxis(params.xAxis) : undefined;
+      new ChartAxis(params.xAxis) : null;
     this.aggregates = params.aggregates;
     this.dynamicVariables = params.dynamicVariables;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
@@ -46,9 +46,9 @@ export interface ChartDetailsDTO extends ChartInfosDTO {
     translations: ChartTranslationDTO[];
     colorSet: number;
     colorSeed: string;
-    xAxis?: ChartAxisDTO | null;
-    aggregates?: boolean | null;
-    dynamicVariables?: boolean | null;
+    xAxis: ChartAxisDTO | null;
+    aggregates: boolean | null;
+    dynamicVariables: boolean | null;
     chartVariables: ChartVariableDTO[];
     chartPlots: ChartPlotDTO[];
 }

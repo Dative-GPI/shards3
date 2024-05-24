@@ -43,6 +43,6 @@ export interface RoleOrganisationInfosDTO {
 }
 
 export interface RoleOrganisationFilters {
-    userType?: UserType | null;
-    search?: string | null;
+    userType: UserType | null;
+    search: string | null;
 }

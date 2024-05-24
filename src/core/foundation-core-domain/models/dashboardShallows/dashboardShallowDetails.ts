@@ -6,15 +6,15 @@ import { AutoRefresh } from "../enums/dashboardEnums";
 
 export class DashboardShallowDetails extends DashboardShallowInfos {
   path: PathCrumb[];
-  overrideSingleEntity?: boolean | null;
-  overrideDynamicEntities?: boolean | null;
-  overrideGlobalSelectedEntities?: SelectedEntities | null;
-  overrideGlobalEntitiesIds?: string[] | null;
-  overrideDynamicDates?: boolean | null;
-  overrideGlobalStartDate?: string | null;
-  overrideGlobalEndDate?: string | null;
-  overrideUseAutoRefresh?: boolean | null;
-  overrideAutoRefresh?: AutoRefresh | null;
+  overrideSingleEntity: boolean | null;
+  overrideDynamicEntities: boolean | null;
+  overrideGlobalSelectedEntities: SelectedEntities | null;
+  overrideGlobalEntitiesIds: string[] | null;
+  overrideDynamicDates: boolean | null;
+  overrideGlobalStartDate: string | null;
+  overrideGlobalEndDate: string | null;
+  overrideUseAutoRefresh: boolean | null;
+  overrideAutoRefresh: AutoRefresh | null;
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
@@ -33,7 +33,8 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
     this.overrideSingleEntity = params.overrideSingleEntity;
     this.overrideDynamicEntities = params.overrideDynamicEntities;
     this.overrideGlobalSelectedEntities = params.overrideGlobalSelectedEntities;
-    this.overrideGlobalEntitiesIds = params.overrideGlobalEntitiesIds?.slice();
+    this.overrideGlobalEntitiesIds = params.overrideGlobalEntitiesIds ?
+      params.overrideGlobalEntitiesIds.slice() : null;
     this.overrideDynamicDates = params.overrideDynamicDates;
     this.overrideGlobalStartDate = params.overrideGlobalStartDate;
     this.overrideGlobalEndDate = params.overrideGlobalEndDate;
@@ -54,15 +55,15 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
 
 export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
     path: PathCrumbDTO[];
-    overrideSingleEntity?: boolean | null;
-    overrideDynamicEntities?: boolean | null;
-    overrideGlobalSelectedEntities?: SelectedEntities | null;
-    overrideGlobalEntitiesIds?: string[] | null;
-    overrideDynamicDates?: boolean | null;
-    overrideGlobalStartDate?: string | null;
-    overrideGlobalEndDate?: string | null;
-    overrideUseAutoRefresh?: boolean | null;
-    overrideAutoRefresh?: number | null;
+    overrideSingleEntity: boolean | null;
+    overrideDynamicEntities: boolean | null;
+    overrideGlobalSelectedEntities: SelectedEntities | null;
+    overrideGlobalEntitiesIds: string[] | null;
+    overrideDynamicDates: boolean | null;
+    overrideGlobalStartDate: string | null;
+    overrideGlobalEndDate: string | null;
+    overrideUseAutoRefresh: boolean | null;
+    overrideAutoRefresh: number | null;
     dashboardId: string;
     scope: number;
     singleEntity: boolean;
@@ -82,22 +83,22 @@ export interface CreateDashboardShallowDTO {
 }
 
 export interface UpdateDashboardShallowDTO {
-    folderId?: string | null;
+    folderId: string | null;
     label: string;
     code: string;
     icon: string;
     tags: string[];
-    overrideSingleEntity?: boolean | null;
-    overrideDynamicEntities?: boolean | null;
-    overrideGlobalSelectedEntities?: SelectedEntities | null;
-    overrideGlobalEntitiesIds?: string[] | null;
-    overrideDynamicDates?: boolean | null;
-    overrideGlobalStartDate?: string | null;
-    overrideGlobalEndDate?: string | null;
-    overrideUseAutoRefresh?: boolean | null;
-    overrideAutoRefresh?: number | null;
+    overrideSingleEntity: boolean | null;
+    overrideDynamicEntities: boolean | null;
+    overrideGlobalSelectedEntities: SelectedEntities | null;
+    overrideGlobalEntitiesIds: string[] | null;
+    overrideDynamicDates: boolean | null;
+    overrideGlobalStartDate: string | null;
+    overrideGlobalEndDate: string | null;
+    overrideUseAutoRefresh: boolean | null;
+    overrideAutoRefresh: number | null;
 }
 
 export interface ChangeDashboardShallowFolderDTO {
-    folderId?: string | null;
+    folderId: string | null;
 }

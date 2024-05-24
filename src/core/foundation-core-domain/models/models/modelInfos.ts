@@ -2,7 +2,7 @@ export class ModelInfos {
     id: string;
     manufacturerId: string;
     manufacturerLabel: string;
-    imageId?: string | null;
+    imageId: string | null;
     code: string;
     label: string;
     connectable: boolean;
@@ -22,13 +22,13 @@ export interface ModelInfosDTO {
     id: string;
     manufacturerId: string;
     manufacturerLabel: string;
-    imageId?: string | null;
+    imageId: string | null;
     code: string;
     label: string;
     connectable: boolean;
 }
 
 export interface ModelFilters {
-    modelsIds?: string[] | null;
-    search?: string | null;
+    modelsIds: string[] | null;
+    search: string | null;
 }

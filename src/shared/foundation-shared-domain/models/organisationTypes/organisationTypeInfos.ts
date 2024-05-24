@@ -2,7 +2,7 @@ import { DashboardType } from "../enums/dashboardEnums";
 
 export class OrganisationTypeInfos {
   id: string;
-  mainDashboardId?: string | null;
+  mainDashboardId: string | null;
   mainDashboardType: DashboardType;
   code: string;
   label: string;
@@ -18,12 +18,12 @@ export class OrganisationTypeInfos {
 
 export interface OrganisationTypeInfosDTO {
   id: string;
-  mainDashboardId?: string | null;
+  mainDashboardId: string | null;
   mainDashboardType: DashboardType;
   code: string;
   label: string;
 }
 
 export interface OrganisationTypeFilters {
-  search?: string | null;
+  search: string | null;
 }

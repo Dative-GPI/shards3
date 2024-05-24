@@ -1,10 +1,10 @@
 export class OrganisationInfos {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     label: string;
     userOrganisationsCount: number;
-    adminId?: string | null;
-    adminName?: string | null;
+    adminId: string | null;
+    adminName: string | null;
 
     constructor(params: OrganisationInfosDTO) {
         this.id = params.id;
@@ -18,13 +18,13 @@ export class OrganisationInfos {
 
 export interface OrganisationInfosDTO {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     label: string;
     userOrganisationsCount: number;
-    adminId?: string | null;
-    adminName?: string | null;
+    adminId: string | null;
+    adminName: string | null;
 }
 
 export interface OrganisationFilters {
-    search?: string | null;
+    search: string | null;
 }

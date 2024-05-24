@@ -14,5 +14,5 @@ export interface FamilyInfosDTO {
 }
 
 export interface FamilyFilters {
-    search?: string | null;
+    search: string | null;
 }

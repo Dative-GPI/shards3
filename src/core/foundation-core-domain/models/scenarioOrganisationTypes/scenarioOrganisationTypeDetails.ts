@@ -19,12 +19,12 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
     timeRanges: TimeRange[];
     triggerOn: TriggerOn;
     triggerCondition: string;
-    triggerMin?: number | null;
+    triggerMin: number | null;
     autoResolveOn: ResolveOn;
     autoResolveCondition: string;
-    autoResolveMin?: number | null;
-    timeout?: number | null;
-    lock?: number | null;
+    autoResolveMin: number | null;
+    timeout: number | null;
+    lock: number | null;
     waitResolved: boolean;
     singleEntity: boolean;
     dynamicEntities: boolean;
@@ -84,12 +84,12 @@ export interface ScenarioOrganisationTypeDetailsDTO extends ScenarioOrganisation
     timeRanges: TimeRangeDTO[];
     triggerOn: number;
     triggerCondition: string;
-    triggerMin?: number | null;
+    triggerMin: number | null;
     autoResolveOn: number;
     autoResolveCondition: string;
-    autoResolveMin?: number | null;
-    timeout?: number | null;
-    lock?: number | null;
+    autoResolveMin: number | null;
+    timeout: number | null;
+    lock: number | null;
     waitResolved: boolean;
     singleEntity: boolean;
     dynamicEntities: boolean;
@@ -105,13 +105,13 @@ export interface ScenarioOrganisationTypeDetailsDTO extends ScenarioOrganisation
 
 export interface CreateScenarioOrganisationTypeDTO {
     scenarioOrganisationId: string;
-    organisationTypeId?: string | null;
+    organisationTypeId: string | null;
 }
 
 export interface UpdateScenarioOrganisationTypeDTO {
     modelId: string;
     dataCategoryId: string;
-    dataDefinitionId?: string | null;
+    dataDefinitionId: string | null;
     groupByIds: string[];
     metadataIds: string[];
     criticity: number;
@@ -128,12 +128,12 @@ export interface UpdateScenarioOrganisationTypeDTO {
     timeRanges: CreateTimeRangeDTO[];
     triggerOn: number;
     triggerCondition: string;
-    triggerMin?: number | null;
+    triggerMin: number | null;
     autoResolveOn: number;
     autoResolveCondition: string;
-    autoResolveMin?: number | null;
-    timeout?: number | null;
-    lock?: number | null;
+    autoResolveMin: number | null;
+    timeout: number | null;
+    lock: number | null;
     waitResolved: boolean;
     singleEntity: boolean;
     dynamicEntities: boolean;
