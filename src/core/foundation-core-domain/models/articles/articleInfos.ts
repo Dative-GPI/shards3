@@ -1,6 +1,6 @@
 export class ArticleInfos {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     label: string;
     
     constructor(params: ArticleInfosDTO) {
@@ -12,10 +12,10 @@ export class ArticleInfos {
 
 export interface ArticleInfosDTO {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     label: string;
 }
 
 export interface ArticleFilters {
-    search?: string | null;
+    search: string | null;
 }

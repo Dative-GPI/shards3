@@ -5,11 +5,11 @@ export class CommentInfos {
     alertId: string;
     userId: string;
     userName: string;
-    userImageId?: string | null;
+    userImageId: string | null;
     timestamp: number;
     comment: string;
     edited: boolean;
-    editTimestamp?: number | null;
+    editTimestamp: number | null;
     
     constructor(params: CommentInfosDTO) {
         this.id = params.id;
@@ -21,7 +21,7 @@ export class CommentInfos {
         this.comment = params.comment;
         this.edited = params.edited;
         this.editTimestamp = params.editTimestamp ?
-            DatesTools.utcToEpoch(params.editTimestamp) : undefined;
+            DatesTools.utcToEpoch(params.editTimestamp) : null;
     }
 }
 
@@ -30,11 +30,11 @@ export interface CommentInfosDTO {
     alertId: string;
     userId: string;
     userName: string;
-    userImageId?: string | null;
+    userImageId: string | null;
     timestamp: string;
     comment: string;
     edited: boolean;
-    editTimestamp?: string | null;
+    editTimestamp: string | null;
 }
 
 export interface CommentFilters {

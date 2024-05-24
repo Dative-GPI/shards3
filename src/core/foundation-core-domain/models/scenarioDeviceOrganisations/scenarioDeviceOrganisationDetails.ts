@@ -15,10 +15,10 @@ export interface CreateScenarioDeviceOrganisationDTO {
     scenarioId: string;
     deviceOrganisationId: string;
     overrideConditions: boolean;
-    triggerCondition?: string | null;
-    autoResolveCondition?: string | null;
+    triggerCondition: string | null;
+    autoResolveCondition: string | null;
     overrideTimeRanges: boolean;
-    timeRanges?: CreateTimeRangeDTO[] | null;
+    timeRanges: CreateTimeRangeDTO[] | null;
     overrideEntities: boolean;
     selectedEntities: SelectedEntities;
     entitiesIds: string[];
@@ -26,10 +26,10 @@ export interface CreateScenarioDeviceOrganisationDTO {
 
 export interface UpdateScenarioDeviceOrganisationDTO {
     overrideConditions: boolean;
-    triggerCondition?: string | null;
-    autoResolveCondition?: string | null;
+    triggerCondition: string | null;
+    autoResolveCondition: string | null;
     overrideTimeRanges: boolean;
-    timeRanges?: CreateTimeRangeDTO[] | null;
+    timeRanges: CreateTimeRangeDTO[] | null;
     overrideEntities: boolean;
     selectedEntities: SelectedEntities;
     entitiesIds: string[];

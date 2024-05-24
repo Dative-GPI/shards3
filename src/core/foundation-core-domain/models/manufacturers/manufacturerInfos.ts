@@ -1,6 +1,6 @@
 export class ManufacturerInfos {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     label: string;
     
     constructor(params: ManufacturerInfosDTO) {
@@ -12,10 +12,10 @@ export class ManufacturerInfos {
 
 export interface ManufacturerInfosDTO {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     label: string;
 }
 
 export interface ManufacturerFilters {
-    search?: string | null;
+    search: string | null;
 }

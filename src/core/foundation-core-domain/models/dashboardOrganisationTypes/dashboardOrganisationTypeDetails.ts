@@ -47,7 +47,7 @@ export interface DashboardOrganisationTypeDetailsDTO extends DashboardOrganisati
 
 export interface CreateDashboardOrganisationTypeDTO {
     dashboardOrganisationId: string;
-    organisationTypeId?: string | null;
+    organisationTypeId: string | null;
 }
 
 export interface UpdateDashboardOrganisationTypeDTO {

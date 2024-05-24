@@ -32,5 +32,5 @@ export interface WidgetTemplateInfosDTO {
 }
   
 export interface WidgetTemplateFilters {
-    search?: string | null;
+    search: string | null;
 }

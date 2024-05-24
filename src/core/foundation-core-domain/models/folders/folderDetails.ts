@@ -14,8 +14,8 @@ export interface CreateFolderDTO {
     icon: string;
     code: string;
     tags: string[];
-    image?: string | null;
-    parentId?: string | null;
+    image: string | null;
+    parentId: string | null;
 }
 
 export interface UpdateFolderDTO {
@@ -23,11 +23,11 @@ export interface UpdateFolderDTO {
     icon: string;
     code: string;
     tags: string[];
-    imageId?: string | null;
-    image?: string | null;
-    parentId?: string | null;
+    imageId: string | null;
+    image: string | null;
+    parentId: string | null;
 }
 
 export interface ChangeFolderParentDTO {
-    parentId?: string | null;
+    parentId: string | null;
 }

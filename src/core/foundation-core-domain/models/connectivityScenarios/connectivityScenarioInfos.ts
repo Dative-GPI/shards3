@@ -4,8 +4,8 @@ export class ConnectivityScenarioInfos {
     id: string
     organisationId: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string | null;
-    deviceOrganisationConnectivity?: DeviceConnectivityDetails | null;
+    deviceOrganisationImageId: string | null;
+    deviceOrganisationConnectivity: DeviceConnectivityDetails | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     time: number;
@@ -19,7 +19,7 @@ export class ConnectivityScenarioInfos {
         this.deviceOrganisationId = params.deviceOrganisationId;
         this.deviceOrganisationImageId = params.deviceOrganisationImageId;
         this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ?
-            new DeviceConnectivityDetails(params.deviceOrganisationConnectivity) : undefined;
+            new DeviceConnectivityDetails(params.deviceOrganisationConnectivity) : null;
         this.deviceOrganisationCode = params.deviceOrganisationCode;
         this.deviceOrganisationLabel = params.deviceOrganisationLabel;
         this.time = params.time;
@@ -33,8 +33,8 @@ export interface ConnectivityScenarioInfosDTO {
     id: string;
     organisationId: string;
     deviceOrganisationId: string;
-    deviceOrganisationImageId?: string | null;
-    deviceOrganisationConnectivity?: DeviceConnectivityDetailsDTO | null;
+    deviceOrganisationImageId: string | null;
+    deviceOrganisationConnectivity: DeviceConnectivityDetailsDTO | null;
     deviceOrganisationCode: string;
     deviceOrganisationLabel: string;
     time: number;
@@ -44,5 +44,5 @@ export interface ConnectivityScenarioInfosDTO {
 }
 
 export interface ConnectivityScenarioFilters {
-    deviceOrganisationId?: string | null;
+    deviceOrganisationId: string | null;
 }

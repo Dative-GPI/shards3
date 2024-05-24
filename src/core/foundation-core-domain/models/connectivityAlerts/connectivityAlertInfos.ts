@@ -9,10 +9,10 @@ export class ConnectivityAlertInfos {
   organisationId: string;
   deviceOrganisationId: string;
   deviceOrganisationLabel: string;
-  deviceOrganisationImageId?: string | null;
-  deviceOrganisationConnectivity?: DeviceConnectivityInfos | null;
+  deviceOrganisationImageId: string | null;
+  deviceOrganisationConnectivity: DeviceConnectivityInfos | null;
   triggerProcessedTimestamp: number;
-  resolveProcessedTimestamp?: number | null;
+  resolveProcessedTimestamp: number | null;
   status: AlertStatus;
 
   constructor(params: ConnectivityAlertInfosDTO) {
@@ -22,11 +22,11 @@ export class ConnectivityAlertInfos {
     this.deviceOrganisationId = params.deviceOrganisationId;
     this.deviceOrganisationLabel = params.deviceOrganisationLabel;
     this.deviceOrganisationImageId = params.deviceOrganisationImageId;
-    this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity != null ?
-      new DeviceConnectivityInfos({ ...params.deviceOrganisationConnectivity, id: params.deviceOrganisationId }) :
-      undefined;
+    this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ?
+      new DeviceConnectivityInfos({ ...params.deviceOrganisationConnectivity, id: params.deviceOrganisationId }) : null;
     this.triggerProcessedTimestamp = DatesTools.utcToEpoch(params.triggerProcessedTimestamp);
-    this.resolveProcessedTimestamp = params.resolveProcessedTimestamp ? DatesTools.utcToEpoch(params.resolveProcessedTimestamp) : undefined;
+    this.resolveProcessedTimestamp = params.resolveProcessedTimestamp ?
+      DatesTools.utcToEpoch(params.resolveProcessedTimestamp) : null;
     this.status = params.status;
   }
 }
@@ -37,15 +37,15 @@ export interface ConnectivityAlertInfosDTO {
   organisationId: string;
   deviceOrganisationId: string;
   deviceOrganisationLabel: string;
-  deviceOrganisationImageId?: string | null;
-  deviceOrganisationConnectivity?: DeviceConnectivityInfosDTO | null;
+  deviceOrganisationImageId: string | null;
+  deviceOrganisationConnectivity: DeviceConnectivityInfosDTO | null;
   triggerProcessedTimestamp: string;
-  resolveProcessedTimestamp?: string | null;
+  resolveProcessedTimestamp: string | null;
   status: AlertStatus;
 }
 
 export interface ConnectivityAlertFilters {
-  deviceOrganisationId?: string | null;
-  startDate?: string | null;
-  endDate?: string | null;
+  deviceOrganisationId: string | null;
+  startDate: string | null;
+  endDate: string | null;
 }

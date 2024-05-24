@@ -1,6 +1,6 @@
 export class UserInfos {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     email: string;
     phoneNumber: string;
     firstName: string;
@@ -18,7 +18,7 @@ export class UserInfos {
   
   export interface UserInfosDTO {
     id: string;
-    imageId?: string | null;
+    imageId: string | null;
     email: string;
     phoneNumber: string;
     firstName: string;
@@ -26,5 +26,5 @@ export class UserInfos {
   }
   
   export interface UserFilters {
-    search?: string | null;
+    search: string | null;
   }

@@ -6,11 +6,11 @@ export class UserOrganisationInfos {
     userId: string;
     organisationId: string;
     roleType: RoleType;
-    roleId?: string | null;
+    roleId: string | null;
     roleLabel: string;
     roleIcon: string;
     admin: boolean;
-    imageId?: string | null;
+    imageId: string | null;
     userType: UserType;
     validity: UserValidityState;
     allowSms: boolean;
@@ -50,11 +50,11 @@ export interface UserOrganisationInfosDTO {
     userId: string;
     organisationId: string;
     roleType: RoleType;
-    roleId?: string | null;
+    roleId: string | null;
     roleLabel: string;
     roleIcon: string;
     admin: boolean;
-    imageId?: string | null;
+    imageId: string | null;
     userType: UserType;
     validity: UserValidityState;
     allowSms: boolean;
@@ -68,5 +68,5 @@ export interface UserOrganisationInfosDTO {
 }
 
 export interface UserOrganisationFilters {
-    search?: string | null;
+    search: string | null;
 }

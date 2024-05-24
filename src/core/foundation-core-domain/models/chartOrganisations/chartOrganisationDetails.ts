@@ -8,9 +8,9 @@ import { ColorSets } from "../enums/chartEnums";
 export class ChartOrganisationDetails extends ChartOrganisationInfos {
     colorSet: ColorSets;
     colorSeed: string;
-    xAxis?: ChartAxis;
-    aggregates?: boolean | null;
-    dynamicVariables?: boolean | null;
+    xAxis: ChartAxis | null;
+    aggregates: boolean | null;
+    dynamicVariables: boolean | null;
     chartVariables: ChartVariable[];
     chartPlots: ChartPlot[];
 
@@ -20,7 +20,7 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
         this.colorSet = params.colorSet as ColorSets;
         this.colorSeed = params.colorSeed;
         this.xAxis = params.xAxis ?
-            new ChartAxis(params.xAxis) : undefined;
+            new ChartAxis(params.xAxis) : null;
         this.aggregates = params.aggregates;
         this.dynamicVariables = params.dynamicVariables;
         this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
@@ -31,9 +31,9 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
 export interface ChartOrganisationDetailsDTO extends ChartOrganisationInfosDTO {
     colorSet: number;
     colorSeed: string;
-    xAxis?: ChartAxisDTO | null;
-    aggregates?: boolean | null;
-    dynamicVariables?: boolean | null;
+    xAxis: ChartAxisDTO | null;
+    aggregates: boolean | null;
+    dynamicVariables: boolean | null;
     chartVariables: ChartVariableDTO[];
     chartPlots: ChartPlotDTO[];
 }
@@ -55,9 +55,9 @@ export interface UpdateChartOrganisationDTO {
     chartType: number;
     colorSet: number;
     colorSeed: string;
-    xAxis?: CreateChartAxisDTO | null;
-    aggregates?: boolean | null;
-    dynamicVariables?: boolean | null;
+    xAxis: CreateChartAxisDTO | null;
+    aggregates: boolean | null;
+    dynamicVariables: boolean | null;
     chartVariables: CreateChartVariableDTO[];
     chartPlots: CreateChartPlotDTO[];
     labelDefault: string;

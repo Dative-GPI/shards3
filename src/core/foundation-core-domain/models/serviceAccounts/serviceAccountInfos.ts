@@ -6,10 +6,10 @@ export class ServiceAccountInfos {
   userId: string;
   organisationId: string;
   roleType: RoleType;
-  roleId?: string | null;
+  roleId: string | null;
   roleLabel: string;
   roleIcon: string;
-  imageId?: string | null;
+  imageId: string | null;
   userType: UserType;
   validity: UserValidityState;
   label: string;
@@ -38,10 +38,10 @@ export interface ServiceAccountInfosDTO {
   userId: string;
   organisationId: string;
   roleType: RoleType;
-  roleId?: string | null;
+  roleId: string | null;
   roleLabel: string;
   roleIcon: string;
-  imageId?: string | null;
+  imageId: string | null;
   userType: UserType;
   validity: UserValidityState;
   label: string;
@@ -50,5 +50,5 @@ export interface ServiceAccountInfosDTO {
 }
 
 export interface ServiceAccountFilters {
-  search?: string | null;
+  search: string | null;
 }
