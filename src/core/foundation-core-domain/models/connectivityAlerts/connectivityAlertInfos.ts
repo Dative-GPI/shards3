@@ -9,13 +9,10 @@ export class ConnectivityAlertInfos {
   organisationId: string;
   deviceOrganisationId: string;
   deviceOrganisationLabel: string;
-  deviceOrganisationImageId?: string;
-  deviceOrganisationImageBlurHash?: string;
-  deviceOrganisationImageHeight?: number;
-  deviceOrganisationImageWidth?: number;
-  deviceOrganisationConnectivity?: DeviceConnectivityInfos;
+  deviceOrganisationImageId: string | null;
+  deviceOrganisationConnectivity: DeviceConnectivityInfos | null;
   triggerProcessedTimestamp: number;
-  resolveProcessedTimestamp?: number;
+  resolveProcessedTimestamp: number | null;
   status: AlertStatus;
 
   constructor(params: ConnectivityAlertInfosDTO) {
@@ -25,14 +22,11 @@ export class ConnectivityAlertInfos {
     this.deviceOrganisationId = params.deviceOrganisationId;
     this.deviceOrganisationLabel = params.deviceOrganisationLabel;
     this.deviceOrganisationImageId = params.deviceOrganisationImageId;
-    this.deviceOrganisationImageBlurHash = params.deviceOrganisationImageBlurHash;
-    this.deviceOrganisationImageHeight = params.deviceOrganisationImageHeight;
-    this.deviceOrganisationImageWidth = params.deviceOrganisationImageWidth;
-    this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity != null ?
-      new DeviceConnectivityInfos({ ...params.deviceOrganisationConnectivity, id: params.deviceOrganisationId }) :
-      undefined;
+    this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ?
+      new DeviceConnectivityInfos({ ...params.deviceOrganisationConnectivity, id: params.deviceOrganisationId }) : null;
     this.triggerProcessedTimestamp = utcToEpoch(params.triggerProcessedTimestamp);
-    this.resolveProcessedTimestamp = params.resolveProcessedTimestamp ? utcToEpoch(params.resolveProcessedTimestamp) : undefined;
+    this.resolveProcessedTimestamp = params.resolveProcessedTimestamp ?
+      utcToEpoch(params.resolveProcessedTimestamp) : null;
     this.status = params.status;
   }
 }
@@ -43,18 +37,15 @@ export interface ConnectivityAlertInfosDTO {
   organisationId: string;
   deviceOrganisationId: string;
   deviceOrganisationLabel: string;
-  deviceOrganisationImageId?: string;
-  deviceOrganisationImageBlurHash?: string;
-  deviceOrganisationImageHeight?: number;
-  deviceOrganisationImageWidth?: number;
-  deviceOrganisationConnectivity?: DeviceConnectivityInfosDTO;
+  deviceOrganisationImageId: string | null;
+  deviceOrganisationConnectivity: DeviceConnectivityInfosDTO | null;
   triggerProcessedTimestamp: string;
-  resolveProcessedTimestamp?: string;
+  resolveProcessedTimestamp: string | null;
   status: AlertStatus;
 }
 
 export interface ConnectivityAlertFilters {
-  deviceOrganisationId?: string;
-  startDate?: string;
-  endDate?: string;
+  deviceOrganisationId: string | null;
+  startDate: string | null;
+  endDate: string | null;
 }

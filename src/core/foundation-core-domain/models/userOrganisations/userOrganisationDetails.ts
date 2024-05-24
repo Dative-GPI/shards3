@@ -6,7 +6,7 @@ import { RoleType } from "../enums/roleEnums";
 
 export class UserOrganisationDetails extends UserOrganisationInfos {
     mainDashboardType: DashboardType;
-    mainDashboardId?: string;
+    mainDashboardId: string | null;
     mainDashboardLabel: string;
     languageCode: string;
     timeZoneId: string;
@@ -26,7 +26,7 @@ export class UserOrganisationDetails extends UserOrganisationInfos {
 
 export interface UserOrganisationDetailsDTO extends UserOrganisationInfosDTO {
     mainDashboardType: DashboardType;
-    mainDashboardId?: string;
+    mainDashboardId: string | null;
     mainDashboardLabel: string;
     languageCode: string;
     timeZoneId: string;
@@ -35,10 +35,10 @@ export interface UserOrganisationDetailsDTO extends UserOrganisationInfosDTO {
 
 export interface CreateUserOrganisationDTO {
     roleType: RoleType;
-    roleId?: string;
+    roleId: string | null;
     languageCode: string;
     timeZoneId: string;
-    image?: string;
+    image: string | null;
     email: string;
     phoneNumber: string;
     firstName: string;
@@ -48,13 +48,13 @@ export interface CreateUserOrganisationDTO {
 
 export interface UpdateUserOrganisationDTO {
     roleType: RoleType;
-    roleId?: string;
+    roleId: string | null;
     mainDashboardType: DashboardType;
-    mainDashboardId?: string;
+    mainDashboardId: string | null;
     tags: string[];
 }
 
 export interface ChangeCurrentUserOrganisationDashboardDTO {
     mainDashboardType: DashboardType;
-    mainDashboardId?: string;
+    mainDashboardId: string | null;
 }

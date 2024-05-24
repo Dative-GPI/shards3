@@ -5,6 +5,6 @@ export interface FSDeviceAlert {
     label: string;
     status: AlertStatus;
     criticity: Criticity;
-    sourceTimestamp?: number;
-    enqueuedTimestamp?: number;
+    sourceTimestamp?: number | null;
+    enqueuedTimestamp?: number | null;
 }

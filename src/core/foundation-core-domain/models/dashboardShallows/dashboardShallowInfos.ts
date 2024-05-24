@@ -5,9 +5,9 @@ export class DashboardShallowInfos {
     organisationId: string;
     dashboardOrganisationTypeId: string;
     dashboardOrganisationTypeLabel: string;
-    folderId?: string;
-    folderLabel?: string;
-    folderIcon?: string;
+    folderId: string | null;
+    folderLabel: string | null;
+    folderIcon: string | null;
     label: string;
     code: string;
     icon: string;
@@ -39,9 +39,9 @@ export interface DashboardShallowInfosDTO {
     organisationId: string;
     dashboardOrganisationTypeId: string;
     dashboardOrganisationTypeLabel: string;
-    folderId?: string;
-    folderLabel?: string;
-    folderIcon?: string;
+    folderId: string | null;
+    folderLabel: string | null;
+    folderIcon: string | null;
     label: string;
     code: string;
     icon: string;
@@ -52,7 +52,7 @@ export interface DashboardShallowInfosDTO {
 }
 
 export interface DashboardShallowFilters {
-    root?: boolean;
-    folderId?: string;
-    search?: string;
+    root: boolean | null;
+    folderId: string | null;
+    search: string | null;
 }

@@ -19,12 +19,12 @@ export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
     timeRanges: TimeRange[];
     triggerOn: TriggerOn;
     triggerCondition: string;
-    triggerMin?: number;
+    triggerMin: number | null;
     autoResolveOn: ResolveOn;
     autoResolveCondition: string;
-    autoResolveMin?: number;
-    timeout?: number;
-    lock?: number;
+    autoResolveMin: number | null;
+    timeout: number | null;
+    lock: number | null;
     waitResolved: boolean;
     singleEntity: boolean;
     dynamicEntities: boolean;
@@ -83,12 +83,12 @@ export interface ScenarioOrganisationDetailsDTO extends ScenarioOrganisationInfo
     timeRanges: TimeRangeDTO[];
     triggerOn: number;
     triggerCondition: string;
-    triggerMin?: number;
+    triggerMin: number | null;
     autoResolveOn: number;
     autoResolveCondition: string;
-    autoResolveMin?: number;
-    timeout?: number;
-    lock?: number;
+    autoResolveMin: number | null;
+    timeout: number | null;
+    lock: number | null;
     waitResolved: boolean;
     singleEntity: boolean;
     dynamicEntities: boolean;
@@ -105,7 +105,7 @@ export interface ScenarioOrganisationDetailsDTO extends ScenarioOrganisationInfo
 export interface CreateScenarioOrganisationDTO {
     modelId: string;
     dataCategoryId: string;
-    dataDefinitionId?: string;
+    dataDefinitionId: string | null;
     groupByIds: string[];
     metadataIds: string[];
     criticity: number;
@@ -122,12 +122,12 @@ export interface CreateScenarioOrganisationDTO {
     timeRanges: CreateTimeRangeDTO[];
     triggerOn: number;
     triggerCondition: string;
-    triggerMin?: number;
+    triggerMin: number | null;
     autoResolveOn: number;
     autoResolveCondition: string;
-    autoResolveMin?: number;
-    timeout?: number;
-    lock?: number;
+    autoResolveMin: number | null;
+    timeout: number | null;
+    lock: number | null;
     waitResolved: boolean;
     singleEntity: boolean;
     dynamicEntities: boolean;
@@ -144,7 +144,7 @@ export interface CreateScenarioOrganisationDTO {
 export interface UpdateScenarioOrganisationDTO {
     modelId: string;
     dataCategoryId: string;
-    dataDefinitionId?: string;
+    dataDefinitionId: string | null;
     groupByIds: string[];
     metadataIds: string[];
     criticity: number;
@@ -161,12 +161,12 @@ export interface UpdateScenarioOrganisationDTO {
     timeRanges: CreateTimeRangeDTO[];
     triggerOn: number;
     triggerCondition: string;
-    triggerMin?: number;
+    triggerMin: number | null;
     autoResolveOn: number;
     autoResolveCondition: string;
-    autoResolveMin?: number;
-    timeout?: number;
-    lock?: number;
+    autoResolveMin: number | null;
+    timeout: number | null;
+    lock: number | null;
     waitResolved: boolean;
     singleEntity: boolean;
     dynamicEntities: boolean;

@@ -20,5 +20,5 @@ export interface PermissionCategoryInfosDTO {
 }
 
 export interface PermissionCategoryFilters {
-    search?: string;
+    search: string | null;
 }

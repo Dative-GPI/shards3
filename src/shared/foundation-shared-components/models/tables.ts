@@ -1,30 +1,30 @@
 export interface FSDataTableColumn {
     [key: string]: any;
-    text?: string;
-    value?: string;
+    text?: string | null;
+    value?: string | null;
     index: number;
     hidden: boolean;
-    width?: string | number;
+    width?: string | number | null;
 
-    sortable?: boolean;
-    sort?: (a: any, b: any) => number;
+    sortable?: boolean | null;
+    sort?: ((a: any, b: any) => number) | null;
 
-    filterable?: boolean;
-    fixedFilters?: { value: any, text: string }[];
-    methodFilter?: (value: any, item: any) => boolean;
-    filter?: (value: any, search: string, item: any) => boolean;
+    filterable?: boolean | null;
+    fixedFilters?: { value: any, text: string }[] | null;
+    methodFilter?: ((value: any, item: any) => boolean) | null;
+    filter?: ((value: any, search: string, item: any) => boolean) | null;
 
-    innerValue?: (value: any) => any;
+    innerValue?: ((value: any) => any) | null;
 
     // Should not be set directly !
-    slotName?: string;
+    slotName?: string | null;
 }
 
 export interface FSDataTableFilter {
     text: string;
     value: string;
     hidden: boolean;
-    filter?: (value: any, property: any, item: any) => boolean;
+    filter?: ((value: any, property: any, item: any) => boolean) | null;
 }
 
 export interface FSDataTableOrder {

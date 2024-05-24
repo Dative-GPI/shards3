@@ -17,7 +17,7 @@ export interface RoleOrganisationDetailsDTO extends RoleOrganisationInfosDTO {
 
 export interface CreateRoleOrganisationDTO {
     roleTemplateType: RoleType;
-    roleTemplateId?: string;
+    roleTemplateId: string | null;
     userType: number;
     icon: string;
     code: string;

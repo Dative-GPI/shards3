@@ -20,5 +20,5 @@ export class LanguageInfos {
   }
 
   export interface LanguageFilters {
-    search?: string;
+    search: string | null;
   }

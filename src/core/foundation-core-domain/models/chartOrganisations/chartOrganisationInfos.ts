@@ -58,6 +58,6 @@ export interface ChartOrganisationInfosDTO {
 }
 
 export interface ChartOrganisationFilters {
-    modelsIds?: string[];
-    search?: string;
+    modelsIds: string[] | null;
+    search: string | null;
 }

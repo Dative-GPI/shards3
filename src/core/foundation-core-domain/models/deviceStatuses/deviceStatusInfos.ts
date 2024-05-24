@@ -21,20 +21,23 @@ export class DeviceStatus {
 }
 
 export class DeviceStatusGroup {
-  sourceTimestamp?: number;
-  enqueuedTimestamp?: number;
-  processedTimestamp?: number;
-  groupByValue?: string;
+  sourceTimestamp: number | null;
+  enqueuedTimestamp: number | null;
+  processedTimestamp: number | null;
+  groupByValue: string | null;
   value: string;
-  unit?: string;
+  unit: string | null;
   label: string;
   icon: string;
   color: string;
 
   constructor(params: DeviceStatusGroupDTO) {
-    this.sourceTimestamp = params.sourceTimestamp ? utcToEpoch(params.sourceTimestamp) : undefined;
-    this.enqueuedTimestamp = params.enqueuedTimestamp ? utcToEpoch(params.enqueuedTimestamp) : undefined;
-    this.processedTimestamp = params.processedTimestamp ? utcToEpoch(params.processedTimestamp) : undefined;
+    this.sourceTimestamp = params.sourceTimestamp ?
+      utcToEpoch(params.sourceTimestamp) : null;
+    this.enqueuedTimestamp = params.enqueuedTimestamp ?
+      utcToEpoch(params.enqueuedTimestamp) : null;
+    this.processedTimestamp = params.processedTimestamp ?
+      utcToEpoch(params.processedTimestamp) : null;
     this.groupByValue = params.groupByValue;
     this.value = params.value;
     this.unit = params.unit;
@@ -55,12 +58,12 @@ export interface DeviceStatusDTO {
 }
 
 export interface DeviceStatusGroupDTO {
-  sourceTimestamp?: string;
-  enqueuedTimestamp?: string;
-  processedTimestamp?: string;
-  groupByValue?: string;
+  sourceTimestamp: string | null;
+  enqueuedTimestamp: string | null;
+  processedTimestamp: string | null;
+  groupByValue: string | null;
   value: string;
-  unit?: string;
+  unit: string | null;
   label: string;
   icon: string;
   color: string;

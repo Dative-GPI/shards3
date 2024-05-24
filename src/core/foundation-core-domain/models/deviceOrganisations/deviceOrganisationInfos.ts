@@ -12,23 +12,20 @@ export class DeviceOrganisationInfos {
     articleLabel: string;
     modelId: string;
     modelLabel: string;
-    ownerId?: string;
-    ownerLabel?: string;
-    organisationId: string;
-    managerId?: string;
-    managerName?: string;
-    locationId?: string;
-    locationLabel?: string;
-    locationAddress?: string;
-    groupId?: string;
-    groupLabel?: string;
-    groupIcon?: string;
+    ownerId: string | null;
+    ownerLabel: string | null;
+    organisationId: string | null;
+    managerId: string | null;
+    managerName: string | null;
+    locationId: string | null;
+    locationLabel: string | null;
+    locationAddress: string | null;
+    groupId: string | null;
+    groupLabel: string | null;
+    groupIcon: string | null;
     label: string;
     code: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId: string | null;
     tags: string[];
     unrestricted: boolean;
     online: number;
@@ -37,7 +34,7 @@ export class DeviceOrganisationInfos {
     status: DeviceStatusDetails;
     connectivity: DeviceConnectivityDetails;
     alerts: DeviceOrganisationAlert[];
-    worstAlert?: DeviceOrganisationAlert;
+    worstAlert: DeviceOrganisationAlert | null;
 
     get connectable(): DeviceConnectivityDetails | undefined {
         return this.connectivity;
@@ -66,9 +63,6 @@ export class DeviceOrganisationInfos {
         this.label = params.label;
         this.code = params.code;
         this.imageId = params.imageId;
-        this.imageBlurHash = params.imageBlurHash;
-        this.imageHeight = params.imageHeight;
-        this.imageWidth = params.imageWidth;
         this.tags = params.tags.slice();
         this.unrestricted = params.unrestricted;
         this.online = params.online;
@@ -77,7 +71,8 @@ export class DeviceOrganisationInfos {
         this.status = new DeviceStatusDetails(params.status);
         this.connectivity = new DeviceConnectivityDetails(params.connectivity);
         this.alerts = params.alerts.map(dto => new DeviceOrganisationAlert(dto));
-        this.worstAlert = params.worstAlert != null ? new DeviceOrganisationAlert(params.worstAlert) : undefined;
+        this.worstAlert = params.worstAlert != null ?
+            new DeviceOrganisationAlert(params.worstAlert) : null;
     }
 }
 
@@ -90,23 +85,20 @@ export interface DeviceOrganisationInfosDTO {
     articleLabel: string;
     modelId: string;
     modelLabel: string;
-    ownerId?: string;
-    ownerLabel?: string;
+    ownerId: string | null;
+    ownerLabel: string | null;
     organisationId: string;
-    managerId?: string;
-    managerName?: string;
-    locationId?: string;
-    locationLabel?: string;
-    locationAddress?: string;
-    groupId?: string;
-    groupLabel?: string;
-    groupIcon?: string;
+    managerId: string | null;
+    managerName: string | null;
+    locationId: string | null;
+    locationLabel: string | null;
+    locationAddress: string | null;
+    groupId: string | null;
+    groupLabel: string | null;
+    groupIcon: string | null;
     label: string;
     code: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId: string | null;
     tags: string[];
     unrestricted: boolean;
     online: number;
@@ -115,18 +107,18 @@ export interface DeviceOrganisationInfosDTO {
     status: DeviceStatusDetailsDTO;
     connectivity: DeviceConnectivityDetailsDTO;
     alerts: DeviceOrganisationAlertDTO[];
-    worstAlert?: DeviceOrganisationAlertDTO;
+    worstAlert: DeviceOrganisationAlertDTO | null;
 }
 
 export interface DeviceOrganisationFilters {
-    locationId?: string;
-    otherLocationId?: string;
-    groupId?: string;
-    otherGroupId?: string;
-    root?: boolean;
-    unrestricted?: boolean;
-    modelsIds?: string[];
-    deviceOrganisationsIds?: string[];
-    otherDeviceOrganisationsIds?: string[];
-    search?: string;
+    locationId: string | null;
+    otherLocationId: string | null;
+    groupId: string | null;
+    otherGroupId: string | null;
+    root: boolean | null;
+    unrestricted: boolean | null;
+    modelsIds: string[] | null;
+    deviceOrganisationsIds: string[] | null;
+    otherDeviceOrganisationsIds: string[] | null;
+    search: string | null;
 }
