@@ -42,9 +42,9 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { FSGridItem } from "@dative-gpi/foundation-shared-components/models";
 
-import FSGrid from "@dative-gpi/foundation-shared-components/components/FSGrid.vue";
-
 import { CustomPropertyInfos } from "../../../foundation-core-domain/models";
+
+import FSGrid from "@dative-gpi/foundation-shared-components/components/FSGrid.vue";
 
 import FSMetaValue from "./FSMetaValue.vue";
 
@@ -72,13 +72,10 @@ export default defineComponent({
   },
   setup(props) {
     const metaItems = computed(() => {
-      return  props.items.filter(i => i.code.startsWith("meta."))
-        .map(metaItem => {
-          return {
-            value: metaItem,
-            customProperty: customProperty(metaItem.code)
-          };
-        });
+      return  props.items.filter(i => i.code.startsWith("meta.")).map(metaItem => ({
+        value: metaItem,
+        customProperty: customProperty(metaItem.code)
+      }));
     });
 
     const customProperty = (code: string): CustomPropertyInfos | undefined => {

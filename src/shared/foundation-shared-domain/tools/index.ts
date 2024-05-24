@@ -1,3 +1,3 @@
-export * from "./customPropertyTools";
+export * from "./customPropertiesTools";
 export * from "./datesTools";
 export * from "./single";

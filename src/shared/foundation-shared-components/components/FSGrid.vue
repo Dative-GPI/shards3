@@ -85,8 +85,8 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<FSGridItem[]>,
-      default: [],
-      required: false
+      required: false,
+      default: () => []
     }
   },
   setup() {
@@ -133,9 +133,9 @@ export default defineComponent({
 
     return {
       style,
-      itemSlot,
+      itemEndSlot,
       headerSlot,
-      itemEndSlot
+      itemSlot
     };
   }
 });

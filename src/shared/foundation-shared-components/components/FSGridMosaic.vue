@@ -53,8 +53,8 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<FSGridMosaic[]>,
-      default: [],
-      required: false
+      required: false,
+      default: () => []
     },
     cols: {
       type: Number as PropType<1 | 2>,
