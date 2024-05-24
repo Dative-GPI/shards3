@@ -228,7 +228,6 @@ export default defineComponent({
     };
 
     const onSubmit = () => {
-      console.log(valid.value)
       if (valid.value) {
         switch (currentStep.value) {
           case props.steps:

@@ -1,5 +1,6 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { validateExpression } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { getTimeBestString } from "../utils";
 
@@ -39,7 +40,8 @@ export const IconRules = {
 export const DateRules = {
     required: (message: string | undefined = undefined) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
     min: (min: number, message: string | undefined = undefined) => (value: number) => (!value || value >= min) || (message ?? $tr("ui.rules.date-min", "Must be after {0}", epochToLongDateFormat(min))),
-    max: (max: number, message: string | undefined = undefined) => (value: number) => (!value || value <= max) || (message ?? $tr("ui.rules.date-max", "Must be before {0}", epochToLongDateFormat(max)))
+    max: (max: number, message: string | undefined = undefined) => (value: number) => (!value || value <= max) || (message ?? $tr("ui.rules.date-max", "Must be before {0}", epochToLongDateFormat(max))),
+    validateExpression: (variant: "default" | "before-after") => (value: string) => validateExpression(value, variant)
 };
 
 export const SelectRules = {
@@ -62,4 +64,4 @@ export const TimeRules = {
 
 export const ToggleRules = {
     required: (message: string | undefined = undefined) => (value: boolean) => value || (message ?? $tr("ui.rules.required", "Required"))
-}
+};
