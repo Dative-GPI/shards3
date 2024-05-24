@@ -82,7 +82,6 @@ const alerts = [{
 const modelStatuses = [{
   id: "1",
   label: "State",
-  inline: true,
   index: 0,
   showDefault: true,
   iconDefault: "mdi-power-standby",
@@ -90,13 +89,11 @@ const modelStatuses = [{
 }, {
   id: "2",
   label: "Folder",
-  inline: true,
   index: 1,
   showDefault: false
 }, {
   id: "3",
   label: "Luminosity",
-  inline: true,
   index: 2,
   showDefault: true,
   iconDefault: "mdi-lightbulb-outline",
@@ -104,7 +101,6 @@ const modelStatuses = [{
 }, {
   id: "4",
   label: "Lock",
-  inline: true,
   index: 3,
   showDefault: true,
   iconDefault: "mdi-lock-outline",
@@ -112,15 +108,27 @@ const modelStatuses = [{
 }, {
   id: "5",
   label: "Print",
-  inline: true,
   index: 4,
   showDefault: true,
   iconDefault: "mdi-printer-outline",
   colorDefault: "#E3E3E3"
 }, {
+  id: "9",
+  label: "Ray start",
+  index: 5,
+  showDefault: true,
+  iconDefault: "mdi-ray-start",
+  colorDefault: "#000000"
+}, {
+  id: "10",
+  label: "Ray end",
+  index: 6,
+  showDefault: true,
+  iconDefault: "mdi-ray-end",
+  colorDefault: "#000000"
+}, {
   id: "6",
   label: "Temperatures",
-  inline: false,
   index: 0,
   groupById: "1",
   groupByLabel: "Level",
@@ -128,7 +136,6 @@ const modelStatuses = [{
 }, {
   id: "7",
   label: "Energies",
-  inline: false,
   index: 1,
   groupById: "2",
   groupByLabel: "Level",
@@ -136,7 +143,6 @@ const modelStatuses = [{
 }, {
   id: "8",
   label: "Recipes",
-  inline: false,
   index: 2,
   groupById: "2",
   groupByLabel: "Level",
@@ -307,7 +313,7 @@ export const Variations: Story = {
           label: "Bakery Guiomar Hernandes de Medeiros",
           code: "9300000000099206",
           imageId: "1",
-          deviceConnectivity: connectivities[4],
+          deviceConnectivity: connectivities[0],
           deviceWorstAlert: alerts[0],
           deviceAlerts: alerts,
           modelStatuses: modelStatuses,

@@ -12,8 +12,8 @@
       <FSRow
         align="center-center"
         gap="24px"
-        :wrap="false"
         :height="imageSize"
+        :wrap="false"
       >
         <FSCol
           gap="12px"
@@ -35,23 +35,13 @@
               {{ $props.code }}
             </FSText>
           </FSCol>
-          <FSRow
-            gap="4px"
-          >
-            <FSConnectivity
-              v-if="$props.deviceConnectivity && $props.deviceConnectivity.status != ConnectivityStatus.None"
-              :deviceConnectivity="$props.deviceConnectivity"
-            />
-            <FSWorstAlert
-              v-if="$props.deviceWorstAlert"
-              :deviceAlert="$props.deviceWorstAlert"
-              :deviceAlerts="$props.deviceAlerts.length"
-            />
-            <FSStatusesRow
-              :modelStatuses="lineModelStatuses"
-              :deviceStatuses="lineDeviceStatuses"
-            />
-          </FSRow>
+          <FSStatusesRow
+            :deviceConnectivity="$props.deviceConnectivity"
+            :deviceWorstAlert="$props.deviceWorstAlert"
+            :deviceStatuses="singleDeviceStatuses"
+            :modelStatuses="singleModelStatuses"
+            :deviceAlerts="$props.deviceAlerts"
+          />
         </FSCol>
         <FSImage
           v-if="$props.imageId"
@@ -77,13 +67,10 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { FSModelStatus, FSDeviceStatus, FSDeviceAlert, FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
-import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSStatusesCarousel from "../deviceOrganisations/FSStatusesCarousel.vue";
-import FSConnectivity from "../deviceOrganisations/FSConnectivity.vue";
 import FSStatusesRow from "../deviceOrganisations/FSStatusesRow.vue";
-import FSWorstAlert from "../deviceOrganisations/FSWorstAlert.vue";
 import FSDivider from "../FSDivider.vue";
 import FSImage from "../FSImage.vue";
 import FSText from "../FSText.vue";
@@ -95,9 +82,7 @@ export default defineComponent({
   name: "FSDeviceOrganisationTileUI",
   components: {
     FSStatusesCarousel,
-    FSConnectivity,
     FSStatusesRow,
-    FSWorstAlert,
     FSDivider,
     FSImage,
     FSText,
@@ -160,9 +145,9 @@ export default defineComponent({
   setup(props) {
     const { isMobileSized } = useBreakpoints();
 
-    const lineModelStatuses = computed((): FSModelStatus[] => {
+    const singleModelStatuses = computed((): FSModelStatus[] => {
       return props.modelStatuses.filter(modelStatus => {
-        if (!modelStatus.inline || modelStatus.groupById) {
+        if (modelStatus.groupById != null) {
           return false;
         }
         if (!modelStatus.showDefault) {
@@ -171,24 +156,18 @@ export default defineComponent({
           }
         }
         return true;
-      }).slice(0, 4).sort((a, b) => a.index - b.index);
+      }).slice(0, 5).sort((a, b) => a.index - b.index);
     });
 
-    const lineDeviceStatuses = computed((): FSDeviceStatus[] => {
+    const singleDeviceStatuses = computed((): FSDeviceStatus[] => {
       return props.deviceStatuses.filter(deviceStatus => {
-        return lineModelStatuses.value.some(modelStatus => modelStatus.id === deviceStatus.modelStatusId)
+        return singleModelStatuses.value.some(modelStatus => modelStatus.id === deviceStatus.modelStatusId)
       });
     });
 
     const carouselModelStatuses = computed((): FSModelStatus[] => {
-      const notCarouselModelStatuses = props.modelStatuses.filter(modelStatus => {
-        if (!modelStatus.inline || modelStatus.groupById) {
-          return false;
-        }
-        return true;
-      }).slice(0, 4);
       return props.modelStatuses.filter(modelStatus => {
-        if (notCarouselModelStatuses.some(lineModelStatus => modelStatus.id === lineModelStatus.id)) {
+        if (modelStatus.groupById == null) {
           return false;
         }
         if (!modelStatus.showDefault) {
@@ -197,7 +176,7 @@ export default defineComponent({
           }
         }
         return true;
-      }).sort((a, b) => (a.index + (a.inline ? b.index : 0)) - b.index);
+      }).sort((a, b) => a.index - b.index);
     });
 
     const carouselDeviceStatuses = computed((): FSDeviceStatus[] => {
@@ -219,12 +198,11 @@ export default defineComponent({
     });
 
     return {
-      ColorEnum,
-      lineModelStatuses,
-      lineDeviceStatuses,
-      ConnectivityStatus,
-      carouselModelStatuses,
       carouselDeviceStatuses,
+      carouselModelStatuses,
+      singleDeviceStatuses,
+      singleModelStatuses,
+      ColorEnum,
       imageSize,
       infoWidth
     };
