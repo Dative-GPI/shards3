@@ -11,8 +11,9 @@ export const MODELSTATUSES: ModelStatusInfosDTO[] = [{
     dataCategoryLabel: DATACATEGORIES[0].label,
     dataDefinitionId: DATADEFINITIONS[0].id,
     dataDefinitionLabel: DATADEFINITIONS[0].label,
+    groupById: null,
+    groupByLabel: null,
     label: "Status",
-    inline: true,
     index: 0,
     lifetime: 24 * 3600,
     timeToLive: 7 * 24 * 3600,
@@ -29,11 +30,12 @@ export const MODELSTATUSES: ModelStatusInfosDTO[] = [{
     groupById: DATADEFINITIONS[1].id,
     groupByLabel: DATADEFINITIONS[1].label,
     label: "Temperature",
-    inline: false,
     index: 0,
     lifetime: 24 * 3600,
     timeToLive: 7 * 24 * 3600,
-    showDefault: false
+    showDefault: false,
+    iconDefault: null,
+    colorDefault: null
 }, {
     id: "3",
     modelId: MODELS[0].id,
@@ -44,7 +46,6 @@ export const MODELSTATUSES: ModelStatusInfosDTO[] = [{
     groupById: DATADEFINITIONS[3].id,
     groupByLabel: DATADEFINITIONS[3].label,
     label: "Energy",
-    inline: false,
     index: 1,
     lifetime: 24 * 3600,
     timeToLive: 7 * 24 * 3600,

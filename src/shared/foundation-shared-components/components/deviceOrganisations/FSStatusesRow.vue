@@ -1,36 +1,66 @@
 <template>
   <FSRow
-    v-for="(modelStatus, index) in $props.modelStatuses"
-    align="center-center"
-    width="hug"
+    align="center-left"
     gap="4px"
-    :key="index"
     :wrap="false"
   >
-    <FSStatus
-      v-for="(statusGroup, index) in deviceStatus(modelStatus)"
-      :modelStatus="modelStatus"
-      :statusGroup="statusGroup"
-      :key="index"
+    <FSConnectivity
+      v-if="$props.deviceConnectivity && $props.deviceConnectivity.status != ConnectivityStatus.None"
+      :deviceConnectivity="$props.deviceConnectivity"
     />
+    <FSWorstAlert
+      v-if="$props.deviceWorstAlert"
+      :deviceAlerts="$props.deviceAlerts.length"
+      :deviceAlert="$props.deviceWorstAlert"
+    />
+    <template
+      v-for="(modelStatus, index) in $props.modelStatuses"
+    >
+      <FSStatus
+        v-if="deviceStatus(modelStatus)"
+        :statusGroup="deviceStatus(modelStatus)"
+        :modelStatus="modelStatus"
+        :key="index"
+      />
+    </template>
   </FSRow>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import { FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
+import { FSDeviceAlert, FSDeviceConnectivity, FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
+import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
 
+import FSConnectivity from "./FSConnectivity.vue";
+import FSWorstAlert from "./FSWorstAlert.vue";
 import FSStatus from "./FSStatus.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSStatusesRow",
   components: {
+    FSConnectivity,
+    FSWorstAlert,
     FSStatus,
     FSRow
   },
   props: {
+    deviceConnectivity: {
+      type: Object as PropType<FSDeviceConnectivity>,
+      required: false,
+      default: null
+    },
+    deviceWorstAlert: {
+      type: Object as PropType<FSDeviceAlert>,
+      required: false,
+      default: null
+    },
+    deviceAlerts: {
+      type: Array as PropType<FSDeviceAlert[]>,
+      required: false,
+      default: () => []
+    },
     modelStatuses: {
       type: Array as PropType<FSModelStatus[]>,
       required: true
@@ -41,23 +71,24 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup[] => {
+    const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup | null => {
       const deviceStatus = props.deviceStatuses
         .find((deviceStatus: FSDeviceStatus) => deviceStatus.modelStatusId === modelStatus.id);
       if (deviceStatus != null) {
-        return deviceStatus.statusGroups;
+        return deviceStatus.statusGroups[0];
       }
       if (modelStatus.showDefault) {
-        return [{
+        return {
           label: modelStatus.label,
           icon: modelStatus.iconDefault!,
           color: modelStatus.colorDefault!
-        }];
+        };
       }
-      return [];
-    }
+      return null;
+    };
 
     return {
+      ConnectivityStatus,
       deviceStatus
     };
   }
