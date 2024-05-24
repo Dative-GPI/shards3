@@ -6,17 +6,17 @@ export enum ColorEnum {
     Error      = "error",
     Warning    = "warning",
     Success    = "success"
-};
+}
 
 export interface ColorVariations {
     light: string;
-    lightContrast?: string;
+    lightContrast?: string | null;
     soft: string;
-    softContrast?: string;
+    softContrast?: string | null;
     base: string;
-    baseContrast?: string;
+    baseContrast?: string | null;
     dark: string;
-    darkContrast?: string;
-};
+    darkContrast?: string | null;
+}
 
 export type ColorBase = (string | ColorEnum);

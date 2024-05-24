@@ -7,6 +7,6 @@ export interface FSGridMosaic {
 export interface FSGridItem {
     label: string;
     code: string;
-    value?: string;
-    hideDefault?: boolean;
+    value?: string | null;
+    hideDefault?: boolean | null;
 }

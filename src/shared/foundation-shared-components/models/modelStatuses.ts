@@ -3,9 +3,9 @@ export interface FSModelStatus {
     label: string;
     inline: boolean;
     index: number;
-    groupById?: string;
-    groupByLabel?: string;
+    groupById?: string | null;
+    groupByLabel?: string | null;
     showDefault: boolean;
-    iconDefault?: string;
-    colorDefault?: string;
+    iconDefault?: string | null;
+    colorDefault?: string | null;
 }
