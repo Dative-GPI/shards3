@@ -14,27 +14,37 @@
       <FSCol
         gap="2px"
       >
-        <template v-if="headerSlot(item.code)">
+        <template
+          v-if="headerSlot(item.code)"
+        >
           <component
             :is="headerSlot(item.code)"
             v-bind="{ item }"
           />
         </template>
-        <template v-else>
+        <template
+          v-else
+        >
           <FSText
             :font="item.hideDefault ? 'text-body' : 'text-overline'"
           >
             {{ item.label }}
           </FSText>
         </template>
-        <template v-if="!item.hideDefault">
-          <template v-if="itemSlot(item.code)">
+        <template
+          v-if="!item.hideDefault"
+        >
+          <template
+            v-if="itemSlot(item.code)"
+          >
             <component
               :is="itemSlot(item.code)"
               v-bind="{ item }"
             />
           </template>
-          <template v-else>
+          <template
+            v-else
+          >
             <FSText>
               {{ item.value }}
             </FSText>

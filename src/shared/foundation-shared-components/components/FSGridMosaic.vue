@@ -18,8 +18,14 @@
         <FSGrid
           :items="item.items"
         >
-          <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-            <slot :name="name" v-bind="slotData" />
+          <template
+            v-for="(_, name) in $slots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="name"
+              v-bind="slotData"
+            />
           </template>
         </FSGrid>
       </FSCol>
@@ -60,7 +66,7 @@ export default defineComponent({
     const { isExtraSmall } = useBreakpoints();
 
     const width = computed(() => {
-        return props.cols == 2 && !isExtraSmall.value ? "calc(50% - 16px)" : "100%";
+      return props.cols == 2 && !isExtraSmall.value ? "calc(50% - 16px)" : "100%";
     });
 
     return {
