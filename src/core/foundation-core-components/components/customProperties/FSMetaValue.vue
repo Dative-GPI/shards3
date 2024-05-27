@@ -1,6 +1,9 @@
 <template>
+  <div
+    v-if="!value"
+  />
   <FSText
-    v-if="$props.customProperty.useOnlyAllowedValues && $props.customProperty.allowedValues[meta[$props.customProperty.code]] != null"
+    v-else-if="$props.customProperty.useOnlyAllowedValues && $props.customProperty.allowedValues[meta[$props.customProperty.code]] != null"
     :color="getColor($props.customProperty, meta[$props.customProperty.code])"
   >
     {{ value }}
