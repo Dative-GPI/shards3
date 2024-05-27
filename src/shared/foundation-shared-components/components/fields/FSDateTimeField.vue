@@ -288,7 +288,7 @@ export default defineComponent({
       innerDate.value = props.modelValue - innerTime.value;
     }
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark

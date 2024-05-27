@@ -46,7 +46,7 @@ export default defineComponent({
 
     delete slots.default;
 
-    const style = computed((): { [key: string] : string | undefined } => ({
+    const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-window-width": sizeToVar(props.width)
     }));
 

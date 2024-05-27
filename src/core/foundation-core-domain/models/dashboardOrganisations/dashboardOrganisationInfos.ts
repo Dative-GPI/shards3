@@ -49,7 +49,7 @@ export interface DashboardOrganisationInfosDTO {
 }
 
 export interface DashboardOrganisationFilters {
-  root: boolean | null;
-  folderId: string | null;
-  search: string | null;
+  root?: boolean | null;
+  folderId?: string | null;
+  search?: string | null;
 }

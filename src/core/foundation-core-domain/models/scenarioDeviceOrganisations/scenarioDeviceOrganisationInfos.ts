@@ -57,6 +57,6 @@ export interface ScenarioDeviceOrganisationInfosDTO {
 }
 
 export interface ScenarioDeviceOrganisationFilters {
-    scenarioId: string | null;
-    deviceOrganisationId: string | null;
+    scenarioId?: string | null;
+    deviceOrganisationId?: string | null;
 }

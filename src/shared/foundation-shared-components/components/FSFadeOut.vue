@@ -54,7 +54,7 @@ export default defineComponent({
 
     const resizeObserver = ref<ResizeObserver | null>(null);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-fade-out-height"             : sizeToVar(props.height),
         "--fs-fade-out-width"              : sizeToVar(props.width),

@@ -205,7 +205,7 @@ export default defineComponent({
 
     const colors = getColors(props.optionColor);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-option-group-border-size"  : props.border ? "1px" : "0",
         "--fs-option-group-border-radius": sizeToVar(props.borderRadius),

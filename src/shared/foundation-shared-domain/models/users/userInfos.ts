@@ -26,5 +26,5 @@ export class UserInfos {
   }
   
   export interface UserFilters {
-    search: string | null;
+    search?: string | null;
   }

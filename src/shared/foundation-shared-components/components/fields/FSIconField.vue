@@ -135,7 +135,7 @@ export default defineComponent({
     const toggleSetRef = ref<HTMLElement | null>(null);
     const innerValue = ref<string | null>(null);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-icon-field-color": lights.dark

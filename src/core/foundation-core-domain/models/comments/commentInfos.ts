@@ -38,5 +38,5 @@ export interface CommentInfosDTO {
 }
 
 export interface CommentFilters {
-  alertId: string;
+  alertId?: string;
 }

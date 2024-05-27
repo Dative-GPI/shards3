@@ -46,7 +46,7 @@ export default defineComponent({
       return null;
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch(props.size) {
         case "s": return {
           "--fs-icon-font-size": isMobileSized.value ? "14px" : "16px"

@@ -17,5 +17,5 @@ export interface ManufacturerInfosDTO {
 }
 
 export interface ManufacturerFilters {
-    search: string | null;
+    search?: string | null;
 }

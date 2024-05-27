@@ -43,7 +43,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const style = computed((): { [key: string] : string | undefined } => ({
+    const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-col-padding": sizeToVar(props.padding),
       "--fs-col-gap"    : sizeToVar(props.gap),
       "--fs-col-width"  : sizeToVar(props.width),

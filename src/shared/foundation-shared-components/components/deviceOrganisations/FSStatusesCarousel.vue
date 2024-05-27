@@ -102,7 +102,7 @@ export default defineComponent({
         }];
       }
       return [];
-    }
+    };
 
     return {
       ColorEnum,

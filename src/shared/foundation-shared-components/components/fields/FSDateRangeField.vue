@@ -133,7 +133,7 @@ export default defineComponent({
     const dialog = ref(false);
     const innerDateRange = ref<number[] | null>(props.modelValue);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-date-field-color": lights.dark

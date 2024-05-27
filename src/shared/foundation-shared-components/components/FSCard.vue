@@ -115,7 +115,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
         case "standard": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
