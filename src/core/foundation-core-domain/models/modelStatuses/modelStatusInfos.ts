@@ -53,6 +53,6 @@ export interface ModelStatusInfosDTO {
 }
 
 export interface ModelStatusFilters {
-  modelId: string | null;
-  search: string | null;
+  modelId?: string | null;
+  search?: string | null;
 }

@@ -26,5 +26,5 @@ export interface OrganisationInfosDTO {
 }
 
 export interface OrganisationFilters {
-    search: string | null;
+    search?: string | null;
 }

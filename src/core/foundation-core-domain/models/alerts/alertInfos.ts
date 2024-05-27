@@ -110,13 +110,13 @@ export interface AlertInfosDTO {
 }
 
 export interface AlertFilters {
-  scenarioId: string | null;
-  deviceOrganisationId: string | null;
-  statuses: AlertStatus[] | null;
-  acknowledged: boolean | null;
-  startDate: string | null;
-  endDate: string | null;
-  selectedEntities: SelectedEntities | null;
-  entitiesIds: string[] | null;
-  dateVariables: DateVariable[] | null;
+  scenarioId?: string | null;
+  deviceOrganisationId?: string | null;
+  statuses?: AlertStatus[] | null;
+  acknowledged?: boolean | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  selectedEntities?: SelectedEntities | null;
+  entitiesIds?: string[] | null;
+  dateVariables?: DateVariable[] | null;
 }

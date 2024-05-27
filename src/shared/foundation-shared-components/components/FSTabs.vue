@@ -47,7 +47,7 @@ export default defineComponent({
     const colors = computed(() => getColors(props.color));
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => ({
+    const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-group-color"                 : darks.base,
       "--fs-group-disabled-color"        : darks.light,
       "--fs-group-hover-background-color": colors.value.light,

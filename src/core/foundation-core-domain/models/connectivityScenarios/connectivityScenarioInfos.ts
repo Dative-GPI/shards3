@@ -44,5 +44,5 @@ export interface ConnectivityScenarioInfosDTO {
 }
 
 export interface ConnectivityScenarioFilters {
-    deviceOrganisationId: string | null;
+    deviceOrganisationId?: string | null;
 }

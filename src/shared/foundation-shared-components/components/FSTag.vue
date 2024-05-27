@@ -77,7 +77,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
         case "standard": return {
           "--fs-tag-background-color"       : colors.value.light,

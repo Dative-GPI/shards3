@@ -126,7 +126,7 @@ export default defineComponent({
       }
     }
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-time-field-cursor"             : "default",

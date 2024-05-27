@@ -108,7 +108,7 @@ export default defineComponent({
       }
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-load-tile-background-color": backgroundColors.base
       };

@@ -118,7 +118,7 @@ export default defineComponent({
     const innerMonth = ref(props.modelValue ? epochToPicker(props.modelValue).getMonth() : new Date().getMonth());
     const innerYear = ref(props.modelValue ? epochToPicker(props.modelValue).getFullYear() : new Date().getFullYear());
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
         "--fs-calendar-hover-background-color" : colors.value.light,

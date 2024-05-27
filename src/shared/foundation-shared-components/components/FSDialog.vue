@@ -128,7 +128,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (isExtraSmall.value) {
         return {
           "--fs-dialog-width": "100%"

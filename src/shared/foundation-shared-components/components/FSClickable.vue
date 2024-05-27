@@ -211,7 +211,7 @@ export default defineComponent({
     const hover = ref(false);
     const active = ref(false);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-clickable-border-size"     : props.border ? "1px" : "0",

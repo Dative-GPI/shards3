@@ -223,7 +223,7 @@ export default defineComponent({
       }
     }
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-calendar-background-color"       : backgrounds.base,
         "--fs-calendar-hover-background-color" : colors.value.light,

@@ -50,5 +50,5 @@ export interface ServiceAccountInfosDTO {
 }
 
 export interface ServiceAccountFilters {
-  search: string | null;
+  search?: string | null;
 }
