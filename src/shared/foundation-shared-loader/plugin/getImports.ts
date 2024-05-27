@@ -2,7 +2,6 @@ import { parseTemplate, type TemplateMatch } from './parseTemplate'
 import * as sharedImportMap from './mapping/foundation-shared-components-imports-map.json'
 import * as coreImportMap from './mapping/foundation-core-components-imports-map.json'
 import * as adminImportMap from './mapping/foundation-admin-components-imports-map.json'
-import * as extensionImportMap from './mapping/foundation-extension-components-imports-map.json'
 
 export function getImports (source: string, skipShared: boolean, skipCore: boolean, skipAdmin: boolean, skipExtension: boolean) {
   const { components, directives } = parseTemplate(source)
@@ -23,10 +22,6 @@ export function getImports (source: string, skipShared: boolean, skipCore: boole
       else if (!skipAdmin && component.name in adminImportMap.components) {
         resolvedComponents.push(component)
         addImport(imports, component.name, component.symbol, (adminImportMap.components as any)[component.name].from)
-      }
-      else if (!skipExtension && component.name in extensionImportMap.components) {
-        resolvedComponents.push(component)
-        addImport(imports, component.name, component.symbol, (extensionImportMap.components as any)[component.name].from)
       }
     })
     // directives.forEach(directive => {
