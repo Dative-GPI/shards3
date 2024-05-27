@@ -28,7 +28,6 @@ const parseTemplate_1 = require("./parseTemplate");
 const sharedImportMap = __importStar(require("./mapping/foundation-shared-components-imports-map.json"));
 const coreImportMap = __importStar(require("./mapping/foundation-core-components-imports-map.json"));
 const adminImportMap = __importStar(require("./mapping/foundation-admin-components-imports-map.json"));
-const extensionImportMap = __importStar(require("./mapping/foundation-extension-components-imports-map.json"));
 function getImports(source, skipShared, skipCore, skipAdmin, skipExtension) {
     const { components, directives } = (0, parseTemplate_1.parseTemplate)(source);
     const resolvedComponents = [];
