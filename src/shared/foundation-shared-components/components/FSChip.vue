@@ -105,7 +105,7 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
         case "standard": return {
           "--fs-chip-height"                 : sizeToVar(props.height),

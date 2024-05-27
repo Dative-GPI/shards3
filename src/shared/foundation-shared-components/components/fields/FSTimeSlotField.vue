@@ -141,7 +141,7 @@ export default defineComponent({
       return acc;
     }, [] as { id: number, label: string }[]);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-time-slot-field-cursor"             : "default",

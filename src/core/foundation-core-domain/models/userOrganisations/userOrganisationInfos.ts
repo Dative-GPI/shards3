@@ -68,5 +68,5 @@ export interface UserOrganisationInfosDTO {
 }
 
 export interface UserOrganisationFilters {
-    search: string | null;
+    search?: string | null;
 }

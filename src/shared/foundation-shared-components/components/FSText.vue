@@ -70,7 +70,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-span-line-clamp": props.lineClamp.toString(),
         "--fs-text-color"     : colors.value[props.variant]

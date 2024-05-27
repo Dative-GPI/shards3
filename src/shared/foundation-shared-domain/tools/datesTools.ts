@@ -64,7 +64,7 @@ const fromExpression = (expression: string, variant: 'default' | 'before-after')
     return false;
   }
   return true;
-}
+};
 
 export const isoTimeFormat = (timeZone: boolean = false): string => {
     return `yyyy-MM-dd'T'HH:mm:ss${timeZone ? "X" : ""}`;

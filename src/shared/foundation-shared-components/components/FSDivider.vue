@@ -85,7 +85,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
         case "base": return {
           "--fs-divider-size" : sizeToVar(props.size),

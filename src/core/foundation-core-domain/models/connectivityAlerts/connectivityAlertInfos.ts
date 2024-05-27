@@ -45,7 +45,7 @@ export interface ConnectivityAlertInfosDTO {
 }
 
 export interface ConnectivityAlertFilters {
-  deviceOrganisationId: string | null;
-  startDate: string | null;
-  endDate: string | null;
+  deviceOrganisationId?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
 }

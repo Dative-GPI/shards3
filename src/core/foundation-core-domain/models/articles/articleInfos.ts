@@ -17,5 +17,5 @@ export interface ArticleInfosDTO {
 }
 
 export interface ArticleFilters {
-    search: string | null;
+    search?: string | null;
 }

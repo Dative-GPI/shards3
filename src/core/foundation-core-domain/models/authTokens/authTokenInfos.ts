@@ -25,5 +25,5 @@ export interface AuthTokenInfosDTO {
 }
 
 export interface AuthTokenFilters {
-    userId: string | null;
+    userId?: string | null;
 }

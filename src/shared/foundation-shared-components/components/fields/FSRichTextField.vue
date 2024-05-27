@@ -314,7 +314,7 @@ export default defineComponent({
       return ["readonly"].includes(props.variant);
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       let minHeight: string | undefined = "auto";
       if (!readonly.value) {
         const base = isMobileSized.value ? 30 : 42;

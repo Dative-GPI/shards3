@@ -80,7 +80,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
         case "base": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),

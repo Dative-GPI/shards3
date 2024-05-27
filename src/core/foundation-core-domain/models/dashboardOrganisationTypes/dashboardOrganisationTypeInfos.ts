@@ -29,19 +29,19 @@ export class DashboardOrganisationTypeInfos {
 }
 
 export interface DashboardOrganisationTypeInfosDTO {
-    id: string;
-    dashboardId: string;
-    organisationTypeId: string | null;
-    organisationTypeLabel: string | null;
-    scope: ApplicationScope;
-    locked: boolean;
-    label: string;
-    code: string;
-    icon: string;
-    tags: string[];
-    colors: string[];
+  id: string;
+  dashboardId: string;
+  organisationTypeId: string | null;
+  organisationTypeLabel: string | null;
+  scope: ApplicationScope;
+  locked: boolean;
+  label: string;
+  code: string;
+  icon: string;
+  tags: string[];
+  colors: string[];
 }
 
 export interface DashboardOrganisationTypeFilters {
-    search: string | null;
+  search?: string | null;
 }

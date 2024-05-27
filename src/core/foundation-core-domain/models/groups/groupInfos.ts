@@ -55,9 +55,9 @@ export interface GroupInfosDTO {
 }
 
 export interface GroupFilters {
-    parentId: string | null;
-    root: boolean | null;
-    modelsIds: string[] | null;
-    groupsIds: string[] | null;
-    search: string | null;
+    parentId?: string | null;
+    root?: boolean | null;
+    modelsIds?: string[] | null;
+    groupsIds?: string[] | null;
+    search?: string | null;
 }

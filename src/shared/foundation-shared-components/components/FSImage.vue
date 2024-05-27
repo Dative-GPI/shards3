@@ -110,7 +110,7 @@ export default defineComponent({
       "/9j/"     : "image/jpg",
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
         "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"
