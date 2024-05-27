@@ -150,6 +150,26 @@ export const Variations: Story = {
         useOnlyAllowedValues: false,
         allowedValues: {}
       },
+      value7: null,
+      null: {
+        id: "7",
+        code: "null",
+        label: "Icon",
+        categoryLabel: "Category",
+        index: 0,
+        entity: 1,
+        dataType: PropertyDataType.Boolean,
+        addInInfos: true,
+        readOnlyCore: false,
+        readOnlyAdmin: false,
+        defaultValue: "",
+        history: false,
+        historySize: 0,
+        colorful: false,
+        colorMap: [],
+        useOnlyAllowedValues: false,
+        allowedValues: {}
+      },
       meta: {
         selector: "selectorMeta",
         number: "677",
@@ -203,6 +223,12 @@ export const Variations: Story = {
         :customProperty="args.icon"
         :meta="args.meta"
         v-model="args.value6" />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSMetaValue
+        label="null meta code"
+        :customProperty="args.null"
+        :meta="args.meta"
+        v-model="args.value7" />
     </FSCol>`
   })
 }
