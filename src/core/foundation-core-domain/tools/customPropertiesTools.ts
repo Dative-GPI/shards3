@@ -3,7 +3,7 @@ import _ from "lodash";
 import { CustomPropertyInfos, PropertyDataType } from "@dative-gpi/foundation-core-domain/models";
 import { FSGridItem } from "@dative-gpi/foundation-shared-components/models";
 
-export const CustomPropertyTools = {
+export const CustomPropertiesTools = {
   showCategory: (properties: CustomPropertyInfos[], category: string): boolean => {
     return properties.some(cp => cp.categoryLabel === category);
   },
