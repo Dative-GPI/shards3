@@ -51,6 +51,11 @@ export default defineComponent({
     tableCode: {
       type: String,
       required: true
+    },
+    debounceTime: {
+      type: Number,
+      required: false,
+      default: 1000
     }
   },
   setup(props) {
@@ -93,22 +98,22 @@ export default defineComponent({
 
     const updateHeaders = (value: FSDataTableColumn[]): void => {
       innerHeaders.value = value;
-      debounce(updateTable, 5000);
+      debounce(updateTable, props.debounceTime);
     };
 
     const updateMode = (value: "table" | "iterator"): void => {
       innerMode.value = value;
-      debounce(updateTable, 5000);
+      debounce(updateTable, props.debounceTime);
     };
 
     const updateSortBy = (value: FSDataTableOrder | null): void => {
       innerSortBy.value = value;
-      debounce(updateTable, 5000);
+      debounce(updateTable, props.debounceTime);
     };
 
     const updateRowsPerPage = (value: -1 | 10 | 30): void => {
       innerRowsPerPage.value = value;
-      debounce(updateTable, 5000);
+      debounce(updateTable, props.debounceTime);
     };
 
     const updateFilters = (value: { [key: string]: FSDataTableFilter[] }): void => {
@@ -130,8 +135,8 @@ export default defineComponent({
           index: column.index
         })),
         rowsPerPage: innerRowsPerPage.value,
-        sortByKey: innerSortBy.value?.key,
-        sortByOrder: innerSortBy.value?.order,
+        sortByKey: innerSortBy.value?.key ?? null,
+        sortByOrder: innerSortBy.value?.order ?? null,
         mode: innerMode.value
       });
     };

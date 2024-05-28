@@ -141,7 +141,9 @@ export default defineComponent({
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
-    const onAdd = (): void => {
+    const onAdd = (event: Event): void => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
       if (!props.editable) {
         return;
       }

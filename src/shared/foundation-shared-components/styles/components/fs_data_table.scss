@@ -106,9 +106,9 @@
     background-color: var(--fs-data-table-background-color);
 }
 
-.fs-data-table-rows-per-page > .fs-select-field {
-    min-width: 120px !important;
-    width: 120px !important;
+.fs-data-table-rows-per-page {
+    min-width: 100px;
+    width: 100px;
 }
 
 .fs-data-table-pagination {

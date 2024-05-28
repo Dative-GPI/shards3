@@ -28,6 +28,6 @@ export interface FSDataTableFilter {
 }
 
 export interface FSDataTableOrder {
-    key: string;
-    order: "asc" | "desc";
+    key: string | null;
+    order: "asc" | "desc" | null;
 }

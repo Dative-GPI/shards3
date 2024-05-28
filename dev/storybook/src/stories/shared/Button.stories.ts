@@ -395,13 +395,14 @@ export const Submit: Story = {
       text1: "",
       text2: "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Hello there\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
       check1: false,
+      tags1: [],
       textdefault: null,
       textRules: TextRules,
       toggleRules: ToggleRules
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSButton, FSForm, FSTextField, FSRichTextField, FSText, FSCheckbox },
+    components: { FSButton, FSForm, FSTextField, FSRichTextField, FSText, FSCheckbox, FSTagField },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -430,6 +431,10 @@ export const Submit: Story = {
             description="This checkbox is mandatory"
             v-model="args.check1"
           />
+          <FSTagField
+            label="Tags"
+            v-model="args.tags1"
+          />
           <div style="display: flex; gap: 10px;">
             <FSButton
               type="submit"
@@ -446,6 +451,7 @@ export const Submit: Story = {
   })
 }
 import FSButtonCheckbox from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCheckbox.vue";
+import FSTagField from '@dative-gpi/foundation-shared-components/components/fields/FSTagField.vue';
 
 export const Checkbox: Story = {
   args: {
