@@ -7,7 +7,7 @@
     :required="$props.required"
     :editable="$props.editable"
     :placeholder="placeholder"
-    @keydown.enter="$emit('update:modelValue', innerValue)"
+    @keydown.enter="onSearch"
     v-model="innerValue"
     v-bind="$attrs"
   >
@@ -23,7 +23,7 @@
           :icon="$props.prependInnerIcon"
           :editable="$props.editable"
           :color="ColorEnum.Dark"
-          @click="$emit('update:modelValue', innerValue)"
+          @click="onSearch"
         />
       </slot>
     </template>
@@ -41,7 +41,7 @@
           :variant="$props.buttonVariant"
           :color="$props.buttonColor"
           :editable="$props.editable"
-          @click="$emit('update:modelValue', innerValue)"
+          @click="onSearch"
         />
       </slot>
     </template>
@@ -163,6 +163,12 @@ export default defineComponent({
       return props.buttonLabel ?? $tr('ui.button.search', 'Search');
     });
 
+    const onSearch = (event: Event) => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      emit('update:modelValue', innerValue.value);
+    };
+
     watch(innerValue, () => {
       if (["instant"].includes(props.variant)) {
         emit("update:modelValue", innerValue.value);
@@ -173,7 +179,8 @@ export default defineComponent({
       placeholder,
       buttonLabel,
       innerValue,
-      ColorEnum
+      ColorEnum,
+      onSearch
     };
   }
 });

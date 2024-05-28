@@ -373,7 +373,7 @@
                 {{ $tr("ui.data-table.rows-per-page", "Rows per page") }}
               </FSText>
               <FSSelectField
-                class="fs-data-table-rows-per-page"
+                class="fs-data-table-rows-per-page fs-small-input"
                 :clearable="false"
                 :hideHeader="true"
                 :items="rowsPerPageOptions"
@@ -382,7 +382,7 @@
             </FSRow>
             <FSToggleSet
               v-if="innerRowsPerPage !== -1"
-              class="fs-data-table-pagination"
+              class="fs-data-table-pagination fs-small-input"
               variant="slide"
               :dash="pageOptions.length > 8"
               :values="pageOptions"
@@ -529,7 +529,7 @@
                 width="120px"
               >
                 <FSSelectField
-                  class="fs-data-table-rows-per-page"
+                  class="fs-data-table-rows-per-page fs-small-input"
                   :clearable="false"
                   :hideHeader="true"
                   :items="rowsPerPageOptions"
@@ -539,7 +539,7 @@
             </FSRow>
             <FSToggleSet
               v-if="innerRowsPerPage !== -1"
-              class="fs-data-table-pagination"
+              class="fs-data-table-pagination fs-small-input"
               variant="slide"
               :dash="pageOptions.length > 8"
               :values="pageOptions"

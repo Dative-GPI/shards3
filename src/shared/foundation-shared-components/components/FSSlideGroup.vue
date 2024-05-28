@@ -107,31 +107,27 @@ export default defineComponent({
 
     const goToStart = () => {
       if (slideGroupRef.value) {
-        (slideGroupRef.value as any).scrollOffset = 0;
+        (slideGroupRef.value as any).scrollTo("prev");
+        (slideGroupRef.value as any).scrollTo("prev");
       }
     };
 
     const goToPrev = () => {
       if (slideGroupRef.value) {
-        (slideGroupRef.value as any).scrollOffset = Math.max(0, (slideGroupRef.value as any).scrollOffset - props.speed);
+        (slideGroupRef.value as any).scrollTo("prev");
       }
     };
 
     const goToEnd = () => {
       if (slideGroupRef.value) {
-        const contentSize = (slideGroupRef.value as any).$el.children[1].children[0].clientWidth;
-        const containerSize = (slideGroupRef.value as any).$el.clientWidth;
-        const arrowsOffset = props.dash ? 104 : 64;
-        (slideGroupRef.value as any).scrollOffset = (contentSize - containerSize + arrowsOffset);
+        (slideGroupRef.value as any).scrollTo("next");
+        (slideGroupRef.value as any).scrollTo("next");
       }
     };
 
     const goToNext = () => {
       if (slideGroupRef.value) {
-        const contentSize = (slideGroupRef.value as any).$el.children[1].children[0].clientWidth;
-        const containerSize = (slideGroupRef.value as any).$el.clientWidth;
-        const arrowsOffset = props.dash ? 104 : 64;
-        (slideGroupRef.value as any).scrollOffset = Math.min(contentSize - containerSize + arrowsOffset, (slideGroupRef.value as any).scrollOffset + props.speed);
+        (slideGroupRef.value as any).scrollTo("next");
       }
     };
 

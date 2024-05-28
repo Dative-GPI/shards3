@@ -30,7 +30,7 @@
 .v-input {
     padding: 0px !important;
 
-    &:not(.v-checkbox):not(.v-slider) {
+    &:not(.v-checkbox):not(.v-slider):not(.fs-small-input) {
         min-width: 200px;
         width: 100%;
     }
