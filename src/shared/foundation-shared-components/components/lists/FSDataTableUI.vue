@@ -79,6 +79,7 @@
       </FSCol>
       <FSDivider
         v-if="showFiltersDivider"
+        :size="['30px', '24px']"
         :vertical="true"
       />
       <FSCol>
@@ -89,7 +90,7 @@
             v-if="showFilters && resetable"
             variant="standard"
             :label="$tr('ui.data-table.reset-filters', 'Reset')"
-            :height="[30, 24]"
+            :height="['30px', '24px']"
             :color="ColorEnum.Error"
             :editable="true"
             @click="resetFilter"
@@ -944,8 +945,19 @@ export default defineComponent({
           }
           return {
             ...c,
-            sort: (a: any, b: any): number => JSON.stringify(a)
-              .localeCompare(JSON.stringify(b), undefined, { numeric: true })
+            sort: (a: any, b: any): number =>{
+              if (a === undefined && b === undefined) {
+                return 0;
+              }
+              if (a === undefined) {
+                return -1;
+              }
+              if (b === undefined) {
+                return 1;
+              }
+              return JSON.stringify(a)
+                .localeCompare(JSON.stringify(b), undefined, { numeric: true })
+            }
           };
         })
     });
@@ -1420,7 +1432,7 @@ export default defineComponent({
       emit("update:rowsPerPage", innerRowsPerPage.value);
     });
 
-    watch(() => props.headers, () => {
+    watch([() => props.headers, () => props.items], () => {
       computeFilters();
     });
 

@@ -43,12 +43,12 @@
           :wrap="false"
         >
           <FSImage
-            v-if="$props.imageId || realSource"
+            v-if="$props.imageId || $props.modelValue"
             :aspectRatio="$props.aspectRatio"
             :height="$props.height"
             :width="$props.width"
             :imageId="$props.imageId"
-            :imageB64="realSource"
+            :imageB64="$props.modelValue"
           />
           <FSCard
             v-else
@@ -106,7 +106,7 @@
       </FSRow>
     </FSCard>
     <FSRow
-      v-else-if="$props.imageId || realSource"
+      v-else-if="$props.imageId || $props.modelValue"
       :width="$props.width"
       class="fs-edit-image-full"
     >
@@ -115,7 +115,7 @@
         :height="$props.height"
         :width="$props.width"
         :imageId="$props.imageId"
-        :imageB64="realSource"
+        :imageB64="$props.modelValue"
       />
       <FSRow
         class="fs-edit-image-full-toolbar"
@@ -203,6 +203,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     imageId: {
       type: String as PropType<string | null>,
       required: false,
@@ -232,11 +237,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    },
-    label: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
     }
   },
   emits: ["update:modelValue", "update:imageId"],
@@ -258,13 +258,6 @@ export default defineComponent({
         "--fs-edit-image-color"              : darks.base,
         "--fs-edit-image-error-color"        : errors.base
       };
-    });
-
-    const realSource = computed(() => {
-      if (fileSelected.value && fileSelected.value.fileName) {
-        return fileSelected.value.fileContent as string;
-      }
-      return props.modelValue;
     });
 
     const onUpload = async (payload: File) => {
@@ -292,7 +285,6 @@ export default defineComponent({
       invisibleButtonRef,
       fileSelected,
       isExtraSmall,
-      realSource,
       style,
       onUpload,
       onRemove
