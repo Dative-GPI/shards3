@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import FSSlideGroup from "@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue";
 import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSWindow from "@dative-gpi/foundation-shared-components/components/FSWindow.vue";
 import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSTabs from "@dative-gpi/foundation-shared-components/components/FSTabs.vue";
@@ -29,7 +31,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSFadeOut },
+    components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSFadeOut, FSSlideGroup, FSButton },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -80,7 +82,53 @@ export const Variations: Story = {
           </FSFadeOut>
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-        
+
+        <FSText> Slide groups in tabs </FSText>
+        <FSTabs v-model:tab="args.tab4" color="success">
+          <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
+          <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
+        </FSTabs>
+        <FSWindow v-model="args.tab4" width="100%">
+          <FSCol :value="0">
+            <FSSlideGroup :value="0">
+              <FSButton label="Button 1" />
+              <FSButton label="Button 2" />
+              <FSButton label="Button 3" />
+              <FSButton label="Button 4" />
+              <FSButton label="Button 5" />
+              <FSButton label="Button 7" />
+              <FSButton label="Button 8" />
+              <FSButton label="Button 9" />
+              <FSButton label="Button 10" />
+              <FSButton label="Button 11" />
+              <FSButton label="Button 12" />
+              <FSButton label="Button 13" />
+              <FSButton label="Button 14" />
+            </FSSlideGroup>
+          </FSCol>
+          <FSSlideGroup :value="1">
+            <FSButton label="Button 1" />
+            <FSButton label="Button 2" />
+            <FSButton label="Button 3" />
+            <FSButton label="Button 4" />
+            <FSButton label="Button 5" />
+            <FSButton label="Button 7" />
+            <FSButton label="Button 8" />
+            <FSButton label="Button 9" />
+            <FSButton label="Button 10" />
+            <FSButton label="Button 11" />
+            <FSButton label="Button 12" />
+            <FSButton label="Button 13" />
+            <FSButton label="Button 14" />
+            <FSButton label="Button 15" />
+            <FSButton label="Button 16" />
+            <FSButton label="Button 17" />
+            <FSButton label="Button 18" />
+            <FSButton label="Button 19" />
+          </FSSlideGroup>
+        </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+
         <FSText> Primary color, labels only </FSText>
         <FSTabs v-model:tab="args.tab1">
           <FSTab label="Tab 1" :value="0" />

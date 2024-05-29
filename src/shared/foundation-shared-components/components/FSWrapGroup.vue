@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, PropType, ref } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -43,7 +43,8 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
-    const wrapGroupRef = ref(null);
+    const wrapGroupRef = ref<HTMLElement | null>(null);
+    const resizeObserver = ref<ResizeObserver | null>(null);
 
     const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-group-padding"    : sizeToVar(props.padding),
@@ -51,6 +52,23 @@ export default defineComponent({
       "--fs-group-color"      : darks.light,
       "--fs-group-hover-color": darks.dark
     }));
+
+    onMounted((): void => {
+      resizeObserver.value = new ResizeObserver(entries => {
+        entries.forEach(() => {
+          (wrapGroupRef.value as any).scrollTo("prev");
+        });
+      });
+      if (document.querySelector(".fs-wrap-group")) {
+        resizeObserver.value.observe(document.querySelector(".fs-wrap-group")!);
+      }
+    });
+
+    onUnmounted((): void => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
+      }
+    });
 
     return {
       wrapGroupRef,

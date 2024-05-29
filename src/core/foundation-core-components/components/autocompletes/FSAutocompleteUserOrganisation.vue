@@ -148,7 +148,7 @@ export default defineComponent({
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
 
-    const customFilter = (label: any, search: string, item: any): boolean => {
+    const customFilter = (_: any, search: string, item: any): boolean => {
       return item.raw.name.toLowerCase().includes(search.toLowerCase());
     };
 
@@ -168,8 +168,8 @@ export default defineComponent({
       toggleSet,
       loading,
       search,
-      onUpdate,
-      customFilter
+      customFilter,
+      onUpdate
     };
   }
 });

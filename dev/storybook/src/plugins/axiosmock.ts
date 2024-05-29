@@ -23,6 +23,10 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/shared/v1/organisations", ORGANISATIONS);
     onGetWithRegex("/api/foundation/shared/v1/languages", LANGUAGES);
 
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisations", DASHBOARDORGANISATIONS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-shallows", DASHBOARDSHALLOWS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisation-types", DASHBOARDORGANISATIONTYPES);
+
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisations/1", DASHBOARDORGANISATIONS[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisations/2", DASHBOARDORGANISATIONS[1]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisations/3", DASHBOARDORGANISATIONS[2]);

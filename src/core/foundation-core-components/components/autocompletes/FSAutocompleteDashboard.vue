@@ -3,7 +3,7 @@
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :loading="loading"
-    :items="roles"
+    :items="dashboards"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
@@ -25,8 +25,8 @@
           {{ item.raw.label }}
         </FSSpan>
         <FSChip
-          :color="roleTypeColor(item.raw.type)"
-          :label="roleTypeLabel(item.raw.type)"
+          :color="dashboardTypeColor(item.raw.type)"
+          :label="dashboardTypeLabel(item.raw.type)"
           :editable="false"
         />
       </FSRow>
@@ -55,8 +55,8 @@
             {{ item.raw.label }}
           </FSSpan>
           <FSChip
-            :color="roleTypeColor(item.raw.type)"
-            :label="roleTypeLabel(item.raw.type)"
+            :color="dashboardTypeColor(item.raw.type)"
+            :label="dashboardTypeLabel(item.raw.type)"
             :editable="false"
           />
         </FSRow>
@@ -77,8 +77,8 @@
           #append
         >
           <FSChip
-            :color="roleTypeColor(props.item.type)"
-            :label="roleTypeLabel(props.item.type)"
+            :color="dashboardTypeColor(props.item.type)"
+            :label="dashboardTypeLabel(props.item.type)"
             :editable="false"
           />
         </template>
@@ -90,11 +90,11 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { RoleOrganisationFilters, RoleOrganisationTypeFilters, RoleType } from "@dative-gpi/foundation-core-domain/models";
-import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
+import { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DashboardShallowFilters, DashboardType } from "@dative-gpi/foundation-core-domain/models";
+import { useDashboardOrganisations, useDashboardOrganisationTypes, useDashboardShallows } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
-import { roleTypeColor, roleTypeLabel } from "../../utils";
+import { dashboardTypeColor, dashboardTypeLabel } from "../../utils";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
@@ -104,8 +104,9 @@ import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.v
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
+
 export default defineComponent({
-  name: "FSAutocompleteRole",
+  name: "FSAutocompleteDashboard",
   components: {
     FSAutocompleteField,
     FSCheckbox,
@@ -116,13 +117,18 @@ export default defineComponent({
     FSRow
   },
   props: {
-    roleOrganisationTypeFilters: {
-      type: Object as PropType<RoleOrganisationTypeFilters>,
+    dashboardOrganisationTypeFilters: {
+      type: Object as PropType<DashboardOrganisationTypeFilters>,
       required: false,
       default: null
     },
-    roleOrganisationFilters: {
-      type: Object as PropType<RoleOrganisationFilters>,
+    dashboardOrganisationFilters: {
+      type: Object as PropType<DashboardOrganisationFilters>,
+      required: false,
+      default: null
+    },
+    dashboardShallowFilters: {
+      type: Object as PropType<DashboardShallowFilters>,
       required: false,
       default: null
     },
@@ -144,28 +150,34 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:type"],
   setup(props, { emit }) {
-    const { getMany: getManyRoleOrganisationTypes, fetching: fetchingRoleOrganisationTypes, entities: roleOrganisationTypes } = useRoleOrganisationTypes();
-    const { getMany: getManyRoleOrganisations, fetching: fetchingRoleOrganisations, entities: roleOrganisations } = useRoleOrganisations();
+    const { getMany: getManyDashboardOrganisationTypes, fetching: fetchingDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
+    const { getMany: getManyDashboardOrganisations, fetching: fetchingDashboardOrganisations, entities: dashboardOrganisations } = useDashboardOrganisations();
+    const { getMany: getManyDashboardShallows, fetching: fetchingDashboardShallows, entities: dashboardShallows } = useDashboardShallows();
 
-    const roles = computed(() => {
-      return roleOrganisationTypes.value.map(rot => ({
+    const dashboards = computed(() => {
+      return dashboardOrganisationTypes.value.map(rot => ({
         id: rot.id,
         icon: rot.icon,
         label: rot.label,
-        type: RoleType.OrganisationType
-      })).concat(roleOrganisations.value.map(ro => ({
+        type: DashboardType.OrganisationType
+      })).concat(dashboardOrganisations.value.map(ro => ({
         id: ro.id,
         icon: ro.icon,
         label: ro.label,
-        type: RoleType.Organisation
+        type: DashboardType.Organisation
+      }))).concat(dashboardShallows.value.map(rs => ({
+        id: rs.id,
+        icon: rs.icon,
+        label: rs.label,
+        type: DashboardType.Shallow
       })));
     });
 
     const loading = computed((): boolean => {
-      return init.value && (fetchingRoleOrganisationTypes.value || fetchingRoleOrganisations.value);
+      return init.value && (fetchingDashboardOrganisationTypes.value || fetchingDashboardOrganisations.value || fetchingDashboardShallows.value);
     });
 
-    const innerUpdate = (value: Role[] | Role | null) => {
+    const innerUpdate = (value: Dashboard[] | Dashboard | null) => {
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
         emit("update:type", value.map(v => v.type));
@@ -178,14 +190,15 @@ export default defineComponent({
 
     const innerFetch = (search: string | null) => {
       return Promise.all([
-        getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search ?? undefined }),
-        getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search ?? undefined })
+        getManyDashboardOrganisationTypes({ ...props.dashboardOrganisationTypeFilters, search: search ?? undefined }),
+        getManyDashboardOrganisations({ ...props.dashboardOrganisationFilters, search: search ?? undefined }),
+        getManyDashboardShallows({ ...props.dashboardShallowFilters, search: search ?? undefined })
       ]);
     };
 
     const { toggleSet, search, init, onUpdate } = useAutocomplete(
-      roles,
-      [() => props.roleOrganisationTypeFilters, () => props.roleOrganisationFilters],
+      dashboards,
+      [() => props.dashboardOrganisationTypeFilters, () => props.dashboardOrganisationFilters, () => props.dashboardShallowFilters],
       emit,
       innerFetch,
       innerUpdate
@@ -193,21 +206,20 @@ export default defineComponent({
 
     return {
       toggleSet,
-      RoleType,
       loading,
       search,
-      roles,
-      roleTypeColor,
-      roleTypeLabel,
+      dashboards,
+      dashboardTypeColor,
+      dashboardTypeLabel,
       onUpdate
     };
   }
 });
 
-interface Role {
+interface Dashboard {
   id: string;
   icon: string;
   label: string;
-  type: RoleType;
+  type: DashboardType;
 }
 </script>

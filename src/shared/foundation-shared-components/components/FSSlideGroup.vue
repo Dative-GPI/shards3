@@ -17,6 +17,7 @@
       />
       <FSButtonPreviousIcon
         :color="ColorEnum.Dark"
+        :disabled="false"
         @click="goToPrev"
       />
     </template>
@@ -37,6 +38,7 @@
     >
       <FSButtonNextIcon
         :color="ColorEnum.Dark"
+        :disabled="false"
         @click="goToNext"
       />
       <FSButton
@@ -50,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, PropType, ref } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -96,6 +98,7 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const slideGroupRef = ref<HTMLElement | null>(null);
+    const resizeObserver = ref<ResizeObserver | null>(null);
 
     const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-group-arrows-width": props.dash ? "52px" : "32px",
@@ -130,6 +133,23 @@ export default defineComponent({
         (slideGroupRef.value as any).scrollTo("next");
       }
     };
+
+    onMounted((): void => {
+      resizeObserver.value = new ResizeObserver(entries => {
+        entries.forEach(() => {
+          (slideGroupRef.value as any).scrollTo("prev");
+        });
+      });
+      if (document.querySelector(".fs-slide-group")) {
+        resizeObserver.value.observe(document.querySelector(".fs-slide-group")!);
+      }
+    });
+
+    onUnmounted((): void => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
+      }
+    });
 
     return {
       slideGroupRef,
