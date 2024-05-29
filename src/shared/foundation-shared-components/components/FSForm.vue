@@ -47,8 +47,14 @@ export default defineComponent({
       await (formRef.value as any).validate();
       emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
       emit("submit", !!((formRef.value as any).isValid ?? true));
-      
     }; 
+
+    const validate = async () => {
+      submitted.value = true;
+      await (formRef.value as any).validate();
+      emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
+      emit("submit", !!((formRef.value as any).isValid ?? true));
+    }
 
     provide("validateOn", validateOn);
     provide("submitted", submitted);
@@ -57,7 +63,8 @@ export default defineComponent({
       validateOn,
       submitted,
       formRef,
-      onSubmit
+      onSubmit,
+      validate
     };
   }
 });

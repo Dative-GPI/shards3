@@ -1,6 +1,7 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :custom-filter="customFilter"
     :multiple="$props.multiple"
     :items="userOrganisations"
     :loading="loading"
@@ -147,6 +148,10 @@ export default defineComponent({
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
 
+    const customFilter = (label: any, search: string, item: any): boolean => {
+      return item.raw.name.toLowerCase().includes(search.toLowerCase());
+    };
+
     const { toggleSet, search, init, onUpdate } = useAutocomplete(
       userOrganisations,
       [() => props.userOrganisationFilters],
@@ -163,7 +168,8 @@ export default defineComponent({
       toggleSet,
       loading,
       search,
-      onUpdate
+      onUpdate,
+      customFilter
     };
   }
 });
