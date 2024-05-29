@@ -55,6 +55,16 @@ export default defineComponent({
       emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
     };
 
+    const reset = () => {
+      submitted.value = false;
+      (formRef.value as any).reset();
+    };
+
+    const resetValidation = () => {
+      submitted.value = false;
+      (formRef.value as any).resetValidation();
+    };
+
     provide("validateOn", validateOn);
     provide("submitted", submitted);
 
@@ -62,8 +72,10 @@ export default defineComponent({
       validateOn,
       submitted,
       formRef,
+      reset,
+      validate,
       onSubmit,
-      validate
+      resetValidation
     };
   }
 });
