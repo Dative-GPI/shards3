@@ -645,7 +645,8 @@ import { useRouter } from "vue-router";
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { sizeToVar } from "../../utils";
+
+import { alphanumericSort, sizeToVar } from "../../utils";
 
 import FSDataIteratorItem from "./FSDataIteratorItem.vue";
 import FSSearchField from "../fields/FSSearchField.vue";
@@ -944,19 +945,7 @@ export default defineComponent({
           }
           return {
             ...c,
-            sort: (a: any, b: any): number =>{
-              if (a == null && b == null) {
-                return 0;
-              }
-              if (a == null) {
-                return -1;
-              }
-              if (b == null) {
-                return 1;
-              }
-              return JSON.stringify(a)
-                .localeCompare(JSON.stringify(b), undefined, { numeric: true })
-            }
+            sort: alphanumericSort
           };
         })
     });
@@ -1001,9 +990,9 @@ export default defineComponent({
     });
 
     const groups = computed((): { [key: string]: any[] } => {
-      if (props.groupBy) {
+      if (props.groupBy && props.groupBy.key) {
         return innerItems.value.reduce((acc, item) => {
-          const key = item[props.groupBy.key];
+          const key = item[props.groupBy.key!];
           if (!acc[key]) {
             acc[key] = [];
           }
