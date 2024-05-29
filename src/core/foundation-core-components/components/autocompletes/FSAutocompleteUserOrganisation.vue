@@ -1,7 +1,7 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :custom-filter="customFilter"
+    :customFilter="customFilter"
     :multiple="$props.multiple"
     :items="userOrganisations"
     :loading="loading"
