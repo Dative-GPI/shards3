@@ -124,7 +124,7 @@
         :class="classes"
         :page="innerPage"
         :itemsPerPage="innerRowsPerPage"
-        :modelValue="innerValue"
+        :modelValue="$props.modelValue"
         @auxclick:row="onClickRow"
         @click:row="onClickRow"
         @update:sortBy="innerSortBy = $event ? $event[0] : null"
@@ -167,7 +167,7 @@
             width="hug"
           >
             <FSCheckbox
-              :modelValue="innerValue.includes(props.item[$props.itemValue])"
+              :modelValue="$props.modelValue.includes(props.item[$props.itemValue])"
               @update:modelValue="toggleSelect(props.item)"
             />
           </FSRow>
@@ -237,8 +237,8 @@
                   >
                     <FSCheckbox
                       v-if="$props.showSelect"
-                      :modelValue="props.item.items.every((item) => innerValue.includes(item.key))"
-                      :indeterminate="innerValue.some((id) => props.item.items.some((item) => item.key === id)) && !props.item.items.every((item) => innerValue.includes(item.key))"
+                      :modelValue="props.item.items.every((item) => $props.modelValue.includes(item.key))"
+                      :indeterminate="$props.modelValue.some((id) => props.item.items.some((item) => item.key === id)) && !props.item.items.every((item) => $props.modelValue.includes(item.key))"
                       @update:modelValue="toggleSelectGroup(props.item)"
                     />
                     <FSText>
@@ -441,7 +441,7 @@
                   :color="$props.color"
                   :item="item.raw"
                   :key="index"
-                  :modelValue="innerValue.includes(item.raw[$props.itemValue])"
+                  :modelValue="$props.modelValue.includes(item.raw[$props.itemValue])"
                   @update:modelValue="toggleSelect"
                 >
                   <template
@@ -591,7 +591,7 @@
                   :color="$props.color"
                   :item="item.raw"
                   :key="index"
-                  :modelValue="innerValue.includes(item.raw[$props.itemValue])"
+                  :modelValue="$props.modelValue.includes(item.raw[$props.itemValue])"
                   @update:modelValue="toggleSelect"
                 >
                   <template
@@ -831,7 +831,6 @@ export default defineComponent({
     const filters = ref<{ [key: string]: FSDataTableFilter[] }>({});
     const innerSearch: Ref<string | null> = ref(null);
     const innerRowsPerPage = ref(props.rowsPerPage);
-    const innerValue = ref(props.modelValue);
     const innerSortBy = ref(props.sortBy);
     const innerMode = ref(props.mode);
     const innerPage = ref(props.page);
@@ -976,7 +975,7 @@ export default defineComponent({
       }, [] as { key: string, filter: FSDataTableFilter }[]);
       if (props.items && props.items.length) {
         return props.items.filter((item) => {
-          if (props.selectedOnly && !innerValue.value.includes(item[props.itemValue])) {
+          if (props.selectedOnly && !props.modelValue.includes(item[props.itemValue])) {
             return false;
           }
           if (innerSearch.value) {
@@ -1055,38 +1054,37 @@ export default defineComponent({
 
     const toggleSelectAll = (allSelected: boolean): void => {
       if (allSelected) {
-        innerValue.value = [];
+        emit("update:modelValue", []);
       }
       else {
-        innerValue.value = innerItems.value.map((item) => item[props.itemValue]);
+        emit("update:modelValue", innerItems.value.map((item) => item[props.itemValue]));
       }
-      emit("update:modelValue", innerValue.value);
     };
 
     const toggleSelectGroup = (group: any): void => {
-      if (group.items.every((item: any) => innerValue.value.includes(item.key))) {
-        innerValue.value = innerValue.value.filter((id) => !group.items.some((item: any) => item.key === id));
+      if (group.items.every((item: any) => props.modelValue.includes(item.key))) {
+        emit("update:modelValue", props.modelValue.filter((id) => !group.items.some((item: any) => item.key === id)));
       }
       else {
-        innerValue.value = [...new Set(innerValue.value.concat(group.items.map((item: any) => item.key)))];
+        emit("update:modelValue", [...new Set(props.modelValue.concat(group.items.map((item: any) => item.key)))]);
       }
-      emit("update:modelValue", innerValue.value);
     };
 
     const toggleSelect = (item: any): void => {
-      const index = innerValue.value.indexOf(item[props.itemValue]);
+      let values = props.modelValue.slice();
+      const index = values.indexOf(item[props.itemValue]);
       if (index > -1) {
-        innerValue.value.splice(index, 1);
+        values.splice(index, 1);
       }
       else {
         if (props.singleSelect) {
-          innerValue.value = [item[props.itemValue]];
+          values = [item[props.itemValue]];
         }
         else {
-          innerValue.value.push(item[props.itemValue]);
+          values.push(item[props.itemValue]);
         }
       }
-      emit("update:modelValue", innerValue.value);
+      emit("update:modelValue", values);
     };
 
     const toggleFilter = (header: string, value: FSDataTableFilter[]): void => {
@@ -1461,7 +1459,6 @@ export default defineComponent({
       innerItems,
       headersSlots,
       itemsSlots,
-      innerValue,
       classes,
       style,
       size,
