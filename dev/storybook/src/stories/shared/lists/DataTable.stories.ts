@@ -49,6 +49,13 @@ export const Variations: Story = {
         column3: { text: `Row ${i + 1} - Column 3`, value: i + 1  },
         column4: i < 9 ? 1704067200000 : i < 13 ? 1704153600000 : i < 27 ? 1704240000000 : i < 36 ? 1704326400000 : i < 45 ? 1704412800000 : i < 54 ? 1704499200000 : i < 63 ? 1704585600000 : 1704672000000
       })),
+      items2: Array.from(Array(25).keys()).map(i => ({
+        id: i.toString(),
+        column1: `${i}`,
+        column2: `${i}${String.fromCharCode(65 + i)}`,
+        column3: `${String.fromCharCode(65 + i)}`,
+        column4: (i % 5 !== 0) ? `${i}${String.fromCharCode(65 + i)}` : null
+      })),
       value1: [],
       groupBy: {
         key: "column4",
@@ -67,11 +74,21 @@ export const Variations: Story = {
         value: "column2",
         index: 1,
         hidden: false,
-        width: "80px"
+        width: "80px",
+        sortable: true,
+        filterable: false
       }, {
         text: "Column 3",
         value: "column3",
         index: 2,
+        hidden: false,
+        width: "120px",
+        sortable: true,
+        filterable: false
+      }, {
+        text: "Column 4",
+        value: "column4",
+        index: 3,
         hidden: false,
         width: "120px",
         sortable: true,
@@ -138,7 +155,7 @@ export const Variations: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSDataTableUI
           :showSelect="true"
-          :items="args.items1"
+          :items="args.items2"
           :singleSelect="true"
           :sneakyHeaders="['column1']"
           :itemTo="args.disableItemTo ? null : args.itemTo"
@@ -150,10 +167,9 @@ export const Variations: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSDataTableUI
         :showSelect="true"
-        :items="args.items1"
-        :sneakyHeaders="['column1']"
+        :items="args.items2"
         @click:row="args.clickRow"
-        v-model:headers="args.headers1"
+        v-model:headers="args.headers2"
         v-model="args.value1"
         :includeDraggable="true"
         :sortDraggable="true"

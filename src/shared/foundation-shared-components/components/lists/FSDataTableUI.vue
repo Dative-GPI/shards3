@@ -945,13 +945,13 @@ export default defineComponent({
           return {
             ...c,
             sort: (a: any, b: any): number =>{
-              if (a === undefined && b === undefined) {
+              if (a == null && b == null) {
                 return 0;
               }
-              if (a === undefined) {
+              if (a == null) {
                 return -1;
               }
-              if (b === undefined) {
+              if (b == null) {
                 return 1;
               }
               return JSON.stringify(a)
