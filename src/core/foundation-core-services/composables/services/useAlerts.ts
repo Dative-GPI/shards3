@@ -43,13 +43,13 @@ const useWatchAlerts = HubFactory.createWatcher(useAlertsHub);
 export const useAlert = ComposableFactory.get(AlertServiceFactory, () => {
     const { watchOne } = useWatchAlerts();
     return (alert) => {
-        watchOne(alert.value.id)
+        watchOne(alert.value.id);
     }
 });
 
 export const useAlerts = ComposableFactory.getMany(AlertServiceFactory, () => {
     const { watchMany } = useWatchAlerts();
-    return (_alert) => {
+    return () => {
         watchMany();
     }
 });
