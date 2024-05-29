@@ -18,19 +18,21 @@
             mask-image: none !important;
             -webkit-mask-image: none !important;
 
-            margin: 2px 2px 2px 0 !important;
+            min-height: var(--fs-text-area-field-height) !important;
+            max-height: var(--fs-text-area-field-height) !important;
             cursor: var(--fs-text-area-cursor) !important;
-            min-height: var(--fs-text-area-min-height);
-            height: var(--fs-text-area-height);
             color: var(--fs-text-area-color);
+            padding: 0;
+        }
+
+        height: var(--fs-text-area-height);
         
-            @include web {
-                padding: 12px 0 12px 16px !important;
-            }
-        
-            @include mobile {
-                padding: 7px 0 7px 16px !important;
-            }
+        @include web {
+            padding: 11px 16px !important;
+        }
+    
+        @include mobile {
+            padding: 10px 16px !important;
         }
     }
 }
@@ -56,19 +58,17 @@
             mask-image: none !important;
             -webkit-mask-image: none !important;
 
-            padding-inline: 0 !important;
-            margin: 2px 2px 2px 0 !important;
             cursor: var(--fs-text-area-cursor) !important;
-            height: var(--fs-text-area-height);
             color: var(--fs-text-area-color);
+            padding: 0;
+        }
         
-            @include web {
-                padding: 12px 0 12px 16px !important;
-            }
-        
-            @include mobile {
-                padding: 7px 0 7px 16px !important;
-            }
+        @include web {
+            padding: 11px 16px !important;
+        }
+    
+        @include mobile {
+            padding: 10px 16px !important;
         }
     }
 }
