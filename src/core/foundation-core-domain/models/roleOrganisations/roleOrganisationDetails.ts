@@ -32,8 +32,5 @@ export interface UpdateRoleOrganisationDTO {
   label: string;
   description: string;
   tags: string[];
-}
-
-export interface UpdateRoleOrganisationPermissionsDTO {
   permissionsIds: string[];
 }
