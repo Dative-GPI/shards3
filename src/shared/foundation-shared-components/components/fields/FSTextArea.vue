@@ -14,7 +14,7 @@
       :class="classes"
       :rows="$props.rows"
       :hideDetails="true"
-      :noResize="!$props.resize"
+      :noResize="true"
       :autoGrow="$props.autoGrow"
       :readonly="!$props.editable"
       :clearable="$props.clearable && $props.editable && !!$props.modelValue"
@@ -37,13 +37,17 @@
       <template
         #clear
       >
-        <FSButton
-          v-if="$props.clearable && $props.editable && !!$props.modelValue"
-          icon="mdi-close"
-          variant="icon"
-          :color="ColorEnum.Dark"
-          @click="$emit('update:modelValue', null)"
-        />
+        <FSCol
+          align="center-center"
+        >
+          <FSButton
+            v-if="$props.clearable && $props.editable && !!$props.modelValue"
+            icon="mdi-close"
+            variant="icon"
+            :color="ColorEnum.Dark"
+            @click="$emit('update:modelValue', null)"
+          />
+        </FSCol>
       </template>
     </v-textarea>
   </FSBaseField>
@@ -56,11 +60,13 @@ import { useColors, useBreakpoints, useRules } from "@dative-gpi/foundation-shar
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSBaseField from "./FSBaseField.vue";
+import FSCol from "../FSCol.vue";
 
 export default defineComponent({
   name: "FSTextArea",
   components: {
-    FSBaseField
+    FSBaseField,
+    FSCol
   },
   props: {
     label: {
@@ -82,11 +88,6 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 1
-    },
-    resize: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     autoGrow: {
       type: Boolean,
@@ -136,17 +137,17 @@ export default defineComponent({
 
     const style = computed((): { [key: string] : string | null | undefined } => {
       let height: string | undefined = undefined;
-      let minHeight: string | undefined = undefined;
+      let fieldHeight: string | undefined = undefined;
       if (!props.autoGrow) {
-        const base = isMobileSized.value ? 30 : 34;
-        const row = isMobileSized.value ? 16 : 20;
-        minHeight = `${base}px`;
+        const base = isMobileSized.value ? 34 : 38;
+        const row = isMobileSized.value ? 14 : 16;
         if (props.rows > 1) {
           height = `${base + (props.rows - 1) * row}px`;
         }
         else {
           height = `${base}px`;
         }
+        fieldHeight = `${props.rows * row}px`;
       }
       if (!props.editable) {
         return {
@@ -154,8 +155,8 @@ export default defineComponent({
           "--fs-text-area-border-color"       : lights.base,
           "--fs-text-area-color"              : lights.dark,
           "--fs-text-area-active-border-color": lights.base,
-          "--fs-text-area-min-height"         : minHeight,
-          "--fs-text-area-height"             : height
+          "--fs-text-area-height"             : height,
+          "--fs-text-area-field-height"       : fieldHeight
         };
       }
       return {
@@ -164,8 +165,8 @@ export default defineComponent({
         "--fs-text-area-color"              : darks.base,
         "--fs-text-area-active-border-color": darks.dark,
         "--fs-text-area-error-border-color" : errors.base,
-        "--fs-text-area-min-height"         : minHeight,
-        "--fs-text-area-height"             : height
+        "--fs-text-area-height"             : height,
+        "--fs-text-area-field-height"       : fieldHeight
       };
     });
 
@@ -185,7 +186,7 @@ export default defineComponent({
       messages,
       blurred,
       classes,
-      style,
+      style
     };
   }
 });

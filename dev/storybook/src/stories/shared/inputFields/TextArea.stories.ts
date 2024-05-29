@@ -24,8 +24,7 @@ export const Variations: Story = {
     args: {
       value1: null,
       value2: "Hello there",
-      value3: null,
-      value4: "General Kenobi\r\nYou are a bold one!"
+      value3: "General Kenobi\r\nYou are a bold one!"
     }
   },
   render: (args, { argTypes }) => ({
@@ -37,34 +36,24 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTextArea
-        label="Text, auto grow (does not allow to set a base height)"
+        label="Text, auto grow"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
-        label="Text, 2 rows, non resizeable"
+        label="Text, 2 rows"
         :autoGrow="false"
         :rows="2"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTextArea
-        label="Required text, 2 rows, resizeable"
-        description="Description for this field"
-        :autoGrow="false"
-        :resize="true"
-        :rows="2"
-        v-model="args.value3"
-      />
-      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSTextArea
-        label="Uneditable text, 1 row, resizeable"
+        label="Uneditable text, 1 row"
         description="Uneditable description"
         :editable="false"
         :autoGrow="false"
-        :resize="true"
         :rows="1"
-        v-model="args.value4"
+        v-model="args.value3"
       />
     </FSCol>`
   })
