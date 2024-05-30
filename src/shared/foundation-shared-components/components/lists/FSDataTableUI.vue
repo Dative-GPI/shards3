@@ -1456,6 +1456,7 @@ export default defineComponent({
       onClickRow,
       isExtraSmall,
       draggableDisabled,
+      elementId,
       toggleSelectAll,
       toggleSelectGroup,
       toggleSelect,
