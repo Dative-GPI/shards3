@@ -3,21 +3,15 @@
     class="fs-slide-group"
     ref="slideGroupRef"
     :showArrows="true"
+    :id="elementId"
     :style="style"
     v-bind="$attrs"
   >
     <template
       #prev
     >
-      <FSButton
-        v-if="$props.dash"
-        icon="mdi-chevron-double-left"
-        variant="icon"
-        @click="goToStart"
-      />
       <FSButtonPreviousIcon
         :color="ColorEnum.Dark"
-        :disabled="false"
         @click="goToPrev"
       />
     </template>
@@ -38,14 +32,8 @@
     >
       <FSButtonNextIcon
         :color="ColorEnum.Dark"
-        :disabled="false"
+        :class="nextClasses"
         @click="goToNext"
-      />
-      <FSButton
-        v-if="$props.dash"
-        icon="mdi-chevron-double-right"
-        variant="icon"
-        @click="goToEnd"
       />
     </template>
   </v-slide-group>
@@ -57,6 +45,7 @@ import { computed, defineComponent, onMounted, onUnmounted, PropType, ref } from
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+import { uuidv4 } from "@dative-gpi/bones-ui/tools";
 
 import FSButtonPreviousIcon from "./buttons/FSButtonPreviousIcon.vue";
 import FSButtonNextIcon from "./buttons/FSButtonNextIcon.vue";
@@ -80,11 +69,6 @@ export default defineComponent({
       required: false,
       default: "8px"
     },
-    dash: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     speed: {
       type: Number,
       required: false,
@@ -97,23 +81,29 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
+    const forceActive = ref(false);
+
     const slideGroupRef = ref<HTMLElement | null>(null);
     const resizeObserver = ref<ResizeObserver | null>(null);
+    
+    const elementId = `id${uuidv4()}`;
 
     const style = computed((): { [key: string] : string | null | undefined } => ({
-      "--fs-group-arrows-width": props.dash ? "52px" : "32px",
-      "--fs-group-padding"    : sizeToVar(props.padding),
-      "--fs-group-gap"        : sizeToVar(props.gap),
-      "--fs-group-color"      : darks.light,
-      "--fs-group-hover-color": darks.dark
+      "--fs-group-padding"     : sizeToVar(props.padding),
+      "--fs-group-gap"         : sizeToVar(props.gap),
+      "--fs-group-color"       : darks.light,
+      "--fs-group-hover-color" : darks.dark
     }));
 
-    const goToStart = () => {
+    const nextClasses = computed((): string[] => {
+      const classes = ["fs-slide-group-next"];
       if (slideGroupRef.value) {
-        (slideGroupRef.value as any).scrollTo("prev");
-        (slideGroupRef.value as any).scrollTo("prev");
+        if (forceActive.value) {
+          classes.push("fs-slide-group-next-active");
+        }
       }
-    };
+      return classes;
+    });
 
     const goToPrev = () => {
       if (slideGroupRef.value) {
@@ -121,16 +111,10 @@ export default defineComponent({
       }
     };
 
-    const goToEnd = () => {
-      if (slideGroupRef.value) {
-        (slideGroupRef.value as any).scrollTo("next");
-        (slideGroupRef.value as any).scrollTo("next");
-      }
-    };
-
     const goToNext = () => {
       if (slideGroupRef.value) {
         (slideGroupRef.value as any).scrollTo("next");
+        forceActive.value = false;
       }
     };
 
@@ -138,10 +122,11 @@ export default defineComponent({
       resizeObserver.value = new ResizeObserver(entries => {
         entries.forEach(() => {
           (slideGroupRef.value as any).scrollTo("prev");
+          forceActive.value = true;
         });
       });
-      if (document.querySelector(".fs-slide-group")) {
-        resizeObserver.value.observe(document.querySelector(".fs-slide-group")!);
+      if (document.querySelector(`#${elementId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#${elementId}`)!);
       }
     });
 
@@ -153,13 +138,13 @@ export default defineComponent({
 
     return {
       slideGroupRef,
+      nextClasses,
       ColorEnum,
+      elementId,
       style,
       getChildren,
-      goToStart,
       goToPrev,
-      goToNext,
-      goToEnd
+      goToNext
     };
   }
 });

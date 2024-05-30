@@ -138,13 +138,28 @@ $nthOverlay: 25;
 .v-slide-group__prev,
 .v-slide-group__next {
     color: var(--fs-group-color);
-    min-width: var(--fs-group-arrows-width) !important;
-    width: var(--fs-group-arrows-width) !important;
+    min-width: 32px !important;
+    width: 32px !important;
     flex: 1 1 0 !important;
 
     @include touchscreen {
         display: none !important;
     }
+    
+    & > .v-icon {
+        @include web {
+            font-size: 24px !important;
+        }
+    
+        @include mobile {
+            font-size: 20px !important;
+        }
+    }
+}
+
+.v-slide-group__next--disabled:has(.fs-slide-group-next-active) {
+    pointer-events: all !important;
+    opacity: 1 !important;
 }
 
 // Change color on arrows when hovered

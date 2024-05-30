@@ -385,7 +385,6 @@
               v-if="innerRowsPerPage !== -1"
               class="fs-data-table-pagination fs-small-input"
               variant="slide"
-              :dash="pageOptions.length > 8"
               :values="pageOptions"
               :required="true"
               v-model="innerPage"
@@ -542,7 +541,6 @@
               v-if="innerRowsPerPage !== -1"
               class="fs-data-table-pagination fs-small-input"
               variant="slide"
-              :dash="pageOptions.length > 8"
               :values="pageOptions"
               :required="true"
               v-model="innerPage"
@@ -634,6 +632,7 @@
     </template>
     <div
       class="fs-data-table-intersection"
+      :id="elementId"
     />
   </FSCol>
 </template>
@@ -645,6 +644,7 @@ import { useRouter } from "vue-router";
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
+import { uuidv4 } from "@dative-gpi/bones-ui/tools"
 
 import { alphanumericSort, sizeToVar } from "../../utils";
 
@@ -840,6 +840,8 @@ export default defineComponent({
 
     const intersectionObserver = ref<IntersectionObserver | null>(null);
     const size = ref(props.sizeIterator);
+
+    const elementId = `id${uuidv4()}`;
 
     const modeOptions: FSToggle[] = [
       { id: "table", prependIcon: "mdi-table" },
@@ -1227,8 +1229,8 @@ export default defineComponent({
     const observeIntersection = (): void => {
       switch (innerMode.value) {
         case "table":
-          if (intersectionObserver.value && document.querySelector(".fs-data-table-intersection")) {
-            intersectionObserver.value.unobserve(document.querySelector(".fs-data-table-intersection")!);
+          if (intersectionObserver.value && document.querySelector(`#${elementId}`)) {
+            intersectionObserver.value.unobserve(document.querySelector(`#${elementId}`)!);
           }
           return;
         case "iterator":
@@ -1243,8 +1245,8 @@ export default defineComponent({
               });
             }, { threshold: [0.9] });
           }
-          if (document.querySelector(".fs-data-table-intersection")) {
-            intersectionObserver.value.observe(document.querySelector(".fs-data-table-intersection")!);
+          if (document.querySelector(`#${elementId}`)) {
+            intersectionObserver.value.observe(document.querySelector(`#${elementId}`)!);
           }
           return;
       }

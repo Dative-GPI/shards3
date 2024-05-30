@@ -2,6 +2,7 @@
   <div
     class="fs-fade-out"
     ref="fadeOutRef"
+    :id="elementId"
     :style="style"
     @scroll="debounceMasks"
   >
@@ -15,6 +16,7 @@ import { computed, defineComponent, onMounted, onUnmounted, PropType, ref, watch
 import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+import { uuidv4 } from "@dative-gpi/bones-ui/tools";
 
 export default defineComponent({
   name: "FSFadeOut",
@@ -54,6 +56,8 @@ export default defineComponent({
 
     const resizeObserver = ref<ResizeObserver | null>(null);
 
+    const elementId = `id${uuidv4()}`;
+
     const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-fade-out-height"             : sizeToVar(props.height),
@@ -72,13 +76,13 @@ export default defineComponent({
           topMaskHeight.value = "0px";
           return;
         }
-        if ((fadeOutRef.value as any).scrollHeight - (fadeOutRef.value as any).scrollTop - (fadeOutRef.value as any).clientHeight < 1) {
+        if ((fadeOutRef.value as any).scrollHeight - (fadeOutRef.value as any).scrollTop - (fadeOutRef.value as any).clientHeight < 1.5) {
           bottomMaskHeight.value = "0px";
         }
         else {
           bottomMaskHeight.value = sizeToVar(props.maskHeight);
         }
-        if ((fadeOutRef.value as any).scrollTop === 0) {
+        if ((fadeOutRef.value as any).scrollTop < 0.5) {
           topMaskHeight.value = "0px";
         }
         else {
@@ -107,8 +111,8 @@ export default defineComponent({
           debounceMasks();
         });
       });
-      if (document.querySelector(".fs-fade-out")) {
-        resizeObserver.value.observe(document.querySelector(".fs-fade-out")!);
+      if (document.querySelector(`#${elementId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#${elementId}`)!);
       }
     });
 
@@ -122,6 +126,7 @@ export default defineComponent({
 
     return {
       fadeOutRef,
+      elementId,
       style,
       debounceMasks
     };

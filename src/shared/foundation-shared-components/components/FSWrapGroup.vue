@@ -2,6 +2,8 @@
   <v-slide-group
     class="fs-wrap-group"
     ref="wrapGroupRef"
+    :showArrows="false"
+    :id="elementId"
     :style="style"
     v-bind="$attrs"
   >
@@ -22,6 +24,7 @@ import { computed, defineComponent, onMounted, onUnmounted, PropType, ref } from
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+import { uuidv4 } from "@dative-gpi/bones-ui/tools";
 
 export default defineComponent({
   name: "FSWrapGroup",
@@ -46,6 +49,8 @@ export default defineComponent({
     const wrapGroupRef = ref<HTMLElement | null>(null);
     const resizeObserver = ref<ResizeObserver | null>(null);
 
+    const elementId = `id${uuidv4()}`;
+
     const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-group-padding"    : sizeToVar(props.padding),
       "--fs-group-gap"        : sizeToVar(props.gap),
@@ -59,8 +64,8 @@ export default defineComponent({
           (wrapGroupRef.value as any).scrollTo("prev");
         });
       });
-      if (document.querySelector(".fs-wrap-group")) {
-        resizeObserver.value.observe(document.querySelector(".fs-wrap-group")!);
+      if (document.querySelector(`#${elementId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#${elementId}`)!);
       }
     });
 
@@ -72,6 +77,7 @@ export default defineComponent({
 
     return {
       wrapGroupRef,
+      elementId,
       style,
       getChildren
     };
