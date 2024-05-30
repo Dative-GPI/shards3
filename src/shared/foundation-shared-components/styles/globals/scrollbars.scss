@@ -13,7 +13,6 @@
 @include clickscreen {
   .fs-hide-x-scrollbar {
     overflow-x: scroll;
-    transition: --scrollbar-x-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
     &::-webkit-scrollbar {
       height: 8px;
@@ -30,7 +29,6 @@
 
   .fs-hide-y-scrollbar {
     overflow-y: scroll;
-    transition: --scrollbar-y-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
     &::-webkit-scrollbar {
       width: 8px;
