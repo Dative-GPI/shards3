@@ -24,7 +24,7 @@ import { computed, defineComponent, onMounted, onUnmounted, PropType, ref } from
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
-import { uuidv4 } from "@dative-gpi/bones-ui/tools";
+import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid";
 
 export default defineComponent({
   name: "FSWrapGroup",

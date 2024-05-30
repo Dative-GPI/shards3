@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { CHART_ORGANISATION_TYPE_URL, CHART_ORGANISATION_TYPES_URL } from "../../config/urls";
 import { ChartOrganisationTypeDetails, ChartOrganisationTypeDetailsDTO, ChartOrganisationTypeFilters, ChartOrganisationTypeInfos, ChartOrganisationTypeInfosDTO, CreateChartOrganisationTypeDTO, UpdateChartOrganisationTypeDTO } from "@dative-gpi/foundation-core-domain/models";
 

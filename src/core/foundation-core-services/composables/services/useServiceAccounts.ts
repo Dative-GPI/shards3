@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { CreateServiceAccountDTO, UpdateServiceAccountDTO, ServiceAccountDetails, ServiceAccountDetailsDTO, ServiceAccountFilters, ServiceAccountInfos, ServiceAccountInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { SERVICE_ACCOUNTS_URL, SERVICE_ACCOUNT_URL } from "../../config/urls";
