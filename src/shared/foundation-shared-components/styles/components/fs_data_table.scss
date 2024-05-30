@@ -1,128 +1,132 @@
 .fs-data-table {
-    table {
-        margin-top: calc(var(--fs-data-table-row-gap) * -1);
-        border-spacing: 0 var(--fs-data-table-row-gap) !important;
-        background-color: var(--fs-data-table-background-color) !important;
-    }
+  & > .v-table__wrapper {
+    @extend .fs-hide-x-scrollbar;
+  }
 
-    .fs-data-table-custom-row > td {
-        border-bottom: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color) !important;
-        border-top: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color) !important;
-        background-color: var(--fs-data-table-row-background-color) !important;
-        color: var(--fs-data-table-row-color);
-        position: relative;
-    }
+  table {
+    margin-top: calc(var(--fs-data-table-row-gap) * -1);
+    border-spacing: 0 var(--fs-data-table-row-gap) !important;
+    background-color: var(--fs-data-table-background-color) !important;
+  }
 
-    .fs-data-table-custom-row > td:first-child{
-        border-top-left-radius: var(--fs-data-table-row-border-radius) !important;
-        border-bottom-left-radius: var(--fs-data-table-row-border-radius) !important;
-        border-left: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color);
-    }
+  .fs-data-table-custom-row > td {
+    border-bottom: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color) !important;
+    border-top: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color) !important;
+    background-color: var(--fs-data-table-row-background-color) !important;
+    color: var(--fs-data-table-row-color);
+    position: relative;
+  }
 
-    .fs-data-table-custom-row > td:last-child{
-        border-top-right-radius: var(--fs-data-table-row-border-radius) !important;
-        border-bottom-right-radius: var(--fs-data-table-row-border-radius) !important;
-        border-right: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color);
-    }
+  .fs-data-table-custom-row > td:first-child{
+    border-top-left-radius: var(--fs-data-table-row-border-radius) !important;
+    border-bottom-left-radius: var(--fs-data-table-row-border-radius) !important;
+    border-left: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color);
+  }
 
-    th,
-    :not(.fs-data-table-custom-row) > td {
-        background-color: var(--fs-data-table-background-color) !important;
-        position: relative;
+  .fs-data-table-custom-row > td:last-child{
+    border-top-right-radius: var(--fs-data-table-row-border-radius) !important;
+    border-bottom-right-radius: var(--fs-data-table-row-border-radius) !important;
+    border-right: var(--fs-data-table-row-border-size) solid var(--fs-data-table-row-border-color);
+  }
+
+  th,
+  :not(.fs-data-table-custom-row) > td {
+    background-color: var(--fs-data-table-background-color) !important;
+    position: relative;
+  }
+  
+  th {
+    box-shadow: none !important;
+
+    &:hover .fs-header-button {
+      opacity: 1;
     }
+  }
     
-    th {
-        box-shadow: none !important;
+  th:after {
+    content: "";
+    position: absolute;
+    bottom: 8px;
+    right: 0;
+    height: calc(100% - 16px);
+    border-right: 1px solid var(--fs-data-table-border-color);
+  }
     
-        &:hover .fs-header-button {
-            opacity: 1;
-        }
-    }
+  td {
+    border-bottom: none !important;
+  }
     
-    th:after {
-        content: "";
-        position: absolute;
-        bottom: 8px;
-        right: 0;
-        height: calc(100% - 16px);
-        border-right: 1px solid var(--fs-data-table-border-color);
-    }
+  th:last-of-type:after,
+  td:last-of-type:after {
+    border-right: none;
+  }
     
-    td {
-        border-bottom: none !important;
-    }
-    
-    th:last-of-type:after,
-    td:last-of-type:after {
-        border-right: none;
-    }
-    
-    th:before,
-    td:not(.fs-data-table-group-header):before {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        border-bottom: 1px solid var(--fs-data-table-border-color);
-    }
-    
-    th:first-of-type:before,
-    td:first-of-type:before {
-        left: 8px;
-        width: calc(100% - 8px);
-    }
-    
-    th:last-of-type:before,
-    td:last-of-type:before {
-        right: 8px;
-        width: calc(100% - 8px);
-    }
+  th:before,
+  td:not(.fs-data-table-group-header):before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 1px solid var(--fs-data-table-border-color);
+  }
+  
+  th:first-of-type:before,
+  td:first-of-type:before {
+    left: 8px;
+    width: calc(100% - 8px);
+  }
+  
+  th:last-of-type:before,
+  td:last-of-type:before {
+    right: 8px;
+    width: calc(100% - 8px);
+  }
 }
 
 .fs-data-table-grouped {
-    & th:first-of-type {
-        display: none;
-    }
+  & th:first-of-type {
+    display: none;
+  }
 
-    & td:first-of-type {
-        display: none;
-    }
+  & td:first-of-type {
+    display: none;
+  }
 
-    & .fs-data-table-group-header {
-        padding: 0 !important;
+  & .fs-data-table-group-header {
+    padding: 0 !important;
 
-        &:after {
-            content: none !important;
-        }
+    &:after {
+      content: none !important;
     }
+  }
 }
 
 .fs-data-table-iterator {
-    width: 100%;
+  width: 100%;
 }
 
 .fs-data-table-footer {
-    background-color: var(--fs-data-table-background-color);
+  background-color: var(--fs-data-table-background-color);
 }
 
 .fs-data-table-rows-per-page {
-    min-width: 100px;
-    width: 100px;
+  min-width: 100px;
+  width: 100px;
 }
 
 .fs-data-table-pagination {
-    @include web {
-        max-width: 280px;
-    }
+  @include web {
+    max-width: 280px;
+  }
 
-    @include mobile {
-        max-width: 274px;
-    }
+  @include mobile {
+    max-width: 274px;
+  }
 }
 
 .fs-data-table-intersection {
-    margin-top: -8px;
-    height: 10px;
-    width: 100%;
+  margin-top: -8px;
+  height: 10px;
+  width: 100%;
 }
