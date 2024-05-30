@@ -16,7 +16,7 @@ import { computed, defineComponent, onMounted, onUnmounted, PropType, ref, watch
 import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
-import { uuidv4 } from "@dative-gpi/bones-ui/tools";
+import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid";
 
 export default defineComponent({
   name: "FSFadeOut",

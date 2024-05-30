@@ -644,7 +644,7 @@ import { useRouter } from "vue-router";
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { uuidv4 } from "@dative-gpi/bones-ui/tools"
+import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid"
 
 import { alphanumericSort, sizeToVar } from "../../utils";
 

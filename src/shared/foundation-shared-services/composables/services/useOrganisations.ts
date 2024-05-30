@@ -1,5 +1,5 @@
 import { OrganisationDetails, OrganisationDetailsDTO, OrganisationFilters, OrganisationInfos, OrganisationInfosDTO, UpdateOrganisationDTO } from "@dative-gpi/foundation-shared-domain/models";
-import { ComposableFactory , ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { ORGANISATIONS_URL, ORGANISATION_URL } from "../../config/urls";
 

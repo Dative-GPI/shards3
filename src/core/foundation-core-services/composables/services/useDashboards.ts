@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { DashboardDetails, DashboardDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 

@@ -1,5 +1,5 @@
 import { CustomPropertyValueInfos, CustomPropertyValueInfosDTO, PropertyEntity } from "@dative-gpi/foundation-core-domain/models";
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { CUSTOM_PROPERTY_VALUES_URL } from "../../config/urls";
 

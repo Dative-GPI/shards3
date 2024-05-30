@@ -1,5 +1,5 @@
 import { CreateCommentDTO, CommentDetails, CommentDetailsDTO, CommentFilters, CommentInfos, CommentInfosDTO, UpdateCommentDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { COMMENTS_URL, COMMENT_URL } from "../../config/urls";
 
