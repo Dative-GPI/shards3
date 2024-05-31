@@ -254,6 +254,10 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     online: 2,
     meta: {},
     modelStatuses: MODELSTATUSES.slice(),
+    status: {
+      id: "3",
+      statuses: []
+    },
     connectivity: DEVICECONNECTIVITIES[2],
     worstAlert: DEVICEALERTS[0],
     alerts: DEVICEALERTS,
