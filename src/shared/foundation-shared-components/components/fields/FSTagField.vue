@@ -41,10 +41,10 @@
       </template>
     </FSTextField>
     <FSTagGroup
-      :tags="$props.modelValue"
-      :variant="$props.tagVariant"
-      :color="$props.tagColor"
+      :tagVariant="$props.tagVariant"
       :editable="$props.editable"
+      :tags="$props.modelValue"
+      :color="$props.tagColor"
       @remove="onRemove"
     />
   </FSCol>

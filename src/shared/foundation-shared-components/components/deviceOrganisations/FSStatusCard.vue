@@ -50,7 +50,6 @@
             </FSSpan>
           </FSRow>
         </FSCol>
-
       </FSCol>
       <FSRow
         v-if="deviceTimestamp"

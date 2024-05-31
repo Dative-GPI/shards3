@@ -43,8 +43,8 @@
   </FSTextField>
   <FSDialogSubmit
     :title="$props.label"
-    :rightButtonColor="$props.color"
-    @click:rightButton="onSubmit"
+    :submitButtonColor="$props.color"
+    @click:submitButton="onSubmit"
     v-model="dialog"
   >
     <template
@@ -55,21 +55,15 @@
           :color="$props.color"
           v-model="innerDateRange"
         />
-        <FSRow
-          width="100%"
-        >
-          <FSCol
-            width="calc(50% - 4px)"
-          >
+        <FSRow>
+          <FSCol>
             <FSClock
               :color="$props.color"
               :date="innerDateLeft"
               v-model="innerTimeLeft"
             />
           </FSCol>
-          <FSCol
-            width="calc(50% - 4px)"
-          >
+          <FSCol>
             <FSClock
               :color="$props.color"
               :date="innerDateRight"

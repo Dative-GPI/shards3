@@ -73,7 +73,11 @@ export default defineComponent({
     const innerPage = ref(1);
 
     const reset = (): void => {
+      console.log("reset");
       if (router && router.currentRoute.value.meta[props.tableCode]) {
+        console.log("tableCode found");
+        console.log(router.currentRoute.value.meta[props.tableCode]);
+
         const meta = router.currentRoute.value.meta[props.tableCode] as any;
         innerHeaders.value = meta.columns;
         innerRowsPerPage.value = meta.rowsPerPage;
@@ -84,6 +88,9 @@ export default defineComponent({
         innerPage.value = meta.page;
       }
       else if (userOrganisationTable.value) {
+        console.log("tableCode not found");
+        console.log(userOrganisationTable.value);
+
         innerHeaders.value = userOrganisationTable.value.columns;
         innerRowsPerPage.value = userOrganisationTable.value.rowsPerPage;
         if (userOrganisationTable.value.sortByKey && userOrganisationTable.value.sortByOrder) {
@@ -142,6 +149,7 @@ export default defineComponent({
     };
 
     const updateRouter = (): void => {
+      console.log("updateRouter");
       if (router) {
         router.currentRoute.value.meta = {
           ...router.currentRoute.value.meta,
@@ -154,6 +162,7 @@ export default defineComponent({
             page: innerPage.value
           }
         };
+        console.log(router.currentRoute.value.meta[props.tableCode]);
       }
     };
 

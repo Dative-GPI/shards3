@@ -1,7 +1,7 @@
 <template>
   <div
-    :style="style"
     :class="classes"
+    :style="style"
     v-bind="$attrs"
   >
     <slot />

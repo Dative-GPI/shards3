@@ -53,7 +53,7 @@
           #body
         >
           <FSFadeOut
-            height="calc(90vh - 164px)"
+            :height="height"
           >
             <FSCol
               v-if="$props.multiple"
@@ -188,6 +188,7 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import FSDialogMenu from "../FSDialogMenu.vue";
 import FSRadioGroup from "../FSRadioGroup.vue";
 import FSBaseField from "./FSBaseField.vue";
+import FSTextField from "./FSTextField.vue";
 import FSCheckbox from "../FSCheckbox.vue";
 import FSFadeOut from "../FSFadeOut.vue";
 import FSButton from "../FSButton.vue";
@@ -201,6 +202,7 @@ export default defineComponent({
     FSDialogMenu,
     FSRadioGroup,
     FSBaseField,
+    FSTextField,
     FSCheckbox,
     FSFadeOut,
     FSButton,
@@ -285,12 +287,12 @@ export default defineComponent({
     const { isExtraSmall } = useBreakpoints();
     const { getColors } = useColors();
 
-    const dialog = ref(false);
-
     const backgrounds = getColors(ColorEnum.Background);
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
+
+    const dialog = ref(false);
 
     const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
@@ -318,6 +320,11 @@ export default defineComponent({
     });
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
+
+    const height = computed(() => {
+      const other = 8 + 8; // Paddings
+      return `calc(100vh - 40px - ${other}px)`;
+    });
 
     const mobileValue = computed((): string | null => {
       if (props.multiple) {
@@ -379,6 +386,7 @@ export default defineComponent({
       messages,
       blurred,
       dialog,
+      height,
       style,
       openMobileOverlay,
       onCheckboxChange,

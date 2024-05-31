@@ -43,8 +43,8 @@
   </FSTextField>
   <FSDialogSubmit
     :title="$props.label"
-    :rightButtonColor="$props.color"
-    @click:rightButton="onSubmit"
+    :submitButtonColor="$props.color"
+    @click:submitButton="onSubmit"
     v-model="dialog"
   >
     <template
