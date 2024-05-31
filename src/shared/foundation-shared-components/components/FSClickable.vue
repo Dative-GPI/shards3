@@ -326,7 +326,7 @@ export default defineComponent({
         case ColorEnum.Success:
         case ColorEnum.Warning:
         case ColorEnum.Error  : return ["full"].includes(props.variant) ? colors.value.light : colors.value.dark;
-        default               : return ["full"].includes(props.variant) ? darks.light : darks.dark;
+        default               : return ["full"].includes(props.variant) ? darks.soft : darks.dark;
       }
     });
 
