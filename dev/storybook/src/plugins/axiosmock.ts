@@ -5,7 +5,7 @@ import { ServiceFactory } from '@dative-gpi/bones-ui';
 import { DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS, ROLEORGANISATIONS, ROLEORGANISATIONTYPES, LOCATIONS, MANUFACTURERS, USERORGANISATIONS, ORGANISATIONTYPES, MODELS, DATACATEGORIES, DATADEFINITIONS } from '@/mocks';
 import { CUSTOMPROPERTYVALUES } from '@/mocks/customPropertyValues.mock';
 
-const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
+const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 20 });
 
 const generateRegExp = (endpoint: string) => {
     const escapedEndpoint = endpoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters

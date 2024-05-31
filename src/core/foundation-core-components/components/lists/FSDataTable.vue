@@ -73,12 +73,8 @@ export default defineComponent({
     const innerPage = ref(1);
 
     const reset = (): void => {
-      console.log("reset");
-      if (router && router.currentRoute.value.meta[props.tableCode]) {
-        console.log("tableCode found");
-        console.log(router.currentRoute.value.meta[props.tableCode]);
-
-        const meta = router.currentRoute.value.meta[props.tableCode] as any;
+      if (router.currentRoute.value.meta.tables && (router.currentRoute.value.meta.tables as any)[props.tableCode]) {
+        const meta = (router.currentRoute.value.meta.tables as any)[props.tableCode];
         innerHeaders.value = meta.columns;
         innerRowsPerPage.value = meta.rowsPerPage;
         innerSortBy.value = meta.sortBy;
@@ -88,9 +84,6 @@ export default defineComponent({
         innerPage.value = meta.page;
       }
       else if (userOrganisationTable.value) {
-        console.log("tableCode not found");
-        console.log(userOrganisationTable.value);
-
         innerHeaders.value = userOrganisationTable.value.columns;
         innerRowsPerPage.value = userOrganisationTable.value.rowsPerPage;
         if (userOrganisationTable.value.sortByKey && userOrganisationTable.value.sortByOrder) {
@@ -149,10 +142,9 @@ export default defineComponent({
     };
 
     const updateRouter = (): void => {
-      console.log("updateRouter");
       if (router) {
-        router.currentRoute.value.meta = {
-          ...router.currentRoute.value.meta,
+        router.currentRoute.value.meta.tables = {
+          ...(router.currentRoute.value.meta.tables as any),
           [props.tableCode]: {
             columns: innerHeaders.value,
             filters: innerFilters.value,
@@ -162,7 +154,6 @@ export default defineComponent({
             page: innerPage.value
           }
         };
-        console.log(router.currentRoute.value.meta[props.tableCode]);
       }
     };
 

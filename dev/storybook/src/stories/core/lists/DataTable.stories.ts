@@ -22,22 +22,7 @@ export const Variations: Story = {
   args: {
     args: {
       tableCode: "groups1",
-      items: [ ...GROUPS, {
-        id: "3",
-        organisationId: "1",
-        imageId: "1",
-        icon: "mdi-numeric-1-circle",
-        code: undefined,
-        label: "With undefined filtrable/sortable",
-        tags: ['tag 1', 'tag 2', 'tag 3', 'tag 4', 'tag 5', 'tag 6', 'tag 7', 'tag 8', 'tag 9', 'tag 10'],
-        path: [],
-        groupsIds: ["10", "11"],
-        deviceOrganisationsIds: ["10", "11", "12"],
-        modelsIds: [],
-        recursiveGroupsIds: ["10", "11"],
-        recursiveDeviceOrganisationsIds: ["10", "11", "12"],
-        recursiveModelsIds: []
-      }],
+      items: GROUPS,
       value: [],
       itemTo: (item: any) => ({ name: 'group', params: { groupId: item.id } }),
       clickRow: () => { console.log("clicked"); }
