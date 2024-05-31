@@ -1,1 +1,0 @@
-import{j as c}from"./vue.esm-bundler-cd768bc3.js";const s=()=>{const e=c(null),t=(o,l,...n)=>{u(),e.value=setTimeout(()=>o(...n),l)},u=()=>{e.value&&(clearTimeout(e.value),e.value=null)};return{debounce:t,cancel:u}};export{s as u};
