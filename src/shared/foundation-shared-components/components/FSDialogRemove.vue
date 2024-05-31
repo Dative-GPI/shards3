@@ -1,8 +1,8 @@
 <template>
   <FSDialogSubmit
     :title="title"
-    :rightButtonLabel="$tr('ui.button.remove', 'Remove')"
-    :rightButtonColor="ColorEnum.Error"
+    :submitButtonLabel="$tr('ui.button.remove', 'Remove')"
+    :submitButtonColor="ColorEnum.Error"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"

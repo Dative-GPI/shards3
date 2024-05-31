@@ -3,6 +3,8 @@ import { GROUPS } from '@/mocks';
 
 import FSDataTable from "@dative-gpi/foundation-core-components/components/lists/FSDataTable.vue";
 import FSGroupTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSGroupTileUI.vue";
+import FSSlideGroup from '@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue';
+import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 
 const meta = {
   title: 'Foundation/Core/Lists/DataTable',
@@ -27,7 +29,7 @@ export const Variations: Story = {
         icon: "mdi-numeric-1-circle",
         code: undefined,
         label: "With undefined filtrable/sortable",
-        tags: [],
+        tags: ['tag 1', 'tag 2', 'tag 3', 'tag 4', 'tag 5', 'tag 6', 'tag 7', 'tag 8', 'tag 9', 'tag 10'],
         path: [],
         groupsIds: ["10", "11"],
         deviceOrganisationsIds: ["10", "11", "12"],
@@ -42,7 +44,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSDataTable, FSGroupTileUI },
+    components: { FSDataTable, FSGroupTileUI, FSSlideGroup, FSTagGroup },
     props: Object.keys(argTypes),
     setup() {
       const getColor = (row: any) => {
@@ -70,6 +72,13 @@ export const Variations: Story = {
           @click:row="args.clickRow"
           v-model="args.value"
         >
+          <template #item.tags="{ item }">
+            <FSTagGroup
+              variant="slide"
+              :editable="false"
+              :tags="item.tags"
+            />
+          </template>
           <template #item.tile="{ item, toggleSelect }">
             <FSGroupTileUI
               variant="standard"

@@ -135,6 +135,8 @@ export const Form: Story = {
   args: {
     args: {
       value1: false,
+      value2: false,
+      validation2: false,
       label1: "",
       label2: "",
       label3: "",
@@ -145,8 +147,14 @@ export const Form: Story = {
       label8: "",
       label9: "",
       label10: "",
-      rightButton: () => {
-        console.log("Form is valid");
+      submitButton1: () => {
+        console.log("submit");
+      },
+      submitButton2: () => {
+        console.log("submit");
+      },
+      validateButton2: () => {
+        console.log("validate");
       }
     }
   },
@@ -154,13 +162,15 @@ export const Form: Story = {
     components: { FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      return {
+        ...args
+      };
     },
     template: `
     <div style="display: flex; gap: 10px;">
       <FSButton
         color="primary"
-        label="Dialog - primary color - title, subtitle"
+        label="Dialog form"
         @click="() => args.value1 = true"
       />
       <FSDialogForm
@@ -168,7 +178,7 @@ export const Form: Story = {
         color="primary"
         title="Star wars 1"
         subtitle="The phantom menace"
-        @click:rightButton="args.rightButton"
+        @click:submitButton="args.submitButton1"
         v-model="args.value1"
       >
         <template #body>
@@ -224,6 +234,38 @@ export const Form: Story = {
               v-model="args.label10"
             />
           </FSCol>
+        </template>
+      </FSDialogForm>
+      <FSButton
+        color="primary"
+        label="Dialog form with validation"
+        @click="() => args.value2 = true"
+      />
+      <FSDialogForm
+        width="500px"
+        color="primary"
+        title="Star wars 2"
+        subtitle="Attack of the clones"
+        :validation="args.validation2"
+        @click:submitButton="args.submitButton2"
+        @click:validateButton="args.validateButton2"
+        v-model="args.value2"
+      >
+        <template #body>
+          <FSCol>
+            <FSTextField
+              label="Label 1"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label1"
+            />
+          </FSCol>
+        </template>
+        <template #validation>
+          <FSSpan
+            color="success"
+          >
+            Validation done, you may close this dialog
+          </FSSpan>
         </template>
       </FSDialogForm>
     </div>`

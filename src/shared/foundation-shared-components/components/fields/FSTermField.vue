@@ -10,7 +10,9 @@
     <FSForm
       v-model="valid"
     >
-      <FSRow>
+      <FSRow
+        :wrap="false"
+      >
         <FSSelectDateSetting
           :lastPeriod="$props.lastPeriod"
           :editable="$props.editable"

@@ -5,23 +5,24 @@
 .v-overlay__content:has(.fs-dialog-mobile) {
     justify-content: flex-end;
     align-self: flex-end;
-    margin-top: 20vh !important;
+    margin-top: 40px !important;
     width: 100vw !important;
     margin: 0px !important;
 }
 
 .v-overlay__content:has(.fs-dialog) {
+    max-height: calc(100vh - 40px) !important;
     width: var(--fs-dialog-width) !important;
-    max-height: 90vh !important;
     min-width: 35vw !important;
 }
 
 .fs-dialog {
+    max-height: calc(100vh - 40px) !important;
     width: var(--fs-dialog-width) !important;
-    max-height: 90vh !important;
     min-width: 35vw !important;
 }
 
 .fs-dialog-mobile {
+    max-height: calc(100vh - 40px) !important;
     width: 100vw !important;
 }
