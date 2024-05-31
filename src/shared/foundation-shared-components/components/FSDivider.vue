@@ -19,7 +19,7 @@
       :style="style"
     />
     <FSText
-      variant="light"
+      variant="soft"
       :font="$props.font"
     >
       <slot>

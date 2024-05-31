@@ -21,7 +21,7 @@ const connectivities = [{
   processedTimestamp: 1623345600000,
   status: 1,
   icon: "mdi-wifi",
-  color: "#00FF00"
+  color: "#969696"
 }, {
   id: "2",
   sourceTimestamp: 1623345600000,

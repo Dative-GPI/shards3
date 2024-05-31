@@ -29,7 +29,7 @@
             </FSText>
             <FSText
               font="text-overline"
-              variant="light"
+              variant="soft"
             >
               {{ $props.code }}
             </FSText>

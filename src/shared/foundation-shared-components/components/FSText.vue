@@ -45,7 +45,7 @@ export default defineComponent({
       default: ColorEnum.Dark
     },
     variant: {
-      type: String as PropType<"base" | "baseContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
+      type: String as PropType<"base" | "baseContrast" | "light" | "lightContrast" | "dark" | "darkContrast" | "soft" | "softContrast">,
       required: false,
       default: "base"
     }
