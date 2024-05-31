@@ -49,7 +49,11 @@ export const useColors = () => {
                 .value(color.value() < 70 ? 100 : Math.max(color.value() / coeff, 0));
         }
 
-        if(color.darken(0.2).isLight()){
+        if(isPastel(color)){
+            return color.darken(0.6);
+        }
+
+        if(color.darken(0.15).isLight()){
             return color.darken(0.6);
         }
         return color.lighten(color.value() / 50);

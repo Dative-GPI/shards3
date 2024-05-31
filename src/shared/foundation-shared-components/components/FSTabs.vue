@@ -50,7 +50,7 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [key: string] : string | null | undefined } => ({
-      "--fs-group-color"                 : darks.light,
+      "--fs-group-color"                 : darks.soft,
       "--fs-group-hover-color"           : darks.dark,
       "--fs-tab-border-color"            : lights.dark,
       "--fs-tab-hover-border-color"      : darks.dark,

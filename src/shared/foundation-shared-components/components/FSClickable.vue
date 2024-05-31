@@ -254,7 +254,7 @@ export default defineComponent({
                 "--fs-clickable-border-color"           : colors.value.lightContrast,
                 "--fs-clickable-color"                  : colors.value.lightContrast,
                 "--fs-clickable-hover-background-color" : colors.value.base,
-                "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+                "--fs-clickable-hover-border-color"     : colors.value.base,
                 "--fs-clickable-hover-color"            : colors.value.baseContrast,
                 "--fs-clickable-active-background-color": colors.value.dark,
                 "--fs-clickable-active-border-color"    : colors.value.darkContrast,
