@@ -29,7 +29,7 @@ type Story = StoryObj<typeof meta>;
       return { allColors };
     },
     template: `
-      <div>
+      <div style="max-width: 100vw; overflow-x: auto;">
         Colors : 
         <FSRow v-for="colorRow in allColors" :wrap="false">
           <FSCol v-for="color in colorRow">

@@ -1,5 +1,7 @@
 .fs-data-table {
   & > .v-table__wrapper {
+    padding: 0 1px 0 0;
+
     @extend .fs-hide-x-scrollbar;
   }
 

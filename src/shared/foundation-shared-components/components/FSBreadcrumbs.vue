@@ -55,7 +55,7 @@ export default defineComponent({
     const style: Ref<{ [key: string] : string }> = ref({
       "--fs-breadcrumbs-color": darks.dark,
       "--fs-breadcrumbs-active-color": darks.base,
-      "--fs-breadcrumbs-disabled-color": darks.light
+      "--fs-breadcrumbs-disabled-color": darks.soft
     });
 
     const classes = (item: FSBreadcrumbItem): string[] => {

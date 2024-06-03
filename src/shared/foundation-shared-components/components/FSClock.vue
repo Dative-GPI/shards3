@@ -1,7 +1,5 @@
 <template>
-  <FSCol
-    width="fill"
-  >
+  <FSCol>
     <FSRow
       align="center-center"
       :wrap="false"
@@ -40,10 +38,6 @@
         :min="0"
         v-model="innerHours"
       />
-    </FSCol>
-    <FSCol
-      v-if="$props.slider"
-    >
       <FSSlider
         :label="$tr('ui.clock.minutes', 'Minutes')"
         :readonly="!$props.editable"

@@ -1,16 +1,34 @@
 <template>
-  <FSWrapGroup v-bind="$attrs">
+  <FSWrapGroup
+    v-if="$props.variant === 'wrap'"
+    v-bind="$attrs"
+  >
     <FSTag
       v-for="(tag, index) in $props.tags"
-      :key="index"
-      :label="tag"
-      :variant="$props.variant"
-      :color="$props.color"
+      :variant="$props.tagVariant"
       :editable="$props.editable"
+      :color="$props.color"
+      :label="tag"
+      :key="index"
       @remove="() => $emit('remove', tag)"
     />
     <slot />
   </FSWrapGroup>
+  <FSSlideGroup
+    v-if="$props.variant === 'slide'"
+    v-bind="$attrs"
+  >
+    <FSTag
+      v-for="(tag, index) in $props.tags"
+      :variant="$props.tagVariant"
+      :editable="$props.editable"
+      :color="$props.color"
+      :label="tag"
+      :key="index"
+      @remove="() => $emit('remove', tag)"
+    />
+    <slot />
+  </FSSlideGroup>
 </template>
 
 <script lang="ts">
@@ -34,6 +52,11 @@ export default defineComponent({
       default: () => []
     },
     variant: {
+      type: String as PropType<"wrap" | "slide">,
+      required: false,
+      default: "wrap"
+    },
+    tagVariant: {
       type: String as PropType<"standard" | "full">,
       required: false,
       default: "full"

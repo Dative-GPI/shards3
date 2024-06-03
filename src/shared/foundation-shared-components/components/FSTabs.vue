@@ -1,17 +1,18 @@
 <template>
   <v-tabs
-    class="fs-tabs"
     selectedClass="fs-tab-active"
-    :grow="true"
-    :style="style"
-    :showArrows="true"
+    class="fs-tabs"
     :sliderColor="$props.color"
+    :showArrows="true"
+    :style="style"
+    :grow="true"
     :modelValue="$props.tab"
-    @update:modelValue="(value) => $emit('update:tab', value)"
+    @update:modelValue="$emit('update:tab', $event)"
     v-bind="$attrs"
   >
     <template
-      v-for="component in getChildren()"
+      v-for="(component, index) in getChildren()"
+      :key="index"
     >
       <component
         :is="component"
@@ -45,16 +46,15 @@ export default defineComponent({
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
+    const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): { [key: string] : string | null | undefined } => ({
-      "--fs-group-color"                 : darks.base,
-      "--fs-group-disabled-color"        : darks.light,
-      "--fs-group-hover-background-color": colors.value.light,
+      "--fs-group-color"                 : darks.soft,
       "--fs-group-hover-color"           : darks.dark,
-      "--fs-group-light"                 : colors.value.light,
-      "--fs-group-base"                  : colors.value.base,
-      "--fs-group-dark"                  : colors.value.dark,
+      "--fs-tab-border-color"            : lights.dark,
+      "--fs-tab-hover-border-color"      : darks.dark,
+      "--fs-tab-active-background-color" : colors.value.light,
       "--fs-tab-tag-background-color"    : colors.value.base,
       "--fs-tab-tag-color"               : colors.value.baseContrast
     }));

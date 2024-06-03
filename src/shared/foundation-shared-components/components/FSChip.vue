@@ -122,7 +122,7 @@ export default defineComponent({
         case "full": return {
           "--fs-chip-height"                 : sizeToVar(props.height),
           "--fs-chip-background-color"       : colors.value.base,
-          "--fs-chip-border-color"           : colors.value.baseContrast,
+          "--fs-chip-border-color"           : colors.value.base,
           "--fs-chip-color"                  : colors.value.baseContrast,
           "--fs-chip-hover-background-color" : colors.value.base,
           "--fs-chip-hover-border-color"     : colors.value.base,

@@ -91,7 +91,7 @@ export default defineComponent({
     const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-group-padding"     : sizeToVar(props.padding),
       "--fs-group-gap"         : sizeToVar(props.gap),
-      "--fs-group-color"       : darks.light,
+      "--fs-group-color"       : darks.soft,
       "--fs-group-hover-color" : darks.dark
     }));
 

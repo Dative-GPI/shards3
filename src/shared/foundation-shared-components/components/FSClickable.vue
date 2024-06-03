@@ -254,7 +254,7 @@ export default defineComponent({
                 "--fs-clickable-border-color"           : colors.value.lightContrast,
                 "--fs-clickable-color"                  : colors.value.lightContrast,
                 "--fs-clickable-hover-background-color" : colors.value.base,
-                "--fs-clickable-hover-border-color"     : colors.value.baseContrast,
+                "--fs-clickable-hover-border-color"     : colors.value.base,
                 "--fs-clickable-hover-color"            : colors.value.baseContrast,
                 "--fs-clickable-active-background-color": colors.value.dark,
                 "--fs-clickable-active-border-color"    : colors.value.darkContrast,
@@ -326,7 +326,7 @@ export default defineComponent({
         case ColorEnum.Success:
         case ColorEnum.Warning:
         case ColorEnum.Error  : return ["full"].includes(props.variant) ? colors.value.light : colors.value.dark;
-        default               : return ["full"].includes(props.variant) ? darks.light : darks.dark;
+        default               : return ["full"].includes(props.variant) ? darks.soft : darks.dark;
       }
     });
 

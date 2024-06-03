@@ -1,7 +1,7 @@
 <template>
   <FSDialog
-    :title="$props.title"
     :subtitle="$props.subtitle"
+    :title="$props.title"
     :width="$props.width"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -16,8 +16,8 @@
       >
         <FSForm
           v-for="(step, index) in $props.steps"
-          :key="index"
           :variant="$props.variant"
+          :key="index"
           @submit="onSubmit"
           v-model="valid"
         >
@@ -44,22 +44,22 @@
                 :wrap="false"
               >
                 <FSButton
-                  :prependIcon="$props.leftButtonPrependIcon"
+                  :prependIcon="$props.cancelButtonPrependIcon"
+                  :appendIcon="$props.cancelButtonAppendIcon"
+                  :variant="$props.cancelButtonVariant"
+                  :color="$props.cancelButtonColor"
                   :label="previousButtonLabel"
-                  :appendIcon="$props.leftButtonAppendIcon"
-                  :variant="$props.leftButtonVariant"
-                  :color="$props.leftButtonColor"
                   @click="onPrevious()"
                 />
                 <FSButton
                   type="submit"
-                  :prependIcon="$props.rightButtonPrependIcon"
-                  :label="nextButtonLabel"
-                  :appendIcon="$props.rightButtonAppendIcon"
+                  :prependIcon="$props.submitButtonPrependIcon"
+                  :appendIcon="$props.submitButtonAppendIcon"
+                  :color="$props.submitButtonColor"
                   :variant="nextButtonVariant"
-                  :color="$props.rightButtonColor"
-                  :load="$props.load"
                   :editable="$props.editable"
+                  :label="nextButtonLabel"
+                  :load="$props.load"
                 />
               </FSRow>
             </FSRow>
@@ -122,52 +122,52 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    leftButtonPrependIcon: {
+    cancelButtonPrependIcon: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonLabel: {
+    cancelButtonLabel: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonAppendIcon: {
+    cancelButtonAppendIcon: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonVariant: {
+    cancelButtonVariant: {
       type: String as PropType<"standard" | "full" | "icon">,
       required: false,
       default: "standard"
     },
-    rightButtonPrependIcon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonLabel: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonAppendIcon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonVariant: {
-      type: String as PropType<"standard" | "full" | "icon">,
-      required: false,
-      default: "full"
-    },
-    leftButtonColor: {
+    cancelButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Light
     },
-    rightButtonColor: {
+    submitButtonPrependIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonLabel: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonAppendIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonVariant: {
+      type: String as PropType<"standard" | "full" | "icon">,
+      required: false,
+      default: "full"
+    },
+    submitButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
@@ -183,7 +183,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue", "click:rightButton"],
+  emits: ["update:modelValue", "click:submitButton"],
   setup(props, { emit }) {
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
@@ -193,36 +193,35 @@ export default defineComponent({
     const valids = ref(Array.from({ length: props.steps }, () => false));
 
     const height = computed(() => {
-      const other = 24 + 24                                            // Paddings
-        + (props.title ? isMobileSized.value ? 24 : 32 : 0)            // Title
-        + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
-        + (isMobileSized.value ? 36 : 40)                              // Footer
-        + 64;                                                          // Debug mask
-      return `calc(90vh - ${other}px)`;
+      const other = 24 + 24                                          // Paddings
+        + (isMobileSized.value ? 24 : 32) + 24                       // Title
+        + (props.subtitle ? (isMobileSized.value ? 14 : 16) + 8 : 0) // Subtitle
+        + (isMobileSized.value ? 36 : 40) + 24;                      // Footer
+      return `calc(100vh - 40px - ${other}px)`;
     });
 
     const previousButtonLabel = computed(() => {
       return currentStep.value == 1
-        ? props.leftButtonLabel ?? $tr("ui.button.cancel", "Cancel")
+        ? props.cancelButtonLabel ?? $tr("ui.button.cancel", "Cancel")
         : $tr("ui.button.back", "Back");
     });
 
     const nextButtonLabel = computed(() => {
       return currentStep.value == props.steps
-        ? props.rightButtonLabel ?? $tr("ui.button.validate", "Validate")
+        ? props.submitButtonLabel ?? $tr("ui.button.validate", "Validate")
         : $tr("ui.button.next", "Next");
     });
 
     const nextButtonVariant = computed(() => {
       return currentStep.value == props.steps
-        ? props.rightButtonVariant ?? "full"
-        : "standard";
+        ? props.submitButtonVariant ?? "full" : "standard";
     });
 
     const onPrevious = () => {
       if (currentStep.value > 1) {
         currentStep.value--;
-      } else {
+      }
+      else {
         emit("update:modelValue", false);
       }
     };
@@ -231,7 +230,7 @@ export default defineComponent({
       if (valid.value) {
         switch (currentStep.value) {
           case props.steps:
-            emit("click:rightButton");
+            emit("click:submitButton");
             break;
           default:
             currentStep.value++;
@@ -249,8 +248,8 @@ export default defineComponent({
       height,
       valids,
       valid,
-      onSubmit,
-      onPrevious
+      onPrevious,
+      onSubmit
     };
   }
 });

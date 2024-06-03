@@ -73,8 +73,8 @@ export default defineComponent({
     const innerPage = ref(1);
 
     const reset = (): void => {
-      if (router && router.currentRoute.value.meta[props.tableCode]) {
-        const meta = router.currentRoute.value.meta[props.tableCode] as any;
+      if (router.currentRoute.value.meta.tables && (router.currentRoute.value.meta.tables as any)[props.tableCode]) {
+        const meta = (router.currentRoute.value.meta.tables as any)[props.tableCode];
         innerHeaders.value = meta.columns;
         innerRowsPerPage.value = meta.rowsPerPage;
         innerSortBy.value = meta.sortBy;
@@ -143,8 +143,8 @@ export default defineComponent({
 
     const updateRouter = (): void => {
       if (router) {
-        router.currentRoute.value.meta = {
-          ...router.currentRoute.value.meta,
+        router.currentRoute.value.meta.tables = {
+          ...(router.currentRoute.value.meta.tables as any),
           [props.tableCode]: {
             columns: innerHeaders.value,
             filters: innerFilters.value,

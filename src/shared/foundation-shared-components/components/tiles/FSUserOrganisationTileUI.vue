@@ -31,14 +31,14 @@
           >
             <FSIcon
               v-if="roleIcon"
-              variant="light"
+              variant="soft"
               :color="ColorEnum.Dark"
             >
               {{ roleIcon }}
             </FSIcon>
             <FSText
               font="text-overline"
-              variant="light"
+              variant="soft"
             >
               {{ roleLabel }}
             </FSText>

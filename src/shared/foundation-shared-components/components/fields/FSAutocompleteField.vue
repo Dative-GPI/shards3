@@ -1,110 +1,41 @@
 <template>
-  <FSBaseField
-    :label="$props.label"
-    :description="$props.description"
-    :hideHeader="$props.hideHeader"
-    :required="$props.required"
-    :editable="$props.editable"
-    :messages="messages"
+  <FSLoader
+    v-if="$props.loading"
+    width="100%"
+    :height="['40px', '36px']"
+  />
+  <template
+    v-else
   >
-    <FSLoader
-      v-if="$props.loading"
-      width="100%"
-      :height="['40px', '36px']"
-    />
     <template
-      v-else
+      v-if="isExtraSmall"
     >
-      <FSToggleSet
-        v-if="$props.toggleSet"
-        variant="slide"
-        :values="$props.items"
-        :multiple="$props.multiple"
+      <FSTextField
+        :label="$props.label"
+        :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :clearable="$props.clearable"
+        :editable="$props.editable"
+        :readonly="true"
         :rules="$props.rules"
-        :modelValue="$props.modelValue"
-        @update:modelValue="onUpdate"
-        v-bind="$attrs"
-      >
-        <template
-          v-for="(_, name) in toggleSetSlots"
-          v-slot:[name]="slotData"
-        >
-          <slot
-            :name="`toggle-set-${name}`"
-            v-bind="slotData"
-          />
-        </template>
-      </FSToggleSet>
-      <v-autocomplete
-        v-else
-        class="fs-autocomplete-field"
-        variant="outlined"
-        :menuIcon="null"
-        :style="style"
-        :listProps="listStyle"
-        :class="classes"
-        :hideDetails="true"
-        :items="$props.items"
-        :autoSelectFirst="true"
-        :multiple="$props.multiple"
-        :itemTitle="$props.itemTitle"
-        :itemValue="$props.itemValue"
-        :readonly="!$props.editable"
-        :loading="$props.loading"
-        :clearable="$props.clearable && $props.editable && !!$props.modelValue"
-        :returnObject="$props.returnObject"
-        :rules="$props.rules"
+        :messages="messages"
         :validateOn="validateOn"
-        :modelValue="$props.modelValue"
-        @update:modelValue="onUpdate"
+        :validationValue="$props.modelValue"
+        :modelValue="mobileValue"
+        @update:modelValue="$emit('update:modelValue', $event)"
+        @click="openMobileOverlay"
         @blur="blurred = true"
-        v-model:search="innerSearch"
         v-bind="$attrs"
       >
         <template
-          #item="{ props, item }"
-        >
-          <v-list-item
-            v-bind="{ ...props, title: '' }"
-          >
-            <FSRow
-              align="center-left"
-              :wrap="false"
-            >
-              <FSCheckbox
-                v-if="$props.multiple"
-                :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
-                @click="props.onClick"
-              />
-              <FSSpan>
-                {{ item.raw[$props.itemTitle] }}
-              </FSSpan>
-            </FSRow>
-          </v-list-item>
-        </template>
-        <template
-          v-for="(_, name) in autocompleteSlots"
+          v-for="(_, name) in $slots"
           v-slot:[name]="slotData"
         >
           <slot
-            :name="`autocomplete-${name}`"
+            :name="name"
             v-bind="slotData"
           />
-        </template>
-        <template
-          #clear
-        >
-          <slot
-            name="clear"
-          >
-            <FSButton
-              v-if="$props.clearable && $props.editable && !!$props.modelValue"
-              icon="mdi-close"
-              variant="icon"
-              :color="ColorEnum.Dark"
-              @click="$emit('update:modelValue', null)"
-            />
-          </slot>
         </template>
         <template
           #append-inner
@@ -117,48 +48,222 @@
               variant="icon"
               :editable="$props.editable"
               :color="ColorEnum.Dark"
+              @click="openMobileOverlay"
             />
           </slot>
         </template>
+      </FSTextField>
+      <FSDialogMenu
+        v-model="dialog"
+      >
         <template
-          #no-data
+          #body
         >
-          <FSRow
-            padding="17px"
+          <FSSearchField
+            v-model="search"
+          />
+          <FSFadeOut
+            :height="height"
           >
-            <FSSpan>
-              {{ $tr("ui.common.no-data", "No data") }}
-            </FSSpan>
-          </FSRow>
+            <FSCol
+              gap="12px"
+            >
+              <template
+                v-if="$props.multiple"
+              >
+                <FSRow
+                  v-for="(item, index) in searchItems"
+                  :key="index"
+                >
+                  <FSCheckbox
+                    :label="item[$props.itemTitle]"
+                    :editable="$props.editable"
+                    :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
+                    @update:modelValue="() => onCheckboxChange(item[$props.itemValue])"
+                  />
+                </FSRow>
+              </template>
+              <FSRadioGroup
+                v-else
+                gap="12px"
+                :values="searchItems.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle] }))"
+                :modelValue="$props.modelValue"
+                :editable="$props.editable"
+                @update:modelValue="onRadioChange"
+              />
+            </FSCol>
+          </FSFadeOut>
         </template>
-      </v-autocomplete>
+      </FSDialogMenu>
     </template>
-  </FSBaseField>
+    <template
+      v-else
+    >
+      <FSBaseField
+        :label="$props.label"
+        :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :editable="$props.editable"
+        :messages="messages"
+      >
+        <FSToggleSet
+          v-if="$props.toggleSet"
+          variant="slide"
+          :values="$props.items"
+          :multiple="$props.multiple"
+          :rules="$props.rules"
+          :modelValue="$props.modelValue"
+          @update:modelValue="onUpdate"
+          v-bind="$attrs"
+        >
+          <template
+            v-for="(_, name) in toggleSetSlots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="`toggle-set-${name}`"
+              v-bind="slotData"
+            />
+          </template>
+        </FSToggleSet>
+        <v-autocomplete
+          v-else
+          class="fs-autocomplete-field"
+          variant="outlined"
+          :menuIcon="null"
+          :style="style"
+          :listProps="listStyle"
+          :class="classes"
+          :hideDetails="true"
+          :items="$props.items"
+          :autoSelectFirst="true"
+          :multiple="$props.multiple"
+          :itemTitle="$props.itemTitle"
+          :itemValue="$props.itemValue"
+          :readonly="!$props.editable"
+          :loading="$props.loading"
+          :clearable="$props.clearable && $props.editable && !!$props.modelValue"
+          :returnObject="$props.returnObject"
+          :rules="$props.rules"
+          :validateOn="validateOn"
+          :modelValue="$props.modelValue"
+          @update:modelValue="onUpdate"
+          @blur="blurred = true"
+          v-model:search="search"
+          v-bind="$attrs"
+        >
+          <template
+            #item="{ props, item }"
+          >
+            <v-list-item
+              v-bind="{ ...props, title: '' }"
+            >
+              <FSRow
+                align="center-left"
+                :wrap="false"
+              >
+                <FSCheckbox
+                  v-if="$props.multiple"
+                  :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
+                  @click="props.onClick"
+                />
+                <FSSpan>
+                  {{ item.raw[$props.itemTitle] }}
+                </FSSpan>
+              </FSRow>
+            </v-list-item>
+          </template>
+          <template
+            v-for="(_, name) in autocompleteSlots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="`autocomplete-${name}`"
+              v-bind="slotData"
+            />
+          </template>
+          <template
+            #clear
+          >
+            <slot
+              name="clear"
+            >
+              <FSButton
+                v-if="$props.clearable && $props.editable && !!$props.modelValue"
+                icon="mdi-close"
+                variant="icon"
+                :color="ColorEnum.Dark"
+                @click="$emit('update:modelValue', null)"
+              />
+            </slot>
+          </template>
+          <template
+            #append-inner
+          >
+            <slot
+              name="append-inner"
+            >
+              <FSButton
+                icon="mdi-chevron-down"
+                variant="icon"
+                :editable="$props.editable"
+                :color="ColorEnum.Dark"
+              />
+            </slot>
+          </template>
+          <template
+            #no-data
+          >
+            <FSRow
+              padding="17px"
+            >
+              <FSSpan>
+                {{ $tr("ui.common.no-data", "No data") }}
+              </FSSpan>
+            </FSRow>
+          </template>
+        </v-autocomplete>
+      </FSBaseField>
+    </template>
+  </template>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from "vue";
 
-import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSSearchField from "./FSSearchField.vue";
+import FSDialogMenu from "../FSDialogMenu.vue";
+import FSRadioGroup from "../FSRadioGroup.vue";
 import FSToggleSet from "../FSToggleSet.vue";
 import FSBaseField from "./FSBaseField.vue";
+import FSTextField from "./FSTextField.vue";
 import FSCheckbox from "../FSCheckbox.vue";
+import FSFadeOut from "../FSFadeOut.vue";
 import FSButton from "../FSButton.vue";
 import FSLoader from "../FSLoader.vue";
 import FSSpan from "../FSSpan.vue";
+import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteField",
   components: {
+    FSSearchField,
+    FSDialogMenu,
+    FSRadioGroup,
     FSToggleSet,
     FSBaseField,
+    FSTextField,
     FSCheckbox,
+    FSFadeOut,
     FSButton,
     FSLoader,
     FSSpan,
+    FSCol,
     FSRow
   },
   props: {
@@ -244,6 +349,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:search"],
   setup: (props, { emit }) => {
+    const { isExtraSmall, isMobileSized } = useBreakpoints();
     const { validateOn, blurred, getMessages } = useRules();
     const { getColors } = useColors();
     const { slots } = useSlots();
@@ -256,7 +362,8 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const innerSearch = ref("");
+    const dialog = ref(false);
+    const search = ref("");
 
     const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
@@ -308,26 +415,97 @@ export default defineComponent({
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
+    const searchItems = computed(() => {
+      return props.items.filter((item: any) => {
+        return item[props.itemTitle].toLowerCase().includes(search.value.toLowerCase());
+      });
+    });
+
+    const height = computed(() => {
+      const other = 8 + 8                // Paddings
+        + (isMobileSized ? 36 : 40) + 8; // Header
+      return `calc(100vh - 40px - ${other}px)`;
+    });
+
+    const mobileValue = computed((): string | null => {
+      if (props.multiple) {
+        if (Array.isArray(props.modelValue)) {
+          return props.modelValue.map((value: any) => {
+            const item = props.items.find((item: Object) => item[props.itemValue] === value);
+            if (item) {
+              return item[props.itemTitle];
+            }
+          }).filter(value => !!value).join(", ");
+        }
+      }
+      if (props.modelValue) {
+        const item = props.items.find((item: Object) => item[props.itemValue] === props.modelValue);
+        if (item) {
+          return item[props.itemTitle];
+        }
+      }
+      return null;
+    });
+
+    const openMobileOverlay = () => {
+      if (!props.editable) {
+        return;
+      }
+      dialog.value = true;
+    };
+
+    const onRadioChange = (value: any) => {
+      emit('update:modelValue', value);
+      dialog.value = false;
+    };
+
+    const onCheckboxChange = (value: any) => {
+      if (Array.isArray(props.modelValue)) {
+        if (props.modelValue.includes(value)) {
+          emit('update:modelValue', props.modelValue.filter((item: any) => item !== value));
+        }
+        else {
+          emit('update:modelValue', [...props.modelValue, value]);
+        }
+      }
+      else {
+        if (props.modelValue === value) {
+          emit('update:modelValue', []);
+        }
+        else {
+          emit('update:modelValue', [props.modelValue, value]);
+        }
+      }
+    };
+
     const onUpdate = (value: string[] | string) => {
       emit('update:modelValue', value);
     };
 
-    watch(innerSearch, () => {
-      emit("update:search", innerSearch.value);
+    watch(search, () => {
+      emit("update:search", search.value);
     });
 
     return {
       autocompleteSlots,
       toggleSetSlots,
-      innerSearch,
+      isExtraSmall,
+      mobileValue,
+      searchItems,
       validateOn,
       ColorEnum,
       listStyle,
       messages,
       blurred,
       classes,
+      dialog,
+      height,
+      search,
       slots,
       style,
+      openMobileOverlay,
+      onCheckboxChange,
+      onRadioChange,
       onUpdate
     };
   }
