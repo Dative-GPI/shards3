@@ -51,11 +51,11 @@ export interface CreateDashboardOrganisationTypeDTO {
 }
 
 export interface UpdateDashboardOrganisationTypeDTO {
+    imageId: string | null;
+    image: string | null;
     label: string;
     code: string;
     icon: string;
-    imageId: string | null;
-    image: string | null;
     tags: string[];
     singleEntity: boolean;
     dynamicEntities: boolean;

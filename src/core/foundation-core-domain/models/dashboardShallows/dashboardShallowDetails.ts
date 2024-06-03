@@ -84,11 +84,11 @@ export interface CreateDashboardShallowDTO {
 
 export interface UpdateDashboardShallowDTO {
     folderId: string | null;
+    imageId: string | null;
+    image: string | null;
     label: string;
     code: string;
     icon: string;
-    imageId: string | null;
-    image: string | null;
     tags: string[];
     overrideSingleEntity: boolean | null;
     overrideDynamicEntities: boolean | null;
