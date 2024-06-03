@@ -34,10 +34,6 @@ export const useColors = () => {
         return base.value(Math.min(base.value() + 10, 100));
     };
 
-    const getBase = (base: Color): Color => {
-        return base;
-    };
-
     const getDark = (base: Color): Color => {
         return base.value(Math.max(base.value() - 15, 0));
     };
@@ -62,33 +58,19 @@ export const useColors = () => {
     const getColors = (color: ColorBase): ColorVariations => {
         const themed = (Object as any).values(ColorEnum).includes(color);
 
-        const seed = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
+        const base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
 
-        const base = getBase(seed);
         const light = getLight(base);
         const soft = getSoft(base);
         const dark = getDark(base);
-
-        if (color === ColorEnum.Background) {
-            return {
-                get light(): string { throw new Error("Don't use it !") },
-                get lightContrast(): string { throw new Error("Don't use it !") },
-                get soft(): string { throw new Error("Don't use it !") },
-                get softContrast(): string { throw new Error("Don't use it !") },
-                base: base.hex(),
-                get baseContrast(): string { throw new Error("Don't use it !") },
-                get dark(): string { throw new Error("Don't use it !") },
-                get darkContrast(): string { throw new Error("Don't use it !") }
-            };
-        }
 
         return {
             light: light.hex(),
             lightContrast: getContrast(light).hex(),
             soft: soft.hex(),
             softContrast: getContrast(soft).hex(),
-            base: seed.hex(),
-            baseContrast: getContrast(seed).hex(),
+            base: base.hex(),
+            baseContrast: getContrast(base).hex(),
             dark: dark.hex(),
             darkContrast: getContrast(dark).hex()
         };
@@ -112,7 +94,7 @@ export const useColors = () => {
         const columnCount = 8
         const colors: string[][] = [];
         for (let saturation = baseMinSaturation; saturation <= 100; saturation += (100 - baseMinSaturation) / (columnCount - 1)) {
-            let colorsRow = [];
+            const colorsRow = [];
             for (let hue = 0; hue < 360; hue += 15) {
                 const color = new Color({ h: hue, s: saturation, v: baseFixedBrightness });
                 colorsRow.push(color.hex());

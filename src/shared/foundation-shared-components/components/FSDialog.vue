@@ -1,8 +1,7 @@
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    class="fs-dialog"
-    :style="style"
+    :class="classes"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -10,8 +9,9 @@
     <FSCard
       padding="24px 8px 24px 24px"
       gap="24px"
+      :class="$props.cardClasses"
       :color="$props.color"
-      :class="classes"
+      :width="cardWidth"
     >
       <template
         #header
@@ -113,37 +113,28 @@ export default defineComponent({
     const { isExtraSmall } = useBreakpoints();
 
     const classes = computed((): string[] => {
-      const classNames = ["fs-dialog"];
-      if (props.cardClasses) {
-        if (Array.isArray(props.cardClasses)) {
-          classNames.push(...props.cardClasses);
-        }
-        else {
-          classNames.push(props.cardClasses);
-        }
-      }
+      const classNames: string[] = [];
       if (isExtraSmall.value) {
         classNames.push("fs-dialog-mobile");
+      }
+      else {
+        classNames.push("fs-dialog");
       }
       return classNames;
     });
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const cardWidth = computed((): string => {
       if (isExtraSmall.value) {
-        return {
-          "--fs-dialog-width": "100%"
-        };
+        return "100%";
       }
-      return {
-        "--fs-dialog-width": sizeToVar(props.width)
-      };
+      return sizeToVar(props.width);
     });
 
     return {
       isExtraSmall,
+      cardWidth,
       ColorEnum,
-      classes,
-      style
+      classes
     };
   }
 });
