@@ -51,11 +51,10 @@ export interface DashboardOrganisationDetailsDTO extends DashboardOrganisationIn
 
 export interface CreateDashboardOrganisationDTO {
     folderId: string | null;
+    image: string | null;
     label: string;
     code: string;
     icon: string;
-    imageId: string | null;
-    image: string | null;
     tags: string[];
 }
 
