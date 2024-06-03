@@ -44,11 +44,11 @@ export interface CreateChartOrganisationTypeDTO {
 }
 
 export interface UpdateChartOrganisationTypeDTO {
-    code: string;
-    icon: string;
     chartCategoryId: string | null;
     imageId: string | null;
     image: string | null;
+    code: string;
+    icon: string;
     tags: string[];
     multiple: boolean;
     chartType: number;

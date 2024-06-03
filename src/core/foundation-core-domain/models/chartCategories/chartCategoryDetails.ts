@@ -10,11 +10,11 @@ export interface ChartCategoryDetailsDTO extends ChartCategoryInfosDTO {
 }
 
 export interface CreateChartCategoryDTO {
-  code: string;
   label: string;
+  code: string;
 }
 
 export interface UpdateChartCategoryDTO {
-  code: string;
   label: string;
+  code: string;
 }

@@ -2,15 +2,15 @@ import { ChartTranslation, ChartTranslationDTO } from "./chartTranslation";
 import { ChartModelLabel, ChartModelLabelDTO } from "./chartModelLabel";
 import { ApplicationScope } from "../enums/applicationEnums";
 import { ChartType } from "../enums/chartEnums";
-import { ChartCategoryInfos } from "../chartCategories";
 
 export class ChartInfos {
     id: string;
+    imageId: string | null;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;
-    chartCategoryId: string | null;
-    imageId: string | null;
     tags: string[];
     multiple: boolean;
     chartType: ChartType;
@@ -19,16 +19,16 @@ export class ChartInfos {
     title: string;
     labelDefault: string;
     titleDefault: string;
-    chartCategory: ChartCategoryInfos | null;
     translations: ChartTranslation[];
 
     constructor(params: ChartInfosDTO) {
         this.id = params.id;
+        this.imageId = params.imageId;
+        this.chartCategoryId = params.chartCategoryId;
+        this.chartCategoryLabel = params.chartCategoryLabel;
         this.scope = params.scope;
         this.icon = params.icon;
         this.code = params.code;
-        this.chartCategoryId = params.chartCategoryId;
-        this.imageId = params.imageId;
         this.tags = params.tags.slice();
         this.multiple = params.multiple;
         this.chartType = params.chartType;
@@ -37,18 +37,18 @@ export class ChartInfos {
         this.title = params.title;
         this.labelDefault = params.labelDefault;
         this.titleDefault = params.titleDefault;
-        this.chartCategory = params.chartCategory;
         this.translations = params.translations.map((translation) => new ChartTranslation(translation));
     }
 }
 
 export interface ChartInfosDTO {
     id: string;
+    imageId: string | null;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;
-    chartCategoryId: string | null;
-    imageId: string | null;
     tags: string[];
     multiple: boolean;
     chartType: ChartType;
@@ -57,6 +57,5 @@ export interface ChartInfosDTO {
     title: string;
     labelDefault: string;
     titleDefault: string;
-    chartCategory: ChartCategoryInfos | null;
     translations: ChartTranslationDTO[];
 }

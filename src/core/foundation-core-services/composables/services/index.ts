@@ -2,6 +2,7 @@ export * from "./useActions";
 export * from "./useAlerts";
 export * from "./useArticles";
 export * from "./useAuthTokens";
+export * from "./useChartCategories";
 export * from "./useChartOrganisationTypes";
 export * from "./useChartOrganisations";
 export * from "./useCharts";

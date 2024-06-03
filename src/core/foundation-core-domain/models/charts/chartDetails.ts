@@ -1,12 +1,8 @@
 import { ChartVariable, ChartVariableDTO } from "./chartVariable";
-import { ApplicationScope } from "../enums/applicationEnums";
-import { ChartType, ColorSets } from "../enums/chartEnums";
 import { ChartInfos, ChartInfosDTO } from "./chartInfos";
-import { ChartTranslationDTO } from "./chartTranslation";
 import { ChartAxis, ChartAxisDTO } from "./chartAxis";
-import { ChartModelLabelDTO } from "./chartModelLabel";
 import { ChartPlot, ChartPlotDTO } from "./chartPlot";
-import { ChartCategoryDetails } from "../chartCategories";
+import { ColorSets } from "../enums/chartEnums";
 
 export class ChartDetails extends ChartInfos {
   colorSet: ColorSets;
@@ -32,24 +28,8 @@ export class ChartDetails extends ChartInfos {
 }
 
 export interface ChartDetailsDTO extends ChartInfosDTO {
-  id: string;
-  scope: ApplicationScope;
-  icon: string;
-  code: string;
-  chartCategoryId: string | null;
-  imageId: string | null;
-  tags: string[];
-  multiple: boolean;
-  chartType: ChartType;
-  modelsLabels: ChartModelLabelDTO[];
-  label: string;
-  title: string;
-  labelDefault: string;
-  titleDefault: string;
-  translations: ChartTranslationDTO[];
   colorSet: number;
   colorSeed: string;
-  chartCategory: ChartCategoryDetails | null;
   xAxis: ChartAxisDTO | null;
   aggregates: boolean | null;
   dynamicVariables: boolean | null;

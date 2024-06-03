@@ -2,19 +2,18 @@ import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslatio
 import { ChartModelLabel, ChartModelLabelDTO } from "../charts/chartModelLabel";
 import { ApplicationScope } from "../enums/applicationEnums";
 import { ChartType } from "../enums/chartEnums";
-import { ChartCategoryInfos } from "../chartCategories";
 
 export class ChartOrganisationTypeInfos {
     id: string;
+    imageId: string | null;
     chartId: string;
     organisationTypeId: string;
     organisationTypeLabel: string;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;
-    chartCategoryId: string | null;
-    imageId: string | null;
-    chartCategory: ChartCategoryInfos | null;
     tags: string[];
     multiple: boolean;
     chartType: ChartType;
@@ -27,15 +26,15 @@ export class ChartOrganisationTypeInfos {
 
     constructor(params: ChartOrganisationTypeInfosDTO) {
         this.id = params.id;
+        this.imageId = params.imageId;
         this.chartId = params.chartId;
         this.organisationTypeId = params.organisationTypeId;
         this.organisationTypeLabel = params.organisationTypeLabel;
+        this.chartCategoryId = params.chartCategoryId;
+        this.chartCategoryLabel = params.chartCategoryLabel;
         this.scope = params.scope;
         this.icon = params.icon;
         this.code = params.code;
-        this.chartCategoryId = params.chartCategoryId;
-        this.imageId = params.imageId;
-        this.chartCategory = params.chartCategory;
         this.tags = params.tags.slice();
         this.multiple = params.multiple;
         this.chartType = params.chartType;
@@ -53,12 +52,12 @@ export interface ChartOrganisationTypeInfosDTO {
     chartId: string;
     organisationTypeId: string;
     organisationTypeLabel: string;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;
-    chartCategoryId: string | null;
     imageId: string | null;
-    chartCategory: ChartCategoryInfos | null;
     tags: string[];
     multiple: boolean;
     chartType: ChartType;
