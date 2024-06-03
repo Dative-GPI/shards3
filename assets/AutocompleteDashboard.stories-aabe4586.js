@@ -1,0 +1,47 @@
+import{f as G,g as T,D as A,E as p,F as d,G as r,A as K,K as u,L as c,I as g,M as i,N as W,O as Y,Y as H}from"./vue.esm-bundler-838daa40.js";import{F as J}from"./FSAutocompleteField-04b1387f.js";import{F as N}from"./FSCheckbox-ee47ff76.js";import{F as I}from"./FSButton-919146d7.js";import{F as Q}from"./FSChip-b7103f7b.js";import{_ as F}from"./FSIcon-1edeb40e.js";import{_ as w}from"./FSSpan-3df08200.js";import{_ as O}from"./FSRow-753b58e5.js";import{u as X}from"./useDashboardOrganisationTypes-b027ca7b.js";import{u as Z}from"./useDashboardOrganisations-657c793b.js";import{u as x}from"./useDashboardShallows-28f59b9f.js";import{u as ee}from"./useAutocomplete-e3e20924.js";import{C as y}from"./useColors-95e93720.js";import{u as ae}from"./useTranslations-419c1021.js";import{_ as oe}from"./_plugin-vue_export-helper-c27b6911.js";import{V as te}from"./VSelect-5b0f61d5.js";import{_ as re}from"./FSCol-44fe82a9.js";import"./FSSearchField-ebe32d86.js";import"./FSTextField-eda7ef73.js";import"./VField-2385223f.js";import"./useSlots-6ce8c1a9.js";import"./VSpacer-7ad9c022.js";import"./useRender-f6a4770d.js";import"./theme-f9f3e2d4.js";import"./index-6fa9bdc1.js";import"./transition-ee4dd36d.js";import"./VLabel-907d1b92.js";import"./VInput-5523e371.js";import"./locale-5633e5ee.js";import"./proxiedModel-3239cc3c.js";import"./VIcon-281b119b.js";import"./color-3e53cf3d.js";import"./tag-d73e64d5.js";import"./density-e1cdced2.js";import"./dimensions-be952165.js";import"./loader-62f4df25.js";import"./VProgressCircular-95e816d7.js";import"./resizeObserver-21650322.js";import"./anchor-dbd6e54f.js";import"./rounded-94d04543.js";import"./VDefaultsProvider-a165414e.js";import"./forwardRefs-e658ad70.js";import"./useRules-cda8e231.js";import"./index-e75f540f.js";import"./FSDialogMenu-722a6878.js";import"./FSCard-f7958fe9.js";import"./css-67cfec15.js";import"./VDialog-7d878a07.js";import"./VOverlay-a0b245b4.js";import"./display-ba09a035.js";import"./lazy-f517c978.js";import"./router-d69bdbea.js";import"./scopeId-02ca7b8d.js";import"./FSRadioGroup-b8d7aeee.js";import"./VSelectionControl-b5e8c167.js";import"./index-a755b9d6.js";import"./FSToggleSet-e8a8c190.js";import"./FSSlideGroup-f3252564.js";import"./uuid-08309875.js";import"./VSlideGroup-41b1c0c0.js";import"./goto-76862adb.js";import"./group-d31dd239.js";import"./FSWrapGroup-51212cff.js";import"./FSFadeOut-498299d0.js";import"./FSLoader-b364a14e.js";import"./elevation-c2192325.js";import"./filter-e8ac40d9.js";import"./VMenu-ec057191.js";import"./FSClickable-427d6a9e.js";import"./widgetInfos-913cb8f0.js";import"./base-ef43f4ed.js";import"./useAppOrganisationId-ac05104a.js";import"./serviceFactory-2dfad3af.js";import"./_commonjsHelpers-725317a4.js";import"./lodash-569b8a6d.js";import"./composableFactory-5509dfbf.js";import"./pathCrumb-3dbc85d5.js";import"./index-a0e5e2a3.js";import"./ssrBoot-00bf1891.js";import"./border-749eb26c.js";import"./VImg-26cf6021.js";import"./VDivider-7a82f108.js";var t=(e=>(e[e.None=0]="None",e[e.Organisation=1]="Organisation",e[e.OrganisationType=2]="OrganisationType",e[e.Shallow=3]="Shallow",e))(t||{});const{$tr:S}=ae(),le=e=>{switch(e){case t.None:return S("ui.role-type.none","None");case t.Organisation:case t.Shallow:return S("ui.role-type.organisation","Custom");case t.OrganisationType:return S("ui.role-type.organisation-type","Shared")}},ne=e=>{switch(e){case t.None:return y.Error;case t.Organisation:case t.Shallow:return y.Primary;case t.OrganisationType:return y.Warning}},M=G({name:"FSAutocompleteDashboard",components:{FSAutocompleteField:J,FSCheckbox:N,FSButton:I,FSChip:Q,FSIcon:F,FSSpan:w,FSRow:O},props:{dashboardOrganisationTypeFilters:{type:Object,required:!1,default:null},dashboardOrganisationFilters:{type:Object,required:!1,default:null},dashboardShallowFilters:{type:Object,required:!1,default:null},modelValue:{type:[Array,String],required:!1,default:null},multiple:{type:Boolean,required:!1,default:!1},toggleSetDisabled:{type:Boolean,required:!1,default:!1}},emits:["update:modelValue","update:type"],setup(e,{emit:n}){const{getMany:C,fetching:V,entities:v}=X(),{getMany:D,fetching:s,entities:f}=Z(),{getMany:o,fetching:l,entities:m}=x(),_=T(()=>v.value.map(a=>({id:a.id,icon:a.icon,label:a.label,type:t.OrganisationType})).concat(f.value.map(a=>({id:a.id,icon:a.icon,label:a.label,type:t.Organisation}))).concat(m.value.map(a=>({id:a.id,icon:a.icon,label:a.label,type:t.Shallow})))),j=T(()=>R.value&&(V.value||s.value||l.value)),B=a=>{Array.isArray(a)?(n("update:modelValue",a.map(h=>h.id)),n("update:type",a.map(h=>h.type))):(n("update:modelValue",a==null?void 0:a.id),n("update:type",a==null?void 0:a.type))},P=a=>Promise.all([C({...e.dashboardOrganisationTypeFilters,search:a??void 0}),D({...e.dashboardOrganisationFilters,search:a??void 0}),o({...e.dashboardShallowFilters,search:a??void 0})]),{toggleSet:U,search:E,init:R,onUpdate:z}=ee(_,[()=>e.dashboardOrganisationTypeFilters,()=>e.dashboardOrganisationFilters,()=>e.dashboardShallowFilters],n,P,B);return{toggleSet:U,loading:j,search:E,dashboards:_,dashboardTypeColor:ne,dashboardTypeLabel:le,onUpdate:z}}});function ie(e,n,C,V,v,D){const s=A("FSChip"),f=A("FSAutocompleteField");return p(),d(f,K({toggleSet:!e.$props.toggleSetDisabled&&e.toggleSet,multiple:e.$props.multiple,loading:e.loading,items:e.dashboards,modelValue:e.$props.modelValue,"onUpdate:modelValue":e.onUpdate},e.$attrs),{"autocomplete-selection":r(({item:o})=>[e.$props.modelValue?(p(),d(O,{key:0,align:"center-center",wrap:!1},{default:r(()=>[o.raw.icon?(p(),d(F,{key:0},{default:r(()=>[u(c(o.raw.icon),1)]),_:2},1024)):g("",!0),i(w,null,{default:r(()=>[u(c(o.raw.label),1)]),_:2},1024),i(s,{color:e.dashboardTypeColor(o.raw.type),label:e.dashboardTypeLabel(o.raw.type),editable:!1},null,8,["color","label"])]),_:2},1024)):g("",!0)]),"autocomplete-item":r(({props:o,item:l})=>[i(te,W(Y({...o,title:""})),{default:r(()=>[i(O,{align:"center-left",wrap:!1},{default:r(()=>{var m;return[e.$props.multiple?(p(),d(N,{key:0,modelValue:(m=e.$props.modelValue)==null?void 0:m.includes(l.value),onClick:o.onClick},null,8,["modelValue","onClick"])):g("",!0),l.raw.icon?(p(),d(F,{key:1},{default:r(()=>[u(c(l.raw.icon),1)]),_:2},1024)):g("",!0),i(w,null,{default:r(()=>[u(c(l.raw.label),1)]),_:2},1024),i(s,{color:e.dashboardTypeColor(l.raw.type),label:e.dashboardTypeLabel(l.raw.type),editable:!1},null,8,["color","label"])]}),_:2},1024)]),_:2},1040)]),"toggle-set-item":r(o=>[i(I,{prependIcon:o.item.icon,variant:o.getVariant(o.item),color:o.getColor(o.item),class:H(o.getClass(o.item)),label:o.item.label,onClick:l=>o.toggle(o.item)},{append:r(()=>[i(s,{color:e.dashboardTypeColor(o.item.type),label:e.dashboardTypeLabel(o.item.type),editable:!1},null,8,["color","label"])]),_:2},1032,["prependIcon","variant","color","class","label","onClick"])]),_:1},16,["toggleSet","multiple","loading","items","modelValue","onUpdate:modelValue"])}const L=oe(M,[["render",ie]]);M.__docgenInfo={displayName:"FSAutocompleteDashboard",exportName:"default",description:"",tags:{},props:[{name:"dashboardOrganisationTypeFilters",type:{name:"DashboardOrganisationTypeFilters"},required:!1,defaultValue:{func:!1,value:"null"}},{name:"dashboardOrganisationFilters",type:{name:"DashboardOrganisationFilters"},required:!1,defaultValue:{func:!1,value:"null"}},{name:"dashboardShallowFilters",type:{name:"DashboardShallowFilters"},required:!1,defaultValue:{func:!1,value:"null"}},{name:"modelValue",type:{name:"string[] | string | null"},required:!1,defaultValue:{func:!1,value:"null"}},{name:"multiple",type:{name:"boolean"},required:!1,defaultValue:{func:!1,value:"false"}},{name:"toggleSetDisabled",type:{name:"boolean"},required:!1,defaultValue:{func:!1,value:"false"}}],events:[{name:"update:modelValue"},{name:"update:type"}],sourceFiles:["/home/runner/work/foundation-shared-ui/foundation-shared-ui/src/core/foundation-core-components/components/autocompletes/FSAutocompleteDashboard.vue"]};const La={title:"Foundation/Core/Autocompletes/AutocompleteDashboard",component:L,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},b={args:{args:{value1:null,value2:"11"}},render:(e,{argTypes:n})=>({components:{FSAutocompleteDashboard:L,FSCol:re},props:Object.keys(n),setup(){return{...e}},template:`
+    <FSCol>
+      <FSAutocompleteDashboard
+        label="Dashboard"
+        v-model="args.value1"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteDashboard
+        label="Dashboard with toggleset disabled"
+        :toggleSetDisabled="true"
+        v-model="args.value2"
+      />
+    </FSCol>`})};var k,$,q;b.parameters={...b.parameters,docs:{...(k=b.parameters)==null?void 0:k.docs,source:{originalSource:`{
+  args: {
+    args: {
+      value1: null,
+      value2: "11"
+    }
+  },
+  render: (args, {
+    argTypes
+  }) => ({
+    components: {
+      FSAutocompleteDashboard,
+      FSCol
+    },
+    props: Object.keys(argTypes),
+    setup() {
+      return {
+        ...args
+      };
+    },
+    template: \`
+    <FSCol>
+      <FSAutocompleteDashboard
+        label="Dashboard"
+        v-model="args.value1"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteDashboard
+        label="Dashboard with toggleset disabled"
+        :toggleSetDisabled="true"
+        v-model="args.value2"
+      />
+    </FSCol>\`
+  })
+}`,...(q=($=b.parameters)==null?void 0:$.docs)==null?void 0:q.source}}};const ja=["Variations"];export{b as Variations,ja as __namedExportsOrder,La as default};
