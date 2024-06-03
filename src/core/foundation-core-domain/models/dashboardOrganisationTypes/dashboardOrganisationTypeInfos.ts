@@ -6,6 +6,7 @@ export class DashboardOrganisationTypeInfos {
     organisationTypeId: string | null;
     organisationTypeLabel: string | null;
     scope: ApplicationScope;
+    imageId: string | null;
     locked: boolean;
     label: string;
     code: string;
@@ -18,6 +19,7 @@ export class DashboardOrganisationTypeInfos {
         this.dashboardId = params.dashboardId;
         this.organisationTypeId = params.organisationTypeId;
         this.organisationTypeLabel = params.organisationTypeLabel;
+        this.imageId = params.imageId;
         this.scope = params.scope;
         this.locked = params.locked;
         this.label = params.label;
@@ -33,6 +35,7 @@ export interface DashboardOrganisationTypeInfosDTO {
   dashboardId: string;
   organisationTypeId: string | null;
   organisationTypeLabel: string | null;
+  imageId: string | null;
   scope: ApplicationScope;
   locked: boolean;
   label: string;

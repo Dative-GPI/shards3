@@ -31,7 +31,14 @@
             {{ $props.code }}
           </FSText>
         </FSCol>
+        <FSImage
+          v-if="$props.imageId"
+          :height="imageSize"
+          :width="imageSize"
+          :imageId="$props.imageId"
+        />
         <FSIconCard
+          v-else
           :backgroundColor="iconBackgroundColor"
           :icon="$props.icon"
           :size="imageSize"
@@ -48,17 +55,19 @@ import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composa
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSIconCard from "../FSIconCard.vue";
+import FSImage from "../FSImage.vue";
 import FSText from "../FSText.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSSimpleIconTileUI",
+  name: "FSSimpleTileUI",
   components: {
     FSIconCard,
-    FSText,
+    FSImage,
     FSTile,
+    FSText,
     FSCol,
     FSRow
   },
@@ -92,6 +101,11 @@ export default defineComponent({
       type: String as PropType<string>,
       required: false,
       default: "mdi-ab-testing"
+    },
+    imageId: {
+      type: String as PropType<string>,
+      required: false,
+      default: null
     },
     editable: {
       type: Boolean,
