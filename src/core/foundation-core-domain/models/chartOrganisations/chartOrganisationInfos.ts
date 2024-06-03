@@ -5,8 +5,11 @@ import { ChartType } from "../enums/chartEnums";
 
 export class ChartOrganisationInfos {
     id: string;
+    imageId: string | null;
     chartId: string;
     organisationId: string;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;
@@ -22,8 +25,11 @@ export class ChartOrganisationInfos {
 
     constructor(params: ChartOrganisationInfosDTO) {
         this.id = params.id;
+        this.imageId = params.imageId;
         this.chartId = params.chartId;
         this.organisationId = params.organisationId;
+        this.chartCategoryId = params.chartCategoryId;
+        this.chartCategoryLabel = params.chartCategoryLabel;
         this.scope = params.scope;
         this.icon = params.icon;
         this.code = params.code;
@@ -41,8 +47,11 @@ export class ChartOrganisationInfos {
 
 export interface ChartOrganisationInfosDTO {
     id: string;
+    imageId: string | null;
     chartId: string;
     organisationId: string;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;

@@ -5,9 +5,12 @@ import { ChartType } from "../enums/chartEnums";
 
 export class ChartOrganisationTypeInfos {
     id: string;
+    imageId: string | null;
     chartId: string;
     organisationTypeId: string;
     organisationTypeLabel: string;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;
@@ -23,9 +26,12 @@ export class ChartOrganisationTypeInfos {
 
     constructor(params: ChartOrganisationTypeInfosDTO) {
         this.id = params.id;
+        this.imageId = params.imageId;
         this.chartId = params.chartId;
         this.organisationTypeId = params.organisationTypeId;
         this.organisationTypeLabel = params.organisationTypeLabel;
+        this.chartCategoryId = params.chartCategoryId;
+        this.chartCategoryLabel = params.chartCategoryLabel;
         this.scope = params.scope;
         this.icon = params.icon;
         this.code = params.code;
@@ -46,9 +52,12 @@ export interface ChartOrganisationTypeInfosDTO {
     chartId: string;
     organisationTypeId: string;
     organisationTypeLabel: string;
+    chartCategoryId: string | null;
+    chartCategoryLabel: string | null;
     scope: ApplicationScope;
     icon: string;
     code: string;
+    imageId: string | null;
     tags: string[];
     multiple: boolean;
     chartType: ChartType;
