@@ -2,6 +2,7 @@ import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslatio
 import { ChartModelLabel, ChartModelLabelDTO } from "../charts/chartModelLabel";
 import { ApplicationScope } from "../enums/applicationEnums";
 import { ChartType } from "../enums/chartEnums";
+import { ChartCategoryInfos } from "../chartCategories";
 
 export class ChartOrganisationInfos {
     id: string;
@@ -11,6 +12,9 @@ export class ChartOrganisationInfos {
     icon: string;
     code: string;
     tags: string[];
+    chartCategoryId: string | null;
+    imageId: string | null;
+    chartCategory: ChartCategoryInfos | null;
     multiple: boolean;
     chartType: ChartType;
     modelsLabels: ChartModelLabel[];
@@ -27,6 +31,9 @@ export class ChartOrganisationInfos {
         this.scope = params.scope;
         this.icon = params.icon;
         this.code = params.code;
+        this.imageId = params.imageId;
+        this.chartCategoryId = params.chartCategoryId;
+        this.chartCategory = params.chartCategory;
         this.tags = params.tags.slice();
         this.multiple = params.multiple;
         this.chartType = params.chartType;
@@ -46,6 +53,9 @@ export interface ChartOrganisationInfosDTO {
     scope: ApplicationScope;
     icon: string;
     code: string;
+    chartCategoryId: string | null;
+    imageId: string | null;
+    chartCategory: ChartCategoryInfos | null;
     tags: string[];
     multiple: boolean;
     chartType: ChartType;

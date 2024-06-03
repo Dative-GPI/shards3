@@ -16,7 +16,7 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
 
     constructor(params: ChartOrganisationTypeDetailsDTO) {
         super(params);
-    
+
         this.colorSet = params.colorSet as ColorSets;
         this.colorSeed = params.colorSeed;
         this.xAxis = params.xAxis ?
@@ -46,6 +46,9 @@ export interface CreateChartOrganisationTypeDTO {
 export interface UpdateChartOrganisationTypeDTO {
     code: string;
     icon: string;
+    chartCategoryId: string | null;
+    imageId: string | null;
+    image: string | null;
     tags: string[];
     multiple: boolean;
     chartType: number;

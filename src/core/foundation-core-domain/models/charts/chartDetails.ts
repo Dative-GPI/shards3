@@ -3,9 +3,10 @@ import { ApplicationScope } from "../enums/applicationEnums";
 import { ChartType, ColorSets } from "../enums/chartEnums";
 import { ChartInfos, ChartInfosDTO } from "./chartInfos";
 import { ChartTranslationDTO } from "./chartTranslation";
-import { ChartAxis, ChartAxisDTO  } from "./chartAxis";
+import { ChartAxis, ChartAxisDTO } from "./chartAxis";
 import { ChartModelLabelDTO } from "./chartModelLabel";
 import { ChartPlot, ChartPlotDTO } from "./chartPlot";
+import { ChartCategoryDetails } from "../chartCategories";
 
 export class ChartDetails extends ChartInfos {
   colorSet: ColorSets;
@@ -18,7 +19,7 @@ export class ChartDetails extends ChartInfos {
 
   constructor(params: ChartDetailsDTO) {
     super(params);
-    
+
     this.colorSet = params.colorSet as ColorSets;
     this.colorSeed = params.colorSeed;
     this.xAxis = params.xAxis ?
@@ -31,24 +32,27 @@ export class ChartDetails extends ChartInfos {
 }
 
 export interface ChartDetailsDTO extends ChartInfosDTO {
-    id: string;
-    scope: ApplicationScope;
-    icon: string;
-    code: string;
-    tags: string[];
-    multiple: boolean;
-    chartType: ChartType;
-    modelsLabels: ChartModelLabelDTO[];
-    label: string;
-    title: string;
-    labelDefault: string;
-    titleDefault: string;
-    translations: ChartTranslationDTO[];
-    colorSet: number;
-    colorSeed: string;
-    xAxis: ChartAxisDTO | null;
-    aggregates: boolean | null;
-    dynamicVariables: boolean | null;
-    chartVariables: ChartVariableDTO[];
-    chartPlots: ChartPlotDTO[];
+  id: string;
+  scope: ApplicationScope;
+  icon: string;
+  code: string;
+  chartCategoryId: string | null;
+  imageId: string | null;
+  tags: string[];
+  multiple: boolean;
+  chartType: ChartType;
+  modelsLabels: ChartModelLabelDTO[];
+  label: string;
+  title: string;
+  labelDefault: string;
+  titleDefault: string;
+  translations: ChartTranslationDTO[];
+  colorSet: number;
+  colorSeed: string;
+  chartCategory: ChartCategoryDetails | null;
+  xAxis: ChartAxisDTO | null;
+  aggregates: boolean | null;
+  dynamicVariables: boolean | null;
+  chartVariables: ChartVariableDTO[];
+  chartPlots: ChartPlotDTO[];
 }

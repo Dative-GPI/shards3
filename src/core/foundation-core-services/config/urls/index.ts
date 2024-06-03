@@ -3,6 +3,7 @@ export * from "./alerts";
 export * from "./articles";
 export * from "./authTokens";
 export * from "./charts";
+export * from "./chartCategories";
 export * from "./chartOrganisations";
 export * from "./chartOrganisationTypes";
 export * from "./comments";
