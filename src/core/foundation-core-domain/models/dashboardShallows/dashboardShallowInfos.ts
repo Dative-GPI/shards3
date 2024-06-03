@@ -8,6 +8,7 @@ export class DashboardShallowInfos {
   folderId: string | null;
   folderLabel: string | null;
   folderIcon: string | null;
+  imageId: string | null;
   label: string;
   code: string;
   icon: string;
@@ -24,6 +25,7 @@ export class DashboardShallowInfos {
     this.folderId = params.folderId;
     this.folderLabel = params.folderLabel;
     this.folderIcon = params.folderIcon;
+    this.imageId = params.imageId;
     this.label = params.label;
     this.code = params.code;
     this.icon = params.icon;
@@ -42,6 +44,7 @@ export interface DashboardShallowInfosDTO {
   folderId: string | null;
   folderLabel: string | null;
   folderIcon: string | null;
+  imageId: string | null;
   label: string;
   code: string;
   icon: string;

@@ -7,11 +7,12 @@
   />
   <FSDashboardOrganisationTypeTileUI
     v-else-if="entity"
-    :label="entity.label"
     :code="entity.code"
-    :bottomColor="entity.colors"
     :icon="entity.icon"
+    :label="entity.label"
+    :imageId="entity.imageId"
     :editable="$props.editable"
+    :bottomColor="entity.colors"
     :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"
     v-bind="$attrs"

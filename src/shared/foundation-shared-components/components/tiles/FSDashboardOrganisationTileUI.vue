@@ -1,5 +1,5 @@
 <template>
-  <FSSimpleIconTileUI
+  <FSSimpleTileUI
     :bottomColor="color"
     :icon="$props.icon"
     v-bind="$attrs"
@@ -11,7 +11,7 @@ import { computed, defineComponent, PropType } from "vue";
 
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSSimpleIconTileUI from "./FSSimpleIconTileUI.vue";
+import FSSimpleTileUI from "./FSSimpleTileUI.vue";
 
 export default defineComponent({
   name: "FSDashboardOrganisationTileUI",
@@ -28,7 +28,7 @@ export default defineComponent({
     }
   },
   components: {
-    FSSimpleIconTileUI
+    FSSimpleTileUI
   },
   setup(props){
     const color = computed(() => {

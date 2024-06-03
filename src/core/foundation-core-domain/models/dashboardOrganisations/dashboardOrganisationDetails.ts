@@ -54,6 +54,8 @@ export interface CreateDashboardOrganisationDTO {
     label: string;
     code: string;
     icon: string;
+    imageId: string | null;
+    image: string | null;
     tags: string[];
 }
 
@@ -62,6 +64,8 @@ export interface UpdateDashboardOrganisationDTO {
     label: string;
     code: string;
     icon: string;
+    imageId: string | null;
+    image: string | null;
     tags: string[];
     singleEntity: boolean;
     dynamicEntities: boolean;

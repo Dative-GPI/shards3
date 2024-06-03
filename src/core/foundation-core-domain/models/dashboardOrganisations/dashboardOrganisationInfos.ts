@@ -7,6 +7,7 @@ export class DashboardOrganisationInfos {
   folderId: string | null;
   folderLabel: string | null;
   folderIcon: string | null;
+  imageId: string | null;
   scope: ApplicationScope;
   locked: boolean;
   label: string;
@@ -22,6 +23,7 @@ export class DashboardOrganisationInfos {
     this.folderId = params.folderId;
     this.folderLabel = params.folderLabel;
     this.folderIcon = params.folderIcon;
+    this.imageId = params.imageId;
     this.scope = params.scope;
     this.locked = params.locked;
     this.label = params.label;
@@ -39,6 +41,7 @@ export interface DashboardOrganisationInfosDTO {
   folderId: string | null;
   folderLabel: string | null;
   folderIcon: string | null;
+  imageId: string | null;
   scope: ApplicationScope;
   locked: boolean;
   label: string;

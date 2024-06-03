@@ -87,6 +87,8 @@ export interface UpdateDashboardShallowDTO {
     label: string;
     code: string;
     icon: string;
+    imageId: string | null;
+    image: string | null;
     tags: string[];
     overrideSingleEntity: boolean | null;
     overrideDynamicEntities: boolean | null;

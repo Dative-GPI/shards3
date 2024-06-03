@@ -26,3 +26,7 @@ export interface ActionInfosDTO {
     label: string;
     icon: string;
 }
+
+export interface ActionFilters {
+    path: string;
+}
