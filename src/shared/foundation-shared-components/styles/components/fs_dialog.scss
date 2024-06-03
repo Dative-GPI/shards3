@@ -1,28 +1,18 @@
-.v-overlay__scrim:has(.v-overlay__content:has(.fs-dialog-mobile)) {
-    display: flex;
-}
-
-.v-overlay__content:has(.fs-dialog-mobile) {
-    justify-content: flex-end;
+.fs-dialog-mobile {
+  & > .v-overlay__content {
+    max-height: calc(100% - 40px) !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
     align-self: flex-end;
-    margin-top: 40px !important;
-    width: 100vw !important;
-    margin: 0px !important;
-}
-
-.v-overlay__content:has(.fs-dialog) {
-    max-height: calc(100vh - 40px) !important;
-    width: var(--fs-dialog-width) !important;
-    min-width: 35vw !important;
+  }
 }
 
 .fs-dialog {
-    max-height: calc(100vh - 40px) !important;
-    width: var(--fs-dialog-width) !important;
+  & > .v-overlay__content {
+    max-height: calc(100% - 40px) !important;
+    max-width: calc(100% - 40px) !important;
     min-width: 35vw !important;
-}
-
-.fs-dialog-mobile {
-    max-height: calc(100vh - 40px) !important;
-    width: 100vw !important;
+    width: fit-content !important;
+  }
 }

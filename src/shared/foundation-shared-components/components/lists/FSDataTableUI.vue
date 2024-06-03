@@ -1105,7 +1105,7 @@ export default defineComponent({
         switch (property) {
           case "hidden":
             innerColumn.hidden = value as boolean;
-            if (value) {
+            if (value && filters.value[header.value!]) {
               filters.value[header.value!] = filters.value[header.value!].map((filter) => ({ ...filter, hidden: false }));
               resetable.value = Object.keys(filters.value)
                 .some((key) => filters.value[key].some((filter) => filter.hidden));
