@@ -1,4 +1,5 @@
 import { FolderDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import { IMAGES } from "./images.mock";
 
 
 export const FOLDERS: FolderDetailsDTO[] = [
@@ -11,6 +12,7 @@ export const FOLDERS: FolderDetailsDTO[] = [
         path: [],
         tags: ["tag 1"],
         organisationId: "1",
+        imageId: IMAGES[0].id,
         imageBlurHash: "imageBlurHash 1"
     },
     {

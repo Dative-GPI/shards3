@@ -54,6 +54,8 @@ export interface UpdateDashboardOrganisationTypeDTO {
     label: string;
     code: string;
     icon: string;
+    imageId: string | null;
+    image: string | null;
     tags: string[];
     singleEntity: boolean;
     dynamicEntities: boolean;
