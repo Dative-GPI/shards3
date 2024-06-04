@@ -25,7 +25,20 @@ export const Variations: Story = {
       items: GROUPS,
       value: [],
       itemTo: (item: any) => ({ name: 'group', params: { groupId: item.id } }),
-      clickRow: () => { console.log("clicked"); }
+      clickRow: () => { console.log("clicked"); },
+      customSorts: {
+        'tags': (a: any, b: any) => {
+          if ((a == null && b == null) || (a.length == b.length)) {
+            return 0;
+          }
+          if (a == null || a.length < b.length) {
+            return -1;
+          }
+          if (b == null || a.length > b.length) {
+            return 1;
+          }
+        }
+      }
     }
   },
   render: (args, { argTypes }) => ({
@@ -53,6 +66,7 @@ export const Variations: Story = {
           :mode="args.mode"
           :rowColor="getColor"
           :showSelect="true"
+          :customSorts="args.customSorts"
           rowGap="4px"
           @click:row="args.clickRow"
           v-model="args.value"

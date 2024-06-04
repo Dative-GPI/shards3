@@ -43,7 +43,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [{
         value: "tags",
         index: 4,
         hidden: false,
-        sortable: false,
+        sortable: true,
         filterable: false
     }],
     sortByKey: null,

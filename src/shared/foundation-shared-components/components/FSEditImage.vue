@@ -165,7 +165,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { useFiles } from "@dative-gpi/foundation-shared-services/composables";
@@ -280,6 +280,13 @@ export default defineComponent({
         emit("update:imageId", null);
       }
     };
+
+    watch(() => props.modelValue, () => {
+      if (!props.modelValue) {
+        fileSelected.value.fileName = "";
+        fileSelected.value.fileContent = null;
+      }
+    });
 
     return {
       invisibleButtonRef,
