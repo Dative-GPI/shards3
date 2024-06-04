@@ -4,7 +4,7 @@
   />
   <FSDataTableUI
     v-else
-    :headers="table.headers"
+    :headers="headers"
     :mode="table.mode"
     :sortBy="table.sortBy"
     :rowsPerPage="table.rowsPerPage"
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, ref, watch } from "vue";
+import { PropType, computed, defineComponent, onUnmounted, ref, watch } from "vue";
 
 import { useUserOrganisationTable, useUpdateUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
 import { FSDataTable, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
@@ -55,6 +55,11 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 1000
+    },
+    customSorts: {
+      type: Object as PropType<{ [key: string]: any }>,
+      required: false,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -70,6 +75,18 @@ export default defineComponent({
       rowsPerPage: 10,
       filters: {},
       page: 1
+    });
+
+    const headers = computed((): FSDataTableColumn[] => {
+      if(!table.value) {
+        return [];
+      }
+      return table.value.headers.map(header => {
+        return {
+          ...header,
+          sort: header.value && props.customSorts[header.value] || null 
+        }
+      })
     });
 
     const reset = (): void => {
@@ -167,6 +184,7 @@ export default defineComponent({
 
     return {
       gettingUserOrganisationTable,
+      headers,
       table,
       updateRowsPerPage,
       updateFilters,

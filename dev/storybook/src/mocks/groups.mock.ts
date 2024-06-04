@@ -44,7 +44,7 @@ export const GROUPS: GroupInfosDTO[] = Array.from(Array(15).keys()).map(i => ({
     icon: `mdi-numeric-${i}-circle`,
     code: `number.${i}`,
     label: `Group ${i}`,
-    tags: [],
+    tags: [...Array.from(Array(i).keys()).map(j => `tag-${j}`)],
     path: [],
     groupsIds: [],
     deviceOrganisationsIds: [],
