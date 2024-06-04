@@ -281,8 +281,8 @@ export default defineComponent({
       }
     };
 
-    watch(() => props.modelValue, (value) => {
-      if(!value) {
+    watch(() => props.modelValue, () => {
+      if (!props.modelValue) {
         fileSelected.value.fileName = "";
         fileSelected.value.fileContent = null;
       }
