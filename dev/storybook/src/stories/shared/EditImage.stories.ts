@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSEditImage from "@dative-gpi/foundation-shared-components/components/FSEditImage.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
 const meta = {
   title: 'Foundation/Shared/EditImage',
@@ -30,7 +31,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSEditImage },
+    components: { FSEditImage, FSButton },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -44,6 +45,9 @@ export const Variations: Story = {
         v-model="args.source2"
         label="Edit Image"
       />
+      <FSButton @click="args.source2 = null">
+        Reset modelValue
+      </FSButton>
       <FSEditImage
         height="96px"
         width="96px"
