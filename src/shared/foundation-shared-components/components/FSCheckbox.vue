@@ -17,6 +17,7 @@
         #input
       >
         <FSRow
+          class="fs-checkbox-label"
           align="center-left"
           width="hug"
           :style="style"
@@ -28,10 +29,12 @@
           >
             {{ icon }}
           </FSIcon>
-          <slot>
+          <slot
+            name="label"
+            v-bind="{ font }"
+          >
             <FSSpan
               v-if="$props.label"
-              class="fs-checkbox-label"
               :style="style"
               :font="font"
             >

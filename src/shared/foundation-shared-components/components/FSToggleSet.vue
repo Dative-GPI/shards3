@@ -157,6 +157,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    errorColor: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Error
+    },
     padding: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
@@ -209,6 +214,9 @@ export default defineComponent({
       }
       if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
         return props.activeColor;
+      }
+      if (inputRef.value && (inputRef.value as any).errorMessages.length) {
+        return props.errorColor;
       }
       return props.buttonColor;
     };

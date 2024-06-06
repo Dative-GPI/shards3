@@ -119,7 +119,6 @@ export const Rules: Story = {
           <FSAutocompleteField
           label="Rules: required"
           :rules="[args.rules.required()]"
-          :disableToggleSet="true"
           :items="args.items"
           :required="true"
           v-model="args.value1"
@@ -128,7 +127,7 @@ export const Rules: Story = {
         <FSAutocompleteField
           label="Rules: min 2 options"
           :rules="[args.rules.min(2)]"
-          :disableToggleSet="true"
+          :toggleSet="true"
           :items="args.items"
           :multiple="true"
           :required="true"
@@ -138,7 +137,6 @@ export const Rules: Story = {
         <FSAutocompleteField
           label="Rules: required & min 2 options & max 3 options"
           :rules="[args.rules.required(), args.rules.min(2), args.rules.max(3)]"
-          :disableToggleSet="true"
           :items="args.items"
           :multiple="true"
           :required="true"

@@ -13,6 +13,7 @@
       :style="style"
       :class="classes"
       :rows="$props.rows"
+      :persistentClear="true"
       :hideDetails="true"
       :noResize="true"
       :autoGrow="$props.autoGrow"

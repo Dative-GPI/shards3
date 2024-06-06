@@ -12,6 +12,7 @@
       variant="outlined"
       :style="style"
       :type="$props.type"
+      :persistentClear="true"
       :hideDetails="true"
       :readonly="!$props.editable"
       :clearable="$props.clearable && $props.editable && !!$props.modelValue"

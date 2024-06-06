@@ -1,0 +1,6 @@
+// If the custom property value is a boolean or an icon, hide the FSTextField input value in a FSMetaField while on mobile
+.fs-meta-field .v-field:has(.v-field__prepend-inner:not(:empty)) input {
+    @include mobile {
+        content-visibility: hidden;
+    }
+}

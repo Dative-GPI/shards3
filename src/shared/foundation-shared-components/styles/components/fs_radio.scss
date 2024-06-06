@@ -3,7 +3,8 @@
     color: var(--fs-radio-radio-color) !important;
 }
 
-.fs-radio-label {
+.fs-radio-label,
+.fs-radio-label :not(.fs-radio) {
     cursor: var(--fs-radio-cursor) !important;
     color: var(--fs-radio-color) !important;
     user-select: none;
