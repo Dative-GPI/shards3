@@ -5,6 +5,7 @@
     width="100%"
     :color="$props.itemColor"
     :variant="variant"
+    :style="style"
   >
     <FSCol>
       <slot
@@ -112,6 +113,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    clickable: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     showSelect: {
       type: Boolean,
       required: false,
@@ -127,8 +133,15 @@ export default defineComponent({
       }
     });
 
+    const style = computed((): { [key: string]: string | null | undefined } => {
+      return {
+        "--fs-data-iterator-item-cursor": props.clickable ? "pointer" : "default"
+      }
+    });
+
     return {
-      variant
+      variant,
+      style
     };
   }
 });

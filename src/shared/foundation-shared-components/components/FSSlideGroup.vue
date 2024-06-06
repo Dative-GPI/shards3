@@ -12,7 +12,7 @@
     >
       <FSButtonPreviousIcon
         :color="ColorEnum.Dark"
-        @click="goToPrev"
+        @click.prevent.stop="goToPrev"
       />
     </template>
     <template
@@ -33,7 +33,7 @@
       <FSButtonNextIcon
         :color="ColorEnum.Dark"
         :class="nextClasses"
-        @click="goToNext"
+        @click.prevent.stop="goToNext"
       />
     </template>
   </v-slide-group>
@@ -105,6 +105,20 @@ export default defineComponent({
       return classes;
     });
 
+    const goToStart = () => {
+      if (slideGroupRef.value) {
+        const scrollElement = (slideGroupRef.value as any).$el.children[1];
+        scrollElement.scrollTo({ left: -scrollElement.scrollLeft, behavior: "smooth" });
+      }
+    };
+
+    const goToEnd = () => {
+      if (slideGroupRef.value) {
+        const scrollElement = (slideGroupRef.value as any).$el.children[1];
+        scrollElement.scrollTo({ left: scrollElement.scrollWidth - scrollElement.scrollLeft, behavior: "smooth" });
+      }
+    };
+
     const goToPrev = () => {
       if (slideGroupRef.value) {
         (slideGroupRef.value as any).scrollTo("prev");
@@ -143,8 +157,10 @@ export default defineComponent({
       elementId,
       style,
       getChildren,
+      goToStart,
+      goToNext,
       goToPrev,
-      goToNext
+      goToEnd
     };
   }
 });

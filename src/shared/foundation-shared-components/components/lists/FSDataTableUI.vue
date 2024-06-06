@@ -125,8 +125,8 @@
         :page="innerPage"
         :itemsPerPage="innerRowsPerPage"
         :modelValue="$props.modelValue"
-        @auxclick:row="onClickRow"
-        @click:row="onClickRow"
+        @auxclick:row="onClickLibrary.row"
+        @click:row="onClickLibrary.row"
         @update:sortBy="innerSortBy = $event ? $event[0] : null"
         @dragover.prevent
         @drop:row="(event, row) => onDrop(event, row, 'tr.v-data-table__tr')"
@@ -435,6 +435,7 @@
                   v-if="item.type === 'item'"
                   :itemColor="$props.rowColor ? $props.rowColor(item.raw) : ColorEnum.Background"
                   :headers="innerHeaders.filter(h => !$props.sneakyHeaders.includes(h.value))"
+                  :clickable="onClickLibrary.clickable"
                   :showSelect="$props.showSelect"
                   :itemTo="$props.itemTo"
                   :color="$props.color"
@@ -442,6 +443,8 @@
                   :key="index"
                   :modelValue="$props.modelValue.includes(item.raw[$props.itemValue])"
                   @update:modelValue="toggleSelect"
+                  @auxclick="() => onClickLibrary.mobile($event, item)"
+                  @click="() => onClickLibrary.mobile($event, item)"
                 >
                   <template
                     #item.top="props"
@@ -584,6 +587,7 @@
                 <FSDataIteratorItem
                   :itemColor="$props.rowColor ? $props.rowColor(item.raw) : ColorEnum.Background"
                   :headers="innerHeaders.filter(h => !$props.sneakyHeaders.includes(h.value))"
+                  :clickable="onClickLibrary.clickable"
                   :showSelect="$props.showSelect"
                   :itemTo="$props.itemTo"
                   :color="$props.color"
@@ -591,6 +595,8 @@
                   :key="index"
                   :modelValue="$props.modelValue.includes(item.raw[$props.itemValue])"
                   @update:modelValue="toggleSelect"
+                  @auxclick="() => onClickLibrary.mobile($event, item)"
+                  @click="() => onClickLibrary.mobile($event, item)"
                 >
                   <template
                     #item.top="props"
@@ -638,7 +644,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, onMounted, onUnmounted, PropType, ref, Ref, Slot, watch } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, PropType, ref, Ref, Slot, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
@@ -714,6 +720,11 @@ export default defineComponent({
       default: "id"
     },
     itemTo: {
+      type: Function,
+      required: false,
+      default: null
+    },
+    ["onClick:row"]: {
       type: Function,
       required: false,
       default: null
@@ -1018,25 +1029,43 @@ export default defineComponent({
       }
     });
 
-    const onClickRow = computed(() => {
-      if (!!getCurrentInstance()?.vnode.props?.["onClick:row"] || props.itemTo) {
-        return (event: PointerEvent, row: any) => {
-          if (props.itemTo && router) {
-            if (event.metaKey || event.ctrlKey || event.button === 1) {
-              window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
+    const onClickLibrary = computed((): { [key: string]: Function | boolean } => {
+      if (props["onClick:row"] || props.itemTo) {
+        return {
+          clickable: true,
+          row: (event: PointerEvent, row: any) => {
+            if (props.itemTo && router) {
+              if (event.metaKey || event.ctrlKey || event.button === 1) {
+                window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
+              }
+              else {
+                router.push(props.itemTo(row.item));
+              }
             }
             else {
-              router.push(props.itemTo(row.item));
+              emit("click:row", row.item);
+            }
+          },
+          mobile: (event: PointerEvent, item: any) => {
+            if (props.itemTo && router) {
+              if (event.metaKey || event.ctrlKey || event.button === 1) {
+                window.open(router.resolve(props.itemTo(item)).href, "_blank");
+              }
+              else {
+                router.push(props.itemTo(item));
+              }
+            }
+            else {
+              emit("click:row", item);
             }
           }
-          else {
-            emit("click:row", row.item);
-          }
-        };
+        }
       }
-      else {
-        return null;
-      }
+      return {
+        clickable: false,
+        row: null,
+        mobile: () => null
+      };
     });
 
     const draggableDisabled = computed(() => {
@@ -1453,10 +1482,10 @@ export default defineComponent({
       classes,
       style,
       size,
-      onClickRow,
       isExtraSmall,
       draggableDisabled,
       elementId,
+      onClickLibrary,
       toggleSelectAll,
       toggleSelectGroup,
       toggleSelect,

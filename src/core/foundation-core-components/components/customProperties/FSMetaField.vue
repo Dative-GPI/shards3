@@ -1,67 +1,50 @@
 <template>
   <FSSelectField
     v-if="$props.customProperty.useOnlyAllowedValues"
-    :label="$props.customProperty.label"
-    :items="Object.keys($props.customProperty.allowedValues)"
-    :disabled="!editable"
+    class="fs-meta-field"
+    :editable="$props.editable"
+    :label="$props.label"
+    :items="items"
     :modelValue="$props.modelValue"
-    @update:modelValue="(event) => $emit('update:modelValue', event)"
+    @update:modelValue="onUpdate"
   >
     <template
       #selection="{ item }"
     >
-      <FSSpan
-        v-if="customProperty.allowedValues[item.value] != null"
-        class="text-body-1"
-      >
-        {{ customProperty.allowedValues[item.value] }}
-      </FSSpan>
-      <FSSpan
-        v-else-if="[PropertyDataType.Number, PropertyDataType.String, PropertyDataType.DateTime].includes(customProperty.dataType)"
-        class="text-body-1"
-      >
-        {{ asSelector(item.value) }}
-      </FSSpan>
       <FSIcon
-        v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes(customProperty.dataType)"
+        v-if="item.raw.icon"
       >
-        {{ asSelector(item.value) }}
+        {{ item.raw.icon }}
+      </FSIcon>
+      <FSText
+        v-else
+      >
+        {{ item.raw.label }}
+      </FSText>
+    </template>
+    <template
+      #selection-mobile="{ item }"
+    >
+      <FSIcon
+        v-if="item.raw.icon"
+      >
+        {{ item.raw.icon }}
       </FSIcon>
     </template>
     <template
-      #item="{ props, item }"
+      #item-label="{ item, font }"
     >
-      <v-list-item
-        v-bind="{ ...props, title: '' }"
+      <FSIcon
+        v-if="item.raw.icon"
       >
-        <FSRow
-          align="center-left"
-        >
-          <FSSpan
-            v-if="customProperty.allowedValues[item.value] != null"
-            class="text-body-1"
-          >
-            {{ customProperty.allowedValues[item.value] }}
-          </FSSpan>
-          <FSSpan
-            v-else-if="[PropertyDataType.Number, PropertyDataType.String].includes($props.customProperty.dataType)"
-            class="text-body-1"
-          >
-            {{ asSelector(item.value) }}
-          </FSSpan>
-          <FSSpan
-            v-else-if="[PropertyDataType.DateTime].includes($props.customProperty.dataType)"
-            class="text-body-1"
-          >
-            {{ asSelector(item.value) }}
-          </FSSpan>
-          <FSIcon
-            v-else-if="[PropertyDataType.Boolean, PropertyDataType.Icon].includes($props.customProperty.dataType)"
-          >
-            {{ asSelector(item.value) }}
-          </FSIcon>
-        </FSRow>
-      </v-list-item>
+        {{ item.raw.icon }}
+      </FSIcon>
+      <FSSpan
+        v-else
+        :font="font"
+      >
+        {{ item.raw.label }}
+      </FSSpan>
     </template>
   </FSSelectField>
   <template
@@ -69,72 +52,84 @@
   >
     <FSNumberField
       v-if="$props.customProperty.dataType === PropertyDataType.Number"
-      :label="$props.customProperty.label"
-      :disabled="!editable"
+      :editable="$props.editable"
+      :label="$props.label"
       :modelValue="asNumber()"
-      @update:modelValue="(event) => $emit('update:modelValue', event.toString())"
+      @update:modelValue="onUpdate"
     />
     <FSSwitch
       v-else-if="$props.customProperty.dataType === PropertyDataType.Boolean"
-      :label="$props.customProperty.label"
-      :editable="editable"
+      :editable="$props.editable"
+      :label="$props.label"
       :modelValue="asBoolean()"
-      @update:modelValue="(event) => $emit('update:modelValue', event.toString())"
+      @update:modelValue="onUpdate"
     />
     <FSTextField
       v-else-if="$props.customProperty.dataType === PropertyDataType.String"
-      :label="$props.customProperty.label"
-      :disabled="!editable"
+      :editable="$props.editable"
+      :label="$props.label"
       :modelValue="$props.modelValue"
-      @update:modelValue="(event) => $emit('update:modelValue', event)"
+      @update:modelValue="onUpdate"
     />
     <FSDateTimeField
       v-else-if="$props.customProperty.dataType === PropertyDataType.DateTime"
-      :label="$props.customProperty.label"
-      :editable="editable"
+      :editable="$props.editable"
+      :label="$props.label"
       :modelValue="asNumber()"
-      @update:modelValue="(event) => $emit('update:modelValue', (event + getMachineOffsetMillis() - getUserOffsetMillis()).toString())"
+      @update:modelValue="onUpdate"
     />
     <FSIconField
       v-else-if="$props.customProperty.dataType === PropertyDataType.Icon"
-      :label="$props.customProperty.label" 
-      :editable="editable"
+      :editable="$props.editable"
+      :label="$props.label" 
       :modelValue="modelValue"
-      @update:modelValue="(event) => $emit('update:modelValue', event.toString()) "
+      @update:modelValue="onUpdate"
     />
   </template>
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
-import FSSwitch from "@dative-gpi/foundation-shared-components/components/FSSwitch.vue";
-import FSIconField from "@dative-gpi/foundation-shared-components/components/fields/FSIconField.vue";
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
-import FSNumberField from "@dative-gpi/foundation-shared-components/components/fields/FSNumberField.vue";
-import FSDateTimeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateTimeField.vue";
-
-import { CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
+import { CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
+
+import FSDateTimeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateTimeField.vue";
+import FSNumberField from "@dative-gpi/foundation-shared-components/components/fields/FSNumberField.vue";
+import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSIconField from "@dative-gpi/foundation-shared-components/components/fields/FSIconField.vue";
+import FSSwitch from "@dative-gpi/foundation-shared-components/components/FSSwitch.vue";
+import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 
 export default defineComponent({
   name: "FSMetaField",
   components: {
-    FSSwitch,
-    FSIconField,
-    FSSelectField,
+    FSDateTimeField,
     FSNumberField,
-    FSDateTimeField
+    FSSelectField,
+    FSIconField,
+    FSSwitch,
+    FSIcon,
+    FSSpan,
+    FSText
   },
   props: {
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     customProperty: {
       type: Object as PropType<CustomPropertyInfos>,
       required: true
     },
     modelValue: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     editable: {
       type: Boolean,
@@ -142,53 +137,88 @@ export default defineComponent({
       default: true
     }
   },
-  setup(props) {
-    const { epochToLongTimeFormat, epochToPicker, getUserOffsetMillis, getMachineOffsetMillis } = useAppTimeZone();
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const { epochToLongTimeFormat } = useAppTimeZone();
 
-    const asSelector = (item: string): string => {
-      switch (props.customProperty.dataType) {
-        case PropertyDataType.Boolean: {
-          if (item?.toLowerCase() === "true") {
-            return "mdi-check-circle-outline";
+    const items = computed((): { id: string, label: string, icon: string | null }[] => {
+      return Object.keys(props.customProperty.allowedValues).map((key: string) => {
+        // If the allowed value is translated
+        if (props.customProperty.allowedValues[key]) {
+          return {
+            id: key,
+            label: props.customProperty.allowedValues[key],
+            icon: null
           }
-          return "mdi-close-circle-outline";
         }
-        case PropertyDataType.DateTime: {
-          return epochToLongTimeFormat(parseInt(item));
+        // If we have the value without translation
+        else {
+          switch (props.customProperty.dataType) {
+            case PropertyDataType.Boolean: return {
+              id: key,
+              label: key,
+              icon: key === "true" ? "mdi-check-circle-outline" : "mdi-close-circle-outline"
+            }
+            case PropertyDataType.DateTime: return {
+              id: key,
+              label: epochToLongTimeFormat(parseInt(key)),
+              icon: null
+            }
+            case PropertyDataType.Icon: return {
+              id: key,
+              label: key,
+              icon: key
+            }
+            default: return {
+              id: key,
+              label: key,
+              icon: null
+            }
+          }
         }
-        default: {
-          return item;
-        }
-      }
-    }
+      });
+    });
 
-    const asNumber = (): number | undefined => {
+    const asNumber = (): number | null => {
+      if (!props.modelValue) {
+        return null;
+      }
       if (!isNaN(parseFloat(props.modelValue))) {
         return parseFloat(props.modelValue);
       }
-      return undefined;
-    }
+      return null;
+    };
 
-    const asBoolean = (): boolean => {
-      return props.modelValue === "true";
-    }
-
-    const asDateTime = (): Date | undefined => {
-      let epoch: number | undefined = undefined;
-      if (props.modelValue != null && isFinite(parseInt(props.modelValue))) {
-        epoch = parseInt(props.modelValue);
+    const asBoolean = (): boolean | null => {
+      if (!props.modelValue) {
+        return null;
       }
-      return epochToPicker(epoch) ?? undefined;
-    }
+      return props.modelValue === "true";
+    };
+
+    const onUpdate = (value: any) => {
+      switch (props.customProperty.dataType) {
+        case PropertyDataType.Boolean:
+        case PropertyDataType.DateTime:
+        case PropertyDataType.Number:
+          if (value) {
+            emit("update:modelValue", value.toString());
+            break;
+          }
+          emit("update:modelValue", null);
+          break;
+        default:
+          emit("update:modelValue", value);
+          break;
+      }
+    };
 
     return {
       PropertyDataType,
-      getMachineOffsetMillis,
-      getUserOffsetMillis,
-      asSelector,
-      asDateTime,
+      items,
       asBoolean,
-      asNumber
+      asNumber,
+      onUpdate
     };
   }
 });
