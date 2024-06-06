@@ -1,9 +1,8 @@
-import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSForm-6f3485fc.js";import{_ as p}from"./FSCol-044a4f0a.js";import{_ as g}from"./FSRow-0f15051e.js";import{A as v}from"./rules-de67e007.js";import"./vue.esm-bundler-1de4ab84.js";import"./FSSearchField-3ae9dd15.js";import"./FSTextField-5eb8ba7e.js";import"./VField-c7605df9.js";import"./FSSpan-c5b5f93b.js";import"./useSlots-78ee3d45.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./useColors-6201f155.js";import"./_commonjsHelpers-725317a4.js";import"./index-a0e5e2a3.js";import"./theme-fee57059.js";import"./VSpacer-8f10d0b5.js";import"./useRender-b44b777b.js";import"./index-00d0b77b.js";import"./transition-41c2ee15.js";import"./VLabel-3fa2f1ca.js";import"./VInput-73e9b49a.js";import"./locale-f0128dd0.js";import"./proxiedModel-ef310637.js";import"./VIcon-9f1a137c.js";import"./color-69562b87.js";import"./tag-58633b3a.js";import"./density-99305267.js";import"./dimensions-60fb7050.js";import"./loader-16a3b845.js";import"./VProgressCircular-a8c57eaa.js";import"./resizeObserver-5af66ffc.js";import"./anchor-3e311b48.js";import"./rounded-aeb398ab.js";import"./VDefaultsProvider-4480b636.js";import"./forwardRefs-e658ad70.js";import"./FSButton-6b0685b3.js";import"./FSClickable-00bc2ab2.js";import"./FSCard-23b564db.js";import"./css-73f1b6e3.js";import"./FSIcon-08483052.js";import"./useRules-14fb7f63.js";import"./index-bd033a0f.js";import"./useTranslations-df2010ef.js";import"./FSDialogMenu-a98f6da7.js";import"./VDialog-8d870cf0.js";import"./VOverlay-080218d9.js";import"./display-eddfdf3b.js";import"./lazy-927b6a5f.js";import"./router-69d8d382.js";import"./scopeId-de91819b.js";import"./FSRadioGroup-39907278.js";import"./VSelectionControl-8efa9c46.js";import"./index-8cb030a7.js";import"./FSToggleSet-e1e3b1e0.js";import"./FSSlideGroup-0176bc8d.js";import"./uuid-08309875.js";import"./VSlideGroup-4741a491.js";import"./goto-b83004ce.js";import"./group-03874e1e.js";import"./FSWrapGroup-d7bfa2ed.js";import"./FSCheckbox-7bc44d7a.js";import"./FSFadeOut-649e8ed5.js";import"./FSLoader-404ee90e.js";import"./elevation-e7de2c09.js";import"./VSelect-46cfbf6f.js";import"./VMenu-75bfc7ff.js";import"./ssrBoot-a25f980b.js";import"./border-5994344b.js";import"./VImg-4aa69f50.js";import"./VDivider-d8f9947c.js";import"./filter-6a45c8c8.js";import"./useAppTimeZone-7082f171.js";const c=["Alpha","Beta","Charly","Delta","Echo","Foxtrot","Golf","Hotel","India","Juliett","Kilo","Lima","Mike","November","Oscar","Papa","Quebec","Romeo","Sierra","Tango","Uniform","Victor","Whiskey","X-ray","Yankee","Zulu"],De={title:"Foundation/Shared/Input fields/AutocompleteField",component:i,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},t={args:{args:{items:Array.from(Array(30).keys()).map(e=>({id:e.toString(),label:`Option ${e+1}`})),value1:null,value2:["0","1","2"],value3:"2",value4:"2"}},render:(e,{argTypes:o})=>({components:{FSAutocompleteField:i,FSCol:p},props:Object.keys(o),setup(){return{...e}},template:`
+import{F as i}from"./FSAutocompleteField-612f5788.js";import{F as u}from"./FSForm-6f3485fc.js";import{_ as p}from"./FSCol-044a4f0a.js";import{_ as g}from"./FSRow-0f15051e.js";import{A as v}from"./rules-de67e007.js";import"./vue.esm-bundler-1de4ab84.js";import"./FSSearchField-3ae9dd15.js";import"./FSTextField-5eb8ba7e.js";import"./VField-c7605df9.js";import"./FSSpan-c5b5f93b.js";import"./useSlots-78ee3d45.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./useColors-6201f155.js";import"./_commonjsHelpers-725317a4.js";import"./index-a0e5e2a3.js";import"./theme-fee57059.js";import"./VSpacer-8f10d0b5.js";import"./useRender-b44b777b.js";import"./index-00d0b77b.js";import"./transition-41c2ee15.js";import"./VLabel-3fa2f1ca.js";import"./VInput-73e9b49a.js";import"./locale-f0128dd0.js";import"./proxiedModel-ef310637.js";import"./VIcon-9f1a137c.js";import"./color-69562b87.js";import"./tag-58633b3a.js";import"./density-99305267.js";import"./dimensions-60fb7050.js";import"./loader-16a3b845.js";import"./VProgressCircular-a8c57eaa.js";import"./resizeObserver-5af66ffc.js";import"./anchor-3e311b48.js";import"./rounded-aeb398ab.js";import"./VDefaultsProvider-4480b636.js";import"./forwardRefs-e658ad70.js";import"./FSButton-6b0685b3.js";import"./FSClickable-00bc2ab2.js";import"./FSCard-23b564db.js";import"./css-73f1b6e3.js";import"./FSIcon-08483052.js";import"./useRules-14fb7f63.js";import"./index-bd033a0f.js";import"./useTranslations-df2010ef.js";import"./FSDialogMenu-a98f6da7.js";import"./VDialog-8d870cf0.js";import"./VOverlay-080218d9.js";import"./display-eddfdf3b.js";import"./lazy-927b6a5f.js";import"./router-69d8d382.js";import"./scopeId-de91819b.js";import"./FSRadioGroup-39907278.js";import"./VSelectionControl-8efa9c46.js";import"./index-8cb030a7.js";import"./FSToggleSet-e1e3b1e0.js";import"./FSSlideGroup-0176bc8d.js";import"./uuid-08309875.js";import"./VSlideGroup-4741a491.js";import"./goto-b83004ce.js";import"./group-03874e1e.js";import"./FSWrapGroup-d7bfa2ed.js";import"./FSCheckbox-7bc44d7a.js";import"./FSFadeOut-649e8ed5.js";import"./FSLoader-404ee90e.js";import"./elevation-e7de2c09.js";import"./VSelect-46cfbf6f.js";import"./VMenu-75bfc7ff.js";import"./ssrBoot-a25f980b.js";import"./border-5994344b.js";import"./VImg-4aa69f50.js";import"./VDivider-d8f9947c.js";import"./filter-6a45c8c8.js";import"./useAppTimeZone-7082f171.js";const c=["Alpha","Beta","Charly","Delta","Echo","Foxtrot","Golf","Hotel","India","Juliett","Kilo","Lima","Mike","November","Oscar","Papa","Quebec","Romeo","Sierra","Tango","Uniform","Victor","Whiskey","X-ray","Yankee","Zulu"],De={title:"Foundation/Shared/Input fields/AutocompleteField",component:i,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},t={args:{args:{items:Array.from(Array(30).keys()).map(e=>({id:e.toString(),label:`Option ${e+1}`})),value1:null,value2:["0","1","2"],value3:"2",value4:"2"}},render:(e,{argTypes:o})=>({components:{FSAutocompleteField:i,FSCol:p},props:Object.keys(o),setup(){return{...e}},template:`
     <FSCol>
       <FSAutocompleteField
         label="Autocomplete"
         :items="args.items"
-        :disableToggleSet="true"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -11,7 +10,6 @@ import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSFor
         label="Multiple select"
         :items="args.items"
         :multiple="true"
-        :disableToggleSet="true"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -19,7 +17,6 @@ import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSFor
         label="Required select, with description"
         description="Description for this field"
         :required="true"
-        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value3"
       />
@@ -28,15 +25,14 @@ import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSFor
         label="Uneditable select, with description"
         description="Uneditable description"
         :editable="false"
-        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteField
-        label="With toggle set enable with treshold at 8"
-        :toggleSetTreshold="8"
+        label="With toggle set enabled"
         :items="args.items"
+        :toggleSet="true"
         v-model="args.value5"
       />
     </FSCol>`})},r={args:{args:{valid:!1,items:Array.from(Array(5).keys()).map(e=>({id:e.toString(),label:`Option ${c[e]}`})),value1:null,value2:null,value3:null,value4:null,rules:v}},render:(e,{argTypes:o})=>({components:{FSForm:u,FSAutocompleteField:i,FSCol:p,FSRow:g},props:Object.keys(o),setup(){return{...e}},template:`
@@ -116,7 +112,6 @@ import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSFor
       <FSAutocompleteField
         label="Autocomplete"
         :items="args.items"
-        :disableToggleSet="true"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -124,7 +119,6 @@ import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSFor
         label="Multiple select"
         :items="args.items"
         :multiple="true"
-        :disableToggleSet="true"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -132,7 +126,6 @@ import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSFor
         label="Required select, with description"
         description="Description for this field"
         :required="true"
-        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value3"
       />
@@ -141,15 +134,14 @@ import{F as i}from"./FSAutocompleteField-326a230c.js";import{F as u}from"./FSFor
         label="Uneditable select, with description"
         description="Uneditable description"
         :editable="false"
-        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteField
-        label="With toggle set enable with treshold at 8"
-        :toggleSetTreshold="8"
+        label="With toggle set enabled"
         :items="args.items"
+        :toggleSet="true"
         v-model="args.value5"
       />
     </FSCol>\`
