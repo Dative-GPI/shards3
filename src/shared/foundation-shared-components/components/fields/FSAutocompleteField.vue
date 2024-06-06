@@ -174,6 +174,7 @@
           :validateOn="validateOn"
           :modelValue="$props.modelValue"
           @update:modelValue="onUpdate"
+          @click="onClick"
           @blur="blurred = true"
           v-model:search="search"
           v-bind="$attrs"
@@ -537,32 +538,38 @@ export default defineComponent({
     };
 
     const onRadioChange = (value: any) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
       dialog.value = false;
     };
 
     const onCheckboxChange = (value: any) => {
       if (Array.isArray(props.modelValue)) {
         if (props.modelValue.includes(value)) {
-          emit('update:modelValue', props.modelValue.filter((item: any) => item !== value));
+          emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
         }
         else {
-          emit('update:modelValue', [...props.modelValue, value]);
+          emit("update:modelValue", [...props.modelValue, value]);
         }
       }
       else {
         if (props.modelValue === value) {
-          emit('update:modelValue', []);
+          emit("update:modelValue", []);
         }
         else {
-          emit('update:modelValue', [props.modelValue, value]);
+          emit("update:modelValue", [props.modelValue, value]);
         }
       }
     };
 
     const onUpdate = (value: string[] | string) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
     };
+
+    const onClick = () => {
+      search.value = "";
+      emit("update:search", search.value);
+      emit("update:modelValue", null);
+    }
 
     watch(search, () => {
       emit("update:search", search.value);
@@ -590,7 +597,8 @@ export default defineComponent({
       onCheckboxChange,
       mobileItemProps,
       onRadioChange,
-      onUpdate
+      onUpdate,
+      onClick
     };
   }
 });
