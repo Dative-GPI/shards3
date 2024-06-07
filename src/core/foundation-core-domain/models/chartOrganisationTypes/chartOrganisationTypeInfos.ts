@@ -71,6 +71,6 @@ export interface ChartOrganisationTypeInfosDTO {
 
 export interface ChartOrganisationTypeFilters {
     modelsIds?: string[] | null;
-    plotPer?: PlotPer;
+    plotPer?: PlotPer | null;
     search?: string | null;
 }
