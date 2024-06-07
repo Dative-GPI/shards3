@@ -38,6 +38,19 @@ export const Variations: Story = {
             return 1;
           }
         }
+      },
+      customSortRaws: {
+        'none': (a: any, b: any) => {
+          if ((a?.id == null && b?.id == null)) {
+            return 0;
+          }
+          if (a?.id == null || parseFloat(a.id) < parseFloat(b.id)) {
+            return -1;
+          }
+          if (b?.id == null || parseFloat(a.id) > parseFloat(b.id)) {
+            return 1;
+          }
+        }
       }
     }
   },
@@ -67,6 +80,7 @@ export const Variations: Story = {
           :rowColor="getColor"
           :showSelect="true"
           :customSorts="args.customSorts"
+          :customSortRaws="args.customSortRaws"
           rowGap="4px"
           @click:row="args.clickRow"
           v-model="args.value"
@@ -77,6 +91,9 @@ export const Variations: Story = {
               :editable="false"
               :tags="item.tags"
             />
+          </template>
+          <template #item.none="{ item }">
+            {{ item.id }}
           </template>
           <template #item.tile="{ item, toggleSelect }">
             <FSGroupTileUI

@@ -60,6 +60,11 @@ export default defineComponent({
       type: Object as PropType<{ [key: string]: any }>,
       required: false,
       default: () => ({})
+    },
+    customSortRaws: {
+      type: Object as PropType<{ [key: string]: any }>,
+      required: false,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -84,7 +89,8 @@ export default defineComponent({
       return table.value.headers.map(header => {
         return {
           ...header,
-          sort: header.value && props.customSorts[header.value] || null 
+          sort: header.value && props.customSorts[header.value] || null,
+          sortRaw: header.value && props.customSortRaws[header.value] || null 
         }
       })
     });
