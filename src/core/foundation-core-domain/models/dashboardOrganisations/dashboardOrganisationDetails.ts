@@ -1,9 +1,10 @@
+import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
+
 import { DashboardOrganisationInfos, DashboardOrganisationInfosDTO } from "./dashboardOrganisationInfos";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
-import { AutoRefresh } from "../enums/dashboardEnums";
 
 export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
     path: PathCrumb[];
