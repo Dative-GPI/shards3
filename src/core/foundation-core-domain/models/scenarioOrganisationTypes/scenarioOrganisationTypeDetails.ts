@@ -1,11 +1,10 @@
-import { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
+import { AutoRefresh, ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
 
 import { ScenarioOrganisationTypeInfos, ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
 import { CreateTimeRangeDTO, TimeRange, TimeRangeDTO } from "../shared/timeRange";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
-import { AutoRefresh } from "../enums/dashboardEnums";
 
 export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInfos {
     groupByIds: string[];

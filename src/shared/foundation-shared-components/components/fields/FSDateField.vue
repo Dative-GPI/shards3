@@ -19,7 +19,6 @@
         :modelValue="epochToLongDateFormat($props.modelValue)"
         @update:modelValue="onClear"
         @click="openMobileOverlay"
-        @blur="blurred = true"
       >
         <template
           #prepend-inner
@@ -95,7 +94,6 @@
             :validationValue="$props.modelValue"
             :modelValue="epochToLongDateFormat($props.modelValue)"
             @update:modelValue="onClear"
-            @blur="blurred = true"
             v-bind="props"
           >
             <template
@@ -151,7 +149,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useBreakpoints, useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
@@ -216,30 +214,13 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages} = useRules();
     const { epochToLongDateFormat } = useAppTimeZone();
+    const { validateOn, getMessages} = useRules();
     const { isExtraSmall } = useBreakpoints();
-    const { getColors } = useColors();
 
     const dialog = ref(false);
     const menu = ref(false);
     const innerDate = ref<number | null>(props.modelValue);
-
-    const errors = getColors(ColorEnum.Error);
-    const lights = getColors(ColorEnum.Light);
-    const darks = getColors(ColorEnum.Dark);
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      if (!props.editable) {
-        return {
-          "--fs-date-field-color": lights.dark
-        };
-      }
-      return {
-        "--fs-date-field-color"      : darks.base,
-        "--fs-date-field-error-color": errors.base
-      };
-    });
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
@@ -267,9 +248,7 @@ export default defineComponent({
       ColorEnum,
       innerDate,
       messages,
-      blurred,
       dialog,
-      style,
       menu,
       epochToLongDateFormat,
       openMobileOverlay,

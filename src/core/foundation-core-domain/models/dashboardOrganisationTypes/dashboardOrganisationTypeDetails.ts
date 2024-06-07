@@ -1,8 +1,9 @@
+import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
+
 import { DashboardOrganisationTypeInfos, DashboardOrganisationTypeInfosDTO } from "./dashboardOrganisationTypeInfos";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
-import { AutoRefresh } from "../enums/dashboardEnums";
 
 export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeInfos {
     singleEntity: boolean;

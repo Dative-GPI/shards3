@@ -20,7 +20,6 @@
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
       @update:modelValue="$emit('update:modelValue', $event)"
-      @blur="blurred = true"
       v-bind="$attrs"
     >
       <template
@@ -116,7 +115,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
@@ -147,7 +146,6 @@ export default defineComponent({
       validateOn,
       ColorEnum,
       messages,
-      blurred,
       style
     };
   }

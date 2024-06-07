@@ -13,7 +13,7 @@ export const TextRules = {
     min: (min: number, message: string | undefined = undefined) => (value: string) => value.length >= min || (message ?? $tr("ui.rules.text-min", "Must be at least {0} characters", min.toString())),
     max: (max: number, message: string | undefined = undefined) => (value: string) => value.length <= max || (message ?? $tr("ui.rules.text-max", "Must be at most {0} characters", max.toString())),
     email: (message: string | undefined = undefined) => (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || (message ?? $tr("ui.rules.text-email", "Must be a valid email")),
-    phone: (message: string | undefined = undefined) => (value: string) => /^[+]?([0-9]+[ -]?)+$/.test(value) || (message ?? $tr("ui.rules.text-phone", "Must be a valid phone number")),
+    phone: (message: string | undefined = undefined) => (value: string) => /^[+]?([0-9]+[ -]?){7,}$/.test(value) || (message ?? $tr("ui.rules.text-phone", "Must be a valid phone number")),
     digit: (message: string | undefined = undefined) => (value: string) => /(?=.*\d)/.test(value) || (message ?? $tr("ui.rules.text-digit", "Must contain a digit")),
     uppercase: (message: string | undefined = undefined) => (value: string) => /(?=.*[A-Z])/.test(value) || (message ?? $tr("ui.rules.text-uppercase", "Must contain an uppercase letter")),
     lowercase: (message: string | undefined = undefined) => (value: string) => /(?=.*[a-z])/.test(value) || (message ?? $tr("ui.rules.text-lowercase", "Must contain a lowercase letter")),

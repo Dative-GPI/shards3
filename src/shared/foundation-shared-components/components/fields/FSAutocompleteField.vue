@@ -1,9 +1,19 @@
 <template>
-  <FSLoader
+  <template
     v-if="$props.loading"
-    width="100%"
-    :height="['40px', '36px']"
-  />
+  >
+    <FSCol>
+      <FSLoader
+        v-if="!$props.hideHeader"
+        variant="text-overline"
+      />
+      <FSLoader
+        v-if="$props.loading"
+        width="100%"
+        :height="['40px', '36px']"
+      />
+    </FSCol>
+  </template>
   <template
     v-else
   >
@@ -25,7 +35,6 @@
         :modelValue="mobileValue"
         @update:modelValue="$emit('update:modelValue', $event)"
         @click="openMobileOverlay"
-        @blur="blurred = true"
         v-bind="$attrs"
       >
         <template
@@ -123,7 +132,34 @@
     <template
       v-else
     >
+      <FSToggleField
+        v-if="$props.toggleSet"
+        :label="$props.label"
+        :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :items="$props.items"
+        :returnObject="$props.returnObject"
+        :required="$props.required"
+        :editable="$props.editable"
+        :multiple="$props.multiple"
+        :rules="$props.rules"
+        :validateOn="validateOn"
+        :modelValue="$props.modelValue"
+        @update:modelValue="onUpdate"
+        v-bind="$attrs"
+      >
+        <template
+          v-for="(_, name) in toggleSetSlots"
+          v-slot:[name]="slotData"
+        >
+          <slot
+            :name="`toggle-set-${name}`"
+            v-bind="slotData"
+          />
+        </template>
+      </FSToggleField>
       <FSBaseField
+        v-else
         :label="$props.label"
         :description="$props.description"
         :hideHeader="$props.hideHeader"
@@ -131,28 +167,7 @@
         :editable="$props.editable"
         :messages="messages"
       >
-        <FSToggleSet
-          v-if="$props.toggleSet"
-          variant="slide"
-          :values="$props.items"
-          :multiple="$props.multiple"
-          :rules="$props.rules"
-          :modelValue="$props.modelValue"
-          @update:modelValue="onUpdate"
-          v-bind="$attrs"
-        >
-          <template
-            v-for="(_, name) in toggleSetSlots"
-            v-slot:[name]="slotData"
-          >
-            <slot
-              :name="`toggle-set-${name}`"
-              v-bind="slotData"
-            />
-          </template>
-        </FSToggleSet>
         <v-autocomplete
-          v-else
           class="fs-autocomplete-field"
           variant="outlined"
           :menuIcon="null"
@@ -167,7 +182,6 @@
           :itemTitle="$props.itemTitle"
           :itemValue="$props.itemValue"
           :readonly="!$props.editable"
-          :loading="$props.loading"
           :clearable="$props.clearable && $props.editable && !!$props.modelValue"
           :returnObject="$props.returnObject"
           :rules="$props.rules"
@@ -175,7 +189,6 @@
           :modelValue="$props.modelValue"
           @update:modelValue="onUpdate"
           @click="onClick"
-          @blur="blurred = true"
           v-model:search="search"
           v-bind="$attrs"
         >
@@ -285,9 +298,9 @@ import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/found
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSearchField from "./FSSearchField.vue";
+import FSToggleField from "./FSToggleField.vue";
 import FSDialogMenu from "../FSDialogMenu.vue";
 import FSRadioGroup from "../FSRadioGroup.vue";
-import FSToggleSet from "../FSToggleSet.vue";
 import FSBaseField from "./FSBaseField.vue";
 import FSTextField from "./FSTextField.vue";
 import FSCheckbox from "../FSCheckbox.vue";
@@ -302,9 +315,9 @@ export default defineComponent({
   name: "FSAutocompleteField",
   components: {
     FSSearchField,
+    FSToggleField,
     FSDialogMenu,
     FSRadioGroup,
-    FSToggleSet,
     FSBaseField,
     FSTextField,
     FSCheckbox,
@@ -399,7 +412,7 @@ export default defineComponent({
   emits: ["update:modelValue", "update:search"],
   setup: (props, { emit }) => {
     const { isExtraSmall, isMobileSized } = useBreakpoints();
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -537,26 +550,59 @@ export default defineComponent({
       dialog.value = true;
     };
 
-    const onRadioChange = (value: any) => {
-      emit("update:modelValue", value);
+    const onRadioChange = (value: string | null) => {
+      if (props.returnObject) {
+        emit("update:modelValue", props.items.find((item: any) => item[props.itemValue] === value) ?? null);
+      }
+      else {
+        emit("update:modelValue", value);
+      }
       dialog.value = false;
     };
 
-    const onCheckboxChange = (value: any) => {
-      if (Array.isArray(props.modelValue)) {
-        if (props.modelValue.includes(value)) {
-          emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
+    const onCheckboxChange = (value: string) => {
+      if (props.returnObject) {
+        const item = props.items.find(item => item[props.itemValue] === value);
+        if (Array.isArray(props.modelValue)) {
+          if (props.modelValue.find(item => item[props.itemValue] === value)) {
+            emit("update:modelValue", props.modelValue.filter((item: any) => item[props.itemValue] !== value));
+          }
+          else {
+            if (item) {
+              emit("update:modelValue", [...props.modelValue, item]);
+            }
+          }
         }
         else {
-          emit("update:modelValue", [...props.modelValue, value]);
+          if (props.modelValue) {
+            if (props.modelValue[props.itemValue] === value) {
+              emit("update:modelValue", []);
+            }
+            else {
+              emit("update:modelValue", [props.modelValue, item]);
+            }
+          }
+          else {
+            emit("update:modelValue", [item]);
+          }
         }
       }
       else {
-        if (props.modelValue === value) {
-          emit("update:modelValue", []);
+        if (Array.isArray(props.modelValue)) {
+          if (props.modelValue.includes(value)) {
+            emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
+          }
+          else {
+            emit("update:modelValue", [...props.modelValue, value]);
+          }
         }
         else {
-          emit("update:modelValue", [props.modelValue, value]);
+          if (props.modelValue === value) {
+            emit("update:modelValue", []);
+          }
+          else {
+            emit("update:modelValue", [props.modelValue, value]);
+          }
         }
       }
     };
@@ -586,7 +632,6 @@ export default defineComponent({
       ColorEnum,
       listStyle,
       messages,
-      blurred,
       classes,
       dialog,
       height,

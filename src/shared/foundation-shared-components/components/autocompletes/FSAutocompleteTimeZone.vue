@@ -1,7 +1,6 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :customFilter="customFilter"
     :multiple="$props.multiple"
     :loading="loading"
     :items="timeZones"
@@ -128,10 +127,6 @@ export default defineComponent({
       return getManyTimeZones({ ...props.timeZoneFilters, search: search ?? undefined });
     };
 
-    const customFilter = (_: any, search: string, item: any): boolean => {
-      return item.raw.id.toLowerCase().includes(search.toLowerCase());
-    };
-
     const { toggleSet, search, init, onUpdate } = useAutocomplete(
       timeZones,
       [() => props.timeZoneFilters],
@@ -147,7 +142,6 @@ export default defineComponent({
       toggleSet,
       loading,
       search,
-      customFilter,
       onUpdate
     };
   }

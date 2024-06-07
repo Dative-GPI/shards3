@@ -18,7 +18,6 @@
         :modelValue="mobileValue"
         @update:modelValue="$emit('update:modelValue', $event)"
         @click="openMobileOverlay"
-        @blur="blurred = true"
         v-bind="$attrs"
       >
         <template
@@ -140,7 +139,6 @@
           :multiple="$props.multiple"
           :modelValue="$props.modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
-          @blur="blurred = true"
           v-bind="$attrs"
         >
           <template
@@ -346,7 +344,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { isExtraSmall } = useBreakpoints();
     const { getColors } = useColors();
 
@@ -450,26 +448,59 @@ export default defineComponent({
       dialog.value = true;
     };
 
-    const onRadioChange = (value: any) => {
-      emit('update:modelValue', value);
+    const onRadioChange = (value: string | null) => {
+      if (props.returnObject) {
+        emit("update:modelValue", props.items.find((item: any) => item[props.itemValue] === value) ?? null);
+      }
+      else {
+        emit("update:modelValue", value);
+      }
       dialog.value = false;
     };
 
-    const onCheckboxChange = (value: any) => {
-      if (Array.isArray(props.modelValue)) {
-        if (props.modelValue.includes(value)) {
-          emit('update:modelValue', props.modelValue.filter((item: any) => item !== value));
+    const onCheckboxChange = (value: string) => {
+      if (props.returnObject) {
+        const item = props.items.find(item => item[props.itemValue] === value);
+        if (Array.isArray(props.modelValue)) {
+          if (props.modelValue.find(item => item[props.itemValue] === value)) {
+            emit("update:modelValue", props.modelValue.filter((item: any) => item[props.itemValue] !== value));
+          }
+          else {
+            if (item) {
+              emit("update:modelValue", [...props.modelValue, item]);
+            }
+          }
         }
         else {
-          emit('update:modelValue', [...props.modelValue, value]);
+          if (props.modelValue) {
+            if (props.modelValue[props.itemValue] === value) {
+              emit("update:modelValue", []);
+            }
+            else {
+              emit("update:modelValue", [props.modelValue, item]);
+            }
+          }
+          else {
+            emit("update:modelValue", [item]);
+          }
         }
       }
       else {
-        if (props.modelValue === value) {
-          emit('update:modelValue', []);
+        if (Array.isArray(props.modelValue)) {
+          if (props.modelValue.includes(value)) {
+            emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
+          }
+          else {
+            emit("update:modelValue", [...props.modelValue, value]);
+          }
         }
         else {
-          emit('update:modelValue', [props.modelValue, value]);
+          if (props.modelValue === value) {
+            emit("update:modelValue", []);
+          }
+          else {
+            emit("update:modelValue", [props.modelValue, value]);
+          }
         }
       }
     };
@@ -482,7 +513,6 @@ export default defineComponent({
       ColorEnum,
       listStyle,
       messages,
-      blurred,
       dialog,
       height,
       style,
