@@ -1,7 +1,7 @@
 import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslation";
 import { ChartModelLabel, ChartModelLabelDTO } from "../charts/chartModelLabel";
 import { ApplicationScope } from "../enums/applicationEnums";
-import { ChartType } from "../enums/chartEnums";
+import { ChartType, PlotPer } from "../enums/chartEnums";
 
 export class ChartOrganisationInfos {
     id: string;
@@ -68,6 +68,6 @@ export interface ChartOrganisationInfosDTO {
 
 export interface ChartOrganisationFilters {
     modelsIds?: string[] | null;
-    plotPer?: number;
+    plotPer?: PlotPer;
     search?: string | null;
 }
