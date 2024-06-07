@@ -131,6 +131,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    type: {
+      type: Number as PropType<RoleType>,
+      required: false,
+      default: RoleType.None
+    },
     multiple: {
       type: Boolean,
       required: false,

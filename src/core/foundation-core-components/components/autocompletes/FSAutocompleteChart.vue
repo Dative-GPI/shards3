@@ -3,7 +3,7 @@
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :loading="loading"
-    :items="dashboards"
+    :items="charts"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
@@ -25,8 +25,8 @@
           {{ item.raw.label }}
         </FSSpan>
         <FSChip
-          :color="dashboardTypeColor(item.raw.type)"
-          :label="dashboardTypeLabel(item.raw.type)"
+          :color="chartOriginColor(item.raw.type)"
+          :label="chartOriginLabel(item.raw.type)"
           :editable="false"
         />
       </FSRow>
@@ -55,8 +55,8 @@
             {{ item.raw.label }}
           </FSSpan>
           <FSChip
-            :color="dashboardTypeColor(item.raw.type)"
-            :label="dashboardTypeLabel(item.raw.type)"
+            :color="chartOriginColor(item.raw.type)"
+            :label="chartOriginLabel(item.raw.type)"
             :editable="false"
           />
         </FSRow>
@@ -77,8 +77,8 @@
           #append
         >
           <FSChip
-            :color="dashboardTypeColor(props.item.type)"
-            :label="dashboardTypeLabel(props.item.type)"
+            :color="chartOriginColor(props.item.type)"
+            :label="chartOriginLabel(props.item.type)"
             :editable="false"
           />
         </template>
@@ -90,12 +90,11 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DashboardShallowFilters } from "@dative-gpi/foundation-core-domain/models";
-import { useDashboardOrganisations, useDashboardOrganisationTypes, useDashboardShallows } from "@dative-gpi/foundation-core-services/composables";
+import { ChartOrganisationFilters, ChartOrganisationTypeFilters, ChartOrigin } from "@dative-gpi/foundation-core-domain/models";
+import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { DashboardType } from "@dative-gpi/foundation-shared-domain/models";
 
-import { dashboardTypeColor, dashboardTypeLabel } from "../../utils";
+import { chartOriginColor, chartOriginLabel } from "../../utils";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
@@ -107,7 +106,7 @@ import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue
 
 
 export default defineComponent({
-  name: "FSAutocompleteDashboard",
+  name: "FSAutocompleteChart",
   components: {
     FSAutocompleteField,
     FSCheckbox,
@@ -118,18 +117,13 @@ export default defineComponent({
     FSRow
   },
   props: {
-    dashboardOrganisationTypeFilters: {
-      type: Object as PropType<DashboardOrganisationTypeFilters>,
+    chartOrganisationTypeFilters: {
+      type: Object as PropType<ChartOrganisationTypeFilters>,
       required: false,
       default: null
     },
-    dashboardOrganisationFilters: {
-      type: Object as PropType<DashboardOrganisationFilters>,
-      required: false,
-      default: null
-    },
-    dashboardShallowFilters: {
-      type: Object as PropType<DashboardShallowFilters>,
+    chartOrganisationFilters: {
+      type: Object as PropType<ChartOrganisationFilters>,
       required: false,
       default: null
     },
@@ -139,9 +133,9 @@ export default defineComponent({
       default: null
     },
     type: {
-      type: Number as PropType<DashboardType>,
+      type: Number as PropType<ChartOrigin>,
       required: false,
-      default: DashboardType.None
+      default: ChartOrigin.None
     },
     multiple: {
       type: Boolean,
@@ -156,34 +150,28 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:type"],
   setup(props, { emit }) {
-    const { getMany: getManyDashboardOrganisationTypes, fetching: fetchingDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
-    const { getMany: getManyDashboardOrganisations, fetching: fetchingDashboardOrganisations, entities: dashboardOrganisations } = useDashboardOrganisations();
-    const { getMany: getManyDashboardShallows, fetching: fetchingDashboardShallows, entities: dashboardShallows } = useDashboardShallows();
+    const { getMany: getManyChartOrganisationTypes, fetching: fetchingChartOrganisationTypes, entities: chartOrganisationTypes } = useChartOrganisationTypes();
+    const { getMany: getManyChartOrganisations, fetching: fetchingChartOrganisations, entities: chartOrganisations } = useChartOrganisations();
 
-    const dashboards = computed(() => {
-      return dashboardOrganisationTypes.value.map(rot => ({
+    const charts = computed(() => {
+      return chartOrganisationTypes.value.map(rot => ({
         id: rot.id,
         icon: rot.icon,
         label: rot.label,
-        type: DashboardType.OrganisationType
-      })).concat(dashboardOrganisations.value.map(ro => ({
+        type: ChartOrigin.OrganisationType
+      })).concat(chartOrganisations.value.map(ro => ({
         id: ro.id,
         icon: ro.icon,
         label: ro.label,
-        type: DashboardType.Organisation
-      }))).concat(dashboardShallows.value.map(rs => ({
-        id: rs.id,
-        icon: rs.icon,
-        label: rs.label,
-        type: DashboardType.Shallow
+        type: ChartOrigin.Organisation
       })));
     });
 
     const loading = computed((): boolean => {
-      return init.value && (fetchingDashboardOrganisationTypes.value || fetchingDashboardOrganisations.value || fetchingDashboardShallows.value);
+      return init.value && (fetchingChartOrganisationTypes.value || fetchingChartOrganisations.value);
     });
 
-    const innerUpdate = (value: Dashboard[] | Dashboard | null) => {
+    const innerUpdate = (value: Chart[] | Chart | null) => {
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
         emit("update:type", value.map(v => v.type));
@@ -196,15 +184,14 @@ export default defineComponent({
 
     const innerFetch = (search: string | null) => {
       return Promise.all([
-        getManyDashboardOrganisationTypes({ ...props.dashboardOrganisationTypeFilters, search: search ?? undefined }),
-        getManyDashboardOrganisations({ ...props.dashboardOrganisationFilters, search: search ?? undefined }),
-        getManyDashboardShallows({ ...props.dashboardShallowFilters, search: search ?? undefined })
+        getManyChartOrganisationTypes({ ...props.chartOrganisationTypeFilters, search: search ?? undefined }),
+        getManyChartOrganisations({ ...props.chartOrganisationFilters, search: search ?? undefined })
       ]);
     };
 
     const { toggleSet, search, init, onUpdate } = useAutocomplete(
-      dashboards,
-      [() => props.dashboardOrganisationTypeFilters, () => props.dashboardOrganisationFilters, () => props.dashboardShallowFilters],
+      charts,
+      [() => props.chartOrganisationTypeFilters, () => props.chartOrganisationFilters],
       emit,
       innerFetch,
       innerUpdate
@@ -214,18 +201,18 @@ export default defineComponent({
       toggleSet,
       loading,
       search,
-      dashboards,
-      dashboardTypeColor,
-      dashboardTypeLabel,
+      charts,
+      chartOriginColor,
+      chartOriginLabel,
       onUpdate
     };
   }
 });
 
-interface Dashboard {
+interface Chart {
   id: string;
   icon: string;
   label: string;
-  type: DashboardType;
+  type: ChartOrigin;
 }
 </script>
