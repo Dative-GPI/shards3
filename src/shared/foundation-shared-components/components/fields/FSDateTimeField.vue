@@ -19,7 +19,6 @@
         :modelValue="epochToLongTimeFormat($props.modelValue)"
         @update:modelValue="onClear"
         @click="openMobileOverlay"
-        @blur="blurred = true"
       >
         <template
           #prepend-inner
@@ -115,7 +114,6 @@
             :validationValue="$props.modelValue"
             :modelValue="epochToLongTimeFormat($props.modelValue)"
             @update:modelValue="onClear"
-            @blur="blurred = true"
             v-bind="props"
           >
             <template
@@ -197,7 +195,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from "vue";
 
-import { useBreakpoints, useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
@@ -267,9 +265,8 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getUserOffsetMillis, epochToLongTimeFormat } = useAppTimeZone();
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { isExtraSmall } = useBreakpoints();
-    const { getColors } = useColors();
 
     const dialog = ref(false);
     const menu = ref(false);
@@ -277,28 +274,12 @@ export default defineComponent({
     const innerDate = ref<number | null>(null);
     const innerTime = ref(0);
 
-    const errors = getColors(ColorEnum.Error);
-    const lights = getColors(ColorEnum.Light);
-    const darks = getColors(ColorEnum.Dark);
-
     if (props.modelValue) {
       // FSClock just gives two numbers without consideration for the time zone
       // We must adjust the time to the user's time zone
       innerTime.value = Math.floor((props.modelValue + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
       innerDate.value = props.modelValue - innerTime.value;
     }
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      if (!props.editable) {
-        return {
-          "--fs-date-field-color": lights.dark
-        };
-      }
-      return {
-        "--fs-date-field-color"      : darks.base,
-        "--fs-date-field-error-color": errors.base
-      };
-    });
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
@@ -334,9 +315,7 @@ export default defineComponent({
       innerDate,
       innerTime,
       messages,
-      blurred,
       dialog,
-      style,
       menu,
       tabs,
       epochToLongTimeFormat,

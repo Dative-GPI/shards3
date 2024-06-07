@@ -99,7 +99,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
@@ -150,7 +150,6 @@ export default defineComponent({
     return {
       validateOn,
       messages,
-      blurred,
       style,
       font,
       onToggle

@@ -1,9 +1,7 @@
 <template>
   <v-input
     class="fs-toggle-set"
-    ref="inputRef"
     :modelValue="$props.modelValue"
-    :rules="$props.rules"
   >
     <FSWrapGroup
       v-if="['wrap'].includes($props.variant)"
@@ -97,8 +95,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { FSToggle } from "@dative-gpi/foundation-shared-components/models";
+import { ColorBase, ColorEnum, FSToggle } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSlideGroup from "./FSSlideGroup.vue";
 import FSWrapGroup from "./FSWrapGroup.vue";
@@ -157,11 +154,6 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
-    errorColor: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Error
-    },
     padding: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
@@ -171,11 +163,6 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "8px"
-    },
-    rules: {
-      type: Array as PropType<any[]>,
-      required: false,
-      default: () => []
     },
     multiple: {
       type: Boolean,
@@ -194,9 +181,8 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup(props, { emit }) {    
     const toggleSetRef = ref(null);
-    const inputRef = ref(null);
 
     const getVariant = (value: FSToggle): "standard" | "full" | "icon" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
@@ -214,9 +200,6 @@ export default defineComponent({
       }
       if (!Array.isArray(props.modelValue) && props.modelValue === value.id) {
         return props.activeColor;
-      }
-      if (inputRef.value && (inputRef.value as any).errorMessages.length) {
-        return props.errorColor;
       }
       return props.buttonColor;
     };
@@ -302,7 +285,6 @@ export default defineComponent({
 
     return {
       toggleSetRef,
-      inputRef,
       getVariant,
       goToStart,
       getColor,

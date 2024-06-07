@@ -22,7 +22,7 @@ export default defineComponent({
       default: null
     },
     variant: {
-      type: String as PropType<"standard" | "lazy" | "submit">,
+      type: String as PropType<"standard" | "submit">,
       required: false,
       default: "submit"
     }
@@ -32,10 +32,9 @@ export default defineComponent({
     const formRef = ref<HTMLFormElement | null>(null);
     const submitted = ref(false);
 
-    const validateOn = computed((): "submit" | "blur" | "input"  => {
+    const validateOn = computed((): "submit" | "input"  => {
       switch (props.variant) {
         case "standard": return "input";
-        case "lazy":     return "blur";
         default:         return "submit";
       }
     });
@@ -72,10 +71,10 @@ export default defineComponent({
       validateOn,
       submitted,
       formRef,
-      reset,
-      validate,
+      resetValidation,
       onSubmit,
-      resetValidation
+      validate,
+      reset
     };
   }
 });
