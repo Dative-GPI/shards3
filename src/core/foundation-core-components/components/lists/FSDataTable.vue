@@ -1,6 +1,6 @@
 <template>
   <FSLoadDataTable
-    v-if="!initialized || gettingUserOrganisationTable"
+    v-if="gettingUserOrganisationTable"
   />
   <FSDataTableUI
     v-else
@@ -73,8 +73,6 @@ export default defineComponent({
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
 
-    const initialized = ref(false);
-
     const table = ref<FSDataTable | null>({
       headers: [],
       mode: "table",
@@ -118,7 +116,6 @@ export default defineComponent({
           };
         }
       }
-      initialized.value = true;
     };
 
     const updateHeaders = (value: FSDataTableColumn[]): void => {
@@ -193,7 +190,6 @@ export default defineComponent({
 
     return {
       gettingUserOrganisationTable,
-      initialized,
       headers,
       table,
       updateRowsPerPage,
