@@ -110,20 +110,20 @@
       <v-data-table
         v-if="!isExtraSmall"
         :selectStrategy="$props.singleSelect ? 'single' : 'all'"
-        :itemValue="$props.itemValue"
-        :showSelect="$props.showSelect"
-        :headers="extraHeaders.concat(innerHeaders)"
         :groupBy="$props.groupBy ? [$props.groupBy] : []"
+        :headers="extraHeaders.concat(innerHeaders)"
         :sortBy="innerSortBy ? [innerSortBy] : []"
-        :items="innerItems"
-        :fixedHeader="true"
-        :multiSort="false"
-        :hover="!$props.sortDraggable"
-        :style="style"
-        :row-props="rowProps"
-        :class="classes"
-        :page="innerPage"
         :itemsPerPage="innerRowsPerPage"
+        :showSelect="$props.showSelect"
+        :hover="!$props.sortDraggable"
+        :itemValue="$props.itemValue"
+        :rowProps="rowProps"
+        :fixedHeader="true"
+        :items="innerItems"
+        :multiSort="false"
+        :page="innerPage"
+        :class="classes"
+        :style="style"
         :modelValue="$props.modelValue"
         @auxclick:row="onClickLibrary.row"
         @click:row="onClickLibrary.row"
@@ -404,9 +404,9 @@
       <v-data-iterator
         v-else
         class="fs-data-table-iterator"
+        :itemsPerPage="innerRowsPerPage"
         :items="innerItems"
         :page="innerPage"
-        :itemsPerPage="innerRowsPerPage"
       >
         <template
           #default="{ items }"
@@ -644,7 +644,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, PropType, ref, Ref, Slot, watch } from "vue";
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, PropType, ref, Ref, Slot, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
@@ -1110,9 +1110,6 @@ export default defineComponent({
     const toggleFilter = (header: string, value: FSDataTableFilter[]): void => {
       filters.value[header] = value;
       emit("update:filters", filters.value);
-      // If a filter is hidden, the associated filter is reseted
-      resetable.value = Object.keys(filters.value)
-        .some((key) => filters.value[key].some((filter) => filter.hidden));
     };
 
     const resetFilter = (): void => {
@@ -1120,7 +1117,6 @@ export default defineComponent({
         filters.value[key] = filters.value[key].map((filter) => ({ ...filter, hidden: false }));
       }
       emit("update:filters", filters.value);
-      resetable.value = false;
     };
 
     const filterSlot = (header: FSDataTableColumn): string => {
@@ -1136,8 +1132,6 @@ export default defineComponent({
             innerColumn.hidden = value as boolean;
             if (value && filters.value[header.value!]) {
               filters.value[header.value!] = filters.value[header.value!].map((filter) => ({ ...filter, hidden: false }));
-              resetable.value = Object.keys(filters.value)
-                .some((key) => filters.value[key].some((filter) => filter.hidden));
               emit("update:filters", filters.value);
             }
             break;
@@ -1432,6 +1426,11 @@ export default defineComponent({
       innerPage.value = 1;
     });
 
+    watch(filters, () => {
+      resetable.value = Object.keys(filters.value)
+        .some((key) => filters.value[key].some((filter) => filter.hidden));
+    }, { deep: true });
+
     watch(innerMode, () => {
       emit("update:mode", innerMode.value);
       size.value = props.sizeIterator;
@@ -1450,8 +1449,18 @@ export default defineComponent({
       emit("update:rowsPerPage", innerRowsPerPage.value);
     });
 
-    watch([() => props.headers, () => props.items], () => {
+    watch(() => props.headers, () => {
       computeFilters();
+    });
+
+    watch(() => props.items, async () => {
+      computeFilters();
+      if (innerPage.value !== 1) {
+        const formerPage = innerPage.value;
+        innerPage.value = 1;
+        await nextTick();
+        innerPage.value = formerPage;
+      }
     });
 
     return {

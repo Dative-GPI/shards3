@@ -1,6 +1,6 @@
 <template>
   <FSLoadDataTable
-    v-if="gettingUserOrganisationTable"
+    v-if="!initialized || gettingUserOrganisationTable"
   />
   <FSDataTableUI
     v-else
@@ -33,8 +33,8 @@
 <script lang="ts">
 import { PropType, computed, defineComponent, onUnmounted, ref, watch } from "vue";
 
-import { useUserOrganisationTable, useUpdateUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
 import { FSDataTable, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
+import { useUserOrganisationTable, useUpdateUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
 import { useDebounce, useTables } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
@@ -73,6 +73,8 @@ export default defineComponent({
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
 
+    const initialized = ref(false);
+
     const table = ref<FSDataTable | null>({
       headers: [],
       mode: "table",
@@ -95,23 +97,28 @@ export default defineComponent({
       })
     });
 
-    const reset = (): void => {
-      if (getTable(props.tableCode)) {
-        table.value = getTable(props.tableCode);
+    const reset = async (): Promise<void> => {
+      const composableTable = getTable(props.tableCode);
+      if (composableTable) {
+        table.value = composableTable;
       }
-      else if (userOrganisationTable.value) {
-        table.value = {
-          headers: userOrganisationTable.value.columns,
-          sortBy: {
-            key: userOrganisationTable.value.sortByKey,
-            order: userOrganisationTable.value.sortByOrder
-          },
-          mode: userOrganisationTable.value.mode,
-          rowsPerPage: userOrganisationTable.value.rowsPerPage,
-          filters: {},
-          page: 1
-        };
+      else {
+        await getUserOrganisationTable(props.tableCode);
+        if (userOrganisationTable.value) {
+          table.value = {
+            headers: userOrganisationTable.value.columns,
+            sortBy: {
+              key: userOrganisationTable.value.sortByKey,
+              order: userOrganisationTable.value.sortByOrder
+            },
+            mode: userOrganisationTable.value.mode,
+            rowsPerPage: userOrganisationTable.value.rowsPerPage,
+            filters: {},
+            page: 1
+          };
+        }
       }
+      initialized.value = true;
     };
 
     const updateHeaders = (value: FSDataTableColumn[]): void => {
@@ -180,16 +187,13 @@ export default defineComponent({
 
     watch(() => props.tableCode, () => {
       if (props.tableCode) {
-        getUserOrganisationTable(props.tableCode);
+        reset();
       }
     }, { immediate: true });
 
-    watch(userOrganisationTable, () => {
-      reset();
-    });
-
     return {
       gettingUserOrganisationTable,
+      initialized,
       headers,
       table,
       updateRowsPerPage,

@@ -19,7 +19,7 @@ export const userTypeIcon = (type: UserType): string => {
   }
 };
 
-export const UserValidityLabel = (validity: UserValidityState): string => {
+export const userValidityLabel = (validity: UserValidityState): string => {
   switch (validity) {
     case UserValidityState.InvitationNotSent: return $tr("ui.user-validity.invitation-not-sent", "Invitation not sent");
     case UserValidityState.InvitationSent:    return $tr("ui.user-validity.invitation-sent", "Invitation sent");
