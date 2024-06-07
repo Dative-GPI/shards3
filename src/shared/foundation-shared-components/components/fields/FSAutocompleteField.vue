@@ -38,6 +38,15 @@
           />
         </template>
         <template
+          v-if="mobileSelectionProps"
+          #prepend-inner
+        >
+          <slot
+            name="selection-mobile"
+            v-bind="mobileSelectionProps"
+          />
+        </template>
+        <template
           #append-inner
         >
           <slot
@@ -66,32 +75,47 @@
             :height="height"
           >
             <FSCol
+              v-if="$props.multiple"
               gap="12px"
             >
-              <template
-                v-if="$props.multiple"
+              <FSRow
+                v-for="(item, index) in searchItems"
+                :key="index"
               >
-                <FSRow
-                  v-for="(item, index) in searchItems"
-                  :key="index"
+                <FSCheckbox
+                  :label="item[$props.itemTitle]"
+                  :editable="$props.editable"
+                  :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
+                  @update:modelValue="() => onCheckboxChange(item[$props.itemValue])"
                 >
-                  <FSCheckbox
-                    :label="item[$props.itemTitle]"
-                    :editable="$props.editable"
-                    :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
-                    @update:modelValue="() => onCheckboxChange(item[$props.itemValue])"
-                  />
-                </FSRow>
-              </template>
-              <FSRadioGroup
-                v-else
-                gap="12px"
-                :values="searchItems.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle] }))"
-                :modelValue="$props.modelValue"
-                :editable="$props.editable"
-                @update:modelValue="onRadioChange"
-              />
+                  <template
+                    #label="{ font }"
+                  >
+                    <slot
+                      name="item-label"
+                      v-bind="mobileItemProps(item, font)"
+                    />
+                  </template>
+                </FSCheckbox>
+              </FSRow>
             </FSCol>
+            <FSRadioGroup
+              v-else
+              gap="12px"
+              :values="searchItems.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle], item: item  }))"
+              :editable="$props.editable"
+              :modelValue="$props.modelValue"
+              @update:modelValue="onRadioChange"
+            >
+              <template
+                #label="{ item, font }"
+              >
+                <slot
+                  name="item-label"
+                  v-bind="mobileItemProps(item, font)"
+                />
+              </template>
+            </FSRadioGroup>
           </FSFadeOut>
         </template>
       </FSDialogMenu>
@@ -135,6 +159,7 @@
           :style="style"
           :listProps="listStyle"
           :class="classes"
+          :persistentClear="true"
           :hideDetails="true"
           :items="$props.items"
           :autoSelectFirst="true"
@@ -149,31 +174,11 @@
           :validateOn="validateOn"
           :modelValue="$props.modelValue"
           @update:modelValue="onUpdate"
+          @click="onClick"
           @blur="blurred = true"
           v-model:search="search"
           v-bind="$attrs"
         >
-          <template
-            #item="{ props, item }"
-          >
-            <v-list-item
-              v-bind="{ ...props, title: '' }"
-            >
-              <FSRow
-                align="center-left"
-                :wrap="false"
-              >
-                <FSCheckbox
-                  v-if="$props.multiple"
-                  :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
-                  @click="props.onClick"
-                />
-                <FSSpan>
-                  {{ item.raw[$props.itemTitle] }}
-                </FSSpan>
-              </FSRow>
-            </v-list-item>
-          </template>
           <template
             v-for="(_, name) in autocompleteSlots"
             v-slot:[name]="slotData"
@@ -182,6 +187,50 @@
               :name="`autocomplete-${name}`"
               v-bind="slotData"
             />
+          </template>
+          <template
+            #item="{ props, item }"
+          >
+            <v-list-item
+              v-bind="{ ...props, title: '' }"
+            >
+              <FSRow
+                align="center-left"
+              >
+                <FSCheckbox
+                  v-if="$props.multiple"
+                  :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
+                  @click="props.onClick"
+                >
+                  <template
+                    #label="{ font }"
+                  >
+                    <slot
+                      name="item-label"
+                      v-bind="{ item, font }"
+                    >
+                      <FSSpan
+                        :font="font"
+                      >
+                        {{ item.raw[$props.itemTitle] }}
+                      </FSSpan>
+                    </slot>
+                  </template>
+                </FSCheckbox>
+                <FSSpan
+                  v-else
+                >
+                  <slot
+                    name="item-label"
+                    v-bind="{ item }"
+                  >
+                    <FSSpan>
+                      {{ item.raw[$props.itemTitle] }}
+                    </FSSpan>
+                  </slot>
+                </FSSpan>
+              </FSRow>
+            </v-list-item>
           </template>
           <template
             #clear
@@ -447,6 +496,40 @@ export default defineComponent({
       return null;
     });
 
+    const mobileSelectionProps = computed((): any | null => {
+      const item = props.items.find((item: any) => item[props.itemValue] === props.modelValue);
+      if (item) {
+        return {
+          item: {
+            title: "",
+            value: item[props.itemValue],
+            props: {
+              title: item[props.itemTitle],
+              value: item[props.itemValue]
+            },
+            raw: { ...item }
+          },
+          font: "text-body"
+        };
+      }
+      return null;
+    });
+
+    const mobileItemProps = (item: any, font: "text-body" | "text-button" | null): any => {
+      return {
+        item: {
+          title: "",
+          value: item[props.itemValue],
+          props: {
+            title: item[props.itemTitle],
+            value: item[props.itemValue]
+          },
+          raw: { ...item }
+        },
+        font
+      }
+    };
+
     const openMobileOverlay = () => {
       if (!props.editable) {
         return;
@@ -455,38 +538,45 @@ export default defineComponent({
     };
 
     const onRadioChange = (value: any) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
       dialog.value = false;
     };
 
     const onCheckboxChange = (value: any) => {
       if (Array.isArray(props.modelValue)) {
         if (props.modelValue.includes(value)) {
-          emit('update:modelValue', props.modelValue.filter((item: any) => item !== value));
+          emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
         }
         else {
-          emit('update:modelValue', [...props.modelValue, value]);
+          emit("update:modelValue", [...props.modelValue, value]);
         }
       }
       else {
         if (props.modelValue === value) {
-          emit('update:modelValue', []);
+          emit("update:modelValue", []);
         }
         else {
-          emit('update:modelValue', [props.modelValue, value]);
+          emit("update:modelValue", [props.modelValue, value]);
         }
       }
     };
 
     const onUpdate = (value: string[] | string) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
     };
+
+    const onClick = () => {
+      search.value = "";
+      emit("update:search", search.value);
+      emit("update:modelValue", null);
+    }
 
     watch(search, () => {
       emit("update:search", search.value);
     });
 
     return {
+      mobileSelectionProps,
       autocompleteSlots,
       toggleSetSlots,
       isExtraSmall,
@@ -505,8 +595,10 @@ export default defineComponent({
       style,
       openMobileOverlay,
       onCheckboxChange,
+      mobileItemProps,
       onRadioChange,
-      onUpdate
+      onUpdate,
+      onClick
     };
   }
 });

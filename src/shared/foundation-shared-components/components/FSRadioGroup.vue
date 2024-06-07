@@ -5,15 +5,26 @@
   >
     <FSRadio
       v-for="(item, index) in $props.values"
-      :key="index"
-      :label="item.label"
-      :description="item.description"
       :selected="isSelected(item.value)"
-      :color="$props.color"
+      :description="item.description"
       :editable="$props.editable"
+      :color="$props.color"
+      :label="item.label"
+      :item="item.item"
+      :key="index"
       :modelValue="item.value"
       @update:modelValue="onToggle"
-    />
+    >
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
+      </template>
+    </FSRadio>
   </FSCol>
 </template>
 
@@ -38,7 +49,7 @@ export default defineComponent({
       default: "8px"
     },
     values: {
-      type: Array as PropType<{ value: string | boolean | number, label?: string, description?: string }[]>,
+      type: Array as PropType<{ value: string | boolean | number, label?: string, description?: string, item: any | null }[]>,
       required: true,
       default: null
     },

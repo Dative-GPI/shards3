@@ -31,6 +31,15 @@
           />
         </template>
         <template
+          v-if="mobileSelectionProps"
+          #prepend-inner
+        >
+          <slot
+            name="selection-mobile"
+            v-bind="mobileSelectionProps"
+          />
+        </template>
+        <template
           #append-inner
         >
           <slot
@@ -68,17 +77,35 @@
                   :editable="$props.editable"
                   :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
                   @update:modelValue="() => onCheckboxChange(item[$props.itemValue])"
-                />
+                >
+                  <template
+                    #label="{ font }"
+                  >
+                    <slot
+                      name="item-label"
+                      v-bind="mobileItemProps(item, font)"
+                    />
+                  </template>
+                </FSCheckbox>
               </FSRow>
             </FSCol>
             <FSRadioGroup
               v-else
               gap="12px"
-              :values="$props.items.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle] }))"
-              :modelValue="$props.modelValue"
+              :values="$props.items.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle], item: item }))"
               :editable="$props.editable"
+              :modelValue="$props.modelValue"
               @update:modelValue="onRadioChange"
-            />
+            >
+              <template
+                #label="{ item, font }"
+              >
+                <slot
+                  name="item-label"
+                  v-bind="mobileItemProps(item, font)"
+                />
+              </template>
+            </FSRadioGroup>
           </FSFadeOut>
         </template>
       </FSDialogMenu>
@@ -100,6 +127,7 @@
           :menuIcon="null"
           :style="style"
           :listProps="listStyle"
+          :persistentClear="true"
           :hideDetails="true"
           :items="$props.items"
           :itemTitle="$props.itemTitle"
@@ -116,6 +144,15 @@
           v-bind="$attrs"
         >
           <template
+            v-for="(_, name) in $slots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="name"
+              v-bind="slotData"
+            />
+          </template>
+          <template
             #item="{ props, item }"
           >
             <v-list-item
@@ -126,23 +163,38 @@
               >
                 <FSCheckbox
                   v-if="$props.multiple"
-                  :modelValue="$props.modelValue?.includes(item.raw.id)"
+                  :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
                   @click="props.onClick"
-                />
-                <FSSpan>
-                  {{ item.raw.label }}
+                >
+                  <template
+                    #label="{ font }"
+                  >
+                    <slot
+                      name="item-label"
+                      v-bind="{ item, font }"
+                    >
+                      <FSSpan
+                        :font="font"
+                      >
+                        {{ item.raw[$props.itemTitle] }}
+                      </FSSpan>
+                    </slot>
+                  </template>
+                </FSCheckbox>
+                <FSSpan
+                  v-else
+                >
+                  <slot
+                    name="item-label"
+                    v-bind="{ item }"
+                  >
+                    <FSSpan>
+                      {{ item.raw[$props.itemTitle] }}
+                    </FSSpan>
+                  </slot>
                 </FSSpan>
               </FSRow>
             </v-list-item>
-          </template>
-          <template
-            v-for="(_, name) in $slots"
-            v-slot:[name]="slotData"
-          >
-            <slot
-              :name="name"
-              v-bind="slotData"
-            />
           </template>
           <template
             #clear
@@ -172,6 +224,17 @@
                 :color="ColorEnum.Dark"
               />
             </slot>
+          </template>
+          <template
+            #no-data
+          >
+            <FSRow
+              padding="17px"
+            >
+              <FSSpan>
+                {{ $tr("ui.common.no-data", "No data") }}
+              </FSSpan>
+            </FSRow>
           </template>
         </v-select>
       </FSBaseField>
@@ -346,6 +409,40 @@ export default defineComponent({
       return null;
     });
 
+    const mobileSelectionProps = computed((): any | null => {
+      const item = props.items.find((item: any) => item[props.itemValue] === props.modelValue);
+      if (item) {
+        return {
+          item: {
+            title: "",
+            value: item[props.itemValue],
+            props: {
+              title: item[props.itemTitle],
+              value: item[props.itemValue]
+            },
+            raw: { ...item }
+          },
+          font: "text-body"
+        };
+      }
+      return null;
+    });
+
+    const mobileItemProps = (item: any, font: "text-body" | "text-button" | null): any => {
+      return {
+        item: {
+          title: "",
+          value: item[props.itemValue],
+          props: {
+            title: item[props.itemTitle],
+            value: item[props.itemValue]
+          },
+          raw: { ...item }
+        },
+        font
+      }
+    };
+
     const openMobileOverlay = () => {
       if (!props.editable) {
         return;
@@ -378,6 +475,7 @@ export default defineComponent({
     };
 
     return {
+      mobileSelectionProps,
       isExtraSmall,
       mobileValue,
       validateOn,
@@ -390,6 +488,7 @@ export default defineComponent({
       style,
       openMobileOverlay,
       onCheckboxChange,
+      mobileItemProps,
       onRadioChange
     };
   }

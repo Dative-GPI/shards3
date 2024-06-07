@@ -45,7 +45,6 @@ export const Variations: Story = {
       <FSAutocompleteField
         label="Autocomplete"
         :items="args.items"
-        :disableToggleSet="true"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -53,7 +52,6 @@ export const Variations: Story = {
         label="Multiple select"
         :items="args.items"
         :multiple="true"
-        :disableToggleSet="true"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
@@ -61,7 +59,6 @@ export const Variations: Story = {
         label="Required select, with description"
         description="Description for this field"
         :required="true"
-        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value3"
       />
@@ -70,15 +67,14 @@ export const Variations: Story = {
         label="Uneditable select, with description"
         description="Uneditable description"
         :editable="false"
-        :disableToggleSet="true"
         :items="args.items"
         v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteField
-        label="With toggle set enable with treshold at 8"
-        :toggleSetTreshold="8"
+        label="With toggle set enabled"
         :items="args.items"
+        :toggleSet="true"
         v-model="args.value5"
       />
     </FSCol>`
@@ -119,7 +115,6 @@ export const Rules: Story = {
           <FSAutocompleteField
           label="Rules: required"
           :rules="[args.rules.required()]"
-          :disableToggleSet="true"
           :items="args.items"
           :required="true"
           v-model="args.value1"
@@ -128,7 +123,7 @@ export const Rules: Story = {
         <FSAutocompleteField
           label="Rules: min 2 options"
           :rules="[args.rules.min(2)]"
-          :disableToggleSet="true"
+          :toggleSet="true"
           :items="args.items"
           :multiple="true"
           :required="true"
@@ -138,7 +133,6 @@ export const Rules: Story = {
         <FSAutocompleteField
           label="Rules: required & min 2 options & max 3 options"
           :rules="[args.rules.required(), args.rules.min(2), args.rules.max(3)]"
-          :disableToggleSet="true"
           :items="args.items"
           :multiple="true"
           :required="true"

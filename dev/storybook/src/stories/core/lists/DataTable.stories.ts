@@ -5,6 +5,7 @@ import FSDataTable from "@dative-gpi/foundation-core-components/components/lists
 import FSGroupTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSGroupTileUI.vue";
 import FSSlideGroup from '@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue';
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
 const meta = {
   title: 'Foundation/Core/Lists/DataTable',
@@ -55,7 +56,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSDataTable, FSGroupTileUI, FSSlideGroup, FSTagGroup },
+    components: { FSDataTable, FSGroupTileUI, FSSlideGroup, FSTagGroup, FSButton },
     props: Object.keys(argTypes),
     setup() {
       const getColor = (row: any) => {
@@ -82,9 +83,13 @@ export const Variations: Story = {
           :customSorts="args.customSorts"
           :customSortRaws="args.customSortRaws"
           rowGap="4px"
-          @click:row="args.clickRow"
           v-model="args.value"
         >
+          <template #item.code="{ item }">
+            <FSButton
+              :label="item.code"
+            />
+          </template>
           <template #item.tags="{ item }">
             <FSTagGroup
               variant="slide"
