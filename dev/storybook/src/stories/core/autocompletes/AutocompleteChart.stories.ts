@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSAutocompleteDashboard from "@dative-gpi/foundation-core-components/components/autocompletes/FSAutocompleteDashboard.vue";
+import FSAutocompleteChart from "@dative-gpi/foundation-core-components/components/autocompletes/FSAutocompleteChart.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
-  title: 'Foundation/Core/Autocompletes/AutocompleteDashboard',
-  component: FSAutocompleteDashboard,
+  title: 'Foundation/Core/Autocompletes/AutocompleteChart',
+  component: FSAutocompleteChart,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   },
-} satisfies Meta<typeof FSAutocompleteDashboard>;
+} satisfies Meta<typeof FSAutocompleteChart>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -25,21 +25,21 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSAutocompleteDashboard, FSCol },
+    components: { FSAutocompleteChart, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
     <FSCol>
-      <FSAutocompleteDashboard
-        label="Dashboard"
+      <FSAutocompleteChart
+        label="Chart"
         v-model="args.value1"
         v-model:type="args.type1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSAutocompleteDashboard
-        label="Dashboard with toggleset disabled"
+      <FSAutocompleteChart
+        label="Chart with toggleset disabled"
         :toggleSetDisabled="true"
         v-model="args.value2"
         v-model:type="args.type2"

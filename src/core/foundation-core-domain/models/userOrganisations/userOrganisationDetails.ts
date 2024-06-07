@@ -1,7 +1,6 @@
-import { PermissionInfos, PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { DashboardType, PermissionInfos, PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 import { UserOrganisationInfos, UserOrganisationInfosDTO } from "./userOrganisationInfos";
-import { DashboardType } from "../enums/dashboardEnums";
 import { RoleType } from "../enums/roleEnums";
 
 export class UserOrganisationDetails extends UserOrganisationInfos {
