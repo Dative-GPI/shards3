@@ -7,6 +7,8 @@ export * from "./chartModelLabel";
 export * from "./chartModifier";
 export * from "./chartOperand";
 export * from "./chartPlot";
+export * from "./chartPreset";
+export * from "./chartPresetFilter";
 export * from "./chartSerie";
 export * from "./chartSerieTranslation";
 export * from "./chartTimeRange";
