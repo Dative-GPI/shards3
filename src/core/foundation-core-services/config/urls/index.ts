@@ -29,6 +29,8 @@ export * from "./permissionCategories";
 export * from "./permissions";
 export * from "./roleOrganisations";
 export * from "./roleOrganisationTypes";
+export * from "./scenarioOrganisations";
+export * from "./scenarioOrganisationTypes";
 export * from "./serviceAccounts";
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";
