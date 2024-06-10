@@ -16,5 +16,6 @@ export interface CreateWidgetDTO {
     height: number;
     x: number;
     y: number;
+    targetScreenSize: "s" | "m" | "l" | "xl" | null;
     meta: { [key: string]: string };
 }
