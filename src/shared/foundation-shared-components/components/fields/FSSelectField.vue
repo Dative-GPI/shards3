@@ -4,17 +4,17 @@
       v-if="isExtraSmall"
     >
       <FSTextField
-        :label="$props.label"
+        :validationValue="$props.modelValue"
         :description="$props.description"
         :hideHeader="$props.hideHeader"
-        :required="$props.required"
         :clearable="$props.clearable"
         :editable="$props.editable"
-        :readonly="true"
+        :required="$props.required"
+        :validateOn="validateOn"
+        :label="$props.label"
         :rules="$props.rules"
         :messages="messages"
-        :validateOn="validateOn"
-        :validationValue="$props.modelValue"
+        :readonly="true"
         :modelValue="mobileValue"
         @update:modelValue="$emit('update:modelValue', $event)"
         @click="openMobileOverlay"
@@ -113,30 +113,30 @@
       v-else
     >
       <FSBaseField
-        :label="$props.label"
         :description="$props.description"
         :hideHeader="$props.hideHeader"
         :required="$props.required"
         :editable="$props.editable"
+        :label="$props.label"
         :messages="messages"
       >
         <v-select
           class="fs-select-field"
           variant="outlined"
-          :menuIcon="null"
-          :style="style"
-          :listProps="listStyle"
-          :persistentClear="true"
-          :hideDetails="true"
-          :items="$props.items"
+          :clearable="$props.clearable && $props.editable && !!$props.modelValue"
           :itemTitle="$props.itemTitle"
           :itemValue="$props.itemValue"
           :readonly="!$props.editable"
-          :clearable="$props.clearable && $props.editable && !!$props.modelValue"
-          :returnObject="$props.returnObject"
-          :rules="$props.rules"
-          :validateOn="validateOn"
           :multiple="$props.multiple"
+          :validateOn="validateOn"
+          :persistentClear="true"
+          :listProps="listStyle"
+          :returnObject="false"
+          :items="$props.items"
+          :rules="$props.rules"
+          :hideDetails="true"
+          :menuIcon="null"
+          :style="style"
           :modelValue="$props.modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
           v-bind="$attrs"
@@ -306,11 +306,6 @@ export default defineComponent({
       required: false,
       default: false
     },
-    returnObject: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     required: {
       type: Boolean,
       required: false,
@@ -449,58 +444,25 @@ export default defineComponent({
     };
 
     const onRadioChange = (value: string | null) => {
-      if (props.returnObject) {
-        emit("update:modelValue", props.items.find((item: any) => item[props.itemValue] === value) ?? null);
-      }
-      else {
-        emit("update:modelValue", value);
-      }
+      emit("update:modelValue", value);
       dialog.value = false;
     };
 
     const onCheckboxChange = (value: string) => {
-      if (props.returnObject) {
-        const item = props.items.find(item => item[props.itemValue] === value);
-        if (Array.isArray(props.modelValue)) {
-          if (props.modelValue.find(item => item[props.itemValue] === value)) {
-            emit("update:modelValue", props.modelValue.filter((item: any) => item[props.itemValue] !== value));
-          }
-          else {
-            if (item) {
-              emit("update:modelValue", [...props.modelValue, item]);
-            }
-          }
+      if (Array.isArray(props.modelValue)) {
+        if (props.modelValue.includes(value)) {
+          emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
         }
         else {
-          if (props.modelValue) {
-            if (props.modelValue[props.itemValue] === value) {
-              emit("update:modelValue", []);
-            }
-            else {
-              emit("update:modelValue", [props.modelValue, item]);
-            }
-          }
-          else {
-            emit("update:modelValue", [item]);
-          }
+          emit("update:modelValue", [...props.modelValue, value]);
         }
       }
       else {
-        if (Array.isArray(props.modelValue)) {
-          if (props.modelValue.includes(value)) {
-            emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
-          }
-          else {
-            emit("update:modelValue", [...props.modelValue, value]);
-          }
+        if (props.modelValue === value) {
+          emit("update:modelValue", []);
         }
         else {
-          if (props.modelValue === value) {
-            emit("update:modelValue", []);
-          }
-          else {
-            emit("update:modelValue", [props.modelValue, value]);
-          }
+          emit("update:modelValue", [props.modelValue, value]);
         }
       }
     };

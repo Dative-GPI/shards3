@@ -11,16 +11,6 @@ export const useRules = () => {
     }
   });
 
-  const forceErrors = (messagesLength: number, updated: boolean): boolean => {
-    if (messagesLength <= 0) {
-      return false;
-    }
-    switch (innerValidateOn.value) {
-      case "submit": return submitted.value;
-      case "input":  return submitted.value || updated;
-    }
-  }
-
   const getMessages = (modelValue: any, rules: any[], checkArray: boolean = false): string[] => {
     if (!rules || !rules.length) {
       return [];
@@ -71,7 +61,6 @@ export const useRules = () => {
 
   return {
     validateOn,
-    forceErrors,
     getMessages
   };
 }

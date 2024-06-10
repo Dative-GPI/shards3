@@ -25,7 +25,7 @@
       >
         <FSIcon
           v-if="$props.prependIcon || $props.icon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.prependIcon ?? $props.icon }}
         </FSIcon>
@@ -45,7 +45,7 @@
       >
         <FSIcon
           v-if="$props.appendIcon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.appendIcon }}
         </FSIcon>
@@ -79,7 +79,7 @@
       >
         <FSIcon
           v-if="$props.icon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.icon }}
         </FSIcon>
@@ -98,7 +98,7 @@
       >
         <FSIcon
           v-if="$props.icon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.icon }}
         </FSIcon>
@@ -114,7 +114,7 @@
     >
       <FSIcon
         v-if="$props.icon"
-        size="l"
+        :size="$props.iconSize"
       >
         {{ $props.icon }}
       </FSIcon>
@@ -177,6 +177,11 @@ export default defineComponent({
       type: String as PropType<string | null>,
       required: false,
       default: null
+    },
+    iconSize: {
+      type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
+      required: false,
+      default: "l"
     },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,

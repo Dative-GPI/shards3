@@ -1,22 +1,16 @@
 <template>
   <FSLoadDataTable
-    v-if="gettingUserOrganisationTable"
+    v-if="!initialized || gettingUserOrganisationTable"
   />
   <FSDataTableUI
     v-else
-    :headers="headers"
-    :mode="table.mode"
-    :sortBy="table.sortBy"
-    :rowsPerPage="table.rowsPerPage"
-    :filters="table.filters"
-    :page="table.page"
-    @update:headers="updateHeaders"
-    @update:mode="updateMode"
-    @update:sortBy="updateSortBy"
-    @update:rowsPerPage="updateRowsPerPage"
-    @update:filters="updateFilters"
-    @update:page="updatePage"
-    v-bind="$attrs"
+    @update:rowsPerPage="table.rowsPerPage = $event"
+    @update:filters="table.filters = $event"
+    @update:headers="table.headers = $event"
+    @update:sortBy="table.sortBy = $event"
+    @update:mode="table.mode = $event"
+    @update:page="table.page = $event"
+    v-bind="{ ...computedTable, ...$attrs }"
   >
     <template
       v-for="(_, name) in $slots"
@@ -33,9 +27,9 @@
 <script lang="ts">
 import { PropType, computed, defineComponent, onUnmounted, ref, watch } from "vue";
 
-import { FSDataTable, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
 import { useUserOrganisationTable, useUpdateUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
 import { useDebounce, useTables } from "@dative-gpi/foundation-shared-components/composables";
+import { FSDataTable } from "@dative-gpi/foundation-shared-components/models";
 
 import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
 import FSDataTableUI from "@dative-gpi/foundation-shared-components/components/lists/FSDataTableUI.vue";
@@ -73,7 +67,9 @@ export default defineComponent({
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
 
-    const table = ref<FSDataTable | null>({
+    const initialized = ref(false);
+
+    const table = ref<FSDataTable>({
       headers: [],
       mode: "table",
       sortBy: null,
@@ -82,83 +78,14 @@ export default defineComponent({
       page: 1
     });
 
-    const headers = computed((): FSDataTableColumn[] => {
-      if(!table.value) {
-        return [];
-      }
-      return table.value.headers.map(header => {
-        return {
-          ...header,
-          sort: header.value && props.customSorts[header.value] || null,
-          sortRaw: header.value && props.customSortRaws[header.value] || null 
-        }
-      })
-    });
-
-    const reset = async (): Promise<void> => {
-      const composableTable = getTable(props.tableCode);
-      if (composableTable) {
-        table.value = composableTable;
-      }
-      else {
-        await getUserOrganisationTable(props.tableCode);
-        if (userOrganisationTable.value) {
-          table.value = {
-            headers: userOrganisationTable.value.columns,
-            sortBy: {
-              key: userOrganisationTable.value.sortByKey,
-              order: userOrganisationTable.value.sortByOrder
-            },
-            mode: userOrganisationTable.value.mode,
-            rowsPerPage: userOrganisationTable.value.rowsPerPage,
-            filters: {},
-            page: 1
-          };
-        }
-      }
-    };
-
-    const updateHeaders = (value: FSDataTableColumn[]): void => {
-      if (table.value) {
-        table.value.headers = value;
-        debounce(updateTable, props.debounceTime);
-      }
-    };
-
-    const updateMode = (value: "table" | "iterator"): void => {
-      if (table.value) {
-        table.value.mode = value;
-        debounce(updateTable, props.debounceTime);
-      }
-    };
-
-    const updateSortBy = (value: FSDataTableOrder | null): void => {
-      if (table.value) {
-        table.value.sortBy = value;
-        debounce(updateTable, props.debounceTime);
-      }
-    };
-
-    const updateRowsPerPage = (value: -1 | 10 | 30): void => {
-      if (table.value) {
-        table.value.rowsPerPage = value;
-        debounce(updateTable, props.debounceTime);
-      }
-    };
-
-    const updateFilters = (value: { [key: string]: FSDataTableFilter[] }): void => {
-      if (table.value) {
-        table.value.filters = value;
-        setTable(props.tableCode, table.value);
-      }
-    };
-
-    const updatePage = (value: number): void => {
-      if (table.value) {
-        table.value.page = value;
-        setTable(props.tableCode, table.value);
-      }
-    };
+    const computedTable = computed(() => ({
+      ...table.value,
+      headers: table.value.headers.map(header => ({
+        ...header,
+        sort: header.value && props.customSorts[header.value] || null,
+        sortRaw: header.value && props.customSortRaws[header.value] || null 
+      }))
+    }));
 
     const updateTable = (): void => {
       if (table.value) {
@@ -182,22 +109,43 @@ export default defineComponent({
       updateTable();
     });
 
-    watch(() => props.tableCode, () => {
+    watch(() => props.tableCode, async (): Promise<void> => {
       if (props.tableCode) {
-        reset();
+        const composableTable = getTable(props.tableCode);
+        if (composableTable) {
+          table.value = composableTable;
+        }
+        else {
+          await getUserOrganisationTable(props.tableCode);
+          if (userOrganisationTable.value) {
+            table.value = {
+              headers: userOrganisationTable.value.columns,
+              sortBy: {
+                key: userOrganisationTable.value.sortByKey,
+                order: userOrganisationTable.value.sortByOrder
+              },
+              mode: userOrganisationTable.value.mode,
+              rowsPerPage: userOrganisationTable.value.rowsPerPage,
+              filters: {},
+              page: 1
+            }
+          }
+        }
       }
+      initialized.value = true;
     }, { immediate: true });
+
+    watch(() => table.value, () => {
+      if (table.value && initialized.value) {
+        debounce(updateTable, props.debounceTime);
+      }
+    }, { deep: true });
 
     return {
       gettingUserOrganisationTable,
-      headers,
-      table,
-      updateRowsPerPage,
-      updateFilters,
-      updateHeaders,
-      updateSortBy,
-      updateMode,
-      updatePage
+      computedTable,
+      initialized,
+      table
     };
   },
 });
