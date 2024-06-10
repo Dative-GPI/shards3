@@ -21,17 +21,16 @@
       v-if="isExtraSmall"
     >
       <FSTextField
-        :label="$props.label"
+        :validationValue="$props.modelValue"
         :description="$props.description"
         :hideHeader="$props.hideHeader"
-        :required="$props.required"
         :clearable="$props.clearable"
         :editable="$props.editable"
-        :readonly="true"
+        :required="$props.required"
+        :label="$props.label"
         :rules="$props.rules"
         :messages="messages"
-        :validateOn="validateOn"
-        :validationValue="$props.modelValue"
+        :readonly="true"
         :modelValue="mobileValue"
         @update:modelValue="$emit('update:modelValue', $event)"
         @click="openMobileOverlay"
@@ -132,62 +131,57 @@
     <template
       v-else
     >
-      <FSToggleField
-        v-if="$props.toggleSet"
-        :label="$props.label"
-        :description="$props.description"
-        :hideHeader="$props.hideHeader"
-        :items="$props.items"
-        :returnObject="$props.returnObject"
-        :required="$props.required"
-        :editable="$props.editable"
-        :multiple="$props.multiple"
-        :rules="$props.rules"
-        :validateOn="validateOn"
-        :modelValue="$props.modelValue"
-        @update:modelValue="onUpdate"
-        v-bind="$attrs"
-      >
-        <template
-          v-for="(_, name) in toggleSetSlots"
-          v-slot:[name]="slotData"
-        >
-          <slot
-            :name="`toggle-set-${name}`"
-            v-bind="slotData"
-          />
-        </template>
-      </FSToggleField>
       <FSBaseField
-        v-else
-        :label="$props.label"
         :description="$props.description"
         :hideHeader="$props.hideHeader"
         :required="$props.required"
         :editable="$props.editable"
+        :label="$props.label"
         :messages="messages"
       >
+        <FSToggleSet
+          v-if="$props.toggleSet"
+          :editable="$props.editable"
+          :multiple="$props.multiple"
+          :required="$props.required"
+          :values="$props.items"
+          :rules="$props.rules"
+          :modelValue="$props.modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          v-bind="$attrs"
+        >
+          <template
+            v-for="(_, name) in toggleSetSlots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="`toggle-set-${name}`"
+              v-bind="slotData"
+            />
+          </template>
+        </FSToggleSet>
         <v-autocomplete
+          v-else
           class="fs-autocomplete-field"
           variant="outlined"
-          :menuIcon="null"
-          :style="style"
-          :listProps="listStyle"
-          :class="classes"
-          :persistentClear="true"
-          :hideDetails="true"
-          :items="$props.items"
-          :autoSelectFirst="true"
-          :multiple="$props.multiple"
+          :clearable="$props.clearable && $props.editable && !!$props.modelValue"
           :itemTitle="$props.itemTitle"
           :itemValue="$props.itemValue"
           :readonly="!$props.editable"
-          :clearable="$props.clearable && $props.editable && !!$props.modelValue"
-          :returnObject="$props.returnObject"
-          :rules="$props.rules"
+          :multiple="$props.multiple"
           :validateOn="validateOn"
+          :autoSelectFirst="true"
+          :persistentClear="true"
+          :listProps="listStyle"
+          :returnObject="false"
+          :items="$props.items"
+          :rules="$props.rules"
+          :hideDetails="true"
+          :menuIcon="null"
+          :class="classes"
+          :style="style"
           :modelValue="$props.modelValue"
-          @update:modelValue="onUpdate"
+          @update:modelValue="$emit('update:modelValue', $event)"
           @click="onClick"
           v-model:search="search"
           v-bind="$attrs"
@@ -298,9 +292,9 @@ import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/found
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSearchField from "./FSSearchField.vue";
-import FSToggleField from "./FSToggleField.vue";
 import FSDialogMenu from "../FSDialogMenu.vue";
 import FSRadioGroup from "../FSRadioGroup.vue";
+import FSToggleSet from "../FSToggleSet.vue";
 import FSBaseField from "./FSBaseField.vue";
 import FSTextField from "./FSTextField.vue";
 import FSCheckbox from "../FSCheckbox.vue";
@@ -315,11 +309,11 @@ export default defineComponent({
   name: "FSAutocompleteField",
   components: {
     FSSearchField,
-    FSToggleField,
     FSDialogMenu,
     FSRadioGroup,
     FSBaseField,
     FSTextField,
+    FSToggleSet,
     FSCheckbox,
     FSFadeOut,
     FSButton,
@@ -364,11 +358,6 @@ export default defineComponent({
       default: false
     },
     hideHeader: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    returnObject: {
       type: Boolean,
       required: false,
       default: false
@@ -551,70 +540,35 @@ export default defineComponent({
     };
 
     const onRadioChange = (value: string | null) => {
-      if (props.returnObject) {
-        emit("update:modelValue", props.items.find((item: any) => item[props.itemValue] === value) ?? null);
-      }
-      else {
-        emit("update:modelValue", value);
-      }
+      emit("update:modelValue", value);
       dialog.value = false;
     };
 
     const onCheckboxChange = (value: string) => {
-      if (props.returnObject) {
-        const item = props.items.find(item => item[props.itemValue] === value);
-        if (Array.isArray(props.modelValue)) {
-          if (props.modelValue.find(item => item[props.itemValue] === value)) {
-            emit("update:modelValue", props.modelValue.filter((item: any) => item[props.itemValue] !== value));
-          }
-          else {
-            if (item) {
-              emit("update:modelValue", [...props.modelValue, item]);
-            }
-          }
+      if (Array.isArray(props.modelValue)) {
+        if (props.modelValue.includes(value)) {
+          emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
         }
         else {
-          if (props.modelValue) {
-            if (props.modelValue[props.itemValue] === value) {
-              emit("update:modelValue", []);
-            }
-            else {
-              emit("update:modelValue", [props.modelValue, item]);
-            }
-          }
-          else {
-            emit("update:modelValue", [item]);
-          }
+          emit("update:modelValue", [...props.modelValue, value]);
         }
       }
       else {
-        if (Array.isArray(props.modelValue)) {
-          if (props.modelValue.includes(value)) {
-            emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
-          }
-          else {
-            emit("update:modelValue", [...props.modelValue, value]);
-          }
+        if (props.modelValue === value) {
+          emit("update:modelValue", []);
         }
         else {
-          if (props.modelValue === value) {
-            emit("update:modelValue", []);
-          }
-          else {
-            emit("update:modelValue", [props.modelValue, value]);
-          }
+          emit("update:modelValue", [props.modelValue, value]);
         }
       }
     };
 
-    const onUpdate = (value: string[] | string) => {
-      emit("update:modelValue", value);
-    };
-
     const onClick = () => {
-      search.value = "";
-      emit("update:search", search.value);
-      emit("update:modelValue", null);
+      if (props.modelValue) {
+        search.value = "";
+        emit("update:search", search.value);
+        emit("update:modelValue", null);
+      }
     }
 
     watch(search, () => {
@@ -642,7 +596,6 @@ export default defineComponent({
       onCheckboxChange,
       mobileItemProps,
       onRadioChange,
-      onUpdate,
       onClick
     };
   }

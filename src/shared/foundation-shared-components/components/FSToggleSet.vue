@@ -1,6 +1,7 @@
 <template>
   <v-input
     class="fs-toggle-set"
+    :rules="$props.rules"
     :modelValue="$props.modelValue"
   >
     <FSWrapGroup
@@ -109,6 +110,16 @@ export default defineComponent({
     FSButton
   },
   props: {
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "0"
+    },
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
+    },
     values: {
       type: Array as PropType<FSToggle[]>,
       required: false,
@@ -129,6 +140,11 @@ export default defineComponent({
       required: false,
       default: "standard"
     },
+    errorVariant: {
+      type: String as PropType<"standard" | "full" | "icon">,
+      required: false,
+      default: "standard"
+    },
     buttonClass: {
       type: [Array, String] as PropType<string[] | string>,
       required: false,
@@ -139,8 +155,8 @@ export default defineComponent({
       required: false,
       default: null
     },
-    modelValue: {
-      type: [Array, String, Number] as PropType<(string | number)[] | string | number | null>,
+    errorClass: {
+      type: [Array, String] as PropType<string[] | string>,
       required: false,
       default: null
     },
@@ -154,15 +170,20 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
-    padding: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+    errorColor: {
+      type: String as PropType<ColorBase>,
       required: false,
-      default: "0"
+      default: ColorEnum.Error
     },
-    gap: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+    rules: {
+      type: Array as PropType<any[]>,
       required: false,
-      default: "8px"
+      default: () => []
+    },
+    modelValue: {
+      type: [Array, String, Number] as PropType<(string | number)[] | string | number | null>,
+      required: false,
+      default: null
     },
     multiple: {
       type: Boolean,
@@ -181,7 +202,7 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {    
+  setup(props, { emit }) {
     const toggleSetRef = ref(null);
 
     const getVariant = (value: FSToggle): "standard" | "full" | "icon" => {
