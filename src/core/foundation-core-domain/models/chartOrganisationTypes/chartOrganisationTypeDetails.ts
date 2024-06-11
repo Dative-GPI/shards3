@@ -4,6 +4,8 @@ import { ChartAxis, ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis
 import { ChartPlot, ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
 import { CreateChartTranslationDTO } from "../charts/chartTranslation";
 import { ColorSets } from "../enums/chartEnums";
+import { CreateChartPresetDTO } from "../charts/chartPreset";
+import { CreateChartPresetFilterDTO } from "../charts/chartPresetFilter";
 
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
     colorSet: ColorSets;
@@ -58,6 +60,8 @@ export interface UpdateChartOrganisationTypeDTO {
     aggregates: boolean | null;
     dynamicVariables: boolean | null;
     chartVariables: CreateChartVariableDTO[];
+    chartPresets: CreateChartPresetDTO[];
+    chartPresetFilters: CreateChartPresetFilterDTO[];
     chartPlots: CreateChartPlotDTO[];
     labelDefault: string;
     titleDefault: string;
