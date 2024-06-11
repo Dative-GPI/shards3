@@ -9,6 +9,7 @@ export class OrganisationDetails extends OrganisationInfos {
     mainDashboardType: DashboardType;
     description: string;
     locationsCount: number;
+    groupsCount: number;
     deviceOrganisationsCount: number;
     permissions: PermissionInfos[];
 
@@ -21,6 +22,7 @@ export class OrganisationDetails extends OrganisationInfos {
         this.mainDashboardId = params.mainDashboardId;
         this.description = params.description;
         this.locationsCount = params.locationsCount;
+        this.groupsCount = params.groupsCount;
         this.deviceOrganisationsCount = params.deviceOrganisationsCount;
         this.permissions = params.permissions.map(dto => new PermissionInfos(dto));
     }
@@ -33,6 +35,7 @@ export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
     mainDashboardType: DashboardType;
     description: string;
     locationsCount: number;
+    groupsCount: number;
     deviceOrganisationsCount: number;
     permissions: PermissionInfosDTO[];
 }
