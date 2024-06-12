@@ -1,13 +1,15 @@
 import { ChartOrganisationTypeInfos, ChartOrganisationTypeInfosDTO } from "./chartOrganisationTypeInfos";
 import { ChartVariable, ChartVariableDTO, CreateChartVariableDTO } from "../charts/chartVariable";
 import { ChartPreset, ChartPresetDTO, CreateChartPresetDTO } from "../charts/chartPreset";
+import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslation";
 import { ChartAxis, ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis";
 import { ChartPlot, ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
 import { CreateChartPresetFilterDTO } from "../charts/chartPresetFilter";
-import { ChartTranslationDTO } from "../charts/chartTranslation";
 import { ColorSets } from "../enums/chartEnums";
 
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
+  labelDefault: string;
+  titleDefault: string;
   colorSet: ColorSets;
   colorSeed: string;
   xAxis: ChartAxis | null;
@@ -16,10 +18,13 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   chartVariables: ChartVariable[];
   chartPresets: ChartPreset[];
   chartPlots: ChartPlot[];
+  translations: ChartTranslation[];
 
   constructor(params: ChartOrganisationTypeDetailsDTO) {
     super(params);
 
+    this.labelDefault = params.labelDefault;
+    this.titleDefault = params.titleDefault;
     this.colorSet = params.colorSet as ColorSets;
     this.colorSeed = params.colorSeed;
     this.xAxis = params.xAxis ?
@@ -29,10 +34,13 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPlots = params.chartPlots.map(cp => new ChartPlot(cp));
+    this.translations = params.translations.map((translation) => new ChartTranslation(translation));
   }
 }
 
 export interface ChartOrganisationTypeDetailsDTO extends ChartOrganisationTypeInfosDTO {
+  labelDefault: string;
+  titleDefault: string;
   colorSet: number;
   colorSeed: string;
   xAxis: ChartAxisDTO | null;
@@ -41,6 +49,7 @@ export interface ChartOrganisationTypeDetailsDTO extends ChartOrganisationTypeIn
   chartVariables: ChartVariableDTO[];
   chartPresets: ChartPresetDTO[];
   chartPlots: ChartPlotDTO[];
+  translations: ChartTranslationDTO[];
 }
 
 export interface CreateChartOrganisationTypeDTO {

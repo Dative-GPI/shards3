@@ -2,12 +2,14 @@ import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
 import { CreateDashboardVariableDTO, DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
 import { DashboardOrganisationTypeInfos, DashboardOrganisationTypeInfosDTO } from "./dashboardOrganisationTypeInfos";
-import { DashboardOrganisationTypeTranslationDTO } from "./dashboardOrganisationTypeTranslation";
+import { DashboardTranslation, DashboardTranslationDTO } from "../dashboards";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
 
 export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeInfos {
+  labelDefault: string;
+  translations: DashboardTranslation[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
@@ -23,6 +25,8 @@ export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeI
   constructor(params: DashboardOrganisationTypeDetailsDTO) {
     super(params);
 
+    this.labelDefault = params.labelDefault;
+    this.translations = params.translations.map(t => new DashboardTranslation(t));
     this.singleEntity = params.singleEntity;
     this.dynamicEntities = params.dynamicEntities;
     this.globalSelectedEntities = params.globalSelectedEntities as SelectedEntities;
@@ -38,6 +42,8 @@ export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeI
 }
 
 export interface DashboardOrganisationTypeDetailsDTO extends DashboardOrganisationTypeInfosDTO {
+  labelDefault: string;
+  translations: DashboardTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
@@ -59,11 +65,11 @@ export interface CreateDashboardOrganisationTypeDTO {
 export interface UpdateDashboardOrganisationTypeDTO {
   imageId: string | null;
   image: string | null;
-  label: string;
   labelDefault: string;
   code: string;
   icon: string;
   tags: string[];
+  translations: DashboardTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
@@ -75,7 +81,6 @@ export interface UpdateDashboardOrganisationTypeDTO {
   autoRefresh: number;
   variables: CreateDashboardVariableDTO[];
   widgets: CreateWidgetDTO[];
-  translations: DashboardOrganisationTypeTranslationDTO[];
 }
 
 export interface LockDashboardOrganisationTypeDTO {

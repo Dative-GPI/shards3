@@ -2,13 +2,16 @@ import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
 import { CreateDashboardVariableDTO, DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
 import { DashboardOrganisationInfos, DashboardOrganisationInfosDTO } from "./dashboardOrganisationInfos";
+import { DashboardTranslation, DashboardTranslationDTO } from "../dashboards";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
 
 export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
+  labelDefault: string;
   path: PathCrumb[];
+  translations: DashboardTranslation[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
@@ -24,7 +27,9 @@ export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
   constructor(params: DashboardOrganisationDetailsDTO) {
     super(params);
 
+    this.labelDefault = params.labelDefault;
     this.path = params.path.map(dto => new PathCrumb(dto)).sort((a, b) => b.index - a.index);
+    this.translations = params.translations.map(t => new DashboardTranslation(t));
     this.singleEntity = params.singleEntity;
     this.dynamicEntities = params.dynamicEntities;
     this.globalSelectedEntities = params.globalSelectedEntities as SelectedEntities;
@@ -40,7 +45,9 @@ export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
 }
 
 export interface DashboardOrganisationDetailsDTO extends DashboardOrganisationInfosDTO {
+  labelDefault: string;
   path: PathCrumbDTO[];
+  translations: DashboardTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
@@ -57,20 +64,22 @@ export interface DashboardOrganisationDetailsDTO extends DashboardOrganisationIn
 export interface CreateDashboardOrganisationDTO {
   folderId: string | null;
   image: string | null;
-  label: string;
+  labelDefault: string;
   code: string;
   icon: string;
   tags: string[];
+  translations: DashboardTranslationDTO[];
 }
 
 export interface UpdateDashboardOrganisationDTO {
   folderId: string | null;
-  label: string;
-  code: string;
-  icon: string;
   imageId: string | null;
   image: string | null;
+  labelDefault: string;
+  code: string;
+  icon: string;
   tags: string[];
+  translations: DashboardTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;

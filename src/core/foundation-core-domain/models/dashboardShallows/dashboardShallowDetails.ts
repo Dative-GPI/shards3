@@ -2,11 +2,13 @@ import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
 import { DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
 import { DashboardShallowInfos, DashboardShallowInfosDTO } from "./dashboardShallowInfos";
+import { DashboardTranslation, DashboardTranslationDTO } from "../dashboards";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
 import { SelectedEntities } from "../enums/sharedEnums";
 
 export class DashboardShallowDetails extends DashboardShallowInfos {
+  labelDefault: string;
   path: PathCrumb[];
   overrideSingleEntity: boolean | null;
   overrideDynamicEntities: boolean | null;
@@ -17,6 +19,7 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   overrideGlobalEndDate: string | null;
   overrideUseAutoRefresh: boolean | null;
   overrideAutoRefresh: AutoRefresh | null;
+  translations: DashboardTranslation[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
@@ -32,6 +35,7 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   constructor(params: DashboardShallowDetailsDTO) {
     super(params);
 
+    this.labelDefault = params.labelDefault;
     this.path = params.path.map(dto => new PathCrumb(dto)).sort((a, b) => b.index - a.index);
     this.overrideSingleEntity = params.overrideSingleEntity;
     this.overrideDynamicEntities = params.overrideDynamicEntities;
@@ -43,6 +47,7 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
     this.overrideGlobalEndDate = params.overrideGlobalEndDate;
     this.overrideUseAutoRefresh = params.overrideUseAutoRefresh;
     this.overrideAutoRefresh = params.overrideAutoRefresh;
+    this.translations = params.translations.map(t => new DashboardTranslation(t));
     this.singleEntity = params.singleEntity;
     this.dynamicEntities = params.dynamicEntities;
     this.globalSelectedEntities = params.globalSelectedEntities;
@@ -58,6 +63,7 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
 }
 
 export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
+  labelDefault: string;
   path: PathCrumbDTO[];
   overrideSingleEntity: boolean | null;
   overrideDynamicEntities: boolean | null;
@@ -68,6 +74,7 @@ export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
   overrideGlobalEndDate: string | null;
   overrideUseAutoRefresh: boolean | null;
   overrideAutoRefresh: number | null;
+  translations: DashboardTranslationDTO[];
   dashboardId: string;
   scope: number;
   singleEntity: boolean;
@@ -91,7 +98,7 @@ export interface UpdateDashboardShallowDTO {
   folderId: string | null;
   imageId: string | null;
   image: string | null;
-  label: string;
+  labelDefault: string;
   code: string;
   icon: string;
   tags: string[];
@@ -104,6 +111,7 @@ export interface UpdateDashboardShallowDTO {
   overrideGlobalEndDate: string | null;
   overrideUseAutoRefresh: boolean | null;
   overrideAutoRefresh: number | null;
+  translations: DashboardTranslationDTO[];
 }
 
 export interface ChangeDashboardShallowFolderDTO {
