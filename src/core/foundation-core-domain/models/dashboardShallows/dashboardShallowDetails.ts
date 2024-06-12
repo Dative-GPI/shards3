@@ -1,5 +1,6 @@
 import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
+import { DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
 import { DashboardShallowInfos, DashboardShallowInfosDTO } from "./dashboardShallowInfos";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
@@ -25,6 +26,7 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   globalEndDate: string;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  variables: DashboardVariableInfos[];
   widgets: WidgetInfos[];
 
   constructor(params: DashboardShallowDetailsDTO) {
@@ -50,58 +52,60 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
     this.globalEndDate = params.globalEndDate;
     this.useAutoRefresh = params.useAutoRefresh;
     this.autoRefresh = params.autoRefresh;
+    this.variables = params.variables.map(dto => new DashboardVariableInfos(dto));
     this.widgets = params.widgets.map(dto => new WidgetInfos(dto));
   }
 }
 
 export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
-    path: PathCrumbDTO[];
-    overrideSingleEntity: boolean | null;
-    overrideDynamicEntities: boolean | null;
-    overrideGlobalSelectedEntities: SelectedEntities | null;
-    overrideGlobalEntitiesIds: string[] | null;
-    overrideDynamicDates: boolean | null;
-    overrideGlobalStartDate: string | null;
-    overrideGlobalEndDate: string | null;
-    overrideUseAutoRefresh: boolean | null;
-    overrideAutoRefresh: number | null;
-    dashboardId: string;
-    scope: number;
-    singleEntity: boolean;
-    dynamicEntities: boolean;
-    globalSelectedEntities: number;
-    globalEntitiesIds: string[];
-    dynamicDates: boolean;
-    globalStartDate: string;
-    globalEndDate: string;
-    useAutoRefresh: boolean;
-    autoRefresh: AutoRefresh;
-    widgets: WidgetInfosDTO[];
+  path: PathCrumbDTO[];
+  overrideSingleEntity: boolean | null;
+  overrideDynamicEntities: boolean | null;
+  overrideGlobalSelectedEntities: SelectedEntities | null;
+  overrideGlobalEntitiesIds: string[] | null;
+  overrideDynamicDates: boolean | null;
+  overrideGlobalStartDate: string | null;
+  overrideGlobalEndDate: string | null;
+  overrideUseAutoRefresh: boolean | null;
+  overrideAutoRefresh: number | null;
+  dashboardId: string;
+  scope: number;
+  singleEntity: boolean;
+  dynamicEntities: boolean;
+  globalSelectedEntities: number;
+  globalEntitiesIds: string[];
+  dynamicDates: boolean;
+  globalStartDate: string;
+  globalEndDate: string;
+  useAutoRefresh: boolean;
+  autoRefresh: AutoRefresh;
+  variables: DashboardVariableInfosDTO[];
+  widgets: WidgetInfosDTO[];
 }
 
 export interface CreateDashboardShallowDTO {
-    dashboardOrganisationTypeId: string;
+  dashboardOrganisationTypeId: string;
 }
 
 export interface UpdateDashboardShallowDTO {
-    folderId: string | null;
-    imageId: string | null;
-    image: string | null;
-    label: string;
-    code: string;
-    icon: string;
-    tags: string[];
-    overrideSingleEntity: boolean | null;
-    overrideDynamicEntities: boolean | null;
-    overrideGlobalSelectedEntities: SelectedEntities | null;
-    overrideGlobalEntitiesIds: string[] | null;
-    overrideDynamicDates: boolean | null;
-    overrideGlobalStartDate: string | null;
-    overrideGlobalEndDate: string | null;
-    overrideUseAutoRefresh: boolean | null;
-    overrideAutoRefresh: number | null;
+  folderId: string | null;
+  imageId: string | null;
+  image: string | null;
+  label: string;
+  code: string;
+  icon: string;
+  tags: string[];
+  overrideSingleEntity: boolean | null;
+  overrideDynamicEntities: boolean | null;
+  overrideGlobalSelectedEntities: SelectedEntities | null;
+  overrideGlobalEntitiesIds: string[] | null;
+  overrideDynamicDates: boolean | null;
+  overrideGlobalStartDate: string | null;
+  overrideGlobalEndDate: string | null;
+  overrideUseAutoRefresh: boolean | null;
+  overrideAutoRefresh: number | null;
 }
 
 export interface ChangeDashboardShallowFolderDTO {
-    folderId: string | null;
+  folderId: string | null;
 }

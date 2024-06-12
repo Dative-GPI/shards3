@@ -26,18 +26,21 @@
         v-if="!isExtraSmall"
         name="toolbar"
       />
-      <v-spacer />
-      <FSRow
+      <template
         v-if="!$props.disableTable && !$props.disableIterator"
-        align="center-right"
       >
-        <FSOptionGroup
-          :values="modeOptions"
-          :singleColor="true"
-          :required="true"
-          v-model="innerMode"
-        />
-      </FSRow>
+        <v-spacer />
+        <FSRow
+          align="center-right"
+        >
+          <FSOptionGroup
+            :values="modeOptions"
+            :singleColor="true"
+            :required="true"
+            v-model="innerMode"
+          />
+        </FSRow>
+      </template>
     </FSRow>
     <FSRow
       v-if="isExtraSmall && hasToolbar"
