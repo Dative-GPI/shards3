@@ -9,6 +9,7 @@ export class DashboardVariableInfos {
   variableType: DashboardVariableType;
   label: string;
   labelDefault: string;
+  code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
   allowedValues: { [key: string]: DashboardVariableValueTranslation[] };
@@ -20,6 +21,7 @@ export class DashboardVariableInfos {
     this.variableType = params.variableType;
     this.label = params.label;
     this.labelDefault = params.labelDefault;
+    this.code = params.code;
     this.defaultValue = params.defaultValue;
     this.useOnlyAllowedValues = params.useOnlyAllowedValues;
     this.allowedValues = { ...params.allowedValues };
@@ -33,6 +35,7 @@ export interface DashboardVariableInfosDTO {
   variableType: DashboardVariableType;
   label: string;
   labelDefault: string;
+  code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
   allowedValues: { [key: string]: DashboardVariableValueTranslationDTO[] };

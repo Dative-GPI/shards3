@@ -5,6 +5,7 @@ export class ChartVariable {
   chartId: string;
   label: string;
   labelDefault: string;
+  code: string;
   valueDefault: number;
   translations: ChartVariableTranslation[];
 
@@ -13,6 +14,7 @@ export class ChartVariable {
     this.chartId = params.chartId;
     this.label = params.label;
     this.labelDefault = params.labelDefault;
+    this.code = params.code;
     this.valueDefault = params.valueDefault;
     this.translations = params.translations.map(t => new ChartVariableTranslation(t));
   }
@@ -23,6 +25,7 @@ export interface ChartVariableDTO {
   chartId: string;
   label: string;
   labelDefault: string;
+  code: string;
   valueDefault: number;
   translations: ChartVariableTranslationDTO[];
 }
@@ -30,6 +33,7 @@ export interface ChartVariableDTO {
 export interface CreateChartVariableDTO {
   chartId: string;
   labelDefault: string;
+  code: string;
   valueDefault: number;
   translations: ChartVariableTranslationDTO[];
 }
