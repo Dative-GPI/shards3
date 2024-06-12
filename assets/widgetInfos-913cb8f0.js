@@ -1,1 +1,0 @@
-class i{constructor(t){this.id=t.id,this.templateId=t.templateId,this.code=t.code,this.hideBorders=t.hideBorders,this.width=t.width,this.height=t.height,this.x=t.x,this.y=t.y,this.targetScreenSize=t.targetScreenSize,this.meta={...t.meta}}}export{i as W};
