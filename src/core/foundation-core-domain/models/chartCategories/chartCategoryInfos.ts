@@ -1,4 +1,3 @@
-
 export class ChartCategoryInfos {
   id: string;
   label: string;
