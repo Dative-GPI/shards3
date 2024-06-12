@@ -14,6 +14,7 @@ export * from "./dashboardOrganisations";
 export * from "./dashboardOrganisationTypes";
 export * from "./dashboards";
 export * from "./dashboardShallows";
+export * from "./dashboardVariables";           // No service
 export * from "./dataCategories";
 export * from "./dataDefinitions";
 export * from "./dataDefinitionMappings";       // No service
@@ -37,6 +38,7 @@ export * from "./scenarioDeviceOrganisations";
 export * from "./scenarioDiffusions";
 export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
+export * from "./scenarios";                    // No service
 export * from "./shared";                       // No service
 export * from "./serviceAccounts";
 export * from "./userOrganisationColumns";      // No service

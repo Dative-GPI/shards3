@@ -1,9 +1,8 @@
 import { AutoRefresh, ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
 
 import { ScenarioOrganisationTypeInfos, ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
-import { ScenarioOrganisationTypeTranslationDTO } from "./scenarioOrganisationTypeTranslation";
 import { CreateTimeRangeDTO, TimeRange, TimeRangeDTO } from "../shared/timeRange";
-import { AlertTranslation, AlertTranslationDTO } from "./alertTranslation";
+import { ScenarioTranslation, ScenarioTranslationDTO } from "../scenarios";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
@@ -11,14 +10,15 @@ import { SelectedEntities } from "../enums/sharedEnums";
 export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInfos {
   groupByIds: string[];
   metadataIds: string[];
+  labelDefault: string;
   description: string;
   descriptionDefault: string;
   alertLabel: string;
   alertLabelDefault: string;
   alertDescription: string;
   alertDescriptionDefault: string;
-  alertIcon: string;
   alertCode: string;
+  alertIcon: string;
   alertTags: string[];
   timeRanges: TimeRange[];
   triggerOn: TriggerOn;
@@ -30,6 +30,7 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  translations: ScenarioTranslation[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
@@ -40,13 +41,13 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
   widgets: WidgetInfos[];
-  alertTranslations: AlertTranslation[];
 
   constructor(params: ScenarioOrganisationTypeDetailsDTO) {
     super(params);
 
     this.groupByIds = params.groupByIds.slice();
     this.metadataIds = params.metadataIds.slice();
+    this.labelDefault = params.labelDefault;
     this.description = params.description;
     this.descriptionDefault = params.descriptionDefault;
     this.alertLabel = params.alertLabel;
@@ -67,6 +68,7 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
     this.timeout = params.timeout;
     this.lock = params.lock;
     this.waitResolved = params.waitResolved;
+    this.translations = params.translations.map(t => new ScenarioTranslation(t));
     this.singleEntity = params.singleEntity;
     this.dynamicEntities = params.dynamicEntities;
     this.globalSelectedEntities = params.globalSelectedEntities as SelectedEntities;
@@ -77,13 +79,13 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
     this.useAutoRefresh = params.useAutoRefresh;
     this.autoRefresh = params.autoRefresh as AutoRefresh;
     this.widgets = params.widgets.map(dto => new WidgetInfos(dto));
-    this.alertTranslations = params.alertTranslations.map(dto => new AlertTranslation(dto));
   }
 }
 
 export interface ScenarioOrganisationTypeDetailsDTO extends ScenarioOrganisationTypeInfosDTO {
   groupByIds: string[];
   metadataIds: string[];
+  labelDefault: string;
   description: string;
   descriptionDefault: string;
   alertLabel: string;
@@ -103,6 +105,7 @@ export interface ScenarioOrganisationTypeDetailsDTO extends ScenarioOrganisation
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  translations: ScenarioTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
@@ -113,7 +116,6 @@ export interface ScenarioOrganisationTypeDetailsDTO extends ScenarioOrganisation
   useAutoRefresh: boolean;
   autoRefresh: number;
   widgets: WidgetInfosDTO[];
-  alertTranslations: AlertTranslationDTO[];
 }
 
 export interface CreateScenarioOrganisationTypeDTO {
@@ -130,13 +132,13 @@ export interface UpdateScenarioOrganisationTypeDTO {
   criticity: number;
   labelDefault: string;
   descriptionDefault: string;
-  icon: string;
   code: string;
+  icon: string;
   tags: string[];
   alertLabelDefault: string;
   alertDescriptionDefault: string;
-  alertIcon: string;
   alertCode: string;
+  alertIcon: string;
   alertTags: string[];
   timeRanges: CreateTimeRangeDTO[];
   triggerOn: number;
@@ -148,6 +150,7 @@ export interface UpdateScenarioOrganisationTypeDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  translations: ScenarioTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
@@ -158,6 +161,4 @@ export interface UpdateScenarioOrganisationTypeDTO {
   useAutoRefresh: boolean;
   autoRefresh: number;
   widgets: CreateWidgetDTO[];
-  translations: ScenarioOrganisationTypeTranslationDTO[];
-  alertTranslations: AlertTranslationDTO[];
 }
