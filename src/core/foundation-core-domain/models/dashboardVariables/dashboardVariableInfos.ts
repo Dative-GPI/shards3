@@ -1,5 +1,8 @@
 import { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
 
+import { DashboardVariableValueTranslation, DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
+import { DashboardVariableTranslation, DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
+
 export class DashboardVariableInfos {
   id: string;
   dashboardId: string;
@@ -34,34 +37,4 @@ export interface DashboardVariableInfosDTO {
   useOnlyAllowedValues: boolean;
   allowedValues: { [key: string]: DashboardVariableValueTranslationDTO[] };
   translations: DashboardVariableTranslationDTO[];
-}
-
-export class DashboardVariableTranslation {
-  languageCode: string;
-  label: string;
-
-  constructor(params: DashboardVariableTranslationDTO) {
-    this.languageCode = params.languageCode;
-    this.label = params.label;
-  }
-}
-
-export interface DashboardVariableTranslationDTO {
-  languageCode: string;
-  label: string;
-}
-
-export class DashboardVariableValueTranslation {
-  languageCode: string;
-  label: string;
-
-  constructor(params: DashboardVariableValueTranslationDTO) {
-    this.languageCode = params.languageCode;
-    this.label = params.label;
-  }
-}
-
-export interface DashboardVariableValueTranslationDTO {
-  languageCode: string;
-  label: string;
 }

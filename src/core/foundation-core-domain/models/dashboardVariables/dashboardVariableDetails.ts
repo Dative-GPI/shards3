@@ -1,6 +1,8 @@
 import { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DashboardVariableInfos, DashboardVariableInfosDTO, DashboardVariableTranslationDTO, DashboardVariableValueTranslationDTO } from "./dashboardVariableInfos";
+import { DashboardVariableInfos, DashboardVariableInfosDTO } from "./dashboardVariableInfos";
+import { DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
+import { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
 
 export class DashboardVariableDetails extends DashboardVariableInfos {
   constructor(params: DashboardVariableDetailsDTO) {

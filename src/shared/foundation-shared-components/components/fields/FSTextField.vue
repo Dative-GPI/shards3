@@ -7,6 +7,24 @@
     :editable="$props.editable"
     :messages="messages"
   >
+    <template
+      v-if="$slots.label"
+      v-slot:label="slotData"
+    >
+      <slot
+        name="label"
+        v-bind="slotData"
+      />
+    </template>
+    <template
+      v-if="$slots.description"
+      v-slot:label="slotData"
+    >
+      <slot
+        name="description"
+        v-bind="slotData"
+      />
+    </template>
     <v-text-field
       class="fs-text-field"
       variant="outlined"
@@ -23,7 +41,7 @@
       v-bind="$attrs"
     >
       <template
-        v-for="(_, name) in $slots"
+        v-for="(_, name) in slots"
         v-slot:[name]="slotData"
       >
         <slot
@@ -49,7 +67,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSBaseField from "./FSBaseField.vue";
@@ -117,6 +135,10 @@ export default defineComponent({
   setup(props) {
     const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
+    const { slots } = useSlots();
+
+    delete slots.label;
+    delete slots.description;
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
@@ -146,6 +168,7 @@ export default defineComponent({
       validateOn,
       ColorEnum,
       messages,
+      slots,
       style
     };
   }

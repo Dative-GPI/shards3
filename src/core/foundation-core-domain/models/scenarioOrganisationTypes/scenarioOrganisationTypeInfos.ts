@@ -1,5 +1,6 @@
 import { Criticity } from "@dative-gpi/foundation-shared-domain/models";
 
+import { ScenarioOrganisationTypeTranslation, ScenarioOrganisationTypeTranslationDTO } from "./scenarioOrganisationTypeTranslation";
 import { ApplicationScope } from "../enums/applicationEnums";
 
 export class ScenarioOrganisationTypeInfos {
@@ -67,22 +68,4 @@ export interface ScenarioOrganisationTypeInfosDTO {
 
 export interface ScenarioOrganisationTypeFilters {
   modelId?: string | null;
-}
-
-export class ScenarioOrganisationTypeTranslation {
-  languageCode: string;
-  label: string;
-  description: string;
-
-  constructor(params: ScenarioOrganisationTypeTranslationDTO) {
-    this.languageCode = params.languageCode;
-    this.label = params.label;
-    this.description = params.description;
-  }
-}
-
-export interface ScenarioOrganisationTypeTranslationDTO {
-  languageCode: string;
-  label: string;
-  description: string;
 }

@@ -1,7 +1,9 @@
 import { AutoRefresh, ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ScenarioOrganisationTypeInfos, ScenarioOrganisationTypeInfosDTO, ScenarioOrganisationTypeTranslationDTO } from "./scenarioOrganisationTypeInfos";
+import { ScenarioOrganisationTypeInfos, ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
+import { ScenarioOrganisationTypeTranslationDTO } from "./scenarioOrganisationTypeTranslation";
 import { CreateTimeRangeDTO, TimeRange, TimeRangeDTO } from "../shared/timeRange";
+import { AlertTranslation, AlertTranslationDTO } from "./alertTranslation";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";
@@ -158,22 +160,4 @@ export interface UpdateScenarioOrganisationTypeDTO {
   widgets: CreateWidgetDTO[];
   translations: ScenarioOrganisationTypeTranslationDTO[];
   alertTranslations: AlertTranslationDTO[];
-}
-
-export class AlertTranslation {
-  languageId: string;
-  label: string;
-  description: string;
-
-  constructor(params: AlertTranslationDTO) {
-    this.languageId = params.languageId;
-    this.label = params.label;
-    this.description = params.description;
-  }
-}
-
-export interface AlertTranslationDTO {
-  languageId: string;
-  label: string;
-  description: string;
 }

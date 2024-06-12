@@ -49,12 +49,20 @@
         }
     }
 
-    & .v-input__prepend {
-        margin-inline-end: 0 !important;
+    &:has(.v-input__control):has(.v-input__append) > .v-input__append {
+        margin-inline-start: 8px !important;
     }
 
-    & .v-input__append {
+    &:not(:has(.v-input__control)):has(.v-input__append) > .v-input__append {
         margin-inline-start: 0 !important;
+    }
+
+    &:has(.v-input__control):has(.v-input__prepend) > .v-input__prepend {
+        margin-inline-end: 8px !important;
+    }
+
+    &:not(:has(.v-input__control)):has(.v-input__prepend) > .v-input__prepend {
+        margin-inline-end: 0 !important;
     }
 
     & > .v-input__control > .v-field {

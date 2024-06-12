@@ -1,7 +1,8 @@
 import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DashboardOrganisationTypeInfos, DashboardOrganisationTypeInfosDTO, DashboardOrganisationTypeTranslationDTO } from "./dashboardOrganisationTypeInfos";
 import { CreateDashboardVariableDTO, DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
+import { DashboardOrganisationTypeInfos, DashboardOrganisationTypeInfosDTO } from "./dashboardOrganisationTypeInfos";
+import { DashboardOrganisationTypeTranslationDTO } from "./dashboardOrganisationTypeTranslation";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 import { CreateWidgetDTO } from "../widgets/widgetDetails";
 import { SelectedEntities } from "../enums/sharedEnums";

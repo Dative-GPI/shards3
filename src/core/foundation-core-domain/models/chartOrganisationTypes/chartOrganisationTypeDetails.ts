@@ -1,8 +1,10 @@
-import { ChartVariable, ChartVariableDTO, CreateChartVariableDTO } from "../charts/chartVariable";
 import { ChartOrganisationTypeInfos, ChartOrganisationTypeInfosDTO } from "./chartOrganisationTypeInfos";
+import { ChartVariable, ChartVariableDTO, CreateChartVariableDTO } from "../charts/chartVariable";
+import { ChartPreset, ChartPresetDTO, CreateChartPresetDTO } from "../charts/chartPreset";
 import { ChartAxis, ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis";
 import { ChartPlot, ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
-import { CreateChartTranslationDTO } from "../charts/chartTranslation";
+import { CreateChartPresetFilterDTO } from "../charts/chartPresetFilter";
+import { ChartTranslationDTO } from "../charts/chartTranslation";
 import { ColorSets } from "../enums/chartEnums";
 
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
@@ -12,6 +14,7 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   chartVariables: ChartVariable[];
+  chartPresets: ChartPreset[];
   chartPlots: ChartPlot[];
 
   constructor(params: ChartOrganisationTypeDetailsDTO) {
@@ -20,10 +23,11 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
     this.colorSet = params.colorSet as ColorSets;
     this.colorSeed = params.colorSeed;
     this.xAxis = params.xAxis ?
-        new ChartAxis(params.xAxis) : null;
+      new ChartAxis(params.xAxis) : null;
     this.aggregates = params.aggregates;
     this.dynamicVariables = params.dynamicVariables;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
+    this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPlots = params.chartPlots.map(cp => new ChartPlot(cp));
   }
 }
@@ -35,6 +39,7 @@ export interface ChartOrganisationTypeDetailsDTO extends ChartOrganisationTypeIn
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   chartVariables: ChartVariableDTO[];
+  chartPresets: ChartPresetDTO[];
   chartPlots: ChartPlotDTO[];
 }
 
@@ -60,6 +65,8 @@ export interface UpdateChartOrganisationTypeDTO {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   chartVariables: CreateChartVariableDTO[];
+  chartPresets: CreateChartPresetDTO[];
+  chartPresetFilters: CreateChartPresetFilterDTO[];
   chartPlots: CreateChartPlotDTO[];
-  translations: CreateChartTranslationDTO[];
+  translations: ChartTranslationDTO[];
 }

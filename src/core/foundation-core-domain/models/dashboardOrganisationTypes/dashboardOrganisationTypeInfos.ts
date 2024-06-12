@@ -1,3 +1,4 @@
+import { DashboardOrganisationTypeTranslation, DashboardOrganisationTypeTranslationDTO } from "./dashboardOrganisationTypeTranslation";
 import { ApplicationScope } from "../enums/applicationEnums";
 
 export class DashboardOrganisationTypeInfos {
@@ -53,19 +54,4 @@ export interface DashboardOrganisationTypeInfosDTO {
 
 export interface DashboardOrganisationTypeFilters {
   search?: string | null;
-}
-
-export class DashboardOrganisationTypeTranslation {
-  languageCode: string;
-  label: string;
-
-  constructor(params: DashboardOrganisationTypeTranslationDTO) {
-    this.languageCode = params.languageCode;
-    this.label = params.label;
-  }
-}
-
-export interface DashboardOrganisationTypeTranslationDTO {
-  languageCode: string;
-  label: string;
 }

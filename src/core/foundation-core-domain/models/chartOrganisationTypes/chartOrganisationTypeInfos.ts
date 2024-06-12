@@ -16,8 +16,8 @@ export class ChartOrganisationTypeInfos {
   labelDefault: string;
   title: string;
   titleDefault: string;
-  icon: string;
   code: string;
+  icon: string;
   tags: string[];
   multiple: boolean;
   chartType: ChartType;
@@ -37,8 +37,8 @@ export class ChartOrganisationTypeInfos {
     this.labelDefault = params.labelDefault;
     this.title = params.title;
     this.titleDefault = params.titleDefault;
-    this.icon = params.icon;
     this.code = params.code;
+    this.icon = params.icon;
     this.tags = params.tags.slice();
     this.multiple = params.multiple;
     this.chartType = params.chartType;
@@ -59,8 +59,8 @@ export interface ChartOrganisationTypeInfosDTO {
   labelDefault: string;
   title: string;
   titleDefault: string;
-  icon: string;
   code: string;
+  icon: string;
   imageId: string | null;
   tags: string[];
   multiple: boolean;
