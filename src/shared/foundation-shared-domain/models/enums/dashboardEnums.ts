@@ -5,6 +5,12 @@ export enum DashboardType {
   Shallow          = 3
 }
 
+export enum DashboardVariableType {
+  Number = 0,
+  String = 1,
+  TimeStep = 2
+}
+
 export enum AutoRefresh {
   None           = 0,
   FifteenSeconds = 1,
