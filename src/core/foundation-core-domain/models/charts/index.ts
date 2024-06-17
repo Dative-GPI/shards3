@@ -2,7 +2,6 @@ export * from "./chartAxis";
 export * from "./chartDetails";
 export * from "./chartFilter";
 export * from "./chartFilterValue";
-export * from "./chartFilterValueTranslation";
 export * from "./chartInfos";
 export * from "./chartModelLabel";
 export * from "./chartModifier";
