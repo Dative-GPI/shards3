@@ -3,6 +3,7 @@ export class ChartPresetFilter {
   chartPresetId: string;
   chartPresetLabel: string;
   chartFilterId: string;
+  chartFilterLabel: string;
 
 
   constructor(params: ChartPresetFilterDTO) {
@@ -10,6 +11,7 @@ export class ChartPresetFilter {
     this.chartPresetId = params.chartPresetId;
     this.chartPresetLabel = params.chartPresetLabel;
     this.chartFilterId = params.chartFilterId;
+    this.chartFilterLabel = params.chartFilterLabel;
   }
 }
 
@@ -18,6 +20,7 @@ export interface ChartPresetFilterDTO {
   chartPresetId: string;
   chartPresetLabel: string;
   chartFilterId: string;
+  chartFilterLabel: string;
 }
 
 export interface CreateChartPresetFilterDTO {
