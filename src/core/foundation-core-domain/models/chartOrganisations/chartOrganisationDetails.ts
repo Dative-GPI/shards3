@@ -1,11 +1,11 @@
+import { ChartPresetFilter, ChartPresetFilterDTO, CreateChartPresetFilterDTO } from "../charts/chartPresetFilter";
 import { ChartVariable, ChartVariableDTO, CreateChartVariableDTO } from "../charts/chartVariable";
 import { ChartOrganisationInfos, ChartOrganisationInfosDTO } from "./chartOrganisationInfos";
 import { ChartPreset, ChartPresetDTO, CreateChartPresetDTO } from "../charts/chartPreset";
+import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslation";
 import { ChartAxis, ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis";
 import { ChartPlot, ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
-import { CreateChartPresetFilterDTO } from "../charts/chartPresetFilter";
 import { ColorSets } from "../enums/chartEnums";
-import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslation";
 
 export class ChartOrganisationDetails extends ChartOrganisationInfos {
   labelDefault: string;
@@ -17,6 +17,7 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
   dynamicVariables: boolean | null;
   chartVariables: ChartVariable[];
   chartPresets: ChartPreset[];
+  chartPresetFilters: ChartPresetFilter[];
   chartPlots: ChartPlot[];
   translations: ChartTranslation[];
 
@@ -33,6 +34,7 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
     this.dynamicVariables = params.dynamicVariables;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
+    this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
     this.chartPlots = params.chartPlots.map(cp => new ChartPlot(cp));
     this.translations = params.translations.map(t => new ChartTranslation(t));
   }
@@ -48,6 +50,7 @@ export interface ChartOrganisationDetailsDTO extends ChartOrganisationInfosDTO {
   dynamicVariables: boolean | null;
   chartVariables: ChartVariableDTO[];
   chartPresets: ChartPresetDTO[];
+  chartPresetFilters: ChartPresetFilterDTO[];
   chartPlots: ChartPlotDTO[];
   translations: ChartTranslationDTO[];
 }
