@@ -14,6 +14,7 @@ export class ChartPreset {
     this.id = params.id;
     this.chartId = params.chartId;
     this.label = params.label;
+    this.labelDefault = params.labelDefault;
     this.icon = params.icon;
     this.chartFilters = params.chartFilters.map(cf => new ChartPresetFilter(cf));
     this.translations = params.translations.map(t => new ChartPresetTranslation(t));
