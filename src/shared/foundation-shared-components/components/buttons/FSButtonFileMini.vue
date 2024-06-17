@@ -48,7 +48,7 @@ export default defineComponent({
       default: "mdi-upload-outline"
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "update:file"],
   setup(props, { emit }) {
     const { readFile } = useFiles();
 
@@ -74,6 +74,7 @@ export default defineComponent({
       if (!file) {
         return;
       }
+      emit("update:file", file);
       if (!props.readFile) {
         emit("update:modelValue", file);
         clear();
