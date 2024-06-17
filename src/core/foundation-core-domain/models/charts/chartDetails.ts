@@ -1,4 +1,6 @@
+import { ChartPresetFilter, ChartPresetFilterDTO } from "./chartPresetFilter";
 import { ChartVariable, ChartVariableDTO } from "./chartVariable";
+import { ChartPreset, ChartPresetDTO } from "./chartPreset";
 import { ChartInfos, ChartInfosDTO } from "./chartInfos";
 import { ChartAxis, ChartAxisDTO } from "./chartAxis";
 import { ChartPlot, ChartPlotDTO } from "./chartPlot";
@@ -11,6 +13,8 @@ export class ChartDetails extends ChartInfos {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   chartVariables: ChartVariable[];
+  chartPresets: ChartPreset[];
+  chartPresetFilters: ChartPresetFilter[];
   chartPlots: ChartPlot[];
 
   constructor(params: ChartDetailsDTO) {
@@ -23,6 +27,8 @@ export class ChartDetails extends ChartInfos {
     this.aggregates = params.aggregates;
     this.dynamicVariables = params.dynamicVariables;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
+    this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
+    this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
     this.chartPlots = params.chartPlots.map(cp => new ChartPlot(cp));
   }
 }
@@ -34,5 +40,7 @@ export interface ChartDetailsDTO extends ChartInfosDTO {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   chartVariables: ChartVariableDTO[];
+  chartPresets: ChartPresetDTO[];
+  chartPresetFilters: ChartPresetFilterDTO[];
   chartPlots: ChartPlotDTO[];
 }
