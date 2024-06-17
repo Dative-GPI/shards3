@@ -1,26 +1,23 @@
 export class ChartPresetFilter {
   id: string;
   chartPresetId: string;
-  chartFilterId: string;
   chartPresetLabel: string;
-  chartFilterLabel: string;
+  chartFilterId: string;
 
 
   constructor(params: ChartPresetFilterDTO) {
     this.id = params.id;
     this.chartPresetId = params.chartPresetId;
-    this.chartFilterId = params.chartFilterId;
     this.chartPresetLabel = params.chartPresetLabel;
-    this.chartFilterLabel = params.chartFilterLabel;
+    this.chartFilterId = params.chartFilterId;
   }
 }
 
 export interface ChartPresetFilterDTO {
   id: string;
   chartPresetId: string;
-  chartFilterId: string;
   chartPresetLabel: string;
-  chartFilterLabel: string;
+  chartFilterId: string;
 }
 
 export interface CreateChartPresetFilterDTO {
