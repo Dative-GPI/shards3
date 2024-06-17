@@ -1,0 +1,1 @@
+import{u as a}from"./useAppOrganisationId-8a611d3f.js";const{organisationId:n}=a();function t(o){return()=>{if(!n.value)throw new Error("OrganisationId is not set");return o(n.value)}}const i=t(o=>`/api/foundation/core/v1/organisations/${encodeURIComponent(o)}`),s=t(o=>`/api/foundation/hubs/v1/organisations/${encodeURIComponent(o)}`);export{i as C,s as H};
