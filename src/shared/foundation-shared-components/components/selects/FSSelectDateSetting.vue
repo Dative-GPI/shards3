@@ -60,7 +60,6 @@ export default defineComponent({
           { id: DateSetting.HoursBefore, label: $tr("ui.common.x-hours-before", "x Hours before") },
           { id: DateSetting.DaysBefore, label: $tr("ui.common.x-days-before", "x Days before") },
           { id: DateSetting.WeeksBefore, label: $tr("ui.common.x-weeks-before", "x Weeks before") },
-          { id: DateSetting.Expression, label: $tr("ui.common.expression", "Expression") }
         ];
       }
       let dateSettings = [

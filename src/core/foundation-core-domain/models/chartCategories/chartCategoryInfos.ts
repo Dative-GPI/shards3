@@ -1,10 +1,12 @@
 export class ChartCategoryInfos {
   id: string;
+  applicationId: string;
   label: string;
   code: string;
 
   constructor(params: ChartCategoryInfosDTO) {
     this.id = params.id;
+    this.applicationId = params.applicationId;
     this.label = params.label;
     this.code = params.code;
   }
@@ -12,6 +14,7 @@ export class ChartCategoryInfos {
 
 export interface ChartCategoryInfosDTO {
   id: string;
+  applicationId: string;
   label: string;
   code: string;
 }

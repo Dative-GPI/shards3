@@ -10,6 +10,12 @@ import { useAppLanguageCode } from "./useAppLanguageCode";
 
 const timeZone = ref<TimeZoneInfos | null>(null);
 
+const LONGTIMEFORMAT =  "EEE dd LLL yyyy HH:mm:ss";
+
+const capitalizeFirstLetter = (data: string): string => {
+    return data.charAt(0).toUpperCase() + data.slice(1);
+  }
+
 export const useAppTimeZone = () => {
     const setAppTimeZone = (payload: TimeZoneInfos) => {
         timeZone.value = payload;
@@ -245,6 +251,22 @@ export const useAppTimeZone = () => {
         return "";
     };
 
+    const formatEpochToVariable = (epoch: number | undefined): string => {
+        if (epoch == null || !isFinite(epoch)) {
+          return "";
+        }
+        return format(epoch - machineOffset(), isoTimeFormat());
+      };
+
+      const formatEpochToUI = (epoch: number | undefined, dateFormat: string = LONGTIMEFORMAT): string => {
+        if (epoch == null || !isFinite(epoch)) {
+          return "";
+        }
+        const date = new Date(0);
+        date.setUTCMilliseconds(epoch - machineOffset() + userOffset());
+        return capitalizeFirstLetter(format(date, overrideFormat(date, dateFormat), { locale: getLocale() }));
+      };
+
     const ready = computed(() => timeZone.value !== null);
 
     return {
@@ -265,6 +287,8 @@ export const useAppTimeZone = () => {
         epochToShortTimeFormat,
         parseForPicker,
         formatCurrentForPicker,
-        formatFromPicker
+        formatFromPicker,
+        formatEpochToVariable,
+        formatEpochToUI
     };
 }
