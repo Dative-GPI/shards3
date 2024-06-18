@@ -564,15 +564,18 @@ export default defineComponent({
     };
 
     const onClick = () => {
-      if (props.modelValue) {
+      if (props.modelValue && !props.multiple) {
         search.value = "";
         emit("update:search", search.value);
         emit("update:modelValue", null);
       }
-    }
+    };
 
     watch(search, () => {
       emit("update:search", search.value);
+      if (props.modelValue && search.value &&  !props.multiple) {
+        emit("update:modelValue", null);
+      }
     });
 
     return {

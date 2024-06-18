@@ -60,11 +60,11 @@ export const useAutocomplete = <TInfos>(
     }
   });
   
-  watch(entities, () => {
+  watch(() => entities.value, () => {
     if (init.value) {
       init.value = false;
-      entitiesLength.value = entities.value.length;
     }
+    entitiesLength.value = entities.value.length;
   });
 
   onMounted((): void => {
