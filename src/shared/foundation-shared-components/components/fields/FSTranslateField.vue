@@ -56,7 +56,8 @@
             v-for="(language, index) in languages"
             :editable="$props.editable"
             :key="index"
-            v-model="innerTranslations[language.code]"
+            :modelValue="getTranslation(language.code)"
+            @update:modelValue="setTranslation(language.code, $event)"
           >
             <template
               #label
@@ -134,10 +135,15 @@ export default defineComponent({
       required: false,
       default: null
     },
-    translations: {
-      type: Object as PropType<{ [key: string]: string }>,
+    property: {
+      type: String as PropType<string>,
       required: false,
-      default: () => ({})
+      default: "label"
+    },
+    translations: {
+      type: Array as PropType<{ languageCode: string; [key: string]: string }[]>,
+      required: false,
+      default: () => []
     },
     buttonColor: {
       type: String as PropType<ColorBase>,
@@ -155,7 +161,7 @@ export default defineComponent({
     const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
     const { getColors } = useColors();
 
-    const innerTranslations = ref(props.translations ?? {});
+    const innerTranslations = ref(props.translations);
     const dialog = ref(false);
 
     const lights = getColors(ColorEnum.Light);
@@ -171,6 +177,37 @@ export default defineComponent({
         "--fs-translate-field-color": darks.base
       };
     });
+
+    const getTranslation = (languageCode: string): string => {
+      if (!innerTranslations.value) {
+        return "";
+      }
+      const translation = innerTranslations.value.find((t) => t.languageCode === languageCode);
+      if (!translation || !translation[props.property]) {
+        return "";
+      }
+      return translation[props.property];
+    };
+
+    const setTranslation = (languageCode: string, value: string): void => {
+      if (!innerTranslations.value) {
+        innerTranslations.value = [{
+          languageCode,
+          [props.property]: value
+        }]
+        return;
+      }
+      const translation = innerTranslations.value.find((t) => t.languageCode === languageCode);
+      if (translation) {
+        translation[props.property] = value;
+      }
+      else {
+        innerTranslations.value.push({
+          languageCode,
+          [props.property]: value
+        });
+      }
+    };
 
     const onSubmit = (): void => {
       dialog.value = false;
@@ -190,6 +227,8 @@ export default defineComponent({
       languages,
       dialog,
       style,
+      getTranslation,
+      setTranslation,
       onSubmit
     };
   }
