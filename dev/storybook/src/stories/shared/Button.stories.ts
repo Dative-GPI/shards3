@@ -377,6 +377,11 @@ export const Links: Story = {
         href="https://www.google.fr"
         label="Using Google URL"
       />
+      <FSButton
+        href="https://www.google.fr"
+        icon="mdi-google"
+        variant="icon"
+      />
     </div>`
   })
 }
