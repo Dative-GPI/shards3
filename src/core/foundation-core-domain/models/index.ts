@@ -10,6 +10,8 @@ export * from "./comments";
 export * from "./connectivityAlerts";
 export * from "./customProperties";
 export * from "./customPropertyValues";
+export * from "./dashboardDatePresets";         // No service
+export * from "./dashboardEntityPresets";       // No service
 export * from "./dashboardOrganisations";
 export * from "./dashboardOrganisationTypes";
 export * from "./dashboards";
