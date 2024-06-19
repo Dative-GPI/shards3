@@ -77,6 +77,7 @@
           #body
         >
           <FSSearchField
+            :hideHeader="true"
             v-model="search"
           />
           <FSFadeOut
@@ -229,9 +230,14 @@
                 >
                   <slot
                     name="item-label"
-                    v-bind="{ item }"
+                    v-bind="{
+                      item,
+                      font: $props.modelValue === item.raw[$props.itemTitle] ? 'text-button' : 'text-body'
+                    }"
                   >
-                    <FSSpan>
+                    <FSSpan
+                      :font="$props.modelValue === item.raw[$props.itemTitle] ? 'text-button' : 'text-body'"
+                    >
                       {{ item.raw[$props.itemTitle] }}
                     </FSSpan>
                   </slot>
@@ -553,13 +559,16 @@ export default defineComponent({
           emit("update:modelValue", [...props.modelValue, value]);
         }
       }
-      else {
+      else if (props.modelValue != null) {
         if (props.modelValue === value) {
           emit("update:modelValue", []);
         }
         else {
           emit("update:modelValue", [props.modelValue, value]);
         }
+      }
+      else {
+        emit("update:modelValue", [value]);
       }
     };
 

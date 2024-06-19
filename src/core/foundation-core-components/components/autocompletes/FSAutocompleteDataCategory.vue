@@ -25,28 +25,21 @@
       </FSRow>
     </template>
     <template
-      #autocomplete-item="{ props, item }"
+      #item-label="{ item, font }"
     >
-      <v-list-item
-        v-bind="{ ...props, title: '' }"
+      <FSRow
+        align="center-left"
+        :wrap="false"
       >
-        <FSRow
-          align="center-left"
-          :wrap="false"
+        <FSIcon>
+          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
+        </FSIcon>
+        <FSSpan
+          :font="font"
         >
-          <FSCheckbox
-            v-if="$props.multiple"
-            :modelValue="$props.modelValue?.includes(item.value)"
-            @click="props.onClick"
-          />
-          <FSIcon>
-            {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
-          </FSIcon>
-          <FSSpan>
-            {{ item.raw.label }}
-          </FSSpan>
-        </FSRow>
-      </v-list-item>
+          {{ item.raw.label }}
+        </FSSpan>
+      </FSRow>
     </template>
     <template
       #toggle-set-item="props"
@@ -71,7 +64,6 @@ import { useDataCategories } from "@dative-gpi/foundation-core-services/composab
 import { DataCategoryFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
-import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
@@ -81,7 +73,6 @@ export default defineComponent({
   name: "FSAutocompleteDataCategory",
   components: {
     FSAutocompleteField,
-    FSCheckbox,
     FSButton,
     FSIcon,
     FSSpan,
