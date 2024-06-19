@@ -3,12 +3,12 @@ export class DashboardDatePresetTranslation {
   label: string;
 
   constructor(params: DashboardDatePresetTranslationDTO) {
-    this.languageCode = params.languageCOde;
+    this.languageCode = params.languageCode;
     this.label = params.label;
   }
 }
 
 export interface DashboardDatePresetTranslationDTO {
-  languageCOde: string;
+  languageCode: string;
   label: string;
 }
