@@ -1,5 +1,7 @@
 import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
+import { CreateDashboardEntityPresetDTO, DashboardEntityPresetInfos, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
+import { CreateDashboardDatePresetDTO, DashboardDatePresetInfos, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
 import { CreateDashboardVariableDTO, DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
 import { DashboardOrganisationTypeInfos, DashboardOrganisationTypeInfosDTO } from "./dashboardOrganisationTypeInfos";
 import { DashboardTranslation, DashboardTranslationDTO } from "../dashboards";
@@ -13,12 +15,15 @@ export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeI
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
+  globalEntitiesFilters: string;
   globalEntitiesIds: string[];
   dynamicDates: boolean;
   globalStartDate: string;
   globalEndDate: string;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  datePresets: DashboardDatePresetInfos[];
+  entityPresets: DashboardEntityPresetInfos[];
   variables: DashboardVariableInfos[];
   widgets: WidgetInfos[];
 
@@ -47,12 +52,15 @@ export interface DashboardOrganisationTypeDetailsDTO extends DashboardOrganisati
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
+  globalEntitiesFilters: string;
   globalEntitiesIds: string[];
   dynamicDates: boolean;
   globalStartDate: string;
   globalEndDate: string;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  datePresets: DashboardDatePresetInfosDTO[];
+  entityPresets: DashboardEntityPresetInfosDTO[];
   variables: DashboardVariableInfosDTO[];
   widgets: WidgetInfosDTO[];
 }
@@ -73,12 +81,15 @@ export interface UpdateDashboardOrganisationTypeDTO {
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
+  globalEntitiesFilters: string;
   globalEntitiesIds: string[];
   dynamicDates: boolean;
   globalStartDate: string;
   globalEndDate: string;
   useAutoRefresh: boolean;
   autoRefresh: number;
+  datePresets: CreateDashboardDatePresetDTO[];
+  entityPresets: CreateDashboardEntityPresetDTO[];
   variables: CreateDashboardVariableDTO[];
   widgets: CreateWidgetDTO[];
 }

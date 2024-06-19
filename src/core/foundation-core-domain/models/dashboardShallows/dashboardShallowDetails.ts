@@ -1,5 +1,7 @@
 import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
+import { DashboardEntityPresetInfos, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
+import { DashboardDatePresetInfos, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
 import { DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
 import { DashboardShallowInfos, DashboardShallowInfosDTO } from "./dashboardShallowInfos";
 import { DashboardTranslation, DashboardTranslationDTO } from "../dashboards";
@@ -13,6 +15,7 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   overrideSingleEntity: boolean | null;
   overrideDynamicEntities: boolean | null;
   overrideGlobalSelectedEntities: SelectedEntities | null;
+  overrideGlobalEntitiesFilters: string | null;
   overrideGlobalEntitiesIds: string[] | null;
   overrideDynamicDates: boolean | null;
   overrideGlobalStartDate: string | null;
@@ -23,12 +26,15 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: SelectedEntities;
+  globalEntitiesFilters: string;
   globalEntitiesIds: string[];
   dynamicDates: boolean;
   globalStartDate: string;
   globalEndDate: string;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  datePresets: DashboardDatePresetInfos[];
+  entityPresets: DashboardEntityPresetInfos[];
   variables: DashboardVariableInfos[];
   widgets: WidgetInfos[];
 
@@ -40,6 +46,7 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
     this.overrideSingleEntity = params.overrideSingleEntity;
     this.overrideDynamicEntities = params.overrideDynamicEntities;
     this.overrideGlobalSelectedEntities = params.overrideGlobalSelectedEntities;
+    this.overrideGlobalEntitiesFilters = params.overrideGlobalEntitiesFilters;
     this.overrideGlobalEntitiesIds = params.overrideGlobalEntitiesIds ?
       params.overrideGlobalEntitiesIds.slice() : null;
     this.overrideDynamicDates = params.overrideDynamicDates;
@@ -51,12 +58,15 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
     this.singleEntity = params.singleEntity;
     this.dynamicEntities = params.dynamicEntities;
     this.globalSelectedEntities = params.globalSelectedEntities;
+    this.globalEntitiesFilters = params.globalEntitiesFilters;
     this.globalEntitiesIds = params.globalEntitiesIds.slice();
     this.dynamicDates = params.dynamicDates;
     this.globalStartDate = params.globalStartDate;
     this.globalEndDate = params.globalEndDate;
     this.useAutoRefresh = params.useAutoRefresh;
     this.autoRefresh = params.autoRefresh;
+    this.datePresets = params.datePresets.map(dto => new DashboardDatePresetInfos(dto));
+    this.entityPresets = params.entityPresets.map(dto => new DashboardEntityPresetInfos(dto));
     this.variables = params.variables.map(dto => new DashboardVariableInfos(dto));
     this.widgets = params.widgets.map(dto => new WidgetInfos(dto));
   }
@@ -68,6 +78,7 @@ export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
   overrideSingleEntity: boolean | null;
   overrideDynamicEntities: boolean | null;
   overrideGlobalSelectedEntities: SelectedEntities | null;
+  overrideGlobalEntitiesFilters: string | null;
   overrideGlobalEntitiesIds: string[] | null;
   overrideDynamicDates: boolean | null;
   overrideGlobalStartDate: string | null;
@@ -80,12 +91,15 @@ export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
   singleEntity: boolean;
   dynamicEntities: boolean;
   globalSelectedEntities: number;
+  globalEntitiesFilters: string;
   globalEntitiesIds: string[];
   dynamicDates: boolean;
   globalStartDate: string;
   globalEndDate: string;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  datePresets: DashboardDatePresetInfosDTO[];
+  entityPresets: DashboardEntityPresetInfosDTO[];
   variables: DashboardVariableInfosDTO[];
   widgets: WidgetInfosDTO[];
 }
@@ -105,6 +119,7 @@ export interface UpdateDashboardShallowDTO {
   overrideSingleEntity: boolean | null;
   overrideDynamicEntities: boolean | null;
   overrideGlobalSelectedEntities: SelectedEntities | null;
+  overrideGlobalEntitiesFilters: string | null;
   overrideGlobalEntitiesIds: string[] | null;
   overrideDynamicDates: boolean | null;
   overrideGlobalStartDate: string | null;
