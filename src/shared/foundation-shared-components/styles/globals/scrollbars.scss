@@ -12,7 +12,7 @@
 
 @include clickscreen {
   .fs-hide-x-scrollbar {
-    overflow-x: scroll;
+    overflow-x: scroll !important;
 
     &::-webkit-scrollbar {
       height: 8px;
@@ -28,7 +28,7 @@
   }
 
   .fs-hide-y-scrollbar {
-    overflow-y: scroll;
+    overflow-y: scroll !important;
 
     &::-webkit-scrollbar {
       width: 8px;

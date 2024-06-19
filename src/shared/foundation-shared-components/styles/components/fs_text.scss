@@ -1,5 +1,5 @@
 .fs-text {
-    color: var(--fs-text-color);
+    color: var(--fs-text-color) !important;
 
     @extend .fs-span;
 }

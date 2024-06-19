@@ -5,6 +5,7 @@
     v-bind="$attrs"
   >
     <FSCard
+      width="calc(100vw - 48px)"
       padding="8px"
       gap="24px"
       :color="$props.color"

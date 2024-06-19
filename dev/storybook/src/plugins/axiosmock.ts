@@ -39,6 +39,7 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/device-organisations/1", DEVICEORGANISATIONS[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/device-organisations/2", DEVICEORGANISATIONS[1]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/device-organisations/3", DEVICEORGANISATIONS[2]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/folders", FOLDERS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/folders/1", FOLDERS[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/folders/2", FOLDERS[1]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/folders/3", FOLDERS[2]);

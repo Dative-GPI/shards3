@@ -1,7 +1,7 @@
 <template>
   <FSAutocompleteField
+    itemTitle="id"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :customFilter="customFilter"
     :multiple="$props.multiple"
     :loading="loading"
     :items="timeZones"
@@ -26,27 +26,21 @@
       </FSRow>
     </template>
     <template
-      #autocomplete-item="{ props, item }"
+      #item-label="{ item, font }"
     >
-      <v-list-item
-        v-bind="{ ...props, title: '' }"
+      <FSRow
+        align="center-left"
+        :wrap="false"
       >
-        <FSRow
-          align="center-left"
+        <FSChip
+          :label="item.raw.offset"
+        />
+        <FSSpan
+          :font="font"
         >
-          <FSCheckbox
-            v-if="$props.multiple"
-            :modelValue="$props.modelValue?.includes(item.value)"
-            @click="props.onClick"
-          />
-          <FSChip
-            :label="item.raw.offset"
-          />
-          <FSSpan>
-            {{ item.raw.id }}
-          </FSSpan>
-        </FSRow>
-      </v-list-item>
+          {{ item.raw.id }}
+        </FSSpan>
+      </FSRow>
     </template>
     <template
       #toggle-set-item="props"
@@ -76,9 +70,9 @@ import { computed, defineComponent, PropType } from "vue";
 import { TimeZoneFilters, TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
-import FSCheckbox from "../FSCheckbox.vue"
 import FSButton from "../FSButton.vue";
 import FSChip from "../FSChip.vue";
 import FSSpan from "../FSSpan.vue";
@@ -88,7 +82,6 @@ export default defineComponent({
   name: "FSAutocompleteTimeZone",
   components: {
     FSAutocompleteField,
-    FSCheckbox,
     FSButton,
     FSChip,
     FSSpan,
@@ -128,10 +121,6 @@ export default defineComponent({
       return getManyTimeZones({ ...props.timeZoneFilters, search: search ?? undefined });
     };
 
-    const customFilter = (_: any, search: string, item: any): boolean => {
-      return item.raw.id.toLowerCase().includes(search.toLowerCase());
-    };
-
     const { toggleSet, search, init, onUpdate } = useAutocomplete(
       timeZones,
       [() => props.timeZoneFilters],
@@ -143,11 +132,11 @@ export default defineComponent({
     );
 
     return {
+      ColorEnum,
       timeZones,
       toggleSet,
       loading,
       search,
-      customFilter,
       onUpdate
     };
   }
