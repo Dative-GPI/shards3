@@ -2,6 +2,7 @@ import { DashboardEntityPresetTranslationDTO } from "./dashboardEntityPresetTran
 import { SelectedEntities } from "../enums/sharedEnums";
 
 export interface CreateDashboardEntityPresetDTO {
+  code: string;
   labelDefault: string;
   globalSelectedEntities: SelectedEntities;
   globalEntitiesFilters: string;
