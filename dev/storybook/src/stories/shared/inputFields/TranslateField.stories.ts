@@ -25,9 +25,9 @@ export const Variations: Story = {
       value1: null,
       translations1: null,
       value2: "Hello there",
-      translations2: { "fr-FR": "Bonjour ici" },
+      translations2: [{ languageCode: "fr-FR", label: "Bonjour ici" }],
       value3: "General Kenobi",
-      translations3: {}
+      translations3: []
     }
   },
   render: (args, { argTypes }) => ({

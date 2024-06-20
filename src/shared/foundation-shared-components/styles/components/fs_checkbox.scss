@@ -3,8 +3,7 @@
     color: var(--fs-checkbox-checkbox-color) !important;
 }
 
-.fs-checkbox-label,
-.fs-checkbox-label :not(.fs-checkbox) {
+.fs-checkbox-label {
     cursor: var(--fs-checkbox-cursor) !important;
     color: var(--fs-checkbox-color) !important;
     user-select: none;

@@ -32,35 +32,28 @@
       </FSRow>
     </template>
     <template
-      #autocomplete-item="{ props, item }"
+      #item-label="{ item, font }"
     >
-      <v-list-item
-        v-bind="{ ...props, title: '' }"
+      <FSRow
+        align="center-left"
+        :wrap="false"
       >
-        <FSRow
-          align="center-left"
-          :wrap="false"
+        <FSIcon
+          v-if="item.raw.icon"
         >
-          <FSCheckbox
-            v-if="$props.multiple"
-            :modelValue="$props.modelValue?.includes(item.value)"
-            @click="props.onClick"
-          />
-          <FSIcon
-            v-if="item.raw.icon"
-          >
-            {{ item.raw.icon }}
-          </FSIcon>
-          <FSSpan>
-            {{ item.raw.label }}
-          </FSSpan>
-          <FSChip
-            :color="dashboardTypeColor(item.raw.type)"
-            :label="dashboardTypeLabel(item.raw.type)"
-            :editable="false"
-          />
-        </FSRow>
-      </v-list-item>
+          {{ item.raw.icon }}
+        </FSIcon>
+        <FSSpan
+          :font="font"
+        >
+          {{ item.raw.label }}
+        </FSSpan>
+        <FSChip
+          :color="dashboardTypeColor(item.raw.type)"
+          :label="dashboardTypeLabel(item.raw.type)"
+          :editable="false"
+        />
+      </FSRow>
     </template>
     <template
       #toggle-set-item="props"
@@ -98,7 +91,6 @@ import { DashboardType } from "@dative-gpi/foundation-shared-domain/models";
 import { dashboardTypeColor, dashboardTypeLabel } from "../../utils";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
-import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
@@ -110,7 +102,6 @@ export default defineComponent({
   name: "FSAutocompleteDashboard",
   components: {
     FSAutocompleteField,
-    FSCheckbox,
     FSButton,
     FSChip,
     FSIcon,

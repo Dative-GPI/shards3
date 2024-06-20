@@ -27,30 +27,23 @@
       </FSRow>
     </template>
     <template
-      #autocomplete-item="{ props, item }"
+      #item-label="{ item, font }"
     >
-      <v-list-item
-        v-bind="{ ...props, title: '' }"
+      <FSRow
+        align="center-left"
+        :wrap="false"
       >
-        <FSRow
-          align="center-left"
-          :wrap="false"
+        <FSIcon
+          v-if="item.raw.icon"
         >
-          <FSCheckbox
-            v-if="$props.multiple"
-            :modelValue="$props.modelValue?.includes(item.value)"
-            @click="props.onClick"
-          />
-          <FSIcon
-            v-if="item.raw.icon"
-          >
-            {{ item.raw.icon }}
-          </FSIcon>
-          <FSSpan>
-            {{ item.raw.label }}
-          </FSSpan>
-        </FSRow>
-      </v-list-item>
+          {{ item.raw.icon }}
+        </FSIcon>
+        <FSSpan
+          :font="font"
+        >
+          {{ item.raw.label }}
+        </FSSpan>
+      </FSRow>
     </template>
   </FSAutocompleteField>
 </template>
@@ -63,7 +56,6 @@ import { useGroups } from "@dative-gpi/foundation-core-services/composables";
 import { GroupFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
-import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
@@ -72,7 +64,6 @@ export default defineComponent({
   name: "FSAutocompleteGroup",
   components: {
     FSAutocompleteField,
-    FSCheckbox,
     FSIcon,
     FSSpan,
     FSRow

@@ -1,7 +1,7 @@
 <template>
   <FSAutocompleteField
+    itemTitle="name"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :customFilter="customFilter"
     :multiple="$props.multiple"
     :items="userOrganisations"
     :loading="loading"
@@ -29,31 +29,24 @@
       </FSRow>
     </template>
     <template
-      #autocomplete-item="{ props, item }"
+      #item-label="{ item, font }"
     >
-      <v-list-item
-        v-bind="{ ...props, title: '' }"
+      <FSRow
+        align="center-left"
+        :wrap="false"
       >
-        <FSRow
-          align="center-left"
-          :wrap="false"
+        <FSImage
+          v-if="item.raw.imageId"
+          height="26px"
+          width="26px"
+          :imageId="item.raw.imageId"
+        />
+        <FSSpan
+          :font="font"
         >
-          <FSCheckbox
-            v-if="$props.multiple"
-            :modelValue="$props.modelValue?.includes(item.value)"
-            @click="props.onClick"
-          />
-          <FSImage
-            v-if="item.raw.imageId"
-            height="26px"
-            width="26px"
-            :imageId="item.raw.imageId"
-          />
-          <FSSpan>
-            {{ item.raw.name }}
-          </FSSpan>
-        </FSRow>
-      </v-list-item>
+          {{ item.raw.name }}
+        </FSSpan>
+      </FSRow>
     </template>
     <template
       #toggle-set-item="props"
@@ -91,7 +84,6 @@ import { useUserOrganisations } from "@dative-gpi/foundation-core-services/compo
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
-import FSCheckbox from "@dative-gpi/foundation-shared-components/components/FSCheckbox.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
@@ -101,7 +93,6 @@ export default defineComponent({
   name: "FSAutocompleteUserOrganisation",
   components: {
     FSAutocompleteField,
-    FSCheckbox,
     FSButton,
     FSImage,
     FSSpan,
@@ -148,10 +139,6 @@ export default defineComponent({
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
 
-    const customFilter = (_: any, search: string, item: any): boolean => {
-      return item.raw.name.toLowerCase().includes(search.toLowerCase());
-    };
-
     const { toggleSet, search, init, onUpdate } = useAutocomplete(
       userOrganisations,
       [() => props.userOrganisationFilters],
@@ -168,7 +155,6 @@ export default defineComponent({
       toggleSet,
       loading,
       search,
-      customFilter,
       onUpdate
     };
   }

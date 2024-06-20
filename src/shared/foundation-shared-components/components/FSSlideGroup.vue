@@ -108,25 +108,29 @@ export default defineComponent({
     const goToStart = () => {
       if (slideGroupRef.value) {
         const scrollElement = (slideGroupRef.value as any).$el.children[1];
-        scrollElement.scrollTo({ left: -scrollElement.scrollLeft, behavior: "smooth" });
+        if (scrollElement && scrollElement.scrollTo) {
+          scrollElement.scrollTo({ left: -scrollElement.scrollLeft, behavior: "smooth" });
+        }
       }
     };
 
     const goToEnd = () => {
       if (slideGroupRef.value) {
         const scrollElement = (slideGroupRef.value as any).$el.children[1];
-        scrollElement.scrollTo({ left: scrollElement.scrollWidth - scrollElement.scrollLeft, behavior: "smooth" });
+        if (scrollElement && scrollElement.scrollTo) {
+          scrollElement.scrollTo({ left: scrollElement.scrollWidth - scrollElement.scrollLeft, behavior: "smooth" });
+        }
       }
     };
 
     const goToPrev = () => {
-      if (slideGroupRef.value) {
+      if (slideGroupRef.value && (slideGroupRef.value as any).scrollTo) {
         (slideGroupRef.value as any).scrollTo("prev");
       }
     };
 
     const goToNext = () => {
-      if (slideGroupRef.value) {
+      if (slideGroupRef.value && (slideGroupRef.value as any).scrollTo) {
         (slideGroupRef.value as any).scrollTo("next");
         forceActive.value = false;
       }

@@ -116,6 +116,7 @@
     >
       <v-data-table
         v-if="!isExtraSmall"
+        loadingText=""
         :selectStrategy="$props.singleSelect ? 'single' : 'all'"
         :groupBy="$props.groupBy ? [$props.groupBy] : []"
         :headers="extraHeaders.concat(innerHeaders)"
@@ -124,6 +125,7 @@
         :showSelect="$props.showSelect"
         :hover="!$props.sortDraggable"
         :itemValue="$props.itemValue"
+        :loading="$props.loading"
         :rowProps="rowProps"
         :fixedHeader="true"
         :items="innerItems"
@@ -412,9 +414,27 @@
         v-else
         class="fs-data-table-iterator"
         :itemsPerPage="innerRowsPerPage"
+        :loading="$props.loading"
         :items="innerItems"
         :page="innerPage"
       >
+        <template
+          #loader
+        >
+          <v-progress-linear
+            height="2"
+            :indeterminate="true"
+          />
+        </template>
+        <template
+          #no-data
+        >
+          <FSText
+            font="text-overline"
+          >
+            {{ $tr("ui.data-table.empty", "No data") }}
+          </FSText>
+        </template>
         <template
           #default="{ items }"
         >
@@ -564,9 +584,27 @@
     >
       <v-data-iterator
         class="fs-data-table-iterator"
-        :items="innerItems"
+        :loading="$props.loading"
         :itemsPerPage="size"
+        :items="innerItems"
       >
+        <template
+          #loader
+        >
+          <v-progress-linear
+            height="2"
+            :indeterminate="true"
+          />
+        </template>
+        <template
+          #no-data
+        >
+          <FSText
+            font="text-overline"
+          >
+            {{ $tr("ui.data-table.empty", "No data") }}
+          </FSText>
+        </template>
         <template
           #default="{ items }"
         >
@@ -782,6 +820,11 @@ export default defineComponent({
       default: false
     },
     selectedOnly: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    loading: {
       type: Boolean,
       required: false,
       default: false
