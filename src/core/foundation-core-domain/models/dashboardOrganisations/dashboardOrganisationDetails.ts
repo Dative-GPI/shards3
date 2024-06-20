@@ -15,9 +15,9 @@ export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
   translations: DashboardTranslation[];
   singleEntity: boolean;
   dynamicEntities: boolean;
-  entityPresetCode: string;
+  entityPresetCode: string | null;
   dynamicDates: boolean;
-  datePresetCode: string;
+  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
   datePresets: DashboardDatePresetInfos[];
@@ -51,9 +51,9 @@ export interface DashboardOrganisationDetailsDTO extends DashboardOrganisationIn
   translations: DashboardTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
-  entityPresetCode: string;
+  entityPresetCode: string | null;
   dynamicDates: boolean;
-  datePresetCode: string;
+  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
   datePresets: DashboardDatePresetInfosDTO[];
@@ -83,9 +83,9 @@ export interface UpdateDashboardOrganisationDTO {
   translations: DashboardTranslationDTO[];
   singleEntity: boolean;
   dynamicEntities: boolean;
-  entityPresetCode: string;
+  entityPresetCode: string | null;
   dynamicDates: boolean;
-  datePresetCode: string;
+  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: number;
   datePresets: CreateDashboardDatePresetDTO[];
