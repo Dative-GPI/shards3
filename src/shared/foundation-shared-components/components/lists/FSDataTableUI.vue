@@ -7,6 +7,10 @@
       :wrap="isExtraSmall ? false : true"
       width="fill"
     >
+      <slot
+        v-if="!isExtraSmall"
+        name="prepend-toolbar"
+      />
       <template
         v-if="$props.showSearch"
       >
