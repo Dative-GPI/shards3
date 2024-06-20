@@ -158,6 +158,10 @@ export const ContentVariant: Story = {
   })
 }
 
+import FSButtonAdd from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonAdd.vue";
+import FSButtonAddLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonAddLabel.vue";
+import FSButtonAddMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonAddMini.vue";
+import FSButtonAddIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonAddIcon.vue";
 import FSButtonCancel from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancel.vue";
 import FSButtonCancelLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancelLabel.vue";
 import FSButtonCancelMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCancelMini.vue";
@@ -211,6 +215,7 @@ import FSButtonValidateIcon from  "@dative-gpi/foundation-shared-components/comp
 export const Predefined: Story = {
   render: () => ({
     components: {
+      FSButtonAdd, FSButtonAddLabel, FSButtonAddMini, FSButtonAddIcon,
       FSButtonCancel, FSButtonCancelLabel, FSButtonCancelMini, FSButtonCancelIcon,
       FSButtonDuplicate, FSButtonDuplicateLabel, FSButtonDuplicateMini, FSButtonDuplicateIcon,
       FSButtonEdit, FSButtonEditLabel, FSButtonEditMini, FSButtonEditIcon,
@@ -226,6 +231,12 @@ export const Predefined: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px;">
+        <FSButtonAdd />
+        <FSButtonAddLabel />
+        <FSButtonAddMini />
+        <FSButtonAddIcon />
+      </div>
       <div style="display: flex; gap: 10px;">
         <FSButtonCancel />
         <FSButtonCancelLabel />
