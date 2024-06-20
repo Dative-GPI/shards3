@@ -1,5 +1,6 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { validateExpression } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { getTimeBestString } from "../utils";
 
@@ -12,7 +13,7 @@ export const TextRules = {
     min: (min: number, message: string | undefined = undefined) => (value: string) => value.length >= min || (message ?? $tr("ui.rules.text-min", "Must be at least {0} characters", min.toString())),
     max: (max: number, message: string | undefined = undefined) => (value: string) => value.length <= max || (message ?? $tr("ui.rules.text-max", "Must be at most {0} characters", max.toString())),
     email: (message: string | undefined = undefined) => (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || (message ?? $tr("ui.rules.text-email", "Must be a valid email")),
-    phone: (message: string | undefined = undefined) => (value: string) => /^[\+]?([0-9]+[ -]?)+$/.test(value) || (message ?? $tr("ui.rules.text-phone", "Must be a valid phone number")),
+    phone: (message: string | undefined = undefined) => (value: string) => /^[+]?([0-9]+[ -]?){7,}$/.test(value) || (message ?? $tr("ui.rules.text-phone", "Must be a valid phone number")),
     digit: (message: string | undefined = undefined) => (value: string) => /(?=.*\d)/.test(value) || (message ?? $tr("ui.rules.text-digit", "Must contain a digit")),
     uppercase: (message: string | undefined = undefined) => (value: string) => /(?=.*[A-Z])/.test(value) || (message ?? $tr("ui.rules.text-uppercase", "Must contain an uppercase letter")),
     lowercase: (message: string | undefined = undefined) => (value: string) => /(?=.*[a-z])/.test(value) || (message ?? $tr("ui.rules.text-lowercase", "Must contain a lowercase letter")),
@@ -39,7 +40,8 @@ export const IconRules = {
 export const DateRules = {
     required: (message: string | undefined = undefined) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
     min: (min: number, message: string | undefined = undefined) => (value: number) => (!value || value >= min) || (message ?? $tr("ui.rules.date-min", "Must be after {0}", epochToLongDateFormat(min))),
-    max: (max: number, message: string | undefined = undefined) => (value: number) => (!value || value <= max) || (message ?? $tr("ui.rules.date-max", "Must be before {0}", epochToLongDateFormat(max)))
+    max: (max: number, message: string | undefined = undefined) => (value: number) => (!value || value <= max) || (message ?? $tr("ui.rules.date-max", "Must be before {0}", epochToLongDateFormat(max))),
+    validateExpression: (variant: "default" | "before-after") => (value: string) => validateExpression(value, variant)
 };
 
 export const SelectRules = {
@@ -62,4 +64,10 @@ export const TimeRules = {
 
 export const ToggleRules = {
     required: (message: string | undefined = undefined) => (value: boolean) => value || (message ?? $tr("ui.rules.required", "Required"))
-}
+};
+
+export const TreeViewRules = {
+    required: (message: string | undefined = undefined) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
+    min: (min: number, message: string | undefined = undefined) => (value: string[]) => { console.log(value); return (Array.isArray(value) && value.length >= min) || (message ?? $tr("ui.rules.tree-view-min", "Must select at least {0} elements", min.toString())); },
+    max: (max: number, message: string | undefined = undefined) => (value: string[]) => (Array.isArray(value) && value.length <= max) || (message ?? $tr("ui.rules.tree-view-max", "Must select at most {0} elements", max.toString()))
+};

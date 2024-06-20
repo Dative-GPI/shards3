@@ -1,15 +1,12 @@
 import { Ref, computed, inject, ref } from "vue";
 
 export const useRules = () => {
-  const innerValidateOn = inject<Ref<"submit" | "blur" | "input">>("validateOn", ref('input'));
+  const innerValidateOn = inject<Ref<"submit" | "input">>("validateOn", ref('input'));
   const submitted = inject<Ref<boolean>>("submitted", ref(false));
 
-  const blurred = ref(false);
-
-  const validateOn = computed((): "input" | "submit" | "blur" => {
+  const validateOn = computed((): "input" | "submit" => {
     switch (innerValidateOn.value) {
       case "submit": return submitted.value ? "input" : "submit";
-      case "blur":   return blurred.value ? "input" : "blur";
       case "input":  return "input";
     }
   });
@@ -21,11 +18,6 @@ export const useRules = () => {
     switch (validateOn.value) {
       case "submit":
         if (!submitted.value) {
-          return [];
-        }
-        break;
-      case "blur":
-        if (!blurred.value) {
           return [];
         }
         break;
@@ -69,7 +61,6 @@ export const useRules = () => {
 
   return {
     validateOn,
-    blurred,
     getMessages
   };
 }

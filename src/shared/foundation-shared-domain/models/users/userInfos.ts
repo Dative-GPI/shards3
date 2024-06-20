@@ -1,9 +1,6 @@
 export class UserInfos {
     id: string;
-    imageId?: string;
-    imageWidth?: number;
-    imageHeight?: number;
-    imageBlurHash?: string;
+    imageId: string | null;
     email: string;
     phoneNumber: string;
     firstName: string;
@@ -12,9 +9,6 @@ export class UserInfos {
     constructor(params: UserInfosDTO) {
       this.id = params.id;
       this.imageId = params.imageId;
-      this.imageWidth = params.imageWidth;
-      this.imageHeight = params.imageHeight;
-      this.imageBlurHash = params.imageBlurHash;
       this.email = params.email;
       this.phoneNumber = params.phoneNumber;
       this.firstName = params.firstName;
@@ -24,10 +18,7 @@ export class UserInfos {
   
   export interface UserInfosDTO {
     id: string;
-    imageId?: string;
-    imageWidth?: number;
-    imageHeight?: number;
-    imageBlurHash?: string;
+    imageId: string | null;
     email: string;
     phoneNumber: string;
     firstName: string;
@@ -35,5 +26,5 @@ export class UserInfos {
   }
   
   export interface UserFilters {
-    search?: string;
+    search?: string | null;
   }

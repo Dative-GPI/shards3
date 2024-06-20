@@ -1,33 +1,42 @@
 export interface FSDataTableColumn {
-    [key: string]: any;
-    text?: string;
-    value?: string;
-    index: number;
-    hidden: boolean;
-    width?: string | number;
+  [key: string]: any;
+  text?: string | null;
+  value?: string | null;
+  index: number;
+  hidden: boolean;
+  width?: string | number | null;
 
-    sortable?: boolean;
-    sort?: (a: any, b: any) => number;
+  sortable?: boolean | null;
+  sort?: ((a: any, b: any) => number) | null;
 
-    filterable?: boolean;
-    fixedFilters?: { value: any, text: string }[];
-    methodFilter?: (value: any, item: any) => boolean;
-    filter?: (value: any, search: string, item: any) => boolean;
+  filterable?: boolean | null;
+  fixedFilters?: { value: any, text: string }[] | null;
+  methodFilter?: ((value: any, item: any) => boolean) | null;
+  filter?: ((value: any, search: string, item: any) => boolean) | null;
 
-    innerValue?: (value: any) => any;
+  innerValue?: ((value: any) => any) | null;
 
-    // Should not be set directly !
-    slotName?: string;
+  // Should not be set directly !
+  slotName?: string | null;
 }
 
 export interface FSDataTableFilter {
-    text: string;
-    value: string;
-    hidden: boolean;
-    filter?: (value: any, property: any, item: any) => boolean;
+  text: string;
+  value: string;
+  hidden: boolean;
+  filter?: ((value: any, property: any, item: any) => boolean) | null;
 }
 
 export interface FSDataTableOrder {
-    key: string;
-    order: "asc" | "desc";
+  key: string | null;
+  order: "asc" | "desc" | null;
+}
+
+export interface FSDataTable {
+  headers: FSDataTableColumn[];
+  sortBy: FSDataTableOrder | null;
+  mode: "table" | "iterator";
+  rowsPerPage: -1 | 10 | 30;
+  filters: { [key: string]: FSDataTableFilter[] };
+  page: number;
 }

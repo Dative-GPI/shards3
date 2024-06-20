@@ -10,11 +10,13 @@
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
       @click.prevent.stop="onToggle"
-      @blur="blurred = true"
       v-bind="$attrs"
     >
-      <template #input>
+      <template
+        #input
+      >
         <FSRow
+          class="fs-checkbox-label"
           align="center-left"
           width="hug"
           :style="style"
@@ -26,10 +28,12 @@
           >
             {{ icon }}
           </FSIcon>
-          <slot>
+          <slot
+            name="label"
+            v-bind="{ font }"
+          >
             <FSSpan
               v-if="$props.label"
-              class="fs-checkbox-label"
               :style="style"
               :font="font"
             >
@@ -39,7 +43,9 @@
         </FSRow>
       </template>
     </v-checkbox>
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="$props.description"
         class="fs-checkbox-description"
@@ -115,7 +121,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
@@ -123,7 +129,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-checkbox-cursor"        : "default",
@@ -161,7 +167,6 @@ export default defineComponent({
     return {
       validateOn,
       messages,
-      blurred,
       style,
       icon,
       font,

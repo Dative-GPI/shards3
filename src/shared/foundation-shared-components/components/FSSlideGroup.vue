@@ -3,49 +3,49 @@
     class="fs-slide-group"
     ref="slideGroupRef"
     :showArrows="true"
+    :id="elementId"
     :style="style"
     v-bind="$attrs"
   >
-    <template #prev>
-      <FSButton
-        v-if="$props.dash"
-        icon="mdi-chevron-double-left"
-        variant="icon"
-        @click="goToStart"
-      />
+    <template
+      #prev
+    >
       <FSButtonPreviousIcon
         :color="ColorEnum.Dark"
-        @click="goToPrev"
+        @click.prevent.stop="goToPrev"
       />
     </template>
-    <template #default>
+    <template
+      #default
+    >
       <v-slide-group-item
-        v-for="(component) in getChildren()"
+        v-for="(component, index) in getChildren()"
+        :key="index"
       >
-        <component :is="component" />
+        <component
+          :is="component"
+        />
       </v-slide-group-item>
     </template>
-    <template #next>
+    <template
+      #next
+    >
       <FSButtonNextIcon
         :color="ColorEnum.Dark"
-        @click="goToNext"
-      />
-      <FSButton
-        v-if="$props.dash"
-        icon="mdi-chevron-double-right"
-        variant="icon"
-        @click="goToEnd"
+        :class="nextClasses"
+        @click.prevent.stop="goToNext"
       />
     </template>
   </v-slide-group>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, PropType, ref } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
+import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid";
 
 import FSButtonPreviousIcon from "./buttons/FSButtonPreviousIcon.vue";
 import FSButtonNextIcon from "./buttons/FSButtonNextIcon.vue";
@@ -69,11 +69,6 @@ export default defineComponent({
       required: false,
       default: "8px"
     },
-    dash: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     speed: {
       type: Number,
       required: false,
@@ -86,54 +81,89 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
-    const slideGroupRef = ref<HTMLElement | null>(null);
+    const forceActive = ref(false);
 
-    const style = computed((): { [key: string] : string | undefined } => ({
-      "--fs-group-arrows-width": props.dash ? "52px" : "32px",
-      "--fs-group-padding"    : sizeToVar(props.padding),
-      "--fs-group-gap"        : sizeToVar(props.gap),
-      "--fs-group-color"      : darks.light,
-      "--fs-group-hover-color": darks.dark
+    const slideGroupRef = ref<HTMLElement | null>(null);
+    const resizeObserver = ref<ResizeObserver | null>(null);
+    
+    const elementId = `id${uuidv4()}`;
+
+    const style = computed((): { [key: string] : string | null | undefined } => ({
+      "--fs-group-padding"     : sizeToVar(props.padding),
+      "--fs-group-gap"         : sizeToVar(props.gap),
+      "--fs-group-color"       : darks.soft,
+      "--fs-group-hover-color" : darks.dark
     }));
+
+    const nextClasses = computed((): string[] => {
+      const classes = ["fs-slide-group-next"];
+      if (slideGroupRef.value) {
+        if (forceActive.value) {
+          classes.push("fs-slide-group-next-active");
+        }
+      }
+      return classes;
+    });
 
     const goToStart = () => {
       if (slideGroupRef.value) {
-        (slideGroupRef.value as any).scrollOffset = 0;
-      }
-    };
-
-    const goToPrev = () => {
-      if (slideGroupRef.value) {
-        (slideGroupRef.value as any).scrollOffset = Math.max(0, (slideGroupRef.value as any).scrollOffset - props.speed);
+        const scrollElement = (slideGroupRef.value as any).$el.children[1];
+        if (scrollElement && scrollElement.scrollTo) {
+          scrollElement.scrollTo({ left: -scrollElement.scrollLeft, behavior: "smooth" });
+        }
       }
     };
 
     const goToEnd = () => {
       if (slideGroupRef.value) {
-        const contentSize = (slideGroupRef.value as any).$el.children[1].children[0].clientWidth;
-        const containerSize = (slideGroupRef.value as any).$el.clientWidth;
-        const arrowsOffset = props.dash ? 104 : 64;
-        (slideGroupRef.value as any).scrollOffset = (contentSize - containerSize + arrowsOffset);
+        const scrollElement = (slideGroupRef.value as any).$el.children[1];
+        if (scrollElement && scrollElement.scrollTo) {
+          scrollElement.scrollTo({ left: scrollElement.scrollWidth - scrollElement.scrollLeft, behavior: "smooth" });
+        }
+      }
+    };
+
+    const goToPrev = () => {
+      if (slideGroupRef.value && (slideGroupRef.value as any).scrollTo) {
+        (slideGroupRef.value as any).scrollTo("prev");
       }
     };
 
     const goToNext = () => {
-      if (slideGroupRef.value) {
-        const contentSize = (slideGroupRef.value as any).$el.children[1].children[0].clientWidth;
-        const containerSize = (slideGroupRef.value as any).$el.clientWidth;
-        const arrowsOffset = props.dash ? 104 : 64;
-        (slideGroupRef.value as any).scrollOffset = Math.min(contentSize - containerSize + arrowsOffset, (slideGroupRef.value as any).scrollOffset + props.speed);
+      if (slideGroupRef.value && (slideGroupRef.value as any).scrollTo) {
+        (slideGroupRef.value as any).scrollTo("next");
+        forceActive.value = false;
       }
     };
 
+    onMounted((): void => {
+      resizeObserver.value = new ResizeObserver(entries => {
+        entries.forEach(() => {
+          (slideGroupRef.value as any).scrollTo("prev");
+          forceActive.value = true;
+        });
+      });
+      if (document.querySelector(`#${elementId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#${elementId}`)!);
+      }
+    });
+
+    onUnmounted((): void => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
+      }
+    });
+
     return {
       slideGroupRef,
+      nextClasses,
       ColorEnum,
+      elementId,
       style,
       getChildren,
       goToStart,
-      goToPrev,
       goToNext,
+      goToPrev,
       goToEnd
     };
   }

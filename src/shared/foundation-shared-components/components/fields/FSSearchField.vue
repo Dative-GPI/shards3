@@ -1,29 +1,43 @@
 <template>
   <FSTextField
-    :label="$props.label"
-    :description="$props.description"
-    :color="$props.color"
-    :hideHeader="$props.hideHeader"
-    :required="$props.required"
     :editable="$props.editable"
     :placeholder="placeholder"
-    @keydown.enter="$emit('update:modelValue', innerValue)"
+    @keydown.enter="onSearch"
     v-model="innerValue"
     v-bind="$attrs"
   >
-    <template v-if="$props.prependInnerIcon" #prepend-inner>
-      <slot name="prepend-inner">
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
+    </template>
+    <template
+      v-if="$props.prependInnerIcon"
+      #prepend-inner
+    >
+      <slot
+        name="prepend-inner"
+      >
         <FSButton
           variant="icon"
           :icon="$props.prependInnerIcon"
           :editable="$props.editable"
           :color="ColorEnum.Dark"
-          @click="$emit('update:modelValue', innerValue)"
+          @click="onSearch"
         />
       </slot>
     </template>
-    <template v-if="!['instant'].includes($props.variant)" #append>
-      <slot name="append">
+    <template
+      v-if="!['instant'].includes($props.variant)"
+      #append
+    >
+      <slot
+        name="append"
+      >
         <FSButton
           :prependIcon="$props.buttonPrependIcon"
           :label="buttonLabel"
@@ -31,12 +45,9 @@
           :variant="$props.buttonVariant"
           :color="$props.buttonColor"
           :editable="$props.editable"
-          @click="$emit('update:modelValue', innerValue)"
+          @click="onSearch"
         />
       </slot>
-    </template>
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
     </template>
   </FSTextField>
 </template>
@@ -57,16 +68,6 @@ export default defineComponent({
     FSButton
   },
   props: {
-    label: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    description: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
     placeholder: {
       type: String as PropType<string | null>,
       required: false,
@@ -107,25 +108,10 @@ export default defineComponent({
       required: false,
       default: null
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Dark
-    },
     buttonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
-    },
-    hideHeader: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    required: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     editable: {
       type: Boolean,
@@ -147,6 +133,12 @@ export default defineComponent({
       return props.buttonLabel ?? $tr('ui.button.search', 'Search');
     });
 
+    const onSearch = (event: Event) => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      emit('update:modelValue', innerValue.value);
+    };
+
     watch(innerValue, () => {
       if (["instant"].includes(props.variant)) {
         emit("update:modelValue", innerValue.value);
@@ -154,10 +146,11 @@ export default defineComponent({
     });
 
     return {
-      ColorEnum,
       placeholder,
       buttonLabel,
-      innerValue
+      innerValue,
+      ColorEnum,
+      onSearch
     };
   }
 });

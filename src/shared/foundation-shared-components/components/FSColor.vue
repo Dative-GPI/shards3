@@ -5,7 +5,9 @@
     :style="style"
     v-bind="$attrs"
   >
-    <slot v-bind="{ color: $props.color, colors }" />
+    <slot
+      v-bind="{ color: $props.color, colors }"
+    />
   </FSCard>
 </template>
 
@@ -39,7 +41,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-color-background-color": colors.value.light,
         "--fs-color-border-color"    : colors.value.lightContrast,

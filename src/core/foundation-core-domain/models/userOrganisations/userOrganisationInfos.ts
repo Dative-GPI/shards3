@@ -6,14 +6,11 @@ export class UserOrganisationInfos {
     userId: string;
     organisationId: string;
     roleType: RoleType;
-    roleId?: string;
+    roleId: string | null;
     roleLabel: string;
     roleIcon: string;
     admin: boolean;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId: string | null;
     userType: UserType;
     validity: UserValidityState;
     allowSms: boolean;
@@ -35,9 +32,6 @@ export class UserOrganisationInfos {
         this.roleIcon = params.roleIcon;
         this.admin = params.admin;
         this.imageId = params.imageId;
-        this.imageBlurHash = params.imageBlurHash;
-        this.imageHeight = params.imageHeight;
-        this.imageWidth = params.imageWidth;
         this.userType = params.userType;
         this.validity = params.validity;
         this.allowSms = params.allowSms;
@@ -56,14 +50,11 @@ export interface UserOrganisationInfosDTO {
     userId: string;
     organisationId: string;
     roleType: RoleType;
-    roleId?: string;
+    roleId: string | null;
     roleLabel: string;
     roleIcon: string;
     admin: boolean;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId: string | null;
     userType: UserType;
     validity: UserValidityState;
     allowSms: boolean;
@@ -77,5 +68,5 @@ export interface UserOrganisationInfosDTO {
 }
 
 export interface UserOrganisationFilters {
-    search?: string;
+    search?: string | null;
 }

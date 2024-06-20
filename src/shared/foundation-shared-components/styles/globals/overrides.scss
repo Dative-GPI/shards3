@@ -30,8 +30,12 @@
 .v-input {
     padding: 0px !important;
 
-    &:not(.v-checkbox):not(.v-slider) {
-        min-width: 200px;
+    &.fs-small-input {
+        flex: 0 0 auto;
+    }
+
+    &:not(.v-checkbox):not(.v-slider):not(.fs-small-input) {
+        min-width: 150px;
         width: 100%;
     }
 
@@ -45,12 +49,20 @@
         }
     }
 
-    & .v-input__prepend {
+    &:has(.v-input__control):has(.v-input__append) > .v-input__append {
+        margin-inline-start: 8px !important;
+    }
+
+    &:not(:has(.v-input__control)):has(.v-input__append) > .v-input__append {
+        margin-inline-start: 0 !important;
+    }
+
+    &:has(.v-input__control):has(.v-input__prepend) > .v-input__prepend {
         margin-inline-end: 8px !important;
     }
 
-    & .v-input__append {
-        margin-inline-start: 8px !important;
+    &:not(:has(.v-input__control)):has(.v-input__prepend) > .v-input__prepend {
+        margin-inline-end: 0 !important;
     }
 
     & > .v-input__control > .v-field {
@@ -61,6 +73,10 @@
             margin-inline: 0px;
             padding-top: 0px;
             height: 100%;
+
+            &  > .v-icon  {
+                opacity: 1 !important;
+            }
         }
 
         & > .v-field__outline {
@@ -74,10 +90,9 @@
         & > .v-field__field > .v-field__input {
             @extend .text-body;
             
-            padding-inline: 0px !important;
             padding-bottom: 0px !important;
+            padding-inline: 0px !important;
             padding-top: 0px !important;
-            align-items: center;
             flex-wrap: nowrap;
             overflow: hidden;
         
@@ -94,9 +109,32 @@
     }
 }
 
+// If there is a prepend, it has a padding on the right and an opacity of 100%
+.v-field__prepend-inner:not(:empty) {
+    padding-inline-end: 4px !important;
+
+    & > .v-icon {
+        opacity: 1 !important;
+    }
+}
+
+// If there is an append, it has a padding on the left and an opacity of 100%
+.v-field__append-inner:not(:empty) {
+    padding-inline-start: 4px !important;
+
+    & > .v-icon {
+        opacity: 1 !important;
+    }
+}
+
 // No input messages allowed
 .v-input__details {
     display: none !important;
+}
+
+// Ellipsis on input of all fields
+input {
+    text-overflow: ellipsis;
 }
 
 // No up / down buttons in input field of type number
@@ -121,19 +159,42 @@ $nthOverlay: 25;
 }
 
 /***** Applies to all slide groups (FSTabs, FSSlideGroup, FSWrapGroup) *****/
+.fs-slide-group {
+    max-width: 100%;
+    
+    // To avoid borders clipping
+    & > .v-slide-group__container > .v-slide-group__content {
+        margin: 0 2px 1px 0 !important;
+    }
+}
 
 // On touchscreen, hide arrows
 // Otherwise show small ones with base text color
 .v-slide-group__prev,
 .v-slide-group__next {
     color: var(--fs-group-color);
-    min-width: var(--fs-group-arrows-width) !important;
-    width: var(--fs-group-arrows-width) !important;
+    min-width: 32px !important;
+    width: 32px !important;
     flex: 1 1 0 !important;
 
     @include touchscreen {
         display: none !important;
     }
+    
+    & > .v-icon {
+        @include web {
+            font-size: 24px !important;
+        }
+    
+        @include mobile {
+            font-size: 20px !important;
+        }
+    }
+}
+
+.v-slide-group__next--disabled:has(.fs-slide-group-next-active) {
+    pointer-events: all !important;
+    opacity: 1 !important;
 }
 
 // Change color on arrows when hovered

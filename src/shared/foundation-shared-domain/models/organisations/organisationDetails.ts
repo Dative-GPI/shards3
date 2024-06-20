@@ -5,10 +5,11 @@ import { DashboardType } from "../enums/dashboardEnums";
 export class OrganisationDetails extends OrganisationInfos {
     code: string;
     organisationTypeId: string;
-    mainDashboardId?: string;
+    mainDashboardId: string | null;
     mainDashboardType: DashboardType;
     description: string;
     locationsCount: number;
+    groupsCount: number;
     deviceOrganisationsCount: number;
     permissions: PermissionInfos[];
 
@@ -21,6 +22,7 @@ export class OrganisationDetails extends OrganisationInfos {
         this.mainDashboardId = params.mainDashboardId;
         this.description = params.description;
         this.locationsCount = params.locationsCount;
+        this.groupsCount = params.groupsCount;
         this.deviceOrganisationsCount = params.deviceOrganisationsCount;
         this.permissions = params.permissions.map(dto => new PermissionInfos(dto));
     }
@@ -29,17 +31,18 @@ export class OrganisationDetails extends OrganisationInfos {
 export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
     code: string;
     organisationTypeId: string;
-    mainDashboardId?: string;
+    mainDashboardId: string | null;
     mainDashboardType: DashboardType;
     description: string;
     locationsCount: number;
+    groupsCount: number;
     deviceOrganisationsCount: number;
     permissions: PermissionInfosDTO[];
 }
 
 export interface UpdateOrganisationDTO {
-    imageId?: string;
-    image?: string;
+    imageId: string | null;
+    image: string | null;
     label: string;
     description: string;
 }

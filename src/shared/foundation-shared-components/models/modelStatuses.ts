@@ -1,11 +1,10 @@
 export interface FSModelStatus {
-    id: string;
-    label: string;
-    inline: boolean;
-    index: number;
-    groupById?: string;
-    groupByLabel?: string;
-    showDefault: boolean;
-    iconDefault?: string;
-    colorDefault?: string;
+  id: string;
+  label: string;
+  index: number;
+  groupById?: string | null;
+  groupByLabel?: string | null;
+  showDefault: boolean;
+  iconDefault?: string | null;
+  colorDefault?: string | null;
 }

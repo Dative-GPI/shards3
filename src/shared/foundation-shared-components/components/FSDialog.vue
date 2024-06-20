@@ -1,30 +1,58 @@
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    :width="width"
+    :class="classes"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
     <FSCard
       padding="24px 8px 24px 24px"
-      width="100%"
       gap="24px"
-      :border="!isExtraSmall"
+      :class="$props.cardClasses"
       :color="$props.color"
-      :class="classes"
+      :width="cardWidth"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      <template
+        #header
+      >
+        <FSCol
+          padding="0 16px 0 0"
+        >
+          <FSRow
+            align="center-left"
+            :wrap="false"
+          >
+            <FSText
+              font="text-h2"
+            >
+              {{ $props.title }}
+            </FSText>
+            <v-spacer />
+            <FSButton
+              icon="mdi-close"
+              variant="icon"
+              :color="ColorEnum.Dark"
+              @click="$emit('update:modelValue', false)"
+            />
+          </FSRow>
+          <FSText
+            v-if="$props.subtitle"
+          >
+            {{ $props.subtitle }}
+          </FSText>
+        </FSCol>
+      </template>
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
       </template>
     </FSCard>
-    <FSButton
-      class="fs-dialog-close-button"
-      icon="mdi-close"
-      variant="icon"
-      :color="ColorEnum.Dark"
-      @click="$emit('update:modelValue', false)"
-    />
   </v-dialog>
 </template>
 
@@ -37,20 +65,32 @@ import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSButton from "./FSButton.vue";
 import FSCard from "./FSCard.vue";
-import FSCol from "./FSCol.vue";
+import FSText from "./FSText.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSDialog",
   components: {
     FSButton,
     FSCard,
-    FSCol
+    FSText,
+    FSRow
   },
   props: {
+    title: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    subtitle: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "auto"
+      default: "fit-content"
     },
     cardClasses: {
       type: [Array, String] as PropType<string[] | string | null>,
@@ -73,22 +113,17 @@ export default defineComponent({
     const { isExtraSmall } = useBreakpoints();
 
     const classes = computed((): string[] => {
-      const classNames = ["fs-dialog"];
-      if (props.cardClasses) {
-        if (Array.isArray(props.cardClasses)) {
-          classNames.push(...props.cardClasses);
-        }
-        else {
-          classNames.push(props.cardClasses);
-        }
-      }
+      const classNames: string[] = [];
       if (isExtraSmall.value) {
         classNames.push("fs-dialog-mobile");
+      }
+      else {
+        classNames.push("fs-dialog");
       }
       return classNames;
     });
 
-    const width = computed((): string => {
+    const cardWidth = computed((): string => {
       if (isExtraSmall.value) {
         return "100%";
       }
@@ -97,9 +132,9 @@ export default defineComponent({
 
     return {
       isExtraSmall,
+      cardWidth,
       ColorEnum,
-      classes,
-      width
+      classes
     };
   }
 });

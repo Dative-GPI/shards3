@@ -1,4 +1,5 @@
 .fs-data-iterator-item {
+    cursor: var(--fs-data-iterator-item-cursor);
     position: relative;
     min-height: 36px;
     flex: 1 0 0;
@@ -6,15 +7,27 @@
     & > .fs-col > .fs-row:first-of-type > :last-child {
         padding-right: 32px;
     }
+
+    &:hover::after {
+        content: "";
+        background-color: black;
+        pointer-events: none;
+        position: absolute;
+        opacity: 0.04;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
 }
 
 .fs-data-iterator-item-checkbox {
-    border-radius: 4px;
-    position: absolute;
-    align-items: center;
     justify-content: center;
-    top: 1px;
-    right: 1px;
-    width: 32px;
+    align-items: center;
+    position: absolute;
+    border-radius: 4px;
     height: 32px;
+    width: 32px;
+    right: 1px;
+    top: 1px;
 }

@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 

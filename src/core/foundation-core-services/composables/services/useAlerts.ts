@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 
@@ -43,13 +43,13 @@ const useWatchAlerts = HubFactory.createWatcher(useAlertsHub);
 export const useAlert = ComposableFactory.get(AlertServiceFactory, () => {
     const { watchOne } = useWatchAlerts();
     return (alert) => {
-        watchOne(alert.value.id)
+        watchOne(alert.value.id);
     }
 });
 
 export const useAlerts = ComposableFactory.getMany(AlertServiceFactory, () => {
     const { watchMany } = useWatchAlerts();
-    return (_alert) => {
+    return () => {
         watchMany();
     }
 });

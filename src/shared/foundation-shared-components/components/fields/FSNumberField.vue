@@ -5,8 +5,14 @@
     @update:modelValue="onUpdate"
     v-bind="$attrs"
   >
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
     </template>
   </FSTextField>
 </template>
@@ -36,7 +42,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(_, { emit }) {
     const onUpdate = (value: string) => {
-      const match = /([0-9 ]*[,\.]?)?[0-9]+/.exec(value);
+      const match = /([0-9 ]*[,.]?)?[0-9]+/.exec(value);
       if (match && !isNaN(parseFloat(match[0].replace(",", ".").replace(" ", "")))) {
         emit("update:modelValue", parseFloat(match[0].replace(",", ".").replace(" ", "")));
       }

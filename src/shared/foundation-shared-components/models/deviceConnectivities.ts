@@ -2,9 +2,9 @@ import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models"
 
 export interface FSDeviceConnectivity {
     id: string;
-    sourceTimestamp?: number;
-    enqueuedTimestamp?: number;
-    processedTimestamp?: number;
+    sourceTimestamp?: number | null;
+    enqueuedTimestamp?: number | null;
+    processedTimestamp?: number | null;
     status: ConnectivityStatus;
     icon: string;
     color: string;

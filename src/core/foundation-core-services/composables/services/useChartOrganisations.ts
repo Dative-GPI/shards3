@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { CHART_ORGANISATION_URL, CHART_ORGANISATIONS_URL } from "../../config/urls";
 import { ChartOrganisationDetails, ChartOrganisationDetailsDTO, ChartOrganisationFilters, ChartOrganisationInfos, ChartOrganisationInfosDTO, CreateChartOrganisationDTO, UpdateChartOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 
@@ -22,5 +22,5 @@ export const useChartOrganisations = ComposableFactory.getMany(ChartOrganisation
 export const useCreateChartOrganisation = ComposableFactory.create(ChartOrganisationServiceFactory);
 export const useUpdateChartOrganisation = ComposableFactory.update(ChartOrganisationServiceFactory);
 export const useRemoveChartOrganisation = ComposableFactory.remove(ChartOrganisationServiceFactory);
-export const useChangeDashboardOrganisation = ComposableFactory.custom(ChartOrganisationServiceFactoryIncomplete.chartOrganisation);
+export const useDuplicateChartOrganisation = ComposableFactory.custom(ChartOrganisationServiceFactoryIncomplete.chartOrganisation);
 

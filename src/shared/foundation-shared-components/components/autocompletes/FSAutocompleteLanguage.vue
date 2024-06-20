@@ -6,16 +6,19 @@
     :items="languages"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
     v-bind="$attrs"
   >
     <template
-      #selection="{ item }"
+      #autocomplete-selection="{ item }"
     >
       <FSRow
+        v-if="$props.modelValue"
         align="center-center"
+        :wrap="false"
       >
-        <FSIcon>
+        <FSIcon
+          v-if="item.raw.icon"
+        >
           {{ item.raw.icon }}
         </FSIcon>
         <FSSpan>
@@ -24,45 +27,48 @@
       </FSRow>
     </template>
     <template
-      #item="{ props, item }"
+      #item-label="{ item, font }"
     >
-      <v-list-item
-        v-bind="{ ...props, title: '' }"
+      <FSRow
+        align="center-left"
+        :wrap="false"
       >
-        <FSRow
-          align="center-left"
+        <FSIcon
+          v-if="item.raw.icon"
         >
-          <FSCheckbox
-            v-if="$props.multiple"
-            :modelValue="isSelected(item.value)"
-          />
-          <FSIcon>
-            {{ item.raw.icon }}
-          </FSIcon>
-          <FSSpan>
-            {{ item.raw.label }}
-          </FSSpan>
-        </FSRow>
-      </v-list-item>
+          {{ item.raw.icon }}
+        </FSIcon>
+        <FSSpan
+          :font="font"
+        >
+          {{ item.raw.label }}
+        </FSSpan>
+      </FSRow>
     </template>
   </FSAutocompleteField>
 </template>
 
 <script lang="ts">
-import { computed, PropType, defineComponent } from "vue"
+import { computed, defineComponent, PropType } from "vue"
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
 import { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
 
-import FSCheckbox from "../FSCheckbox.vue"
-import FSAutocompleteField from "../fields/FSAutocompleteField.vue"
+import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
+import FSCheckbox from "../FSCheckbox.vue";
+import FSIcon from "../FSIcon.vue";
+import FSSpan from "../FSSpan.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteLanguage",
   components: {
     FSAutocompleteField,
-    FSCheckbox
+    FSCheckbox,
+    FSIcon,
+    FSSpan,
+    FSRow
   },
   props: {
     languageFilters: {
@@ -90,33 +96,27 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingLanguages.value;
+    });
+
     const innerFetch = (search: string | null) => {
       return getManyLanguages({ ...props.languageFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       languages,
       [() => props.languageFilters],
       emit,
       innerFetch
     );
 
-    const isSelected = (id: any) => {
-      return props.modelValue?.includes(id);
-    }
-
-    const loading = computed((): boolean => {
-      return init.value && fetchingLanguages.value;
-    });
-
     return {
       languages,
       toggleSet,
       loading,
-      search,
-      isSelected,
       onUpdate
     };
   }
-})
+});
 </script>

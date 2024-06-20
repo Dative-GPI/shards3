@@ -106,6 +106,31 @@ export const Variations: Story = {
   })
 }
 
+export const ColorVariations: Story = {
+  render: () => ({
+    components: { FSButton, FSIcon, FSSpan },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px;">
+        <FSButton color="light" label="Light" icon="mdi-pencil" />
+        <FSButton color="dark" label="Dark" icon="mdi-pencil" />
+        <FSButton color="primary" label="Primary" icon="mdi-pencil" />
+        <FSButton color="warning" label="Warning" icon="mdi-pencil" />
+        <FSButton color="error" label="Error" icon="mdi-pencil" />
+        <FSButton color="success" label="Success" icon="mdi-pencil" />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSButton variant="full" color="light" label="Light" icon="mdi-pencil" />
+        <FSButton variant="full" color="dark" label="Dark" icon="mdi-pencil" />
+        <FSButton variant="full" color="primary" label="Primary" icon="mdi-pencil" />
+        <FSButton variant="full" color="warning" label="Warning" icon="mdi-pencil" />
+        <FSButton variant="full" color="error" label="Error" icon="mdi-pencil" />
+        <FSButton variant="full" color="success" label="Success" icon="mdi-pencil" />
+      </div>
+    </div>`
+  })
+}
+
 import FSClickable from  "@dative-gpi/foundation-shared-components/components/FSClickable.vue";
 import FSText from  "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSRow from  "@dative-gpi/foundation-shared-components/components/FSRow.vue";
@@ -352,6 +377,11 @@ export const Links: Story = {
         href="https://www.google.fr"
         label="Using Google URL"
       />
+      <FSButton
+        href="https://www.google.fr"
+        icon="mdi-google"
+        variant="icon"
+      />
     </div>`
   })
 }
@@ -370,13 +400,14 @@ export const Submit: Story = {
       text1: "",
       text2: "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Hello there\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
       check1: false,
+      tags1: [],
       textdefault: null,
       textRules: TextRules,
       toggleRules: ToggleRules
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSButton, FSForm, FSTextField, FSRichTextField, FSText, FSCheckbox },
+    components: { FSButton, FSForm, FSTextField, FSRichTextField, FSText, FSCheckbox, FSTagField },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -405,6 +436,10 @@ export const Submit: Story = {
             description="This checkbox is mandatory"
             v-model="args.check1"
           />
+          <FSTagField
+            label="Tags"
+            v-model="args.tags1"
+          />
           <div style="display: flex; gap: 10px;">
             <FSButton
               type="submit"
@@ -417,6 +452,37 @@ export const Submit: Story = {
           </div>
         </div>
       </FSForm>
+    </div>`
+  })
+}
+
+import FSButtonCheckbox from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCheckbox.vue";
+import FSTagField from '@dative-gpi/foundation-shared-components/components/fields/FSTagField.vue';
+
+export const Checkbox: Story = {
+  args: {
+    args: {
+      value1: false,
+      value2: false
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSButtonCheckbox },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <FSButtonCheckbox
+        label="Checkbox"
+        v-model="args.value1"
+      />
+      <FSButtonCheckbox
+        label="Checkbox colored"
+        color="success"
+        v-model="args.value2"
+      />
     </div>`
   })
 }

@@ -1,36 +1,12 @@
 <template>
-  <FSCol>
-    <slot v-if="!$props.hideHeader" name="label">
-      <FSRow :wrap="false">
-        <FSSpan
-          v-if="$props.label"
-          class="fs-time-slot-field-label"
-          font="text-overline"
-          :style="style"
-        >
-          {{ $props.label }}
-        </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
-          class="fs-time-slot-field-label"
-          style="margin-left: -8px;"
-          font="text-overline"
-          :ellipsis="false"
-          :style="style"
-        >
-          *
-        </FSSpan>
-        <v-spacer style="min-width: 40px;" />
-        <FSSpan
-          v-if="messages.length > 0"
-          class="fs-time-slot-field-messages"
-          font="text-overline"
-          :style="style"
-        >
-          {{ messages.join(", ") }}
-        </FSSpan>
-      </FSRow>
-    </slot>
+  <FSBaseField
+    :label="$props.label"
+    :description="$props.description"
+    :hideHeader="$props.hideHeader"
+    :required="$props.required"
+    :editable="$props.editable"
+    :messages="messages"
+  >
     <FSRow>
       <FSRow
         :wrap="false"
@@ -42,16 +18,11 @@
           :clearable="false"
           :style="style"
           :rules="$props.rules"
-          :messages="messages"
           :validateOn="validateOn"
           :validationValue="$props.modelValue"
           :modelValue="dayStart"
           @update:modelValue="onChangeDayStart"
-        >
-          <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-            <slot :name="name" v-bind="slotData" />
-          </template>
-        </FSSelectField>
+        />
         <FSClock
           class="fs-time-slot-field-number"
           :editable="$props.editable"
@@ -86,39 +57,27 @@
         />
       </FSRow>
     </FSRow>
-    <slot name="description">
-      <FSSpan
-        v-if="$props.description"
-        class="fs-time-slot-field-description"
-        font="text-underline"
-        :style="style"
-      >
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
+  </FSBaseField>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { Days } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSSelectField from "./FSSelectField.vue";
+import FSBaseField from "./FSBaseField.vue";
 import FSClock from "../FSClock.vue";
-import FSSpan from "../FSSpan.vue";
-import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTimeSlotField",
   components: {
     FSSelectField,
+    FSBaseField,
     FSClock,
-    FSSpan,
-    FSCol,
     FSRow
   },
   props: {
@@ -165,12 +124,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
-    const { slots } = useSlots();
-
-    delete slots.label;
-    delete slots.description;
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
@@ -186,7 +141,7 @@ export default defineComponent({
       return acc;
     }, [] as { id: number, label: string }[]);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-time-slot-field-cursor"             : "default",
@@ -283,9 +238,7 @@ export default defineComponent({
       ColorEnum,
       dayStart,
       messages,
-      blurred,
       dayEnd,
-      slots,
       style,
       onChangeHourStart,
       onChangeDayStart,

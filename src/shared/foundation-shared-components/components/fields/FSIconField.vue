@@ -10,11 +10,12 @@
       :messages="messages"
       :validateOn="validateOn"
       :validationValue="$props.modelValue"
-      @blur="blurred = true"
       v-model="innerValue"
       v-bind="$attrs"
     >
-      <template #append-inner>
+      <template
+        #append-inner
+      >
         <FSIcon
           v-if="$props.modelValue"
           size="l"
@@ -33,7 +34,7 @@
       :required="$props.required"
       :editable="$props.editable"
       :values="icons"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -123,7 +124,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
@@ -133,7 +134,7 @@ export default defineComponent({
     const toggleSetRef = ref<HTMLElement | null>(null);
     const innerValue = ref<string | null>(null);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-icon-field-color": lights.dark
@@ -199,7 +200,6 @@ export default defineComponent({
       innerValue,
       validateOn,
       messages,
-      blurred,
       style,
       icons
     };

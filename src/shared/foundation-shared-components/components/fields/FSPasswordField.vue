@@ -3,14 +3,24 @@
     :type="type"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
-    @update:modelValue="(value) => $emit('update:modelValue', value)"
+    @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
-    <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
     </template>
-    <template #append-inner>
-      <slot name="append-inner">
+    <template
+      #append-inner
+    >
+      <slot
+        name="append-inner"
+      >
         <FSButton
           variant="icon"
           :editable="$props.editable"
@@ -59,7 +69,7 @@ export default defineComponent({
 
     const stars = ref(true);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-password-field-cursor"   : "default",

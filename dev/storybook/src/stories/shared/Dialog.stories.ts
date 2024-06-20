@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSDateRangeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue";
+import FSDialogMultiForm from "@dative-gpi/foundation-shared-components/components/FSDialogMultiForm.vue";
 import FSDateField from "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue";
 import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
 import FSDialogSubmit from "@dative-gpi/foundation-shared-components/components/FSDialogSubmit.vue";
@@ -29,14 +30,13 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      buttons1: [...Array(5).keys()].map(i => ({
+      buttons1: [...Array(4).keys()].map(i => ({
         id: i.toString(),
         label: `Choice number ${i + 1}`
       })),
       selected1: [],
       value1: false,
-      value2: false,
-      value3: false
+      value2: false
     }
   },
   render: (args, { argTypes }) => ({
@@ -53,25 +53,27 @@ export const Variations: Story = {
         @click="() => args.value1 = true"
       />
       <FSDialog
-        width="90%"
+        title="Dialog - primary color - header, body"
+        width="800px"
         color="primary"
         v-model="args.value1"
       >
-        <template #header>
-          <FSSpan font="text-button">Toggle set</FSSpan>
-        </template>
         <template #body>
-          <FSToggleSet
-            variant="wrap"
-            buttonVariant="standard"
-            activeVariant="standard"
-            buttonColor="light"
-            activeColor="primary"
-            :multiple="false"
-            :required="false"
-            :values="args.buttons1"
-            v-model="args.selected1"
-          />
+          <FSRow
+            padding="0 16px 0 0"
+          >
+            <FSToggleSet
+              variant="wrap"
+              buttonVariant="standard"
+              activeVariant="standard"
+              buttonColor="light"
+              activeColor="primary"
+              :multiple="false"
+              :required="false"
+              :values="args.buttons1"
+              v-model="args.selected1"
+            />
+          </FSRow>
         </template>
       </FSDialog>
       <FSButton
@@ -80,38 +82,18 @@ export const Variations: Story = {
         @click="() => args.value2 = true"
       />
       <FSDialog
+        title="Dialog - footer"
         v-model="args.value2"
       >
-        <template #header>
-          <FSSpan font="text-button">General Grievous</FSSpan>
-        </template>
-        <template #body>
-          <FSSpan> - General Kenobi!</FSSpan>
-        </template>
         <template #footer>
-          <FSSpan font="text-underline">(suprised)</FSSpan>
-        </template>
-      </FSDialog>
-      <FSButton
-        color="primary"
-        label="Dialog - slots"
-        @click="() => args.value3 = true"
-      />
-      <FSDialog
-        v-model="args.value3"
-      >
-        <template #header>
-          <FSSpan font="text-h2"> Start wars 3 </FSSpan>
-        </template>
-        <template #body>
-          <FSSpan> Revenge of the Siths </FSSpan>
-        </template>
-        <template #footer>
-          <FSRow align="center-right">
+          <FSRow
+            padding="0 16px 0 0"
+            align="center-right"
+          >
             <FSButton
               color="primary"
               label="Close"
-              @click="() => args.value3 = false"
+              @click="() => args.value2 = false"
             />
           </FSRow>
         </template>
@@ -123,9 +105,7 @@ export const Variations: Story = {
 export const Submit: Story = {
   args: {
     args: {
-      value1: false,
-      value2: false,
-      value3: false
+      value1: false
     }
   },
   render: (args, { argTypes }) => ({
@@ -147,41 +127,6 @@ export const Submit: Story = {
         subtitle="The phantom menace"
         v-model="args.value1"
       />
-      <FSButton
-        color="primary"
-        label="Dialog - title, subtitle, default actions"
-        @click="() => args.value2 = true"
-      />
-      <FSDialogSubmit
-        title="Star wars 2"
-        subtitle="Attack of the clones"
-        :actions="true"
-        v-model="args.value2"
-      />
-      <FSButton
-        color="primary"
-        label="Dialog - slots"
-        @click="() => args.value3 = true"
-      />
-      <FSDialogSubmit
-        v-model="args.value3"
-      >
-        <template #header>
-          <FSSpan font="text-h2"> Start wars 3 </FSSpan>
-        </template>
-        <template #body>
-          <FSSpan > Revenge of the Siths </FSSpan>
-        </template>
-        <template #footer>
-          <FSRow align="center-right">
-            <FSButton
-              color="primary"
-              label="Close"
-              @click="() => args.value3 = false"
-            />
-          </FSRow>
-        </template>
-      </FSDialogSubmit>
     </div>`
   })
 }
@@ -190,6 +135,8 @@ export const Form: Story = {
   args: {
     args: {
       value1: false,
+      value2: false,
+      validation2: false,
       label1: "",
       label2: "",
       label3: "",
@@ -200,8 +147,14 @@ export const Form: Story = {
       label8: "",
       label9: "",
       label10: "",
-      rightButton: () => {
-        console.log("Form is valid");
+      submitButton1: () => {
+        console.log("submit");
+      },
+      submitButton2: () => {
+        console.log("submit");
+      },
+      validateButton2: () => {
+        console.log("validate");
       }
     }
   },
@@ -209,13 +162,15 @@ export const Form: Story = {
     components: { FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      return {
+        ...args
+      };
     },
     template: `
     <div style="display: flex; gap: 10px;">
       <FSButton
         color="primary"
-        label="Dialog - primary color - title, subtitle"
+        label="Dialog form"
         @click="() => args.value1 = true"
       />
       <FSDialogForm
@@ -223,7 +178,7 @@ export const Form: Story = {
         color="primary"
         title="Star wars 1"
         subtitle="The phantom menace"
-        @click:rightButton="args.rightButton"
+        @click:submitButton="args.submitButton1"
         v-model="args.value1"
       >
         <template #body>
@@ -281,6 +236,133 @@ export const Form: Story = {
           </FSCol>
         </template>
       </FSDialogForm>
+      <FSButton
+        color="primary"
+        label="Dialog form with validation"
+        @click="() => args.value2 = true"
+      />
+      <FSDialogForm
+        width="500px"
+        color="primary"
+        title="Star wars 2"
+        subtitle="Attack of the clones"
+        :validation="args.validation2"
+        @click:submitButton="args.submitButton2"
+        @click:validateButton="args.validateButton2"
+        v-model="args.value2"
+      >
+        <template #body>
+          <FSCol>
+            <FSTextField
+              label="Label 1"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label1"
+            />
+          </FSCol>
+        </template>
+        <template #validation>
+          <FSSpan
+            color="success"
+          >
+            Validation done, you may close this dialog
+          </FSSpan>
+        </template>
+      </FSDialogForm>
+    </div>`
+  })
+}
+
+export const MultipleForm: Story = {
+  args: {
+    args: {
+      value1: false,
+      label1: "",
+      label2: "",
+      label3: "",
+      label4: "",
+      label5: "",
+      label6: "",
+      label7: "",
+      label8: "",
+      rightButton: () => {
+        console.log("Form is valid");
+      }
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSDialogMultiForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; gap: 10px;">
+      <FSButton
+        color="primary"
+        label="Dialog - primary color - title, subtitle"
+        @click="() => args.value1 = true"
+      />
+      <FSDialogMultiForm
+        width="500px"
+        color="primary"
+        title="Star wars 1"
+        subtitle="The phantom menace"
+        :steps="3"
+        @click:rightButton="args.rightButton"
+        v-model="args.value1"
+      >
+        <template #step-1>
+          <FSCol>
+            <FSTextField
+            label="Label 1"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label1"
+              />
+              <FSTextField
+                label="Label 2"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label2"
+              />
+              <FSTextField
+                label="Label 3"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label3"
+              />
+              <FSTextField
+                label="Label 4"
+                :rules="[v => !!v || 'Label is required']"
+                v-model="args.label4"
+              />
+          </FSCol>
+        </template>
+        <template #step-2>
+          EMPTY STEP
+        </template>
+        <template #step-3>
+          <FSCol>
+            <FSTextField
+              label="Label 5"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label5"
+            />
+            <FSTextField
+              label="Label 6"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label6"
+            />
+            <FSTextField
+              label="Label 7"
+              :rules="[v => !!v || 'Label is required']"
+              v-model="args.label7"
+            />
+            <FSTextField
+            label="Label 8"
+            :rules="[v => !!v || 'Label is required']"
+            v-model="args.label8"
+            />
+          </FSCol>
+        </template>
+      </FSDialogMultiForm>
     </div>`
   })
 }
@@ -360,13 +442,13 @@ export const ChainedDialogs: Story = {
         @click="() => args.value1 = true"
       />
       <FSDialogSubmit
+        title="Form"
         v-model="args.value1"
       >
-        <template #header>
-          <FSSpan font="text-h2"> Form </FSSpan>
-        </template>
         <template #body>
-          <FSCol>
+          <FSCol
+            padding="0 16px 0 0"
+          >
             <FSDateField
               label="Date"
               v-model="args.date1"

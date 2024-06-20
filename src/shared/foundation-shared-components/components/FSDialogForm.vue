@@ -1,41 +1,71 @@
 <template>
   <FSDialog
+    :subtitle="$props.subtitle"
+    :title="$props.title"
     :width="$props.width"
     :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:modelValue="onClose"
     v-bind="$attrs"
   >
     <template
-      #header
-    >
-      <slot
-        name="header"
-      >
-        <FSCol
-          v-if="$props.title"
-          padding="0 16px 0 0"
-        >
-          <FSSpan
-            font="text-h2"
-          >
-            {{ $props.title }}
-          </FSSpan>
-          <FSSpan
-            v-if="$props.subtitle"
-          >
-            {{ $props.subtitle }}
-          </FSSpan>
-        </FSCol>
-      </slot>
-    </template>
-    <template
       #body
     >
-      <FSForm
-        ref="formRef"
-        :variant="$props.variant"
-        @submit="onSubmit"
-        v-model="valid"
+      <template
+        v-if="!$props.validation"
+      >
+        <FSForm
+          ref="formRef"
+          :variant="$props.variant"
+          @submit="onSubmit"
+          v-model="valid"
+        >
+          <FSCol
+            gap="24px"
+          >
+            <FSFadeOut
+              :height="height"
+              padding="0 8px 0 0"
+            >
+              <slot
+                name="body"
+              />
+            </FSFadeOut>
+            <FSRow
+              padding="0 16px 0 0"
+            >
+              <slot
+                name="left-footer"
+              />
+              <FSRow
+                class="fs-dialog-actions"
+                align="top-right"
+                :wrap="false"
+              >
+                <FSButton
+                  :prependIcon="$props.cancelButtonPrependIcon"
+                  :appendIcon="$props.cancelButtonAppendIcon"
+                  :variant="$props.cancelButtonVariant"
+                  :color="$props.cancelButtonColor"
+                  :label="cancelLabel"
+                  @click="() => $emit('update:modelValue', false)"
+                />
+                <FSButton
+                  type="submit"
+                  :prependIcon="$props.submitButtonPrependIcon"
+                  :appendIcon="$props.submitButtonAppendIcon"
+                  :variant="$props.submitButtonVariant"
+                  :color="$props.submitButtonColor"
+                  :editable="$props.editable"
+                  :label="submitLabel"
+                  :load="$props.load"
+                />
+              </FSRow>
+            </FSRow>
+          </FSCol>
+        </FSForm>
+      </template>
+      <template
+        v-else
       >
         <FSCol
           gap="24px"
@@ -45,7 +75,7 @@
             padding="0 8px 0 0"
           >
             <slot
-              name="body"
+              name="validation"
             />
           </FSFadeOut>
           <FSRow
@@ -60,27 +90,17 @@
               :wrap="false"
             >
               <FSButton
-                :prependIcon="$props.leftButtonPrependIcon"
-                :label="cancelButtonLabel"
-                :appendIcon="$props.leftButtonAppendIcon"
-                :variant="$props.leftButtonVariant"
-                :color="$props.leftButtonColor"
-                @click="() => $emit('update:modelValue', false)"
-              />
-              <FSButton
-                type="submit"
-                :prependIcon="$props.rightButtonPrependIcon"
-                :label="submitButtonLabel"
-                :appendIcon="$props.rightButtonAppendIcon"
-                :variant="$props.rightButtonVariant"
-                :color="$props.rightButtonColor"
-                :load="$props.load"
-                :editable="$props.editable"
+                :prependIcon="$props.validateButtonPrependIcon"
+                :appendIcon="$props.validateButtonAppendIcon"
+                :variant="$props.validateButtonVariant"
+                :color="$props.validateButtonColor"
+                :label="validateLabel"
+                @click="onValidate"
               />
             </FSRow>
           </FSRow>
         </FSCol>
-      </FSForm>
+      </template>
     </template>
   </FSDialog>
 </template>
@@ -133,55 +153,85 @@ export default defineComponent({
       required: false,
       default: false
     },
-    leftButtonPrependIcon: {
+    cancelButtonPrependIcon: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonLabel: {
+    cancelButtonLabel: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonAppendIcon: {
+    cancelButtonAppendIcon: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonVariant: {
+    cancelButtonVariant: {
       type: String as PropType<"standard" | "full" | "icon">,
       required: false,
       default: "standard"
     },
-    rightButtonPrependIcon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonLabel: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonAppendIcon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonVariant: {
-      type: String as PropType<"standard" | "full" | "icon">,
-      required: false,
-      default: "full"
-    },
-    leftButtonColor: {
+    cancelButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Light
     },
-    rightButtonColor: {
+    submitButtonPrependIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonLabel: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonAppendIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonVariant: {
+      type: String as PropType<"standard" | "full" | "icon">,
+      required: false,
+      default: "full"
+    },
+    submitButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    validateButtonPrependIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    validateButtonLabel: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    validateButtonAppendIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    validateButtonVariant: {
+      type: String as PropType<"standard" | "full" | "icon">,
+      required: false,
+      default: "standard"
+    },
+    validateButtonColor: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Light
+    },
+    validation: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     load: {
       type: Boolean,
@@ -194,7 +244,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue", "click:rightButton"],
+  emits: ["update:modelValue", "click:submitButton", "click:validateButton"],
   setup(props, { emit }) {
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
@@ -203,36 +253,54 @@ export default defineComponent({
     const valid = ref(false);
 
     const height = computed(() => {
-      const other = 24 + 24                                                      // Paddings
-                  + (props.title ? isMobileSized.value ? 24 : 32 : 0)            // Title
-                  + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
-                  + (isMobileSized.value ? 36 : 40)                              // Footer
-                  + 64;                                                          // Debug mask
-      return `calc(90vh - ${other}px)`;
+      const other = 24 + 24                                          // Paddings
+        + (isMobileSized.value ? 24 : 32) + 24                       // Title
+        + (props.subtitle ? (isMobileSized.value ? 14 : 16) + 8 : 0) // Subtitle
+        + (isMobileSized.value ? 36 : 40) + 24;                      // Footer
+      return `calc(100vh - 40px - ${other}px)`;
     });
 
-    const cancelButtonLabel = computed(() => {
-      return props.leftButtonLabel ?? $tr("ui.button.cancel", "Cancel");
+    const cancelLabel = computed(() => {
+      return props.cancelButtonLabel ?? $tr("ui.button.cancel", "Cancel");
     });
 
-    const submitButtonLabel = computed(() => {
-      return props.rightButtonLabel ??  $tr("ui.button.validate", "Validate");
+    const submitLabel = computed(() => {
+      return props.submitButtonLabel ??  $tr("ui.button.submit", "Submit");
     });
+
+    const validateLabel = computed(() => {
+      return props.validateButtonLabel ??  $tr("ui.button.validate", "Done");
+    });
+
+    const onClose = () => {
+      if (props.validation) {
+        emit("click:validateButton");
+      }
+      emit("update:modelValue", false);
+    };
 
     const onSubmit = () => {
       if (valid.value) {
-        emit("click:rightButton");
+        emit("click:submitButton");
       }
     };
 
+    const onValidate = () => {
+      emit("click:validateButton");
+      emit("update:modelValue", false);
+    };
+
     return {
-      cancelButtonLabel,
-      submitButtonLabel,
+      validateLabel,
+      cancelLabel,
+      submitLabel,
       ColorEnum,
       formRef,
       height,
       valid,
-      onSubmit
+      onValidate,
+      onSubmit,
+      onClose
     };
   }
 });

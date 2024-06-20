@@ -1,7 +1,7 @@
 <template>
   <div>
     <FSButton
-      prependIcon="mdi-upload-outline"
+      :prependIcon="$props.icon"
       :color="ColorEnum.Light"
       @click="onClick"
       v-bind="$attrs"
@@ -41,9 +41,14 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: "mdi-upload-outline"
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "update:metadata"],
   setup(props, { emit }) {
     const { readFile } = useFiles();
 
@@ -69,8 +74,8 @@ export default defineComponent({
       if (!file) {
         return;
       }
+      emit("update:metadata", file);
       if (!props.readFile) {
-        emit("update:modelValue", file);
         clear();
       }
       else {

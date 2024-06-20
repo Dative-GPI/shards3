@@ -32,17 +32,19 @@ export interface UserDetailsDTO extends UserInfosDTO {
     allowEmails: boolean;
 }
 
-export interface UpdateUserDTO {
+export interface UpdateCurrentUserDTO {
     languageCode: string;
     timeZoneId: string;
-    imageId?: string;
-    image?: string;
+    imageId: string | null;
+    image: string | null;
     allowSms: boolean;
     allowEmails: boolean;
-    email: string;
     phoneNumber: string;
     firstName: string;
     lastName: string;
-    label: string;
-    description: string;
+}
+
+export interface UpdateCurrentUserEmailDTO {
+    password: string;
+    email: string;
 }

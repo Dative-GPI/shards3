@@ -2,6 +2,7 @@ export * from "./actions";
 export * from "./alerts";
 export * from "./articles";
 export * from "./authTokens";
+export * from "./chartCategories";
 export * from "./chartOrganisationTypes";
 export * from "./chartOrganisations";
 export * from "./charts";
@@ -9,10 +10,13 @@ export * from "./comments";
 export * from "./connectivityAlerts";
 export * from "./customProperties";
 export * from "./customPropertyValues";
+export * from "./dashboardDatePresets";         // No service
+export * from "./dashboardEntityPresets";       // No service
 export * from "./dashboardOrganisations";
 export * from "./dashboardOrganisationTypes";
 export * from "./dashboards";
 export * from "./dashboardShallows";
+export * from "./dashboardVariables";           // No service
 export * from "./dataCategories";
 export * from "./dataDefinitions";
 export * from "./dataDefinitionMappings";       // No service
@@ -36,6 +40,7 @@ export * from "./scenarioDeviceOrganisations";
 export * from "./scenarioDiffusions";
 export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
+export * from "./scenarios";                    // No service
 export * from "./shared";                       // No service
 export * from "./serviceAccounts";
 export * from "./userOrganisationColumns";      // No service

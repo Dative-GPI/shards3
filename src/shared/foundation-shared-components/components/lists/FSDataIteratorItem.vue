@@ -5,16 +5,23 @@
     width="100%"
     :color="$props.itemColor"
     :variant="variant"
+    :style="style"
   >
     <FSCol>
-      <slot name="item.top" v-bind="{ item: $props.item }" />
+      <slot
+        name="item.top"
+        v-bind="{ item: $props.item }"
+      />
       <FSRow
         v-for="(header, index) in $props.headers"
         align="center-left"
         :wrap="false"
         :key="index"
       >
-        <slot :name="`header.${header.value}`" v-bind="{ header }">
+        <slot
+          :name="`header.${header.value}`"
+          v-bind="{ header }"
+        >
           <FSRow
             align="center-left"
           >
@@ -25,7 +32,10 @@
             </FSText>
           </FSRow>
         </slot>
-        <slot :name="`item.${header.value}`" v-bind="{ item: $props.item }">
+        <slot
+          :name="`item.${header.value}`"
+          v-bind="{ item: $props.item }"
+        >
           <FSRow
             align="center-left"
           >
@@ -35,7 +45,10 @@
           </FSRow>
         </slot>
       </FSRow>
-      <slot name="item.bottom" v-bind="{ item: $props.item }" />
+      <slot
+        name="item.bottom"
+        v-bind="{ item: $props.item }"
+      />
     </FSCol>
     <FSCard
       v-if="$props.showSelect"
@@ -100,6 +113,11 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
+    clickable: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     showSelect: {
       type: Boolean,
       required: false,
@@ -115,8 +133,15 @@ export default defineComponent({
       }
     });
 
+    const style = computed((): { [key: string]: string | null | undefined } => {
+      return {
+        "--fs-data-iterator-item-cursor": props.clickable ? "pointer" : "default"
+      }
+    });
+
     return {
-      variant
+      variant,
+      style
     };
   }
 });

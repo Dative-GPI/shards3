@@ -5,12 +5,14 @@
     :height="computedHeight"
     :width="computedWidth"
     :cover="$props.cover"
+    :src="realSource"
     :style="style"
-    :src="source"
     @error="onError"
     v-bind="$attrs"
   >
-    <template #placeholder>
+    <template
+      #placeholder
+    >
       <FSLoader
         v-if="$props.imageId"
         class="fs-image-load"
@@ -19,7 +21,9 @@
         :borderRadius="$props.borderRadius"
       />
     </template>
-    <template #error>
+    <template
+      #error
+    >
       <FSLoader
         v-if="!blurHash"
         class="fs-image-load"
@@ -70,6 +74,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    source: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     aspectRatio: {
       type: String as PropType<string | null>,
       required: false,
@@ -101,7 +110,7 @@ export default defineComponent({
       "/9j/"     : "image/jpg",
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
         "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"
@@ -146,7 +155,7 @@ export default defineComponent({
       return undefined;
     });
 
-    const source = computed((): string | undefined => {
+    const realSource = computed((): string | null => {
       if (props.imageB64) {
         if (imageType.value && imageData.value) {
           return `${imageType.value},${imageData.value}`;
@@ -158,6 +167,7 @@ export default defineComponent({
         }
         return IMAGE_RAW_URL(props.imageId);
       }
+      return props.source;
     });
 
     const imageData = computed((): string | null => {
@@ -192,8 +202,12 @@ export default defineComponent({
         if (blurHash.value && isBlurhashValid(blurHash.value.blurHash).result) {
           const ctx = canvasRef.value.getContext("2d");
           if (ctx) {
-            const pixels = decode(blurHash.value.blurHash, (imageRef.value as any).$el.clientWidth, (imageRef.value as any).$el.clientHeight);
-            const imageData = ctx.createImageData((imageRef.value as any).$el.clientWidth, (imageRef.value as any).$el.clientHeight);
+            const width = (imageRef.value as any).$el.clientWidth;
+            const height = (imageRef.value as any).$el.clientHeight;
+            const pixels = decode(blurHash.value.blurHash, width, height);
+            const imageData = ctx.createImageData(width, height);
+            canvasRef.value.width = width;
+            canvasRef.value.height = height;
             imageData.data.set(pixels);
             ctx.putImageData(imageData, 0, 0);
           }
@@ -204,10 +218,10 @@ export default defineComponent({
     return {
       computedHeight,
       computedWidth,
+      realSource,
       canvasRef,
       imageRef,
       blurHash,
-      source,
       style,
       onError
     };

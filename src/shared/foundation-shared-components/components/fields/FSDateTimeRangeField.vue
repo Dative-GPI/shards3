@@ -15,7 +15,6 @@
     :modelValue="toShortTimeFormat"
     @click="onClick"
     @update:modelValue="onClear"
-    @blur="blurred = true"
   >
     <template
       #prepend-inner
@@ -43,8 +42,8 @@
   </FSTextField>
   <FSDialogSubmit
     :title="$props.label"
-    :rightButtonColor="$props.color"
-    @click:rightButton="onSubmit"
+    :submitButtonColor="$props.color"
+    @click:submitButton="onSubmit"
     v-model="dialog"
   >
     <template
@@ -55,21 +54,15 @@
           :color="$props.color"
           v-model="innerDateRange"
         />
-        <FSRow
-          width="100%"
-        >
-          <FSCol
-            width="calc(50% - 4px)"
-          >
+        <FSRow>
+          <FSCol>
             <FSClock
               :color="$props.color"
               :date="innerDateLeft"
               v-model="innerTimeLeft"
             />
           </FSCol>
-          <FSCol
-            width="calc(50% - 4px)"
-          >
+          <FSCol>
             <FSClock
               :color="$props.color"
               :date="innerDateRight"
@@ -85,9 +78,9 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
 import FSCalendarTwin from "../FSCalendarTwin.vue";
@@ -153,12 +146,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getUserOffsetMillis, epochToShortTimeFormat } = useAppTimeZone();
-    const { validateOn, blurred, getMessages } = useRules();
-    const { getColors } = useColors();
-
-    const errors = getColors(ColorEnum.Error);
-    const lights = getColors(ColorEnum.Light);
-    const darks = getColors(ColorEnum.Dark);
+    const { validateOn, getMessages } = useRules();
 
     const dialog = ref(false);
     const innerDateRange = ref<number[] | null>(null);
@@ -185,18 +173,6 @@ export default defineComponent({
         }
       }
     }
-
-    const style = computed((): { [key: string] : string | undefined } => {
-      if (!props.editable) {
-        return {
-          "--fs-date-field-color": lights.dark
-        };
-      }
-      return {
-        "--fs-date-field-color"      : darks.base,
-        "--fs-date-field-error-color": errors.base
-      };
-    });
 
     const toShortTimeFormat = computed((): string => {
       if (!props.modelValue || !Array.isArray(props.modelValue) || !props.modelValue.length) {
@@ -242,21 +218,19 @@ export default defineComponent({
     };
 
     return {
-      ColorEnum,
-      validateOn,
-      messages,
-      blurred,
-      style,
-      dialog,
       toShortTimeFormat,
       innerDateLeft,
       innerTimeLeft,
       innerDateRight,
       innerTimeRight,
       innerDateRange,
-      onClick,
+      validateOn,
+      ColorEnum,
+      messages,
+      dialog,
+      onSubmit,
       onClear,
-      onSubmit
+      onClick
     };
   }
 });

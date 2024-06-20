@@ -44,7 +44,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "update:metadata"],
   setup(props, { emit }) {
     const { readFile } = useFiles();
     
@@ -70,8 +70,8 @@ export default defineComponent({
       if (!file) {
         return;
       }
+      emit("update:metadata", file);
       if (!props.readFile) {
-        emit("update:modelValue", file);
         clear();
       }
       else {

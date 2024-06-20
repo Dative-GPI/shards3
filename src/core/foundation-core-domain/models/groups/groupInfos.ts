@@ -3,11 +3,8 @@ import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
 export class GroupInfos {
     id: string;
     organisationId: string;
-    parentId?: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    parentId: string | null;
+    imageId: string | null;
     icon: string;
     code: string;
     label: string;
@@ -25,9 +22,6 @@ export class GroupInfos {
         this.organisationId = params.organisationId;
         this.parentId = params.parentId;
         this.imageId = params.imageId;
-        this.imageBlurHash = params.imageBlurHash;
-        this.imageHeight = params.imageHeight;
-        this.imageWidth = params.imageWidth;
         this.icon = params.icon;
         this.code = params.code;
         this.label = params.label;
@@ -45,11 +39,8 @@ export class GroupInfos {
 export interface GroupInfosDTO {
     id: string;
     organisationId: string;
-    parentId?: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    parentId: string | null;
+    imageId: string | null;
     icon: string;
     code: string;
     label: string;
@@ -64,9 +55,9 @@ export interface GroupInfosDTO {
 }
 
 export interface GroupFilters {
-    parentId?: string;
-    root?: boolean;
-    modelsIds?: string[];
-    groupsIds?: string[];
-    search?: string;
+    parentId?: string | null;
+    root?: boolean | null;
+    modelsIds?: string[] | null;
+    groupsIds?: string[] | null;
+    search?: string | null;
 }

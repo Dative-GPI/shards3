@@ -107,7 +107,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { getGradients } = useColors();
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (props.bottomColor) {
         const bottomColors = getGradients(props.bottomColor);
         return {

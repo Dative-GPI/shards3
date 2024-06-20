@@ -1,45 +1,55 @@
-@property --scrollbar-color {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: #00000000;
+@property --scrollbar-x-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #00000000;
 }
 
-@include clickscreen {    
-    .fs-hide-scrollbar {
-        transition: --scrollbar-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    
-        &::-webkit-scrollbar {
-            width: 8px;
-        }
-        &::-webkit-scrollbar-thumb {
-            background: var(--scrollbar-color);
-            border-radius: 4px;
-        }
-    
-        &:hover {
-            --scrollbar-color: #00000022;
-        }
+@property --scrollbar-y-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #00000000;
+}
+
+@include clickscreen {
+  .fs-hide-x-scrollbar {
+    overflow-x: scroll !important;
+
+    &::-webkit-scrollbar {
+      height: 8px;
     }
-    
-    .fs-hide-y-scrollbar {
-        overflow-y: scroll;
-    
-        @extend .fs-hide-scrollbar;
+    &::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-x-color);
+      border-radius: 4px;
     }
-    
-    .fs-hide-x-scrollbar {
-        overflow-x: scroll;
-    
-        @extend .fs-hide-scrollbar;
+
+    &:hover {
+      --scrollbar-x-color: #00000022;
     }
+  }
+
+  .fs-hide-y-scrollbar {
+    overflow-y: scroll !important;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-y-color);
+      border-radius: 4px;
+    }
+
+    &:hover {
+      --scrollbar-y-color: #00000022;
+    }
+  }
 }
 
 @include touchscreen {
-    .fs-hide-y-scrollbar {
-        overflow-y: scroll;
-    }
-    
-    .fs-hide-x-scrollbar {
-        overflow-x: scroll;
-    }
+  .fs-hide-x-scrollbar {
+    overflow-x: scroll;
+  }
+
+  .fs-hide-y-scrollbar {
+    overflow-y: scroll;
+  }
 }

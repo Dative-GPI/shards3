@@ -19,7 +19,9 @@ export const Variations: Story = {
   args: {
     args: {
       value1: null,
-      value2: "11"
+      type1: 0,
+      value2: "11",
+      type2: 2
     }
   },
   render: (args, { argTypes }) => ({
@@ -33,12 +35,14 @@ export const Variations: Story = {
       <FSAutocompleteRole
         label="Role"
         v-model="args.value1"
+        v-model:type="args.type1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteRole
         label="Role with toggleset disabled"
         :toggleSetDisabled="true"
         v-model="args.value2"
+        v-model:type="args.type2"
       />
     </FSCol>`
   })

@@ -33,9 +33,9 @@ export interface DeviceOrganisationDetailsDTO extends DeviceOrganisationInfosDTO
 
 export interface CreateDeviceOrganisationDTO {
     manufacturerId: string;
-    managerId?: string;
-    locationId?: string;
-    groupId?: string;
+    managerId: string | null;
+    locationId: string | null;
+    groupId: string | null;
     code: string;
     label: string;
     description: string;
@@ -44,11 +44,11 @@ export interface CreateDeviceOrganisationDTO {
 }
 
 export interface UpdateDeviceOrganisationDTO {
-    managerId?: string;
-    locationId?: string;
-    groupId?: string;
-    imageId?: string;
-    image?: string;
+    managerId: string | null;
+    locationId: string | null;
+    groupId: string | null;
+    imageId: string | null;
+    image: string | null;
     label: string;
     description: string;
     tags: string[];
@@ -56,9 +56,9 @@ export interface UpdateDeviceOrganisationDTO {
 }
 
 export interface ChangeDeviceOrganisationGroupDTO {
-    groupId?: string;
+    groupId: string | null;
 }
 
 export interface ChangeDeviceOrganisationLocationDTO {
-    locationId?: string;
+    locationId: string | null;
 }

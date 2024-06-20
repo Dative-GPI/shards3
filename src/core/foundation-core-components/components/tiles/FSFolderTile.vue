@@ -11,6 +11,7 @@
     :code="entity.code"
     :bottomColor="entity.colors"
     :icon="entity.icon"
+    :imageId="entity.imageId"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
     @update:modelValue="(value) => $emit('update:modelValue', value)"

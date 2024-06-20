@@ -8,8 +8,12 @@
     :style="style"
     v-bind="$attrs"
   >
-    <template #title>
-      <slot name="title">
+    <template
+      #title
+    >
+      <slot
+        name="title"
+      >
         <FSRow>
           <FSIcon
             v-if="$props.prependIcon"
@@ -24,8 +28,12 @@
         </FSRow>
       </slot>
     </template>
-    <template #text>
-      <slot name="content">
+    <template
+      #text
+    >
+      <slot
+        name="content"
+      >
         <FSText
           :lineClamp="$props.lineClampContent"
         >
@@ -109,7 +117,7 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-accordion-panel-padding-title"         : sizeToVar(props.paddingTitle),
         "--fs-accordion-panel-padding-content"       : sizeToVar(props.paddingContent),

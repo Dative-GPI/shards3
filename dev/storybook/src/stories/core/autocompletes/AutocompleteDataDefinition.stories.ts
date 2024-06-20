@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSAutocompleteDataCategory from "@dative-gpi/foundation-core-components/components/autocompletes/FSAutocompleteDataCategory.vue";
+import FSAutocompleteDataDefinition from "@dative-gpi/foundation-core-components/components/autocompletes/FSAutocompleteDataDefinition.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
-  title: 'Foundation/Core/Autocompletes/AutocompleteDataCategory',
-  component: FSAutocompleteDataCategory,
+  title: 'Foundation/Core/Autocompletes/AutocompleteDataDefinition',
+  component: FSAutocompleteDataDefinition,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   },
-} satisfies Meta<typeof FSAutocompleteDataCategory>;
+} satisfies Meta<typeof FSAutocompleteDataDefinition>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -25,31 +25,31 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSAutocompleteDataCategory, FSCol },
+    components: { FSAutocompleteDataDefinition, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
     <FSCol>
-      <FSAutocompleteDataCategory
-        label="DataCategory"
+      <FSAutocompleteDataDefinition
+        label="DataDefinition"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSAutocompleteDataCategory
-        label="DataCategory with toggleset disabled"
+      <FSAutocompleteDataDefinition
+        label="DataDefinition with toggleset disabled"
         :toggleSetDisabled="true"
         v-model="args.value2"
       />
-      <FSAutocompleteDataCategory
-        label="DataCategory with multiple selection"
+      <FSAutocompleteDataDefinition
+        label="DataDefinition with multiple selection"
         :multiple="true"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSAutocompleteDataCategory
-        label="DataCategory with toggleset disabled and multiple selection"
+      <FSAutocompleteDataDefinition
+        label="DataDefinition with toggleset disabled and multiple selection"
         :multiple="true"
         :toggleSetDisabled="true"
         v-model="args.value4"

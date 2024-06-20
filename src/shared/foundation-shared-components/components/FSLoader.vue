@@ -48,7 +48,7 @@ export default defineComponent({
 
     const backgrounds = getColors(ColorEnum.Background);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-loader-background-color": backgrounds.base,
         "--fs-loader-border-radius"   : ["chip"].includes(props.variant) ? "50px" : sizeToVar(props.borderRadius),

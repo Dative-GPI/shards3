@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { CHART_ORGANISATION_TYPE_URL, CHART_ORGANISATION_TYPES_URL } from "../../config/urls";
 import { ChartOrganisationTypeDetails, ChartOrganisationTypeDetailsDTO, ChartOrganisationTypeFilters, ChartOrganisationTypeInfos, ChartOrganisationTypeInfosDTO, CreateChartOrganisationTypeDTO, UpdateChartOrganisationTypeDTO } from "@dative-gpi/foundation-core-domain/models";
 
@@ -6,7 +6,7 @@ import { ChartOrganisationTypeDetails, ChartOrganisationTypeDetailsDTO, ChartOrg
 const ChartOrganisationTypeServiceFactory = new ServiceFactory<ChartOrganisationTypeDetailsDTO, ChartOrganisationTypeDetails>("chartOrganisationType", ChartOrganisationTypeDetails)
   .createComplete<ChartOrganisationTypeInfos, ChartOrganisationTypeInfosDTO, CreateChartOrganisationTypeDTO, UpdateChartOrganisationTypeDTO, ChartOrganisationTypeFilters>(CHART_ORGANISATION_TYPES_URL, CHART_ORGANISATION_TYPE_URL, ChartOrganisationTypeInfos);
 
-const ChartOrganisationServiceFactoryIncomplete = new ServiceFactory("chartOrganisationType", ChartOrganisationTypeDetails)
+const ChartOrganisationTypeServiceFactoryIncomplete = new ServiceFactory("chartOrganisationType", ChartOrganisationTypeDetails)
   .create(factory => factory.build(
     factory.addNotify(notifyService => ({
       ...ServiceFactory.addCustom("chartOrganisationType", (axios, charOrganisationTypeId: string) => axios.patch(CHART_ORGANISATION_TYPE_URL(charOrganisationTypeId)), (dto: ChartOrganisationTypeDetailsDTO) => {
@@ -22,5 +22,5 @@ export const useChartOrganisationTypes = ComposableFactory.getMany(ChartOrganisa
 export const useCreateChartOrganisationType = ComposableFactory.create(ChartOrganisationTypeServiceFactory);
 export const useUpdateChartOrganisationType = ComposableFactory.update(ChartOrganisationTypeServiceFactory);
 export const useRemoveChartOrganisationType = ComposableFactory.remove(ChartOrganisationTypeServiceFactory);
-export const useChangeDashboardOrganisation = ComposableFactory.custom(ChartOrganisationServiceFactoryIncomplete.chartOrganisationType);
+export const useDuplicateChartOrganisationType = ComposableFactory.custom(ChartOrganisationTypeServiceFactoryIncomplete.chartOrganisationType);
 

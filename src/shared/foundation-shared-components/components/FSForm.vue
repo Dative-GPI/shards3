@@ -22,7 +22,7 @@ export default defineComponent({
       default: null
     },
     variant: {
-      type: String as PropType<"standard" | "lazy" | "submit">,
+      type: String as PropType<"standard" | "submit">,
       required: false,
       default: "submit"
     }
@@ -32,10 +32,9 @@ export default defineComponent({
     const formRef = ref<HTMLFormElement | null>(null);
     const submitted = ref(false);
 
-    const validateOn = computed((): "submit" | "blur" | "input"  => {
+    const validateOn = computed((): "submit" | "input"  => {
       switch (props.variant) {
         case "standard": return "input";
-        case "lazy":     return "blur";
         default:         return "submit";
       }
     });
@@ -45,10 +44,25 @@ export default defineComponent({
       event.preventDefault();
       submitted.value = true;
       await (formRef.value as any).validate();
-      emit("update:modelValue", !!(formRef.value as any).isValid);
-      emit("submit", !!(formRef.value as any).isValid);
-      
+      emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
+      emit("submit", !!((formRef.value as any).isValid ?? true));
     }; 
+
+    const validate = async () => {
+      submitted.value = true;
+      await (formRef.value as any).validate();
+      emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
+    };
+
+    const reset = () => {
+      submitted.value = false;
+      (formRef.value as any).reset();
+    };
+
+    const resetValidation = () => {
+      submitted.value = false;
+      (formRef.value as any).resetValidation();
+    };
 
     provide("validateOn", validateOn);
     provide("submitted", submitted);
@@ -57,7 +71,10 @@ export default defineComponent({
       validateOn,
       submitted,
       formRef,
-      onSubmit
+      resetValidation,
+      onSubmit,
+      validate,
+      reset
     };
   }
 });

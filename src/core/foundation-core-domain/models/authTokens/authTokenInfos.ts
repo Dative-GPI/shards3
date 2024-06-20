@@ -1,8 +1,8 @@
-import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
+import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class AuthTokenInfos {
     id: string;
-    userId?: string;
+    userId: string | null;
     label: string;
     creationDate: number;
     dateMax: number;
@@ -11,19 +11,19 @@ export class AuthTokenInfos {
         this.id = params.id;
         this.userId = params.userId;
         this.label = params.label;
-        this.creationDate = DatesTools.utcToEpoch(params.creationDate);
-        this.dateMax = DatesTools.utcToEpoch(params.dateMax);
+        this.creationDate = utcToEpoch(params.creationDate);
+        this.dateMax = utcToEpoch(params.dateMax);
     }
 }
 
 export interface AuthTokenInfosDTO {
     id: string;
-    userId?: string;
+    userId: string | null;
     label: string;
     creationDate: string;
     dateMax: string;
 }
 
 export interface AuthTokenFilters {
-    userId?: string;
+    userId?: string | null;
 }

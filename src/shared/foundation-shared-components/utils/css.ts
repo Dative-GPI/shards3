@@ -52,4 +52,4 @@ export const varToSize = (value: string[] | number[] | string | number | null): 
     }
     const parsed = parseInt(value.replace(/[^0-9.]/g, ''));
     return isNaN(parsed) ? 0 : parsed;
-}
+};
