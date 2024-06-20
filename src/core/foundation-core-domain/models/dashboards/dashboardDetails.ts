@@ -7,13 +7,12 @@ import { DashboardInfos, DashboardInfosDTO } from "./dashboardInfos";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 
 export class DashboardDetails extends DashboardInfos {
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  entityPresetCode: string | null;
-  dynamicDates: boolean;
-  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  singleEntity: boolean;
+  entityPresetCode: string | null;
+  datePresetCode: string | null;
+  variableCode: string | null;
   datePresets: DashboardDatePresetInfos[];
   entityPresets: DashboardEntityPresetInfos[];
   variables: DashboardVariableInfos[];
@@ -22,13 +21,12 @@ export class DashboardDetails extends DashboardInfos {
   constructor(params: DashboardDetailsDTO) {
     super(params);
 
-    this.singleEntity = params.singleEntity;
-    this.dynamicEntities = params.dynamicEntities;
-    this.entityPresetCode = params.entityPresetCode;
-    this.dynamicDates = params.dynamicDates;
-    this.datePresetCode = params.datePresetCode;
     this.useAutoRefresh = params.useAutoRefresh;
     this.autoRefresh = params.autoRefresh;
+    this.singleEntity = params.singleEntity;
+    this.entityPresetCode = params.entityPresetCode;
+    this.datePresetCode = params.datePresetCode;
+    this.variableCode = params.variableCode;
     this.datePresets = params.datePresets.map(dto => new DashboardDatePresetInfos(dto));
     this.entityPresets = params.entityPresets.map(dto => new DashboardEntityPresetInfos(dto));
     this.variables = params.variables.map(dto => new DashboardVariableInfos(dto));
@@ -37,13 +35,12 @@ export class DashboardDetails extends DashboardInfos {
 }
 
 export interface DashboardDetailsDTO extends DashboardInfosDTO {
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  entityPresetCode: string | null;
-  dynamicDates: boolean;
-  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: number;
+  singleEntity: boolean;
+  entityPresetCode: string | null;
+  datePresetCode: string | null;
+  variableCode: string | null;
   datePresets: DashboardDatePresetInfosDTO[];
   entityPresets: DashboardEntityPresetInfosDTO[];
   variables: DashboardVariableInfosDTO[];
