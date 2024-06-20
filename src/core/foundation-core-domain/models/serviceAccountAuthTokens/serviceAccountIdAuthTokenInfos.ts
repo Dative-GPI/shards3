@@ -1,29 +1,28 @@
 import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
-export class AuthTokenInfos {
+export class ServiceAccountAuthTokenInfos {
     id: string;
-    userId: string | null;
+    serviceAccountId: string | null;
     label: string;
     creationDate: number;
     dateMax: number;
 
-    constructor(params: AuthTokenInfosDTO) {
+    constructor(params: ServiceAccountAuthTokenInfosDTO) {
         this.id = params.id;
-        this.userId = params.userId;
+        this.serviceAccountId = params.serviceAccountId;
         this.label = params.label;
         this.creationDate = utcToEpoch(params.creationDate);
         this.dateMax = utcToEpoch(params.dateMax);
     }
 }
 
-export interface AuthTokenInfosDTO {
+export interface ServiceAccountAuthTokenInfosDTO {
     id: string;
-    userId: string | null;
+    serviceAccountId: string | null;
     label: string;
     creationDate: string;
     dateMax: string;
 }
 
-export interface AuthTokenFilters {
-    userId?: string | null;
+export interface ServiceAccountAuthTokenFilters {
 }
