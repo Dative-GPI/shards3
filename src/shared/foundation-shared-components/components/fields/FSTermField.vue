@@ -1,10 +1,10 @@
 <template>
   <FSBaseField
-    :label="$props.label"
     :description="$props.description"
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
+    :label="$props.label"
     :messages="messages"
   >
     <FSForm
@@ -17,6 +17,7 @@
           :lastPeriod="$props.lastPeriod"
           :editable="$props.editable"
           :variant="$props.variant"
+          :hideHeader="true"
           :modelValue="localDateSetting"
           @update:modelValue="localDateSettingChange"
         />
