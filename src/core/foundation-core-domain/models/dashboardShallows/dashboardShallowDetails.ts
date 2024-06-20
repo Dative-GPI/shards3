@@ -27,9 +27,9 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   translations: DashboardTranslation[];
   singleEntity: boolean;
   dynamicEntities: boolean;
-  entityPresetCode: string;
+  entityPresetCode: string | null;
   dynamicDates: boolean;
-  datePresetCode: string;
+  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
   datePresets: DashboardDatePresetInfos[];
@@ -85,9 +85,9 @@ export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
   scope: number;
   singleEntity: boolean;
   dynamicEntities: boolean;
-  entityPresetCode: string;
+  entityPresetCode: string | null;
   dynamicDates: boolean;
-  datePresetCode: string;
+  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
   datePresets: DashboardDatePresetInfosDTO[];

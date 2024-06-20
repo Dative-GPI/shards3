@@ -9,9 +9,9 @@ import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
 export class DashboardDetails extends DashboardInfos {
   singleEntity: boolean;
   dynamicEntities: boolean;
-  entityPresetCode: string;
+  entityPresetCode: string | null;
   dynamicDates: boolean;
-  datePresetCode: string;
+  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
   datePresets: DashboardDatePresetInfos[];
@@ -39,9 +39,9 @@ export class DashboardDetails extends DashboardInfos {
 export interface DashboardDetailsDTO extends DashboardInfosDTO {
   singleEntity: boolean;
   dynamicEntities: boolean;
-  entityPresetCode: string;
+  entityPresetCode: string | null;
   dynamicDates: boolean;
-  datePresetCode: string;
+  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: number;
   datePresets: DashboardDatePresetInfosDTO[];
