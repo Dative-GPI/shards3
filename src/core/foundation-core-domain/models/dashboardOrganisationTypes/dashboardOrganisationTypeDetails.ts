@@ -11,13 +11,12 @@ import { CreateWidgetDTO } from "../widgets/widgetDetails";
 export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeInfos {
   labelDefault: string;
   translations: DashboardTranslation[];
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  entityPresetCode: string | null;
-  dynamicDates: boolean;
-  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  singleEntity: boolean;
+  entityPresetCode: string | null;
+  datePresetCode: string | null;
+  variableCode: string | null;
   datePresets: DashboardDatePresetInfos[];
   entityPresets: DashboardEntityPresetInfos[];
   variables: DashboardVariableInfos[];
@@ -28,13 +27,12 @@ export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeI
 
     this.labelDefault = params.labelDefault;
     this.translations = params.translations.map(t => new DashboardTranslation(t));
-    this.singleEntity = params.singleEntity;
-    this.dynamicEntities = params.dynamicEntities;
-    this.entityPresetCode = params.entityPresetCode;
-    this.dynamicDates = params.dynamicDates;
-    this.datePresetCode = params.datePresetCode;
     this.useAutoRefresh = params.useAutoRefresh;
     this.autoRefresh = params.autoRefresh;
+    this.singleEntity = params.singleEntity;
+    this.entityPresetCode = params.entityPresetCode;
+    this.datePresetCode = params.datePresetCode;
+    this.variableCode = params.variableCode;
     this.variables = params.variables.map(dto => new DashboardVariableInfos(dto));
     this.widgets = params.widgets.map(dto => new WidgetInfos(dto));
   }
@@ -43,13 +41,12 @@ export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeI
 export interface DashboardOrganisationTypeDetailsDTO extends DashboardOrganisationTypeInfosDTO {
   labelDefault: string;
   translations: DashboardTranslationDTO[];
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  entityPresetCode: string | null;
-  dynamicDates: boolean;
-  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
+  singleEntity: boolean;
+  entityPresetCode: string | null;
+  datePresetCode: string | null;
+  variableCode: string | null;
   datePresets: DashboardDatePresetInfosDTO[];
   entityPresets: DashboardEntityPresetInfosDTO[];
   variables: DashboardVariableInfosDTO[];
@@ -69,13 +66,12 @@ export interface UpdateDashboardOrganisationTypeDTO {
   icon: string;
   tags: string[];
   translations: DashboardTranslationDTO[];
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  entityPresetCode: string | null;
-  dynamicDates: boolean;
-  datePresetCode: string | null;
   useAutoRefresh: boolean;
   autoRefresh: number;
+  singleEntity: boolean;
+  entityPresetCode: string | null;
+  datePresetCode: string | null;
+  variableCode: string | null;
   datePresets: CreateDashboardDatePresetDTO[];
   entityPresets: CreateDashboardEntityPresetDTO[];
   variables: CreateDashboardVariableDTO[];
