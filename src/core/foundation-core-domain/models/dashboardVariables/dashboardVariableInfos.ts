@@ -4,8 +4,6 @@ import { DashboardVariableValueTranslation, DashboardVariableValueTranslationDTO
 import { DashboardVariableTranslation, DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
 
 export class DashboardVariableInfos {
-  id: string;
-  dashboardId: string;
   variableType: DashboardVariableType;
   label: string;
   labelDefault: string;
@@ -16,8 +14,6 @@ export class DashboardVariableInfos {
   translations: DashboardVariableTranslation[];
 
   constructor(params: DashboardVariableInfosDTO) {
-    this.id = params.id;
-    this.dashboardId = params.dashboardId;
     this.variableType = params.variableType;
     this.label = params.label;
     this.labelDefault = params.labelDefault;
@@ -30,8 +26,6 @@ export class DashboardVariableInfos {
 }
   
 export interface DashboardVariableInfosDTO {
-  id: string;
-  dashboardId: string;
   variableType: DashboardVariableType;
   label: string;
   labelDefault: string;
