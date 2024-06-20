@@ -5,17 +5,13 @@ import { DashboardDatePresetInfos, DashboardDatePresetInfosDTO } from "../dashbo
 import { DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
 import { DashboardInfos, DashboardInfosDTO } from "./dashboardInfos";
 import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
-import { SelectedEntities } from "../enums/sharedEnums";
 
 export class DashboardDetails extends DashboardInfos {
   singleEntity: boolean;
   dynamicEntities: boolean;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  entityPresetCode: string;
   dynamicDates: boolean;
-  globalStartDate: string;
-  globalEndDate: string;
+  datePresetCode: string;
   useAutoRefresh: boolean;
   autoRefresh: AutoRefresh;
   datePresets: DashboardDatePresetInfos[];
@@ -28,12 +24,9 @@ export class DashboardDetails extends DashboardInfos {
 
     this.singleEntity = params.singleEntity;
     this.dynamicEntities = params.dynamicEntities;
-    this.globalSelectedEntities = params.globalSelectedEntities as SelectedEntities;
-    this.globalEntitiesFilters = params.globalEntitiesFilters;
-    this.globalEntitiesIds = params.globalEntitiesIds.slice();
+    this.entityPresetCode = params.entityPresetCode;
     this.dynamicDates = params.dynamicDates;
-    this.globalStartDate = params.globalStartDate;
-    this.globalEndDate = params.globalEndDate;
+    this.datePresetCode = params.datePresetCode;
     this.useAutoRefresh = params.useAutoRefresh;
     this.autoRefresh = params.autoRefresh;
     this.datePresets = params.datePresets.map(dto => new DashboardDatePresetInfos(dto));
@@ -46,12 +39,9 @@ export class DashboardDetails extends DashboardInfos {
 export interface DashboardDetailsDTO extends DashboardInfosDTO {
   singleEntity: boolean;
   dynamicEntities: boolean;
-  globalSelectedEntities: number;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  entityPresetCode: string;
   dynamicDates: boolean;
-  globalStartDate: string;
-  globalEndDate: string;
+  datePresetCode: string;
   useAutoRefresh: boolean;
   autoRefresh: number;
   datePresets: DashboardDatePresetInfosDTO[];

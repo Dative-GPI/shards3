@@ -10,27 +10,30 @@ export * from "./comments";
 export * from "./connectivityAlerts";
 export * from "./customProperties";
 export * from "./customPropertyValues";
-export * from "./dashboardDatePresets";         // No service
-export * from "./dashboardEntityPresets";       // No service
+export * from "./dashboardDatePresets";             // No service
+export * from "./dashboardEntityPresets";           // No service
 export * from "./dashboardOrganisations";
 export * from "./dashboardOrganisationTypes";
 export * from "./dashboards";
+export * from "./dashboardShallowDatePresets";      // No service
+export * from "./dashboardShallowEntityPresets";    // No service
 export * from "./dashboardShallows";
-export * from "./dashboardVariables";           // No service
+export * from "./dashboardShallowVariables";        // No service
+export * from "./dashboardVariables";               // No service
 export * from "./dataCategories";
 export * from "./dataDefinitions";
-export * from "./dataDefinitionMappings";       // No service
+export * from "./dataDefinitionMappings";           // No service
 export * from "./deviceConnectivities";
 export * from "./deviceOrganisations";
 export * from "./deviceStatuses";
-export * from "./enums";                        // No service
+export * from "./enums";                            // No service
 export * from "./extensionApplications";
 export * from "./folders";
 export * from "./groups";
 export * from "./locations";
 export * from "./manufacturers";
 export * from "./models";
-export * from "./modelStatuses";                // No service
+export * from "./modelStatuses";                    // No service
 export * from "./organisations";
 export * from "./permissionCategories";
 export * from "./roleOrganisations";
@@ -40,11 +43,11 @@ export * from "./scenarioDeviceOrganisations";
 export * from "./scenarioDiffusions";
 export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
-export * from "./scenarios";                    // No service
-export * from "./shared";                       // No service
+export * from "./scenarios";                        // No service
+export * from "./shared";                           // No service
 export * from "./serviceAccounts";
-export * from "./userOrganisationColumns";      // No service
+export * from "./userOrganisationColumns";          // No service
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";
-export * from "./widgets";                      // No service
+export * from "./widgets";                          // No service
 export * from "./widgetTemplates";
