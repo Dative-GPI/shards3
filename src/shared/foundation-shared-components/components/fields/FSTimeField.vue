@@ -1,20 +1,20 @@
 <template>
   <FSBaseField
-    :label="$props.label"
     :description="$props.description"
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
+    :label="$props.label"
     :messages="messages"
   >
     <FSRow>
       <FSNumberField
-        :editable="$props.editable"
-        :hideHeader="true"
-        :rules="$props.rules"
-        :messages="messages"
-        :validateOn="validateOn"
         :validationValue="$props.modelValue"
+        :editable="$props.editable"
+        :validateOn="validateOn"
+        :rules="$props.rules"
+        :hideHeader="true"
+        :messages="messages"
         :modelValue="innerTime"
         @update:modelValue="onSubmitValue"
         v-bind="$attrs"
