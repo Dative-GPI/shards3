@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dative-gpi/foundation-shared-domain": "^0.0.88",
-    "@dative-gpi/foundation-shared-services": "^0.0.88",
+    "@dative-gpi/foundation-shared-domain": "1.0.0",
+    "@dative-gpi/foundation-shared-services": "1.0.0",
     "@fontsource/montserrat": "^5.0.16",
     "@lexical/clipboard": "^0.12.5",
     "@lexical/history": "^0.12.5",
