@@ -48,18 +48,19 @@
       z-index: 1001;
       margin-bottom: 8px;
 
-      .fs-map-zoom-plus {
+      button.fs-map-zoom-plus>* {
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
-        border-bottom: solid 1px var(--fs-card-border-color) !important;
-        margin-bottom: 0;
       }
 
-      .fs-map-zoom-minus {
-        margin-top: 0;
+      button.fs-map-zoom-minus>* {
+        margin-top: 1px;
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
+
         border-top: solid 1px var(--fs-card-border-color) !important;
+
+
       }
     }
   }

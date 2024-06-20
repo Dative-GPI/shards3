@@ -119,7 +119,7 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
-      <!--<FSMap
+      <FSMap
         :editable="true"
         v-model="args.locations1"
         height="600px"
@@ -135,13 +135,13 @@ export const Variations: Story = {
         :showLayerChoice="false"
         :showMyLocation="false"
         :showZoomButtons="false"
-      />-->
+      />
       <FSMap
         :editable="true"
         :modelValue="args.locations3"
         :areas="args.areas1"
         height="600px"
       />
-    </div>`
+    </div>`,
   })
 }
