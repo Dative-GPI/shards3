@@ -20,7 +20,7 @@
         v-bind="$attrs"
       >
         <template
-          v-for="(_, name) in $slots"
+          v-for="(_, name) in numberSlots"
           v-slot:[name]="slotData"
         >
           <slot
@@ -37,7 +37,17 @@
         :items="timeScale"
         :modelValue="selectedUnit.id"
         @update:modelValue="onSubmitTimeScale"
-      />
+      >
+        <template
+          v-for="(_, name) in selectSlots"
+          v-slot:[name]="slotData"
+        >
+          <slot
+            :name="name"
+            v-bind="slotData"
+          />
+        </template>
+      </FSSelectField>
     </FSRow>
   </FSBaseField>
 </template>
@@ -45,8 +55,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
+import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-components/utils";
-import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSNumberField from "./FSNumberField.vue";
@@ -108,6 +118,10 @@ export default defineComponent({
   setup(props, { emit }) {
     const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
+    const { slots } = useSlots();
+
+    delete slots.label;
+    delete slots.description;
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
@@ -145,6 +159,20 @@ export default defineComponent({
       };
     });
 
+    const numberSlots = computed((): any => {
+      return Object.keys(slots).filter(k => k.startsWith("number-")).reduce((acc, key) => {
+        acc[key.substring("number-".length)] = slots[key];
+        return acc;
+      }, {});
+    });
+
+    const selectSlots = computed((): any => {
+      return Object.keys(slots).filter(k => k.startsWith("select-")).reduce((acc, key) => {
+        acc[key.substring("select-".length)] = slots[key];
+        return acc;
+      }, {});
+    });
+
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
     const onSubmitValue = (value: number): void => {
@@ -159,6 +187,8 @@ export default defineComponent({
 
     return {
       selectedUnit,
+      numberSlots,
+      selectSlots,
       validateOn,
       innerTime,
       timeScale,

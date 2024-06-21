@@ -18,17 +18,16 @@
     <template
       #append-inner
     >
+      <FSButton
+        variant="icon"
+        :editable="$props.editable"
+        :color="ColorEnum.Dark"
+        :icon="icon"
+        @click="onToggle"
+      />
       <slot
         name="append-inner"
-      >
-        <FSButton
-          variant="icon"
-          :editable="$props.editable"
-          :color="ColorEnum.Dark"
-          :icon="icon"
-          @click="onToggle"
-        />
-      </slot>
+      />
     </template>
   </FSTextField>
 </template>

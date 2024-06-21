@@ -17,19 +17,18 @@
     <template
       #append
     >
+      <FSButton
+        :prependIcon="$props.buttonPrependIcon"
+        :label="$props.buttonLabel"
+        :appendIcon="$props.buttonAppendIcon"
+        :variant="$props.buttonVariant"
+        :color="$props.buttonColor"
+        :load="fetchingLanguages"
+        @click="dialog = true"
+      />
       <slot
         name="append"
-      >
-        <FSButton
-          :prependIcon="$props.buttonPrependIcon"
-          :label="$props.buttonLabel"
-          :appendIcon="$props.buttonAppendIcon"
-          :variant="$props.buttonVariant"
-          :color="$props.buttonColor"
-          :load="fetchingLanguages"
-          @click="dialog = true"
-        />
-      </slot>
+      />
     </template>
   </FSTextField>
   <FSDialogSubmit
