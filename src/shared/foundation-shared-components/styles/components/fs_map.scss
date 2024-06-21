@@ -3,8 +3,9 @@
 .fs-map {
   position: relative;
 
-  .leaflet-container {
-    border-radius: 4px;
+  .fs-leaflet-container {
+    width: '100%';
+    height: var(--fs-map-leaflet-container-height);
   }
 
   .fs-map-overlay-layer-choice {

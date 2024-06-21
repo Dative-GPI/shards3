@@ -5,4 +5,3 @@ export interface MapLayer {
   label:string;
   layer: Layer;
 }
-

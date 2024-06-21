@@ -14,7 +14,7 @@
       >
         <FSChip
           v-for="mapLayer in mapLayers.filter((layer) => selectableLayers.includes(layer.name))"
-          :key="mapLayer"
+          :key="mapLayer.name"
           :label="mapLayer.label"
           :editable="true"
           :color="innerSelectedLayer === mapLayer.name ? 'dark' : 'light'"
@@ -32,10 +32,12 @@
           @click="editingLocation = true"
         />
       </FSRow>
-      <FSCol :style="style">
+      <FSCol 
+        :style="style"
+      >
         <div
+          class="fs-leaflet-container"
           :id="mapId"
-          :style="{ height: $props.height, width: '100%' }"
         ></div>
       </FSCol>
 
@@ -92,12 +94,11 @@
 
 <script lang="ts">
 import { PropType, computed, defineComponent, onMounted, ref, watch } from "vue";
-import { v4 as uuidv4 } from "uuid"; // Import the UUID library
+import { v4 as uuidv4 } from "uuid";
 
 import FSCard from '../FSCard.vue'
 import FSCol from '../FSCol.vue'
 import FSRow from '../FSRow.vue'
-import FSText from '../FSText.vue'
 import FSButton from '../FSButton.vue'
 import FSChip from '../FSChip.vue'
 
@@ -116,14 +117,13 @@ export default defineComponent({
     FSCard,
     FSCol,
     FSRow,
-    FSText,
     FSButton,
     FSChip,
     FSMapEditPointAddressOverlay,
   },
   props: {
     height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      type: [String, Number] as PropType< string | number >,
       required: false,
       default: '400px'
     },
@@ -237,6 +237,7 @@ export default defineComponent({
       return {
         "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
+        "--fs-map-leaflet-container-height": props.height as string,
       };
     });
 
@@ -300,7 +301,7 @@ export default defineComponent({
 
     const modifyLocationAddress = (locationId: string, newAddress: Address) => {
       const location = innerModelValue.value.find((loc) => loc.id === locationId);
-      if (!location) return;
+      if (!location) {return;}
       const initialIcon = location.icon;
       const newLocation = {
         ...location,

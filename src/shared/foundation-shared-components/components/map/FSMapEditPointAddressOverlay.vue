@@ -5,9 +5,13 @@
     height="100%"
     :elevation="true"
   >
-    <FSCol gap="24px">
+    <FSCol
+      gap="24px"
+    >
       <FSRow>
-        <FSText font="text-h3">
+        <FSText
+          font="text-h3"
+        >
           {{ $tr('ui.map.modify-location', 'Modify location') }}
         </FSText>
         <v-spacer />
@@ -24,7 +28,9 @@
           @click="menuLocationCoord = !menuLocationCoord"
         />
       </FSRow>
-      <FSCol v-if="menuLocationCoord">
+      <FSCol
+        v-if="menuLocationCoord"
+      >
         <FSAutoCompleteAddress
           :modelValue="$props.modelValue"
           @update:modelValue="onAddressFieldSubmit($event)"
@@ -52,7 +58,9 @@
           />
         </FSForm>
       </FSCol>
-      <FSRow align="center-right">
+      <FSRow
+        align="center-right"
+      >
         <FSButton
           :label="$tr('ui.map.cancel', 'Cancel')"
           @click="onCancel"
