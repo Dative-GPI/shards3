@@ -16,38 +16,36 @@
       />
     </template>
     <template
-      v-if="$props.prependInnerIcon"
       #prepend-inner
     >
+      <FSButton
+        v-if="$props.prependInnerIcon"
+        variant="icon"
+        :icon="$props.prependInnerIcon"
+        :editable="$props.editable"
+        :color="ColorEnum.Dark"
+        @click="onSearch"
+      />
       <slot
         name="prepend-inner"
-      >
-        <FSButton
-          variant="icon"
-          :icon="$props.prependInnerIcon"
-          :editable="$props.editable"
-          :color="ColorEnum.Dark"
-          @click="onSearch"
-        />
-      </slot>
+      />
     </template>
     <template
-      v-if="!['instant'].includes($props.variant)"
       #append
     >
+      <FSButton
+        v-if="!['instant'].includes($props.variant)"
+        :prependIcon="$props.buttonPrependIcon"
+        :label="buttonLabel"
+        :appendIcon="$props.buttonAppendIcon"
+        :variant="$props.buttonVariant"
+        :color="$props.buttonColor"
+        :editable="$props.editable"
+        @click="onSearch"
+      />
       <slot
         name="append"
-      >
-        <FSButton
-          :prependIcon="$props.buttonPrependIcon"
-          :label="buttonLabel"
-          :appendIcon="$props.buttonAppendIcon"
-          :variant="$props.buttonVariant"
-          :color="$props.buttonColor"
-          :editable="$props.editable"
-          @click="onSearch"
-        />
-      </slot>
+      />
     </template>
   </FSTextField>
 </template>

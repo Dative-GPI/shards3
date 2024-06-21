@@ -22,6 +22,9 @@
         >
           {{ $props.modelValue }}
         </FSIcon>
+        <slot
+          name="append-inner"
+        />
       </template>
     </FSTextField>
     <FSToggleSet
