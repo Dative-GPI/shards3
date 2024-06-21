@@ -16,9 +16,9 @@ export interface AuthTokenDetailsDTO extends AuthTokenInfosDTO {
 }
 
 export interface CreateAuthTokenDTO {
-    extensionId: string;
-    label: string;
-    lifetime: number;
+    extensionId: string | null;
+    label: string | null;
+    lifetime: number | null;
 }
 
 export interface AuthTokenFilters {

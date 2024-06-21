@@ -1,7 +1,7 @@
 import { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
 import { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
+import { CreateDashboardVariableValueDTO } from "../dashboardVariableValues";
 
 export interface CreateDashboardVariableDTO {
   variableType: DashboardVariableType;
@@ -9,6 +9,6 @@ export interface CreateDashboardVariableDTO {
   code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
-  allowedValues: { [key: string]: DashboardVariableValueTranslationDTO[] };
+  allowedValues: CreateDashboardVariableValueDTO[];
   translations: DashboardVariableTranslationDTO[];
 }

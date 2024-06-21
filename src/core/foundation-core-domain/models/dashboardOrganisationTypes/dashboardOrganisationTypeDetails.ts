@@ -33,6 +33,8 @@ export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeI
     this.entityPresetCode = params.entityPresetCode;
     this.datePresetCode = params.datePresetCode;
     this.variableCode = params.variableCode;
+    this.datePresets = params.datePresets.map(dto => new DashboardDatePresetInfos(dto));
+    this.entityPresets = params.entityPresets.map(dto => new DashboardEntityPresetInfos(dto));
     this.variables = params.variables.map(dto => new DashboardVariableInfos(dto));
     this.widgets = params.widgets.map(dto => new WidgetInfos(dto));
   }
