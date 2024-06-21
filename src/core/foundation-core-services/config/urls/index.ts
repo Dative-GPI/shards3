@@ -1,7 +1,6 @@
 export * from "./actions";
 export * from "./alerts";
 export * from "./articles";
-export * from "./serviceAccountAuthTokens";
 export * from "./charts";
 export * from "./chartCategories";
 export * from "./chartOrganisations";
@@ -31,7 +30,8 @@ export * from "./roleOrganisations";
 export * from "./roleOrganisationTypes";
 export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
-export * from "./serviceAccounts";
+export * from "./serviceAccountOrganisationAuthTokens";
+export * from "./serviceAccountOrganisations";
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";
 export * from "./widgetTemplates";
