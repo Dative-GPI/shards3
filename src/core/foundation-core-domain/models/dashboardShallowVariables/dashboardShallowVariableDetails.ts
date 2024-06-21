@@ -1,7 +1,7 @@
 import { CreateDashboardVariableValueDTO } from "../dashboardVariableValues";
 
 export interface CreateDashboardShallowVariableDTO {
-  code: string;
+  hiddenCode: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
   allowedValues: CreateDashboardVariableValueDTO[];

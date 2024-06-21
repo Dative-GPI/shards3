@@ -1,13 +1,13 @@
 import { SelectedEntities } from "../enums/sharedEnums";
 
 export class DashboardShallowEntityPresetInfos {
-  code: string;
+  hiddenCode: string;
   globalSelectedEntities: SelectedEntities;
   globalEntitiesFilters: string;
   globalEntitiesIds: string[];
 
   constructor(params: DashboardShallowEntityPresetInfosDTO) {
-    this.code = params.code;
+    this.hiddenCode = params.hiddenCode;
     this.globalSelectedEntities = params.globalSelectedEntities;
     this.globalEntitiesFilters = params.globalEntitiesFilters;
     this.globalEntitiesIds = params.globalEntitiesIds.slice();
@@ -15,7 +15,7 @@ export class DashboardShallowEntityPresetInfos {
 }
 
 export interface DashboardShallowEntityPresetInfosDTO {
-  code: string;
+  hiddenCode: string;
   globalSelectedEntities: SelectedEntities;
   globalEntitiesFilters: string;
   globalEntitiesIds: string[];

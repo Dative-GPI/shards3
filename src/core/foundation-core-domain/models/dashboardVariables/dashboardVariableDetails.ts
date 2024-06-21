@@ -4,6 +4,7 @@ import { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation"
 import { CreateDashboardVariableValueDTO } from "../dashboardVariableValues";
 
 export interface CreateDashboardVariableDTO {
+  hiddenCode: string;
   variableType: DashboardVariableType;
   labelDefault: string;
   code: string;

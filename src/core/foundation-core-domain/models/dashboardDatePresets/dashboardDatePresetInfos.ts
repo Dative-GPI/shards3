@@ -1,7 +1,7 @@
 import { DashboardDatePresetTranslation, DashboardDatePresetTranslationDTO } from "./dashboardDatePresetTranslation";
 
 export class DashboardDatePresetInfos {
-  code: string;
+  hiddenCode: string;
   label: string;
   labelDefault: string;
   globalStartDate: string;
@@ -9,7 +9,7 @@ export class DashboardDatePresetInfos {
   translations: DashboardDatePresetTranslation[];
 
   constructor(params: DashboardDatePresetInfosDTO) {
-    this.code = params.code;
+    this.hiddenCode = params.hiddenCode;
     this.label = params.label;
     this.labelDefault = params.labelDefault;
     this.globalStartDate = params.globalStartDate;
@@ -19,7 +19,7 @@ export class DashboardDatePresetInfos {
 }
 
 export interface DashboardDatePresetInfosDTO {
-  code: string;
+  hiddenCode: string;
   label: string;
   labelDefault: string;
   globalStartDate: string;
