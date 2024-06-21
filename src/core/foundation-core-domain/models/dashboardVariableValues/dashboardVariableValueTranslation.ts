@@ -2,7 +2,7 @@ export class DashboardVariableValueTranslation {
   languageCode: string;
   label: string;
 
-  constructor(params: DashboardVariableValueTranslationDTO) {
+  constructor (params: DashboardVariableValueTranslationDTO) {
     this.languageCode = params.languageCode;
     this.label = params.label;
   }

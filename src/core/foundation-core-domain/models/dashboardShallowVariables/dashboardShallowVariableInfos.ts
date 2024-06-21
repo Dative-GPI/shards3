@@ -1,4 +1,4 @@
-import { DashboardVariableValueTranslation, DashboardVariableValueTranslationDTO } from "../dashboardVariables/dashboardVariableValueTranslation";
+import { DashboardVariableValue, DashboardVariableValueDTO } from "../dashboardVariableValues";
 
 export class DashboardShallowVariableInfos {
   id: string;
@@ -6,7 +6,7 @@ export class DashboardShallowVariableInfos {
   code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
-  allowedValues: { [key: string]: DashboardVariableValueTranslation[] };
+  allowedValues: DashboardVariableValue[];
 
   constructor(params: DashboardShallowVariableInfosDTO) {
     this.id = params.id;
@@ -14,7 +14,7 @@ export class DashboardShallowVariableInfos {
     this.code = params.code;
     this.defaultValue = params.defaultValue;
     this.useOnlyAllowedValues = params.useOnlyAllowedValues;
-    this.allowedValues = { ...params.allowedValues };
+    this.allowedValues = params.allowedValues.map(dto => new DashboardVariableValue(dto));
   }
 }
   
@@ -24,5 +24,5 @@ export interface DashboardShallowVariableInfosDTO {
   code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
-  allowedValues: { [key: string]: DashboardVariableValueTranslationDTO[] };
+  allowedValues: DashboardVariableValueDTO[];
 }
