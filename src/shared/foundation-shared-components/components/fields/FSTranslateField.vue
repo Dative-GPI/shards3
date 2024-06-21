@@ -6,7 +6,7 @@
     v-bind="$attrs"
   >
     <template
-      v-for="(_, name) in $slots"
+      v-for="(_, name) in slots"
       v-slot:[name]="slotData"
     >
       <slot
@@ -89,7 +89,7 @@ import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
-import { useColors } from "../../composables";
+import { useColors, useSlots } from "../../composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
 import FSTextField from "./FSTextField.vue";
@@ -159,6 +159,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
     const { getColors } = useColors();
+    const { slots } = useSlots();
+
+    delete slots.append;
 
     const innerTranslations = ref(props.translations);
     const dialog = ref(false);
@@ -225,6 +228,7 @@ export default defineComponent({
       ColorEnum,
       languages,
       dialog,
+      slots,
       style,
       getTranslation,
       setTranslation,

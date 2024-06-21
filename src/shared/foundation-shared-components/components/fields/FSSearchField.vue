@@ -7,7 +7,7 @@
     v-bind="$attrs"
   >
     <template
-      v-for="(_, name) in $slots"
+      v-for="(_, name) in slots"
       v-slot:[name]="slotData"
     >
       <slot
@@ -55,6 +55,8 @@ import { computed, defineComponent, PropType, ref, watch } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+
+import { useSlots } from "../../composables";
 
 import FSTextField from "./FSTextField.vue";
 import FSButton from "../FSButton.vue";
@@ -120,6 +122,10 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
+    const { slots } = useSlots();
+
+    delete slots["prepend-inner"];
+    delete slots.append;
 
     const innerValue = ref(props.modelValue);
 
@@ -148,6 +154,7 @@ export default defineComponent({
       buttonLabel,
       innerValue,
       ColorEnum,
+      slots,
       onSearch
     };
   }
