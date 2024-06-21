@@ -12,12 +12,12 @@
   "dependencies": {
     "@dative-gpi/foundation-admin-domain": "1.0.0",
     "@dative-gpi/foundation-admin-services": "1.0.0",
-    "color": "^4.2.3",
-    "vue": "^3.4.23"
+    "color": "4.2.3",
+    "vue": "3.4.23"
   },
   "devDependencies": {
-    "@types/color": "^3.0.6",
-    "sass": "^1.69.5",
-    "sass-loader": "^13.3.2"
+    "@types/color": "3.0.6",
+    "sass": "1.71.1",
+    "sass-loader": "13.3.2"
   }
 }
