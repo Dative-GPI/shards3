@@ -48,6 +48,6 @@ export interface RoleOrganisationTypeInfosDTO {
 }
 
 export interface RoleOrganisationTypeFilters {
-    userType?: number;
-    search?: string;
+    userType?: number | null;
+    search?: string | null;
 }

@@ -41,12 +41,15 @@ export default defineComponent({
   emits: ["update:dragstart", "update:dragend"],
   setup(props, { emit }) {
     let prevDragOverTarget: EventTarget | null = null;
+    const mobileGrabThreshold = 150;
 
     const draggedElementCopy = ref<HTMLElement|null>(null);
     const touchStartX = ref(0);
     const touchStartY = ref(0);
     const touchEndX = ref(0);
     const touchEndY = ref(0);
+
+    const touchStartTime = ref(0);
 
     const classes = computed((): string[] => {
       const classNames = ["fs-draggable-item"];
@@ -60,25 +63,29 @@ export default defineComponent({
       if (props.disabled) {
         return;
       }
-      event.preventDefault();
       const touch = event.touches[0];
       touchStartX.value = touch.clientX;
       touchStartY.value = touch.clientY;
 
-      const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
-      dragged.classList.add("fs-draggable-dragging");
-      dragged.dataset.initialIndex = props.item?.index ?? props.item?.value;
+      touchStartTime.value = Date.now();
 
-      draggedElementCopy.value = dragged.cloneNode(true) as HTMLElement;
-      draggedElementCopy.value.style.position = "fixed";
-      draggedElementCopy.value.style.left = `${touchStartX.value - 25}px`;
-      draggedElementCopy.value.style.top = `${touchStartY.value - 25}px`;
-      draggedElementCopy.value.style.zIndex = "1000";
-      draggedElementCopy.value.style.pointerEvents = "none";
+      setTimeout(() => {
+        if(touchStartTime.value !== 0) {
+          const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
+          dragged.classList.add("fs-draggable-dragging");
+          dragged.classList.add("fs-draggable-dragging-grabbegin");
+          dragged.dataset.initialIndex = props.item?.index ?? props.item?.value;
+          event.preventDefault();
+        }
+      }, mobileGrabThreshold);
     };
 
     const onTouchMove = (event: TouchEvent) => {
       if (props.disabled) {
+        return;
+      }
+      if (Date.now() - touchStartTime.value < mobileGrabThreshold || touchStartTime.value === 0) {
+        touchStartTime.value = 0;
         return;
       }
       event.preventDefault();
@@ -122,8 +129,14 @@ export default defineComponent({
       if (props.disabled) {
         return;
       }
+
+      const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
+      if (dragged === null || touchStartTime.value === 0) {
+        return;
+      }
+
       event.preventDefault();
-      const dragged = (event.target as HTMLElement)?.closest(props.elementSelector);
+
       if (draggedElementCopy.value) {
         draggedElementCopy.value.remove();
         draggedElementCopy.value = null;
@@ -131,7 +144,7 @@ export default defineComponent({
 
       const dropTarget = document.elementFromPoint(touchEndX.value, touchEndY.value);
       const dragEndEvent = new Event("dragend");
-      Object.defineProperty(dragEndEvent, "srcElement", {
+      Object.defineProperty(dragEndEvent, "target", {
         get: function () { return event.target; }
       });
       emit("update:dragend", dragEndEvent, dragged);
@@ -140,7 +153,7 @@ export default defineComponent({
         bubbles: true,
         cancelable: true,
       });
-      dropEvent.dataTransfer?.setData("text/plain", JSON.stringify(props.item));
+      dragged!.dataset.item = JSON.stringify(props.item);
       dropTarget?.dispatchEvent(dropEvent);
 
       touchStartX.value = 0;

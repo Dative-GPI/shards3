@@ -3,7 +3,9 @@
     :closeOnContentClick="false"
     v-model="menu"
   >
-    <template #activator="{ props }">
+    <template
+      #activator="{ props }"
+    >
       <FSBadge
         :content="badgeLabel"
         :color="criticityColor"
@@ -21,6 +23,7 @@
     </template>
     <FSWorstAlertCard
       :deviceAlert="deviceAlert"
+      @close="menu = false"
     />
   </v-menu>
 </template>

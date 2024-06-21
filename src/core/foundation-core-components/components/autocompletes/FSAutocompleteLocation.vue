@@ -1,13 +1,51 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :multiple="$props.multiple"
     :loading="loading"
     :items="locations"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
     v-bind="$attrs"
-  />
+  >
+    <template
+      #autocomplete-selection="{ item }"
+    >
+      <FSRow
+        v-if="$props.modelValue"
+        align="center-center"
+        :wrap="false"
+      >
+        <FSIcon
+          v-if="item.raw.icon"
+        >
+          {{ item.raw.icon }}
+        </FSIcon>
+        <FSSpan>
+          {{ item.raw.label }}
+        </FSSpan>
+      </FSRow>
+    </template>
+    <template
+      #item-label="{ item, font }"
+    >
+      <FSRow
+        align="center-left"
+        :wrap="false"
+      >
+        <FSIcon
+          v-if="item.raw.icon"
+        >
+          {{ item.raw.icon }}
+        </FSIcon>
+        <FSSpan
+          :font="font"
+        >
+          {{ item.raw.label }}
+        </FSSpan>
+      </FSRow>
+    </template>
+  </FSAutocompleteField>
 </template>
 
 <script lang="ts">
@@ -18,11 +56,17 @@ import { useLocations } from "@dative-gpi/foundation-core-services/composables";
 import { LocationFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteLocation",
   components: {
-    FSAutocompleteField
+    FSAutocompleteField,
+    FSIcon,
+    FSSpan,
+    FSRow
   },
   props: {
     locationFilters: {
@@ -35,7 +79,12 @@ export default defineComponent({
       required: false,
       default: null
     },
-      toggleSetDisabled: {
+    multiple: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    toggleSetDisabled: {
       type: Boolean,
       required: false,
       default: false
@@ -49,7 +98,7 @@ export default defineComponent({
       return getManyLocations({ ...props.locationFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       locations,
       [() => props.locationFilters],
       emit,
@@ -64,7 +113,6 @@ export default defineComponent({
       locations,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }

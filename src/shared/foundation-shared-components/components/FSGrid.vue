@@ -14,27 +14,37 @@
       <FSCol
         gap="2px"
       >
-        <template v-if="headerSlot(item.code)">
+        <template
+          v-if="headerSlot(item.code)"
+        >
           <component
             :is="headerSlot(item.code)"
             v-bind="{ item }"
           />
         </template>
-        <template v-else>
+        <template
+          v-else
+        >
           <FSText
             :font="item.hideDefault ? 'text-body' : 'text-overline'"
           >
             {{ item.label }}
           </FSText>
         </template>
-        <template v-if="!item.hideDefault">
-          <template v-if="itemSlot(item.code)">
+        <template
+          v-if="!item.hideDefault"
+        >
+          <template
+            v-if="itemSlot(item.code)"
+          >
             <component
               :is="itemSlot(item.code)"
               v-bind="{ item }"
             />
           </template>
-          <template v-else>
+          <template
+            v-else
+          >
             <FSText>
               {{ item.value }}
             </FSText>
@@ -75,8 +85,8 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<FSGridItem[]>,
-      default: [],
-      required: false
+      required: false,
+      default: () => []
     }
   },
   setup() {
@@ -85,7 +95,7 @@ export default defineComponent({
 
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-grid-border-color": lights.dark
       };
@@ -123,9 +133,9 @@ export default defineComponent({
 
     return {
       style,
-      itemSlot,
+      itemEndSlot,
       headerSlot,
-      itemEndSlot
+      itemSlot
     };
   }
 });

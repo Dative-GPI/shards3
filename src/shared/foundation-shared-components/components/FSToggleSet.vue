@@ -1,9 +1,8 @@
 <template>
   <v-input
     class="fs-toggle-set"
-    ref="inputRef"
-    :modelValue="$props.modelValue"
     :rules="$props.rules"
+    :modelValue="$props.modelValue"
   >
     <FSWrapGroup
       v-if="['wrap'].includes($props.variant)"
@@ -15,7 +14,7 @@
         v-if="$props.values.length"
       >
         <template
-          v-if="!firstChild"
+          v-if="!$slots.item"
         >
           <FSButton
             v-for="(item, index) in $props.values"
@@ -34,24 +33,18 @@
         <template
           v-else
         >
-          <component
-            v-for="(item, index) in $props.values"
-            :key="index"
-            :is="firstChild"
-            :prependIcon="getFromFirstChild('prependIcon', item)"
-            :appendIcon="getFromFirstChild('appendIcon', item)"
-            :variant="getFromFirstChild('variant', item)"
-            :color="getFromFirstChild('color', item)"
-            :class="getFromFirstChild('class', item)"
-            :label="getFromFirstChild('label', item)"
-            :icon="getFromFirstChild('icon', item)"
-            :editable="$props.editable"
-            @click="toggle(item)"
-          />
+          <template
+            v-for="item in $props.values"
+          >
+            <slot
+              name="item"
+              v-bind="{ item, toggle, getVariant, getColor, getClass }"
+            />
+          </template>
         </template>
       </template>
       <slot
-        v-else
+        v-bind="{ toggle, getVariant, getColor, getClass }"
       />
     </FSWrapGroup>
     <FSSlideGroup
@@ -64,7 +57,7 @@
         v-if="$props.values.length"
       >
         <template
-          v-if="!firstChild"
+          v-if="!$slots.item"
         >
           <FSButton
             v-for="(item, index) in $props.values"
@@ -83,24 +76,18 @@
         <template
           v-else
         >
-          <component
-            v-for="(item, index) in $props.values"
-            :key="index"
-            :is="firstChild"
-            :prependIcon="getFromFirstChild('prependIcon', item)"
-            :appendIcon="getFromFirstChild('appendIcon', item)"
-            :variant="getFromFirstChild('variant', item)"
-            :color="getFromFirstChild('color', item)"
-            :class="getFromFirstChild('class', item)"
-            :label="getFromFirstChild('label', item)"
-            :icon="getFromFirstChild('icon', item)"
-            :editable="$props.editable"
-            @click="toggle(item)"
-          />
+          <template
+            v-for="item in $props.values"
+          >
+            <slot
+              name="item"
+              v-bind="{ item, toggle, getVariant, getColor, getClass }"
+            />
+          </template>
         </template>
       </template>
       <slot
-        v-else
+        v-bind="{ toggle, getVariant, getColor, getClass }"
       />
     </FSSlideGroup>
   </v-input>
@@ -109,9 +96,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { FSToggle } from "@dative-gpi/foundation-shared-components/models";
+import { ColorBase, ColorEnum, FSToggle } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSlideGroup from "./FSSlideGroup.vue";
 import FSWrapGroup from "./FSWrapGroup.vue";
@@ -125,6 +110,16 @@ export default defineComponent({
     FSButton
   },
   props: {
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "0"
+    },
+    gap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
+    },
     values: {
       type: Array as PropType<FSToggle[]>,
       required: false,
@@ -145,6 +140,11 @@ export default defineComponent({
       required: false,
       default: "standard"
     },
+    errorVariant: {
+      type: String as PropType<"standard" | "full" | "icon">,
+      required: false,
+      default: "standard"
+    },
     buttonClass: {
       type: [Array, String] as PropType<string[] | string>,
       required: false,
@@ -155,8 +155,8 @@ export default defineComponent({
       required: false,
       default: null
     },
-    modelValue: {
-      type: [Array, String, Number] as PropType<(string | number)[] | string | number | null>,
+    errorClass: {
+      type: [Array, String] as PropType<string[] | string>,
       required: false,
       default: null
     },
@@ -170,20 +170,20 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Primary
     },
-    padding: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+    errorColor: {
+      type: String as PropType<ColorBase>,
       required: false,
-      default: "0"
-    },
-    gap: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: false,
-      default: "8px"
+      default: ColorEnum.Error
     },
     rules: {
       type: Array as PropType<any[]>,
       required: false,
       default: () => []
+    },
+    modelValue: {
+      type: [Array, String, Number] as PropType<(string | number)[] | string | number | null>,
+      required: false,
+      default: null
     },
     multiple: {
       type: Boolean,
@@ -203,31 +203,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getFirstChild } = useSlots();
-    
-    const firstChild = getFirstChild("item");
-    
-    const inputRef = ref(null);
     const toggleSetRef = ref(null);
-
-    const getFromFirstChild = (prop: string, value: FSToggle): any => {
-      switch (prop) {
-        case "prependIcon":
-          return firstChild.props.prependIcon ?? value.prependIcon;
-        case "label":
-          return firstChild.props.label ?? value.label;
-        case "appendIcon":
-          return firstChild.props.appendIcon ?? value.appendIcon;
-        case "icon":
-          return firstChild.props.icon ?? value.icon;
-        case "variant":
-          return firstChild.props.variant ?? getVariant(value);
-        case "color":
-          return firstChild.props.color ?? getColor(value);
-        default:
-          return firstChild.props[prop];
-      }
-    }
 
     const getVariant = (value: FSToggle): "standard" | "full" | "icon" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
@@ -329,10 +305,7 @@ export default defineComponent({
     };
 
     return {
-      inputRef,
       toggleSetRef,
-      firstChild,
-      getFromFirstChild,
       getVariant,
       goToStart,
       getColor,

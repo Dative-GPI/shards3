@@ -1,19 +1,22 @@
-import { DatesTools } from "../../tools";
+import { utcToEpoch } from "../../tools";
 
 export class AuthTokenInfos {
-    id?: string;
-    token: string;
-    dateMax?: number;
+  id: string;
+  label: string;
+  creationDate: number;
+  dateMax: number;
 
-    constructor(params: AuthTokenInfosDTO) {
-        this.id = params.id;
-        this.token = params.token;
-        this.dateMax = params?.dateMax ? DatesTools.utcToEpoch(params.dateMax) : undefined;
-    }
+  constructor(params: AuthTokenInfosDTO) {
+    this.id = params.id;
+    this.label = params.label;
+    this.creationDate = utcToEpoch(params.creationDate);
+    this.dateMax = utcToEpoch(params.dateMax);
+  }
 }
 
 export interface AuthTokenInfosDTO {
-    id?: string;
-    token: string;
-    dateMax?: string;
+  id: string;
+  label: string;
+  creationDate: string;
+  dateMax: string;
 }

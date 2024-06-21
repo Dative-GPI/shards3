@@ -1,33 +1,12 @@
 <template>
   <FSDialog
+    :subtitle="$props.subtitle"
+    :title="$props.title"
     :width="$props.width"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
-    <template
-      #header
-    >
-      <slot
-        name="header"
-      >
-        <FSCol
-          v-if="$props.title"
-          padding="0 16px 0 0"
-        >
-          <FSSpan
-            font="text-h2"
-          >
-            {{ $props.title }}
-          </FSSpan>
-          <FSSpan
-            v-if="$props.subtitle"
-          >
-            {{ $props.subtitle }}
-          </FSSpan>
-        </FSCol>
-      </slot>
-    </template>
     <template
       #body
     >
@@ -57,21 +36,22 @@
             :wrap="false"
           >
             <FSButton
-              :prependIcon="$props.leftButtonPrependIcon"
-              :label="cancelButtonLabel"
-              :appendIcon="$props.leftButtonAppendIcon"
-              :variant="$props.leftButtonVariant"
-              :color="$props.leftButtonColor"
-              @click="() => $emit('update:modelValue', false)"
+              :prependIcon="$props.cancelButtonPrependIcon"
+              :appendIcon="$props.cancelButtonAppendIcon"
+              :variant="$props.cancelButtonVariant"
+              :color="$props.cancelButtonColor"
+              :label="cancelLabel"
+              @click="$emit('update:modelValue', false)"
             />
             <FSButton
-              :prependIcon="$props.rightButtonPrependIcon"
-              :label="submitButtonLabel"
-              :appendIcon="$props.rightButtonAppendIcon"
-              :variant="$props.rightButtonVariant"
-              :color="$props.rightButtonColor"
+              :prependIcon="$props.submitButtonPrependIcon"
+              :appendIcon="$props.submitButtonAppendIcon"
+              :variant="$props.submitButtonVariant"
+              :color="$props.submitButtonColor"
               :editable="$props.editable"
-              @click="() => $emit('click:rightButton')"
+              :label="submitLabel"
+              :load="$props.load"
+              @click="$emit('click:submitButton')"
             />
           </FSRow>
         </FSRow>
@@ -121,55 +101,60 @@ export default defineComponent({
       required: false,
       default: false
     },
-    leftButtonPrependIcon: {
+    cancelButtonPrependIcon: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonLabel: {
+    cancelButtonLabel: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonAppendIcon: {
+    cancelButtonAppendIcon: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    leftButtonVariant: {
+    cancelButtonVariant: {
       type: String as PropType<"standard" | "full" | "icon">,
       required: false,
       default: "standard"
     },
-    rightButtonPrependIcon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonLabel: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonAppendIcon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    rightButtonVariant: {
-      type: String as PropType<"standard" | "full" | "icon">,
-      required: false,
-      default: "full"
-    },
-    leftButtonColor: {
+    cancelButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Light
     },
-    rightButtonColor: {
+    submitButtonPrependIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonLabel: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonAppendIcon: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    submitButtonVariant: {
+      type: String as PropType<"standard" | "full" | "icon">,
+      required: false,
+      default: "full"
+    },
+    submitButtonColor: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    load: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     editable: {
       type: Boolean,
@@ -177,32 +162,30 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue", "click:rightButton"],
+  emits: ["update:modelValue", "click:submitButton"],
   setup(props) {
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const height = computed(() => {
-      const other = 24 + 24                                                      // Paddings
-                  + (props.title ? isMobileSized.value ? 24 : 32 : 0)            // Title
-                  + (props.subtitle ? isMobileSized.value ? 14 + 8 : 16 + 8 : 0) // Subtitle
-                  + (isMobileSized.value ? 36 : 40)                              // Footer
-                  + 64;                                                          // Debug mask
-      console.log(document.documentElement.clientHeight, document.documentElement.clientHeight*0.9 - other);
-      return `calc(90vh - ${other}px)`;
+      const other = 24 + 24                                          // Paddings
+        + (isMobileSized.value ? 24 : 32) + 24                       // Title
+        + (props.subtitle ? (isMobileSized.value ? 14 : 16) + 8 : 0) // Subtitle
+        + (isMobileSized.value ? 36 : 40) + 24;                      // Footer
+      return `calc(100vh - 40px - ${other}px)`;
     });
 
-    const cancelButtonLabel = computed(() => {
-      return props.leftButtonLabel ?? $tr("ui.button.cancel", "Cancel");
+    const cancelLabel = computed(() => {
+      return props.cancelButtonLabel ?? $tr("ui.button.cancel", "Cancel");
     });
 
-    const submitButtonLabel = computed(() => {
-      return props.rightButtonLabel ??  $tr("ui.button.validate", "Validate");
+    const submitLabel = computed(() => {
+      return props.submitButtonLabel ??  $tr("ui.button.validate", "Validate");
     });
 
     return {
-      cancelButtonLabel,
-      submitButtonLabel,
+      cancelLabel,
+      submitLabel,
       ColorEnum,
       height
     };

@@ -1,5 +1,5 @@
 
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { CHART_URL } from "../../config/urls";
 import { ChartDetails, ChartDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 

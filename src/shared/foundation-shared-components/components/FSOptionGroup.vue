@@ -6,8 +6,12 @@
     :gap="$props.gap"
     :style="style"
   >
-    <template v-if="$props.values.length">
-      <template v-if="!firstChild">
+    <template
+      v-if="$props.values.length"
+    >
+      <template
+        v-if="!$slots.item"
+      >
         <FSOptionItem
           v-for="(item, index) in $props.values"
           :prependIcon="item.prependIcon"
@@ -22,24 +26,23 @@
           @click="toggle(item)"
         />
       </template>
-      <template v-else>
-        <component
-          v-for="(item, index) in $props.values"
-          :key="index"
-          :is="firstChild"
-          :prependIcon="getFromFirstChild('prependIcon', item)"
-          :appendIcon="getFromFirstChild('appendIcon', item)"
-          :variant="getFromFirstChild('variant', item)"
-          :color="getFromFirstChild('color', item)"
-          :class="getFromFirstChild('class', item)"
-          :label="getFromFirstChild('label', item)"
-          :icon="getFromFirstChild('icon', item)"
-          :editable="$props.editable"
-          @click="toggle(item)"
-        />
+      <template
+        v-else
+      >
+        <template
+          v-for="item in $props.values"
+        >
+          <slot
+            name="item"
+            v-bind="{ item, toggle, getVariant, getColor, getClass }"
+          />
+        </template>
       </template>
     </template>
-    <slot v-else />
+    <slot
+      v-else
+      v-bind="{ toggle, getVariant, getColor, getClass }"
+    />
   </FSWrapGroup>
   <FSSlideGroup
     v-else
@@ -48,8 +51,12 @@
     :gap="$props.gap"
     :style="style"
   >
-    <template v-if="$props.values.length">
-      <template v-if="!firstChild">
+    <template
+      v-if="$props.values.length"
+    >
+      <template
+        v-if="!$slots.item"
+      >
         <FSOptionItem
           v-for="(item, index) in $props.values"
           :prependIcon="item.prependIcon"
@@ -64,32 +71,31 @@
           @click="toggle(item)"
         />
       </template>
-      <template v-else>
-        <component
-          v-for="(item, index) in $props.values"
-          :key="index"
-          :is="firstChild"
-          :prependIcon="getFromFirstChild('prependIcon', item)"
-          :appendIcon="getFromFirstChild('appendIcon', item)"
-          :variant="getFromFirstChild('variant', item)"
-          :color="getFromFirstChild('color', item)"
-          :class="getFromFirstChild('class', item)"
-          :label="getFromFirstChild('label', item)"
-          :icon="getFromFirstChild('icon', item)"
-          :editable="$props.editable"
-          @click="toggle(item)"
-        />
+      <template
+        v-else
+      >
+        <template
+          v-for="item in $props.values"
+        >
+          <slot
+            name="item"
+            v-bind="{ item, toggle, getVariant, getColor, getClass }"
+          />
+        </template>
       </template>
     </template>
-    <slot v-else />
+    <slot
+      v-else
+      v-bind="{ toggle, getVariant, getColor, getClass }"
+    />
   </FSSlideGroup>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 import { FSToggle } from "@dative-gpi/foundation-shared-components/models"; 
 
@@ -126,12 +132,12 @@ export default defineComponent({
       default: "wrap"
     },
     optionVariant: {
-      type: String as PropType<"standard" | "full">,
+      type: String as PropType<"standard" | "background" | "full">,
       required: false,
-      default: "full"
+      default: "standard"
     },
     activeVariant: {
-      type: String as PropType<"standard" | "full">,
+      type: String as PropType<"standard" | "background" | "full">,
       required: false,
       default: "full"
     },
@@ -193,43 +199,21 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getFirstChild } = useSlots();
     const { getColors } = useColors();
 
     const lights = getColors(ColorEnum.Light);
 
     const colors = getColors(props.optionColor);
 
-    const firstChild = getFirstChild("item");
-
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
-          "--fs-option-group-border-size"  : props.border ? "1px" : "0",
-          "--fs-option-group-border-radius": sizeToVar(props.borderRadius),
-          "--fs-option-group-border-color" : lights.base
+        "--fs-option-group-border-size"  : props.border ? "1px" : "0",
+        "--fs-option-group-border-radius": sizeToVar(props.borderRadius),
+        "--fs-option-group-border-color" : lights.base
       };
-    })
+    });
 
-    const getFromFirstChild = (prop: string, value: FSToggle): any => {
-      switch (prop) {
-        case "prependIcon":
-          return firstChild.props.prependIcon ?? value.prependIcon;
-        case "label":
-          return firstChild.props.label ?? value.label;
-        case "appendIcon":
-          return firstChild.props.appendIcon ?? value.appendIcon;
-        case "icon":
-          return firstChild.props.icon ?? value.icon;
-        case "variant":
-          return firstChild.props.variant ?? getVariant(value);
-        case "color":
-          return firstChild.props.color ?? getColor(value);
-        default:
-          return firstChild.props[prop];
-      }
-    }
-
-    const getVariant = (value: FSToggle): "standard" | "full" => {
+    const getVariant = (value: FSToggle): "standard" | "background" | "full" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {
         return props.activeVariant;
       }
@@ -305,9 +289,7 @@ export default defineComponent({
     };
 
     return {
-      firstChild,
       style,
-      getFromFirstChild,
       getVariant,
       getColor,
       getClass,

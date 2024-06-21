@@ -1,18 +1,19 @@
 <template>
-  <FSAutocompleteField :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :loading="loading"
+  <FSAutocompleteField
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :items="organisationTypes"
+    :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
-    v-bind="$attrs" />
+    v-bind="$attrs"
+  />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
+import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { OrganisationTypeFilters } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
@@ -43,26 +44,25 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyOrganisationTypes, fetching: fetchingOrganisationTypes, entities: organisationTypes } = useOrganisationTypes();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingOrganisationTypes.value;
+    });
+
     const innerFetch = (search: string | null) => {
       return getManyOrganisationTypes({ ...props.organisationTypeFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       organisationTypes,
       [() => props.organisationTypeFilters],
       emit,
       innerFetch
     );
 
-    const loading = computed((): boolean => {
-      return init.value && fetchingOrganisationTypes.value;
-    });
-
     return {
       organisationTypes,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }

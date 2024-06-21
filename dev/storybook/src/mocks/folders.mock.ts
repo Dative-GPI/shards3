@@ -1,7 +1,8 @@
-import { FolderDetails } from "@dative-gpi/foundation-core-domain/models";
+import { FolderDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import { IMAGES } from "./images.mock";
 
 
-export const FOLDERS: FolderDetails[] = [
+export const FOLDERS: FolderDetailsDTO[] = [
     {
         id: "1",
         label: "folder 1",
@@ -11,18 +12,17 @@ export const FOLDERS: FolderDetails[] = [
         path: [],
         tags: ["tag 1"],
         organisationId: "1",
-        imageBlurHash: "imageBlurHash 1"
+        imageId: IMAGES[0].id
     },
     {
         id: "2",
         label: "folder 2",
         code: "code 2",
-        colors: ["#FF0000", "#00FF00"],
+        colors: ["#FF0000", "#00FF00", "#0000FF"],
         icon: "mdi-folder-outline",
         path: [],
         tags: ["tag 2"],
-        organisationId: "2",
-        imageBlurHash: "imageBlurHash 2"
+        organisationId: "2"
     },
     {
         id: "3",
@@ -32,7 +32,6 @@ export const FOLDERS: FolderDetails[] = [
         icon: "mdi-folder-outline",
         path: [],
         tags: ["tag 3"],
-        organisationId: "3",
-        imageBlurHash: "imageBlurHash 3"
+        organisationId: "3"
     },
 ]

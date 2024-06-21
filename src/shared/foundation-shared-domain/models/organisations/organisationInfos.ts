@@ -1,20 +1,14 @@
 export class OrganisationInfos {
     id: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId: string | null;
     label: string;
     userOrganisationsCount: number;
-    adminId?: string;
-    adminName?: string;
+    adminId: string | null;
+    adminName: string | null;
 
     constructor(params: OrganisationInfosDTO) {
         this.id = params.id;
         this.imageId = params.imageId;
-        this.imageBlurHash = params.imageBlurHash;
-        this.imageHeight = params.imageHeight;
-        this.imageWidth = params.imageWidth;
         this.label = params.label;
         this.userOrganisationsCount = params.userOrganisationsCount;
         this.adminId = params.adminId;
@@ -24,16 +18,13 @@ export class OrganisationInfos {
 
 export interface OrganisationInfosDTO {
     id: string;
-    imageId?: string;
-    imageBlurHash?: string;
-    imageHeight?: number;
-    imageWidth?: number;
+    imageId: string | null;
     label: string;
     userOrganisationsCount: number;
-    adminId?: string;
-    adminName?: string;
+    adminId: string | null;
+    adminName: string | null;
 }
 
 export interface OrganisationFilters {
-    search?: string;
+    search?: string | null;
 }

@@ -4,6 +4,7 @@ export class WidgetTemplateInfos {
     code: string;
     icon: string;
     description: string;
+    category: string | null;
     defaultWidth: number;
     defaultHeight: number;
     defaultMeta: { [key: string]: string }
@@ -14,6 +15,7 @@ export class WidgetTemplateInfos {
         this.code = params.code;
         this.icon = params.icon;
         this.description = params.description;
+        this.category = params.category;
         this.defaultWidth = params.defaultWidth;
         this.defaultHeight = params.defaultHeight;
         this.defaultMeta = params.defaultMeta;
@@ -26,11 +28,12 @@ export interface WidgetTemplateInfosDTO {
     code: string;
     icon: string;
     description: string;
+    category: string | null;
     defaultWidth: number;
     defaultHeight: number;
     defaultMeta: { [key: string]: string }
 }
   
 export interface WidgetTemplateFilters {
-    search?: string;
+    search?: string | null;
 }

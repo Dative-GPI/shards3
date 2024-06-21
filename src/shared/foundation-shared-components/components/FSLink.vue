@@ -13,10 +13,12 @@
     :to="$props.to"
     :class="classes"
     :style="style"
-    v-slot="props"
     v-bind="$attrs"
+    v-slot="props"
   >
-    <slot v-bind="props">
+    <slot
+      v-bind="props"
+    >
       {{ $props.label }}
     </slot>
   </router-link>
@@ -93,7 +95,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
         case "base": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),

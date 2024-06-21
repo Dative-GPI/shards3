@@ -1,124 +1,332 @@
 <template>
-  <FSCol>
-    <slot v-if="!$props.hideHeader"
-      name="label">
-      <FSRow :wrap="false">
-        <FSSpan v-if="$props.label"
-          class="fs-autocomplete-field-label"
-          font="text-overline"
-          :style="style">
-          {{ $props.label }}
-        </FSSpan>
-        <FSSpan v-if="$props.label && $props.required"
-          class="fs-autocomplete-field-label"
-          style="margin-left: -8px;"
-          font="text-overline"
-          :ellipsis="false"
-          :style="style">
-          *
-        </FSSpan>
-        <v-spacer style="min-width: 40px;" />
-        <FSSpan v-if="messages.length > 0"
-          class="fs-autocomplete-field-messages"
-          font="text-overline"
-          :style="style">
-          {{ messages.join(", ") }}
-        </FSSpan>
-      </FSRow>
-    </slot>
-    <FSLoader v-if="$props.loading"
-      width="100%"
-      :height="['40px', '36px']" />
-    <template v-else>
-      <FSToggleSet v-if="$props.toggleSet"
-        variant="slide"
-        :multiple="$props.multiple"
-        :values="$props.items"
+  <template
+    v-if="$props.loading"
+  >
+    <FSCol>
+      <FSLoader
+        v-if="!$props.hideHeader"
+        variant="text-overline"
+      />
+      <FSLoader
+        v-if="$props.loading"
+        width="100%"
+        :height="['40px', '36px']"
+      />
+    </FSCol>
+  </template>
+  <template
+    v-else
+  >
+    <template
+      v-if="isExtraSmall"
+    >
+      <FSTextField
+        :validationValue="$props.modelValue"
+        :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :clearable="$props.clearable"
+        :editable="$props.editable"
+        :required="$props.required"
+        :label="$props.label"
         :rules="$props.rules"
-        :modelValue="$props.modelValue"
-        @update:modelValue="onUpdate"
-        v-bind="$attrs" />
-      <v-autocomplete v-else
-        class="fs-autocomplete-field"
-        variant="outlined"
-        :menuIcon="null"
-        :style="style"
-        :listProps="listStyle"
-        :class="classes"
-        :hideDetails="true"
-        :items="$props.items"
-        :autoSelectFirst="true"
-        :multiple="$props.multiple"
-        :itemTitle="$props.itemTitle"
-        :itemValue="$props.itemValue"
-        :readonly="!$props.editable"
-        :loading="$props.loading"
-        :clearable="$props.editable && !!$props.modelValue"
-        :returnObject="$props.returnObject"
-        :rules="$props.rules"
-        :validateOn="validateOn"
-        :modelValue="$props.modelValue"
-        @update:modelValue="onUpdate"
-        @blur="blurred = true"
-        v-model:search="innerSearch"
-        v-bind="$attrs">
-        <template v-for="(_, name) in slots"
-          v-slot:[name]="slotData">
-          <slot :name="name"
-            v-bind="slotData" />
+        :messages="messages"
+        :readonly="true"
+        :modelValue="mobileValue"
+        @update:modelValue="$emit('update:modelValue', $event)"
+        @click="openMobileOverlay"
+        v-bind="$attrs"
+      >
+        <template
+          v-for="(_, name) in $slots"
+          v-slot:[name]="slotData"
+        >
+          <slot
+            :name="name"
+            v-bind="slotData"
+          />
         </template>
-        <template #clear>
-          <slot name="clear">
-            <FSButton v-if="$props.editable && $props.modelValue"
-              icon="mdi-close"
-              variant="icon"
-              :color="ColorEnum.Dark"
-              @click="$emit('update:modelValue', null)" />
-          </slot>
+        <template
+          v-if="mobileSelectionProps"
+          #prepend-inner
+        >
+          <slot
+            name="selection-mobile"
+            v-bind="mobileSelectionProps"
+          />
         </template>
-        <template #append-inner>
-          <slot name="append-inner">
-            <FSButton icon="mdi-chevron-down"
+        <template
+          #append-inner
+        >
+          <slot
+            name="append-inner"
+          >
+            <FSButton
+              icon="mdi-chevron-down"
               variant="icon"
               :editable="$props.editable"
-              :color="ColorEnum.Dark" />
+              :color="ColorEnum.Dark"
+              @click="openMobileOverlay"
+            />
           </slot>
         </template>
-      </v-autocomplete>
+      </FSTextField>
+      <FSDialogMenu
+        v-model="dialog"
+      >
+        <template
+          #body
+        >
+          <FSSearchField
+            :hideHeader="true"
+            v-model="search"
+          />
+          <FSFadeOut
+            :height="height"
+          >
+            <FSCol
+              v-if="$props.multiple"
+              gap="12px"
+            >
+              <FSRow
+                v-for="(item, index) in searchItems"
+                :key="index"
+              >
+                <FSCheckbox
+                  :label="item[$props.itemTitle]"
+                  :editable="$props.editable"
+                  :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
+                  @update:modelValue="() => onCheckboxChange(item[$props.itemValue])"
+                >
+                  <template
+                    #label="{ font }"
+                  >
+                    <slot
+                      name="item-label"
+                      v-bind="mobileItemProps(item, font)"
+                    />
+                  </template>
+                </FSCheckbox>
+              </FSRow>
+            </FSCol>
+            <FSRadioGroup
+              v-else
+              gap="12px"
+              :values="searchItems.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle], item: item  }))"
+              :editable="$props.editable"
+              :modelValue="$props.modelValue"
+              @update:modelValue="onRadioChange"
+            >
+              <template
+                #label="{ item, font }"
+              >
+                <slot
+                  name="item-label"
+                  v-bind="mobileItemProps(item, font)"
+                />
+              </template>
+            </FSRadioGroup>
+          </FSFadeOut>
+        </template>
+      </FSDialogMenu>
     </template>
-    <slot name="description">
-      <FSSpan v-if="$props.description"
-        class="fs-autocomplete-field-description"
-        font="text-underline"
-        :style="style">
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
+    <template
+      v-else
+    >
+      <FSBaseField
+        :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :editable="$props.editable"
+        :label="$props.label"
+        :messages="messages"
+      >
+        <FSToggleSet
+          v-if="$props.toggleSet"
+          :editable="$props.editable"
+          :multiple="$props.multiple"
+          :required="$props.required"
+          :values="$props.items"
+          :rules="$props.rules"
+          :modelValue="$props.modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          v-bind="$attrs"
+        >
+          <template
+            v-for="(_, name) in toggleSetSlots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="`toggle-set-${name}`"
+              v-bind="slotData"
+            />
+          </template>
+        </FSToggleSet>
+        <v-autocomplete
+          v-else
+          class="fs-autocomplete-field"
+          variant="outlined"
+          :clearable="$props.clearable && $props.editable && !!$props.modelValue"
+          :itemTitle="$props.itemTitle"
+          :itemValue="$props.itemValue"
+          :readonly="!$props.editable"
+          :multiple="$props.multiple"
+          :validateOn="validateOn"
+          :autoSelectFirst="true"
+          :persistentClear="true"
+          :listProps="listStyle"
+          :returnObject="false"
+          :items="$props.items"
+          :rules="$props.rules"
+          :hideDetails="true"
+          :menuIcon="null"
+          :class="classes"
+          :style="style"
+          :modelValue="$props.modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          @click="onClick"
+          v-model:search="search"
+          v-bind="$attrs"
+        >
+          <template
+            v-for="(_, name) in autocompleteSlots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="`autocomplete-${name}`"
+              v-bind="slotData"
+            />
+          </template>
+          <template
+            #item="{ props, item }"
+          >
+            <v-list-item
+              v-bind="{ ...props, title: '' }"
+            >
+              <FSRow
+                align="center-left"
+              >
+                <FSCheckbox
+                  v-if="$props.multiple"
+                  :modelValue="$props.modelValue?.includes(item.raw[$props.itemValue])"
+                  @click="props.onClick"
+                >
+                  <template
+                    #label="{ font }"
+                  >
+                    <slot
+                      name="item-label"
+                      v-bind="{ item, font }"
+                    >
+                      <FSSpan
+                        :font="font"
+                      >
+                        {{ item.raw[$props.itemTitle] }}
+                      </FSSpan>
+                    </slot>
+                  </template>
+                </FSCheckbox>
+                <FSSpan
+                  v-else
+                >
+                  <slot
+                    name="item-label"
+                    v-bind="{
+                      item,
+                      font: $props.modelValue === item.raw[$props.itemTitle] ? 'text-button' : 'text-body'
+                    }"
+                  >
+                    <FSSpan
+                      :font="$props.modelValue === item.raw[$props.itemTitle] ? 'text-button' : 'text-body'"
+                    >
+                      {{ item.raw[$props.itemTitle] }}
+                    </FSSpan>
+                  </slot>
+                </FSSpan>
+              </FSRow>
+            </v-list-item>
+          </template>
+          <template
+            #clear
+          >
+            <slot
+              name="clear"
+            >
+              <FSButton
+                v-if="$props.clearable && $props.editable && !!$props.modelValue"
+                icon="mdi-close"
+                variant="icon"
+                :color="ColorEnum.Dark"
+                @click="$emit('update:modelValue', null)"
+              />
+            </slot>
+          </template>
+          <template
+            #append-inner
+          >
+            <slot
+              name="append-inner"
+            >
+              <FSButton
+                icon="mdi-chevron-down"
+                variant="icon"
+                :editable="$props.editable"
+                :color="ColorEnum.Dark"
+              />
+            </slot>
+          </template>
+          <template
+            #no-data
+          >
+            <FSRow
+              padding="17px"
+            >
+              <FSSpan>
+                {{ $tr("ui.common.no-data", "No data") }}
+              </FSSpan>
+            </FSRow>
+          </template>
+        </v-autocomplete>
+      </FSBaseField>
+    </template>
+  </template>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from "vue";
 
-import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSSearchField from "./FSSearchField.vue";
+import FSDialogMenu from "../FSDialogMenu.vue";
+import FSRadioGroup from "../FSRadioGroup.vue";
+import FSToggleSet from "../FSToggleSet.vue";
+import FSBaseField from "./FSBaseField.vue";
+import FSTextField from "./FSTextField.vue";
+import FSCheckbox from "../FSCheckbox.vue";
+import FSFadeOut from "../FSFadeOut.vue";
 import FSButton from "../FSButton.vue";
+import FSLoader from "../FSLoader.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import FSLoader from "../FSLoader.vue";
-import FSToggleSet from "../FSToggleSet.vue";
 
 export default defineComponent({
   name: "FSAutocompleteField",
   components: {
+    FSSearchField,
+    FSDialogMenu,
+    FSRadioGroup,
+    FSBaseField,
+    FSTextField,
     FSToggleSet,
+    FSCheckbox,
+    FSFadeOut,
     FSButton,
     FSLoader,
     FSSpan,
     FSCol,
-    FSRow,
+    FSRow
   },
   props: {
     label: {
@@ -160,11 +368,6 @@ export default defineComponent({
       required: false,
       default: false
     },
-    returnObject: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     required: {
       type: Boolean,
       required: false,
@@ -179,6 +382,11 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: false,
       default: null
+    },
+    clearable: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     editable: {
       type: Boolean,
@@ -198,7 +406,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:search"],
   setup: (props, { emit }) => {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { isExtraSmall, isMobileSized } = useBreakpoints();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -210,26 +419,41 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const innerSearch = ref("");
+    const dialog = ref(false);
+    const search = ref("");
 
     const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
         return {
-          "--fs-autocomplete-field-cursor": "default",
-          "--fs-autocomplete-field-border-color": lights.base,
-          "--fs-autocomplete-field-color": lights.dark,
+          "--fs-autocomplete-field-cursor":              "default",
+          "--fs-autocomplete-field-border-color":        lights.base,
+          "--fs-autocomplete-field-color":               lights.dark,
           "--fs-autocomplete-field-active-border-color": lights.base
         };
       }
       return {
-        "--fs-autocomplete-field-cursor": "text",
-        "--fs-autocomplete-field-background-color": backgrounds.base,
-        "--fs-autocomplete-field-border-color": lights.dark,
-        "--fs-autocomplete-field-color": darks.base,
+        "--fs-autocomplete-field-cursor":              "text",
+        "--fs-autocomplete-field-background-color":    backgrounds.base,
+        "--fs-autocomplete-field-border-color":        lights.dark,
+        "--fs-autocomplete-field-color":               darks.base,
         "--fs-autocomplete-field-active-border-color": darks.dark,
-        "--fs-autocomplete-field-error-color": errors.base,
-        "--fs-autocomplete-field-error-border-color": errors.base
+        "--fs-autocomplete-field-error-color":         errors.base,
+        "--fs-autocomplete-field-error-border-color":  errors.base
       };
+    });
+
+    const autocompleteSlots = computed((): any => {
+      return Object.keys(slots).filter(k => k.startsWith("autocomplete-")).reduce((acc, key) => {
+        acc[key.substring("autocomplete-".length)] = slots[key];
+        return acc;
+      }, {});
+    });
+
+    const toggleSetSlots = computed((): any => {
+      return Object.keys(slots).filter(k => k.startsWith("toggle-set-")).reduce((acc, key) => {
+        acc[key.substring("toggle-set-".length)] = slots[key];
+        return acc;
+      }, {});
     });
 
     const listStyle = computed((): any => {
@@ -248,25 +472,143 @@ export default defineComponent({
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
-    const onUpdate = (value: string[] | string) => {
-      emit('update:modelValue', value);
+    const searchItems = computed(() => {
+      return props.items.filter((item: any) => {
+        return item[props.itemTitle].toLowerCase().includes(search.value.toLowerCase());
+      });
+    });
+
+    const height = computed(() => {
+      const other = 8 + 8                // Paddings
+        + (isMobileSized ? 36 : 40) + 8; // Header
+      return `calc(100vh - 40px - ${other}px)`;
+    });
+
+    const mobileValue = computed((): string | null => {
+      if (props.multiple) {
+        if (Array.isArray(props.modelValue)) {
+          return props.modelValue.map((value: any) => {
+            const item = props.items.find((item: Object) => item[props.itemValue] === value);
+            if (item) {
+              return item[props.itemTitle];
+            }
+          }).filter(value => !!value).join(", ");
+        }
+      }
+      if (props.modelValue) {
+        const item = props.items.find((item: Object) => item[props.itemValue] === props.modelValue);
+        if (item) {
+          return item[props.itemTitle];
+        }
+      }
+      return null;
+    });
+
+    const mobileSelectionProps = computed((): any | null => {
+      const item = props.items.find((item: any) => item[props.itemValue] === props.modelValue);
+      if (item) {
+        return {
+          item: {
+            title: "",
+            value: item[props.itemValue],
+            props: {
+              title: item[props.itemTitle],
+              value: item[props.itemValue]
+            },
+            raw: { ...item }
+          },
+          font: "text-body"
+        };
+      }
+      return null;
+    });
+
+    const mobileItemProps = (item: any, font: "text-body" | "text-button" | null): any => {
+      return {
+        item: {
+          title: "",
+          value: item[props.itemValue],
+          props: {
+            title: item[props.itemTitle],
+            value: item[props.itemValue]
+          },
+          raw: { ...item }
+        },
+        font
+      }
     };
 
-    watch(innerSearch, () => {
-      emit("update:search", innerSearch.value);
+    const openMobileOverlay = () => {
+      if (!props.editable) {
+        return;
+      }
+      dialog.value = true;
+    };
+
+    const onRadioChange = (value: string | null) => {
+      emit("update:modelValue", value);
+      dialog.value = false;
+    };
+
+    const onCheckboxChange = (value: string) => {
+      if (Array.isArray(props.modelValue)) {
+        if (props.modelValue.includes(value)) {
+          emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
+        }
+        else {
+          emit("update:modelValue", [...props.modelValue, value]);
+        }
+      }
+      else if (props.modelValue != null) {
+        if (props.modelValue === value) {
+          emit("update:modelValue", []);
+        }
+        else {
+          emit("update:modelValue", [props.modelValue, value]);
+        }
+      }
+      else {
+        emit("update:modelValue", [value]);
+      }
+    };
+
+    const onClick = () => {
+      if (props.modelValue && !props.multiple) {
+        search.value = "";
+        emit("update:search", search.value);
+        emit("update:modelValue", null);
+      }
+    };
+
+    watch(search, () => {
+      emit("update:search", search.value);
+      if (props.modelValue && search.value &&  !props.multiple) {
+        emit("update:modelValue", null);
+      }
     });
 
     return {
-      innerSearch,
+      mobileSelectionProps,
+      autocompleteSlots,
+      toggleSetSlots,
+      isExtraSmall,
+      mobileValue,
+      searchItems,
       validateOn,
       ColorEnum,
       listStyle,
       messages,
-      blurred,
       classes,
+      dialog,
+      height,
+      search,
       slots,
       style,
-      onUpdate
+      openMobileOverlay,
+      onCheckboxChange,
+      mobileItemProps,
+      onRadioChange,
+      onClick
     };
   }
 });

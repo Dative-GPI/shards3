@@ -7,7 +7,7 @@ export const useAutocomplete = <TInfos>(
   entities: Ref<TInfos[]>,
   filters: (() => any)[],
   emit: (event: "update:modelValue", value: string[] | string | null) => void,
-  customFetch: (search: string | null) => Promise<any>,
+  customFetch: (search: string) => Promise<any>,
   customUpdate: ((item: TInfos[] | TInfos | null) => void) | null = null,
   toId: (item: TInfos) => string | null = (item: TInfos) => (item as any).id,
   toText: (item: TInfos) => string | null = (item: TInfos) => (item as any).label,
@@ -18,12 +18,12 @@ export const useAutocomplete = <TInfos>(
 ) => {
   const { debounce } = useDebounce();
 
-  const search = ref<string | null>(null);
+  const search = ref<string>("");
   const entitiesLength = ref(0);
   const init = ref(false);
 
   const toggleSet = computed((): boolean => {
-    return allowToggleSet && entitiesLength.value < breakpointToggleSet;
+    return allowToggleSet && entitiesLength.value > 0 && entitiesLength.value <= breakpointToggleSet;
   });
 
   const debouncedFetch = () => debounce(() => customFetch(search.value), debounceInterval);
@@ -51,20 +51,20 @@ export const useAutocomplete = <TInfos>(
 
   watch(search, (newValue, oldValue) => {
     if (newValue !== oldValue) {
-      const found = entities.value.map(e => toText(e)).includes(search.value);
-      if (!found && (!search.value || !search.value.length || search.value.length > 2)) {
-        if (fetchOnSearch) {
+      if (fetchOnSearch) {
+        const found = entities.value.map(e => toText(e)).includes(search.value);
+        if (!found && (!search.value || !search.value.length || search.value.length > 2)) {
           debouncedFetch();
         }
       }
     }
   });
   
-  watch(entities, () => {
+  watch(() => entities.value, () => {
     if (init.value) {
       init.value = false;
-      entitiesLength.value = entities.value.length;
     }
+    entitiesLength.value = entities.value.length;
   });
 
   onMounted((): void => {

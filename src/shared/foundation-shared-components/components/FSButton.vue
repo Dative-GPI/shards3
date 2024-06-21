@@ -19,25 +19,33 @@
       width="fill"
       :wrap="false"
     >
-      <slot name="prepend" v-bind="{ color: $props.color, colors }">
+      <slot
+        name="prepend"
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSIcon
           v-if="$props.prependIcon || $props.icon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.prependIcon ?? $props.icon }}
         </FSIcon>
       </slot>
-      <slot v-bind="{ color: $props.color, colors }">
+      <slot
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSSpan
           v-if="$props.label"
         >
           {{ $props.label }}
         </FSSpan>
       </slot>
-      <slot name="append" v-bind="{ color: $props.color, colors }">
+      <slot
+        name="append"
+        v-bind="{ color: $props.color, colors }"
+      >
         <FSIcon
           v-if="$props.appendIcon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.appendIcon }}
         </FSIcon>
@@ -52,7 +60,9 @@
     @click.stop="onClick"
     v-bind="$attrs"
   >
-    <template v-if="$props.load">
+    <template
+      v-if="$props.load"
+    >
       <v-progress-circular
         class="fs-button-load"
         width="2"
@@ -61,13 +71,15 @@
         :color="loadColor"
       />
     </template>
-    <template v-else-if="$props.href">
+    <template
+      v-else-if="$props.href"
+    >
       <a
         :href="$props.href"
       >
         <FSIcon
           v-if="$props.icon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.icon }}
         </FSIcon>
@@ -78,13 +90,15 @@
         </FSSpan>
       </a>
     </template>
-    <template v-else-if="$props.to">
+    <template
+      v-else-if="$props.to"
+    >
       <router-link
         :to="$props.to"
       >
         <FSIcon
           v-if="$props.icon"
-          size="l"
+          :size="$props.iconSize"
         >
           {{ $props.icon }}
         </FSIcon>
@@ -95,10 +109,12 @@
         </FSSpan>
       </router-link>
     </template>
-    <template v-else>
+    <template
+      v-else
+    >
       <FSIcon
         v-if="$props.icon"
-        size="l"
+        :size="$props.iconSize"
       >
         {{ $props.icon }}
       </FSIcon>
@@ -162,6 +178,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    iconSize: {
+      type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
+      required: false,
+      default: "l"
+    },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,
       required: false,
@@ -197,7 +218,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         switch (props.variant) {
           case "icon": return {
@@ -235,7 +256,7 @@ export default defineComponent({
         case ColorEnum.Success:
         case ColorEnum.Warning:
         case ColorEnum.Error  : return ["standard"].includes(props.variant) ? colors.value.dark : colors.value.light;
-        default               : return ["standard"].includes(props.variant) ? darks.dark : darks.light;
+        default               : return ["standard"].includes(props.variant) ? darks.dark : darks.soft;
       }
     });
 

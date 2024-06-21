@@ -11,15 +11,24 @@
       :validateOn="validateOn"
       :validationValue="$props.modelValue"
       @keydown.enter="onAdd"
-      @blur="blurred = true"
       v-model="innerValue"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
       </template>
-      <template #append-inner>
-        <slot name="append-inner">
+      <template
+        #append-inner
+      >
+        <slot
+          name="append-inner"
+        >
           <FSButton
             variant="icon"
             icon="mdi-tag-outline"
@@ -31,10 +40,10 @@
       </template>
     </FSTextField>
     <FSTagGroup
-      :tags="$props.modelValue"
-      :variant="$props.tagVariant"
-      :color="$props.tagColor"
+      :tagVariant="$props.tagVariant"
       :editable="$props.editable"
+      :tags="$props.modelValue"
+      :color="$props.tagColor"
       @remove="onRemove"
     />
   </FSCol>
@@ -49,9 +58,7 @@ import { useColors, useRules } from "@dative-gpi/foundation-shared-components/co
 import FSTextField from "./FSTextField.vue";
 import FSTagGroup from "../FSTagGroup.vue";
 import FSButton from "../FSButton.vue";
-import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTagField",
@@ -59,9 +66,7 @@ export default defineComponent({
     FSTextField,
     FSTagGroup,
     FSButton,
-    FSSpan,
-    FSCol,
-    FSRow
+    FSCol
   },
   props: {
     label: {
@@ -112,7 +117,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const {validateOn, blurred, getMessages} = useRules();
+    const {validateOn, getMessages} = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
@@ -121,7 +126,7 @@ export default defineComponent({
 
     const innerValue = ref("");
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-tag-field-color": lights.dark
@@ -135,7 +140,9 @@ export default defineComponent({
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
-    const onAdd = (): void => {
+    const onAdd = (event: Event): void => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
       if (!props.editable) {
         return;
       }
@@ -163,7 +170,6 @@ export default defineComponent({
       validateOn,
       ColorEnum,
       messages,
-      blurred,
       style,
       onRemove,
       onAdd

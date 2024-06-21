@@ -1,80 +1,56 @@
 <template>
-  <FSCol>
-    <slot v-if="!$props.hideHeader" name="label">
-      <FSRow
-        :wrap="false"
-      >
-        <FSSpan
-          v-if="$props.label"
-          class="fs-text-area-label"
-          font="text-overline"
-          :style="style"
-        >
-          {{ $props.label }}
-        </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
-          class="fs-text-area-label"
-          style="margin-left: -8px;"
-          font="text-overline"
-          :ellipsis="false"
-          :style="style"
-        >
-          *
-        </FSSpan>
-        <v-spacer style="min-width: 40px;" />
-        <FSSpan
-          v-if="messages.length > 0"
-          class="fs-text-area-messages"
-          font="text-overline"
-          :style="style"
-        >
-          {{ messages.join(", ") }}
-        </FSSpan>
-      </FSRow>
-    </slot>
+  <FSBaseField
+    :label="$props.label"
+    :description="$props.description"
+    :hideHeader="$props.hideHeader"
+    :required="$props.required"
+    :editable="$props.editable"
+    :messages="messages"
+  >
     <v-textarea
       class="fs-text-area"
       variant="outlined"
       :style="style"
       :class="classes"
       :rows="$props.rows"
+      :persistentClear="true"
       :hideDetails="true"
-      :noResize="!$props.resize"
+      :noResize="true"
       :autoGrow="$props.autoGrow"
       :readonly="!$props.editable"
-      :clearable="$props.editable && !!$props.modelValue"
+      :clearable="$props.clearable && $props.editable && !!$props.modelValue"
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.modelValue"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
-      @blur="blurred = true"
+      @update:modelValue="$emit('update:modelValue', $event)"
       v-bind="$attrs"
     >
-      <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
-      </template>
-      <template #clear>
-        <FSButton
-          v-if="$props.editable && $props.modelValue"
-          icon="mdi-close"
-          variant="icon"
-          :color="ColorEnum.Dark"
-          @click="$emit('update:modelValue', null)"
+      <template
+        v-for="(_, name) in $slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
         />
       </template>
-    </v-textarea>
-    <slot name="description">
-      <FSSpan
-        v-if="$props.description"
-        class="fs-text-area-description"
-        font="text-underline"
-        :style="style"
+      <template
+        #clear
       >
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
+        <FSCol
+          align="center-center"
+        >
+          <FSButton
+            v-if="$props.clearable && $props.editable && !!$props.modelValue"
+            icon="mdi-close"
+            variant="icon"
+            :color="ColorEnum.Dark"
+            @click="$emit('update:modelValue', null)"
+          />
+        </FSCol>
+      </template>
+    </v-textarea>
+  </FSBaseField>
 </template>
 
 <script lang="ts">
@@ -83,16 +59,14 @@ import { computed, defineComponent, PropType } from "vue";
 import { useColors, useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSSpan from "../FSSpan.vue";
+import FSBaseField from "./FSBaseField.vue";
 import FSCol from "../FSCol.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSTextArea",
   components: {
-    FSSpan,
-    FSCol,
-    FSRow
+    FSBaseField,
+    FSCol
   },
   props: {
     label: {
@@ -114,11 +88,6 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 1
-    },
-    resize: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     autoGrow: {
       type: Boolean,
@@ -145,6 +114,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    clearable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -153,7 +127,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
@@ -161,19 +135,19 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       let height: string | undefined = undefined;
-      let minHeight: string | undefined = undefined;
+      let fieldHeight: string | undefined = undefined;
       if (!props.autoGrow) {
-        const base = isMobileSized.value ? 30 : 42;
-        const row = isMobileSized.value ? 16 : 20;
-        minHeight = `${base}px`;
+        const base = isMobileSized.value ? 34 : 38;
+        const row = isMobileSized.value ? 14 : 16;
         if (props.rows > 1) {
           height = `${base + (props.rows - 1) * row}px`;
         }
         else {
           height = `${base}px`;
         }
+        fieldHeight = `${props.rows * row}px`;
       }
       if (!props.editable) {
         return {
@@ -181,8 +155,8 @@ export default defineComponent({
           "--fs-text-area-border-color"       : lights.base,
           "--fs-text-area-color"              : lights.dark,
           "--fs-text-area-active-border-color": lights.base,
-          "--fs-text-area-min-height"         : minHeight,
-          "--fs-text-area-height"             : height
+          "--fs-text-area-height"             : height,
+          "--fs-text-area-field-height"       : fieldHeight
         };
       }
       return {
@@ -190,10 +164,9 @@ export default defineComponent({
         "--fs-text-area-border-color"       : lights.dark,
         "--fs-text-area-color"              : darks.base,
         "--fs-text-area-active-border-color": darks.dark,
-        "--fs-text-area-error-color"        : errors.base,
         "--fs-text-area-error-border-color" : errors.base,
-        "--fs-text-area-min-height"         : minHeight,
-        "--fs-text-area-height"             : height
+        "--fs-text-area-height"             : height,
+        "--fs-text-area-field-height"       : fieldHeight
       };
     });
 
@@ -211,9 +184,8 @@ export default defineComponent({
       validateOn,
       ColorEnum,
       messages,
-      blurred,
       classes,
-      style,
+      style
     };
   }
 });

@@ -3,11 +3,14 @@
     :closeOnContentClick="false"
     v-model="expanded"
   >
-    <template #activator="{ props }">
+    <template
+      #activator="{ props }"
+    >
       <FSChip
         class="fs-filter-button"
         variant="standard"
         prependIcon="mdi-filter-variant"
+        :height="[30, 24]"
         :color="ColorEnum.Dark"
         :editable="true"
         :label="label"
@@ -20,36 +23,47 @@
       :border="false"
     >
       <FSCol
-        gap="16px"
-        padding="6px 16px"
+        gap="12px"
+        padding="16px 0 24px 16px"
       >
-        <FSSpan
-          font="text-overline"
+        <FSCol
+          gap="12px"
+          padding="0 16px 0 0"
         >
-          {{ $tr("ui.data-table.filter", "Filter") }}
-        </FSSpan>
-        <FSChip
-          class="fs-filter-button-all"
-          :editable="true"
-          :color="$props.color"
-          :variant="getAllVariant()"
-          :label="$tr('ui.data-table.all-values', 'All values')"
-          @click="onToggleAll"
-        />
-        <FSSearchField
-          class="fs-filter-button-all"
-          prependInnerIcon="mdi-magnify"
-          v-model="search"
-        />
-        <v-divider />
+          <FSSpan
+            font="text-overline"
+          >
+            {{ $tr("ui.data-table.filter", "Filter") }}
+          </FSSpan>
+          <FSChip
+            class="fs-filter-button-chip"
+            :height="[30, 24]"
+            :editable="true"
+            :color="$props.color"
+            :variant="getAllVariant()"
+            :label="$tr('ui.data-table.all-values', 'All values')"
+            @click="onToggleAll"
+          />
+          <FSDivider
+            padding="0 8px 0 0"
+          />
+          <FSSearchField
+            class="fs-filter-button-search"
+            prependInnerIcon="mdi-magnify"
+            v-model="search"
+          />
+        </FSCol>
         <FSFadeOut
           padding="0 8px 0 0"
           height="360px"
         >
-          <FSCol>
+          <FSCol
+            gap="6px"
+          >
             <FSChip
               v-for="(filter, index) in searchedFilters"
               class="fs-filter-button-chip"
+              :height="[30, 24]"
               :key="index"
               :editable="true"
               :label="filter.text"
@@ -57,8 +71,12 @@
               :variant="getVariant(filter)"
               @click="() => onToggle(filter)"
             >
-              <template #default>
-                <slot v-bind="{ filter }" />
+              <template
+                #default
+              >
+                <slot
+                  v-bind="{ filter }"
+                />
               </template>
             </FSChip>
           </FSCol>
@@ -76,6 +94,7 @@ import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui
 
 import FSSearchField from "../fields/FSSearchField.vue";
 import FSFadeOut from "../FSFadeOut.vue";
+import FSDivider from "../FSDivider.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSSpan from "../FSSpan.vue";
@@ -86,6 +105,7 @@ export default defineComponent({
   components: {
     FSSearchField,
     FSFadeOut,
+    FSDivider,
     FSCard,
     FSChip,
     FSSpan,
@@ -117,7 +137,7 @@ export default defineComponent({
 
     const label = computed((): string | null => {
       if (props.header.text) {
-          if (props.filters) {
+        if (props.filters) {
           const hidden = props.filters.filter(f => f.hidden).length;
           if (hidden > 0) {
             return $tr("ui.data-table.some-filters-visible", "{0}: {1} visible", props.header.text, (props.filters.length - hidden).toString());
@@ -135,14 +155,14 @@ export default defineComponent({
       return props.filters;
     });
 
-    const getVariant = (filter: FSDataTableFilter): "standard" | "full" => {
+    const getVariant = (filter: FSDataTableFilter): "standard" | "full" | "borderless" => {
       if (singlePick.value || props.filters.filter(f => f.hidden).length > 0) {
         if (filter.hidden) {
-          return "standard";
+          return "borderless";
         }
         return "full";
       }
-      return "standard";
+      return "borderless";
     };
 
     const getAllVariant = (): "standard" | "full" => {

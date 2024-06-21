@@ -1,63 +1,63 @@
-import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslation";
 import { ChartModelLabel, ChartModelLabelDTO } from "../charts/chartModelLabel";
 import { ApplicationScope } from "../enums/applicationEnums";
-import { ChartType } from "../enums/chartEnums";
+import { ChartType, PlotPer } from "../enums/chartEnums";
 
 export class ChartOrganisationInfos {
-    id: string;
-    chartId: string;
-    organisationId: string;
-    scope: ApplicationScope;
-    icon: string;
-    code: string;
-    tags: string[];
-    multiple: boolean;
-    chartType: ChartType;
-    modelsLabels: ChartModelLabel[];
-    label: string;
-    title: string;
-    labelDefault: string;
-    titleDefault: string;
-    translations: ChartTranslation[];
+  id: string;
+  imageId: string | null;
+  chartId: string;
+  organisationId: string;
+  chartCategoryId: string | null;
+  chartCategoryLabel: string | null;
+  scope: ApplicationScope;
+  label: string;
+  title: string;
+  code: string;
+  icon: string;
+  tags: string[];
+  multiple: boolean;
+  chartType: ChartType;
+  modelsLabels: ChartModelLabel[];
 
-    constructor(params: ChartOrganisationInfosDTO) {
-        this.id = params.id;
-        this.chartId = params.chartId;
-        this.organisationId = params.organisationId;
-        this.scope = params.scope;
-        this.icon = params.icon;
-        this.code = params.code;
-        this.tags = params.tags.slice();
-        this.multiple = params.multiple;
-        this.chartType = params.chartType;
-        this.modelsLabels = params.modelsLabels.map((modelLabel) => new ChartModelLabel(modelLabel));
-        this.label = params.label;
-        this.title = params.title;
-        this.labelDefault = params.labelDefault;
-        this.titleDefault = params.titleDefault;
-        this.translations = params.translations.map((translation) => new ChartTranslation(translation));
-    }
+  constructor(params: ChartOrganisationInfosDTO) {
+    this.id = params.id;
+    this.imageId = params.imageId;
+    this.chartId = params.chartId;
+    this.organisationId = params.organisationId;
+    this.chartCategoryId = params.chartCategoryId;
+    this.chartCategoryLabel = params.chartCategoryLabel;
+    this.scope = params.scope;
+    this.label = params.label;
+    this.title = params.title;
+    this.code = params.code;
+    this.icon = params.icon;
+    this.tags = params.tags.slice();
+    this.multiple = params.multiple;
+    this.chartType = params.chartType;
+    this.modelsLabels = params.modelsLabels.map((modelLabel) => new ChartModelLabel(modelLabel));
+  }
 }
 
 export interface ChartOrganisationInfosDTO {
-    id: string;
-    chartId: string;
-    organisationId: string;
-    scope: ApplicationScope;
-    icon: string;
-    code: string;
-    tags: string[];
-    multiple: boolean;
-    chartType: ChartType;
-    modelsLabels: ChartModelLabelDTO[];
-    label: string;
-    title: string;
-    labelDefault: string;
-    titleDefault: string;
-    translations: ChartTranslationDTO[];
+  id: string;
+  imageId: string | null;
+  chartId: string;
+  organisationId: string;
+  chartCategoryId: string | null;
+  chartCategoryLabel: string | null;
+  scope: ApplicationScope;
+  label: string;
+  title: string;
+  code: string;
+  icon: string;
+  tags: string[];
+  multiple: boolean;
+  chartType: ChartType;
+  modelsLabels: ChartModelLabelDTO[];
 }
 
 export interface ChartOrganisationFilters {
-    modelsIds?: string[];
-    search?: string;
+  modelsIds?: string[] | null;
+  plotPer?: PlotPer | null;
+  search?: string | null;
 }

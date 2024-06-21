@@ -8,16 +8,18 @@
       :rules="$props.rules"
       :validateOn="validateOn"
       :modelValue="$props.selected"
-      @click.prevent
-      @blur="blurred = true"
+      @click.prevent.stop
       v-bind="$attrs"
     >
-      <template #input>
+      <template
+        #input
+      >
         <FSRow
+          class="fs-radio-label"
           align="center-left"
           width="hug"
           :style="style"
-          @click.stop="onToggle"
+          @click.prevent.stop="onToggle"
         >
           <FSIcon
             class="fs-radio"
@@ -26,10 +28,12 @@
           >
             {{ icon }}
           </FSIcon>
-          <slot>
+          <slot
+            name="label"
+            v-bind="{ item: $props.item, font }"
+          >
             <FSSpan
               v-if="$props.label"
-              class="fs-radio-label"
               :style="style"
               :font="font"
             >
@@ -39,7 +43,9 @@
         </FSRow>
       </template>
     </v-radio>
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="$props.description"
         class="fs-radio-description"
@@ -72,6 +78,11 @@ export default defineComponent({
     FSRow
   },
   props: {
+    item: {
+      type: Object as PropType<object | null>,
+      required: false,
+      default: null
+    },
     label: {
       type: String as PropType<string | null>,
       required: false,
@@ -114,7 +125,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
@@ -122,7 +133,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-radio-cursor"     : "default",
@@ -162,7 +173,6 @@ export default defineComponent({
     return {
       validateOn,
       messages,
-      blurred,
       style,
       icon,
       font,

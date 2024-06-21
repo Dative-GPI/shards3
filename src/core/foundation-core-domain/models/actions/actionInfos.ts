@@ -1,7 +1,7 @@
 import { ActionType } from "../enums/actionEnums";
 
 export class ActionInfos {
-    extensionId?: string;
+    extensionId: string | null;
     actionType: ActionType;
     path: string;
     uri: string;
@@ -19,10 +19,14 @@ export class ActionInfos {
 }
 
 export interface ActionInfosDTO {
-    extensionId?: string;
+    extensionId: string | null;
     actionType: ActionType;
     path: string;
     uri: string;
     label: string;
     icon: string;
+}
+
+export interface ActionFilters {
+    path: string;
 }

@@ -1,8 +1,5 @@
 <template>
-  <FSCol
-    width="fill"
-    gap="16px"
-  >
+  <FSCol>
     <FSRow
       align="center-center"
       :wrap="false"
@@ -41,10 +38,6 @@
         :min="0"
         v-model="innerHours"
       />
-    </FSCol>
-    <FSCol
-      v-if="$props.slider"
-    >
       <FSSlider
         :label="$tr('ui.clock.minutes', 'Minutes')"
         :readonly="!$props.editable"
@@ -66,7 +59,6 @@ import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composabl
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSlider from "./FSSlider.vue";
-import FSText from "./FSText.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
@@ -74,7 +66,6 @@ export default defineComponent({
   name: "FSClock",
   components: {
     FSSlider,
-    FSText,
     FSCol,
     FSRow
   },
@@ -118,7 +109,7 @@ export default defineComponent({
     const innerHours = ref(props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0);
     const innerMinutes = ref(props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-clock-field-cursor"             : "default",

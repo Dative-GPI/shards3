@@ -1,39 +1,57 @@
 <template>
-  <FSAutocompleteField :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :loading="loading"
-    :items="dataCategories"
+  <FSAutocompleteField
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :items="dataCategories"
+    :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
-    v-bind="$attrs">
-    <template #selection="{ item }">
-      <FSRow align="center-center"
+    v-bind="$attrs"
+  >
+    <template
+      #autocomplete-selection="{ item }"
+    >
+      <FSRow
+        v-if="$props.modelValue"
+        align="center-center"
         :wrap="false"
-        :gap="0">
-        <FSText>
-          {{ item.raw.label }}
-        </FSText>
+      >
         <FSIcon>
           {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
         </FSIcon>
+        <FSSpan>
+          {{ item.raw.label }}
+        </FSSpan>
       </FSRow>
     </template>
-    <template #item="{ props, item }">
-      <v-list-item v-bind="{ ...props, title: '' }">
-        <FSRow align="center-left">
-          <FSCheckbox v-if="$props.multiple"
-            :modelValue="isSelected(item.value)" />
-          <FSRow :gap="2">
-            <FSText>
-              {{ item.raw.label }}
-            </FSText>
-            <FSIcon>
-              {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
-            </FSIcon>
-          </FSRow>
-        </FSRow>
-      </v-list-item>
+    <template
+      #item-label="{ item, font }"
+    >
+      <FSRow
+        align="center-left"
+        :wrap="false"
+      >
+        <FSIcon>
+          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
+        </FSIcon>
+        <FSSpan
+          :font="font"
+        >
+          {{ item.raw.label }}
+        </FSSpan>
+      </FSRow>
+    </template>
+    <template
+      #toggle-set-item="props"
+    >
+      <FSButton
+        :prependIcon="props.item.correlated ? 'mdi-link' : 'mdi-link-off'"
+        :variant="props.getVariant(props.item)"
+        :color="props.getColor(props.item)"
+        :class="props.getClass(props.item)"
+        :label="props.item.label"
+        @click="props.toggle(props.item)"
+      />
     </template>
   </FSAutocompleteField>
 </template>
@@ -46,13 +64,19 @@ import { useDataCategories } from "@dative-gpi/foundation-core-services/composab
 import { DataCategoryFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
-import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
+import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteDataCategory",
   components: {
     FSAutocompleteField,
-    FSText
+    FSButton,
+    FSIcon,
+    FSSpan,
+    FSRow
   },
   props: {
     dataCategoriesFilters: {
@@ -80,32 +104,26 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyDataCategories, fetching: fetchingDataCategories, entities: dataCategories } = useDataCategories();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingDataCategories.value;
+    });
+
     const innerFetch = (search: string | null) => {
       return getManyDataCategories({ ...props.dataCategoriesFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       dataCategories,
       [() => props.dataCategoriesFilters],
       emit,
       innerFetch
     );
 
-    const loading = computed((): boolean => {
-      return init.value && fetchingDataCategories.value;
-    });
-
-    const isSelected = (id: any) => {
-      return props.modelValue?.includes(id);
-    }
-
     return {
       dataCategories,
       toggleSet,
       loading,
-      search,
-      onUpdate,
-      isSelected
+      onUpdate
     };
   }
 });

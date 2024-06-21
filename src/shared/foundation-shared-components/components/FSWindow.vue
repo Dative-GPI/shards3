@@ -2,11 +2,22 @@
   <v-window
     class="fs-window"
     :style="style"
+    :touch="false"
     v-bind="$attrs"
   >
+    <template
+      v-for="(_, name) in slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
+    </template>
     <v-window-item
       v-for="(component, index) in getChildren()"
       :value="value(component, index)"
+      :key="index"
     >
       <component
         :is="component"
@@ -31,9 +42,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getChildren } = useSlots();
+    const { slots, getChildren } = useSlots();
 
-    const style = computed((): { [key: string] : string | undefined } => ({
+    delete slots.default;
+
+    const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-window-width": sizeToVar(props.width)
     }));
 
@@ -42,6 +55,7 @@ export default defineComponent({
     };
 
     return {
+      slots,
       style,
       getChildren,
       value

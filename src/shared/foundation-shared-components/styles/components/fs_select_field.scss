@@ -33,20 +33,15 @@
     color: var(--fs-select-field-color);
 }
 
-.v-overlay-container > .v-overlay > .v-select__content {
-    box-shadow: 0px 5px 8px 0px #00000029;
+.v-overlay-container > .v-overlay > .v-select__content > .v-list {
+    @extend .fs-hide-y-scrollbar;
+
+    background-color: var(--fs-select-field-background-color);
+    padding: 2px 8px 2px 16px;
     border-radius: 4px;
 
-    & > .v-list {
-        @extend .fs-hide-y-scrollbar;
-
-        background-color: var(--fs-select-field-background-color);
-        border-radius: 4px;
-        margin-top: 4px;
-        padding: 2px;
-
-        & .v-list-item {
-            border-radius: 4px;
-        }
+    & .v-list-item {
+        border-radius: 4px !important;
+        margin-top: 2px !important;
     }
 }

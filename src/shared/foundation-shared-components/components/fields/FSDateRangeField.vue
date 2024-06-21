@@ -15,7 +15,6 @@
     :modelValue="toShortDateFormat"
     @click="onClick"
     @update:modelValue="onClear"
-    @blur="blurred = true"
   >
     <template
       #prepend-inner
@@ -43,8 +42,8 @@
   </FSTextField>
   <FSDialogSubmit
     :title="$props.label"
-    :rightButtonColor="$props.color"
-    @click:rightButton="onSubmit"
+    :submitButtonColor="$props.color"
+    @click:submitButton="onSubmit"
     v-model="dialog"
   >
     <template
@@ -61,9 +60,9 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
-import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
 import FSCalendarTwin from "../FSCalendarTwin.vue";
@@ -122,28 +121,11 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { epochToShortDateFormat } = useAppTimeZone();
-    const { getColors } = useColors();
-
-    const errors = getColors(ColorEnum.Error);
-    const lights = getColors(ColorEnum.Light);
-    const darks = getColors(ColorEnum.Dark);
 
     const dialog = ref(false);
     const innerDateRange = ref<number[] | null>(props.modelValue);
-
-    const style = computed((): { [key: string] : string | undefined } => {
-      if (!props.editable) {
-        return {
-          "--fs-date-field-color": lights.dark
-        };
-      }
-      return {
-        "--fs-date-field-color"      : darks.base,
-        "--fs-date-field-error-color": errors.base
-      };
-    });
 
     const toShortDateFormat = computed((): string => {
       if (!props.modelValue || !Array.isArray(props.modelValue) || !props.modelValue.length) {
@@ -171,14 +153,12 @@ export default defineComponent({
     };
 
     return {
-      ColorEnum,
-      validateOn,
-      messages,
-      blurred,
-      style,
-      dialog,
       toShortDateFormat,
       innerDateRange,
+      validateOn,
+      ColorEnum,
+      messages,
+      dialog,
       onClick,
       onClear,
       onSubmit

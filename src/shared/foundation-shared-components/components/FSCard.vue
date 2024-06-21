@@ -10,17 +10,23 @@
         <FSRow
           v-if="$slots.header"
         >
-          <slot name="header" />
+          <slot
+            name="header"
+          />
         </FSRow>
         <FSRow
           v-if="$slots.body"
         >
-          <slot name="body" />
+          <slot
+            name="body"
+          />
         </FSRow>
         <FSRow
           v-if="$slots.footer"
         >
-          <slot name="footer" />
+          <slot
+            name="footer"
+          />
         </FSRow>
       </FSCol>
     </slot>
@@ -109,7 +115,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
         case "standard": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",

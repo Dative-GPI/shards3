@@ -6,13 +6,10 @@ export class ServiceAccountInfos {
   userId: string;
   organisationId: string;
   roleType: RoleType;
-  roleId?: string;
+  roleId: string | null;
   roleLabel: string;
   roleIcon: string;
-  imageId?: string;
-  imageBlurHash?: string;
-  imageHeight?: number;
-  imageWidth?: number;
+  imageId: string | null;
   userType: UserType;
   validity: UserValidityState;
   label: string;
@@ -28,9 +25,6 @@ export class ServiceAccountInfos {
     this.roleLabel = params.roleLabel;
     this.roleIcon = params.roleIcon;
     this.imageId = params.imageId;
-    this.imageBlurHash = params.imageBlurHash;
-    this.imageHeight = params.imageHeight;
-    this.imageWidth = params.imageWidth;
     this.userType = params.userType;
     this.validity = params.validity;
     this.label = params.label;
@@ -44,13 +38,10 @@ export interface ServiceAccountInfosDTO {
   userId: string;
   organisationId: string;
   roleType: RoleType;
-  roleId?: string;
+  roleId: string | null;
   roleLabel: string;
   roleIcon: string;
-  imageId?: string;
-  imageBlurHash?: string;
-  imageHeight?: number;
-  imageWidth?: number;
+  imageId: string | null;
   userType: UserType;
   validity: UserValidityState;
   label: string;
@@ -59,5 +50,5 @@ export interface ServiceAccountInfosDTO {
 }
 
 export interface ServiceAccountFilters {
-  search?: string;
+  search?: string | null;
 }

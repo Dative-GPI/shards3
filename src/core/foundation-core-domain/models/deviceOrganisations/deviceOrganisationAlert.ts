@@ -1,5 +1,5 @@
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
-import { DatesTools } from "@dative-gpi/foundation-shared-domain/tools";
+import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class DeviceOrganisationAlert {
     id: string;
@@ -14,8 +14,8 @@ export class DeviceOrganisationAlert {
     this.label = params.label;
     this.status = params.status;
     this.criticity = params.criticity;
-    this.sourceTimestamp = params.sourceTimestamp ? DatesTools.utcToEpoch(params.sourceTimestamp) : undefined;
-    this.enqueuedTimestamp = params.enqueuedTimestamp ? DatesTools.utcToEpoch(params.enqueuedTimestamp) : undefined;
+    this.sourceTimestamp = params.sourceTimestamp ? utcToEpoch(params.sourceTimestamp) : undefined;
+    this.enqueuedTimestamp = params.enqueuedTimestamp ? utcToEpoch(params.enqueuedTimestamp) : undefined;
   }
 }
 

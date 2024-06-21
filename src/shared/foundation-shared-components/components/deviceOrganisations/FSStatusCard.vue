@@ -1,43 +1,59 @@
 <template>
   <FSCard
+    padding="2px 2px 8px 2px"
     :elevation="true"
     :border="false"
   >
     <FSCol
       align="center-center"
-      padding="6px 24px"
     >
       <FSCol
         align="center-center"
-        gap="12px"
+        gap="0px"
       >
-        <FSChip
-          :color="$props.statusGroup.color"
-          :prependIcon="$props.statusGroup.icon"
-          :label="$props.statusGroup.label"
-        />
         <FSRow
-          v-if="$props.statusGroup.value"
-          width="hug"
+          align="center-right"
         >
-          <FSText
-            font="text-button"
+          <FSButton
+            icon="mdi-close"
+            variant="icon"
+            @click="$emit('close')"
+          />
+        </FSRow>
+        <FSCol
+          align="center-center"
+          padding="0px 24px"
+          gap="12px"
+        >
+          <FSChip
+            :prependIcon="$props.statusGroup.icon"
             :color="$props.statusGroup.color"
+            :label="statusLabel"
+          />
+          <FSRow
+            v-if="$props.statusGroup.value"
+            width="hug"
           >
-            {{ $props.statusGroup.value }} {{ $props.statusGroup.unit }}
-          </FSText>
-        </FSRow>
-        <FSRow
-          v-if="$props.statusGroup.value && $props.modelStatus.groupById && $props.statusGroup.groupByValue"
-          width="hug"
-        >
-          <FSSpan>
-            {{ $props.modelStatus.groupByLabel }} {{ $props.statusGroup.groupByValue }}
-          </FSSpan>
-        </FSRow>
+            <FSText
+              font="text-button"
+              :color="$props.statusGroup.color"
+            >
+              {{ $props.statusGroup.value }} {{ $props.statusGroup.unit }}
+            </FSText>
+          </FSRow>
+          <FSRow
+            v-if="$props.statusGroup.value && $props.modelStatus.groupById && $props.statusGroup.groupByValue"
+            width="hug"
+          >
+            <FSSpan>
+              {{ $props.modelStatus.groupByLabel }} {{ $props.statusGroup.groupByValue }}
+            </FSSpan>
+          </FSRow>
+        </FSCol>
       </FSCol>
       <FSRow
         v-if="deviceTimestamp"
+        padding="0px 24px"
         width="hug"
       >
         <FSSpan
@@ -56,6 +72,7 @@ import { computed, defineComponent, PropType } from "vue";
 import { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
+import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
@@ -66,6 +83,7 @@ import FSRow from "../FSRow.vue";
 export default defineComponent({
   name: "FSStatusCard",
   components: {
+    FSButton,
     FSCard,
     FSChip,
     FSText,
@@ -83,8 +101,13 @@ export default defineComponent({
       required: true
     }
   },
+  emits: ["close"],
   setup(props) {
     const { epochToLongTimeFormat } = useAppTimeZone();
+
+    const statusLabel = computed((): string => {
+      return props.statusGroup.label || props.modelStatus.label;
+    });
 
     const deviceTimestamp = computed((): string => {
       if (props.statusGroup.sourceTimestamp) {
@@ -94,7 +117,8 @@ export default defineComponent({
     });
 
     return {
-      deviceTimestamp
+      deviceTimestamp,
+      statusLabel
     };
   }
 });

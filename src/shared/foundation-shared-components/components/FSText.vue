@@ -45,7 +45,7 @@ export default defineComponent({
       default: ColorEnum.Dark
     },
     variant: {
-      type: String as PropType<"base" | "baseContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
+      type: String as PropType<"base" | "baseContrast" | "light" | "lightContrast" | "dark" | "darkContrast" | "soft" | "softContrast">,
       required: false,
       default: "base"
     }
@@ -70,7 +70,7 @@ export default defineComponent({
       return classNames;
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       return {
         "--fs-span-line-clamp": props.lineClamp.toString(),
         "--fs-text-color"     : colors.value[props.variant]

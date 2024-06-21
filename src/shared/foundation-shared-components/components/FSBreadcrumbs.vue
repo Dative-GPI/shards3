@@ -4,12 +4,18 @@
     :items="$props.items"
     v-bind="$attrs"
   >
-    <template #title="{ item }">
-      <FSSpan :class="classes(item)">
+    <template
+      #title="{ item }"
+    >
+      <FSSpan
+        :class="classes(item)"
+      >
         {{ item.title }}
       </FSSpan>
     </template>
-    <template #divider>
+    <template
+      #divider
+    >
       <FSIcon
         class="fs-breadcrumbs-divider"
         size="m"
@@ -49,7 +55,7 @@ export default defineComponent({
     const style: Ref<{ [key: string] : string }> = ref({
       "--fs-breadcrumbs-color": darks.dark,
       "--fs-breadcrumbs-active-color": darks.base,
-      "--fs-breadcrumbs-disabled-color": darks.light
+      "--fs-breadcrumbs-disabled-color": darks.soft
     });
 
     const classes = (item: FSBreadcrumbItem): string[] => {

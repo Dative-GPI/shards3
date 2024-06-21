@@ -37,16 +37,21 @@
 
 .v-overlay-container > .v-overlay > .v-autocomplete__content {
     box-shadow: 0px 5px 8px 0px #00000029;
+    max-width: none !important;
     border-radius: 4px;
 
     & .v-list {
+        @extend .fs-hide-y-scrollbar;
+
         background-color: var(--fs-autocomplete-field-background-color);
+        padding: 2px 8px 2px 16px;
         border-radius: 4px;
         margin-top: 4px;
-        padding: 2px;
+        gap: 2px;
 
         & .v-list-item {
-            border-radius: 4px;
+            border-radius: 4px !important;
+            margin-top: 2px !important;
         }
     }
 }

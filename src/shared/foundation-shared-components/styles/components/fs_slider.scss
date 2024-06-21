@@ -28,7 +28,15 @@
         color: var(--fs-slider-thumb-color);
 
         &__surface:before {
-            display: none;
+            display: none !important;
+        }
+
+        &__surface:after {
+            display: none !important;
+        }
+
+        &__ripple {
+            display: none !important;
         }
     }
 }

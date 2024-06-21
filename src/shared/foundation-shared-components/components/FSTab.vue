@@ -5,25 +5,47 @@
     v-bind="$attrs"
   >
     <slot>
-      <FSRow align="center-left">
-        <slot name="prepend">
-          <FSIcon v-if="$props.prependIcon" size="m">
+      <FSRow
+        align="center-left"
+      >
+        <slot
+          name="prepend"
+        >
+          <FSIcon
+            v-if="$props.prependIcon"
+            size="m"
+          >
             {{ $props.prependIcon }}
           </FSIcon>
         </slot>
         <slot>
-          <FSSpan v-if="$props.label" font="text-button">
+          <FSSpan
+            v-if="$props.label"
+            font="text-button"
+          >
             {{ $props.label }}
           </FSSpan>
         </slot>
-        <v-spacer v-if="$props.tag" />
-        <slot name="tag">
-          <FSSpan v-if="$props.tag" class="fs-tab-tag">
+        <v-spacer
+          v-if="$props.tag"
+        />
+        <slot
+          name="tag"
+        >
+          <FSSpan
+            v-if="$props.tag"
+            class="fs-tab-tag"
+          >
             {{ $props.tag }}
           </FSSpan>
         </slot>
-        <slot name="append">
-          <FSIcon v-if="$props.appendIcon" size="m">
+        <slot
+          name="append"
+        >
+          <FSIcon
+            v-if="$props.appendIcon"
+            size="m"
+          >
             {{ $props.appendIcon }}
           </FSIcon>
         </slot>

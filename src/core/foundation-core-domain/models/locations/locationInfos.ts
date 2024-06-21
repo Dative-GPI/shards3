@@ -40,7 +40,7 @@ export interface LocationInfosDTO {
 }
 
 export interface LocationFilters {
-    locationsIds?: string[];
-    modelsIds?: string[];
-    search?: string;
+    locationsIds?: string[] | null;
+    modelsIds?: string[] | null;
+    search?: string | null;
 }

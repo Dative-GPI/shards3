@@ -4,9 +4,6 @@ export const TIMEZONES: TimeZoneInfosDTO[] = [{
     id: "Europe/Paris",
     offset: "+02:00:00"
 }, {
-    id: "America/Toronto",
-    offset: "-04:00:00"
-}, {
     id: "Pacific/Nauru",
     offset: "+12:00:00"
 }, {

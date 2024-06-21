@@ -99,7 +99,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { validateOn, blurred, getMessages } = useRules();
+    const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
@@ -108,7 +108,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
           "--fs-switch-translate-x": props.modelValue ? "8px" : "-8px",
@@ -150,7 +150,6 @@ export default defineComponent({
     return {
       validateOn,
       messages,
-      blurred,
       style,
       font,
       onToggle

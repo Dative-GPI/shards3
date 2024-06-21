@@ -1,8 +1,14 @@
 <template>
   <FSCol>
-    <FSRow v-if="!readonly">
-      <slot name="label">
-        <FSRow :wrap="false">
+    <FSRow
+      v-if="!readonly"
+    >
+      <slot
+        name="label"
+      >
+        <FSRow
+          :wrap="false"
+        >
           <FSSpan
             v-if="$props.label"
             class="fs-rich-text-field-label"
@@ -24,7 +30,9 @@
         </FSRow>
       </slot>
       <v-spacer />
-      <template v-if="$props.editable">
+      <template
+        v-if="$props.editable"
+      >
         <FSIcon
           class="fs-rich-text-field-icon"
           :color="toolbarColors.undo"
@@ -33,7 +41,9 @@
         >
           mdi-undo-variant
         </FSIcon>
-        <v-divider vertical />
+        <v-divider
+          vertical
+        />
         <FSIcon
           class="fs-rich-text-field-icon"
           :style="style"
@@ -62,7 +72,9 @@
         >
           mdi-format-paragraph
         </FSIcon>
-        <v-divider vertical />
+        <v-divider
+          vertical
+        />
         <FSIcon
           class="fs-rich-text-field-icon"
           :color="toolbarColors.bold"
@@ -103,7 +115,9 @@
         >
           mdi-link
         </FSIcon>
-        <v-divider vertical />
+        <v-divider
+          vertical
+        />
         <FSIcon
           class="fs-rich-text-field-icon"
           :style="style"
@@ -146,7 +160,9 @@
       @keypress.enter.stop="toggleLink"
       v-model="linkUrl"
     />
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="!readonly && $props.description"
         class="fs-rich-text-field-description"
@@ -211,9 +227,9 @@ export default defineComponent({
       default: false
     },
     rows: {
-        type: Number,
-        required: false,
-        default: 5
+      type: Number,
+      required: false,
+      default: 5
     },
     variant: {
       type: String as PropType<"standard" | "readonly">,
@@ -298,7 +314,7 @@ export default defineComponent({
       return ["readonly"].includes(props.variant);
     });
 
-    const style = computed((): { [key: string] : string | undefined } => {
+    const style = computed((): { [key: string] : string | null | undefined } => {
       let minHeight: string | undefined = "auto";
       if (!readonly.value) {
         const base = isMobileSized.value ? 30 : 42;
@@ -326,7 +342,7 @@ export default defineComponent({
           }
           else {
             return {
-              "--fs-rich-text-field-undo-cursor"        : canUndo ? "pointer" : "default",
+              "--fs-rich-text-field-undo-cursor"        : canUndo.value ? "pointer" : "default",
               "--fs-rich-text-field-icon-cursor"        : "pointer",
               "--fs-rich-text-field-border-color"       : lights.dark,
               "--fs-rich-text-field-color"              : darks.base,
@@ -335,13 +351,13 @@ export default defineComponent({
               "--fs-rich-text-field-min-height"         : minHeight
             };
           }
-        };
+        }
         case "readonly": return {
-            "--fs-rich-text-field-border-color"       : "transparent",
-            "--fs-rich-text-field-color"              : darks.base,
-            "--fs-rich-text-field-active-border-color": "transparent",
-            "--fs-rich-text-field-link-color"         : linkColors.value.dark,
-            "--fs-rich-text-field-min-height"         : minHeight
+          "--fs-rich-text-field-border-color"       : "transparent",
+          "--fs-rich-text-field-color"              : darks.base,
+          "--fs-rich-text-field-active-border-color": "transparent",
+          "--fs-rich-text-field-link-color"         : linkColors.value.dark,
+          "--fs-rich-text-field-min-height"         : minHeight
         }
       }
     });

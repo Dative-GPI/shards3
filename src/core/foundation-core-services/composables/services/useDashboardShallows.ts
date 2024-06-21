@@ -1,4 +1,4 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { CreateDashboardShallowDTO, DashboardShallowDetails, DashboardShallowDetailsDTO, DashboardShallowFilters, DashboardShallowInfos, DashboardShallowInfosDTO, UpdateDashboardShallowDTO } from "@dative-gpi/foundation-core-domain/models";
 import { DASHBOARD_SHALLOW_URL, DASHBOARD_SHALLOWS_URL } from "../../config/urls/dashboardShallows";
 

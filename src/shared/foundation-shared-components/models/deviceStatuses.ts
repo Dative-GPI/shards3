@@ -5,12 +5,12 @@ export interface FSDeviceStatus {
 
 export interface FSDeviceStatusGroup {
     label: string;
-    groupByValue?: string;
-    value?: string;
-    unit?: string;
+    groupByValue?: string | null;
+    value?: string | null;
+    unit?: string | null;
     icon: string;
     color: string;
-    sourceTimestamp?: number;
-    enqueuedTimestamp?: number;
-    processedTimestamp?: number;
+    sourceTimestamp?: number | null;
+    enqueuedTimestamp?: number | null;
+    processedTimestamp?: number | null;
 }

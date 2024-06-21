@@ -1,56 +1,102 @@
 <template>
-  <FSAutocompleteField :toggleSet="!$props.toggleSetDisabled && toggleSet"
-    :loading="loading"
-    :items="userOrganisations"
+  <FSAutocompleteField
+    itemTitle="name"
+    :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :items="userOrganisations"
+    :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
-    v-model:search="search"
-    v-bind="$attrs">
-    <template #selection="{ item }">
-      <FSRow align="center-center"
-        :wrap="false">
-        <FSImage height="26px"
+    v-bind="$attrs"
+  >
+    <template
+      #autocomplete-selection="{ item }"
+    >
+      <FSRow
+        v-if="$props.modelValue"
+        align="center-center"
+        :wrap="false"
+      >
+        <FSImage
+          v-if="item.raw.imageId"
+          height="26px"
           width="26px"
-          :imageId="item.raw.imageId" />
-        <FSText>
-          {{ item.raw.label }}
-        </FSText>
+          :imageId="item.raw.imageId"
+        />
+        <FSSpan>
+          {{ item.raw.name }}
+        </FSSpan>
       </FSRow>
     </template>
-    <template #item="{ props, item }">
-      <v-list-item v-bind="{ ...props, title: '' }">
-        <FSRow align="center-left">
-          <FSCheckbox v-if="$props.multiple"
-            :modelValue="isSelected(item.value)" />
-          <FSImage height="26px"
+    <template
+      #item-label="{ item, font }"
+    >
+      <FSRow
+        align="center-left"
+        :wrap="false"
+      >
+        <FSImage
+          v-if="item.raw.imageId"
+          height="26px"
+          width="26px"
+          :imageId="item.raw.imageId"
+        />
+        <FSSpan
+          :font="font"
+        >
+          {{ item.raw.name }}
+        </FSSpan>
+      </FSRow>
+    </template>
+    <template
+      #toggle-set-item="props"
+    >
+      <FSButton
+        :variant="props.getVariant(props.item)"
+        :color="props.getColor(props.item)"
+        :class="props.getClass(props.item)"
+        @click="props.toggle(props.item)"
+      >
+        <FSRow
+          align="center-center"
+          :wrap="false"
+        >
+          <FSImage
+            v-if="props.item.imageId"
+            height="26px"
             width="26px"
-            :imageId="item.raw.imageId" />
-          <FSText>
-            {{ item.raw.label }}
-          </FSText>
+            :imageId="props.item.imageId"
+          />
+          <FSSpan>
+            {{ props.item.name }}
+          </FSSpan>
         </FSRow>
-      </v-list-item>
+      </FSButton>
     </template>
   </FSAutocompleteField>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
-import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+
+import { UserOrganisationFilters, UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
-import { UserOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
+import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
-import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteUserOrganisation",
   components: {
     FSAutocompleteField,
+    FSButton,
     FSImage,
-    FSText
+    FSSpan,
+    FSRow
   },
   props: {
     userOrganisationFilters: {
@@ -78,6 +124,17 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyUserOrganisations, fetching: fetchingUserOrganisations, entities: userOrganisations } = useUserOrganisations();
 
+    const loading = computed((): boolean => {
+      return init.value && fetchingUserOrganisations.value;
+    });
+
+    const toggleSetItems = computed((): any[] => {
+      return userOrganisations.value.map((userOrganisation: UserOrganisationInfos) => ({
+        id: userOrganisation.id,
+        label: userOrganisation.name
+      }));
+    });
+    
     const innerFetch = (search: string | null) => {
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
@@ -86,22 +143,18 @@ export default defineComponent({
       userOrganisations,
       [() => props.userOrganisationFilters],
       emit,
-      innerFetch
+      innerFetch,
+      null,
+      (item: UserOrganisationInfos) => item.id,
+      (item: UserOrganisationInfos) => item.name
     );
-
-    const isSelected = (id: any) => {
-      return props.modelValue?.includes(id);
-    }
-    const loading = computed((): boolean => {
-      return init.value && fetchingUserOrganisations.value;
-    });
 
     return {
       userOrganisations,
+      toggleSetItems,
       toggleSet,
       loading,
       search,
-      isSelected,
       onUpdate
     };
   }
