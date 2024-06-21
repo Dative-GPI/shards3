@@ -15,7 +15,7 @@
       v-bind="$attrs"
     >
       <template
-        v-for="(_, name) in $slots"
+        v-for="(_, name) in slots"
         v-slot:[name]="slotData"
       >
         <slot
@@ -26,17 +26,16 @@
       <template
         #append-inner
       >
+        <FSButton
+          variant="icon"
+          icon="mdi-tag-outline"
+          :editable="$props.editable"
+          :color="ColorEnum.Dark"
+          @click="onAdd"
+        />
         <slot
           name="append-inner"
-        >
-          <FSButton
-            variant="icon"
-            icon="mdi-tag-outline"
-            :editable="$props.editable"
-            :color="ColorEnum.Dark"
-            @click="onAdd"
-          />
-        </slot>
+        />
       </template>
     </FSTextField>
     <FSTagGroup
@@ -52,8 +51,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "vue";
 
+import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSTextField from "./FSTextField.vue";
 import FSTagGroup from "../FSTagGroup.vue";
@@ -119,6 +118,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const {validateOn, getMessages} = useRules();
     const { getColors } = useColors();
+    const { slots } = useSlots();
+
+    delete slots["append-inner"];
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
@@ -170,6 +172,7 @@ export default defineComponent({
       validateOn,
       ColorEnum,
       messages,
+      slots,
       style,
       onRemove,
       onAdd
