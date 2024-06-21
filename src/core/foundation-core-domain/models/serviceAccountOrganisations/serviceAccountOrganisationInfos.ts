@@ -1,7 +1,7 @@
 import { UserType, UserValidityState } from "../enums/userEnums";
 import { RoleType } from "../enums/roleEnums";
 
-export class ServiceAccountInfos {
+export class ServiceAccountOrganisationInfos {
   id: string;
   userId: string;
   organisationId: string;
@@ -16,7 +16,7 @@ export class ServiceAccountInfos {
   description: string;
   tags: string[];
 
-  constructor(params: ServiceAccountInfosDTO) {
+  constructor(params: ServiceAccountOrganisationInfosDTO) {
     this.id = params.id;
     this.userId = params.userId;
     this.organisationId = params.organisationId;
@@ -33,7 +33,7 @@ export class ServiceAccountInfos {
   }
 }
 
-export interface ServiceAccountInfosDTO {
+export interface ServiceAccountOrganisationInfosDTO {
   id: string;
   userId: string;
   organisationId: string;
@@ -49,6 +49,6 @@ export interface ServiceAccountInfosDTO {
   tags: string[] | null;
 }
 
-export interface ServiceAccountFilters {
+export interface ServiceAccountOrganisationFilters {
   search?: string | null;
 }

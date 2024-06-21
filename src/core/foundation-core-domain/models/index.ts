@@ -1,7 +1,6 @@
 export * from "./actions";
 export * from "./alerts";
 export * from "./articles";
-export * from "./serviceAccountAuthTokens";
 export * from "./chartCategories";
 export * from "./chartOrganisationTypes";
 export * from "./chartOrganisations";
@@ -46,7 +45,8 @@ export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
 export * from "./scenarios";                        // No service
 export * from "./shared";                           // No service
-export * from "./serviceAccounts";
+export * from "./serviceAccountOrganisationAuthTokens";
+export * from "./serviceAccountOrganisations";
 export * from "./userOrganisationColumns";          // No service
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";

@@ -1,14 +1,14 @@
 import { PermissionInfos, PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ServiceAccountInfos, ServiceAccountInfosDTO } from "./serviceAccountInfos";
+import { ServiceAccountOrganisationInfos, ServiceAccountOrganisationInfosDTO } from "./serviceAccountOrganisationInfos";
 import { RoleType } from "../enums/roleEnums";
 
-export class ServiceAccountDetails extends ServiceAccountInfos {
+export class ServiceAccountOrganisationDetails extends ServiceAccountOrganisationInfos {
   languageCode: string;
   timeZoneId: string;
   permissions: PermissionInfos[];
 
-  constructor(params: ServiceAccountDetailsDTO) {
+  constructor(params: ServiceAccountOrganisationDetailsDTO) {
     super(params);
     
     this.languageCode = params.languageCode;
@@ -17,13 +17,13 @@ export class ServiceAccountDetails extends ServiceAccountInfos {
   }
 }
 
-export interface ServiceAccountDetailsDTO extends ServiceAccountInfosDTO {
+export interface ServiceAccountOrganisationDetailsDTO extends ServiceAccountOrganisationInfosDTO {
   languageCode: string;
   timeZoneId: string;
   permissions: PermissionInfosDTO[];
 }
 
-export interface CreateServiceAccountDTO {
+export interface CreateServiceAccountOrganisationDTO {
   roleType: RoleType;
   roleId: string | null;
   languageCode: string;
@@ -34,7 +34,7 @@ export interface CreateServiceAccountDTO {
   tags: string[];
 }
 
-export interface UpdateServiceAccountDTO {
+export interface UpdateServiceAccountOrganisationDTO {
   roleType: RoleType;
   roleId: string | null;
   languageCode: string;
