@@ -1,0 +1,13 @@
+.fs-row > .fs-col:has(.v-switch) {
+    margin: 0 0 8px 0;
+    align-self: end;
+}
+
+.fs-magic-config-field-value {
+    min-width: 15%;
+}
+
+.fs-magic-config-field-actions {
+    margin: 0 0 8px 0;
+    align-self: end;
+}
