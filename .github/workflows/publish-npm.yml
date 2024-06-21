@@ -18,7 +18,7 @@ jobs:
       - name: Setting things up 🔧
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
           # User or organization
           scope: '@dative-gpi'
