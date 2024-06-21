@@ -21,7 +21,9 @@ export const useAddress = () => {
 
 
   const search = async (search: string): Promise<Place[]> => {
-    if(!initialized) await init();
+    if(!initialized){
+      await init();
+    } 
 
     return _search(search).then(result => {
       return _.map(result, r => ({ id: r.place_id, label: r.description }));
@@ -31,7 +33,9 @@ export const useAddress = () => {
   }
 
   const get = async (place: Place): Promise<Address> => {
-    if(!initialized) await init();
+    if(!initialized){
+      await init();
+    } 
 
     const response = await _get(place.id);
     sessionId = new google.maps.places.AutocompleteSessionToken();

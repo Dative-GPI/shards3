@@ -1,15 +1,12 @@
 <template>
   <FSAutocompleteField
-    :items="addresses"
+    :toggleSet="false"
     :multiple="false"
+    :items="places"
     :modelValue="$props.modelValue"
-    itemTitle="formattedAddress"
-    :no-filter="true"
     @update:modelValue="onUpdate"
-    v-model:search="search"
     v-bind="$attrs"
-    :returnObject="true"
-    :no-data-text="$tr('ui.autocomplete.address.noDataText', 'No address corresponding')"
+    v-model:search="search"
   />
 </template>
 
@@ -19,7 +16,7 @@ import { defineComponent, PropType, ref } from "vue";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useAddress } from "../../composables/useAddress";
 
-import { Address } from "@dative-gpi/foundation-core-domain/models";
+import { Address, Place } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -39,31 +36,33 @@ export default defineComponent({
   setup(_props, { emit }) {
     const { search: searchAddress } = useAddress();
 
-    const addresses = ref<Address[]>([]);
+    const places = ref<Place[]>([]);
     const menu = ref(false);
 
     const innerFetch = async (search: string | null) => {
       if (search === null) {
         return Promise.resolve([]);
       }
-      addresses.value = await searchAddress(search);
+      console.log("searching for address", search)
+      places.value = await searchAddress(search);
       return Promise.resolve([]);
     };
 
     const { search, onUpdate } = useAutocomplete(
-      addresses,
+      places,
       [],
       emit,
       innerFetch,
       null,
-      (item) => item.formattedAddress,
-      (item) => encodeURI(item.formattedAddress),
-      true
+      (item) => (item).id,
+      (item) => (item).label,
+      true,
+      false
     );
 
     return {
       menu,
-      addresses,
+      places,
       search,
       onUpdate
     };

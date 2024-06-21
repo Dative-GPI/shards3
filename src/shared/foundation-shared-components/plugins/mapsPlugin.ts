@@ -3,6 +3,7 @@ import { Plugin } from "vue";
 export const MapsPlugin: Plugin = {
   install: (_app, options: MapsOptions) => {
     const key = options?.key ?? import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    console.log("key", key);
     const maps = document.createElement("script");
     maps.setAttribute(
       "src",

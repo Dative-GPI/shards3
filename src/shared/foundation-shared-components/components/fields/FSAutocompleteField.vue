@@ -313,6 +313,7 @@ import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteField",
+  inheritAttrs: false,
   components: {
     FSSearchField,
     FSDialogMenu,
