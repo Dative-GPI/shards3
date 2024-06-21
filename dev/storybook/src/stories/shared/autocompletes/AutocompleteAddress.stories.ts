@@ -21,8 +21,8 @@ export const Variations: Story = {
     args: {
       value1: null,
       value2: new Address({
-        placeId: '',
-        placeLabel: 'Dative GPI Company',
+        placeId: "ChIJg7vu-43P9EcRRNrbyDxFMDY",
+        placeLabel: 'Dative, Rue de Norvège, Colombier-Saugnieu, France',
         formattedAddress: ' 100 Rue de Norvège, 69125 Colombier-Saugnieu',
         locality: 'Colombier-Saugnieu',
         country: 'France',

@@ -3,15 +3,16 @@
     :toggleSet="false"
     :multiple="false"
     :items="places"
-    :modelValue="$props.modelValue"
+    :modelValue="modelValuePlace"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
     v-model:search="search"
+    :clearable="false"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, onMounted, PropType, ref, watch } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useAddress } from "../../composables/useAddress";
@@ -33,19 +34,32 @@ export default defineComponent({
     },
   },
   emits: ["update:modelValue"],
-  setup(_props, { emit }) {
-    const { search: searchAddress } = useAddress();
+  setup(props, { emit }) {
+    const { search: searchAddress, get: getAddress  } = useAddress();
 
     const places = ref<Place[]>([]);
-    const menu = ref(false);
+    const modelValuePlace = ref<Place | null>(null);
 
     const innerFetch = async (search: string | null) => {
+      console.log("search", search);
       if (search === null) {
         return Promise.resolve([]);
       }
-      console.log("searching for address", search)
       places.value = await searchAddress(search);
+      console.log("places", places.value);
       return Promise.resolve([]);
+    };
+
+    const innerUpdate = async (value: { id: string; label: string; } | { id: string; label: string; }[] | null) => {
+      if (value === null) {
+        emit("update:modelValue", null);
+        return;
+      }
+      if (Array.isArray(value)) {
+        value = value[0];
+      }
+      const address = await getAddress(value);
+      emit("update:modelValue", address );
     };
 
     const { search, onUpdate } = useAutocomplete(
@@ -53,15 +67,36 @@ export default defineComponent({
       [],
       emit,
       innerFetch,
-      null,
+      innerUpdate,
       (item) => (item).id,
       (item) => (item).label,
       true,
       false
     );
 
+    const addressToPlace = (address: Address): Place => {
+      return {
+        id: address.placeId,
+        label: address.placeLabel
+      };
+    };
+
+    onMounted(() => {
+      if(!props.modelValue) {
+        return;
+      }
+      modelValuePlace.value = addressToPlace(props.modelValue);
+    });
+
+    watch(() => props.modelValue, (newValue) => {
+      if(!newValue) {
+        return;
+      }
+      modelValuePlace.value = addressToPlace(newValue);
+    });
+
     return {
-      menu,
+      modelValuePlace,
       places,
       search,
       onUpdate
