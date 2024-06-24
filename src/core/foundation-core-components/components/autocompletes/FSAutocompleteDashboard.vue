@@ -193,7 +193,7 @@ export default defineComponent({
       ]);
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       dashboards,
       [() => props.dashboardOrganisationTypeFilters, () => props.dashboardOrganisationFilters, () => props.dashboardShallowFilters],
       emit,
@@ -202,10 +202,9 @@ export default defineComponent({
     );
 
     return {
+      dashboards,
       toggleSet,
       loading,
-      search,
-      dashboards,
       dashboardTypeColor,
       dashboardTypeLabel,
       onUpdate
