@@ -55,11 +55,6 @@ export interface DashboardOrganisationTypeDetailsDTO extends DashboardOrganisati
   widgets: WidgetInfosDTO[];
 }
 
-export interface CreateDashboardOrganisationTypeDTO {
-  dashboardOrganisationId: string;
-  organisationTypeId: string | null;
-}
-
 export interface UpdateDashboardOrganisationTypeDTO {
   imageId: string | null;
   image: string | null;
@@ -78,6 +73,11 @@ export interface UpdateDashboardOrganisationTypeDTO {
   entityPresets: CreateDashboardEntityPresetDTO[];
   variables: CreateDashboardVariableDTO[];
   widgets: CreateWidgetDTO[];
+}
+
+export interface PublishDashboardOrganisationTypeDTO {
+  dashboardOrganisationId: string;
+  organisationTypeId: string | null;
 }
 
 export interface LockDashboardOrganisationTypeDTO {
