@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "roboto-fontface": "*",
-    "@fontsource/montserrat": "*",
     "vue": "3.4.23",
     "vue-router": "4.3.0",
     "vuetify": "3.5.15",
@@ -34,6 +33,8 @@
     "@storybook/vue3": "8.1.10",
     "@storybook/vue3-vite": "8.1.10",
     "@types/webfontloader": "1.6.35",
+    "@mdi/font": "7.4.47",
+    "@fontsource/montserrat": "*",
     "axios": "1.7.2",
     "axios-mock-adapter": "1.22.0",
     "color": "4.2.3",
