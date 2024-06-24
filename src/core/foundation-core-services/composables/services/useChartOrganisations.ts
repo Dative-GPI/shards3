@@ -1,7 +1,7 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { CHART_ORGANISATION_URL, CHART_ORGANISATIONS_URL } from "../../config/urls";
 import { ChartOrganisationDetails, ChartOrganisationDetailsDTO, ChartOrganisationFilters, ChartOrganisationInfos, ChartOrganisationInfosDTO, CreateChartOrganisationDTO, UpdateChartOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
+import { CHART_ORGANISATION_URL, CHART_ORGANISATIONS_URL } from "../../config/urls";
 
 const ChartOrganisationServiceFactory = new ServiceFactory<ChartOrganisationDetailsDTO, ChartOrganisationDetails>("chartOrganisation", ChartOrganisationDetails)
   .createComplete<ChartOrganisationInfos, ChartOrganisationInfosDTO, CreateChartOrganisationDTO, UpdateChartOrganisationDTO, ChartOrganisationFilters>(CHART_ORGANISATIONS_URL, CHART_ORGANISATION_URL, ChartOrganisationInfos);
@@ -9,7 +9,7 @@ const ChartOrganisationServiceFactory = new ServiceFactory<ChartOrganisationDeta
 const ChartOrganisationServiceFactoryIncomplete = new ServiceFactory("chartOrganisation", ChartOrganisationDetails)
   .create(factory => factory.build(
     factory.addNotify(notifyService => ({
-      ...ServiceFactory.addCustom("chartOrganisation", (axios, chartOrganisationId: string) => axios.patch(CHART_ORGANISATION_URL(chartOrganisationId)), (dto: ChartOrganisationDetailsDTO) => {
+      ...ServiceFactory.addCustom("duplicate", (axios, chartOrganisationId: string) => axios.patch(CHART_ORGANISATION_URL(chartOrganisationId)), (dto: ChartOrganisationDetailsDTO) => {
         const result = new ChartOrganisationDetails(dto);
         notifyService.notify("update", result);
         return result;
@@ -22,5 +22,4 @@ export const useChartOrganisations = ComposableFactory.getMany(ChartOrganisation
 export const useCreateChartOrganisation = ComposableFactory.create(ChartOrganisationServiceFactory);
 export const useUpdateChartOrganisation = ComposableFactory.update(ChartOrganisationServiceFactory);
 export const useRemoveChartOrganisation = ComposableFactory.remove(ChartOrganisationServiceFactory);
-export const useDuplicateChartOrganisation = ComposableFactory.custom(ChartOrganisationServiceFactoryIncomplete.chartOrganisation);
-
+export const useDuplicateChartOrganisation = ComposableFactory.custom(ChartOrganisationServiceFactoryIncomplete.duplicate);
