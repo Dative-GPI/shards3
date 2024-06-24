@@ -48,7 +48,7 @@ export const Variations: Story = {
     <FSCol>
       <FSMagicConfigField
         label="Number field"
-        :type="0"
+        :type="1"
         v-model:translations="args.translations1"
         v-model:labelDefault="args.labelDefault1"
         v-model:value="args.value1"
@@ -56,7 +56,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicConfigField
         label="Switch"
-        :type="1"
+        :type="2"
         v-model:translations="args.translations2"
         v-model:labelDefault="args.labelDefault2"
         v-model:value="args.value2"
@@ -64,7 +64,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicConfigField
         label="Text field"
-        :type="2"
+        :type="3"
         v-model:translations="args.translations3"
         v-model:labelDefault="args.labelDefault3"
         v-model:value="args.value3"
@@ -72,7 +72,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicConfigField
         label="Date time field"
-        :type="3"
+        :type="4"
         v-model:translations="args.translations4"
         v-model:labelDefault="args.labelDefault4"
         v-model:value="args.value4"
@@ -80,7 +80,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicConfigField
         label="Icon field"
-        :type="4"
+        :type="5"
         v-model:translations="args.translations5"
         v-model:labelDefault="args.labelDefault5"
         v-model:value="args.value5"
@@ -88,7 +88,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicConfigField
         label="Time field"
-        :type="5"
+        :type="6"
         v-model:translations="args.translations6"
         v-model:labelDefault="args.labelDefault6"
         v-model:value="args.value6"

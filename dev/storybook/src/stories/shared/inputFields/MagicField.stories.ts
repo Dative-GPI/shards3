@@ -36,37 +36,37 @@ export const Variations: Story = {
     <FSCol>
       <FSMagicField
         label="Number field"
-        :type="0"
+        :type="1"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicField
         label="Switch"
-        :type="1"
+        :type="2"
         v-model="args.value2"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicField
         label="Text field"
-        :type="2"
+        :type="3"
         v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicField
         label="Date time field"
-        :type="3"
+        :type="4"
         v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicField
         label="Icon field"
-        :type="4"
+        :type="5"
         v-model="args.value5"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSMagicField
         label="Time field"
-        :type="5"
+        :type="6"
         v-model="args.value6"
       />
     </FSCol>`
