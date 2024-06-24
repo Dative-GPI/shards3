@@ -9,11 +9,11 @@
   "main": "index.ts",
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@dative-gpi/bones-ui": "0.0.74",
+  "peerDependencies": {
+    "@dative-gpi/bones-ui": "^0.0.75",
     "@dative-gpi/foundation-shared-domain": "1.0.0",
-    "@microsoft/signalr": "8.0.0",
-    "vue": "3.4.23",
-    "vue-router": "4.3.0"
+    "@microsoft/signalr": "^8.0.0",
+    "vue": "^3.4.23",
+    "vue-router": "^4.3.0"
   }
 }
