@@ -11,7 +11,8 @@
     "src/shared/foundation-shared-domain",
     "src/shared/foundation-shared-components",
     "src/shared/foundation-shared-loader",
-    "dev/storybook"
+    "dev/storybook",
+    "tests/packages-build"
   ],
   "dependencies": {
     "axios-mock-adapter": "1.22.0"

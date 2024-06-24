@@ -1,4 +1,4 @@
-import { ManufacturerInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { ManufacturerInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { IMAGES } from "./images.mock";
 
