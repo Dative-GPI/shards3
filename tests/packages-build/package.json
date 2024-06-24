@@ -1,0 +1,29 @@
+{
+  "name": "packages-build",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@dative-gpi/foundation-core-components":  "*",
+    "@dative-gpi/foundation-core-domain":  "*",
+    "@dative-gpi/foundation-core-services":  "*",
+    "@dative-gpi/foundation-shared-components":  "*",
+    "@dative-gpi/foundation-shared-domain":  "*",
+    "@dative-gpi/foundation-shared-loader":  "*",
+    "@dative-gpi/foundation-shared-services":  "*",
+    "vite-plugin-vuetify": "2.0.3",
+    "vue": "3.4.23",
+    "vue-router": "4.3.0",
+    "vuetify": "3.5.15"
+  },
+  "devDependencies": {
+    "@types/color": "3.0.6",
+    "@vitejs/plugin-vue": "5.0.4",
+    "sass": "1.71.1",
+    "typescript": "5.2.2",
+    "vite": "5.1.4",
+    "vue-tsc": "1.8.27"
+  }
+}
