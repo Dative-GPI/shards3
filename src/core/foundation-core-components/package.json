@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
+    "@dative-gpi/bones-ui": "^0.0.75",
     "@dative-gpi/foundation-core-domain": "1.0.0",
     "@dative-gpi/foundation-core-services": "1.0.0",
     "@dative-gpi/foundation-shared-components": "1.0.0",
