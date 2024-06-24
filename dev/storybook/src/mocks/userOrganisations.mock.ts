@@ -1,13 +1,11 @@
-import { UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { UserOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { IMAGES } from ".";
 
 export const USERORGANISATIONS: UserOrganisationInfosDTO[] = [{
     id: "1",
-    label: "Jean Didier",
     admin: true,
     allowEmails: true,
     allowSms: true,
-    description: "Moi c'est Jean",
     email: "jean@jean.jean",
     firstName: "Jean",
     lastName: "Didier",
@@ -26,11 +24,9 @@ export const USERORGANISATIONS: UserOrganisationInfosDTO[] = [{
 },
 {
     id: "2",
-    label: "Francois Dupont",
     admin: false,
     allowEmails: true,
     allowSms: false,
-    description: "Moi c'est Francois",
     email: "francois@francois.francois",
     firstName: "Francois",
     lastName: "Dupont",

@@ -1,4 +1,4 @@
-import { LocationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { LocationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 export const LOCATIONS: LocationInfosDTO[] = [{
     id: "1",

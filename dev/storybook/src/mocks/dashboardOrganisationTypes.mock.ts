@@ -1,4 +1,4 @@
-import { DashboardOrganisationTypeDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { DashboardOrganisationTypeDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 
 export const DASHBOARDORGANISATIONTYPES: DashboardOrganisationTypeDetailsDTO[] = [{
   id: "11",

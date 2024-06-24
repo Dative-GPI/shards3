@@ -1,4 +1,4 @@
-import { BlurHashDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { BlurHashDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 export const IMAGES: { id: string, raw?: string, blurHash?: BlurHashDTO }[] = [{
     id: "1",

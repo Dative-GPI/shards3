@@ -1,4 +1,4 @@
-import { LanguageInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { LanguageInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 export const LANGUAGES: LanguageInfosDTO[] = [{
     id: "1",
