@@ -40,7 +40,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
 
-import { DateRules, IconRules, NumberRules, TimeRules } from "../../models";
+import { DateRules, IconRules, NumberRules, TextRules, TimeRules } from "../../models";
 import { useMagicFieldProvider } from "../../composables";
 import { MagicFieldType } from "../../models/magicFields";
 
@@ -93,7 +93,7 @@ export default defineComponent({
         case MagicFieldType.NumberField:
           return [NumberRules.required()];
         case MagicFieldType.TextField:
-          return [NumberRules.required()];
+          return [TextRules.required()];
         case MagicFieldType.DateTimeField:
           return [DateRules.required()];
         case MagicFieldType.IconField:
