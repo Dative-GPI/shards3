@@ -14,6 +14,7 @@ export interface CreateConnectivityScenarioDTO {
     time: number;
     warnDeviceManager: boolean;
     warnOnReconnection: boolean;
+    notifTimeByUser: boolean;
     userOrganisationsIds: string[];
 }
 
@@ -21,5 +22,6 @@ export interface UpdateConnectivityScenarioDTO {
     time: number;
     warnDeviceManager: boolean;
     warnOnReconnection: boolean;
+    notifTimeByUser: boolean;
     userOrganisationsIds: string[];
 }
