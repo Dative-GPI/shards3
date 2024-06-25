@@ -1,5 +1,6 @@
-import { RoleOrganisationInfos, RoleOrganisationInfosDTO } from "./roleOrganisationInfos";
-import { RoleType } from "../enums/roleEnums";
+import type { RoleOrganisationInfosDTO } from "./roleOrganisationInfos";
+import { RoleOrganisationInfos } from "./roleOrganisationInfos";
+import type { RoleType } from "../enums/roleEnums";
 
 export class RoleOrganisationDetails extends RoleOrganisationInfos {
   description: string;

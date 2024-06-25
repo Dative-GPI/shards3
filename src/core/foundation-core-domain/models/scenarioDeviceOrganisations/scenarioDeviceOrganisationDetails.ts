@@ -1,5 +1,6 @@
-import { CreateTimeRangeDTO } from "../shared/timeRange";
-import { ScenarioDeviceOrganisationInfos, ScenarioDeviceOrganisationInfosDTO } from "./scenarioDeviceOrganisationInfos";
+import type { CreateTimeRangeDTO } from "../shared/timeRange";
+import type { ScenarioDeviceOrganisationInfosDTO } from "./scenarioDeviceOrganisationInfos";
+import { ScenarioDeviceOrganisationInfos } from "./scenarioDeviceOrganisationInfos";
 
 
 export class ScenarioDeviceOrganisationDetails extends ScenarioDeviceOrganisationInfos {

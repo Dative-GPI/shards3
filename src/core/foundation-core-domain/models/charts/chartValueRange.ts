@@ -1,4 +1,5 @@
-import { ChartValueRangeTranslation, ChartValueRangeTranslationDTO, CreateChartValueRangeTranslationDTO } from "./chartValueRangeTranslation";
+import type { ChartValueRangeTranslationDTO, CreateChartValueRangeTranslationDTO } from "./chartValueRangeTranslation";
+import { ChartValueRangeTranslation } from "./chartValueRangeTranslation";
 import { ValueRange } from "../shared/valueRange";
 
 export class ChartValueRange extends ValueRange {

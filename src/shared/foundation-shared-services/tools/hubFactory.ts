@@ -11,7 +11,7 @@ export class HubFactory {
         let connection: signalR.HubConnection | null = null;
         let subscribed = false;
         let watchManySubscribers = 0;
-        let watcheds = ref<string[]>([]);
+        const watcheds = ref<string[]>([]);
 
         return () => {
             const connect = async () => {
@@ -59,7 +59,7 @@ export class HubFactory {
 
             const unsubscribeFromOne = (alertId: string) => {
                 const index = watcheds.value.indexOf(alertId);
-                if (index > -1) watcheds.value = watcheds.value.splice(index, 1);
+                if (index > -1) {watcheds.value = watcheds.value.splice(index, 1);}
             }
 
             const subscribeToMany = () => {
@@ -90,7 +90,7 @@ export class HubFactory {
                 if (manySubscriptions.value) {
                     unsubscribeFromMany();
                 }
-                for (let subscription of oneSubscriptions.value) {
+                for (const subscription of oneSubscriptions.value) {
                     unsubscribeFromOne(subscription);
                 }
             })

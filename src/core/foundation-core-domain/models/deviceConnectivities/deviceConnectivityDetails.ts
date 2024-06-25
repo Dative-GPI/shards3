@@ -1,4 +1,5 @@
-import { DeviceConnectivityInfos, DeviceConnectivityInfosDTO } from "./deviceConnectivityInfos";
+import type { DeviceConnectivityInfosDTO } from "./deviceConnectivityInfos";
+import { DeviceConnectivityInfos } from "./deviceConnectivityInfos";
 
 export class DeviceConnectivityDetails extends DeviceConnectivityInfos {
     constructor(params: DeviceConnectivityDetailsDTO) {

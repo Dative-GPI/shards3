@@ -1,4 +1,5 @@
-import { UserOrganisationColumnInfos, UserOrganisationColumnInfosDTO } from "../userOrganisationColumns/userOrganisationColumnInfos";
+import type { UserOrganisationColumnInfosDTO } from "../userOrganisationColumns/userOrganisationColumnInfos";
+import { UserOrganisationColumnInfos } from "../userOrganisationColumns/userOrganisationColumnInfos";
 
 export class UserOrganisationTableInfos {
     id: string;

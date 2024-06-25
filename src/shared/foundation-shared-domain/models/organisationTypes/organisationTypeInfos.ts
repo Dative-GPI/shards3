@@ -1,4 +1,4 @@
-import { DashboardType } from "../enums/dashboardEnums";
+import type { DashboardType } from "../enums/dashboardEnums";
 
 export class OrganisationTypeInfos {
   id: string;

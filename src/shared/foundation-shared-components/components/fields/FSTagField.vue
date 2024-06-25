@@ -49,10 +49,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
 import FSTagGroup from "../FSTagGroup.vue";

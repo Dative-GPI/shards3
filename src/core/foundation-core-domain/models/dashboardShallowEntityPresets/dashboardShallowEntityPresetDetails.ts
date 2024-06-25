@@ -1,4 +1,4 @@
-import { SelectedEntities } from "../enums/sharedEnums";
+import type { SelectedEntities } from "../enums/sharedEnums";
 
 export interface CreateDashboardShallowEntityPresetDTO {
   hiddenCode: string;

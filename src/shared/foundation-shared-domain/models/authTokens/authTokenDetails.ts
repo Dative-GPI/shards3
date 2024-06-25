@@ -1,4 +1,5 @@
-import { AuthTokenInfos, AuthTokenInfosDTO } from "./authTokenInfos";
+import type { AuthTokenInfosDTO } from "./authTokenInfos";
+import { AuthTokenInfos } from "./authTokenInfos";
 
 export class AuthTokenDetails extends AuthTokenInfos {
 

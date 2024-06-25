@@ -1,4 +1,5 @@
-import { Ref, computed, inject, ref } from "vue";
+import type { Ref} from "vue";
+import { computed, inject, ref } from "vue";
 
 export const useRules = () => {
   const innerValidateOn = inject<Ref<"submit" | "input">>("validateOn", ref('input'));

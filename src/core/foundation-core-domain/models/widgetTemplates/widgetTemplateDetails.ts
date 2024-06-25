@@ -1,4 +1,5 @@
-import { WidgetTemplateInfos, WidgetTemplateInfosDTO } from "./widgetTemplateInfos";
+import type { WidgetTemplateInfosDTO } from "./widgetTemplateInfos";
+import { WidgetTemplateInfos } from "./widgetTemplateInfos";
 
 export class WidgetTemplateDetails extends WidgetTemplateInfos {
     constructor(params: WidgetTemplateDetailsDTO) {

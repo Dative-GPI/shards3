@@ -1,4 +1,5 @@
-import { FamilyDetails, FamilyDetailsDTO, FamilyFilters, FamilyInfos, FamilyInfosDTO } from "@dative-gpi/foundation-admin-domain/models";
+import type { FamilyDetailsDTO, FamilyFilters, FamilyInfosDTO } from "@dative-gpi/foundation-admin-domain/models";
+import { FamilyDetails, FamilyInfos } from "@dative-gpi/foundation-admin-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { FAMILIES_URL, FAMILY_URL } from "../../config/urls";

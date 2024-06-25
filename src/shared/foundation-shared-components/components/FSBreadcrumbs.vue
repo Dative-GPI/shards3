@@ -27,9 +27,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from "vue";
+import type { PropType, Ref} from "vue";
+import { defineComponent, ref } from "vue";
 
-import { ColorEnum, FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
+import type { FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSpan from "./FSSpan.vue";

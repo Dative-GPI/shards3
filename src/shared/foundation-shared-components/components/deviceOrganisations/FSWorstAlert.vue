@@ -29,10 +29,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
-import { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
+import type { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSWorstAlertCard from "./FSWorstAlertCard.vue";

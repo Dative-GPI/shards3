@@ -1,5 +1,7 @@
-import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
-import { ConnectivityScenarioUserInfos, ConnectivityScenarioUserInfosDTO } from "./connectivityScenarioUserInfos";
+import type { DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
+import { DeviceConnectivityDetails } from "../deviceConnectivities/deviceConnectivityDetails";
+import type { ConnectivityScenarioUserInfosDTO } from "./connectivityScenarioUserInfos";
+import { ConnectivityScenarioUserInfos } from "./connectivityScenarioUserInfos";
 
 export class ConnectivityScenarioInfos {
     id: string

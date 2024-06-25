@@ -1,5 +1,5 @@
-import { UserType, UserValidityState } from "../enums/userEnums";
-import { RoleType } from "../enums/roleEnums";
+import type { UserType, UserValidityState } from "../enums/userEnums";
+import type { RoleType } from "../enums/roleEnums";
 
 export class UserOrganisationInfos {
     id: string;

@@ -1,4 +1,5 @@
-import { AlertInfos, AlertInfosDTO } from "./alertInfos";
+import type { AlertInfosDTO } from "./alertInfos";
+import { AlertInfos } from "./alertInfos";
 
 export class AlertDetails extends AlertInfos {
     description: string;

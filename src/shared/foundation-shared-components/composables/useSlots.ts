@@ -1,4 +1,5 @@
-import { Slot, useSlots as useVueSlots } from "vue"
+import type { Slot} from "vue";
+import { useSlots as useVueSlots } from "vue"
 
 export const useSlots = () => {
     const getChildren = (name: string | undefined = undefined): any => {

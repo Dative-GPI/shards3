@@ -1,7 +1,10 @@
-import { ChartFilterValue, ChartFilterValueDTO, CreateChartFilterValueDTO } from "./chartFilterValue";
-import { ChartFilterTranslation, ChartFilterTranslationDTO } from "./chartFilterTranslation";
-import { ChartPresetFilter, ChartPresetFilterDTO } from "./chartPresetFilter";
-import { FilterType } from "../enums/sharedEnums";
+import type { ChartFilterValueDTO, CreateChartFilterValueDTO } from "./chartFilterValue";
+import { ChartFilterValue } from "./chartFilterValue";
+import type { ChartFilterTranslationDTO } from "./chartFilterTranslation";
+import { ChartFilterTranslation } from "./chartFilterTranslation";
+import type { ChartPresetFilterDTO } from "./chartPresetFilter";
+import { ChartPresetFilter } from "./chartPresetFilter";
+import type { FilterType } from "../enums/sharedEnums";
 
 export class ChartFilter {
   id: string;

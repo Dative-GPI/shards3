@@ -1,5 +1,6 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import { DeviceConnectivityDetails } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 
 import { DEVICE_CONNECTIVITIES_HUB_URL, DEVICE_CONNECTIVITY_URL } from "../../config/urls";

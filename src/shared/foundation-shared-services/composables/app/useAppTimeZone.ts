@@ -1,9 +1,10 @@
 import { format, subDays, addDays, addMilliseconds, parse } from "date-fns";
-import { enUS, enGB, fr, it, es, de, Locale } from "date-fns/locale";
+import type { Locale } from "date-fns/locale";
+import { enUS, enGB, fr, it, es, de } from "date-fns/locale";
 import { computed, ref } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
+import type { TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { isoTimeFormat } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { useAppLanguageCode } from "./useAppLanguageCode";

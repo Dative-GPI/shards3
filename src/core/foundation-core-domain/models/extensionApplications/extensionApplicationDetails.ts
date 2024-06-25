@@ -1,4 +1,5 @@
-import { ExtensionApplicationInfos, ExtensionApplicationInfosDTO } from "./extensionApplicationInfos";
+import type { ExtensionApplicationInfosDTO } from "./extensionApplicationInfos";
+import { ExtensionApplicationInfos } from "./extensionApplicationInfos";
 
 export class ExtensionApplicationDetails extends ExtensionApplicationInfos {
     host: string;

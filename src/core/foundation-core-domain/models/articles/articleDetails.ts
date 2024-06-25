@@ -1,4 +1,5 @@
-import { ArticleInfos, ArticleInfosDTO } from "./articleInfos";
+import type { ArticleInfosDTO } from "./articleInfos";
+import { ArticleInfos } from "./articleInfos";
 
 export class ArticleDetails extends ArticleInfos {
     manufacturerId: string;

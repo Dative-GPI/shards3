@@ -1,4 +1,5 @@
-import { ChangeDashboardShallowFolderDTO, CreateDashboardShallowDTO, DashboardShallowDetails, DashboardShallowDetailsDTO, DashboardShallowFilters, DashboardShallowInfos, DashboardShallowInfosDTO, UpdateDashboardShallowDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { ChangeDashboardShallowFolderDTO, CreateDashboardShallowDTO, DashboardShallowDetailsDTO, DashboardShallowFilters, DashboardShallowInfosDTO, UpdateDashboardShallowDTO } from "@dative-gpi/foundation-core-domain/models";
+import { DashboardShallowDetails, DashboardShallowInfos } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { DASHBOARD_SHALLOW_FOLDER_URL, DASHBOARD_SHALLOW_URL, DASHBOARD_SHALLOWS_URL } from "../../config/urls/dashboardShallows";

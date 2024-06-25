@@ -77,7 +77,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref} from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, onMounted, ref} from "vue";
 import _ from "lodash";
 
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";

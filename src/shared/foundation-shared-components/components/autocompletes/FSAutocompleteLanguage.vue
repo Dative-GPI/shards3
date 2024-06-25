@@ -49,11 +49,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue"
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue"
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
-import { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
+import type { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
 import FSCheckbox from "../FSCheckbox.vue";

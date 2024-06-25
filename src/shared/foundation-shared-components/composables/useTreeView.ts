@@ -1,4 +1,5 @@
-import { onMounted, Ref, watch } from "vue";
+import type { Ref} from "vue";
+import { onMounted, watch } from "vue";
 import _ from "lodash";
 
 import { useDebounce } from "./useDebounce";

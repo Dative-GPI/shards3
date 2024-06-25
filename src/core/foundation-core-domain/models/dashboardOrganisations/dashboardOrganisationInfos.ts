@@ -1,4 +1,4 @@
-import { ApplicationScope } from "../enums/applicationEnums";
+import type { ApplicationScope } from "../enums/applicationEnums";
 
 export class DashboardOrganisationInfos {
   id: string;

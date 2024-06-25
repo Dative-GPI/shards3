@@ -2,7 +2,8 @@ import { useTheme } from "vuetify";
 
 import Color from "color";
 
-import { ColorBase, ColorEnum, ColorVariations } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase, ColorVariations } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export const useColors = () => {
     const theme = useTheme().current.value;

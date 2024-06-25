@@ -689,10 +689,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, onUnmounted, PropType, ref, Ref, Slot, watch } from "vue";
+import type { PropType, Ref, Slot} from "vue";
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
-import { ColorEnum, FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
+import type { FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid"

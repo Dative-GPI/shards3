@@ -1,4 +1,5 @@
-import { FolderInfos, FolderInfosDTO } from "./folderInfos";
+import type { FolderInfosDTO } from "./folderInfos";
+import { FolderInfos } from "./folderInfos";
 
 export class FolderDetails extends FolderInfos {
     constructor(params: FolderDetailsDTO) {

@@ -28,11 +28,13 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
-import { CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
+import type { CustomPropertyInfos} from "../../../foundation-core-domain/models";
+import { PropertyDataType } from "../../../foundation-core-domain/models";
 import { getColor } from "./helpers";
 
 import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";

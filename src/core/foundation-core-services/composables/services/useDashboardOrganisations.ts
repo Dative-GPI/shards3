@@ -1,4 +1,5 @@
-import { DashboardOrganisationDetails, DashboardOrganisationDetailsDTO, DashboardOrganisationFilters, DashboardOrganisationInfos, DashboardOrganisationInfosDTO, CreateDashboardOrganisationDTO, UpdateDashboardOrganisationDTO, LockDashboardOrganisationDTO, ChangeDashboardOrganisationFolderDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { DashboardOrganisationDetailsDTO, DashboardOrganisationFilters, DashboardOrganisationInfosDTO, CreateDashboardOrganisationDTO, UpdateDashboardOrganisationDTO, LockDashboardOrganisationDTO, ChangeDashboardOrganisationFolderDTO } from "@dative-gpi/foundation-core-domain/models";
+import { DashboardOrganisationDetails, DashboardOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { DASHBOARD_ORGANISATION_FOLDER_URL, DASHBOARD_ORGANISATION_LOCK_URL, DASHBOARD_ORGANISATION_URL, DASHBOARD_ORGANISATIONS_URL } from "../../config/urls";

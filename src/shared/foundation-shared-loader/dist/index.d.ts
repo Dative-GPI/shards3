@@ -1,4 +1,4 @@
-import { Plugin } from 'vite';
+import type { Plugin } from 'vite';
 declare function FoundationSharedAutoImport({ skipShared, skipCore, skipAdmin, skipExtension }?: {
     skipShared?: boolean;
     skipCore?: boolean;

@@ -1,7 +1,9 @@
-import { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
+import type { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DashboardVariableTranslation, DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
-import { DashboardVariableValue, DashboardVariableValueDTO } from "../dashboardVariableValues";
+import type { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
+import { DashboardVariableTranslation } from "./dashboardVariableTranslation";
+import type { DashboardVariableValueDTO } from "../dashboardVariableValues";
+import { DashboardVariableValue } from "../dashboardVariableValues";
 
 export class DashboardVariableInfos {
   hiddenCode: string;

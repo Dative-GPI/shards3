@@ -11,7 +11,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, PropType, ref, watch } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from "vue";
 
 import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";

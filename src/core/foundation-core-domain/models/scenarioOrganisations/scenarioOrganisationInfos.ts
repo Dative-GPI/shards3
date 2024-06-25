@@ -1,6 +1,6 @@
-import { Criticity } from "@dative-gpi/foundation-shared-domain/models";
+import type { Criticity } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ApplicationScope } from "../enums/applicationEnums";
+import type { ApplicationScope } from "../enums/applicationEnums";
 
 export class ScenarioOrganisationInfos {
   id: string;

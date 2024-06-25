@@ -1,4 +1,5 @@
-import { ServiceAccountOrganisationAuthTokenInfos, ServiceAccountOrganisationAuthTokenInfosDTO } from "./serviceAccountOrganisationAuthTokenInfos";
+import type { ServiceAccountOrganisationAuthTokenInfosDTO } from "./serviceAccountOrganisationAuthTokenInfos";
+import { ServiceAccountOrganisationAuthTokenInfos } from "./serviceAccountOrganisationAuthTokenInfos";
 
 export class ServiceAccountOrganisationAuthTokenDetails extends ServiceAccountOrganisationAuthTokenInfos {
     token: string;

@@ -33,7 +33,8 @@
   </FSDialog>
 </template>
 <script lang="ts">
-import { PropType, defineComponent, ref, watch } from 'vue';
+import type { PropType} from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import _ from 'lodash';
 
 import { useAppTimeZone } from '@dative-gpi/foundation-shared-services/composables';
@@ -41,7 +42,7 @@ import { useAppTimeZone } from '@dative-gpi/foundation-shared-services/composabl
 import FSDialog from "@dative-gpi/foundation-shared-components/components/FSDialog.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
-import { CustomPropertyInfos, PropertyEntity } from '../../../foundation-core-domain/models';
+import type { CustomPropertyInfos, PropertyEntity } from '../../../foundation-core-domain/models';
 import { useCustomPropertyValues } from '../../../foundation-core-services/composables';
 
 import FSMetaValue from './FSMetaValue.vue';

@@ -1,4 +1,5 @@
-import { RouteInfos, RouteInfosDTO } from "./routeInfos";
+import type { RouteInfosDTO } from "./routeInfos";
+import { RouteInfos } from "./routeInfos";
 
 export class RouteDetails extends RouteInfos {
     constructor(params: RouteDetailsDTO) {

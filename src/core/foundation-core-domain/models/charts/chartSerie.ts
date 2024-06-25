@@ -1,7 +1,11 @@
-import { ChartSerieTranslation, ChartSerieTranslationDTO, CreateChartSerieTranslationDTO } from "./chartSerieTranslation";
-import { ChartValueRange, ChartValueRangeDTO, CreateChartValueRangeDTO } from "./chartValueRange";
-import { ChartTimeStep, ChartTimeStepDTO, CreateChartTimeStepDTO } from "./chartTimeStep";
-import { ChartOperand, ChartOperandDTO, CreateChartOperandDTO } from "./chartOperand";
+import type { ChartSerieTranslationDTO, CreateChartSerieTranslationDTO } from "./chartSerieTranslation";
+import { ChartSerieTranslation } from "./chartSerieTranslation";
+import type { ChartValueRangeDTO, CreateChartValueRangeDTO } from "./chartValueRange";
+import { ChartValueRange } from "./chartValueRange";
+import type { ChartTimeStepDTO, CreateChartTimeStepDTO } from "./chartTimeStep";
+import { ChartTimeStep } from "./chartTimeStep";
+import type { ChartOperandDTO, CreateChartOperandDTO } from "./chartOperand";
+import { ChartOperand } from "./chartOperand";
 
 export class ChartSerie {
   id: string;

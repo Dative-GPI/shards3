@@ -5,7 +5,9 @@
     :color="$props.color"
     :bordered="true"
   >
-    <template v-slot:default>
+    <template
+      v-slot:default
+    >
       <slot />
     </template>
   </v-badge>
@@ -16,9 +18,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { defineComponent } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
   name: "FSBadge",

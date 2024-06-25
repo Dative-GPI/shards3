@@ -1,4 +1,5 @@
-import { DashboardVariableValue, DashboardVariableValueDTO } from "../dashboardVariableValues";
+import type { DashboardVariableValueDTO } from "../dashboardVariableValues";
+import { DashboardVariableValue } from "../dashboardVariableValues";
 
 export class DashboardShallowVariableInfos {
   hiddenCode: string;

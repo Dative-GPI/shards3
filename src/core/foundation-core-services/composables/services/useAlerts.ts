@@ -1,4 +1,5 @@
-import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { AlertDetailsDTO, AlertFilters, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { AlertDetails, AlertInfos } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 

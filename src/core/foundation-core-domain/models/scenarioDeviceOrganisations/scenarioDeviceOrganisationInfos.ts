@@ -1,4 +1,5 @@
-import { TimeRange, TimeRangeDTO } from "../shared/timeRange";
+import type { TimeRangeDTO } from "../shared/timeRange";
+import { TimeRange } from "../shared/timeRange";
 
 export class ScenarioDeviceOrganisationInfos {
   id: string;

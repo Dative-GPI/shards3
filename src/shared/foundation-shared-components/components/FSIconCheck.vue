@@ -9,7 +9,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSIcon from "./FSIcon.vue";
 

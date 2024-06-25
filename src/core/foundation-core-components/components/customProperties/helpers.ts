@@ -1,5 +1,6 @@
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
-import { CustomPropertyInfos, FilterType, PropertyDataType } from "../../../foundation-core-domain/models";
+import type { CustomPropertyInfos} from "../../../foundation-core-domain/models";
+import { FilterType, PropertyDataType } from "../../../foundation-core-domain/models";
 
 const { getUserOffsetMillis, getMachineOffsetMillis } = useAppTimeZone();
 

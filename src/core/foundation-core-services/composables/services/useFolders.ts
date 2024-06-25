@@ -1,5 +1,6 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { CreateFolderDTO, FolderDetails, FolderDetailsDTO, FolderFilters, FolderInfos, FolderInfosDTO, UpdateFolderDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { CreateFolderDTO, FolderDetailsDTO, FolderFilters, FolderInfosDTO, UpdateFolderDTO } from "@dative-gpi/foundation-core-domain/models";
+import { FolderDetails, FolderInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import { FOLDER_URL, FOLDERS_URL } from "../../config";
 

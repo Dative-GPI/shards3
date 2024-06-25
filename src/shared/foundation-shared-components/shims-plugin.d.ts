@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-import { ColorBase } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase } from "@dative-gpi/foundation-shared-components/models";
 
 declare module "vue" {
     interface ComponentCustomProperties {

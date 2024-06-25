@@ -1,6 +1,7 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
-import { DashboardDetails, DashboardDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { DashboardDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import { DashboardDetails } from "@dative-gpi/foundation-core-domain/models";
 
 import { DASHBOARD_CURRENT_URL } from "../../config";
 

@@ -1,11 +1,18 @@
-import { ChartPresetFilter, ChartPresetFilterDTO, CreateChartPresetFilterDTO } from "../charts/chartPresetFilter";
-import { ChartVariable, ChartVariableDTO, CreateChartVariableDTO } from "../charts/chartVariable";
-import { ChartOrganisationInfos, ChartOrganisationInfosDTO } from "./chartOrganisationInfos";
-import { ChartPreset, ChartPresetDTO, CreateChartPresetDTO } from "../charts/chartPreset";
-import { ChartTranslation, ChartTranslationDTO } from "../charts/chartTranslation";
-import { ChartAxis, ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis";
-import { ChartPlot, ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
-import { ColorSets } from "../enums/chartEnums";
+import type { ChartPresetFilterDTO, CreateChartPresetFilterDTO } from "../charts/chartPresetFilter";
+import { ChartPresetFilter } from "../charts/chartPresetFilter";
+import type { ChartVariableDTO, CreateChartVariableDTO } from "../charts/chartVariable";
+import { ChartVariable } from "../charts/chartVariable";
+import type { ChartOrganisationInfosDTO } from "./chartOrganisationInfos";
+import { ChartOrganisationInfos } from "./chartOrganisationInfos";
+import type { ChartPresetDTO, CreateChartPresetDTO } from "../charts/chartPreset";
+import { ChartPreset } from "../charts/chartPreset";
+import type { ChartTranslationDTO } from "../charts/chartTranslation";
+import { ChartTranslation } from "../charts/chartTranslation";
+import type { ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis";
+import { ChartAxis } from "../charts/chartAxis";
+import type { ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
+import { ChartPlot } from "../charts/chartPlot";
+import type { ColorSets } from "../enums/chartEnums";
 
 export class ChartOrganisationDetails extends ChartOrganisationInfos {
   labelDefault: string;

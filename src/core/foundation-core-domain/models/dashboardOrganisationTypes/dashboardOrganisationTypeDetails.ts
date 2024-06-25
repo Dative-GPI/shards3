@@ -1,12 +1,18 @@
-import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
+import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
-import { CreateDashboardEntityPresetDTO, DashboardEntityPresetInfos, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
-import { CreateDashboardDatePresetDTO, DashboardDatePresetInfos, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
-import { CreateDashboardVariableDTO, DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
-import { DashboardOrganisationTypeInfos, DashboardOrganisationTypeInfosDTO } from "./dashboardOrganisationTypeInfos";
-import { DashboardTranslation, DashboardTranslationDTO } from "../dashboards";
-import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
-import { CreateWidgetDTO } from "../widgets/widgetDetails";
+import type { CreateDashboardEntityPresetDTO, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
+import { DashboardEntityPresetInfos } from "../dashboardEntityPresets";
+import type { CreateDashboardDatePresetDTO, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
+import { DashboardDatePresetInfos } from "../dashboardDatePresets";
+import type { CreateDashboardVariableDTO, DashboardVariableInfosDTO } from "../dashboardVariables";
+import { DashboardVariableInfos } from "../dashboardVariables";
+import type { DashboardOrganisationTypeInfosDTO } from "./dashboardOrganisationTypeInfos";
+import { DashboardOrganisationTypeInfos } from "./dashboardOrganisationTypeInfos";
+import type { DashboardTranslationDTO } from "../dashboards";
+import { DashboardTranslation } from "../dashboards";
+import type { WidgetInfosDTO } from "../widgets/widgetInfos";
+import { WidgetInfos } from "../widgets/widgetInfos";
+import type { CreateWidgetDTO } from "../widgets/widgetDetails";
 
 export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeInfos {
   labelDefault: string;

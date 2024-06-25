@@ -1,5 +1,7 @@
-import { ChartCategoryTranslation, ChartCategoryTranslationDTO } from "./chartCategoryTranslation";
-import { ChartCategoryInfos, ChartCategoryInfosDTO } from "./chartCategoryInfos";
+import type { ChartCategoryTranslationDTO } from "./chartCategoryTranslation";
+import { ChartCategoryTranslation } from "./chartCategoryTranslation";
+import type { ChartCategoryInfosDTO } from "./chartCategoryInfos";
+import { ChartCategoryInfos } from "./chartCategoryInfos";
 
 export class ChartCategoryDetails extends ChartCategoryInfos {
   labelDefault: string;

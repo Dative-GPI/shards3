@@ -1,5 +1,6 @@
-import { ConnectivityScenarioInfos, ConnectivityScenarioInfosDTO } from "./connectivityScenarioInfos";
-import { CreateConnectivityScenarioUserDTO } from "./connectivityScenarioUserInfos";
+import type { ConnectivityScenarioInfosDTO } from "./connectivityScenarioInfos";
+import { ConnectivityScenarioInfos } from "./connectivityScenarioInfos";
+import type { CreateConnectivityScenarioUserDTO } from "./connectivityScenarioUserInfos";
 
 export class ConnectivityScenarioDetails extends ConnectivityScenarioInfos {
     constructor(params: ConnectivityScenarioDetailsDTO) {

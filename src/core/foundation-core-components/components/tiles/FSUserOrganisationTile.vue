@@ -1,25 +1,25 @@
 <template>
-    <FSLoadTile
-      v-if="getting"
-      :editable="$props.editable"
-      :modelValue="modelValue"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
-    />
-    <FSGroupTileUI
-      v-else-if="entity"
-      :imageId="entity.imageId"
-      :name="entity.name"
-      :label="entity.label"
-      :userType="entity.userType"
-      :roleLabel="entity.roleLabel"
-      :roleIcon="entity.roleIcon"
-      :admin="entity.admin"
-      :editable="$props.editable"
-      :modelValue="modelValue"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
-      v-bind="$attrs"
-    />
-  </template>
+  <FSLoadTile
+    v-if="getting"
+    :editable="$props.editable"
+    :modelValue="modelValue"
+    @update:modelValue="(value) => $emit('update:modelValue', value)"
+  />
+  <FSGroupTileUI
+    v-else-if="entity"
+    :imageId="entity.imageId"
+    :name="entity.name"
+    :label="entity.label"
+    :userType="entity.userType"
+    :roleLabel="entity.roleLabel"
+    :roleIcon="entity.roleIcon"
+    :admin="entity.admin"
+    :editable="$props.editable"
+    :modelValue="modelValue"
+    @update:modelValue="(value) => $emit('update:modelValue', value)"
+    v-bind="$attrs"
+  />
+</template>
   
 <script lang="ts">
 import { defineComponent, onMounted, watch } from "vue";

@@ -48,9 +48,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { DashboardOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
+import type { DashboardOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDashboardOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 

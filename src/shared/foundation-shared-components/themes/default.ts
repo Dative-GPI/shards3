@@ -1,4 +1,4 @@
-import { ThemeDefinition } from "vuetify";
+import type { ThemeDefinition } from "vuetify";
 
 export const DefaultTheme: ThemeDefinition = {
     dark: false,

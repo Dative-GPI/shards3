@@ -11,7 +11,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, provide, ref } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, provide, ref } from "vue";
 
 export default defineComponent({
   name: "FSForm",

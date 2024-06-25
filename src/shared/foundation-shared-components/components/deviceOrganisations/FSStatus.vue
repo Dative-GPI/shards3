@@ -25,9 +25,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { defineComponent, ref } from "vue";
 
-import { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
+import type { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 
 import FSStatusCard from "./FSStatusCard.vue";
 import FSColorIcon from "../FSColorIcon.vue";

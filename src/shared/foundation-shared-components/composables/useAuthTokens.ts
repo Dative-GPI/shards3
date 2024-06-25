@@ -1,5 +1,6 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { AuthTokenDetails, AuthTokenDetailsDTO, AuthTokenFilters, AuthTokenInfos, AuthTokenInfosDTO, CreateAuthTokenDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { AuthTokenDetailsDTO, AuthTokenFilters, AuthTokenInfosDTO, CreateAuthTokenDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { AuthTokenDetails, AuthTokenInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { AUTH_TOKENS_URL, AUTH_TOKEN_URL } from "../../foundation-shared-services/config/urls";
 
 const AuthTokenServiceFactory = new ServiceFactory<AuthTokenDetailsDTO, AuthTokenDetails>("authToken", AuthTokenDetails).create(factory => factory.build(

@@ -1,4 +1,4 @@
-import { TimeUnit } from "../enums/sharedEnums";
+import type { TimeUnit } from "../enums/sharedEnums";
 
 export class ChartTimeStep {
   use: boolean;
