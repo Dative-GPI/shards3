@@ -9,10 +9,12 @@
   "main": "index.ts",
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@dative-gpi/foundation-shared-domain": "1.0.0",
+    "@dative-gpi/foundation-shared-services": "1.0.0"
+  },
   "peerDependencies": {
     "@dative-gpi/bones-ui": "^0.0.75",
-    "@dative-gpi/foundation-shared-domain": "1.0.0",
-    "@dative-gpi/foundation-shared-services": "1.0.0",
     "@fontsource/montserrat": "^5.0.16",
     "@lexical/clipboard": "0.12.5",
     "@lexical/history": "0.12.5",
