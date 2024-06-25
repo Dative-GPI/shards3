@@ -13,7 +13,7 @@
     "@dative-gpi/bones-ui": "0.0.75",
     "@dative-gpi/foundation-admin-domain": "1.0.0",
     "@microsoft/signalr": "8.0.0",
-    "vue": "3.4.23",
+    "vue": "3.4.29",
     "vue-router": "4.3.0"
   }
 }
