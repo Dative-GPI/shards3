@@ -3,7 +3,7 @@ import * as sharedImportMap from './mapping/foundation-shared-components-imports
 import * as coreImportMap from './mapping/foundation-core-components-imports-map.json'
 import * as adminImportMap from './mapping/foundation-admin-components-imports-map.json'
 
-export function getImports (source: string, skipShared: boolean, skipCore: boolean, skipAdmin: boolean, skipExtension: boolean) {
+export function getImports (source: string, skipShared: boolean, skipCore: boolean, skipAdmin: boolean) {
   const { components, directives } = parseTemplate(source)
   const resolvedComponents: TemplateMatch[] = []
   const resolvedDirectives: TemplateMatch[] = []

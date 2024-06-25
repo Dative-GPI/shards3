@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from "vue"; // eslint-disable-line
 
 import type { ColorBase } from "@dative-gpi/foundation-shared-components/models";
 

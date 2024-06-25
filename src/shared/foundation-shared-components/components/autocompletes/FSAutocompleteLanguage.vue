@@ -57,7 +57,6 @@ import { useLanguages } from "@dative-gpi/foundation-shared-services/composables
 import type { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
-import FSCheckbox from "../FSCheckbox.vue";
 import FSIcon from "../FSIcon.vue";
 import FSSpan from "../FSSpan.vue";
 import FSRow from "../FSRow.vue";
@@ -66,7 +65,6 @@ export default defineComponent({
   name: "FSAutocompleteLanguage",
   components: {
     FSAutocompleteField,
-    FSCheckbox,
     FSIcon,
     FSSpan,
     FSRow

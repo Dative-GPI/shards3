@@ -45,7 +45,7 @@ export const useConnectivityAlert = ComposableFactory.get(ConnectivityAlertServi
 
 export const useConnectivityAlerts = ComposableFactory.getMany(ConnectivityAlertServiceFactory, () => {
     const { watchMany } = useWatchConnectivityAlerts();
-    return (_alerts) => {
+    return () => {
         watchMany();
     }
 });

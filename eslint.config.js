@@ -23,21 +23,24 @@ export default tseslint.config(
   },
   {
     ignores: [
-      'node_modules',
-      'dist',
-      'build',
-      'coverage',
-      'public',
-      'eslint.config.js',
-      'tsconfig.json',
-      'vite.config.ts',
-      'tsconfig.app.json',
-      'tsconfig.node.json',
+      '**/dist',
+      '**/build',
+      '**/coverage',
+      '**/public',
+      '**/eslint.config.js',
+      '**/tsconfig.json',
+      '**/vite.config.ts',
+      '**/tsconfig.app.json',
+      '**/tsconfig.node.json',
+      '**/dev'
     ],
   },
   {
     rules: {
-      '@typescript-eslint/consistent-type-imports': 'error',
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
       "curly": ["error", "all"],
       "vue/html-indent": ["error", 2, {
         "baseIndent": 1,

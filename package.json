@@ -2,7 +2,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint --fix"
+    "lint": "eslint",
+    "fix": "eslint --fix"
   },
   "workspaces": [
     "src/admin/foundation-admin-services",
