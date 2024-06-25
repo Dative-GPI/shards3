@@ -176,16 +176,20 @@
 </template>
 
 <script lang="ts">
-import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, ElementNode, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
-import { $createHeadingNode, HeadingNode, HeadingTagType, registerRichText } from "@lexical/rich-text";
+import type { ElementNode} from "lexical";
+import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
+import type { HeadingTagType} from "@lexical/rich-text";
+import { $createHeadingNode, HeadingNode, registerRichText } from "@lexical/rich-text";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
-import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
 import FSIcon from "../FSIcon.vue";

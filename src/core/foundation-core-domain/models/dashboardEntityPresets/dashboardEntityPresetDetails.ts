@@ -1,5 +1,5 @@
-import { DashboardEntityPresetTranslationDTO } from "./dashboardEntityPresetTranslation";
-import { SelectedEntities } from "../enums/sharedEnums";
+import type { DashboardEntityPresetTranslationDTO } from "./dashboardEntityPresetTranslation";
+import type { SelectedEntities } from "../enums/sharedEnums";
 
 export interface CreateDashboardEntityPresetDTO {
   hiddenCode: string;

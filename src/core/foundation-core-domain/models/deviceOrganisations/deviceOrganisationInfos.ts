@@ -1,7 +1,11 @@
-import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
-import { DeviceStatusDetails, DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
-import { DeviceOrganisationAlert, DeviceOrganisationAlertDTO } from "./deviceOrganisationAlert";
-import { ModelStatusInfos, ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
+import type { DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
+import { DeviceConnectivityDetails } from "../deviceConnectivities/deviceConnectivityDetails";
+import type { DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
+import { DeviceStatusDetails } from "../deviceStatuses/deviceStatusDetails";
+import type { DeviceOrganisationAlertDTO } from "./deviceOrganisationAlert";
+import { DeviceOrganisationAlert } from "./deviceOrganisationAlert";
+import type { ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
+import { ModelStatusInfos } from "../modelStatuses/modelStatusInfos";
 
 export class DeviceOrganisationInfos {
   id: string;

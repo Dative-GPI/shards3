@@ -1,4 +1,5 @@
-import { GroupInfos, GroupInfosDTO } from "./groupInfos";
+import type { GroupInfosDTO } from "./groupInfos";
+import { GroupInfos } from "./groupInfos";
 
 export class GroupDetails extends GroupInfos {
     parentIcon: string | null;

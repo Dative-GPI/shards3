@@ -1,4 +1,5 @@
-import { Address, AddressDTO } from "./address";
+import type { AddressDTO } from "./address";
+import { Address } from "./address";
 
 export class LocationInfos {
     id: string;

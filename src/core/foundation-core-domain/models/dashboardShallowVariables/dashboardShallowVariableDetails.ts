@@ -1,4 +1,4 @@
-import { CreateDashboardVariableValueDTO } from "../dashboardVariableValues";
+import type { CreateDashboardVariableValueDTO } from "../dashboardVariableValues";
 
 export interface CreateDashboardShallowVariableDTO {
   hiddenCode: string;

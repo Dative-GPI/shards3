@@ -1,4 +1,5 @@
-import { defineCustomElement, PropType } from "vue";
+import type { PropType } from "vue";
+import { defineCustomElement } from "vue";
 
 export default defineCustomElement({
   name: "FSFormElement",

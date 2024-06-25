@@ -1,4 +1,5 @@
-import { CommentInfos, CommentInfosDTO } from "./commentInfos";
+import type { CommentInfosDTO } from "./commentInfos";
+import { CommentInfos } from "./commentInfos";
 
 export class CommentDetails extends CommentInfos {
     constructor(params: CommentDetailsDTO) {

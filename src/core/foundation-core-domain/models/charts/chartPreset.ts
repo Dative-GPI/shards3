@@ -1,5 +1,7 @@
-import { ChartPresetTranslation, ChartPresetTranslationDTO } from "./chartPresetTranslation";
-import { ChartPresetFilter, ChartPresetFilterDTO } from "./chartPresetFilter";
+import type { ChartPresetTranslationDTO } from "./chartPresetTranslation";
+import { ChartPresetTranslation } from "./chartPresetTranslation";
+import type { ChartPresetFilterDTO } from "./chartPresetFilter";
+import { ChartPresetFilter } from "./chartPresetFilter";
 
 export class ChartPreset {
   id: string;

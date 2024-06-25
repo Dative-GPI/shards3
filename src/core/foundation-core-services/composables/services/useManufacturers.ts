@@ -1,4 +1,5 @@
-import { ManufacturerDetails, ManufacturerDetailsDTO, ManufacturerFilters, ManufacturerInfos, ManufacturerInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { ManufacturerDetailsDTO, ManufacturerFilters, ManufacturerInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { ManufacturerDetails, ManufacturerInfos } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { MANUFACTURERS_URL, MANUFACTURER_URL } from "../../config/urls";

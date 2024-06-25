@@ -1,4 +1,5 @@
-import { TranslationInfos, TranslationInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { TranslationInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { TranslationInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { TRANSLATIONS_LANGUAGE_URL } from "../../config/urls";

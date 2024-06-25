@@ -1,4 +1,5 @@
-import { CustomPropertyInfos, CustomPropertyInfosDTO } from "./customPropertyInfos";
+import type { CustomPropertyInfosDTO } from "./customPropertyInfos";
+import { CustomPropertyInfos } from "./customPropertyInfos";
 
 export class CustomPropertyDetails extends CustomPropertyInfos {
     constructor(params: CustomPropertyDetailsDTO) {

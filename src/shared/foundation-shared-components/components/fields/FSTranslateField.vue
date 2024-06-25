@@ -84,9 +84,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
 import { useColors, useSlots } from "../../composables";

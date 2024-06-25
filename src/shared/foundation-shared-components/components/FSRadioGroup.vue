@@ -29,9 +29,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { defineComponent } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSRadio from "./FSRadio.vue";
 import FSCol from "./FSCol.vue";
@@ -71,11 +73,11 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const isSelected = (item: String | Boolean | Number): boolean => {
+    const isSelected = (item: string | boolean | number): boolean => {
       return item == props.modelValue;
     };
 
-    const onToggle = (item: String | Boolean | Number): void => {
+    const onToggle = (item: string | boolean | number): void => {
       if (item != props.modelValue) {
         emit("update:modelValue", item);
       }

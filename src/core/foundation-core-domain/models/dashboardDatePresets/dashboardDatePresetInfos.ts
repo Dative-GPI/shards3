@@ -1,4 +1,5 @@
-import { DashboardDatePresetTranslation, DashboardDatePresetTranslationDTO } from "./dashboardDatePresetTranslation";
+import type { DashboardDatePresetTranslationDTO } from "./dashboardDatePresetTranslation";
+import { DashboardDatePresetTranslation } from "./dashboardDatePresetTranslation";
 
 export class DashboardDatePresetInfos {
   hiddenCode: string;

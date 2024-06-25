@@ -1,4 +1,5 @@
-import { ref, Ref } from "vue";
+import type { Ref } from "vue";
+import { ref } from "vue";
 
 export const useDebounce = () => {
   const timeOutId: Ref<any> = ref(null);

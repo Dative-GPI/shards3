@@ -1,10 +1,15 @@
-import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
+import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DashboardEntityPresetInfos, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
-import { DashboardDatePresetInfos, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
-import { DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
-import { DashboardInfos, DashboardInfosDTO } from "./dashboardInfos";
-import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
+import type { DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
+import { DashboardEntityPresetInfos } from "../dashboardEntityPresets";
+import type { DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
+import { DashboardDatePresetInfos } from "../dashboardDatePresets";
+import type { DashboardVariableInfosDTO } from "../dashboardVariables";
+import { DashboardVariableInfos } from "../dashboardVariables";
+import type { DashboardInfosDTO } from "./dashboardInfos";
+import { DashboardInfos } from "./dashboardInfos";
+import type { WidgetInfosDTO } from "../widgets/widgetInfos";
+import { WidgetInfos } from "../widgets/widgetInfos";
 
 export class DashboardDetails extends DashboardInfos {
   useAutoRefresh: boolean;

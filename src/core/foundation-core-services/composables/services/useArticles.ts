@@ -1,4 +1,5 @@
-import { ArticleDetails, ArticleDetailsDTO, ArticleFilters, ArticleInfos, ArticleInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { ArticleDetailsDTO, ArticleFilters, ArticleInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { ArticleDetails, ArticleInfos } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { ARTICLES_URL, ARTICLE_URL } from "../../config/urls";

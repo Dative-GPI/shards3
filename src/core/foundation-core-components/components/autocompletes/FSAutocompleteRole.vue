@@ -81,9 +81,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { RoleOrganisationFilters, RoleOrganisationTypeFilters, RoleType } from "@dative-gpi/foundation-core-domain/models";
+import type { RoleOrganisationFilters, RoleOrganisationTypeFilters} from "@dative-gpi/foundation-core-domain/models";
+import { RoleType } from "@dative-gpi/foundation-core-domain/models";
 import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 

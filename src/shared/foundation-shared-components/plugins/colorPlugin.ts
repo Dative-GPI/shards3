@@ -1,7 +1,7 @@
-import { DefineComponent, Plugin } from "vue";
+import type { DefineComponent, Plugin } from "vue";
 import { useTheme } from "vuetify";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
 
 export const ColorPlugin: Plugin = {
     install: (app) => {

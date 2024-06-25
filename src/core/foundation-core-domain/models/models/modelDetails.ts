@@ -1,4 +1,5 @@
-import { ModelInfos, ModelInfosDTO } from "./modelInfos";
+import type { ModelInfosDTO } from "./modelInfos";
+import { ModelInfos } from "./modelInfos";
 
 export class ModelDetails extends ModelInfos {
     constructor(params: ModelDetailsDTO) {

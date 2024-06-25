@@ -7,7 +7,9 @@
     :wrap="false"
     v-bind="$attrs"
   >
-    <slot v-bind="{ color: $props.color, colors }">
+    <slot
+      v-bind="{ color: $props.color, colors }"
+    >
       <FSSpan
         v-if="$props.label"
         class="fs-tag-label"
@@ -15,7 +17,10 @@
         {{ $props.label }}
       </FSSpan>
     </slot>
-    <slot name="button" v-bind="{ color: $props.color, colors }">
+    <slot
+      name="button"
+      v-bind="{ color: $props.color, colors }"
+    >
       <v-btn
         v-if="$props.editable"
         class="fs-tag-button"
@@ -33,9 +38,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSIcon from "./FSIcon.vue";

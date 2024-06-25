@@ -1,4 +1,4 @@
-import { PropertyEntity } from "@dative-gpi/foundation-core-domain/models";
+import type { PropertyEntity } from "@dative-gpi/foundation-core-domain/models";
 
 import { CORE_URL } from "./base";
 

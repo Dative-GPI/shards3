@@ -1,4 +1,7 @@
-import { DeviceConnectivityDetails, DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
+import type { DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
+import { DeviceConnectivityDetails } from "../deviceConnectivities/deviceConnectivityDetails";
+import type { ConnectivityScenarioUserInfosDTO } from "./connectivityScenarioUserInfos";
+import { ConnectivityScenarioUserInfos } from "./connectivityScenarioUserInfos";
 
 export class ConnectivityScenarioInfos {
     id: string
@@ -11,7 +14,8 @@ export class ConnectivityScenarioInfos {
     time: number;
     warnDeviceManager: boolean;
     warnOnReconnection: boolean;
-    userOrganisationsIds: string[];
+    notifTimeByUser: boolean;
+    connectivityScenarioUsers: ConnectivityScenarioUserInfos[];
 
     constructor(params: ConnectivityScenarioInfosDTO) {
         this.id = params.id;
@@ -25,7 +29,8 @@ export class ConnectivityScenarioInfos {
         this.time = params.time;
         this.warnDeviceManager = params.warnDeviceManager;
         this.warnOnReconnection = params.warnOnReconnection;
-        this.userOrganisationsIds = params.userOrganisationsIds.slice();
+        this.notifTimeByUser = params.notifTimeByUser;
+        this.connectivityScenarioUsers = params.connectivityScenarioUsers.map(u => new ConnectivityScenarioUserInfos(u));
     }
 }
 
@@ -40,7 +45,8 @@ export interface ConnectivityScenarioInfosDTO {
     time: number;
     warnDeviceManager: boolean;
     warnOnReconnection: boolean;
-    userOrganisationsIds: string[];
+    notifTimeByUser: boolean;
+    connectivityScenarioUsers: ConnectivityScenarioUserInfosDTO[];
 }
 
 export interface ConnectivityScenarioFilters {

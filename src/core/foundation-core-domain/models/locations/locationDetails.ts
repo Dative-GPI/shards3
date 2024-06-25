@@ -1,5 +1,6 @@
-import { LocationInfos, LocationInfosDTO } from "./locationInfos";
-import { AddressDTO } from "./address";
+import type { LocationInfosDTO } from "./locationInfos";
+import { LocationInfos } from "./locationInfos";
+import type { AddressDTO } from "./address";
 
 export class LocationDetails extends LocationInfos {
     description: string;

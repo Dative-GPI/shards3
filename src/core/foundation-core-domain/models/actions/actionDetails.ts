@@ -1,4 +1,5 @@
-import { ActionInfos, ActionInfosDTO } from "./actionInfos";
+import type { ActionInfosDTO } from "./actionInfos";
+import { ActionInfos } from "./actionInfos";
 
 export class ActionDetails extends ActionInfos {
     constructor(params: ActionDetailsDTO) {

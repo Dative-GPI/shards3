@@ -1,5 +1,6 @@
-import { CustomPropertyColor, CustomPropertyColorDTO } from "./customPropertyColor";
-import { PropertyDataType, PropertyEntity } from "../enums/customPropertyEnums";
+import type { CustomPropertyColorDTO } from "./customPropertyColor";
+import { CustomPropertyColor } from "./customPropertyColor";
+import type { PropertyDataType, PropertyEntity } from "../enums/customPropertyEnums";
 
 export class CustomPropertyInfos {
     id: string;

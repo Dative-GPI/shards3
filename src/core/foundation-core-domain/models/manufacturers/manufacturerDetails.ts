@@ -1,4 +1,5 @@
-import { ManufacturerInfos, ManufacturerInfosDTO } from "./manufacturerInfos";
+import type { ManufacturerInfosDTO } from "./manufacturerInfos";
+import { ManufacturerInfos } from "./manufacturerInfos";
 
 export class ManufacturerDetails extends ManufacturerInfos {
     description: string;

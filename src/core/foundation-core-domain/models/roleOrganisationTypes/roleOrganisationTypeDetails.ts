@@ -1,4 +1,5 @@
-import { RoleOrganisationTypeInfos, RoleOrganisationTypeInfosDTO } from "./roleOrganisationTypeInfos";
+import type { RoleOrganisationTypeInfosDTO } from "./roleOrganisationTypeInfos";
+import { RoleOrganisationTypeInfos } from "./roleOrganisationTypeInfos";
 
 export class RoleOrganisationTypeDetails extends RoleOrganisationTypeInfos {
     description: string;

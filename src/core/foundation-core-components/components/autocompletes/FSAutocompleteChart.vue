@@ -81,9 +81,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { ChartOrganisationFilters, ChartOrganisationTypeFilters, ChartOrigin } from "@dative-gpi/foundation-core-domain/models";
+import type { ChartOrganisationFilters, ChartOrganisationTypeFilters} from "@dative-gpi/foundation-core-domain/models";
+import { ChartOrigin } from "@dative-gpi/foundation-core-domain/models";
 import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 

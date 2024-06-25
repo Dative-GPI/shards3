@@ -1,4 +1,5 @@
-import { WidgetInfos, WidgetInfosDTO } from "./widgetInfos";
+import type { WidgetInfosDTO } from "./widgetInfos";
+import { WidgetInfos } from "./widgetInfos";
 
 export class WidgetDetails extends WidgetInfos {
     constructor(params: WidgetDetailsDTO) {

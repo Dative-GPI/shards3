@@ -1,7 +1,13 @@
 <template>
-  <v-app :theme="themeName">
-    <v-main v-if="ready">
-      <slot name="story"></slot>
+  <v-app
+    :theme="themeName"
+  >
+    <v-main
+      v-if="ready"
+    >
+      <slot
+        name="story"
+      ></slot>
     </v-main>
   </v-app>
 </template>

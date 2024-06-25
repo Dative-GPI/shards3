@@ -1,4 +1,5 @@
-import { ChartVariableTranslation, ChartVariableTranslationDTO } from "./chartVariableTranslation";
+import type { ChartVariableTranslationDTO } from "./chartVariableTranslation";
+import { ChartVariableTranslation } from "./chartVariableTranslation";
 
 export class ChartVariable {
   id: string;

@@ -39,7 +39,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { decode, isBlurhashValid } from "blurhash";
 
 import { IMAGE_RAW_EXTENSION_URL, IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";

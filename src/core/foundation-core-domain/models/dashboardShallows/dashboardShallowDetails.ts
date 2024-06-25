@@ -1,15 +1,25 @@
-import { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
+import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
 
-import { CreateDashboardShallowEntityPresetDTO, DashboardShallowEntityPresetInfos, DashboardShallowEntityPresetInfosDTO } from "../dashboardShallowEntityPresets";
-import { CreateDashboardShallowDatePresetDTO, DashboardShallowDatePresetInfos, DashboardShallowDatePresetInfosDTO } from "../dashboardShallowDatePresets";
-import { CreateDashboardShallowVariableDTO, DashboardShallowVariableInfos, DashboardShallowVariableInfosDTO } from "../dashboardShallowVariables";
-import { DashboardEntityPresetInfos, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
-import { DashboardDatePresetInfos, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
-import { DashboardVariableInfos, DashboardVariableInfosDTO } from "../dashboardVariables";
-import { DashboardShallowInfos, DashboardShallowInfosDTO } from "./dashboardShallowInfos";
-import { DashboardTranslation, DashboardTranslationDTO } from "../dashboards";
-import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
-import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
+import type { CreateDashboardShallowEntityPresetDTO, DashboardShallowEntityPresetInfosDTO } from "../dashboardShallowEntityPresets";
+import { DashboardShallowEntityPresetInfos } from "../dashboardShallowEntityPresets";
+import type { CreateDashboardShallowDatePresetDTO, DashboardShallowDatePresetInfosDTO } from "../dashboardShallowDatePresets";
+import { DashboardShallowDatePresetInfos } from "../dashboardShallowDatePresets";
+import type { CreateDashboardShallowVariableDTO, DashboardShallowVariableInfosDTO } from "../dashboardShallowVariables";
+import { DashboardShallowVariableInfos } from "../dashboardShallowVariables";
+import type { DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
+import { DashboardEntityPresetInfos } from "../dashboardEntityPresets";
+import type { DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
+import { DashboardDatePresetInfos } from "../dashboardDatePresets";
+import type { DashboardVariableInfosDTO } from "../dashboardVariables";
+import { DashboardVariableInfos } from "../dashboardVariables";
+import type { DashboardShallowInfosDTO } from "./dashboardShallowInfos";
+import { DashboardShallowInfos } from "./dashboardShallowInfos";
+import type { DashboardTranslationDTO } from "../dashboards";
+import { DashboardTranslation } from "../dashboards";
+import type { WidgetInfosDTO } from "../widgets/widgetInfos";
+import { WidgetInfos } from "../widgets/widgetInfos";
+import type { PathCrumbDTO } from "../shared/pathCrumb";
+import { PathCrumb } from "../shared/pathCrumb";
 
 export class DashboardShallowDetails extends DashboardShallowInfos {
   labelDefault: string;

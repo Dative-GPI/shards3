@@ -28,7 +28,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { getError, sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";

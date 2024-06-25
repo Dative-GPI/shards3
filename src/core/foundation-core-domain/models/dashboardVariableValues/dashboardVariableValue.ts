@@ -1,4 +1,5 @@
-import { DashboardVariableValueTranslation, DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
+import type { DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
+import { DashboardVariableValueTranslation } from "./dashboardVariableValueTranslation";
 
 export class DashboardVariableValue {
   value: string;

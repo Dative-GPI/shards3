@@ -1,4 +1,5 @@
-import { ModelStatusInfos, ModelStatusInfosDTO } from "./modelStatusInfos";
+import type { ModelStatusInfosDTO } from "./modelStatusInfos";
+import { ModelStatusInfos } from "./modelStatusInfos";
 
 export class ModelStatusDetails extends ModelStatusInfos {
   constructor(params: ModelStatusDetailsDTO) {

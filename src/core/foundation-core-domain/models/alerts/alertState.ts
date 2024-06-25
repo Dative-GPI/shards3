@@ -1,7 +1,8 @@
-import { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
+import type { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
 import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
-import { AlertDataDefinition, AlertDataDefinitionDTO } from "./alertDataDefinition";
+import type { AlertDataDefinitionDTO } from "./alertDataDefinition";
+import { AlertDataDefinition } from "./alertDataDefinition";
 
 export class AlertState {
     id: string;

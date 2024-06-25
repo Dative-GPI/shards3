@@ -34,10 +34,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
-import { FSGridMosaic } from "@dative-gpi/foundation-shared-components/models";
+import type { FSGridMosaic } from "@dative-gpi/foundation-shared-components/models";
 
 import FSGrid from "./FSGrid.vue";
 import FSCol from "./FSCol.vue";

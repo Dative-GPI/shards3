@@ -1,4 +1,6 @@
-import { ConnectivityScenarioInfos, ConnectivityScenarioInfosDTO } from "./connectivityScenarioInfos";
+import type { ConnectivityScenarioInfosDTO } from "./connectivityScenarioInfos";
+import { ConnectivityScenarioInfos } from "./connectivityScenarioInfos";
+import type { CreateConnectivityScenarioUserDTO } from "./connectivityScenarioUserInfos";
 
 export class ConnectivityScenarioDetails extends ConnectivityScenarioInfos {
     constructor(params: ConnectivityScenarioDetailsDTO) {
@@ -14,12 +16,14 @@ export interface CreateConnectivityScenarioDTO {
     time: number;
     warnDeviceManager: boolean;
     warnOnReconnection: boolean;
-    userOrganisationsIds: string[];
+    notifTimeByUser: boolean;
+    connectivityScenarioUsers: CreateConnectivityScenarioUserDTO[];
 }
 
 export interface UpdateConnectivityScenarioDTO {
     time: number;
     warnDeviceManager: boolean;
     warnOnReconnection: boolean;
-    userOrganisationsIds: string[];
+    notifTimeByUser: boolean;
+    connectivityScenarioUsers: CreateConnectivityScenarioUserDTO[];
 }

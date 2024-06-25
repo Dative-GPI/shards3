@@ -1,8 +1,11 @@
-import { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
+import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ScenarioOrganisationInfos, ScenarioOrganisationInfosDTO } from "./scenarioOrganisationInfos";
-import { CreateTimeRangeDTO, TimeRange, TimeRangeDTO } from "../shared/timeRange";
-import { ScenarioTranslation, ScenarioTranslationDTO } from "../scenarios";
+import type { ScenarioOrganisationInfosDTO } from "./scenarioOrganisationInfos";
+import { ScenarioOrganisationInfos } from "./scenarioOrganisationInfos";
+import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
+import { TimeRange } from "../shared/timeRange";
+import type { ScenarioTranslationDTO } from "../scenarios";
+import { ScenarioTranslation } from "../scenarios";
 
 export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
   groupByIds: string[];

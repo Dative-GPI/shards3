@@ -1,4 +1,5 @@
-import { ServiceAccountOrganisationAuthTokenDetails, ServiceAccountOrganisationAuthTokenDetailsDTO, ServiceAccountOrganisationAuthTokenFilters, CreateServiceAccountOrganisationAuthTokenDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { ServiceAccountOrganisationAuthTokenDetailsDTO, ServiceAccountOrganisationAuthTokenFilters, CreateServiceAccountOrganisationAuthTokenDTO } from "@dative-gpi/foundation-core-domain/models";
+import { ServiceAccountOrganisationAuthTokenDetails } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKENS_URL, SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKEN_URL } from "../../config/urls";

@@ -1,5 +1,6 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { CreateScenarioOrganisationTypeDTO, ScenarioOrganisationTypeDetails, ScenarioOrganisationTypeDetailsDTO, ScenarioOrganisationTypeFilters, ScenarioOrganisationTypeInfos, ScenarioOrganisationTypeInfosDTO, UpdateScenarioOrganisationTypeDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { CreateScenarioOrganisationTypeDTO, ScenarioOrganisationTypeDetailsDTO, ScenarioOrganisationTypeFilters, ScenarioOrganisationTypeInfosDTO, UpdateScenarioOrganisationTypeDTO } from "@dative-gpi/foundation-core-domain/models";
+import { ScenarioOrganisationTypeDetails, ScenarioOrganisationTypeInfos } from "@dative-gpi/foundation-core-domain/models";
 import { SCENARIO_ORGANISATION_TYPE_URL, SCENARIO_ORGANISATION_TYPES_URL } from "../../config/urls/scenarioOrganisationTypes";
 
 const ScenarioOrganisationTypeServiceFactory = new ServiceFactory<ScenarioOrganisationTypeDetailsDTO, ScenarioOrganisationTypeDetails>("scenarioOrganisationType", ScenarioOrganisationTypeDetails)

@@ -1,7 +1,9 @@
-import { PermissionInfos, PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { PermissionInfos } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ServiceAccountOrganisationInfos, ServiceAccountOrganisationInfosDTO } from "./serviceAccountOrganisationInfos";
-import { RoleType } from "../enums/roleEnums";
+import type { ServiceAccountOrganisationInfosDTO } from "./serviceAccountOrganisationInfos";
+import { ServiceAccountOrganisationInfos } from "./serviceAccountOrganisationInfos";
+import type { RoleType } from "../enums/roleEnums";
 
 export class ServiceAccountOrganisationDetails extends ServiceAccountOrganisationInfos {
   languageCode: string;

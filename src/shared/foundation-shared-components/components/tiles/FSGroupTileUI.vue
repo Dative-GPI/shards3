@@ -100,7 +100,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -139,12 +140,12 @@ export default defineComponent({
       default: null
     },
     recursiveGroupsIds: {
-      type: Array as PropType<String[]>,
+      type: Array as PropType<string[]>,
       required: false,
       default: () => []
     },
     recursiveDeviceOrganisationsIds: {
-      type: Array as PropType<String[]>,
+      type: Array as PropType<string[]>,
       required: false,
       default: () => []
     },

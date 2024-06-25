@@ -65,9 +65,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { TimeZoneFilters, TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
+import type { TimeZoneFilters, TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";

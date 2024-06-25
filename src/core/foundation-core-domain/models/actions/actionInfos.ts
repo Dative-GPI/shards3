@@ -1,4 +1,4 @@
-import { ActionType } from "../enums/actionEnums";
+import type { ActionType } from "../enums/actionEnums";
 
 export class ActionInfos {
     extensionId: string | null;

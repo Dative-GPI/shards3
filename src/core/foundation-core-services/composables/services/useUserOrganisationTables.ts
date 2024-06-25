@@ -1,4 +1,5 @@
-import { UserOrganisationTableDetails, UserOrganisationTableDetailsDTO, UpdateUserOrganisationTableDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { UserOrganisationTableDetailsDTO, UpdateUserOrganisationTableDTO } from "@dative-gpi/foundation-core-domain/models";
+import { UserOrganisationTableDetails } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { USER_ORGANISATION_TABLE_URL } from "../../config/urls";
