@@ -7,6 +7,7 @@ export * from "./chartOrganisations";
 export * from "./charts";
 export * from "./comments";
 export * from "./connectivityAlerts";
+export * from "./connectivityScenarios";
 export * from "./customProperties";
 export * from "./customPropertyValues";
 export * from "./dashboardDatePresets";             // No service
