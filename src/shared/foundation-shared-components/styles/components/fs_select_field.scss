@@ -1,5 +1,6 @@
 .fs-select-field  > .v-input__control > .v-field {
     border: 1px solid var(--fs-select-field-border-color) !important;
+    background-color: var(--fs-select-field-background-color) !important;
     cursor: var(--fs-select-field-cursor) !important;
 
     &--error {

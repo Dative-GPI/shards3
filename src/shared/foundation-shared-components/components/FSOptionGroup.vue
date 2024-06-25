@@ -204,14 +204,15 @@ export default defineComponent({
     const { getColors } = useColors();
 
     const lights = getColors(ColorEnum.Light);
-
+    const backgrounds = getColors(ColorEnum.Background);
     const colors = getColors(props.optionColor);
 
     const style = computed((): { [key: string] : string | null | undefined } => {
       return {
-        "--fs-option-group-border-size"  : props.border ? "1px" : "0",
-        "--fs-option-group-border-radius": sizeToVar(props.borderRadius),
-        "--fs-option-group-border-color" : lights.base
+        "--fs-option-group-background-color": backgrounds.base,
+        "--fs-option-group-border-size"     : props.border ? "1px" : "0",
+        "--fs-option-group-border-radius"   : sizeToVar(props.borderRadius),
+        "--fs-option-group-border-color"    : lights.base
       };
     });
 
