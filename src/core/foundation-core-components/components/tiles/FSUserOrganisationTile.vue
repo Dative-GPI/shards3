@@ -3,9 +3,9 @@
     v-if="getting"
     :editable="$props.editable"
     :modelValue="modelValue"
-    @update:modelValue="(value) => $emit('update:modelValue', value)"
+    @update:modelValue="$emit('update:modelValue', $event)"
   />
-  <FSGroupTileUI
+  <FSUserOrganisationTileUI
     v-else-if="entity"
     :imageId="entity.imageId"
     :name="entity.name"
@@ -16,7 +16,7 @@
     :admin="entity.admin"
     :editable="$props.editable"
     :modelValue="modelValue"
-    @update:modelValue="(value) => $emit('update:modelValue', value)"
+    @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   />
 </template>
