@@ -1391,8 +1391,10 @@ export default defineComponent({
               }
               else if (dragged?.getAttribute("data-initial-index") !== null) {
                 target.classList.add("fs-dropzone-include");
-                const tbodyElement = (event.target as HTMLElement)?.closest(elementContainerSelector) as HTMLElement;
-                resetRowIndex(+dragged?.getAttribute('data-initial-index')!, Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
+                const tbodyElement = (event.target as HTMLElement)?.closest(elementContainerSelector) as HTMLElement ?? null;
+                if (tbodyElement !== null) {
+                  resetRowIndex(+dragged?.getAttribute('data-initial-index')!, Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
+                }
               }
             }
           }
