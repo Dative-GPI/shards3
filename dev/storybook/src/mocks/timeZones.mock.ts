@@ -1,4 +1,4 @@
-import { TimeZoneInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { TimeZoneInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 export const TIMEZONES: TimeZoneInfosDTO[] = [{
     id: "Europe/Paris",

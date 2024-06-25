@@ -11,8 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@dative-gpi/foundation-shared-domain": "1.0.0",
-    "@dative-gpi/foundation-shared-services": "1.0.0",
-    "@fontsource/montserrat": "5.0.16",
+    "@dative-gpi/foundation-shared-services": "1.0.0"
+  },
+  "peerDependencies": {
+    "@dative-gpi/bones-ui": "^0.0.75",
+    "@fontsource/montserrat": "^5.0.16",
     "@lexical/clipboard": "0.12.5",
     "@lexical/history": "0.12.5",
     "@lexical/link": "0.12.5",
@@ -21,11 +24,11 @@
     "@lexical/selection": "0.12.5",
     "@lexical/text": "0.12.5",
     "@lexical/utils": "0.12.5",
-    "@mdi/font": "7.4.47",
+    "@mdi/font": "^7.4.47",
     "blurhash": "2.0.5",
-    "color": "4.2.3",
+    "color": "^4.2.3",
     "lexical": "0.12.5",
-    "vue": "3.4.23"
+    "vue": "^3.4.23"
   },
   "devDependencies": {
     "@types/color": "3.0.6",

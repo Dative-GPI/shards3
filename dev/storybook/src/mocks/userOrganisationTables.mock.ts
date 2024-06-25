@@ -1,4 +1,4 @@
-import { UserOrganisationTableInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { UserOrganisationTableInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [{
     id: "1",

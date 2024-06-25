@@ -6,8 +6,8 @@ export enum DashboardType {
 }
 
 export enum DashboardVariableType {
-  Number = 0,
-  String = 1,
+  Number   = 0,
+  String   = 1,
   TimeStep = 2
 }
 

@@ -1,4 +1,4 @@
-import { DeviceConnectivityDetailsDTO, DeviceOrganisationAlertDTO, DeviceOrganisationDetailsDTO, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { DeviceConnectivityDetailsDTO, DeviceOrganisationAlertDTO, DeviceOrganisationDetailsDTO, DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { ORGANISATIONS } from "./organisations.mock";
 import { MANUFACTURERS } from "./manufacturers.mock";

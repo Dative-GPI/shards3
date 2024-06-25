@@ -1,4 +1,4 @@
-import { RoleOrganisationTypeInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { RoleOrganisationTypeInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 export const ROLEORGANISATIONTYPES: RoleOrganisationTypeInfosDTO[] = [{
     id: "11",

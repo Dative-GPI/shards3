@@ -14,10 +14,12 @@
     "@dative-gpi/foundation-core-services": "1.0.0",
     "@dative-gpi/foundation-shared-components": "1.0.0",
     "@dative-gpi/foundation-shared-domain": "1.0.0",
-    "@dative-gpi/foundation-shared-services": "1.0.0",
-    "color": "4.2.3",
-    "vue": "3.4.23",
-    "vuedraggable": "4.1.0"
+    "@dative-gpi/foundation-shared-services": "1.0.0"
+  },
+  "peerDependencies": {
+    "@dative-gpi/bones-ui": "^0.0.75",
+    "color": "^4.2.3",
+    "vue": "^3.4.23"
   },
   "devDependencies": {
     "@types/color": "3.0.6",

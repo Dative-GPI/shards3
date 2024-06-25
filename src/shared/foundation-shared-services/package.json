@@ -10,16 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dative-gpi/bones-ui": "0.0.74",
-    "@dative-gpi/foundation-shared-domain": "1.0.0",
+    "@dative-gpi/foundation-shared-domain": "1.0.0"
+  },
+  "peerDependencies": {
+    "@dative-gpi/bones-ui": "^0.0.75",
     "@microsoft/signalr": "^8.0.0",
     "vue": "^3.4.23",
-    "vue-router": "^4.2.5"
-  },
-  "devDependencies": {
-    "@types/google.maps": "^3.55.7",
-    "@microsoft/signalr": "8.0.0",
-    "vue": "3.4.23",
-    "vue-router": "4.3.0"
+    "vue-router": "^4.3.0"
   }
 }

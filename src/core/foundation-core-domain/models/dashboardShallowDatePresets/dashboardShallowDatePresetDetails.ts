@@ -1,5 +1,5 @@
 export interface CreateDashboardShallowDatePresetDTO {
-  code: string;
+  hiddenCode: string;
   globalStartDate: string;
   globalEndDate: string;
 }

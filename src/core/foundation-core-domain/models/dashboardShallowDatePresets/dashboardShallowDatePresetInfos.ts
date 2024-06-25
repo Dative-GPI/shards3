@@ -1,18 +1,18 @@
 
 export class DashboardShallowDatePresetInfos {
-  code: string;
+  hiddenCode: string;
   globalStartDate: string;
   globalEndDate: string;
 
   constructor(params: DashboardShallowDatePresetInfosDTO) {
-    this.code = params.code;
+    this.hiddenCode = params.hiddenCode;
     this.globalStartDate = params.globalStartDate;
     this.globalEndDate = params.globalEndDate;
   }
 }
 
 export interface DashboardShallowDatePresetInfosDTO {
-  code: string;
+  hiddenCode: string;
   globalStartDate: string;
   globalEndDate: string;
 }
