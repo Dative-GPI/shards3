@@ -1,13 +1,13 @@
 <template>
   <FSAutocompleteField
+    :clearable="false"
     :toggleSet="false"
     :multiple="false"
     :items="places"
     :modelValue="modelValuePlace"
     @update:modelValue="onUpdate"
-    v-bind="$attrs"
     v-model:search="search"
-    :clearable="false"
+    v-bind="$attrs"
   />
 </template>
 
