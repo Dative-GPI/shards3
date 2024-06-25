@@ -292,6 +292,7 @@ export default defineComponent({
     };
 
     return {
+      $props: props,
       style,
       getVariant,
       getColor,

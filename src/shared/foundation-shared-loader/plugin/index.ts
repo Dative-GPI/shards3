@@ -9,7 +9,7 @@ function FoundationSharedAutoImport ({
   skipExtension = false 
 } = {}): Plugin[] {
   const plugins: Plugin[] = []
-    plugins.push(importPlugin(skipShared, skipCore, skipAdmin, skipExtension))
+    plugins.push(importPlugin(skipShared, skipCore, skipAdmin))
 
   return plugins
 }

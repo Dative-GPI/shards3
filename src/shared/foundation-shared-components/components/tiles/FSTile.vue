@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
+import type { PropType, StyleValue } from "vue";
 import { computed, defineComponent } from "vue";
 import type { RouteLocation } from "vue-router";
 
@@ -108,7 +108,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { getGradients } = useColors();
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (props.bottomColor) {
         const bottomColors = getGradients(props.bottomColor);
         return {
