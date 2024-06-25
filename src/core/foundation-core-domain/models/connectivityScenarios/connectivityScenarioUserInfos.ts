@@ -19,3 +19,8 @@ export interface ConnectivityScenarioUserInfosDTO {
   userOrganisationId: string;
   timeDelay: number;
 }
+
+export interface CreateConnectivityScenarioUserDTO {
+  userOrganisationId: string;
+  timeDelay: number;
+}
