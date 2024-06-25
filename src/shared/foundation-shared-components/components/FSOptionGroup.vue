@@ -1,22 +1,22 @@
 <template>
   <FSWrapGroup
-    v-if="['wrap'].includes($props.variant)"
+    v-if="['wrap'].includes(props.variant)"
     class="fs-option-group"
-    :padding="$props.padding"
-    :gap="$props.gap"
+    :padding="props.padding"
+    :gap="props.gap"
     :style="style"
   >
     <template
-      v-if="$props.values.length"
+      v-if="props.values.length"
     >
       <template
         v-if="!$slots.item"
       >
         <FSOptionItem
-          v-for="(item, index) in $props.values"
+          v-for="(item, index) in props.values"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="$props.editable"
+          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -30,7 +30,7 @@
         v-else
       >
         <template
-          v-for="item in $props.values"
+          v-for="item in props.values"
         >
           <slot
             name="item"
@@ -47,21 +47,21 @@
   <FSSlideGroup
     v-else
     class="fs-option-group"
-    :padding="$props.padding"
-    :gap="$props.gap"
+    :padding="props.padding"
+    :gap="props.gap"
     :style="style"
   >
     <template
-      v-if="$props.values.length"
+      v-if="props.values.length"
     >
       <template
         v-if="!$slots.item"
       >
         <FSOptionItem
-          v-for="(item, index) in $props.values"
+          v-for="(item, index) in props.values"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="$props.editable"
+          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -75,7 +75,7 @@
         v-else
       >
         <template
-          v-for="item in $props.values"
+          v-for="item in props.values"
         >
           <slot
             name="item"
@@ -292,7 +292,7 @@ export default defineComponent({
     };
 
     return {
-      $props: props,
+      props,
       style,
       getVariant,
       getColor,
