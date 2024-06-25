@@ -1,21 +1,19 @@
-import { Plugin } from "vue";
+import type { Plugin } from "vue";
 
 export const MapsPlugin: Plugin = {
   install: (_app, options: MapsOptions) => {
+    if(window?.initMap) return;
     const key = options?.key ?? import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    console.log("key", key);
     const maps = document.createElement("script");
     maps.setAttribute(
       "src",
-      `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=geometry,places`
+      `https://maps.googleapis.com/maps/api/js?key=${key}&loading=async&libraries=geometry,places`
     );
 
     let resolvePromise: (value: void) => void;
-    let rejectPromise: (reason?: any) => void;
 
-    const promise = new Promise<void>((resolve, reject) => {
+    const promise = new Promise<void>((resolve) => {
       resolvePromise = resolve;
-      rejectPromise = reject;
     });
 
     window.initMap = promise;

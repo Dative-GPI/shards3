@@ -41,12 +41,10 @@ export default defineComponent({
     const modelValuePlace = ref<Place | null>(null);
 
     const innerFetch = async (search: string | null) => {
-      console.log("search", search);
       if (search === null) {
         return Promise.resolve([]);
       }
       places.value = await searchAddress(search);
-      console.log("places", places.value);
       return Promise.resolve([]);
     };
 

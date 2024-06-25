@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/color": "3.0.6",
+    "@types/google.maps": "^3.55.10",
     "sass": "1.71.1",
     "sass-loader": "13.3.2"
   }
