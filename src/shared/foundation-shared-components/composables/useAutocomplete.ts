@@ -20,7 +20,7 @@ export const useAutocomplete = <TInfos>(
 
   const search = ref<string>("");
   const entitiesLength = ref(0);
-  const init = ref(false);
+  const init = ref(true);
 
   const toggleSet = computed((): boolean => {
     return allowToggleSet && entitiesLength.value > 0 && entitiesLength.value <= breakpointToggleSet;
