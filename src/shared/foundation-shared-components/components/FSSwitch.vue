@@ -20,17 +20,19 @@
       />
       <slot>
         <FSSpan
-            v-if="$props.label"
-            class="fs-switch-label"
-            :style="style"
-            :font="font"
-            @click.stop="onToggle"
+          v-if="$props.label"
+          class="fs-switch-label"
+          :style="style"
+          :font="font"
+          @click.stop="onToggle"
         >
           {{ $props.label }}
         </FSSpan>
       </slot>
     </FSRow>
-    <slot name="description">
+    <slot
+      name="description"
+    >
       <FSSpan
         v-if="$props.description"
         class="fs-switch-description"
@@ -44,10 +46,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";

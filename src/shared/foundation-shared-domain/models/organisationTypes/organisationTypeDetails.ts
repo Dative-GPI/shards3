@@ -1,5 +1,6 @@
-import { OrganisationTypeInfos, OrganisationTypeInfosDTO } from "./organisationTypeInfos";
-import { DashboardType } from "../enums/dashboardEnums";
+import type { OrganisationTypeInfosDTO } from "./organisationTypeInfos";
+import { OrganisationTypeInfos } from "./organisationTypeInfos";
+import type { DashboardType } from "../enums/dashboardEnums";
 
 export class OrganisationTypeDetails extends OrganisationTypeInfos {
     description: string;

@@ -240,7 +240,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -405,7 +406,7 @@ export default defineComponent({
       if (props.multiple) {
         if (Array.isArray(props.modelValue)) {
           return props.modelValue.map((value: any) => {
-            const item = props.items.find((item: Object) => item[props.itemValue] === value);
+            const item = props.items.find((item: object) => item[props.itemValue] === value);
             if (item) {
               return item[props.itemTitle];
             }
@@ -413,7 +414,7 @@ export default defineComponent({
         }
       }
       if (props.modelValue) {
-        const item = props.items.find((item: Object) => item[props.itemValue] === props.modelValue);
+        const item = props.items.find((item: object) => item[props.itemValue] === props.modelValue);
         if (item) {
           return item[props.itemTitle];
         }

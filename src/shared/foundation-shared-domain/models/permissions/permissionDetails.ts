@@ -1,4 +1,5 @@
-import { PermissionInfos, PermissionInfosDTO } from "./permissionInfos";
+import type { PermissionInfosDTO } from "./permissionInfos";
+import { PermissionInfos } from "./permissionInfos";
 
 export class PermissionDetails extends PermissionInfos {
     constructor(params: PermissionDetailsDTO) {

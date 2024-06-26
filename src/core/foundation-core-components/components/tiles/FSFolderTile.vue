@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, watch } from "vue";
 
-import { useDashboardOrganisation, useFolder } from "@dative-gpi/foundation-core-services/composables";
+import { useFolder } from "@dative-gpi/foundation-core-services/composables";
 
 import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue";

@@ -1,4 +1,5 @@
-import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
+import type { PathCrumbDTO } from "../shared/pathCrumb";
+import { PathCrumb } from "../shared/pathCrumb";
 
 export class FolderInfos {
   id: string;

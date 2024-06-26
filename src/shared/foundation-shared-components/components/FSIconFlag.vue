@@ -5,7 +5,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent, onMounted } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, onMounted } from "vue";
   
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
   

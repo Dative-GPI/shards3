@@ -1,5 +1,7 @@
-import { LocationInfos, LocationInfosDTO } from "./locationInfos";
-import { AddressDTO } from "./address";
+import type { AddressDTO } from "@dative-gpi/foundation-shared-domain/models";
+
+import type { LocationInfosDTO } from "./locationInfos";
+import { LocationInfos } from "./locationInfos";
 
 export class LocationDetails extends LocationInfos {
     description: string;

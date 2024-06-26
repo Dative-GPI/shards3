@@ -25,11 +25,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
-import { RouteLocation } from "vue-router";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
+import type { RouteLocation } from "vue-router";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
   name: "FSLink",

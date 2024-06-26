@@ -1,10 +1,10 @@
 <template>
   <FSBaseField
-    :label="$props.label"
     :description="$props.description"
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
+    :label="$props.label"
     :messages="messages"
   >
     <FSRow>
@@ -12,14 +12,14 @@
         :wrap="false"
       >
         <FSSelectField
+          :validationValue="$props.modelValue"
           :editable="$props.editable"
+          :validateOn="validateOn"
+          :rules="$props.rules"
           :items="daysObject"
           :hideHeader="true"
           :clearable="false"
           :style="style"
-          :rules="$props.rules"
-          :validateOn="validateOn"
-          :validationValue="$props.modelValue"
           :modelValue="dayStart"
           @update:modelValue="onChangeDayStart"
         />
@@ -61,7 +61,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";

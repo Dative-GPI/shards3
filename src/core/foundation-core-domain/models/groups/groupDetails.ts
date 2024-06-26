@@ -1,4 +1,5 @@
-import { GroupInfos, GroupInfosDTO } from "./groupInfos";
+import type { GroupInfosDTO } from "./groupInfos";
+import { GroupInfos } from "./groupInfos";
 
 export class GroupDetails extends GroupInfos {
     parentIcon: string | null;
@@ -13,29 +14,29 @@ export class GroupDetails extends GroupInfos {
 }
 
 export interface GroupDetailsDTO extends GroupInfosDTO {
-    parentIcon: string | null;
-    parentLabel: string | null;
+  parentIcon: string | null;
+  parentLabel: string | null;
 }
 
 export interface CreateGroupDTO {
-    parentId: string | null;
-    image: string | null;
-    icon: string;
-    code: string;
-    label: string;
-    tags: string[];
+  parentId: string | null;
+  image: string | null;
+  icon: string;
+  code: string;
+  label: string;
+  tags: string[];
 }
 
 export interface UpdateGroupDTO {
-    parentId: string | null;
-    imageId: string | null;
-    image: string | null;
-    icon: string;
-    code: string;
-    label: string;
-    tags: string[];
+  parentId: string | null;
+  imageId: string | null;
+  image: string | null;
+  icon: string;
+  code: string;
+  label: string;
+  tags: string[];
 }
 
 export interface ChangeGroupParentDTO {
-    parentId: string | null;
+  parentId: string | null;
 }

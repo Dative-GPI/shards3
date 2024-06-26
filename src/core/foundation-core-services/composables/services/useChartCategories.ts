@@ -1,4 +1,5 @@
-import { CreateChartCategoryDTO, ChartCategoryDetails, ChartCategoryDetailsDTO, ChartCategoryFilters, ChartCategoryInfos, ChartCategoryInfosDTO, UpdateChartCategoryDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { CreateChartCategoryDTO, ChartCategoryDetailsDTO, ChartCategoryFilters, ChartCategoryInfosDTO, UpdateChartCategoryDTO } from "@dative-gpi/foundation-core-domain/models";
+import { ChartCategoryDetails, ChartCategoryInfos } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { CHART_CATEGORIES_URL, CHART_CATEGORY_URL } from "../../config/urls";

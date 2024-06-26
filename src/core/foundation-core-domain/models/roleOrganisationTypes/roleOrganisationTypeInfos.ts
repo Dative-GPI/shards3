@@ -1,7 +1,8 @@
-import { PermissionInfos, PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { PermissionInfos } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ApplicationScope } from "../enums/applicationEnums";
-import { UserType } from "../enums/userEnums";
+import type { ApplicationScope } from "../enums/applicationEnums";
+import type { UserType } from "../enums/userEnums";
 
 export class RoleOrganisationTypeInfos {
     id: string;

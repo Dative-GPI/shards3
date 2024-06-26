@@ -1,6 +1,8 @@
-import { PermissionInfos, PermissionInfosDTO } from "../permissions/permissionInfos";
-import { OrganisationInfos, OrganisationInfosDTO } from "./organisationInfos";
-import { DashboardType } from "../enums/dashboardEnums";
+import type { PermissionInfosDTO } from "../permissions/permissionInfos";
+import { PermissionInfos } from "../permissions/permissionInfos";
+import type { OrganisationInfosDTO } from "./organisationInfos";
+import { OrganisationInfos } from "./organisationInfos";
+import type { DashboardType } from "../enums/dashboardEnums";
 
 export class OrganisationDetails extends OrganisationInfos {
     code: string;

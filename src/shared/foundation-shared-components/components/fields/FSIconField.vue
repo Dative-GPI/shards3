@@ -22,6 +22,9 @@
         >
           {{ $props.modelValue }}
         </FSIcon>
+        <slot
+          name="append-inner"
+        />
       </template>
     </FSTextField>
     <FSToggleSet
@@ -40,12 +43,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 
 import { Icons, sortByLevenshteinDistance } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { FSToggle } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { FSToggle } from "@dative-gpi/foundation-shared-components/models";
 
 import FSToggleSet from "../FSToggleSet.vue";
 import FSTextField from "./FSTextField.vue";

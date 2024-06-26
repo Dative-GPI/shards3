@@ -1,10 +1,10 @@
 <template>
   <FSBaseField
-    :label="$props.label"
     :description="$props.description"
     :hideHeader="$props.hideHeader"
     :required="$props.required"
     :editable="$props.editable"
+    :label="$props.label"
     :messages="messages"
   >
     <FSForm
@@ -17,6 +17,7 @@
           :lastPeriod="$props.lastPeriod"
           :editable="$props.editable"
           :variant="$props.variant"
+          :hideHeader="true"
           :modelValue="localDateSetting"
           @update:modelValue="localDateSettingChange"
         />
@@ -76,7 +77,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref} from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, onMounted, ref} from "vue";
 import _ from "lodash";
 
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";

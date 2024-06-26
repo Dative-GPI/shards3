@@ -49,11 +49,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useGroups } from "@dative-gpi/foundation-core-services/composables";
-import { GroupFilters } from "@dative-gpi/foundation-core-domain/models";
+import type { GroupFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";

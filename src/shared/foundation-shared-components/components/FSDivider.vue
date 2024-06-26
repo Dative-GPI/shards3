@@ -34,10 +34,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSText from "./FSText.vue";
@@ -66,7 +68,7 @@ export default defineComponent({
     variant: {
       type: String as PropType<"base" | "light" | "dark">,
       required: false,
-      default: "dark"
+      default: "base"
     },
     vertical: {
       type: Boolean as PropType<boolean>,

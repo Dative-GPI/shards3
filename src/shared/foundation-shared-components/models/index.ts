@@ -7,6 +7,7 @@ export * from "./errors";
 export * from "./grids";
 export * from "./images";
 export * from "./map";
+export * from "./magicFields";
 export * from "./modelStatuses";
 export * from "./rules";
 export * from "./tables";

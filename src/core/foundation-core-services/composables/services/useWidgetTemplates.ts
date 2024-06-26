@@ -1,4 +1,5 @@
-import { WidgetTemplateFilters, WidgetTemplateInfos, WidgetTemplateInfosDTO, WidgetTemplateDetails, WidgetTemplateDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { WidgetTemplateFilters, WidgetTemplateInfosDTO, WidgetTemplateDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import { WidgetTemplateInfos, WidgetTemplateDetails } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { WIDGET_TEMPLATES_URL, WIDGET_TEMPLATE_URL } from "../../config/urls";

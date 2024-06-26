@@ -1,4 +1,5 @@
-import { CreateLocationDTO, LocationDetails, LocationDetailsDTO, LocationFilters, LocationInfos, LocationInfosDTO, UpdateLocationDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { CreateLocationDTO, LocationDetailsDTO, LocationFilters, LocationInfosDTO, UpdateLocationDTO } from "@dative-gpi/foundation-core-domain/models";
+import { LocationDetails, LocationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { LOCATIONS_URL, LOCATION_URL } from "../../config/urls";

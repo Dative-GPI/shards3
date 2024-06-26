@@ -1,6 +1,7 @@
-import { Days } from "@dative-gpi/foundation-shared-domain/models";
+import type { Days } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ChartTimeRangeTranslation, ChartTimeRangeTranslationDTO, CreateChartTimeRangeTranslationDTO } from "./chartTimeRangeTranslation";
+import type { ChartTimeRangeTranslationDTO, CreateChartTimeRangeTranslationDTO } from "./chartTimeRangeTranslation";
+import { ChartTimeRangeTranslation } from "./chartTimeRangeTranslation";
 import { TimeRange } from "../shared/timeRange";
 
 export class ChartTimeRange extends TimeRange {

@@ -3,7 +3,8 @@
     variant="accordion"
   >
     <template
-      v-for="component in getChildren()"
+      v-for="(component, index) in getChildren()"
+      :key="index"
     >
       <component
         :is="component"

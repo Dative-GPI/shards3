@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSAutocompleteAddress from "@dative-gpi/foundation-shared-components/components/autocompletes/FSAutoCompleteAddress.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
-import { Address } from '@dative-gpi/foundation-core-domain/models';
+import { Address } from '@dative-gpi/foundation-shared-domain/models';
 
 const meta = {
   title: 'Foundation/Shared/Autocompletes/AutocompleteAddress',
@@ -21,8 +21,8 @@ export const Variations: Story = {
     args: {
       value1: null,
       value2: new Address({
-        placeId: '',
-        placeLabel: 'Dative GPI Company',
+        placeId: "ChIJg7vu-43P9EcRRNrbyDxFMDY",
+        placeLabel: 'Dative, Rue de Norvège, Colombier-Saugnieu, France',
         formattedAddress: ' 100 Rue de Norvège, 69125 Colombier-Saugnieu',
         locality: 'Colombier-Saugnieu',
         country: 'France',

@@ -11,27 +11,29 @@
   "license": "ISC",
   "dependencies": {
     "@dative-gpi/foundation-shared-domain": "1.0.0",
-    "@dative-gpi/foundation-shared-services": "1.0.0",
+    "@dative-gpi/foundation-shared-services": "1.0.0"
+  },
+  "peerDependencies": {
+    "@dative-gpi/bones-ui": "^0.0.75",
     "@fontsource/montserrat": "^5.0.16",
-    "@lexical/clipboard": "^0.12.5",
-    "@lexical/history": "^0.12.5",
-    "@lexical/link": "^0.12.5",
-    "@lexical/plain-text": "^0.12.5",
-    "@lexical/rich-text": "^0.12.5",
-    "@lexical/selection": "^0.12.5",
-    "@lexical/text": "^0.12.5",
-    "@lexical/utils": "^0.12.5",
+    "@lexical/clipboard": "0.12.5",
+    "@lexical/history": "0.12.5",
+    "@lexical/link": "0.12.5",
+    "@lexical/plain-text": "0.12.5",
+    "@lexical/rich-text": "0.12.5",
+    "@lexical/selection": "0.12.5",
+    "@lexical/text": "0.12.5",
+    "@lexical/utils": "0.12.5",
     "@mdi/font": "^7.4.47",
-    "blurhash": "^2.0.5",
+    "blurhash": "2.0.5",
     "color": "^4.2.3",
-    "leaflet": "^1.9.4",
-    "lexical": "^0.12.5",
-    "vue": "^3.4.23"
+    "leaflet": "1.9.4"
   },
   "devDependencies": {
-    "@types/color": "^3.0.6",
-    "@types/leaflet": "^1.9.12",
-    "sass": "^1.69.5",
-    "sass-loader": "^13.3.2"
+    "@types/color": "3.0.6",
+    "@types/leaflet": "1.9.12",
+    "@types/google.maps": "^3.55.10",
+    "sass": "1.71.1",
+    "sass-loader": "13.3.2"
   }
 }

@@ -1,43 +1,42 @@
-import { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
+import type { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DashboardVariableValueTranslation, DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
-import { DashboardVariableTranslation, DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
+import type { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
+import { DashboardVariableTranslation } from "./dashboardVariableTranslation";
+import type { DashboardVariableValueDTO } from "../dashboardVariableValues";
+import { DashboardVariableValue } from "../dashboardVariableValues";
 
 export class DashboardVariableInfos {
-  id: string;
-  dashboardId: string;
+  hiddenCode: string;
   variableType: DashboardVariableType;
   label: string;
   labelDefault: string;
   code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
-  allowedValues: { [key: string]: DashboardVariableValueTranslation[] };
+  allowedValues: DashboardVariableValue[];
   translations: DashboardVariableTranslation[];
 
   constructor(params: DashboardVariableInfosDTO) {
-    this.id = params.id;
-    this.dashboardId = params.dashboardId;
+    this.hiddenCode = params.hiddenCode;
     this.variableType = params.variableType;
     this.label = params.label;
     this.labelDefault = params.labelDefault;
     this.code = params.code;
     this.defaultValue = params.defaultValue;
     this.useOnlyAllowedValues = params.useOnlyAllowedValues;
-    this.allowedValues = { ...params.allowedValues };
+    this.allowedValues = params.allowedValues.map(dto => new DashboardVariableValue(dto));
     this.translations = params.translations.map(t => new DashboardVariableTranslation(t));
   }
 }
   
 export interface DashboardVariableInfosDTO {
-  id: string;
-  dashboardId: string;
+  hiddenCode: string;
   variableType: DashboardVariableType;
   label: string;
   labelDefault: string;
   code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
-  allowedValues: { [key: string]: DashboardVariableValueTranslationDTO[] };
+  allowedValues: DashboardVariableValueDTO[];
   translations: DashboardVariableTranslationDTO[];
 }

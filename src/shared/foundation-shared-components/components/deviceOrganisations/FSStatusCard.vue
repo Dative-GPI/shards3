@@ -67,9 +67,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
+import type { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSButton from "../FSButton.vue";

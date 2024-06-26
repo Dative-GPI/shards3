@@ -1,5 +1,5 @@
 
-import { UserDetails } from "@dative-gpi/foundation-shared-domain/models";
+import type { UserDetails } from "@dative-gpi/foundation-shared-domain/models";
 
 export interface ApplicationRoute {
     path: string,

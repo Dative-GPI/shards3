@@ -25,11 +25,12 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent, onUnmounted, ref, watch } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, onUnmounted, ref, watch } from "vue";
 
 import { useUserOrganisationTable, useUpdateUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
 import { useDebounce, useTables } from "@dative-gpi/foundation-shared-components/composables";
-import { FSDataTable } from "@dative-gpi/foundation-shared-components/models";
+import type { FSDataTable } from "@dative-gpi/foundation-shared-components/models";
 
 import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
 import FSDataTableUI from "@dative-gpi/foundation-shared-components/components/lists/FSDataTableUI.vue";

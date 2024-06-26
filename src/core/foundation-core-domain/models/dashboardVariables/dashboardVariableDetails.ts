@@ -1,24 +1,15 @@
-import { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
+import type { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
 
-import { DashboardVariableInfos, DashboardVariableInfosDTO } from "./dashboardVariableInfos";
-import { DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
-import { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
-
-export class DashboardVariableDetails extends DashboardVariableInfos {
-  constructor(params: DashboardVariableDetailsDTO) {
-    super(params);
-  }
-}
-
-export interface DashboardVariableDetailsDTO extends DashboardVariableInfosDTO {
-}
+import type { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
+import type { CreateDashboardVariableValueDTO } from "../dashboardVariableValues";
 
 export interface CreateDashboardVariableDTO {
+  hiddenCode: string;
   variableType: DashboardVariableType;
   labelDefault: string;
   code: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
-  allowedValues: { [key: string]: DashboardVariableValueTranslationDTO[] };
+  allowedValues: CreateDashboardVariableValueDTO[];
   translations: DashboardVariableTranslationDTO[];
 }

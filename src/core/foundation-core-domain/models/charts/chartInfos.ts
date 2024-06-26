@@ -1,6 +1,7 @@
-import { ChartModelLabel, ChartModelLabelDTO } from "./chartModelLabel";
-import { ApplicationScope } from "../enums/applicationEnums";
-import { ChartType } from "../enums/chartEnums";
+import type { ChartModelLabelDTO } from "./chartModelLabel";
+import { ChartModelLabel } from "./chartModelLabel";
+import type { ApplicationScope } from "../enums/applicationEnums";
+import type { ChartType } from "../enums/chartEnums";
 
 export class ChartInfos {
   id: string;

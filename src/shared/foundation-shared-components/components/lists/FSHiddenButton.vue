@@ -61,9 +61,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { defineComponent, ref } from "vue";
 
-import { ColorBase, ColorEnum, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase, FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";

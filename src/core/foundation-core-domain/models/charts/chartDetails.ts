@@ -1,10 +1,16 @@
-import { ChartPresetFilter, ChartPresetFilterDTO } from "./chartPresetFilter";
-import { ChartVariable, ChartVariableDTO } from "./chartVariable";
-import { ChartPreset, ChartPresetDTO } from "./chartPreset";
-import { ChartInfos, ChartInfosDTO } from "./chartInfos";
-import { ChartAxis, ChartAxisDTO } from "./chartAxis";
-import { ChartPlot, ChartPlotDTO } from "./chartPlot";
-import { ColorSets } from "../enums/chartEnums";
+import type { ChartPresetFilterDTO } from "./chartPresetFilter";
+import { ChartPresetFilter } from "./chartPresetFilter";
+import type { ChartVariableDTO } from "./chartVariable";
+import { ChartVariable } from "./chartVariable";
+import type { ChartPresetDTO } from "./chartPreset";
+import { ChartPreset } from "./chartPreset";
+import type { ChartInfosDTO } from "./chartInfos";
+import { ChartInfos } from "./chartInfos";
+import type { ChartAxisDTO } from "./chartAxis";
+import { ChartAxis } from "./chartAxis";
+import type { ChartPlotDTO } from "./chartPlot";
+import { ChartPlot } from "./chartPlot";
+import type { ColorSets } from "../enums/chartEnums";
 
 export class ChartDetails extends ChartInfos {
   colorSet: ColorSets;

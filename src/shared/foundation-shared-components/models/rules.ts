@@ -17,7 +17,10 @@ export const TextRules = {
     digit: (message: string | undefined = undefined) => (value: string) => /(?=.*\d)/.test(value) || (message ?? $tr("ui.rules.text-digit", "Must contain a digit")),
     uppercase: (message: string | undefined = undefined) => (value: string) => /(?=.*[A-Z])/.test(value) || (message ?? $tr("ui.rules.text-uppercase", "Must contain an uppercase letter")),
     lowercase: (message: string | undefined = undefined) => (value: string) => /(?=.*[a-z])/.test(value) || (message ?? $tr("ui.rules.text-lowercase", "Must contain a lowercase letter")),
-    special: (message: string | undefined = undefined) => (value: string) => /(?=.*[!@#$%^&*])/.test(value) || (message ?? $tr("ui.rules.text-special-character", "Must contain a special character"))
+    special: (message: string | undefined = undefined) => (value: string) => /(?=.*[!@#$%^&*])/.test(value) || (message ?? $tr("ui.rules.text-special-character", "Must contain a special character")),
+    different: (original: string, message: string | undefined = undefined) => (value: string) => value != original || (message ?? $tr("ui.rules.text-different", "Must be different from original")),
+    outside: (values: string[], message: string | undefined = undefined) => (value: string) => !values.includes(value) || (message ?? $tr("ui.rules.text-outside", "Must be different from others")),
+    inside: (values: string[], message: string | undefined = undefined) => (value: string) => values.includes(value) || (message ?? $tr("ui.rules.text-inside", "Must be one of the options")),
 };
 
 export const TagRules = {

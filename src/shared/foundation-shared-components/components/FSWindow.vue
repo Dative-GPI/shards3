@@ -27,7 +27,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, VNode } from "vue";
+import type { PropType, VNode } from "vue";
+import { computed, defineComponent } from "vue";
 
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";

@@ -38,11 +38,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { FSGridItem } from "@dative-gpi/foundation-shared-components/models";
+import type { FSGridItem } from "@dative-gpi/foundation-shared-components/models";
 
-import { CustomPropertyInfos } from "../../../foundation-core-domain/models";
+import type { CustomPropertyInfos } from "../../../foundation-core-domain/models";
 
 import FSGrid from "@dative-gpi/foundation-shared-components/components/FSGrid.vue";
 

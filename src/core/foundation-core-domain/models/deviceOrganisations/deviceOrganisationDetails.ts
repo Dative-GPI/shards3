@@ -1,6 +1,9 @@
-import { DeviceOrganisationOption, DeviceOrganisationOptionDTO } from "./deviceOrganisationOption";
-import { DeviceOrganisationInfos, DeviceOrganisationInfosDTO } from "./deviceOrganisationInfos";
-import { PathCrumb, PathCrumbDTO } from "../shared/pathCrumb";
+import type { DeviceOrganisationOptionDTO } from "./deviceOrganisationOption";
+import { DeviceOrganisationOption } from "./deviceOrganisationOption";
+import type { DeviceOrganisationInfosDTO } from "./deviceOrganisationInfos";
+import { DeviceOrganisationInfos } from "./deviceOrganisationInfos";
+import type { PathCrumbDTO } from "../shared/pathCrumb";
+import { PathCrumb } from "../shared/pathCrumb";
 
 export class DeviceOrganisationDetails extends DeviceOrganisationInfos {
     articleCode: string;

@@ -1,11 +1,11 @@
-import { AutoRefresh, ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
+import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
 
-import { ScenarioOrganisationTypeInfos, ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
-import { CreateTimeRangeDTO, TimeRange, TimeRangeDTO } from "../shared/timeRange";
-import { ScenarioTranslation, ScenarioTranslationDTO } from "../scenarios";
-import { WidgetInfos, WidgetInfosDTO } from "../widgets/widgetInfos";
-import { CreateWidgetDTO } from "../widgets/widgetDetails";
-import { SelectedEntities } from "../enums/sharedEnums";
+import type { ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
+import { ScenarioOrganisationTypeInfos } from "./scenarioOrganisationTypeInfos";
+import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
+import { TimeRange } from "../shared/timeRange";
+import type { ScenarioTranslationDTO } from "../scenarios";
+import { ScenarioTranslation } from "../scenarios";
 
 export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInfos {
   groupByIds: string[];
@@ -31,16 +31,6 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
   lock: number | null;
   waitResolved: boolean;
   translations: ScenarioTranslation[];
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesIds: string[];
-  dynamicDates: boolean;
-  globalStartDate: string;
-  globalEndDate: string;
-  useAutoRefresh: boolean;
-  autoRefresh: AutoRefresh;
-  widgets: WidgetInfos[];
 
   constructor(params: ScenarioOrganisationTypeDetailsDTO) {
     super(params);
@@ -69,16 +59,6 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
     this.lock = params.lock;
     this.waitResolved = params.waitResolved;
     this.translations = params.translations.map(t => new ScenarioTranslation(t));
-    this.singleEntity = params.singleEntity;
-    this.dynamicEntities = params.dynamicEntities;
-    this.globalSelectedEntities = params.globalSelectedEntities as SelectedEntities;
-    this.globalEntitiesIds = params.globalEntitiesIds.slice();
-    this.dynamicDates = params.dynamicDates;
-    this.globalStartDate = params.globalStartDate;
-    this.globalEndDate = params.globalEndDate;
-    this.useAutoRefresh = params.useAutoRefresh;
-    this.autoRefresh = params.autoRefresh as AutoRefresh;
-    this.widgets = params.widgets.map(dto => new WidgetInfos(dto));
   }
 }
 
@@ -106,16 +86,6 @@ export interface ScenarioOrganisationTypeDetailsDTO extends ScenarioOrganisation
   lock: number | null;
   waitResolved: boolean;
   translations: ScenarioTranslationDTO[];
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  globalSelectedEntities: number;
-  globalEntitiesIds: string[];
-  dynamicDates: boolean;
-  globalStartDate: string;
-  globalEndDate: string;
-  useAutoRefresh: boolean;
-  autoRefresh: number;
-  widgets: WidgetInfosDTO[];
 }
 
 export interface CreateScenarioOrganisationTypeDTO {
@@ -151,14 +121,4 @@ export interface UpdateScenarioOrganisationTypeDTO {
   lock: number | null;
   waitResolved: boolean;
   translations: ScenarioTranslationDTO[];
-  singleEntity: boolean;
-  dynamicEntities: boolean;
-  globalSelectedEntities: number;
-  globalEntitiesIds: string[];
-  dynamicDates: boolean;
-  globalStartDate: string;
-  globalEndDate: string;
-  useAutoRefresh: boolean;
-  autoRefresh: number;
-  widgets: CreateWidgetDTO[];
 }

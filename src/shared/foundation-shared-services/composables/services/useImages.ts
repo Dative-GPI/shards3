@@ -1,5 +1,6 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { BlurHash, BlurHashDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { BlurHashDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { BlurHash } from "@dative-gpi/foundation-shared-domain/models";
 
 import { IMAGE_BLURHASH_URL } from "../../config/urls";
 

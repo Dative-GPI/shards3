@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 import { Single } from "@dative-gpi/foundation-shared-domain/tools/single";
 
-import { FSDataTable } from "../models";
+import type { FSDataTable } from "../models";
 
 const tables = ref<{ [key: string]: FSDataTable }>({});
 

@@ -1,4 +1,5 @@
-import { LanguageInfos, LanguageInfosDTO } from "./languageInfos";
+import type { LanguageInfosDTO } from "./languageInfos";
+import { LanguageInfos } from "./languageInfos";
 
 export class LanguageDetails extends LanguageInfos {
     constructor(params: LanguageDetailsDTO) {

@@ -1,4 +1,4 @@
-import { OrganisationTypeInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { OrganisationTypeInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 export const ORGANISATIONTYPES: OrganisationTypeInfosDTO[] = [{
   id: "1",

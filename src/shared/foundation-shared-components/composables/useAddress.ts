@@ -1,81 +1,113 @@
-import { Address } from "@dative-gpi/foundation-core-domain/models"
-import { NotifyService } from "@dative-gpi/bones-ui";
-import { ref } from "vue"
+import type { Place } from "@dative-gpi/foundation-shared-domain/models";
+import { Address } from "@dative-gpi/foundation-shared-domain/models";
+import _ from "lodash";
 
 export const useAddress = () => {
-  const API_URL = 'https://photon.komoot.io/api/'
-  const API_REVERSE_URL = 'https://photon.komoot.io/reverse/'
-  const fetching = ref(false);
+  const enabled = true;
+  let initialized = false;
+  let searchService: google.maps.places.AutocompleteService;
+  let placeService: google.maps.places.PlacesService;
+  let sessionId: google.maps.places.AutocompleteSessionToken;
 
-  const notifyService = new NotifyService("Address")
-
-  const getAddressFromFeature = (feature: any): Address => {
-    const country = feature.properties.country ?? '';
-    const stateArray = [feature.properties.state, feature.properties.county, feature.properties.region, feature.properties.province, feature.properties.state_district];
-    const state = stateArray.filter((value) => (value && value !== '')).join(', ');
-    const localityArray = [feature.properties.city, feature.properties.town, feature.properties.village, feature.properties.hamlet, feature.properties.suburb, feature.properties.city_district, feature.properties.neighbourhood, feature.properties.postcode];
-    const locality = localityArray.filter((value) => (value && value !== '')).join(', ');
-    const addressArray = [feature.properties.name, feature.properties.street, feature.properties.address];
-    const address = addressArray.filter((value) => (value && value !== '')).join(', ');
-    const formattedAddress = [address, locality, state, country].filter((value) => (value && value !== '')).join(', ');
-
-    return new Address({
-      placeId: '',
-      country: country,
-      locality: locality,
-      placeLabel: address,
-      formattedAddress: formattedAddress,
-      latitude: feature.geometry.coordinates[1],
-      longitude: feature.geometry.coordinates[0]
-    })
+  const init = async () => {
+    await window.initMap;
+    searchService = new google.maps.places.AutocompleteService();
+    placeService = new google.maps.places.PlacesService(
+      document.getElementById("places") as HTMLDivElement
+    );
+    sessionId = new google.maps.places.AutocompleteSessionToken();
+    initialized = true;
   }
 
-  const searchAddress = async (search: string): Promise<Address[]> => {
-    const url = `${API_URL}?q=${encodeURI(search)}&limit=5`;
-    fetching.value = true;
-    const response = await fetch(url);
-    fetching.value = false;
-    if (response.ok) {
-      const objectResponse = await response.json();
-      const result = objectResponse.features.map((feature: any) => getAddressFromFeature(feature));
-      notifyService.notify("update", result);
-      return result;
-    } else {
+
+  const search = async (search: string): Promise<Place[]> => {
+    if(!initialized){
+      await init();
+    } 
+
+    return _search(search).then(result => {
+      return _.map(result, r => ({ id: r.place_id, label: r.description }));
+    }).catch(() => {
       return [];
-    }
+    });
   }
 
-  const getAddressFromString = async (search: string): Promise<Address | undefined> => {
-    fetching.value = true;
-    const response = await fetch(`${API_URL}?q=${search}&limit=1`);
-    fetching.value = false;
-    if (response.ok) {
-      const objectResponse = await response.json();
-      return getAddressFromFeature(objectResponse.features[0]);
+  const get = async (place: Place): Promise<Address> => {
+    if(!initialized){
+      await init();
+    } 
+
+    const response = await _get(place.id);
+    sessionId = new google.maps.places.AutocompleteSessionToken();
+    if (response.address_components && response.formatted_address && response.geometry) {
+      return new Address({
+        formattedAddress: response.formatted_address,
+        locality: _find(response.address_components, "locality"),
+        country: _find(response.address_components, "country"),
+        latitude: response.geometry.location?.lat() ?? 0,
+        longitude: response.geometry.location?.lng() ?? 0,
+
+        placeId: place.id,
+        placeLabel: place.label,
+      })
     }
-    return undefined;
+    throw new Error("missing informations");
   }
 
-  const getAddressFromCoordinates = async (lat: number, lng: number): Promise<Address | undefined> => {
-    fetching.value = true;
-    const response = await fetch(`${API_REVERSE_URL}?lat=${lat}&lon=${lng}`);
-    fetching.value = false;
-    if (response.ok) {
-      const objectResponse = await response.json()
-      if(objectResponse.features.length !== 0) {
-        const enhancedAdress = getAddressFromFeature(objectResponse.features[0])
-        enhancedAdress.latitude = lat
-        enhancedAdress.longitude = lng
-        return enhancedAdress;
+  const _search = (search: string) => {
+    if (!enabled) {
+      throw new Error("offline mode, do not call this method");
+    }
+    return new Promise<google.maps.places.AutocompletePrediction[]>(
+      (resolve, reject) => {
+        searchService!.getPlacePredictions(
+          {
+            input: search,
+            sessionToken: sessionId!
+          },
+          function (result, status) {
+            if (status != google.maps.places.PlacesServiceStatus.OK || !result) {
+              reject(status);
+            } else {
+              resolve(result);
+            }
+          }
+        );
       }
+    );
+  }
+
+  const _get = (id: string) => {
+    if (!enabled) {
+      throw new Error("offline mode, do not call this method");
     }
-    return undefined;
+    return new Promise<google.maps.places.PlaceResult>((resolve, reject) => {
+      placeService!.getDetails(
+        {
+          placeId: id,
+          sessionToken: sessionId!,
+          fields: ["formatted_address", "geometry", "address_components", "name"]
+        },
+        (result, status) => {
+          if (status != google.maps.places.PlacesServiceStatus.OK || !result) {
+            reject(status);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+  }
+
+  const _find = (components: google.maps.GeocoderAddressComponent[], type: string): string => {
+    const found = _.find(components, c =>
+      _.some(c.types, t => t === type)
+    );
+    return (found && found.long_name) || "";
   }
 
   return {
-    fetching,
-    searchAddress,
-    getAddressFromString,
-    getAddressFromCoordinates
+    search,
+    get
   }
 }

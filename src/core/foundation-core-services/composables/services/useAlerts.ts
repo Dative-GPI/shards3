@@ -1,9 +1,10 @@
-import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { AlertDetails, AlertDetailsDTO, AlertFilters, AlertInfos, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { AlertDetailsDTO, AlertFilters, AlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { AlertDetails, AlertInfos } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
+import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
-import { HUBS } from "../../config/literals";
 import { ALERTS_HUB_URL, ALERTS_URL, ALERT_URL } from "../../config/urls";
+import { HUBS } from "../../config/literals";
 
 const AlertServiceFactory = new ServiceFactory<AlertDetailsDTO, AlertDetails>("alert", AlertDetails).create(factory => factory.build(
     factory.addGet(ALERT_URL),

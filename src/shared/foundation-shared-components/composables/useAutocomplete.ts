@@ -1,4 +1,5 @@
-import { computed, onMounted, ref, Ref, watch } from "vue";
+import type { Ref} from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import _ from "lodash";
 
 import { useDebounce } from "./useDebounce";
@@ -20,7 +21,7 @@ export const useAutocomplete = <TInfos>(
 
   const search = ref<string>("");
   const entitiesLength = ref(0);
-  const init = ref(false);
+  const init = ref(true);
 
   const toggleSet = computed((): boolean => {
     return allowToggleSet && entitiesLength.value > 0 && entitiesLength.value <= breakpointToggleSet;

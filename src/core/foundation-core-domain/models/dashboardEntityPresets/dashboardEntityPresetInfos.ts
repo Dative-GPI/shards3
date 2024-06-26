@@ -1,7 +1,9 @@
-import { DashboardEntityPresetTranslation, DashboardEntityPresetTranslationDTO } from "./dashboardEntityPresetTranslation";
-import { SelectedEntities } from "../enums/sharedEnums";
+import type { DashboardEntityPresetTranslationDTO } from "./dashboardEntityPresetTranslation";
+import { DashboardEntityPresetTranslation } from "./dashboardEntityPresetTranslation";
+import type { SelectedEntities } from "../enums/sharedEnums";
 
 export class DashboardEntityPresetInfos {
+  hiddenCode: string;
   label: string;
   labelDefault: string;
   globalSelectedEntities: SelectedEntities;
@@ -10,6 +12,7 @@ export class DashboardEntityPresetInfos {
   translations: DashboardEntityPresetTranslation[];
 
   constructor(params: DashboardEntityPresetInfosDTO) {
+    this.hiddenCode = params.hiddenCode;
     this.label = params.label;
     this.labelDefault = params.labelDefault;
     this.globalSelectedEntities = params.globalSelectedEntities;
@@ -20,6 +23,7 @@ export class DashboardEntityPresetInfos {
 }
 
 export interface DashboardEntityPresetInfosDTO {
+  hiddenCode: string;
   label: string;
   labelDefault: string;
   globalSelectedEntities: SelectedEntities;

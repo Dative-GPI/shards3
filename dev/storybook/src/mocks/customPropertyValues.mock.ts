@@ -1,4 +1,4 @@
-import { CustomPropertyValueDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { CustomPropertyValueDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 
 export const CUSTOMPROPERTYVALUES: CustomPropertyValueDetailsDTO[] = [
     {

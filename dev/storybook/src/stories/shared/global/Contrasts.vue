@@ -1,54 +1,80 @@
 <template>
-  <FSRow class="mb-12">
-    <FSCol align="center-center"
+  <FSRow
+    class="mb-12"
+  >
+    <FSCol
+      align="center-center"
       :style="{
         backgroundColor: colors.light,
         color: colors.lightContrast,
         height: '100px'
-      }">
-      <div style="font-weight: bold;">
+      }"
+    >
+      <div
+        style="font-weight: bold;"
+      >
         Light {{ colors.light }}
       </div>
-      <div style="font-weight: bold;">
+      <div
+        style="font-weight: bold;"
+      >
         {{ colors.lightContrast }}
       </div>
     </FSCol>
-    <FSCol align="center-center"
+    <FSCol
+      align="center-center"
       :style="{
         backgroundColor: colors.soft,
         color: colors.softContrast,
         height: '100px'
-      }">
-      <div style="font-weight: bold;">
+      }"
+    >
+      <div
+        style="font-weight: bold;"
+      >
         Soft {{ colors.soft }}
       </div>
-      <div style="font-weight: bold;">
+      <div
+        style="font-weight: bold;"
+      >
         {{ colors.softContrast }}
       </div>
     </FSCol>
-    <FSCol align="center-center"
+    <FSCol
+      align="center-center"
       :style="{
         backgroundColor: colors.base,
         color: colors.baseContrast,
         height: '100px'
-      }">
-      <div style="font-weight: bold;">
+      }"
+    >
+      <div
+        style="font-weight: bold;"
+      >
         Base {{ colors.base }}
       </div>
-      <div style="font-weight: bold;">
+      <div
+        style="font-weight: bold;"
+      >
         {{ colors.baseContrast }}
       </div>
     </FSCol>
-    <FSCol align="center-center"
+    <FSCol
+      align="center-center"
       :style="{
         backgroundColor: colors.dark,
         color: colors.darkContrast,
         height: '100px'
-      }">
-      <div style="font-weight: bold;">
+      }"
+    >
+      <div
+        style="font-weight: bold;"
+      >
         Dark {{ colors.dark }}
       </div>
-      <div style="font-weight: bold;">
+      <div
+        style="font-weight: bold;"
+      >
         {{ colors.darkContrast }}
       </div>
     </FSCol>

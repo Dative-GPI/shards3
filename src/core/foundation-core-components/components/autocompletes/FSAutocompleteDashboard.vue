@@ -81,9 +81,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DashboardShallowFilters } from "@dative-gpi/foundation-core-domain/models";
+import type { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DashboardShallowFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDashboardOrganisations, useDashboardOrganisationTypes, useDashboardShallows } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { DashboardType } from "@dative-gpi/foundation-shared-domain/models";
@@ -193,7 +194,7 @@ export default defineComponent({
       ]);
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       dashboards,
       [() => props.dashboardOrganisationTypeFilters, () => props.dashboardOrganisationFilters, () => props.dashboardShallowFilters],
       emit,
@@ -202,10 +203,9 @@ export default defineComponent({
     );
 
     return {
+      dashboards,
       toggleSet,
       loading,
-      search,
-      dashboards,
       dashboardTypeColor,
       dashboardTypeLabel,
       onUpdate

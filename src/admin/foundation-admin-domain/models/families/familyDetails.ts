@@ -1,4 +1,5 @@
-import { FamilyInfos, FamilyInfosDTO } from "./familyInfos";
+import type { FamilyInfosDTO } from "./familyInfos";
+import { FamilyInfos } from "./familyInfos";
 
 export class FamilyDetails extends FamilyInfos {
     parentId: string;

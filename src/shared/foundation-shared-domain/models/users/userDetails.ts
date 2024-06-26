@@ -1,4 +1,5 @@
-import { UserInfos, UserInfosDTO } from "./userInfos";
+import type { UserInfosDTO } from "./userInfos";
+import { UserInfos } from "./userInfos";
 
 export class UserDetails extends UserInfos {
     adminAccess: boolean;

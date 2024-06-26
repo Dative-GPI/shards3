@@ -1,6 +1,7 @@
-import { Ref } from "vue";
+import type { Ref } from "vue";
 
-import { UpdateCurrentUserDTO, UpdateCurrentUserEmailDTO, UserDetails, UserDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { UpdateCurrentUserDTO, UpdateCurrentUserEmailDTO, UserDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { UserDetails } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { USER_CURRENT_URL } from "../../config/urls";

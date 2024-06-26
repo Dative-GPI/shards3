@@ -1,4 +1,4 @@
-import { TranslationInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { TranslationInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 export const TRANSLATIONS: TranslationInfosDTO[] = [{
     id: "1",

@@ -1,5 +1,6 @@
-import { OrganisationDetails, OrganisationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
-import { ChangeOrganisationDashboardDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { OrganisationDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { OrganisationDetails } from "@dative-gpi/foundation-shared-domain/models";
+import type { ChangeOrganisationDashboardDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { ORGANISATION_DASHBOARD_URL } from "../../config/urls";

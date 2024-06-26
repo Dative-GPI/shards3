@@ -1,7 +1,8 @@
-import { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
+import type { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
 import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
-import { DeviceConnectivityInfos, DeviceConnectivityInfosDTO } from "../deviceConnectivities/deviceConnectivityInfos";
+import type { DeviceConnectivityInfosDTO } from "../deviceConnectivities/deviceConnectivityInfos";
+import { DeviceConnectivityInfos } from "../deviceConnectivities/deviceConnectivityInfos";
 
 export class ConnectivityAlertInfos {
   id: string;

@@ -1,5 +1,6 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { ConnectivityAlertDetails, ConnectivityAlertDetailsDTO, ConnectivityAlertFilters, ConnectivityAlertInfos, ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { ConnectivityAlertDetailsDTO, ConnectivityAlertFilters, ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { ConnectivityAlertDetails, ConnectivityAlertInfos } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 
 import { CONNECTIVITY_ALERTS_HUB_URL, CONNECTIVITY_ALERTS_URL, CONNECTIVITY_ALERT_URL } from "../../config/urls";
@@ -44,7 +45,7 @@ export const useConnectivityAlert = ComposableFactory.get(ConnectivityAlertServi
 
 export const useConnectivityAlerts = ComposableFactory.getMany(ConnectivityAlertServiceFactory, () => {
     const { watchMany } = useWatchConnectivityAlerts();
-    return (_alerts) => {
+    return () => {
         watchMany();
     }
 });

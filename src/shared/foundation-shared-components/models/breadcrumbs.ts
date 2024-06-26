@@ -1,4 +1,4 @@
-import { RouteLocationRaw } from "vue-router";
+import type { RouteLocationRaw } from "vue-router";
 export interface FSBreadcrumbItem {
   to?: RouteLocationRaw | null;
   disabled?: boolean | null;

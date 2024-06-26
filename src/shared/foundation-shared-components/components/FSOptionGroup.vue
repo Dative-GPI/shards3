@@ -1,22 +1,22 @@
 <template>
   <FSWrapGroup
-    v-if="['wrap'].includes($props.variant)"
+    v-if="['wrap'].includes(props.variant)"
     class="fs-option-group"
-    :padding="$props.padding"
-    :gap="$props.gap"
+    :padding="props.padding"
+    :gap="props.gap"
     :style="style"
   >
     <template
-      v-if="$props.values.length"
+      v-if="props.values.length"
     >
       <template
         v-if="!$slots.item"
       >
         <FSOptionItem
-          v-for="(item, index) in $props.values"
+          v-for="(item, index) in props.values"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="$props.editable"
+          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -30,7 +30,7 @@
         v-else
       >
         <template
-          v-for="item in $props.values"
+          v-for="item in props.values"
         >
           <slot
             name="item"
@@ -47,21 +47,21 @@
   <FSSlideGroup
     v-else
     class="fs-option-group"
-    :padding="$props.padding"
-    :gap="$props.gap"
+    :padding="props.padding"
+    :gap="props.gap"
     :style="style"
   >
     <template
-      v-if="$props.values.length"
+      v-if="props.values.length"
     >
       <template
         v-if="!$slots.item"
       >
         <FSOptionItem
-          v-for="(item, index) in $props.values"
+          v-for="(item, index) in props.values"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="$props.editable"
+          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -75,7 +75,7 @@
         v-else
       >
         <template
-          v-for="item in $props.values"
+          v-for="item in props.values"
         >
           <slot
             name="item"
@@ -92,12 +92,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
-import { FSToggle } from "@dative-gpi/foundation-shared-components/models"; 
+import type { FSToggle } from "@dative-gpi/foundation-shared-components/models"; 
 
 import FSOptionItem from "./FSOptionItem.vue";
 import FSSlideGroup from "./FSSlideGroup.vue";
@@ -202,14 +204,15 @@ export default defineComponent({
     const { getColors } = useColors();
 
     const lights = getColors(ColorEnum.Light);
-
+    const backgrounds = getColors(ColorEnum.Background);
     const colors = getColors(props.optionColor);
 
     const style = computed((): { [key: string] : string | null | undefined } => {
       return {
-        "--fs-option-group-border-size"  : props.border ? "1px" : "0",
-        "--fs-option-group-border-radius": sizeToVar(props.borderRadius),
-        "--fs-option-group-border-color" : lights.base
+        "--fs-option-group-background-color": backgrounds.base,
+        "--fs-option-group-border-size"     : props.border ? "1px" : "0",
+        "--fs-option-group-border-radius"   : sizeToVar(props.borderRadius),
+        "--fs-option-group-border-color"    : lights.base
       };
     });
 
@@ -289,6 +292,7 @@ export default defineComponent({
     };
 
     return {
+      props,
       style,
       getVariant,
       getColor,

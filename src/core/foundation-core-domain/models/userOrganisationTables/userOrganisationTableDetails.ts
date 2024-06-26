@@ -1,5 +1,6 @@
-import { UserOrganisationTableInfos, UserOrganisationTableInfosDTO } from "./userOrganisationTableInfos";
-import { UpdateUserOrganisationColumnDTO } from "../userOrganisationColumns/userOrganisationColumnDetails";
+import type { UserOrganisationTableInfosDTO } from "./userOrganisationTableInfos";
+import { UserOrganisationTableInfos } from "./userOrganisationTableInfos";
+import type { UpdateUserOrganisationColumnDTO } from "../userOrganisationColumns/userOrganisationColumnDetails";
 
 export class UserOrganisationTableDetails extends UserOrganisationTableInfos {
     constructor(dto: UserOrganisationTableDetailsDTO) {

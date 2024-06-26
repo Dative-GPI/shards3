@@ -133,7 +133,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";

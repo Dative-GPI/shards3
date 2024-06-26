@@ -1,5 +1,7 @@
-import { ChartValueRange, ChartValueRangeDTO, CreateChartValueRangeDTO } from "./chartValueRange";
-import { CreateChartTimeRangeDTO, ChartTimeRange, ChartTimeRangeDTO } from "./chartTimeRange";
+import type { ChartValueRangeDTO, CreateChartValueRangeDTO } from "./chartValueRange";
+import { ChartValueRange } from "./chartValueRange";
+import type { CreateChartTimeRangeDTO, ChartTimeRangeDTO } from "./chartTimeRange";
+import { ChartTimeRange } from "./chartTimeRange";
 import { AxisType } from "../enums/chartEnums";
 
 export class ChartAxis {

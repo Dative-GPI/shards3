@@ -1,5 +1,6 @@
 <template>
   <FSTextField
+    class="fs-number-field"
     :editable="$props.editable"
     :modelValue="$props.modelValue?.toString()"
     @update:modelValue="onUpdate"
@@ -18,7 +19,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import type { PropType } from "vue";
+import { defineComponent } from "vue";
 
 import FSTextField from "./FSTextField.vue";
 

@@ -50,8 +50,8 @@ export default defineComponent({
     const input = ref<HTMLFormElement | null>(null);
 
     const clear = (): void => {
-      if (input.value) {
-        input.value.form && input.value.form.reset();
+      if (input.value && input.value.form) {
+        input.value.form.reset();
       }
     };
 

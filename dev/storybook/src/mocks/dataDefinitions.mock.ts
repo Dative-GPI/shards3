@@ -1,4 +1,4 @@
-import { DataDefinitionInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import type { DataDefinitionInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { DATACATEGORIES } from "./dataCategories.mock";
 import { MODELS } from "./models.mock";

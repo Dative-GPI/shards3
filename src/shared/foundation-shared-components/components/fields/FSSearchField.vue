@@ -7,7 +7,7 @@
     v-bind="$attrs"
   >
     <template
-      v-for="(_, name) in $slots"
+      v-for="(_, name) in slots"
       v-slot:[name]="slotData"
     >
       <slot
@@ -16,47 +16,49 @@
       />
     </template>
     <template
-      v-if="$props.prependInnerIcon"
       #prepend-inner
     >
+      <FSButton
+        v-if="$props.prependInnerIcon"
+        variant="icon"
+        :icon="$props.prependInnerIcon"
+        :editable="$props.editable"
+        :color="ColorEnum.Dark"
+        @click="onSearch"
+      />
       <slot
         name="prepend-inner"
-      >
-        <FSButton
-          variant="icon"
-          :icon="$props.prependInnerIcon"
-          :editable="$props.editable"
-          :color="ColorEnum.Dark"
-          @click="onSearch"
-        />
-      </slot>
+      />
     </template>
     <template
-      v-if="!['instant'].includes($props.variant)"
       #append
     >
+      <FSButton
+        v-if="!['instant'].includes($props.variant)"
+        :prependIcon="$props.buttonPrependIcon"
+        :label="buttonLabel"
+        :appendIcon="$props.buttonAppendIcon"
+        :variant="$props.buttonVariant"
+        :color="$props.buttonColor"
+        :editable="$props.editable"
+        @click="onSearch"
+      />
       <slot
         name="append"
-      >
-        <FSButton
-          :prependIcon="$props.buttonPrependIcon"
-          :label="buttonLabel"
-          :appendIcon="$props.buttonAppendIcon"
-          :variant="$props.buttonVariant"
-          :color="$props.buttonColor"
-          :editable="$props.editable"
-          @click="onSearch"
-        />
-      </slot>
+      />
     </template>
   </FSTextField>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+
+import { useSlots } from "../../composables";
 
 import FSTextField from "./FSTextField.vue";
 import FSButton from "../FSButton.vue";
@@ -122,6 +124,10 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
+    const { slots } = useSlots();
+
+    delete slots["prepend-inner"];
+    delete slots.append;
 
     const innerValue = ref(props.modelValue);
 
@@ -150,6 +156,7 @@ export default defineComponent({
       buttonLabel,
       innerValue,
       ColorEnum,
+      slots,
       onSearch
     };
   }

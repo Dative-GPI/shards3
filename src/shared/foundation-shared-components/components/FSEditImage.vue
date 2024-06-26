@@ -165,11 +165,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { useFiles } from "@dative-gpi/foundation-shared-services/composables";
-import { ColorEnum, FileImage } from "@dative-gpi/foundation-shared-components/models";
+import type { FileImage } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButtonRemoveMini from "./buttons/FSButtonRemoveMini.vue";
 import FSButtonFileMini from "./buttons/FSButtonFileMini.vue";

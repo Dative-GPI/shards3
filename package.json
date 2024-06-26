@@ -1,5 +1,11 @@
 {
   "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint",
+    "fix": "eslint --fix",
+    "type-check": "vue-tsc --build --force"
+  },
   "workspaces": [
     "src/admin/foundation-admin-services",
     "src/admin/foundation-admin-domain",
@@ -11,12 +17,18 @@
     "src/shared/foundation-shared-domain",
     "src/shared/foundation-shared-components",
     "src/shared/foundation-shared-loader",
-    "dev/storybook"
+    "dev/storybook",
+    "tests/packages-build"
   ],
   "dependencies": {
-    "axios-mock-adapter": "^1.22.0"
+    "axios-mock-adapter": "1.22.0"
   },
   "devDependencies": {
-    "lerna": "^7.3.0"
+    "@dative-gpi/bones-ui": "0.0.75",
+    "lerna": "7.3.0",
+    "eslint": "9.5.0",
+    "typescript-eslint": "8.0.0-alpha.33",
+    "eslint-plugin-vue": "9.26.0",
+    "vue-tsc": "2.0.22"
   }
 }

@@ -87,9 +87,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import type { PropType} from "vue";
+import { computed, defineComponent, ref } from "vue";
 
-import { ColorBase, ColorEnum, FSDataTableColumn, FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase, FSDataTableColumn, FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
 import FSSearchField from "../fields/FSSearchField.vue";

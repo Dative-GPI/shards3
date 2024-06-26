@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dative-gpi/bones-ui": "^0.0.74",
-    "@dative-gpi/foundation-core-domain": "1.0.0",
+    "@dative-gpi/foundation-core-domain": "1.0.0"
+  },
+  "peerDependencies": {
+    "@dative-gpi/bones-ui": "^0.0.75",
     "@microsoft/signalr": "^8.0.0",
-    "vue": "^3.4.23",
-    "vue-router": "^4.2.5"
+    "vue": "^3.4.29",
+    "vue-router": "^4.3.0"
   }
 }
