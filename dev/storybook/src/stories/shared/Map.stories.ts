@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
 
-import { AreaInfos, LocationInfos } from '@dative-gpi/foundation-core-domain/models';
+import { AreaInfos, LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
 
 const meta = {
   title: 'Foundation/Shared/Map',

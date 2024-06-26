@@ -88,7 +88,7 @@ import FSNumberField from '../fields/FSNumberField.vue'
 import FSForm from '../FSForm.vue'
 import FSAutoCompleteAddress from '../autocompletes/FSAutoCompleteAddress.vue'
 
-import { Address } from "@dative-gpi/foundation-core-domain/models/locations/address";
+import { Address } from "@dative-gpi/foundation-shared-domain/models/locations/address";
 
 
 export default defineComponent({

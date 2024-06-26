@@ -54,6 +54,10 @@ export const useAddress = () => {
     throw new Error("missing informations");
   }
 
+  const reverseSearch = async (lat: number, lon: number): Promise<Address> => {
+    //not implemented
+  }
+
   const _search = (search: string) => {
     if (!enabled) {
       throw new Error("offline mode, do not call this method");
@@ -108,6 +112,7 @@ export const useAddress = () => {
 
   return {
     search,
-    get
+    get,
+    reverseSearch
   }
 }

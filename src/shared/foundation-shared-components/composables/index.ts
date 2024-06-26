@@ -3,6 +3,7 @@ export * from "./useAuthTokens";
 export * from "./useBreakpoints";
 export * from "./useColors";
 export * from "./useDebounce";
+export * from "./useLocations";
 export * from "./useMagicFieldProvider";
 export * from "./useRules";
 export * from "./useSlots";

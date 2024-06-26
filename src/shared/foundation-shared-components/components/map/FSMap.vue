@@ -93,7 +93,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent, onMounted, ref, watch } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
 import FSCard from '../FSCard.vue'
@@ -101,14 +102,16 @@ import FSCol from '../FSCol.vue'
 import FSRow from '../FSRow.vue'
 import FSButton from '../FSButton.vue'
 import FSChip from '../FSChip.vue'
-
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 
 import L from "leaflet";
-import { ColorEnum, MapLayer } from "../../models";
+import type { MapLayer } from "../../models";
+import { ColorEnum } from "../../models";
 import { useColors } from "../../composables";
-import { Address, AreaInfos, LocationInfos } from '@dative-gpi/foundation-core-domain/models';
+import type { AreaInfos } from '@dative-gpi/foundation-shared-domain/models';
+import { Address, LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
 import { useAddress } from "../../composables/useAddress";
+import type { LeafletEvent } from 'leaflet';
 
 
 export default defineComponent({
@@ -189,7 +192,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     const { getColors } = useColors();
-    const { getAddressFromCoordinates } = useAddress();
+    const { reverseSearch } = useAddress();
 
     const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
@@ -291,7 +294,7 @@ export default defineComponent({
 
     const enhanceAddressLocation = async (location: LocationInfos, initialIcon: string) => {
       const address = location.address;
-      const enhancedAddress = await getAddressFromCoordinates(address.latitude, address.longitude)
+      const enhancedAddress = await reverseSearch(address.latitude, address.longitude)
       if (enhancedAddress && enhancedAddress.formattedAddress !== "") {
         location.address = enhancedAddress;
       }
@@ -337,7 +340,7 @@ export default defineComponent({
         map.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
       }
 
-      map.on('click', (e) => {
+      map.on('click', (e: LeafletEvent) => {
         if (editingLocation.value) {
           onNewCoordEntered(new Address({
             latitude: parseFloat(e.latlng.lat.toFixed(6)),
@@ -391,7 +394,7 @@ export default defineComponent({
 
     const locate = () => {
       map?.locate();
-      map?.on('locationfound', (e) => {
+      map?.on('locationfound', (e: LeafletEvent) => {
         map?.flyTo(e.latlng, 13);
 
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
