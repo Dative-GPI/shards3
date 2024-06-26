@@ -1,5 +1,5 @@
-
-import { Address, Place } from "@dative-gpi/foundation-core-domain/models";
+import type { Place } from "@dative-gpi/foundation-shared-domain/models";
+import { Address } from "@dative-gpi/foundation-shared-domain/models";
 import _ from "lodash";
 
 export const useAddress = () => {

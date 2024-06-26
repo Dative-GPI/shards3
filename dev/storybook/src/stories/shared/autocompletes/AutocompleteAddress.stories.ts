@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSAutocompleteAddress from "@dative-gpi/foundation-shared-components/components/autocompletes/FSAutoCompleteAddress.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
-import { Address } from '@dative-gpi/foundation-core-domain/models';
+import { Address } from '@dative-gpi/foundation-shared-domain/models';
 
 const meta = {
   title: 'Foundation/Shared/Autocompletes/AutocompleteAddress',

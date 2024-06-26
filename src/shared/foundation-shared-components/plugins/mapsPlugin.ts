@@ -2,7 +2,9 @@ import type { Plugin } from "vue";
 
 export const MapsPlugin: Plugin = {
   install: (_app, options: MapsOptions) => {
-    if(window?.initMap) return;
+    if(window?.initMap) {
+      return;
+    }
     const key = options?.key ?? import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     const maps = document.createElement("script");
     maps.setAttribute(
@@ -18,7 +20,7 @@ export const MapsPlugin: Plugin = {
 
     window.initMap = promise;
 
-    maps.onload = (ev) => {
+    maps.onload = () => {
       resolvePromise();
     };
 

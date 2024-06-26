@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useAddress } from "../../composables/useAddress";
 
-import { Address, Place } from "@dative-gpi/foundation-core-domain/models";
+import type { Address, Place } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -28,7 +28,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object as PropType<Address | null>,
+      type: Function as () => Address | null,
       required: false,
       default: null
     },
