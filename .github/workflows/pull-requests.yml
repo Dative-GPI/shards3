@@ -1,9 +1,7 @@
 name: Build and Deploy Storybook
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
 jobs:
   build-and-deploy:

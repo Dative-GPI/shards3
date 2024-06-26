@@ -12,7 +12,7 @@ function parseId(id: string) {
   }
 }
 
-export function importPlugin(skipShared: boolean, skipCore: boolean, skipAdmin: boolean, skipExtension: boolean): Plugin {
+export function importPlugin(skipShared: boolean, skipCore: boolean, skipAdmin: boolean): Plugin {
   return {
     name: 'foundation:import',
     configResolved(config) {
@@ -27,7 +27,7 @@ export function importPlugin(skipShared: boolean, skipCore: boolean, skipAdmin: 
         ((!query || !('vue' in query)) && extname(path) === '.vue' && !/^import { render as _sfc_render } from ".*"$/m.test(code)) ||
         (query && 'vue' in query && (query.type === 'template' || (query.type === 'script' && query.setup === 'true')))
       ) {
-        const { code: imports, source } = generateImports(code, skipShared, skipCore, skipAdmin, skipExtension)
+        const { code: imports, source } = generateImports(code, skipShared, skipCore, skipAdmin)
         return {
           code: source + imports,
           map: null,

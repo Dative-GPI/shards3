@@ -1389,11 +1389,11 @@ export default defineComponent({
                 target.insertAdjacentElement("beforebegin", dragged);
                 target.classList.remove("fs-dropzone-include");
               }
-              else if (dragged?.getAttribute("data-initial-index") !== null) {
+              else if (dragged!.getAttribute("data-initial-index") !== null) {
                 target.classList.add("fs-dropzone-include");
                 const tbodyElement = (event.target as HTMLElement)?.closest(elementContainerSelector) as HTMLElement ?? null;
                 if (tbodyElement !== null) {
-                  resetRowIndex(+dragged?.getAttribute('data-initial-index')!, Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
+                  resetRowIndex(+dragged!.getAttribute('data-initial-index')!, Array.from(tbodyElement.children).indexOf(dragged), dragged, tbodyElement);
                 }
               }
             }

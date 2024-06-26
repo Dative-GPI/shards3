@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "lint": "eslint",
-    "fix": "eslint --fix"
+    "fix": "eslint --fix",
+    "type-check": "vue-tsc --build --force"
   },
   "workspaces": [
     "src/admin/foundation-admin-services",
@@ -23,9 +24,11 @@
     "axios-mock-adapter": "1.22.0"
   },
   "devDependencies": {
+    "@dative-gpi/bones-ui": "0.0.75",
     "lerna": "7.3.0",
     "eslint": "9.5.0",
     "typescript-eslint": "8.0.0-alpha.33",
-    "eslint-plugin-vue": "9.26.0"
+    "eslint-plugin-vue": "9.26.0",
+    "vue-tsc": "2.0.22"
   }
 }
