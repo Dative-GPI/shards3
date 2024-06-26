@@ -1,3 +1,4 @@
+export * from "./address";
 export * from "./applications";
 export * from "./authTokens";
 export * from "./enums";                    // No service
