@@ -2,7 +2,7 @@ name: Generate and publish to Nugets
 
 env:
   GENERATOR_PROJECT_PATH: ci/generators/Foundation.Shared.Translations.Generator
-  OUTPUT_PROJECT_PATH: ci/output/Foundation.Shared.Translations
+  OUTPUT_PROJECT_PATH: ci/generators/output/Foundation.Shared.Translations
 
 on:
   push:
