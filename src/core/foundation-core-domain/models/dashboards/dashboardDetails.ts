@@ -1,5 +1,3 @@
-import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
-
 import type { DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
 import { DashboardEntityPresetInfos } from "../dashboardEntityPresets";
 import type { DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
@@ -12,9 +10,6 @@ import type { WidgetInfosDTO } from "../widgets/widgetInfos";
 import { WidgetInfos } from "../widgets/widgetInfos";
 
 export class DashboardDetails extends DashboardInfos {
-  useAutoRefresh: boolean;
-  autoRefresh: AutoRefresh;
-  singleEntity: boolean;
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
@@ -26,9 +21,6 @@ export class DashboardDetails extends DashboardInfos {
   constructor(params: DashboardDetailsDTO) {
     super(params);
 
-    this.useAutoRefresh = params.useAutoRefresh;
-    this.autoRefresh = params.autoRefresh;
-    this.singleEntity = params.singleEntity;
     this.entityPresetCode = params.entityPresetCode;
     this.datePresetCode = params.datePresetCode;
     this.variableCode = params.variableCode;
@@ -40,9 +32,6 @@ export class DashboardDetails extends DashboardInfos {
 }
 
 export interface DashboardDetailsDTO extends DashboardInfosDTO {
-  useAutoRefresh: boolean;
-  autoRefresh: number;
-  singleEntity: boolean;
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;

@@ -1,18 +1,25 @@
+import type { AutoRefresh } from "@/shared/foundation-shared-domain/models";
 
 export class DashboardShallowDatePresetInfos {
   hiddenCode: string;
-  globalStartDate: string;
-  globalEndDate: string;
+  startDate: string;
+  endDate: string;
+  useAutoRefresh: boolean;
+  autoRefresh: AutoRefresh;
 
   constructor(params: DashboardShallowDatePresetInfosDTO) {
     this.hiddenCode = params.hiddenCode;
-    this.globalStartDate = params.globalStartDate;
-    this.globalEndDate = params.globalEndDate;
+    this.startDate = params.startDate;
+    this.endDate = params.endDate;
+    this.useAutoRefresh = params.useAutoRefresh;
+    this.autoRefresh = params.autoRefresh;
   }
 }
 
 export interface DashboardShallowDatePresetInfosDTO {
   hiddenCode: string;
-  globalStartDate: string;
-  globalEndDate: string;
+  startDate: string;
+  endDate: string;
+  useAutoRefresh: boolean;
+  autoRefresh: AutoRefresh;
 }

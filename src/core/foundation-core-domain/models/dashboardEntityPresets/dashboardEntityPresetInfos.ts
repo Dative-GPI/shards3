@@ -6,18 +6,20 @@ export class DashboardEntityPresetInfos {
   hiddenCode: string;
   label: string;
   labelDefault: string;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  singleEntity: boolean;
+  selectedEntities: SelectedEntities;
+  entitiesFilters: string;
+  entitiesIds: string[];
   translations: DashboardEntityPresetTranslation[];
 
   constructor(params: DashboardEntityPresetInfosDTO) {
     this.hiddenCode = params.hiddenCode;
     this.label = params.label;
     this.labelDefault = params.labelDefault;
-    this.globalSelectedEntities = params.globalSelectedEntities;
-    this.globalEntitiesFilters = params.globalEntitiesFilters;
-    this.globalEntitiesIds = params.globalEntitiesIds.slice();
+    this.singleEntity = params.singleEntity;
+    this.selectedEntities = params.selectedEntities;
+    this.entitiesFilters = params.entitiesFilters;
+    this.entitiesIds = params.entitiesIds.slice();
     this.translations = params.translations.map(t => new DashboardEntityPresetTranslation(t));
   }
 }
@@ -26,8 +28,9 @@ export interface DashboardEntityPresetInfosDTO {
   hiddenCode: string;
   label: string;
   labelDefault: string;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  singleEntity: boolean;
+  selectedEntities: SelectedEntities;
+  entitiesFilters: string;
+  entitiesIds: string[];
   translations: DashboardEntityPresetTranslationDTO[];
 }
