@@ -2,7 +2,8 @@ import type { SelectedEntities } from "../enums/sharedEnums";
 
 export interface CreateDashboardShallowEntityPresetDTO {
   hiddenCode: string;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  singleEntity: boolean;
+  selectedEntities: SelectedEntities;
+  entitiesFilters: string;
+  entitiesIds: string[];
 }

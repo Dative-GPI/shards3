@@ -16,6 +16,7 @@
       />
     </template>
     <template
+      v-if="$props.prependInnerIcon || $slots['prepend-inner']"
       #prepend-inner
     >
       <FSButton
@@ -31,10 +32,11 @@
       />
     </template>
     <template
+      v-if="$props.variant !== 'instant' || $slots.append"
       #append
     >
       <FSButton
-        v-if="!['instant'].includes($props.variant)"
+        v-if="$props.variant !== 'instant'"
         :prependIcon="$props.buttonPrependIcon"
         :label="buttonLabel"
         :appendIcon="$props.buttonAppendIcon"

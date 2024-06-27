@@ -1,10 +1,12 @@
+import type { WidgetCategory } from "@dative-gpi/foundation-shared-domain/models";
+
 export class WidgetTemplateInfos {
     id: string;
     label: string;
     code: string;
     icon: string;
     description: string;
-    category: string | null;
+    category: WidgetCategory;
     defaultWidth: number;
     defaultHeight: number;
     defaultMeta: { [key: string]: string }
@@ -28,7 +30,7 @@ export interface WidgetTemplateInfosDTO {
     code: string;
     icon: string;
     description: string;
-    category: string | null;
+    category: WidgetCategory;
     defaultWidth: number;
     defaultHeight: number;
     defaultMeta: { [key: string]: string }

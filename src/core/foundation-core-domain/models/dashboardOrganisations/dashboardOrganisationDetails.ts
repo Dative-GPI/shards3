@@ -1,5 +1,3 @@
-import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
-
 import type { CreateDashboardEntityPresetDTO, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
 import { DashboardEntityPresetInfos } from "../dashboardEntityPresets";
 import type { CreateDashboardDatePresetDTO, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
@@ -20,9 +18,6 @@ export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
   labelDefault: string;
   path: PathCrumb[];
   translations: DashboardTranslation[];
-  useAutoRefresh: boolean;
-  autoRefresh: AutoRefresh;
-  singleEntity: boolean;
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
@@ -37,9 +32,6 @@ export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
     this.labelDefault = params.labelDefault;
     this.path = params.path.map(dto => new PathCrumb(dto)).sort((a, b) => b.index - a.index);
     this.translations = params.translations.map(t => new DashboardTranslation(t));
-    this.useAutoRefresh = params.useAutoRefresh;
-    this.autoRefresh = params.autoRefresh;
-    this.singleEntity = params.singleEntity;
     this.entityPresetCode = params.entityPresetCode;
     this.datePresetCode = params.datePresetCode;
     this.variableCode = params.variableCode;
@@ -54,9 +46,6 @@ export interface DashboardOrganisationDetailsDTO extends DashboardOrganisationIn
   labelDefault: string;
   path: PathCrumbDTO[];
   translations: DashboardTranslationDTO[];
-  useAutoRefresh: boolean;
-  autoRefresh: AutoRefresh;
-  singleEntity: boolean;
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
@@ -85,9 +74,6 @@ export interface UpdateDashboardOrganisationDTO {
   icon: string;
   tags: string[];
   translations: DashboardTranslationDTO[];
-  useAutoRefresh: boolean;
-  autoRefresh: number;
-  singleEntity: boolean;
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
