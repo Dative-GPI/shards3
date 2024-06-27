@@ -3,6 +3,7 @@ name: Generate and publish to Nugets
 env:
   GENERATOR_PROJECT_PATH: ci/generators/Foundation.Shared.Translations.Generator
   OUTPUT_PROJECT_PATH: ci/generators/output/Foundation.Shared.Translations
+  OUTPUT_PROJECT_NAME: Foundation.Shared.Translations
 
 on:
   push:
@@ -40,4 +41,4 @@ jobs:
       - name: Publish Package to NuGet 🚀
         working-directory: ${{ env.OUTPUT_PROJECT_PATH }}/bin/Release
         run: |
-          dotnet nuget push ${{ env.OUTPUT_PROJECT_PATH }}.${{ github.ref_name }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+          dotnet nuget push ${{ env.OUTPUT_PROJECT_NAME }}.${{ github.ref_name }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
