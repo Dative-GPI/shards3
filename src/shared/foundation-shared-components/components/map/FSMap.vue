@@ -32,7 +32,7 @@
           @click="editingLocation = true"
         />
       </FSRow>
-      <FSCol 
+      <FSCol
         :style="style"
       >
         <div
@@ -98,6 +98,8 @@ import type { PropType } from "vue";
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
+import { useAddress } from "../../composables/useAddress";
+
 import FSCard from '../FSCard.vue'
 import FSCol from '../FSCol.vue'
 import FSRow from '../FSRow.vue'
@@ -105,15 +107,13 @@ import FSButton from '../FSButton.vue'
 import FSChip from '../FSChip.vue'
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 
-import L from "leaflet";
+import * as L from "leaflet";
+
 import type { MapLayer } from "../../models";
-import { ColorEnum } from "../../models";
-import { useColors } from "../../composables";
 import type { AreaInfos, Address } from '@dative-gpi/foundation-shared-domain/models';
 import { LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
-
-import { useAddress } from "../../composables/useAddress";
-
+import { ColorEnum } from "../../models";
+import { useColors } from "../../composables";
 
 export default defineComponent({
   name: "FSMap",
@@ -127,7 +127,7 @@ export default defineComponent({
   },
   props: {
     height: {
-      type: [String, Number] as PropType< string | number >,
+      type: [String, Number] as PropType<string | number>,
       required: false,
       default: '400px'
     },
@@ -200,8 +200,8 @@ export default defineComponent({
     const selectedLocationId = ref<string | null>(null);
     const editingLocation = ref(false);
 
-    const mapId = `map-${uuidv4()}`;
     let map: L.Map;
+    const mapId = `map-${uuidv4()}`;
     const pinLayerGroup = new L.FeatureGroup();
     const areaLayerGroup = new L.FeatureGroup();
     const baseLayerGroup = new L.LayerGroup();
@@ -232,10 +232,6 @@ export default defineComponent({
         })
       }
     ];
-
-    if (props.singleLocation && props.modelValue.length >= 1) {
-      selectedLocationId.value = props.modelValue[0].id;
-    }
 
     const style = computed((): { [key: string]: string | undefined } => {
       return {
@@ -295,7 +291,7 @@ export default defineComponent({
 
     const modifyLocationAddress = (locationId: string, newAddress: Address) => {
       const location = innerModelValue.value.find((loc) => loc.id === locationId);
-      if (!location) {return;}
+      if (!location) { return; }
       const newLocation = {
         ...location,
         address: {
@@ -328,7 +324,7 @@ export default defineComponent({
         map.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
       }
 
-      map.on('click', (e: any) => {
+      map.on('click', (e: L.LeafletMouseEvent) => {
         if (editingLocation.value) {
           onNewCoordEntered(+e.latlng.lat.toFixed(6), +e.latlng.lng.toFixed(6));
         }
@@ -366,7 +362,7 @@ export default defineComponent({
 
     const onNewCoordEntered = async (lat: number, lng: number) => {
       const address = await reverseSearch(lat, lng);
-      
+
       onNewAddressEntered({
         ...address,
         latitude: lat,
@@ -384,7 +380,7 @@ export default defineComponent({
 
     const locate = () => {
       map?.locate();
-      map?.on('locationfound', (e: any) => {
+      map?.on('locationfound', (e: L.LocationEvent) => {
         map?.flyTo(e.latlng, 13);
 
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
@@ -411,7 +407,7 @@ export default defineComponent({
       } else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? 13);
       }
-      if(!props.singleLocation) {
+      if (!props.singleLocation) {
         selectedLocationId.value = null;
       }
     };
@@ -424,12 +420,15 @@ export default defineComponent({
       } else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? 13);
       }
-      if(!props.singleLocation) {
+      if (!props.singleLocation) {
         selectedLocationId.value = null;
       }
     };
 
     onMounted(() => {
+      if (props.singleLocation && props.modelValue.length >= 1) {
+        selectedLocationId.value = props.modelValue[0].id;
+      }
       initMap();
     });
 
@@ -442,6 +441,7 @@ export default defineComponent({
     });
 
     return {
+      locate,
       onNewAddressEntered,
       onNewCoordEntered,
       onCancel,
@@ -449,14 +449,13 @@ export default defineComponent({
       setMapBaseLayer,
       zoomIn,
       zoomOut,
-      locate,
+      editingLocation,
+      innerModelValue,
       innerSelectedLayer,
       mapId,
-      style,
-      editingLocation,
-      selectedLocationId,
-      innerModelValue,
       mapLayers,
+      selectedLocationId,
+      style
     };
   },
 });

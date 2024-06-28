@@ -75,7 +75,7 @@ export default defineComponent({
     const addressToPlace = (address: Address): Place => {
       return {
         id: address.placeId,
-        label: address.placeLabel === "" ? address.formattedAddress : address.placeLabel
+        label: address.placeLabel
       };
     };
 

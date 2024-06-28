@@ -2,7 +2,7 @@ import type { CreateLocationDTO, LocationDetailsDTO, LocationFilters, LocationIn
 import { LocationDetails, LocationInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
-import { LOCATIONS_URL, LOCATION_URL } from "@dative-gpi/foundation-core-services/config/urls";
+import { LOCATIONS_URL, LOCATION_URL } from "../../config/urls";
 
 const LocationServiceFactory = new ServiceFactory<LocationDetailsDTO, LocationDetails>("location", LocationDetails)
     .createComplete<LocationInfos, LocationInfosDTO, CreateLocationDTO, UpdateLocationDTO, LocationFilters>(LOCATIONS_URL, LOCATION_URL, LocationInfos);
