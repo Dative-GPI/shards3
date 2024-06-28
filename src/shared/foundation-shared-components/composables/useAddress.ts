@@ -8,6 +8,7 @@ export const useAddress = () => {
   let searchService: google.maps.places.AutocompleteService;
   let placeService: google.maps.places.PlacesService;
   let sessionId: google.maps.places.AutocompleteSessionToken;
+  
 
   const init = async () => {
     await window.initMap;
@@ -18,7 +19,6 @@ export const useAddress = () => {
     sessionId = new google.maps.places.AutocompleteSessionToken();
     initialized = true;
   }
-
 
   const search = async (search: string): Promise<Place[]> => {
     if(!initialized){
@@ -55,7 +55,39 @@ export const useAddress = () => {
   }
 
   const reverseSearch = async (lat: number, lon: number): Promise<Address> => {
-    //not implemented
+    if(!initialized){
+      await init();
+    }
+
+    return new Promise<Address>((resolve, reject) => {
+      new google.maps.Geocoder().geocode(
+        {
+          location: { lat: lat, lng: lon }
+        },
+        (result, status) => {
+          if (status != google.maps.GeocoderStatus.OK || !result) {
+            console.error(status);
+            reject(status);
+          } else {
+            const response = result[0];
+            if (response.address_components && response.formatted_address && response.geometry) {
+              resolve(new Address({
+                formattedAddress: response.formatted_address,
+                locality: _find(response.address_components, "locality"),
+                country: _find(response.address_components, "country"),
+                latitude: response.geometry.location?.lat() ?? 0,
+                longitude: response.geometry.location?.lng() ?? 0,
+                placeId: "",
+                placeLabel: ""
+              }));
+            } else {
+              console.error("missing informations");
+              reject("missing informations");
+            }
+          }
+        }
+      );
+    });
   }
 
   const _search = (search: string) => {

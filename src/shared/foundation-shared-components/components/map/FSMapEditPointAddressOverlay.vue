@@ -77,7 +77,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, ref, watch } from "vue";
+import type { PropType } from "vue";
+import { defineComponent, ref, watch } from "vue";
 
 import FSCard from '../FSCard.vue'
 import FSCol from '../FSCol.vue'
@@ -110,7 +111,7 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ['update:modelValue', 'update:locationCoord', 'cancel'],
+  emits: ['update:modelValue', 'update:locationCoord', 'submit', 'cancel'],
   setup(props, { emit }) {
     const menuLocationCoord = ref(false);
 
@@ -130,13 +131,15 @@ export default defineComponent({
       emit('update:locationCoord', newModelValue);
     };
 
-    const onAddressFieldSubmit = (address: Address) => {
-      emit('update:locationCoord', address);
+    const onAddressFieldSubmit = (address: Address|null) => {
+      if(address === null) {
+        return;
+      }
+      emit('update:modelValue', address);
     };
 
     const onSubmit = () => {
-      console.log('submit')
-      emit('update:modelValue', props.modelValue);
+      emit('submit');
     };
 
     const onCancel = () => {

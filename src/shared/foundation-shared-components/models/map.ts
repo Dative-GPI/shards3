@@ -1,4 +1,4 @@
-import { Layer } from "leaflet";
+import type { Layer } from "leaflet";
 
 export interface MapLayer {
   name:string;

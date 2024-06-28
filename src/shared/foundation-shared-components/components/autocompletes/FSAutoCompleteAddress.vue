@@ -28,7 +28,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Function as () => Address | null,
+      type: Object as () => Address | null,
       required: false,
       default: null
     },
@@ -75,7 +75,7 @@ export default defineComponent({
     const addressToPlace = (address: Address): Place => {
       return {
         id: address.placeId,
-        label: address.placeLabel
+        label: address.placeLabel === "" ? address.formattedAddress : address.placeLabel
       };
     };
 

@@ -83,9 +83,10 @@
           v-if="editingLocation"
           :label="$tr('ui.map.address', 'Address')"
           :modelValue="(innerModelValue.find((loc) => loc.id === selectedLocationId))?.address"
-          @update:locationCoord="($event) => onNewCoordEntered($event)"
+          @update:locationCoord="($event: Address) => onNewCoordEntered($event.latitude, $event.longitude)"
+          @update:modelValue="($event: Address) => onNewAddressEntered($event)"
           @cancel="onCancel"
-          @update:modelValue="onSubmit"
+          @submit="onSubmit"
         />
       </FSCol>
     </FSCol>
@@ -108,10 +109,10 @@ import L from "leaflet";
 import type { MapLayer } from "../../models";
 import { ColorEnum } from "../../models";
 import { useColors } from "../../composables";
-import type { AreaInfos } from '@dative-gpi/foundation-shared-domain/models';
-import { Address, LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
+import type { AreaInfos, Address } from '@dative-gpi/foundation-shared-domain/models';
+import { LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
+
 import { useAddress } from "../../composables/useAddress";
-import type { LeafletEvent } from 'leaflet';
 
 
 export default defineComponent({
@@ -292,29 +293,16 @@ export default defineComponent({
       });
     }
 
-    const enhanceAddressLocation = async (location: LocationInfos, initialIcon: string) => {
-      const address = location.address;
-      const enhancedAddress = await reverseSearch(address.latitude, address.longitude)
-      if (enhancedAddress && enhancedAddress.formattedAddress !== "") {
-        location.address = enhancedAddress;
-      }
-      location.icon = initialIcon;
-      innerModelValue.value = innerModelValue.value.map((loc) => loc.id === location.id ? location : loc);
-    }
-
     const modifyLocationAddress = (locationId: string, newAddress: Address) => {
       const location = innerModelValue.value.find((loc) => loc.id === locationId);
       if (!location) {return;}
-      const initialIcon = location.icon;
       const newLocation = {
         ...location,
-        icon: 'mdi-loading',
         address: {
           ...newAddress
         },
       };
       innerModelValue.value = innerModelValue.value.map((loc) => loc.id === locationId ? newLocation : loc);
-      enhanceAddressLocation(newLocation, initialIcon);
     };
 
     const initMap = () => {
@@ -340,17 +328,9 @@ export default defineComponent({
         map.fitBounds(pinLayerGroup.getBounds(), { maxZoom: 13 });
       }
 
-      map.on('click', (e: LeafletEvent) => {
+      map.on('click', (e: any) => {
         if (editingLocation.value) {
-          onNewCoordEntered(new Address({
-            latitude: parseFloat(e.latlng.lat.toFixed(6)),
-            longitude: parseFloat(e.latlng.lng.toFixed(6)),
-            placeId: "",
-            placeLabel: "",
-            formattedAddress: "",
-            locality: "",
-            country: ""
-          }));
+          onNewCoordEntered(+e.latlng.lat.toFixed(6), +e.latlng.lng.toFixed(6));
         }
       });
     };
@@ -362,15 +342,15 @@ export default defineComponent({
       layer.layer.addTo(baseLayerGroup);
     };
 
-    const onNewCoordEntered = (newCoord: Address) => {
+    const onNewAddressEntered = (address: Address) => {
       if (selectedLocationId.value) {
-        modifyLocationAddress(selectedLocationId.value, newCoord);
+        modifyLocationAddress(selectedLocationId.value, address);
       } else {
         const newLocation = new LocationInfos({
           id: uuidv4(),
           label: 'New location',
           icon: 'mdi-circle',
-          address: newCoord,
+          address: address,
           organisationId: '',
           code: "",
           tags: [],
@@ -379,9 +359,19 @@ export default defineComponent({
           deviceOrganisationsCount: 0
         });
         innerModelValue.value = [...innerModelValue.value, newLocation];
-        modifyLocationAddress(newLocation.id, newCoord);
+        modifyLocationAddress(newLocation.id, address);
       }
-      map?.flyTo([newCoord.latitude, newCoord.longitude], map?.getZoom() ?? 13);
+      map?.flyTo([address.latitude, address.longitude], map?.getZoom() ?? 13);
+    };
+
+    const onNewCoordEntered = async (lat: number, lng: number) => {
+      const address = await reverseSearch(lat, lng);
+      
+      onNewAddressEntered({
+        ...address,
+        latitude: lat,
+        longitude: lng,
+      });
     };
 
     const zoomIn = () => {
@@ -394,7 +384,7 @@ export default defineComponent({
 
     const locate = () => {
       map?.locate();
-      map?.on('locationfound', (e: LeafletEvent) => {
+      map?.on('locationfound', (e: any) => {
         map?.flyTo(e.latlng, 13);
 
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
@@ -452,6 +442,7 @@ export default defineComponent({
     });
 
     return {
+      onNewAddressEntered,
       onNewCoordEntered,
       onCancel,
       onSubmit,
