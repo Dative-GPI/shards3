@@ -1,6 +1,7 @@
 import type { Place } from "@dative-gpi/foundation-shared-domain/models";
 import { Address } from "@dative-gpi/foundation-shared-domain/models";
 import _ from "lodash";
+import type {} from '@types/google.maps';
 
 export const useAddress = () => {
   const enabled = true;
@@ -139,7 +140,7 @@ export const useAddress = () => {
     const found = _.find(components, c =>
       _.some(c.types, t => t === type)
     );
-    return (found && found.long_name) || "";
+    return found?.long_name ?? "";
   }
 
   return {
