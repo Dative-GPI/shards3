@@ -1,9 +1,7 @@
 import type { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
 
-import type { DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
-import { DashboardVariableTranslation } from "./dashboardVariableTranslation";
-import type { DashboardVariableValueDTO } from "../dashboardVariableValues";
-import { DashboardVariableValue } from "../dashboardVariableValues";
+import { DashboardVariableTranslation, type DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
+import { DashboardVariableValue, type DashboardVariableValueDTO } from "../dashboardVariableValues";
 
 export class DashboardVariableInfos {
   hiddenCode: string;
@@ -11,6 +9,7 @@ export class DashboardVariableInfos {
   label: string;
   labelDefault: string;
   code: string;
+  value: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
   allowedValues: DashboardVariableValue[];
@@ -22,6 +21,7 @@ export class DashboardVariableInfos {
     this.label = params.label;
     this.labelDefault = params.labelDefault;
     this.code = params.code;
+    this.value = params.value;
     this.defaultValue = params.defaultValue;
     this.useOnlyAllowedValues = params.useOnlyAllowedValues;
     this.allowedValues = params.allowedValues.map(dto => new DashboardVariableValue(dto));
@@ -35,6 +35,7 @@ export interface DashboardVariableInfosDTO {
   label: string;
   labelDefault: string;
   code: string;
+  value: string;
   defaultValue: string;
   useOnlyAllowedValues: boolean;
   allowedValues: DashboardVariableValueDTO[];
