@@ -42,6 +42,11 @@ export default defineComponent({
       required: false,
       default: "top-left"
     },
+    overflow: {
+      type: String as PropType<"visible" | "hidden" | "scroll" | "auto" | "inherit" | "initial" | "unset">,
+      required: false,
+      default: "visible"
+    },
     wrap: {
       type: Boolean,
       required: false,
@@ -51,6 +56,7 @@ export default defineComponent({
   setup(props) {
     const style = computed((): { [key: string] : string | null | undefined } => ({
       "--fs-row-flex-wrap": props.wrap ? "wrap" : "nowrap",
+      "--fs-row-overflow" : props.overflow,
       "--fs-row-padding"  : sizeToVar(props.padding),
       "--fs-row-gap"      : sizeToVar(props.gap),
       "--fs-row-width"    : sizeToVar(props.width),

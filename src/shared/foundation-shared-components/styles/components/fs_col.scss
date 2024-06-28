@@ -1,6 +1,7 @@
 .fs-col {
     display: flex;
     flex-direction: column;
+    overflow-y: var(--fs-col-overflow);
     padding: var(--fs-col-padding);
     gap: var(--fs-col-gap);
     max-width: 100%;

@@ -1,5 +1,6 @@
 .fs-row {
     display: flex;
+    overflow-x: var(--fs-row-overflow);
     flex-wrap: var(--fs-row-flex-wrap);
     padding: var(--fs-row-padding);
     gap: var(--fs-row-gap);
