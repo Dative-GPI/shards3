@@ -1,7 +1,7 @@
 import type { Place } from "@dative-gpi/foundation-shared-domain/models";
 import { Address } from "@dative-gpi/foundation-shared-domain/models";
 import _ from "lodash";
-import type {} from '@types/google.maps';
+import '@types/google.maps';
 
 export const useAddress = () => {
   const enabled = true;
