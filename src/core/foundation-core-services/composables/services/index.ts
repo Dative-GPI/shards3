@@ -16,6 +16,7 @@ export * from "./useDashboards";
 export * from "./useDashboardShallows";
 export * from "./useDataCategories";
 export * from "./useDataDefinitions";
+export * from "./useDataTables";
 export * from "./useDeviceConnectivities";
 export * from "./useDeviceOrganisations";
 export * from "./useDeviceStatuses";
