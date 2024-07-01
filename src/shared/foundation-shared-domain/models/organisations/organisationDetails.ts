@@ -13,6 +13,7 @@ export class OrganisationDetails extends OrganisationInfos {
     locationsCount: number;
     groupsCount: number;
     deviceOrganisationsCount: number;
+    alertsCount : number;
     permissions: PermissionInfos[];
 
     constructor(params: OrganisationDetailsDTO) {
@@ -26,6 +27,7 @@ export class OrganisationDetails extends OrganisationInfos {
         this.locationsCount = params.locationsCount;
         this.groupsCount = params.groupsCount;
         this.deviceOrganisationsCount = params.deviceOrganisationsCount;
+        this.alertsCount = params.alertsCount;
         this.permissions = params.permissions.map(dto => new PermissionInfos(dto));
     }
 }
@@ -39,6 +41,7 @@ export interface OrganisationDetailsDTO extends OrganisationInfosDTO {
     locationsCount: number;
     groupsCount: number;
     deviceOrganisationsCount: number;
+    alertsCount : number;
     permissions: PermissionInfosDTO[];
 }
 
