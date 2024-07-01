@@ -1,7 +1,7 @@
-import type { UpdateUserOrganisationTableDTO, UserOrganisationTableDetails } from "@/core/foundation-core-domain/models";
-import type { FSDataTable } from "@/shared/foundation-shared-components/models";
-import type { Ref} from "vue";
-import { ref } from "vue";
+import { ref, type Ref } from "vue";
+
+import { type UpdateUserOrganisationTableDTO, type UserOrganisationTableDetails } from "@/core/foundation-core-domain/models";
+import { type FSDataTable } from "@/shared/foundation-shared-components/models";
 
 export const useDataTables = () => {
   const initialized = ref(false);
@@ -25,37 +25,38 @@ export const useDataTables = () => {
   }));
 
   const updateTable = (
-      updateUserOrganisationTable: (id: string, payload: UpdateUserOrganisationTableDTO) => Promise<Ref<UserOrganisationTableDetails>>,
-      setTable: (tableCode: string, value: FSDataTable) => void,
-      tableCode: string)
-    : void => {
-      if (table.value) {
-        setTable(tableCode, table.value);
-        updateUserOrganisationTable(tableCode, {
-          columns: table.value.headers.map(column => ({
-            columnId: column.columnId,
-            hidden: column.hidden,
-            index: column.index
-          })),
-          rowsPerPage: table.value.rowsPerPage,
-          sortByKey: table.value.sortBy?.key ?? null,
-          sortByOrder: table.value.sortBy?.order ?? null,
-          mode: table.value.mode
+    updateUserOrganisationTable: (id: string, payload: UpdateUserOrganisationTableDTO) => Promise<Ref<UserOrganisationTableDetails>>,
+    setTable: (tableCode: string, value: FSDataTable) => void,
+    tableCode: string
+  ): void => {
+    if (table.value) {
+      setTable(tableCode, table.value);
+      updateUserOrganisationTable(tableCode, {
+        columns: table.value.headers.map(column => ({
+          columnId: column.columnId,
+          hidden: column.hidden,
+          index: column.index
+        })),
+        rowsPerPage: table.value.rowsPerPage,
+        sortByKey: table.value.sortBy?.key ?? null,
+        sortByOrder: table.value.sortBy?.order ?? null,
+        mode: table.value.mode
       });
     }
   };
 
   const onTableCodeChange = async (
-      getUserOrganisationTable: (id: string) => Promise<Ref<UserOrganisationTableDetails | null>>,
-      getTable: (tableCode: string) => FSDataTable | null,
-      tableCode: string)
-    : Promise<void> => {
-      if (tableCode) {
-        const composableTable = getTable(tableCode);
-        if (composableTable) {
-          table.value = composableTable;
-        }
-        else {
+    getUserOrganisationTable: (id: string) => Promise<Ref<UserOrganisationTableDetails | null>>,
+    getTable: (tableCode: string) => FSDataTable | null,
+    tableCode: string
+  ): Promise<void> => {
+    if (tableCode) {
+      const composableTable = getTable(tableCode);
+      if (composableTable) {
+        table.value = composableTable;
+      }
+      else {
+        try {
           const userOrganisationTable = await getUserOrganisationTable(tableCode);
           if (userOrganisationTable.value) {
             table.value = {
@@ -71,15 +72,19 @@ export const useDataTables = () => {
             }
           }
         }
+        catch {
+          // Do nothing
+        }
       }
-      initialized.value = true;
+    }
+    initialized.value = true;
   };
 
   return {
     initialized,
     table,
-    updateTable,
+    onTableCodeChange,
     computeTable,
-    onTableCodeChange
-  }
-}
+    updateTable
+  };
+};

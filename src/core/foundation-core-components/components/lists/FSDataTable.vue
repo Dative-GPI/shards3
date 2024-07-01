@@ -25,8 +25,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent, onUnmounted, watch } from "vue";
+import { computed, defineComponent, onUnmounted, type PropType, watch } from "vue";
 
 import { useUserOrganisationTable, useUpdateUserOrganisationTable, useDataTables } from "@dative-gpi/foundation-core-services/composables";
 import { useDebounce, useTables } from "@dative-gpi/foundation-shared-components/composables";
@@ -62,8 +61,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { initialized, table, updateTable, computeTable, onTableCodeChange } = useDataTables();
     const { get: getUserOrganisationTable, getting: gettingUserOrganisationTable } = useUserOrganisationTable();
+    const { initialized, table, updateTable, computeTable, onTableCodeChange } = useDataTables();
     const { update: updateUserOrganisationTable } = useUpdateUserOrganisationTable();
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
