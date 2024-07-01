@@ -4,8 +4,9 @@ import type { SelectedEntities } from "../enums/sharedEnums";
 export interface CreateDashboardEntityPresetDTO {
   hiddenCode: string;
   labelDefault: string;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  singleEntity: boolean;
+  selectedEntities: SelectedEntities;
+  entitiesFilters: string;
+  entitiesIds: string[];
   translations: DashboardEntityPresetTranslationDTO[];
 }

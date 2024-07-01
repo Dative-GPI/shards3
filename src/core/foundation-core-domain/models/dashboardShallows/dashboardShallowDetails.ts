@@ -1,5 +1,3 @@
-import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
-
 import type { CreateDashboardShallowEntityPresetDTO, DashboardShallowEntityPresetInfosDTO } from "../dashboardShallowEntityPresets";
 import { DashboardShallowEntityPresetInfos } from "../dashboardShallowEntityPresets";
 import type { CreateDashboardShallowDatePresetDTO, DashboardShallowDatePresetInfosDTO } from "../dashboardShallowDatePresets";
@@ -24,9 +22,6 @@ import { PathCrumb } from "../shared/pathCrumb";
 export class DashboardShallowDetails extends DashboardShallowInfos {
   labelDefault: string;
   path: PathCrumb[];
-  overrideUseAutoRefresh: boolean | null;
-  overrideAutoRefresh: AutoRefresh | null;
-  overrideSingleEntity: boolean | null;
   overrideEntityPresetCode: string | null;
   overrideDatePresetCode: string | null;
   overrideVariableCode: string | null;
@@ -34,9 +29,6 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   overrideEntityPresets: DashboardShallowEntityPresetInfos[];
   overrideVariables: DashboardShallowVariableInfos[];
   translations: DashboardTranslation[];
-  useAutoRefresh: boolean;
-  autoRefresh: AutoRefresh;
-  singleEntity: boolean;
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
@@ -50,9 +42,6 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
 
     this.labelDefault = params.labelDefault;
     this.path = params.path.map(dto => new PathCrumb(dto)).sort((a, b) => b.index - a.index);
-    this.overrideUseAutoRefresh = params.overrideUseAutoRefresh;
-    this.overrideAutoRefresh = params.overrideAutoRefresh;
-    this.overrideSingleEntity = params.overrideSingleEntity;
     this.overrideEntityPresetCode = params.overrideEntityPresetCode;
     this.overrideDatePresetCode = params.overrideDatePresetCode;
     this.overrideVariableCode = params.overrideVariableCode;
@@ -60,9 +49,6 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
     this.overrideEntityPresets = params.overrideEntityPresets.map(dto => new DashboardShallowEntityPresetInfos(dto));
     this.overrideVariables = params.overrideVariables.map(dto => new DashboardShallowVariableInfos(dto));
     this.translations = params.translations.map(t => new DashboardTranslation(t));
-    this.useAutoRefresh = params.useAutoRefresh;
-    this.autoRefresh = params.autoRefresh;
-    this.singleEntity = params.singleEntity;
     this.entityPresetCode = params.entityPresetCode;
     this.datePresetCode = params.datePresetCode;
     this.variableCode = params.variableCode;
@@ -76,9 +62,6 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
 export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
   labelDefault: string;
   path: PathCrumbDTO[];
-  overrideUseAutoRefresh: boolean | null;
-  overrideAutoRefresh: number | null;
-  overrideSingleEntity: boolean | null;
   overrideEntityPresetCode: string | null;
   overrideDatePresetCode: string | null;
   overrideVariableCode: string | null;
@@ -88,9 +71,6 @@ export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
   translations: DashboardTranslationDTO[];
   dashboardId: string;
   scope: number;
-  useAutoRefresh: boolean;
-  autoRefresh: AutoRefresh;
-  singleEntity: boolean;
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
@@ -112,9 +92,6 @@ export interface UpdateDashboardShallowDTO {
   code: string;
   icon: string;
   tags: string[];
-  overrideUseAutoRefresh: boolean | null;
-  overrideAutoRefresh: number | null;
-  overrideSingleEntity: boolean | null;
   overrideEntityPresetCode: string | null;
   overrideDatePresetCode: string | null;
   overrideVariableCode: string | null;

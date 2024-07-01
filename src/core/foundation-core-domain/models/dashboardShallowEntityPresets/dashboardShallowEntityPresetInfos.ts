@@ -2,21 +2,24 @@ import type { SelectedEntities } from "../enums/sharedEnums";
 
 export class DashboardShallowEntityPresetInfos {
   hiddenCode: string;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  singleEntity: boolean;
+  selectedEntities: SelectedEntities;
+  entitiesFilters: string;
+  entitiesIds: string[];
 
   constructor(params: DashboardShallowEntityPresetInfosDTO) {
     this.hiddenCode = params.hiddenCode;
-    this.globalSelectedEntities = params.globalSelectedEntities;
-    this.globalEntitiesFilters = params.globalEntitiesFilters;
-    this.globalEntitiesIds = params.globalEntitiesIds.slice();
+    this.singleEntity = params.singleEntity;
+    this.selectedEntities = params.selectedEntities;
+    this.entitiesFilters = params.entitiesFilters;
+    this.entitiesIds = params.entitiesIds.slice();
   }
 }
 
 export interface DashboardShallowEntityPresetInfosDTO {
   hiddenCode: string;
-  globalSelectedEntities: SelectedEntities;
-  globalEntitiesFilters: string;
-  globalEntitiesIds: string[];
+  singleEntity: boolean;
+  selectedEntities: SelectedEntities;
+  entitiesFilters: string;
+  entitiesIds: string[];
 }

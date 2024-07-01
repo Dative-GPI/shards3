@@ -86,10 +86,10 @@ export default defineComponent({
       if (props.deviceAlerts < 1) {
         return null;
       }
-      if (props.deviceAlerts > 8) {
+      if (props.deviceAlerts > 9) {
         return "9+";
       }
-      return (props.deviceAlerts + 1).toString();
+      return (props.deviceAlerts).toString();
     });
 
     return {
