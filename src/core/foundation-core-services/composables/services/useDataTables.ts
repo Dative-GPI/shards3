@@ -1,7 +1,7 @@
 import { ref, type Ref } from "vue";
 
-import { type UpdateUserOrganisationTableDTO, type UserOrganisationTableDetails } from "@/core/foundation-core-domain/models";
-import { type FSDataTable } from "@/shared/foundation-shared-components/models";
+import { type UpdateUserOrganisationTableDTO, type UserOrganisationTableDetails } from "@dative-gpi/foundation-core-domain/models";
+import { type FSDataTable } from "@dative-gpi/foundation-shared-components/models";
 
 export const useDataTables = () => {
   const initialized = ref(false);
