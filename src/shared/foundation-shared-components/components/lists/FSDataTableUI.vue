@@ -1098,14 +1098,9 @@ export default defineComponent({
               emit("click:row", row.item);
             }
           },
-          mobile: (event: PointerEvent, item: any) => {
+          mobile: (event: any, item: any) => {
             if (props.itemTo && router) {
-              if (event.metaKey || event.ctrlKey || event.button === 1) {
-                window.open(router.resolve(props.itemTo(item)).href, "_blank");
-              }
-              else {
-                router.push(props.itemTo(item));
-              }
+              router.push(props.itemTo(item));
             }
             else {
               emit("click:row", item);
