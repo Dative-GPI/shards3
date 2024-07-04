@@ -97,24 +97,21 @@
 import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
-import { MarkerClusterGroup } from 'leaflet.markercluster';
-import * as L from 'leaflet';
-
-import { useAddress } from "../../composables/useAddress";
-
-import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
-import FSButton from '../FSButton.vue';
-import FSCard from '../FSCard.vue';
-import FSChip from '../FSChip.vue';
-import FSCol from '../FSCol.vue';
-import FSRow from '../FSRow.vue';
-
+import { MarkerClusterGroup } from "leaflet.markercluster";
+import * as L from "leaflet";
 
 import { type Address, type SiteInfos } from '@dative-gpi/foundation-shared-domain/models';
-import { type LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
 
-import { ColorEnum, type MapLayer } from "../../models";
+import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
+import { useAddress } from "../../composables/useAddress";
 import { useColors } from "../../composables";
+
+import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
+import FSButton from "../FSButton.vue";
+import FSCard from "../FSCard.vue";
+import FSChip from "../FSChip.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSMap",
@@ -168,7 +165,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Array as PropType<LocationInfos[]>,
+      type: Array as PropType<FSLocation[]>,
       required: false,
       default: () => [],
     },
@@ -188,7 +185,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ['update:modelValue', 'update:selectedLocationId', 'update:selectedSiteId'],
+  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedSiteId"],
   setup(props, { emit }) {
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
@@ -348,7 +345,9 @@ export default defineComponent({
     };
 
     const onNewAddressEntered = (address: Address) => {
-      if (!props.selectedLocationId) { return; }
+      if (!props.selectedLocationId) {
+        return;
+      }
       modifyLocationAddress(props.selectedLocationId, address);
       map?.flyTo([address.latitude, address.longitude], map?.getZoom() ?? defaultZoom);
     };
