@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { SiteInfos, LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
+import { LocationInfos } from '@dative-gpi/foundation-core-domain/models';
+import { SiteInfos } from '@dative-gpi/foundation-shared-domain/models';
 
 import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
 
