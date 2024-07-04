@@ -176,6 +176,15 @@ export const useAppTimeZone = () => {
     }
   };
 
+  const epochToTimeOnlyFormat = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(0);
+    date.setUTCMilliseconds(value - getMachineOffsetMillis() + getUserOffsetMillis());
+    return format(date, "HH:mm:ss", { locale: getLocale() });
+  };
+
   const epochToShortTimeFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -271,6 +280,7 @@ export const useAppTimeZone = () => {
     epochToLongTimeFormat,
     epochToShortDateFormat,
     epochToShortTimeFormat,
+    epochToTimeOnlyFormat,
     parseForPicker,
     formatCurrentForPicker,
     formatFromPicker,

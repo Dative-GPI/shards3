@@ -41,14 +41,20 @@ export default defineComponent({
       type: String as PropType<"top-left" | "top-center" | "top-right" | "center-left" | "center-center" | "center-right" | "bottom-left" | "bottom-center" | "bottom-right">,
       required: false,
       default: "top-left"
+    },
+    overflow: {
+      type: String as PropType<"visible" | "hidden" | "scroll" | "auto" | "inherit" | "initial" | "unset">,
+      required: false,
+      default: "visible"
     }
   },
   setup(props) {
     const style = computed((): { [key: string] : string | null | undefined } => ({
-      "--fs-col-padding": sizeToVar(props.padding),
-      "--fs-col-gap"    : sizeToVar(props.gap),
-      "--fs-col-width"  : sizeToVar(props.width),
-      "--fs-col-height" : sizeToVar(props.height)
+      "--fs-col-overflow": props.overflow,
+      "--fs-col-padding" : sizeToVar(props.padding),
+      "--fs-col-gap"     : sizeToVar(props.gap),
+      "--fs-col-width"   : sizeToVar(props.width),
+      "--fs-col-height"  : sizeToVar(props.height)
     }));
 
     const classes = computed((): string[] => {

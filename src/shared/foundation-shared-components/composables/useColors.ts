@@ -51,7 +51,7 @@ export const useColors = () => {
         }
 
         if(color.darken(0.15).isLight()){
-            return color.darken(0.6);
+            return color.darken(0.8);
         }
         return color.lighten(color.value() / 50);
     }

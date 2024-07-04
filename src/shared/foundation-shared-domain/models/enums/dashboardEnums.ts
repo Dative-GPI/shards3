@@ -21,3 +21,8 @@ export enum AutoRefresh {
   ThirtyMinutes  = 6,
   OneHour        = 7
 }
+
+export enum WidgetCategory {
+  None     = 0,
+  Modifier = 1
+}

@@ -117,7 +117,12 @@ export default defineComponent({
           table.value = composableTable;
         }
         else {
-          await getUserOrganisationTable(props.tableCode);
+          try {
+            await getUserOrganisationTable(props.tableCode);
+          }
+          catch {
+            // Do nothing
+          }
           if (userOrganisationTable.value) {
             table.value = {
               headers: userOrganisationTable.value.columns,
