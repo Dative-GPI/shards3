@@ -112,7 +112,7 @@ import { MarkerClusterGroup } from 'leaflet.markercluster';
 
 import type { MapLayer } from "../../models";
 import type { SiteInfos, Address } from '@dative-gpi/foundation-shared-domain/models';
-import { LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
+import type { LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
 import { ColorEnum } from "../../models";
 import { useColors } from "../../composables";
 
