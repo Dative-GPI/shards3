@@ -6,6 +6,7 @@
   .fs-leaflet-container {
     width: 100%;
     height: var(--fs-map-leaflet-container-height);
+    filter: grayscale(var(--fs-map-container-grayscale));
   }
 
   .fs-map-overlay-layer-choice {

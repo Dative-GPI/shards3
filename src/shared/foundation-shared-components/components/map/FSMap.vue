@@ -32,9 +32,7 @@
           @click="editingLocation = true"
         />
       </FSRow>
-      <FSCol
-        :style="style"
-      >
+      <FSCol :style="style">
         <div
           class="fs-leaflet-container"
           :id="mapId"
@@ -83,7 +81,7 @@
           v-if="editingLocation"
           :label="$tr('ui.map.address', 'Address')"
           :modelValue="(innerModelValue.find((loc) => loc.id === $props.selectedLocationId))?.address"
-          @update:locationCoord="($event: Address) => onNewCoordEntered($event.latitude, $event.longitude)"
+          @update:locationCoordinates="($event: Address) => onNewCoordEntered($event.latitude, $event.longitude)"
           @update:modelValue="($event: Address) => onNewAddressEntered($event)"
           @cancel="onCancel"
           @submit="onSubmit"
@@ -183,17 +181,22 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    grayscale: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue", "update:selectedLocationId", "update:selectedSiteId"],
   setup(props, { emit }) {
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
-    
+
     const innerSelectedLayer = ref(props.selectedLayer);
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
-    
+
     const mapId = `map-${uuidv4()}`;
     const defaultZoom = 15;
     const markers: { [key: string]: L.Marker } = {};
@@ -213,7 +216,7 @@ export default defineComponent({
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
-        iconCreateFunction: function(cluster: any) {
+        iconCreateFunction: function (cluster: any) {
           return L.divIcon({
             html: `<div>
                     <span>${cluster.getChildCount()}</span>
@@ -230,25 +233,17 @@ export default defineComponent({
         name: "osm",
         label: "OpenStreetMap",
         layer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
+          maxZoom: 20,
           attribution: '© OpenStreetMap'
         })
       },
       {
         name: "imagery",
         label: "Imagery",
-        layer: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.jpg', {
-          maxZoom: 20,
+        layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+          maxZoom: 20
         }),
-      },
-      {
-        name: "light",
-        label: "Light",
-        layer: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
-          maxZoom: 20,
-          attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        })
       }
     ];
 
@@ -257,6 +252,7 @@ export default defineComponent({
         "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
         "--fs-map-leaflet-container-height": props.height as string,
+        "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
       };
     });
 
@@ -273,7 +269,7 @@ export default defineComponent({
         const marker = L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
-        
+
       });
     };
 
