@@ -9,16 +9,16 @@
     >
       <FSRow
         v-if="selectableLayers.length > 1"
-        gap="2px"
         class="fs-map-overlay-layer-choice"
+        gap="2px"
       >
         <FSChip
           v-for="mapLayer in mapLayers.filter((layer) => selectableLayers.includes(layer.name))"
-          :key="mapLayer.name"
-          :label="mapLayer.label"
-          :editable="true"
-          :color="innerSelectedLayer === mapLayer.name ? 'dark' : 'light'"
           variant="full"
+          :color="innerSelectedLayer === mapLayer.name ? 'dark' : 'light'"
+          :label="mapLayer.label"
+          :key="mapLayer.name"
+          :editable="true"
           @click="setMapBaseLayer(mapLayer.name)"
         />
       </FSRow>
@@ -38,7 +38,7 @@
         <div
           class="fs-leaflet-container"
           :id="mapId"
-        ></div>
+        />
       </FSCol>
 
       <FSCol
@@ -46,17 +46,17 @@
         align="center-center"
       >
         <FSCol
-          width="hug"
           class="fs-map-zoom-overlay"
           align="bottom-center"
+          width="hug"
         >
           <FSButton
             v-if="$props.showMyLocation"
-            :elevation="true"
-            :border="false"
+            prependIcon="mdi-crosshairs-gps"
             color="primary"
             variant="full"
-            prepend-icon="mdi-crosshairs-gps"
+            :elevation="true"
+            :border="false"
             @click="locate"
           />
           <FSCol
@@ -64,16 +64,16 @@
             gap="0"
           >
             <FSButton
-              :elevation="true"
               class="fs-map-zoom-plus"
-              prepend-icon="mdi-plus"
-              @click="zoomIn"
+              prependIcon="mdi-plus"
+              :elevation="true"
               :border="false"
+              @click="zoomIn"
             />
             <FSButton
-              :elevation="true"
               class="fs-map-zoom-minus"
-              prepend-icon="mdi-minus"
+              prependIcon="mdi-minus"
+              :elevation="true"
               :border="false"
               @click="zoomOut"
             />
@@ -94,41 +94,41 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
+
+import { MarkerClusterGroup } from 'leaflet.markercluster';
+import * as L from 'leaflet';
 
 import { useAddress } from "../../composables/useAddress";
 
-import FSCard from '../FSCard.vue'
-import FSCol from '../FSCol.vue'
-import FSRow from '../FSRow.vue'
-import FSButton from '../FSButton.vue'
-import FSChip from '../FSChip.vue'
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
+import FSButton from '../FSButton.vue';
+import FSCard from '../FSCard.vue';
+import FSChip from '../FSChip.vue';
+import FSCol from '../FSCol.vue';
+import FSRow from '../FSRow.vue';
 
-import * as L from 'leaflet';
-import { MarkerClusterGroup } from 'leaflet.markercluster';
 
-import type { MapLayer } from "../../models";
-import type { SiteInfos, Address } from '@dative-gpi/foundation-shared-domain/models';
-import type { LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
-import { ColorEnum } from "../../models";
+import { type Address, type SiteInfos } from '@dative-gpi/foundation-shared-domain/models';
+import { type LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
+
+import { ColorEnum, type MapLayer } from "../../models";
 import { useColors } from "../../composables";
 
 export default defineComponent({
   name: "FSMap",
   components: {
-    FSCard,
-    FSCol,
-    FSRow,
-    FSButton,
-    FSChip,
     FSMapEditPointAddressOverlay,
+    FSButton,
+    FSCard,
+    FSChip,
+    FSCol,
+    FSRow
   },
   props: {
     height: {
-      type: [String, Number] as PropType<string | number>,
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: '400px'
     },
@@ -137,62 +137,64 @@ export default defineComponent({
       required: false,
       default: '100%'
     },
-    editable: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    modelValue: {
-      type: Array<LocationInfos>,
-      required: false,
-      default: () => [],
-    },
     sites: {
-      type: Array<SiteInfos>,
+      type: Array as PropType<SiteInfos[]>,
       required: false,
       default: () => [],
     },
     center: {
-      type: Array<number>,
-      default: [45.71, 5.07],
-      required: false
+      type: Array as PropType<number[]>,
+      required: false,
+      default: () => [45.71, 5.07]
     },
     selectedLayer: {
       type: String,
-      default: "osm",
+      required: false,
+      default: "osm"
     },
     selectableLayers: {
-      type: Array<string>,
-      default: ["osm", "imagery"],
+      type: Array as PropType<string[]>,
+      required: false,
+      default: () => ["osm", "imagery"]
+    },
+    selectedLocationId: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    selectedSiteId: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    modelValue: {
+      type: Array as PropType<LocationInfos[]>,
+      required: false,
+      default: () => [],
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     showMyLocation: {
       type: Boolean,
       required: false,
-      default: true,
+      default: true
     },
     showZoomButtons: {
       type: Boolean,
       required: false,
-      default: true,
-    },
-    selectedLocationId: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    selectedSiteId: {
-      type: String,
-      required: false,
-      default: null,
-    },
+      default: true
+    }
   },
   emits: ['update:modelValue', 'update:selectedLocationId', 'update:selectedSiteId'],
   setup(props, { emit }) {
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
     
-    const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
+    const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
     
     const mapId = `map-${uuidv4()}`;
@@ -202,11 +204,14 @@ export default defineComponent({
     const siteLayerGroup = new L.FeatureGroup();
     const baseLayerGroup = new L.LayerGroup();
     const myLocationLayerGroup = new L.LayerGroup();
+
     let map: L.Map;
     let markerLayerGroup: L.FeatureGroup | MarkerClusterGroup;
+
     if (props.editable) {
       markerLayerGroup = new L.FeatureGroup();
-    }else {
+    }
+    else {
       markerLayerGroup = new MarkerClusterGroup({
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
@@ -214,8 +219,8 @@ export default defineComponent({
         iconCreateFunction: function(cluster: any) {
           return L.divIcon({
             html: `<div>
-                <span>${cluster.getChildCount()}</span>
-              </div>`,
+                    <span>${cluster.getChildCount()}</span>
+                   </div>`,
             className: 'fs-map-location fs-map-location-full',
             iconSize: [36, 36],
             iconAnchor: [18, 18],
@@ -270,9 +275,7 @@ export default defineComponent({
         });
         const marker = L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
-        marker.on('click', () => {
-          emit('update:selectedLocationId', location.id);
-        });
+        marker.on('click', () => emit('update:selectedLocationId', location.id));
         
       });
     };
@@ -280,24 +283,23 @@ export default defineComponent({
     const displaySites = () => {
       siteLayerGroup.clearLayers();
       props.sites.forEach((site) => {
-        const sitePolygon = L.polygon(site.coordinates.map(
-          (coord) => [coord.latitude, coord.longitude]
-        ), {
+        const sitePolygon = L.polygon(site.coordinates.map((coord) => [coord.latitude, coord.longitude]), {
           color: site.color,
           fillColor: site.color + "50",
           fillOpacity: 0.5,
           className: 'fs-map-site',
         }).addTo(siteLayerGroup);
+
         sites[site.id] = sitePolygon;
-        sitePolygon.on('click', () => {
-          emit('update:selectedSiteId', site.id);
-        });
+        sitePolygon.on('click', () => emit('update:selectedSiteId', site.id));
       });
     }
 
     const modifyLocationAddress = (locationId: string, newAddress: Address) => {
       const location = innerModelValue.value.find((loc) => loc.id === locationId);
-      if (!location) { return; }
+      if (!location) {
+        return;
+      }
       const newLocation = {
         ...location,
         address: {
@@ -391,7 +393,8 @@ export default defineComponent({
       displayLocations();
       if (innerModelValue.value.length > 0) {
         map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
-      } else {
+      }
+      else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom);
       }
       if (props.modelValue.length > 1) {
@@ -404,7 +407,8 @@ export default defineComponent({
       editingLocation.value = false;
       if (innerModelValue.value.length > 0) {
         map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
-      } else {
+      }
+      else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom);
       }
       if (props.modelValue.length > 1) {
@@ -425,14 +429,18 @@ export default defineComponent({
         marker.getElement()?.classList.remove('fs-map-location-selected');
       });
 
-      if (!props.selectedLocationId) { return; }
+      if (!props.selectedLocationId) {
+        return;
+      }
       const marker = markers[props.selectedLocationId];
       marker.getElement()?.classList.add('fs-map-location-selected');
       map?.flyTo(marker.getLatLng(), 17);
     })
 
     watch(() => props.selectedSiteId, () => {
-      if (!props.selectedSiteId) { return; }
+      if (!props.selectedSiteId) {
+        return;
+      }
       const site = sites[props.selectedSiteId];
       if (site) {
         map?.fitBounds(site.getBounds(), { maxZoom: 17 });
@@ -440,20 +448,20 @@ export default defineComponent({
     });
 
     return {
-      locate,
-      onNewAddressEntered,
-      onNewCoordEntered,
-      onCancel,
-      onSubmit,
-      setMapBaseLayer,
-      zoomIn,
-      zoomOut,
+      innerSelectedLayer,
       editingLocation,
       innerModelValue,
-      innerSelectedLayer,
-      mapId,
       mapLayers,
-      style
+      mapId,
+      style,
+      onNewAddressEntered,
+      onNewCoordEntered,
+      setMapBaseLayer,
+      onCancel,
+      onSubmit,
+      zoomOut,
+      locate,
+      zoomIn
     };
   },
 });

@@ -1,5 +1,4 @@
-import type { AddressDTO } from "@dative-gpi/foundation-shared-domain/models";
-import { Address } from "@dative-gpi/foundation-shared-domain/models";
+import { Address, type AddressDTO } from "@dative-gpi/foundation-shared-domain/models";
 
 export class LocationInfos {
     id: string;
