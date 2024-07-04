@@ -88,14 +88,34 @@
   }
 
   .fs-map-location {
-    text-align: center;
-    padding-top: 8px;
+    display: flex;
     color: var(--fs-map-location-pin-color);
-    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="50"%3E%3Cpath fill="%23FAFBFC" d="M12 0C7.316 0 3.378 3.936 3.378 8.625c0 6.742 6.539 14.216 8.625 14.216 2.086 0 8.625-7.474 8.625-14.216C20.622 3.936 16.684 0 12 0z"/%3E%3C/svg%3E');
-    filter: drop-shadow(0px 2px 4px black);
+    border-radius: 50%;
+    background-color: white;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
+    align-items: center;
+    justify-content: center;
+
+    &.fs-map-location-full {
+      background-color: var(--fs-map-location-pin-color);
+      color: white;
+    }
+
+    >* {
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
     .mdi-loading {
       animation: spin 1s linear infinite;
+    }
+
+    &:hover {
+      filter: brightness(0.92) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
+
+      >* {
+
+        transform: scale(1.15);
+      }
     }
 
     @keyframes spin {
@@ -107,5 +127,24 @@
         transform: rotate(360deg);
       }
     }
+
+    &.fs-map-location-selected {
+      animation: fs-map-shadow 1.4s linear infinite;
+
+      @keyframes fs-map-shadow {
+        0% {
+          box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
+        }
+
+        50% {
+          box-shadow: 0 0 0px 7px var(--fs-map-mylocation-pin-color-alpha);
+        }
+
+        100% {
+          box-shadow: 0 0 0px 20px transparent;
+        }
+      }
+    }
+
   }
 }

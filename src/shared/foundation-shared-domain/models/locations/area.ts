@@ -1,11 +1,11 @@
-export class AreaDetails {
+export class SiteDetails {
   id: string;
   organisationId: string;
   label: string;
   color: string;
   coordinates: Coordinate[];
 
-  constructor(params: AreaDTO) {
+  constructor(params: SiteDTO) {
     this.id = params.id;
     this.organisationId = params.organisationId;
     this.label = params.label;
@@ -14,7 +14,7 @@ export class AreaDetails {
   }
 }
 
-export interface AreaDTO {
+export interface SiteDTO {
   id: string;
   organisationId: string;
   label: string;
@@ -22,10 +22,10 @@ export interface AreaDTO {
   coordinates: number[][];
 }
 
-export class AreaInfos extends AreaDetails {
+export class SiteInfos extends SiteDetails {
 }
 
-export interface AreaInfosDTO extends AreaDTO {
+export interface SiteInfosDTO extends SiteDTO {
 }
 
 

@@ -12,7 +12,8 @@
   "dependencies": {
     "@dative-gpi/foundation-shared-domain": "1.0.0",
     "@dative-gpi/foundation-shared-services": "1.0.0",
-    "leaflet": "1.9.4"
+    "leaflet": "1.9.4",
+    "leaflet.markercluster": "1.5.3"
   },
   "peerDependencies": {
     "@dative-gpi/bones-ui": "^0.0.75",

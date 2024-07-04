@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
 
-import { AreaInfos, LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
+import { SiteInfos, LocationInfos } from '@dative-gpi/foundation-shared-domain/models';
 
 const meta = {
   title: 'Foundation/Shared/Map',
@@ -62,34 +62,78 @@ const location2 = new LocationInfos({
   "organisationId": "e7650411-48ff-4064-bf34-473350985098",
   "deviceOrganisationsIds": [],
   "modelsIds": [],
-  "label": "GERAL Beley",
+  "label": "Dative GPI",
+  "icon": "mdi-laptop",
+  "code": "",
+  "deviceOrganisationsCount": 0,
+  "tags": [],
+  "address": {
+    "formattedAddress": "100 rue de norvège, Colombier Saugnieu, France",
+    "locality": "Colombier Saugnieu",
+    "country": "France",
+    "latitude": 45.71175,
+    "longitude": 5.071489,
+    "placeId": "",
+    "placeLabel": "Dative, France"
+
+  }
+})
+
+const location3 = new LocationInfos({
+  "id": "44e00e4b-ef50-4f88-9fb2-d94659ee5881",
+  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
+  "deviceOrganisationsIds": [],
+  "modelsIds": [],
+  "label": "Gerard Perrier Industrie",
   "icon": "mdi-home",
   "code": "",
   "deviceOrganisationsCount": 0,
   "tags": [],
   "address": {
-    "formattedAddress": "ZI La Pélissière – Route de Lyon – BP 49, 01302 BELLEY cedex, France",
-    "locality": "Belley",
+    "formattedAddress": "160 rue de norvège, Colombier Saugnieu, France",
+    "locality": "Colombier Saugnieu",
     "country": "France",
-    "latitude": 45.741951,
-    "longitude": 5.6751896,
+    "latitude": 45.71129,
+    "longitude": 5.071729,
     "placeId": "",
-    "placeLabel": "Rue Gérard Perreir, Belley, France"
+    "placeLabel": "GPI, France"
 
   }
 })
 
-const area1 = new AreaInfos({
+const location4 = new LocationInfos({
+  "id": "4a3ced7a-d7e7-4004-b40a-ed57fa45615d",
+  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
+  "deviceOrganisationsIds": [],
+  "modelsIds": [],
+  "label": "Seirel Automatismes SAS",
+  "icon": "mdi-snowflake",
+  "code": "",
+  "deviceOrganisationsCount": 0,
+  "tags": [],
+  "address": {
+    "formattedAddress": "7 Rue Galilée, 69800 Saint-Priest, France",
+    "locality": "Saint-Priest",
+    "country": "France",
+    "latitude": 45.682349,
+    "longitude": 4.956942,
+    "placeId": "",
+    "placeLabel": "Seirel, France"
+
+  }
+})
+
+const site1 = new SiteInfos({
   "id": "3fb7ebf0-3227-4767-bb96-001384efdd57",
   "organisationId": "e7650411-48ff-4064-bf34-473350985098",
-  "label": "Le Mans GERAL",
+  "label": "GPI Aéroport Lyon Saint-Exupéry",
   "color": "#0000ff",
   "coordinates": [
-    [45.7, 4.8],
-    [45.7, 5.0],
-    [45.8, 5.0],
-    [45.8, 4.8],
-    [45.75, 4.85]
+    [45.7120, 5.0712],
+    [45.7110, 5.0713],
+    [45.7110, 5.0723],
+    [45.7118, 5.0720],
+    [45.7120, 5.0716]
   ]
 })
 
@@ -103,12 +147,16 @@ export const Variations: Story = {
         { ...location1 }
       ],
       locations3: [
-        { ...location1 },
-        { ...location2 }
+        { ...location3 },
+        { ...location2 },
+        { ...location4 }
       ],
-      areas1: [
-        { ...area1 }
-      ]
+      sites1: [
+        { ...site1 }
+      ],
+      selectedLocationId1: location1.id,
+      selectedLocationId2: null,
+      selectedLocationId3: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -125,6 +173,7 @@ export const Variations: Story = {
         height="600px"
         :singleLocation="true"
         :border="false"
+        v-model:selectedLocationId="args.selectedLocationId1"
       />
       <FSMap
         :editable="false"
@@ -135,12 +184,14 @@ export const Variations: Story = {
         :showLayerChoice="false"
         :showMyLocation="false"
         :showZoomButtons="false"
+        v-model:selectedLocationId="args.selectedLocationId2"
       />
       <FSMap
-        :editable="true"
+        :editable="false"
         :modelValue="args.locations3"
-        :areas="args.areas1"
+        :sites="args.sites1"
         height="600px"
+        v-model:selectedLocationId="args.selectedLocationId3"
       />
     </div>`,
   })
