@@ -1,6 +1,6 @@
 import { type Layer } from "leaflet";
 
-import { type Address } from "@/shared/foundation-shared-domain";
+import { type Address } from "@dative-gpi/foundation-shared-domain/models";
 
 export interface MapLayer {
   name : string;
