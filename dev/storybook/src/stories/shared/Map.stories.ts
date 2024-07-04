@@ -156,7 +156,8 @@ export const Variations: Story = {
       ],
       selectedLocationId1: location1.id,
       selectedLocationId2: null,
-      selectedLocationId3: null
+      selectedLocationId3: null,
+      selectedSiteId1: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -167,11 +168,19 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
+      <FSMap />
+      <FSMap
+        :editable="false"
+        :modelValue="args.locations3"
+        :sites="args.sites1"
+        height="600px"
+        v-model:selectedLocationId="args.selectedLocationId3"
+        v-model:selectedSiteId="args.selectedSiteId1"
+      />
       <FSMap
         :editable="true"
         v-model="args.locations1"
         height="600px"
-        :singleLocation="true"
         :border="false"
         v-model:selectedLocationId="args.selectedLocationId1"
       />
@@ -185,13 +194,6 @@ export const Variations: Story = {
         :showMyLocation="false"
         :showZoomButtons="false"
         v-model:selectedLocationId="args.selectedLocationId2"
-      />
-      <FSMap
-        :editable="false"
-        :modelValue="args.locations3"
-        :sites="args.sites1"
-        height="600px"
-        v-model:selectedLocationId="args.selectedLocationId3"
       />
     </div>`,
   })

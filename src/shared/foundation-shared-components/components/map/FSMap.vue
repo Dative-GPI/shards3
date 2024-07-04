@@ -8,7 +8,7 @@
       width="fill"
     >
       <FSRow
-        v-if="showLayerChoice && selectableLayers.length > 1"
+        v-if="selectableLayers.length > 1"
         gap="2px"
         class="fs-map-overlay-layer-choice"
       >
@@ -56,7 +56,7 @@
             :border="false"
             color="primary"
             variant="full"
-            prepend-icon="mdi-navigation-variant-outline"
+            prepend-icon="mdi-crosshairs-gps"
             @click="locate"
           />
           <FSCol
@@ -165,11 +165,6 @@ export default defineComponent({
       type: Array<string>,
       default: ["osm", "imagery"],
     },
-    showLayerChoice: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
     showMyLocation: {
       type: Boolean,
       required: false,
@@ -180,29 +175,34 @@ export default defineComponent({
       required: false,
       default: true,
     },
-    singleLocation: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
     selectedLocationId: {
       type: String,
       required: false,
       default: null,
-    }
+    },
+    selectedSiteId: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   emits: ['update:modelValue', 'update:selectedLocationId', 'update:selectedSiteId'],
   setup(props, { emit }) {
-    const { getColors } = useColors();
     const { reverseSearch } = useAddress();
-
+    const { getColors } = useColors();
+    
     const innerModelValue = ref(props.modelValue);
     const innerSelectedLayer = ref(props.selectedLayer);
     const editingLocation = ref(false);
-
-    let map: L.Map;
+    
     const mapId = `map-${uuidv4()}`;
+    const defaultZoom = 15;
     const markers: { [key: string]: L.Marker } = {};
+    const sites: { [key: string]: L.Polygon } = {};
+    const siteLayerGroup = new L.FeatureGroup();
+    const baseLayerGroup = new L.LayerGroup();
+    const myLocationLayerGroup = new L.LayerGroup();
+    let map: L.Map;
     let markerLayerGroup: L.FeatureGroup | MarkerClusterGroup;
     if (props.editable) {
       markerLayerGroup = new L.FeatureGroup();
@@ -211,7 +211,7 @@ export default defineComponent({
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
-        iconCreateFunction: function(cluster) {
+        iconCreateFunction: function(cluster: any) {
           return L.divIcon({
             html: `<div>
                 <span>${cluster.getChildCount()}</span>
@@ -223,10 +223,6 @@ export default defineComponent({
         }
       });
     }
-    const defaultZoom = 15;
-    const siteLayerGroup = new L.FeatureGroup();
-    const baseLayerGroup = new L.LayerGroup();
-    const myLocationLayerGroup = new L.LayerGroup();
     const mapLayers: MapLayer[] = [
       {
         name: "osm",
@@ -265,7 +261,6 @@ export default defineComponent({
     const displayLocations = () => {
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-
         const iconHtml = `<div class="fs-map-location-pin"><i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;"  ></i></div>`;
         const icon = L.divIcon({
           html: iconHtml,
@@ -273,9 +268,7 @@ export default defineComponent({
           iconSize: [36, 36],
           iconAnchor: [18, 18],
         });
-
         const marker = L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
-
         markers[location.id] = marker;
         marker.on('click', () => {
           emit('update:selectedLocationId', location.id);
@@ -295,6 +288,7 @@ export default defineComponent({
           fillOpacity: 0.5,
           className: 'fs-map-site',
         }).addTo(siteLayerGroup);
+        sites[site.id] = sitePolygon;
         sitePolygon.on('click', () => {
           emit('update:selectedSiteId', site.id);
         });
@@ -326,12 +320,13 @@ export default defineComponent({
       L.control.attribution({ position: 'bottomleft' }).addTo(map);
 
       baseLayerGroup.addTo(map);
-      map.addLayer(siteLayerGroup);
+      siteLayerGroup.addTo(map);
       myLocationLayerGroup.addTo(map);
       setMapBaseLayer(props.selectedLayer);
       displaySites();
       displayLocations();
       markerLayerGroup.addTo(map);
+
       if (innerModelValue.value.length > 0) {
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
@@ -351,24 +346,8 @@ export default defineComponent({
     };
 
     const onNewAddressEntered = (address: Address) => {
-      if (props.selectedLocationId) {
-        modifyLocationAddress(props.selectedLocationId, address);
-      } else {
-        const newLocation = new LocationInfos({
-          id: uuidv4(),
-          label: 'New location',
-          icon: 'mdi-circle',
-          address: address,
-          organisationId: '',
-          code: "",
-          tags: [],
-          modelsIds: [],
-          deviceOrganisationsIds: [],
-          deviceOrganisationsCount: 0
-        });
-        innerModelValue.value = [...innerModelValue.value, newLocation];
-        modifyLocationAddress(newLocation.id, address);
-      }
+      if (!props.selectedLocationId) { return; }
+      modifyLocationAddress(props.selectedLocationId, address);
       map?.flyTo([address.latitude, address.longitude], map?.getZoom() ?? defaultZoom);
     };
 
@@ -394,9 +373,7 @@ export default defineComponent({
       map?.locate();
       map?.on('locationfound', (e: L.LocationEvent) => {
         map?.flyTo(e.latlng, map?.getZoom() ?? defaultZoom);
-
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
-
         const icon = L.divIcon({
           html: iconHtml,
           className: 'fs-map-mylocation',
@@ -404,9 +381,7 @@ export default defineComponent({
           iconAnchor: [8, 8],
         });
         myLocationLayerGroup.clearLayers();
-
         L.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
-
       });
     };
 
@@ -419,7 +394,7 @@ export default defineComponent({
       } else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom);
       }
-      if (!(props.modelValue.length > 1)) {
+      if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
       }
     };
@@ -432,7 +407,7 @@ export default defineComponent({
       } else {
         map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom);
       }
-      if (!props.singleLocation) {
+      if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
       }
     };
@@ -445,10 +420,6 @@ export default defineComponent({
       displayLocations();
     });
 
-    watch(() => props.sites, () => {
-      displaySites();
-    });
-
     watch(() => props.selectedLocationId, () => {
       Object.values(markers).forEach((marker) => {
         marker.getElement()?.classList.remove('fs-map-location-selected');
@@ -459,6 +430,14 @@ export default defineComponent({
       marker.getElement()?.classList.add('fs-map-location-selected');
       map?.flyTo(marker.getLatLng(), 17);
     })
+
+    watch(() => props.selectedSiteId, () => {
+      if (!props.selectedSiteId) { return; }
+      const site = sites[props.selectedSiteId];
+      if (site) {
+        map?.fitBounds(site.getBounds(), { maxZoom: 17 });
+      }
+    });
 
     return {
       locate,
