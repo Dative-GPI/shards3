@@ -20,6 +20,7 @@ export * from "./deviceOrganisations";
 export * from "./deviceStatuses";
 export * from "./folders";
 export * from "./groups";
+export * from "./locations";
 export * from "./manufacturers";
 export * from "./models";
 export * from "./organisations";

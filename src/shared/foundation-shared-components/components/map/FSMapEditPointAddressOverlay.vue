@@ -77,41 +77,39 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, type PropType, ref, watch } from "vue";
 
-import FSCard from '../FSCard.vue'
-import FSCol from '../FSCol.vue'
-import FSRow from '../FSRow.vue'
-import FSText from '../FSText.vue'
-import FSButton from '../FSButton.vue'
-import FSNumberField from '../fields/FSNumberField.vue'
-import FSForm from '../FSForm.vue'
-import FSAutoCompleteAddress from '../autocompletes/FSAutoCompleteAddress.vue'
+import { Address } from "@dative-gpi/foundation-shared-domain/models";
 
-import { Address } from "@dative-gpi/foundation-shared-domain/models/locations/address";
-
+import FSAutoCompleteAddress from "../autocompletes/FSAutoCompleteAddress.vue";
+import FSNumberField from "../fields/FSNumberField.vue";
+import FSButton from "../FSButton.vue";
+import FSCard from "../FSCard.vue";
+import FSForm from "../FSForm.vue";
+import FSText from "../FSText.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSMapEditPointAddressOverlay.vue",
   components: {
-    FSCard,
-    FSCol,
-    FSRow,
-    FSText,
-    FSButton,
-    FSNumberField,
     FSAutoCompleteAddress,
-    FSForm
+    FSNumberField,
+    FSButton,
+    FSCard,
+    FSForm,
+    FSText,
+    FSCol,
+    FSRow
   },
   props: {
     modelValue: {
       type: Object as PropType<Address>,
       default: null,
       required: false,
-    },
+    }
   },
-  emits: ['update:modelValue', 'update:locationCoord', 'submit', 'cancel'],
+  emits: ["update:modelValue", "update:locationCoord", "submit", "cancel"],
   setup(props, { emit }) {
     const menuLocationCoord = ref(false);
 
@@ -128,7 +126,7 @@ export default defineComponent({
         latitude: latitude.value,
         longitude: longitude.value,
       });
-      emit('update:locationCoord', newModelValue);
+      emit("update:locationCoord", newModelValue);
     };
 
     const onAddressFieldSubmit = (address: Address|null) => {
@@ -152,14 +150,14 @@ export default defineComponent({
     });
 
     return {
+      menuLocationCoord,
+      longitude,
+      latitude,
       onAddressFieldSubmit,
       onCoordinateChange,
       onSubmit,
-      onCancel,
-      latitude,
-      longitude,
-      menuLocationCoord,
+      onCancel
     };
-  },
+  }
 });
 </script>
