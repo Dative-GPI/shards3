@@ -21,7 +21,6 @@ export * from "./useDeviceOrganisations";
 export * from "./useDeviceStatuses";
 export * from "./useFolders";
 export * from "./useGroups";
-export * from "./useLocations";
 export * from "./useManufacturers";
 export * from "./useModels";
 export * from "./useOrganisations";

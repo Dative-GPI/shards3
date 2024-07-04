@@ -7,5 +7,3 @@ declare module "vue" {
         $color: (key: ColorBase) => string;
     }
 }
-
-declare module 'googlemaps';

@@ -53,8 +53,8 @@ import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { useLocations } from "@dative-gpi/foundation-core-services/composables";
-import type { LocationFilters } from "@dative-gpi/foundation-core-domain/models";
+import { useLocations } from "@dative-gpi/foundation-shared-services/composables";
+import type { LocationFilters } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";

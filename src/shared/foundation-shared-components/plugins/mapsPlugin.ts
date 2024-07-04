@@ -9,7 +9,7 @@ export const MapsPlugin: Plugin = {
     const maps = document.createElement("script");
     maps.setAttribute(
       "src",
-      `https://maps.googleapis.com/maps/api/js?key=${key}&loading=async&libraries=geometry,places`
+      `https://maps.googleapis.com/maps/api/js?key=${key}&loading=async&libraries=geometry,places,geocoding`
     );
 
     let resolvePromise: (value: void) => void;

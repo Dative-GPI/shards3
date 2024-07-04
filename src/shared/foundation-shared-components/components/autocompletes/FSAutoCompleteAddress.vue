@@ -28,7 +28,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Function as () => Address | null,
+      type: Object as () => Address | null,
       required: false,
       default: null
     },
