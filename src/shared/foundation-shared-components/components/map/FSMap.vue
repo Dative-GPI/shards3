@@ -19,7 +19,7 @@
           :label="mapLayer.label"
           :key="mapLayer.name"
           :editable="true"
-          @click="setMapBaseLayer(mapLayer.name)"
+          @click="setMapBaseLayer(mapLayer.name as 'osm' | 'imagery')"
         />
       </FSRow>
       <FSRow
@@ -98,11 +98,12 @@ import { v4 as uuidv4 } from "uuid";
 import { MarkerClusterGroup } from "leaflet.markercluster";
 import * as L from "leaflet";
 
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
+
 import { type Address, type SiteInfos } from '@dative-gpi/foundation-shared-domain/models';
 
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
-import { useAddress } from "../../composables/useAddress";
-import { useColors } from "../../composables";
+import { useColors, useAddress } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSButton from "../FSButton.vue";
@@ -143,7 +144,7 @@ export default defineComponent({
       default: () => [45.71, 5.07]
     },
     selectedLayer: {
-      type: String,
+      type: String as PropType<"osm" | "imagery">,
       required: false,
       default: "osm"
     },
@@ -192,6 +193,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
+    const { $tr } = useTranslationsProvider();
 
     const innerSelectedLayer = ref(props.selectedLayer);
     const innerModelValue = ref(props.modelValue);
@@ -231,7 +233,7 @@ export default defineComponent({
     const mapLayers: MapLayer[] = [
       {
         name: "osm",
-        label: "OpenStreetMap",
+        label: $tr("ui.map.layer.osm", "Map"),
         layer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 20,
           attribution: '© OpenStreetMap'
@@ -239,10 +241,10 @@ export default defineComponent({
       },
       {
         name: "imagery",
-        label: "Imagery",
+        label: $tr("ui.map.layer.imagery", "Imagery"),
         layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-          maxZoom: 20
+          maxZoom: 19
         }),
       }
     ];
@@ -333,7 +335,7 @@ export default defineComponent({
       });
     };
 
-    const setMapBaseLayer = (layerName: string) => {
+    const setMapBaseLayer = (layerName: 'osm' | 'imagery') => {
       innerSelectedLayer.value = layerName;
       const layer = mapLayers.find((mapLayer) => mapLayer.name === layerName) ?? mapLayers[0];
       baseLayerGroup.clearLayers();
