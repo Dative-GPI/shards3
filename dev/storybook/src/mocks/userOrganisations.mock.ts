@@ -4,8 +4,9 @@ import { IMAGES } from ".";
 export const USERORGANISATIONS: UserOrganisationInfosDTO[] = [{
     id: "1",
     admin: true,
-    allowEmails: true,
+    allowNotifications: true,
     allowSms: true,
+    allowEmails: true,
     email: "jean@jean.jean",
     firstName: "Jean",
     lastName: "Didier",
@@ -25,8 +26,9 @@ export const USERORGANISATIONS: UserOrganisationInfosDTO[] = [{
 {
     id: "2",
     admin: false,
+    allowNotifications: true,
+    allowSms: true,
     allowEmails: true,
-    allowSms: false,
     email: "francois@francois.francois",
     firstName: "Francois",
     lastName: "Dupont",

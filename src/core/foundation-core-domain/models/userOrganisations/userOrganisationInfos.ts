@@ -13,6 +13,7 @@ export class UserOrganisationInfos {
     imageId: string | null;
     userType: UserType;
     validity: UserValidityState;
+    allowNotifications: boolean;
     allowSms: boolean;
     allowEmails: boolean;
     email: string;
@@ -34,6 +35,7 @@ export class UserOrganisationInfos {
         this.imageId = params.imageId;
         this.userType = params.userType;
         this.validity = params.validity;
+        this.allowNotifications = params.allowNotifications;
         this.allowSms = params.allowSms;
         this.allowEmails = params.allowEmails;
         this.email = params.email;
@@ -57,6 +59,7 @@ export interface UserOrganisationInfosDTO {
     imageId: string | null;
     userType: UserType;
     validity: UserValidityState;
+    allowNotifications: boolean;
     allowSms: boolean;
     allowEmails: boolean;
     email: string;

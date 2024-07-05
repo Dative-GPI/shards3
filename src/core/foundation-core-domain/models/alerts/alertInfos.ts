@@ -1,12 +1,10 @@
-import type { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
+import { type AlertStatus, type Criticity } from "@dative-gpi/foundation-shared-domain/models";
 import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
-import type { AlertDataDefinitionDTO } from "./alertDataDefinition";
-import { AlertDataDefinition } from "./alertDataDefinition";
-import type { AlertStateDTO } from "./alertState";
-import { AlertState } from "./alertState";
-import type { SelectedEntities } from "../enums/sharedEnums";
-import type { DateVariable } from "../shared/dateVariable";
+import { AlertDataDefinition, type AlertDataDefinitionDTO } from "./alertDataDefinition";
+import { AlertState, type AlertStateDTO } from "./alertState";
+import { type SelectedEntities } from "../enums/sharedEnums";
+import { type DateVariable } from "../shared/dateVariable";
 
 export class AlertInfos {
   id: string;
