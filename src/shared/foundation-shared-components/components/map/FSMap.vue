@@ -98,7 +98,6 @@ import { computed, defineComponent, onMounted, type PropType, ref, watch } from 
 
 import * as L from "leaflet";
 import "leaflet.markercluster";
-import { MarkerClusterGroup } from "leaflet";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
@@ -210,13 +209,13 @@ export default defineComponent({
     const myLocationLayerGroup = new L.LayerGroup();
 
     let map: L.Map;
-    let markerLayerGroup: L.FeatureGroup | MarkerClusterGroup;
+    let markerLayerGroup: L.FeatureGroup | any;
 
     if (props.editable) {
       markerLayerGroup = new L.FeatureGroup();
     }
     else {
-      markerLayerGroup = new MarkerClusterGroup({
+      markerLayerGroup = new window.L.MarkerClusterGroup({
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
