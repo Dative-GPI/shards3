@@ -16,20 +16,20 @@
         </FSText>
         <v-spacer />
         <FSButton
-          v-if="menuLocationCoord"
+          v-if="menuLocationCoordinates"
           icon="mdi-arrow-collapse"
           variant="icon"
-          @click="menuLocationCoord = !menuLocationCoord"
+          @click="menuLocationCoordinates = !menuLocationCoordinates"
         />
         <FSButton
           v-else
           icon="mdi-arrow-expand"
           variant="icon"
-          @click="menuLocationCoord = !menuLocationCoord"
+          @click="menuLocationCoordinates = !menuLocationCoordinates"
         />
       </FSRow>
       <FSCol
-        v-if="menuLocationCoord"
+        v-if="menuLocationCoordinates"
       >
         <FSAutoCompleteAddress
           :modelValue="$props.modelValue"
@@ -37,7 +37,7 @@
         />
         <FSForm
           variant="standard"
-          @submit="onCoordinateChange()"
+          @submit="onCoordinatesChange()"
         >
           <FSRow>
             <FSNumberField
@@ -109,14 +109,14 @@ export default defineComponent({
       required: false,
     }
   },
-  emits: ["update:modelValue", "update:locationCoord", "submit", "cancel"],
+  emits: ["update:modelValue", "update:locationCoordinates", "submit", "cancel"],
   setup(props, { emit }) {
-    const menuLocationCoord = ref(false);
+    const menuLocationCoordinates = ref(false);
 
     const latitude = ref(props.modelValue.latitude);
     const longitude = ref(props.modelValue.longitude);
 
-    const onCoordinateChange = () => {
+    const onCoordinatesChange = () => {
       const newModelValue = new Address({
         country: "",
         formattedAddress: "",
@@ -126,7 +126,7 @@ export default defineComponent({
         latitude: latitude.value,
         longitude: longitude.value,
       });
-      emit("update:locationCoord", newModelValue);
+      emit("update:locationCoordinates", newModelValue);
     };
 
     const onAddressFieldSubmit = (address: Address|null) => {
@@ -150,11 +150,11 @@ export default defineComponent({
     });
 
     return {
-      menuLocationCoord,
+      menuLocationCoordinates,
       longitude,
       latitude,
       onAddressFieldSubmit,
-      onCoordinateChange,
+      onCoordinatesChange,
       onSubmit,
       onCancel
     };

@@ -1,3 +1,4 @@
+export * from "./useAddress";
 export * from "./useAutocomplete";
 export * from "./useBreakpoints";
 export * from "./useColors";

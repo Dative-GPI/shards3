@@ -19,7 +19,7 @@
           :label="mapLayer.label"
           :key="mapLayer.name"
           :editable="true"
-          @click="setMapBaseLayer(mapLayer.name)"
+          @click="setMapBaseLayer(mapLayer.name as 'osm' | 'imagery')"
         />
       </FSRow>
       <FSRow
@@ -83,7 +83,7 @@
           v-if="editingLocation"
           :label="$tr('ui.map.address', 'Address')"
           :modelValue="(innerModelValue.find((loc) => loc.id === $props.selectedLocationId))?.address"
-          @update:locationCoord="($event: Address) => onNewCoordEntered($event.latitude, $event.longitude)"
+          @update:locationCoordinates="($event: Address) => onNewCoordEntered($event.latitude, $event.longitude)"
           @update:modelValue="($event: Address) => onNewAddressEntered($event)"
           @cancel="onCancel"
           @submit="onSubmit"
@@ -95,16 +95,17 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
-import { v4 as uuidv4 } from "uuid";
 
-import { MarkerClusterGroup } from "leaflet.markercluster";
 import * as L from "leaflet";
+import "leaflet.markercluster";
+import { MarkerClusterGroup } from "leaflet";
+
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
 import { type Address, type SiteInfos } from '@dative-gpi/foundation-shared-domain/models';
 
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
-import { useAddress } from "../../composables/useAddress";
-import { useColors } from "../../composables";
+import { useColors, useAddress } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSButton from "../FSButton.vue";
@@ -145,7 +146,7 @@ export default defineComponent({
       default: () => [45.71, 5.07]
     },
     selectedLayer: {
-      type: String,
+      type: String as PropType<"osm" | "imagery">,
       required: false,
       default: "osm"
     },
@@ -183,18 +184,24 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    grayscale: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue", "update:selectedLocationId", "update:selectedSiteId"],
   setup(props, { emit }) {
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
-    
+    const { $tr } = useTranslationsProvider();
+
     const innerSelectedLayer = ref(props.selectedLayer);
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
-    
-    const mapId = `map-${uuidv4()}`;
+
+    const mapId = `map-${Math.random().toString(36).substring(7)}`;
     const defaultZoom = 15;
     const markers: { [key: string]: L.Marker } = {};
     const sites: { [key: string]: L.Polygon } = {};
@@ -213,7 +220,7 @@ export default defineComponent({
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
-        iconCreateFunction: function(cluster: any) {
+        iconCreateFunction: function (cluster: any) {
           return L.divIcon({
             html: `<div>
                     <span>${cluster.getChildCount()}</span>
@@ -228,27 +235,19 @@ export default defineComponent({
     const mapLayers: MapLayer[] = [
       {
         name: "osm",
-        label: "OpenStreetMap",
+        label: $tr("ui.map.layer.osm", "Map"),
         layer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
+          maxZoom: 20,
           attribution: '© OpenStreetMap'
         })
       },
       {
         name: "imagery",
-        label: "Imagery",
-        layer: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.jpg', {
-          maxZoom: 20,
+        label: $tr("ui.map.layer.imagery", "Imagery"),
+        layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+          maxZoom: 19
         }),
-      },
-      {
-        name: "light",
-        label: "Light",
-        layer: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
-          maxZoom: 20,
-          attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        })
       }
     ];
 
@@ -257,6 +256,7 @@ export default defineComponent({
         "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
         "--fs-map-leaflet-container-height": props.height as string,
+        "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
       };
     });
 
@@ -273,7 +273,7 @@ export default defineComponent({
         const marker = L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
-        
+
       });
     };
 
@@ -337,7 +337,7 @@ export default defineComponent({
       });
     };
 
-    const setMapBaseLayer = (layerName: string) => {
+    const setMapBaseLayer = (layerName: 'osm' | 'imagery') => {
       innerSelectedLayer.value = layerName;
       const layer = mapLayers.find((mapLayer) => mapLayer.name === layerName) ?? mapLayers[0];
       baseLayerGroup.clearLayers();
