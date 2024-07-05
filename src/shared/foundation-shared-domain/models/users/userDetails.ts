@@ -7,6 +7,7 @@ export class UserDetails extends UserInfos {
     languageCode: string;
     timeZoneId: string;
     timeZoneOffset: string;
+    allowNotifications: boolean;
     allowSms: boolean;
     allowEmails: boolean;
 
@@ -18,6 +19,7 @@ export class UserDetails extends UserInfos {
         this.languageCode = params.languageCode;
         this.timeZoneId = params.timeZoneId;
         this.timeZoneOffset = params.timeZoneOffset;
+        this.allowNotifications = params.allowNotifications;
         this.allowSms = params.allowSms;
         this.allowEmails = params.allowEmails;
     }
@@ -29,6 +31,7 @@ export interface UserDetailsDTO extends UserInfosDTO {
     languageCode: string;
     timeZoneId: string;
     timeZoneOffset: string;
+    allowNotifications: boolean;
     allowSms: boolean;
     allowEmails: boolean;
 }
@@ -38,6 +41,7 @@ export interface UpdateCurrentUserDTO {
     timeZoneId: string;
     imageId: string | null;
     image: string | null;
+    allowNotifications: boolean;
     allowSms: boolean;
     allowEmails: boolean;
     phoneNumber: string;

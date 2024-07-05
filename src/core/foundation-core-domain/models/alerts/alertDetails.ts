@@ -1,16 +1,15 @@
-import type { AlertInfosDTO } from "./alertInfos";
-import { AlertInfos } from "./alertInfos";
+import { AlertInfos, type AlertInfosDTO } from "./alertInfos";
 
 export class AlertDetails extends AlertInfos {
-    description: string;
+  description: string;
 
-    constructor(params: AlertDetailsDTO) {
-        super(params);
+  constructor(params: AlertDetailsDTO) {
+    super(params);
 
-        this.description = params.description;
-    }
+    this.description = params.description;
+  }
 }
 
 export interface AlertDetailsDTO extends AlertInfosDTO {
-    description: string;
+  description: string;
 }
