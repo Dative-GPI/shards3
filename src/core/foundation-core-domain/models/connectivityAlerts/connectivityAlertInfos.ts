@@ -9,6 +9,7 @@ export class ConnectivityAlertInfos {
   deviceId: string;
   organisationId: string;
   deviceOrganisationId: string;
+  deviceOrganisationCode: string;
   deviceOrganisationLabel: string;
   deviceOrganisationImageId: string | null;
   deviceOrganisationConnectivity: DeviceConnectivityInfos | null;
@@ -21,6 +22,7 @@ export class ConnectivityAlertInfos {
     this.deviceId = params.deviceId;
     this.organisationId = params.organisationId;
     this.deviceOrganisationId = params.deviceOrganisationId;
+    this.deviceOrganisationCode = params.deviceOrganisationCode;
     this.deviceOrganisationLabel = params.deviceOrganisationLabel;
     this.deviceOrganisationImageId = params.deviceOrganisationImageId;
     this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ?
@@ -37,6 +39,7 @@ export interface ConnectivityAlertInfosDTO {
   deviceId: string;
   organisationId: string;
   deviceOrganisationId: string;
+  deviceOrganisationCode: string;
   deviceOrganisationLabel: string;
   deviceOrganisationImageId: string | null;
   deviceOrganisationConnectivity: DeviceConnectivityInfosDTO | null;
