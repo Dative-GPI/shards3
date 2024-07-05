@@ -96,7 +96,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
-import * as L from "leaflet";
+import type * as L from "leaflet";
 import "leaflet.markercluster";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
@@ -196,6 +196,8 @@ export default defineComponent({
     const { getColors } = useColors();
     const { $tr } = useTranslationsProvider();
 
+    const LL = window.L;
+
     const innerSelectedLayer = ref(props.selectedLayer);
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
@@ -204,23 +206,23 @@ export default defineComponent({
     const defaultZoom = 15;
     const markers: { [key: string]: L.Marker } = {};
     const sites: { [key: string]: L.Polygon } = {};
-    const siteLayerGroup = new L.FeatureGroup();
-    const baseLayerGroup = new L.LayerGroup();
-    const myLocationLayerGroup = new L.LayerGroup();
+    const siteLayerGroup = new LL.FeatureGroup();
+    const baseLayerGroup = new LL.LayerGroup();
+    const myLocationLayerGroup = new LL.LayerGroup();
 
     let map: L.Map;
     let markerLayerGroup: L.FeatureGroup | any;
 
     if (props.editable) {
-      markerLayerGroup = new L.FeatureGroup();
+      markerLayerGroup = new LL.FeatureGroup();
     }
     else {
-      markerLayerGroup = new window.L.MarkerClusterGroup({
+      markerLayerGroup = new LL.MarkerClusterGroup({
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
         iconCreateFunction: function (cluster: any) {
-          return L.divIcon({
+          return LL.divIcon({
             html: `<div>
                     <span>${cluster.getChildCount()}</span>
                    </div>`,
@@ -235,7 +237,7 @@ export default defineComponent({
       {
         name: "osm",
         label: $tr("ui.map.layer.osm", "Map"),
-        layer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        layer: LL.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 20,
           attribution: '© OpenStreetMap'
         })
@@ -243,7 +245,7 @@ export default defineComponent({
       {
         name: "imagery",
         label: $tr("ui.map.layer.imagery", "Imagery"),
-        layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        layer: LL.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
           maxZoom: 19
         }),
@@ -263,13 +265,13 @@ export default defineComponent({
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
         const iconHtml = `<div class="fs-map-location-pin"><i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;"  ></i></div>`;
-        const icon = L.divIcon({
+        const icon = LL.divIcon({
           html: iconHtml,
           className: 'fs-map-location',
           iconSize: [36, 36],
           iconAnchor: [18, 18],
         });
-        const marker = L.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
+        const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
 
@@ -279,7 +281,7 @@ export default defineComponent({
     const displaySites = () => {
       siteLayerGroup.clearLayers();
       props.sites.forEach((site) => {
-        const sitePolygon = L.polygon(site.coordinates.map((coord) => [coord.latitude, coord.longitude]), {
+        const sitePolygon = LL.polygon(site.coordinates.map((coord) => [coord.latitude, coord.longitude]), {
           color: site.color,
           fillColor: site.color + "50",
           fillOpacity: 0.5,
@@ -310,12 +312,12 @@ export default defineComponent({
         zoomControl: false,
         scrollWheelZoom: false,
         minZoom: 2,
-        maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)),
+        maxBounds: LL.latLngBounds(LL.latLng(-90, -180), LL.latLng(90, 180)),
         maxBoundsViscosity: 1.0
       };
-      map = L.map(mapId, mapOptions).setView([props.center[0], props.center[1]], defaultZoom);
+      map = LL.map(mapId, mapOptions).setView([props.center[0], props.center[1]], defaultZoom);
       map.attributionControl.remove();
-      L.control.attribution({ position: 'bottomleft' }).addTo(map);
+      LL.control.attribution({ position: 'bottomleft' }).addTo(map);
 
       baseLayerGroup.addTo(map);
       siteLayerGroup.addTo(map);
@@ -374,14 +376,14 @@ export default defineComponent({
       map?.on('locationfound', (e: L.LocationEvent) => {
         map?.flyTo(e.latlng, map?.getZoom() ?? defaultZoom);
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
-        const icon = L.divIcon({
+        const icon = LL.divIcon({
           html: iconHtml,
           className: 'fs-map-mylocation',
           iconSize: [16, 16],
           iconAnchor: [8, 8],
         });
         myLocationLayerGroup.clearLayers();
-        L.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
+        LL.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
       });
     };
 
