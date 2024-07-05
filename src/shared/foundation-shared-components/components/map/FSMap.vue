@@ -95,8 +95,10 @@
 import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
-import { MarkerClusterGroup } from "leaflet.markercluster";
+
 import * as L from "leaflet";
+import "leaflet.markercluster";
+import { MarkerClusterGroup } from "leaflet";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
