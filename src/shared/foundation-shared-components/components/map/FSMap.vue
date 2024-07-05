@@ -201,7 +201,7 @@ export default defineComponent({
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
 
-    const mapId = `map-${uuidv4()}`;
+    const mapId = `map-${Math.random().toString(36).substring(7)}`;
     const defaultZoom = 15;
     const markers: { [key: string]: L.Marker } = {};
     const sites: { [key: string]: L.Polygon } = {};
