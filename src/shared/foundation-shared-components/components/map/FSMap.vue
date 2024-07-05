@@ -32,7 +32,9 @@
           @click="editingLocation = true"
         />
       </FSRow>
-      <FSCol :style="style">
+      <FSCol
+        :style="style"
+      >
         <div
           class="fs-leaflet-container"
           :id="mapId"
@@ -93,8 +95,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
-import { v4 as uuidv4 } from "uuid";
-
 
 import * as L from "leaflet";
 import "leaflet.markercluster";
