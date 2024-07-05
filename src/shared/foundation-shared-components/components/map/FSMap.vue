@@ -96,7 +96,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
-import * as L from "leaflet";
+import type * as L from "leaflet";
 import "leaflet.markercluster";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
