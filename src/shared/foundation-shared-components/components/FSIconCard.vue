@@ -60,7 +60,7 @@ export default defineComponent({
     iconSize: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: '56'
+      default: "56px"
     }
   },
   setup(props) {
