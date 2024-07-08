@@ -1,4 +1,4 @@
-import { type CreateTerminalDTO, TerminalDetails, type TerminalDetailsDTO, type TerminalFilters, TerminalInfos, type TerminalInfosDTO, type UpdateTerminalDTO } from "@dative-gpi/foundation-core-domain/models";
+import { type CreateTerminalDTO, TerminalDetails, type TerminalDetailsDTO, type TerminalFilters, TerminalInfos, type TerminalInfosDTO, type UpdateTerminalDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { TERMINALS_URL, TERMINAL_URL } from "../../config/urls";

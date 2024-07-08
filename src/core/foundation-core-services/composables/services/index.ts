@@ -35,7 +35,6 @@ export * from "./useScenarioOrganisations";
 export * from "./useScenarioOrganisationTypes";
 export * from "./useServiceAccountOrganisationAuthTokens";
 export * from "./useServiceAccountOrganisations";
-export * from "./useTerminals";
 export * from "./useUserOrganisations";
 export * from "./useUserOrganisationTables";
 export * from "./useWidgetTemplates";

@@ -1,4 +1,4 @@
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { utcToEpoch } from "../../tools";
 
 export class TerminalInfos {
   id: string;

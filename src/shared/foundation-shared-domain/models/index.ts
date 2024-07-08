@@ -7,6 +7,7 @@ export * from "./locations";
 export * from "./organisations";
 export * from "./organisationTypes";        // No service
 export * from "./permissions";
+export * from "./terminals";
 export * from "./timeZones";
 export * from "./translations";
 export * from "./users";
