@@ -21,9 +21,9 @@ export const Variations: Story = {
       value1: "#FF0000",
       opacity1: 1,
       value2: "#00FF12",
-      opacity2: 0,
-      value3: "#0030FF",
-      opacity3: 0.5
+      opacity2: 0.2,
+      value3: "primary",
+      opacity3: 0.7
     }
   },
   render: (args, { argTypes }) => ({
@@ -38,6 +38,7 @@ export const Variations: Story = {
         label="Color"
         v-model="args.value1"
         v-model:opacityValue="args.opacity1"
+        :allowOpacity="false"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
@@ -49,24 +50,16 @@ export const Variations: Story = {
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
-        label="Uneditable color, with description"
-        description="Uneditable description"
-        :editable="false"
-        v-model="args.value3"
-        v-model:opacityValue="args.opacity3"
-      />
-      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSColorField
-        label="Uneditable color, with description"
-        description="Uneditable description"
-        :allowOpacity="false"
+        label="Base color picker"
+        :onlyBaseColors="false"      
         v-model="args.value3"
         v-model:opacityValue="args.opacity3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
         label="Base color picker"
-        :onlyBaseColors="true"      
+        :editable="false"
+        :onlyBaseColors="false"      
         v-model="args.value3"
         v-model:opacityValue="args.opacity3"
       />

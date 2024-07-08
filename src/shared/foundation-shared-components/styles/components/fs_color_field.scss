@@ -3,6 +3,8 @@
 }
 
 .fs-color-field .v-field__prepend-inner > .v-icon {
+  background-color: var(--fs-color-field-colorvalue) !important;
+  border-radius: 100%;
   opacity: 1 !important;
 }
 

@@ -7,7 +7,9 @@
     <template
       #activator="{ props }"
     >
-      <FSCol>
+      <FSCol
+        :style="style"
+      >
         <FSRow
           height="fill"
           v-bind="props"
@@ -31,7 +33,7 @@
                 <FSIcon
                   :color="innerColor"
                 >
-                  mdi-circle
+                  mdi-circle-half
                 </FSIcon>
               </slot>
             </template>
@@ -48,7 +50,6 @@
             v-if="$props.description"
             class="fs-color-field-description"
             font="text-underline"
-            :style="style"
           >
             {{ $props.description }}
           </FSSpan>
@@ -91,7 +92,7 @@
 
 <script lang="ts">
 import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
@@ -170,14 +171,14 @@ export default defineComponent({
     const fullColor = ref(innerColor.value + innerOpacity.value);
 
     const style = computed((): { [key: string]: string | undefined } => {
-      if (!props.editable) {
-        return {
-          "--fs-color-field-color": lights.dark
-        };
-      }
-      return {
+      const style = {
+        "--fs-color-field-colorvalue": fullColor.value,
         "--fs-color-field-color": darks.base
-      };
+      }
+      if (!props.editable) {
+        style["--fs-color-field-color"] = lights.dark;
+      }
+      return style;
     });
 
 
@@ -188,6 +189,12 @@ export default defineComponent({
       emit("update:modelValue", innerColor.value);
       emit("update:opacity", getPercentageFromHex(innerOpacity.value));
     };
+
+    onMounted(() => {
+      innerColor.value = getColors(props.modelValue)['base'];
+      innerOpacity.value = getHexFromPercentage(props.opacityValue);
+      fullColor.value = innerColor.value + innerOpacity.value;
+    });
 
     return {
       getPercentageFromHex,
