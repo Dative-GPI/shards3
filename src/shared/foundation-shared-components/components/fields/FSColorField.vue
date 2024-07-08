@@ -38,49 +38,6 @@
             <template
               #append
             >
-              <FSButton
-                prependIcon="mdi-pencil"
-                variant="full"
-                :editable="$props.editable"
-                v-bind="props"
-              />
-            </template>
-          </FSTextField>
-          <FSTextField
-            v-if="$props.allowOpacity && !$props.onlyBaseColors"
-            class="fs-color-field-opacity"
-            :label="$tr('ui.color-field.opacity', 'Opacity')"
-            :hideHeader="$props.hideHeader"
-            :required="$props.required"
-            :editable="$props.editable"
-            :clearable="false"
-            :readonly="true"
-            :modelValue="(Math.round(getPercentageFromHex(innerOpacity) * 100)) + ' %'"
-          >
-            <template
-              #prepend-inner
-            >
-              <slot
-                name="prepend-inner"
-              >
-                <FSIcon
-                  :color="ColorEnum.Dark"
-                  :editable="$props.editable"
-                  :style="{ opacity: getPercentageFromHex(innerOpacity) }"
-                >
-                  mdi-circle
-                </FSIcon>
-              </slot>
-            </template>
-            <template
-              #append
-            >
-              <FSButton
-                prependIcon="mdi-pencil"
-                variant="full"
-                :editable="$props.editable"
-                v-bind="props"
-              />
             </template>
           </FSTextField>
         </FSRow>
@@ -141,7 +98,6 @@ import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/co
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
-import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSIcon from "../FSIcon.vue";
 import FSRow from "../FSRow.vue";
@@ -151,7 +107,6 @@ export default defineComponent({
   name: "FSColorField",
   components: {
     FSTextField,
-    FSButton,
     FSCard,
     FSIcon,
     FSCol,
