@@ -11,7 +11,7 @@
     >
       <FSIcon 
         variant="dark"
-        size="56"
+        :size="$props.iconSize"
         :color="$props.iconColor"
       >
         {{ $props.icon }}
@@ -56,6 +56,11 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Dark
+    },
+    iconSize: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: '56'
     }
   },
   setup(props) {
