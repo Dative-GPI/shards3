@@ -1,8 +1,12 @@
-.fs-color-field {
-  cursor: pointer !important;
+.fs-color-field .fs-card {
+  cursor: var(--fs-color-field-cursor) !important;
+  border-color: var(--fs-color-field-border-color) !important;
+  .fs-text {
+    color: var(--fs-color-field-color) !important;
+  }
 }
 
-.fs-color-field .v-field__prepend-inner > .v-icon {
+.fs-color-field .v-icon {
   background-color: var(--fs-color-field-colorvalue) !important;
   border-radius: 100%;
   opacity: 1 !important;
@@ -15,5 +19,5 @@
 }
 
 .fs-color-field-description {
-    color: var(--fs-color-field-color);
+  color: var(--fs-color-field-color);
 }

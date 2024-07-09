@@ -35,6 +35,7 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSColorField
+        width="220px"
         label="Color"
         v-model="args.value1"
         v-model:opacityValue="args.opacity1"
@@ -50,7 +51,7 @@ export const Variations: Story = {
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSColorField
-        label="Base color picker"
+        :hideHeader="true"
         :onlyBaseColors="false"      
         v-model="args.value3"
         v-model:opacityValue="args.opacity3"
@@ -59,7 +60,8 @@ export const Variations: Story = {
       <FSColorField
         label="Base color picker"
         :editable="false"
-        :onlyBaseColors="false"      
+        :onlyBaseColors="false"     
+        description="Description for this field"
         v-model="args.value3"
         v-model:opacityValue="args.opacity3"
       />

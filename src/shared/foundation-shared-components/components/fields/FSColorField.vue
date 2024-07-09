@@ -7,54 +7,40 @@
     <template
       #activator="{ props }"
     >
-      <FSCol
+      <FSBaseField
+        class="fs-color-field"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :editable="$props.editable"
+        :modelValue="innerColor"
+        :description="$props.description"
+        :label="$props.label"
         :style="style"
+        :width="$props.width"
+        v-bind="$attrs"
       >
-        <FSRow
-          height="fill"
+        <FSCard
+          width="100%"
+          padding="8px"
           v-bind="props"
+          :class="{ 'fs-color-field-disabled': !$props.editable }"
         >
-          <FSTextField
-            class="fs-color-field"
-            :hideHeader="$props.hideHeader"
-            :required="$props.required"
-            :editable="$props.editable"
-            :clearable="false"
-            :readonly="true"
-            :modelValue="innerColor"
-            v-bind="$attrs"
+          <FSRow
+            align="center-center"
           >
-            <template
-              #prepend-inner
+            <FSIcon
+              :color="innerColor"
+              size="20px"
+              icon="mdi-circle-half"
+            />
+            <FSText
+              font="text-overline"
             >
-              <slot
-                name="prepend-inner"
-              >
-                <FSIcon
-                  :color="innerColor"
-                >
-                  mdi-circle-half
-                </FSIcon>
-              </slot>
-            </template>
-            <template
-              #append
-            >
-            </template>
-          </FSTextField>
-        </FSRow>
-        <slot
-          name="description"
-        >
-          <FSSpan
-            v-if="$props.description"
-            class="fs-color-field-description"
-            font="text-underline"
-          >
-            {{ $props.description }}
-          </FSSpan>
-        </slot>
-      </FSCol>
+              {{ innerColor }}
+            </FSText>
+          </FSRow>
+        </FSCard>
+      </FSBaseField>
     </template>
     <FSCard
       :elevation="true"
@@ -91,29 +77,36 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSTextField from "./FSTextField.vue";
 import FSCard from "../FSCard.vue";
 import FSIcon from "../FSIcon.vue";
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
+import FSBaseField from "./FSBaseField.vue";
+import FSText from "../FSText.vue";
 
 export default defineComponent({
   name: "FSColorField",
   components: {
-    FSTextField,
+    FSBaseField,
+    FSText,
     FSCard,
     FSIcon,
     FSCol,
-    FSRow
+    FSRow,
   },
   props: {
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     description: {
       type: String as PropType<string | null>,
       required: false,
@@ -153,6 +146,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "fill"
     }
   },
   emits: ["update:modelValue", "update:opacity"],
@@ -171,14 +169,20 @@ export default defineComponent({
     const fullColor = ref(innerColor.value + innerOpacity.value);
 
     const style = computed((): { [key: string]: string | undefined } => {
-      const style = {
-        "--fs-color-field-colorvalue": fullColor.value,
-        "--fs-color-field-color": darks.base
-      }
       if (!props.editable) {
-        style["--fs-color-field-color"] = lights.dark;
+        return {
+          "--fs-color-field-cursor"             : "default",
+          "--fs-color-field-border-color"       : lights.base,
+          "--fs-color-field-color"              : lights.dark,
+          "--fs-color-field-colorvalue": fullColor.value,
+        };
       }
-      return style;
+      return {
+        "--fs-color-field-cursor"             : "pointer",
+        "--fs-color-field-border-color"       : lights.dark,
+        "--fs-color-field-color"              : darks.base,
+        "--fs-color-field-colorvalue": fullColor.value,
+      };
     });
 
 
@@ -192,6 +196,12 @@ export default defineComponent({
 
     onMounted(() => {
       innerColor.value = getColors(props.modelValue)['base'];
+      innerOpacity.value = getHexFromPercentage(props.opacityValue);
+      fullColor.value = innerColor.value + innerOpacity.value;
+    });
+
+    watch(() => props.modelValue, (value) => {
+      innerColor.value = getColors(value)['base'];
       innerOpacity.value = getHexFromPercentage(props.opacityValue);
       fullColor.value = innerColor.value + innerOpacity.value;
     });
