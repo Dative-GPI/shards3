@@ -60,6 +60,7 @@ export interface CreateDashboardOrganisationDTO {
   image: string | null;
   labelDefault: string;
   code: string;
+  colors: string[];
   icon: string;
   tags: string[];
   translations: DashboardTranslationDTO[];
@@ -71,6 +72,7 @@ export interface UpdateDashboardOrganisationDTO {
   image: string | null;
   labelDefault: string;
   code: string;
+  colors: string[];
   icon: string;
   tags: string[];
   translations: DashboardTranslationDTO[];
