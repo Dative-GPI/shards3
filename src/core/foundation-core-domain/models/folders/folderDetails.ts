@@ -14,6 +14,7 @@ export interface CreateFolderDTO {
     label: string;
     icon: string;
     code: string;
+    colors: string[];
     tags: string[];
     image: string | null;
     parentId: string | null;
@@ -23,6 +24,7 @@ export interface UpdateFolderDTO {
     label: string;
     icon: string;
     code: string;
+    colors: string[];
     tags: string[];
     imageId: string | null;
     image: string | null;

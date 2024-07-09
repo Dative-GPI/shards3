@@ -7,96 +7,40 @@
     <template
       #activator="{ props }"
     >
-      <FSCol>
-        <FSRow
-          height="fill"
+      <FSBaseField
+        class="fs-color-field"
+        :hideHeader="$props.hideHeader"
+        :required="$props.required"
+        :editable="$props.editable"
+        :modelValue="innerColor"
+        :description="$props.description"
+        :label="$props.label"
+        :style="style"
+        :width="$props.width"
+        v-bind="$attrs"
+      >
+        <FSCard
+          width="100%"
+          padding="8px"
           v-bind="props"
+          :class="{ 'fs-color-field-disabled': !$props.editable }"
         >
-          <FSTextField
-            class="fs-color-field"
-            :hideHeader="$props.hideHeader"
-            :required="$props.required"
-            :editable="$props.editable"
-            :clearable="false"
-            :readonly="true"
-            :modelValue="innerColor"
-            v-bind="$attrs"
+          <FSRow
+            align="center-center"
           >
-            <template
-              #prepend-inner
+            <FSIcon
+              :color="innerColor"
+              size="20px"
+              icon="mdi-circle-half"
+            />
+            <FSText
+              font="text-overline"
             >
-              <slot
-                name="prepend-inner"
-              >
-                <FSIcon
-                  :color="innerColor"
-                >
-                  mdi-circle
-                </FSIcon>
-              </slot>
-            </template>
-            <template
-              #append
-            >
-              <FSButton
-                prependIcon="mdi-pencil"
-                variant="full"
-                :editable="$props.editable"
-                v-bind="props"
-              />
-            </template>
-          </FSTextField>
-          <FSTextField
-            v-if="$props.allowOpacity && !$props.onlyBaseColors"
-            class="fs-color-field-opacity"
-            :label="$tr('ui.color-field.opacity', 'Opacity')"
-            :hideHeader="$props.hideHeader"
-            :required="$props.required"
-            :editable="$props.editable"
-            :clearable="false"
-            :readonly="true"
-            :modelValue="(Math.round(getPercentageFromHex(innerOpacity) * 100)) + ' %'"
-          >
-            <template
-              #prepend-inner
-            >
-              <slot
-                name="prepend-inner"
-              >
-                <FSIcon
-                  :color="ColorEnum.Dark"
-                  :editable="$props.editable"
-                  :style="{ opacity: getPercentageFromHex(innerOpacity) }"
-                >
-                  mdi-circle
-                </FSIcon>
-              </slot>
-            </template>
-            <template
-              #append
-            >
-              <FSButton
-                prependIcon="mdi-pencil"
-                variant="full"
-                :editable="$props.editable"
-                v-bind="props"
-              />
-            </template>
-          </FSTextField>
-        </FSRow>
-        <slot
-          name="description"
-        >
-          <FSSpan
-            v-if="$props.description"
-            class="fs-color-field-description"
-            font="text-underline"
-            :style="style"
-          >
-            {{ $props.description }}
-          </FSSpan>
-        </slot>
-      </FSCol>
+              {{ innerColor }}
+            </FSText>
+          </FSRow>
+        </FSCard>
+      </FSBaseField>
     </template>
     <FSCard
       :elevation="true"
@@ -133,31 +77,36 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSTextField from "./FSTextField.vue";
-import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSIcon from "../FSIcon.vue";
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
+import FSBaseField from "./FSBaseField.vue";
+import FSText from "../FSText.vue";
 
 export default defineComponent({
   name: "FSColorField",
   components: {
-    FSTextField,
-    FSButton,
+    FSBaseField,
+    FSText,
     FSCard,
     FSIcon,
     FSCol,
-    FSRow
+    FSRow,
   },
   props: {
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     description: {
       type: String as PropType<string | null>,
       required: false,
@@ -197,6 +146,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "fill"
     }
   },
   emits: ["update:modelValue", "update:opacity"],
@@ -217,11 +171,17 @@ export default defineComponent({
     const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
         return {
-          "--fs-color-field-color": lights.dark
+          "--fs-color-field-cursor"             : "default",
+          "--fs-color-field-border-color"       : lights.base,
+          "--fs-color-field-color"              : lights.dark,
+          "--fs-color-field-colorvalue": fullColor.value,
         };
       }
       return {
-        "--fs-color-field-color": darks.base
+        "--fs-color-field-cursor"             : "pointer",
+        "--fs-color-field-border-color"       : lights.dark,
+        "--fs-color-field-color"              : darks.base,
+        "--fs-color-field-colorvalue": fullColor.value,
       };
     });
 
@@ -233,6 +193,18 @@ export default defineComponent({
       emit("update:modelValue", innerColor.value);
       emit("update:opacity", getPercentageFromHex(innerOpacity.value));
     };
+
+    onMounted(() => {
+      innerColor.value = getColors(props.modelValue)['base'];
+      innerOpacity.value = getHexFromPercentage(props.opacityValue);
+      fullColor.value = innerColor.value + innerOpacity.value;
+    });
+
+    watch(() => props.modelValue, (value) => {
+      innerColor.value = getColors(value)['base'];
+      innerOpacity.value = getHexFromPercentage(props.opacityValue);
+      fullColor.value = innerColor.value + innerOpacity.value;
+    });
 
     return {
       getPercentageFromHex,
