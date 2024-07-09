@@ -1,6 +1,5 @@
 <template>
   <FSCol
-    :style="style"
     class="fs-gradient-field"
   >
     <FSBaseField
@@ -23,7 +22,6 @@
       <FSSelectField
         class="fs-gradient-select-field"
         :items="items"
-        :style="style"
         @update:modelValue="$emit('update:modelValue', JSON.parse($event))"
         :clearable="false"
         :editable="$props.editable"
@@ -67,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { type PropType, defineComponent, computed } from "vue";
+import { type PropType, defineComponent } from "vue";
 
 import FSColorField from "./FSColorField.vue";
 import FSCol from "../FSCol.vue";
@@ -118,16 +116,9 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const style = computed((): { [key: string]: string | null | undefined } => {
-      return {
-        '--fs-gradient-field-background': `linear-gradient(to right, ${props.modelValue[0]}, ${props.modelValue[1]})`
-      };
-    });
-
     const items = groupedGradients[props.colorCount] ?? [];
 
     return {
-      style,
       items
     };
   }
