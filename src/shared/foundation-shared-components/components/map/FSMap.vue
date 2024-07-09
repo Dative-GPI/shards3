@@ -350,7 +350,7 @@ export default defineComponent({
         return;
       }
       modifyLocationAddress(props.selectedLocationId, address);
-      map?.flyTo([address.latitude, address.longitude], map?.getZoom() ?? defaultZoom);
+      map?.panTo([address.latitude, address.longitude]);
     };
 
     const onNewCoordEntered = async (lat: number, lng: number) => {
@@ -374,7 +374,7 @@ export default defineComponent({
     const locate = () => {
       map?.locate();
       map?.on('locationfound', (e: L.LocationEvent) => {
-        map?.flyTo(e.latlng, map?.getZoom() ?? defaultZoom);
+        map?.panTo(e.latlng);
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
         const icon = LL.divIcon({
           html: iconHtml,
@@ -395,7 +395,7 @@ export default defineComponent({
         map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom);
+        map?.panTo([props.center[0], props.center[1]]);
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -409,7 +409,7 @@ export default defineComponent({
         map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom);
+        map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom, { animate: false });
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -434,7 +434,7 @@ export default defineComponent({
       }
       const marker = markers[props.selectedLocationId];
       marker.getElement()?.classList.add('fs-map-location-selected');
-      map?.flyTo(marker.getLatLng(), 17);
+      map?.flyTo(marker.getLatLng(), 17, { animate: false });
     })
 
     watch(() => props.selectedSiteId, () => {
