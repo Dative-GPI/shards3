@@ -65,6 +65,8 @@
     "vue-router": "4.3.0",
     "vue-tsc": "2.0.21",
     "vuetify": "3.5.15",
-    "webfontloader": "1.6.28"
+    "webfontloader": "1.6.28",
+    "leaflet": "1.9.4",
+    "leaflet.markercluster": "1.5.3"    
   }
 }
