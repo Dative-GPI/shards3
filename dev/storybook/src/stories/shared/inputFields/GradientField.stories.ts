@@ -21,7 +21,7 @@ export const Variations: Story = {
       value1: ["#008FFF", "#FFFF00"],
       value2: ["#FF00F0", "#00FF00"],
       value3: ["#FFF000", "#FF0000"],
-      value4: ["#FF0000", "#8FA0F0"],
+      value4: ["#FF0000", "#8FA0F0", "#8FA000"],
     }
   },
   render: (args, { argTypes }) => ({
@@ -51,6 +51,7 @@ export const Variations: Story = {
       <div style="width: 100%; border-bottom: 2px dotted lightgrey; margin: 18px;" />
       <FSGradientField
         v-model="args.value4"
+        :colorCount="3"
         label="Gradient"
       />
     </FSCol>`
