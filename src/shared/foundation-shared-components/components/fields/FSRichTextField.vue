@@ -150,10 +150,19 @@
     </FSRow>
     <div
       class="fs-rich-text-field"
-      :id="id"
       :style="style"
-      :contenteditable="!readonly && $props.editable"
-    />
+    >
+      <div
+        class="fs-rich-text-field-content"
+        :contenteditable="!readonly && $props.editable"
+        :id="id"
+      />
+      <slot
+        name="append-inner"
+        v-bind="{ props: $props }"
+      ></slot>
+    </div>
+
     <FSTextField
       v-if="isLink && !readonly && $props.editable"
       :hideHeader="true"
@@ -176,19 +185,19 @@
 </template>
 
 <script lang="ts">
-import type { ElementNode} from "lexical";
+import type { ElementNode } from "lexical";
 import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
-import type { HeadingTagType} from "@lexical/rich-text";
+import type { HeadingTagType } from "@lexical/rich-text";
 import { $createHeadingNode, HeadingNode, registerRichText } from "@lexical/rich-text";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
-import type { PropType} from "vue";
+import type { PropType } from "vue";
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
+import type { ColorBase } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
@@ -251,7 +260,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
-    const linkColors = computed(()=> getColors(props.linkColor));
+    const linkColors = computed(() => getColors(props.linkColor));
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
@@ -267,7 +276,7 @@ export default defineComponent({
 
 
     const linkUrl = ref("https://");
-    
+
     const config = {
       namespace: "MyEditor",
       theme: {
@@ -318,7 +327,7 @@ export default defineComponent({
       return ["readonly"].includes(props.variant);
     });
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): { [key: string]: string | null | undefined } => {
       let minHeight: string | undefined = "auto";
       if (!readonly.value) {
         const base = isMobileSized.value ? 30 : 42;
@@ -335,38 +344,38 @@ export default defineComponent({
         case "standard": {
           if (!props.editable) {
             return {
-              "--fs-rich-text-field-undo-cursor"        : "default",
-              "--fs-rich-text-field-icon-cursor"        : "default",
-              "--fs-rich-text-field-border-color"       : lights.base,
-              "--fs-rich-text-field-color"              : lights.dark,
+              "--fs-rich-text-field-undo-cursor": "default",
+              "--fs-rich-text-field-icon-cursor": "default",
+              "--fs-rich-text-field-border-color": lights.base,
+              "--fs-rich-text-field-color": lights.dark,
               "--fs-rich-text-field-active-border-color": lights.base,
-              "--fs-rich-text-field-link-color"         : linkColors.value.light,
-              "--fs-rich-text-field-min-height"         : minHeight
+              "--fs-rich-text-field-link-color": linkColors.value.light,
+              "--fs-rich-text-field-min-height": minHeight
             };
           }
           else {
             return {
-              "--fs-rich-text-field-undo-cursor"        : canUndo.value ? "pointer" : "default",
-              "--fs-rich-text-field-icon-cursor"        : "pointer",
-              "--fs-rich-text-field-border-color"       : lights.dark,
-              "--fs-rich-text-field-color"              : darks.base,
+              "--fs-rich-text-field-undo-cursor": canUndo.value ? "pointer" : "default",
+              "--fs-rich-text-field-icon-cursor": "pointer",
+              "--fs-rich-text-field-border-color": lights.dark,
+              "--fs-rich-text-field-color": darks.base,
               "--fs-rich-text-field-active-border-color": darks.dark,
-              "--fs-rich-text-field-link-color"         : linkColors.value.dark,
-              "--fs-rich-text-field-min-height"         : minHeight
+              "--fs-rich-text-field-link-color": linkColors.value.dark,
+              "--fs-rich-text-field-min-height": minHeight
             };
           }
         }
         case "readonly": return {
-          "--fs-rich-text-field-border-color"       : "transparent",
-          "--fs-rich-text-field-color"              : darks.base,
+          "--fs-rich-text-field-border-color": "transparent",
+          "--fs-rich-text-field-color": darks.base,
           "--fs-rich-text-field-active-border-color": "transparent",
-          "--fs-rich-text-field-link-color"         : linkColors.value.dark,
-          "--fs-rich-text-field-min-height"         : minHeight
+          "--fs-rich-text-field-link-color": linkColors.value.dark,
+          "--fs-rich-text-field-min-height": minHeight
         }
       }
     });
 
-    const toolbarColors = computed((): {[code: string]: string} => {
+    const toolbarColors = computed((): { [code: string]: string } => {
       if (props.editable) {
         return {
           undo: canUndo.value ? darks.base : lights.base,
@@ -448,7 +457,7 @@ export default defineComponent({
           if ($isRangeSelection(selection)) {
             toggleLink();
           }
-        }); 
+        });
       }
     };
 
@@ -498,7 +507,7 @@ export default defineComponent({
             let linkNode: LinkNode | null = null;
             nodes.forEach((node) => {
               const parent = node.getParent();
-              if ( parent === linkNode || parent === null || ($isElementNode(node) && !node.isInline())) {
+              if (parent === linkNode || parent === null || ($isElementNode(node) && !node.isInline())) {
                 return;
               }
               if ($isLinkNode(parent)) {
@@ -517,7 +526,7 @@ export default defineComponent({
               }
               if (!parent.is(prevParent)) {
                 prevParent = parent;
-                linkNode = $createLinkNode(linkUrl.value, {rel, target, title});
+                linkNode = $createLinkNode(linkUrl.value, { rel, target, title });
 
                 if ($isLinkNode(parent)) {
                   if (node.getPreviousSibling() === null) {

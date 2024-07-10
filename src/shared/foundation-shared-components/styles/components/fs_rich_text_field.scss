@@ -1,19 +1,24 @@
 .fs-rich-text-field {
     width: 100%;
     min-width: 120px;
-    outline: none !important;
     border: 1px solid var(--fs-rich-text-field-border-color) !important;
     border-radius: 4px !important;
 
-    min-height: var(--fs-rich-text-field-min-height);
-    color: var(--fs-rich-text-field-color);
+
     margin: 2px 2px 2px 0 !important;
+
+    .fs-rich-text-field-content {
+        color: var(--fs-rich-text-field-color);
+        width: 100%;
+        min-height: var(--fs-rich-text-field-min-height);
+        outline: none !important;
+    }
 
 
     &:focus-within {
         border-color: var(--fs-rich-text-field-active-border-color) !important;
     }
-        
+
     @include web {
         padding: 10px 12px !important;
     }
