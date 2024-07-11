@@ -62,7 +62,7 @@ export class VariableNode extends DecoratorNode<Element> {
     return container;
   }
 
-  updateDOM(prevNode: VariableNode, dom: HTMLElement): boolean {
+  updateDOM(): boolean {
     return false;
   }
 

@@ -1,6 +1,5 @@
-import type { ElementNode, LexicalNode, RangeSelection, TextNode, LexicalEditor } from "lexical";
+import type { ElementNode, LexicalNode, RangeSelection, TextNode } from "lexical";
 import { $isAtNodeEnd } from "@lexical/selection";
-import { $isVariableNode, type VariableNode } from "../models/variableNode";
 
 export const getSelectedNode = (selection: RangeSelection): ElementNode | TextNode => {
   const anchor = selection.anchor;

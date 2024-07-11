@@ -119,7 +119,9 @@
           v-if="$props.variableReferences && $props.variableReferences.length > 0"
           :close-on-content-click="false"
         >
-          <template v-slot:activator="{ props }">
+          <template
+            v-slot:activator="{ props }"
+          >
             <FSIcon
               v-bind="props"
               class="fs-rich-text-field-icon"
@@ -133,7 +135,7 @@
             padding="12"
             width="300px"
             :elevation="true"
-            >
+          >
             <FSAutoCompleteField
               :items="$props.variableReferences"
               :placeholder="$tr('ui.richTextField.variable.placeholder', 'Choose a variable...')"
@@ -234,15 +236,13 @@ import FSTextField from "./FSTextField.vue";
 import FSIcon from "../FSIcon.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import { $createVariableNode, $isVariableNode, $modifyVariableNode, VariableNode } from "../../models/variableNode";
-import FSSelectField from "./FSSelectField.vue";
+import { $createVariableNode, $isVariableNode, VariableNode } from "../../models/variableNode";
 import FSAutoCompleteField from "./FSAutocompleteField.vue";
 import FSCard from "../FSCard.vue";
 
 export default defineComponent({
   name: "FSRichTextField",
   components: {
-    FSSelectField,
     FSTextField,
     FSIcon,
     FSCol,
