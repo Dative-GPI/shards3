@@ -231,6 +231,7 @@ import { $wrapNodes } from "@lexical/selection";
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { emptyLexicalState, getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
 import type { ColorBase } from "@dative-gpi/foundation-shared-components/models";
+import type { RichTextVariable } from "../../models/richTextVariable";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSTextField from "./FSTextField.vue";
@@ -288,7 +289,7 @@ export default defineComponent({
       default: "standard"
     },
     variableReferences: {
-      type: Array as PropType<Array<{ code: string, type: string }>>,
+      type: Array as PropType<Array<RichTextVariable>>,
       default: () => []
     },
     variableValues: {
