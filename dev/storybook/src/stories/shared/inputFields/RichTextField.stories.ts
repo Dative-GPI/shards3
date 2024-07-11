@@ -37,14 +37,12 @@ export const Variations: Story = {
         label="Rich text"
         v-model="args.value1"
         :variableReferences="args.variablePreset1"
-        @update:modelValue="console.log('Updated value:', $event)"
       />
       <FSRichTextField
         label="Rich text"
         v-model="args.value1"
         variant="readonly"
         :variableValues="args.variableValues1"
-        @update:modelValue="console.log('Updated value:', $event)"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSRichTextField

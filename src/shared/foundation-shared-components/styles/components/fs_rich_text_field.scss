@@ -16,9 +16,9 @@
 
     .fs-richtextfield-node-variable {
         .fs-rich-text-field-node-variable-code {
-            background-color: grey;
-            border-radius: 2px;
-            padding: 2px;
+            background-color: var(--fs-rich-text-field-variable-backgroundcolor);
+            color: var(--fs-rich-text-field-variable-color);
+            border-radius: 4px;
         }
     }
 

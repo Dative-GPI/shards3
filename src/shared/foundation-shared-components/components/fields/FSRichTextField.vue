@@ -115,15 +115,34 @@
         >
           mdi-link
         </FSIcon>
-        <FSIcon
-          v-if="$props.variableReferences > 0"
-          class="fs-rich-text-field-icon"
-          :color="toolbarColors.variable"
-          :style="style"
-          @click="insertVariable($props.variableReferences[0])"
+        <v-menu
+          v-if="$props.variableReferences && $props.variableReferences.length > 0"
+          :close-on-content-click="false"
         >
-          mdi-variable
-        </FSIcon>
+          <template v-slot:activator="{ props }">
+            <FSIcon
+              v-bind="props"
+              class="fs-rich-text-field-icon"
+              :color="toolbarColors.variable"
+              :style="style"
+            >
+              mdi-variable
+            </FSIcon>
+          </template>
+          <FSCard
+            padding="12"
+            width="300px"
+            :elevation="true"
+            >
+            <FSAutoCompleteField
+              :items="$props.variableReferences"
+              :placeholder="$tr('ui.richTextField.variable.placeholder', 'Choose a variable...')"
+              itemTitle="code"
+              :returnObject="true"
+              @update:modelValue="insertVariable($event)"
+            />
+          </FSCard>
+        </v-menu>
         <v-divider
           vertical
         />
@@ -197,7 +216,7 @@
 
 <script lang="ts">
 import type { ElementNode } from "lexical";
-import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
+import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $isNodeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
 import type { HeadingTagType } from "@lexical/rich-text";
 import { $createHeadingNode, HeadingNode, registerRichText } from "@lexical/rich-text";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
@@ -215,15 +234,21 @@ import FSTextField from "./FSTextField.vue";
 import FSIcon from "../FSIcon.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import { $createVariableNode, VariableNode } from "../../models/variableNode";
+import { $createVariableNode, $isVariableNode, $modifyVariableNode, VariableNode } from "../../models/variableNode";
+import FSSelectField from "./FSSelectField.vue";
+import FSAutoCompleteField from "./FSAutocompleteField.vue";
+import FSCard from "../FSCard.vue";
 
 export default defineComponent({
   name: "FSRichTextField",
   components: {
+    FSSelectField,
     FSTextField,
     FSIcon,
     FSCol,
-    FSRow
+    FSRow,
+    FSAutoCompleteField,
+    FSCard
   },
   props: {
     label: {
@@ -263,7 +288,7 @@ export default defineComponent({
     },
     variableReferences: {
       type: Array as PropType<Array<{ code: string, type: string }>>,
-      default: []
+      default: () => []
     },
     variableValues: {
       type: Object,
@@ -296,8 +321,8 @@ export default defineComponent({
     const id = `${Math.random()}-editor`;
     const emptyState = "{\"root\":{\"children\":[{\"children\":[],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}";
 
-
     const linkUrl = ref("https://");
+    const selectedVariable = ref<VariableNode>();
 
     const config = {
       namespace: "MyEditor",
@@ -384,7 +409,9 @@ export default defineComponent({
               "--fs-rich-text-field-color": darks.base,
               "--fs-rich-text-field-active-border-color": darks.dark,
               "--fs-rich-text-field-link-color": linkColors.value.dark,
-              "--fs-rich-text-field-min-height": minHeight
+              "--fs-rich-text-field-min-height": minHeight,
+              "--fs-rich-text-field-variable-backgroundcolor": getColors(ColorEnum.Primary).light,
+              "--fs-rich-text-field-variable-color": getColors(ColorEnum.Primary).lightContrast
             };
           }
         }
@@ -424,12 +451,19 @@ export default defineComponent({
 
     const updateToolbar = (): void => {
       const selection = $getSelection();
+      isVariable.value = false;
       if ($isRangeSelection(selection)) {
         isBold.value = selection.hasFormat("bold");
         isItalic.value = selection.hasFormat("italic");
         isUnderline.value = selection.hasFormat("underline");
         isStrikethrough.value = selection.hasFormat("strikethrough");
         isLink.value = $isLinkNode(getSelectedNode(selection)) || $isLinkNode(getSelectedNode(selection).getParent());
+      }
+      else if($isNodeSelection(selection)){
+        if($isVariableNode(selection?.getNodes()[0])){
+          isVariable.value = true;
+          selectedVariable.value = selection?.getNodes()[0] as VariableNode;
+        }
       }
     };
 
@@ -621,6 +655,7 @@ export default defineComponent({
       isLink,
       linkUrl,
       toolbarColors,
+      selectedVariable,
       openLink,
       toggleLink,
       formatText,

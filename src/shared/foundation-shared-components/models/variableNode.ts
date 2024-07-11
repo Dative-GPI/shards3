@@ -1,4 +1,5 @@
 import { type LexicalNode, DecoratorNode, type SerializedLexicalNode, type Spread, type EditorConfig, type LexicalEditor } from "lexical";
+import type { RichTextVariable } from "./richTextVariable";
 
 export type SerializedVariableNode = Spread<
   {
@@ -61,7 +62,6 @@ export class VariableNode extends DecoratorNode<Element> {
     return container;
   }
 
-
   updateDOM(prevNode: VariableNode, dom: HTMLElement): boolean {
     return false;
   }
@@ -91,6 +91,13 @@ export class VariableNode extends DecoratorNode<Element> {
 
 export function $createVariableNode(code: string, defaultValue: string, typeName: string): VariableNode {
   return new VariableNode(code, defaultValue, typeName);
+}
+
+export function $modifyVariableNode(node: VariableNode, newValue: RichTextVariable): VariableNode {
+  node.__code = newValue.code;
+  node.__defaultValue = newValue.defaultValue;
+  node.__typeName = newValue.typeName;
+  return node;
 }
 
 export function $isVariableNode(node: LexicalNode | null | undefined): node is VariableNode {
