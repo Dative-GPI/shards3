@@ -115,6 +115,15 @@
         >
           mdi-link
         </FSIcon>
+        <FSIcon
+          v-if="$props.variableReferences > 0"
+          class="fs-rich-text-field-icon"
+          :color="toolbarColors.variable"
+          :style="style"
+          @click="insertVariable($props.variableReferences[0])"
+        >
+          mdi-variable
+        </FSIcon>
         <v-divider
           vertical
         />
@@ -156,6 +165,8 @@
         class="fs-rich-text-field-content"
         :contenteditable="!readonly && $props.editable"
         :id="id"
+        :data-readonly="$props.variant === 'readonly'"
+        :data-variable-values="JSON.stringify($props.variableValues)"
       />
       <slot
         name="append-inner"
@@ -204,6 +215,7 @@ import FSTextField from "./FSTextField.vue";
 import FSIcon from "../FSIcon.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
+import { $createVariableNode, VariableNode } from "../../models/variableNode";
 
 export default defineComponent({
   name: "FSRichTextField",
@@ -249,6 +261,15 @@ export default defineComponent({
       required: false,
       default: "standard"
     },
+    variableReferences: {
+      type: Array as PropType<Array<{ code: string, type: string }>>,
+      default: []
+    },
+    variableValues: {
+      type: Object,
+      required: false,
+      default: () => ({})
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -270,6 +291,7 @@ export default defineComponent({
     const isItalic = ref(false);
     const isUnderline = ref(false);
     const isStrikethrough = ref(false);
+    const isVariable = ref(false);
 
     const id = `${Math.random()}-editor`;
     const emptyState = "{\"root\":{\"children\":[{\"children\":[],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}";
@@ -298,7 +320,8 @@ export default defineComponent({
       nodes: [
         HeadingNode,
         LinkNode,
-        ParagraphNode
+        ParagraphNode,
+        VariableNode
       ],
       onError: console.error
     }
@@ -383,7 +406,8 @@ export default defineComponent({
           italic: isItalic.value ? darks.base : lights.base,
           underline: isUnderline.value ? darks.base : lights.base,
           strikethrough: isStrikethrough.value ? darks.base : lights.base,
-          link: isLink.value ? darks.base : lights.base
+          link: isLink.value ? darks.base : lights.base,
+          variable: isVariable.value ? darks.base : lights.base
         };
       }
       else {
@@ -442,6 +466,16 @@ export default defineComponent({
 
         if ($isRangeSelection(selection)) {
           $wrapNodes(selection, () => $createParagraphNode());
+        }
+      });
+    };
+
+    const insertVariable = (variable: { code: string; defaultValue: any; type: string }) => {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const variableNode = $createVariableNode(variable.code, variable.defaultValue, variable.type);
+          selection.insertNodes([variableNode]);
         }
       });
     };
@@ -591,6 +625,7 @@ export default defineComponent({
       toggleLink,
       formatText,
       formatParagraph,
+      insertVariable,
       UNDO_COMMAND,
       FORMAT_TEXT_COMMAND,
       FORMAT_ELEMENT_COMMAND,

@@ -14,6 +14,13 @@
         outline: none !important;
     }
 
+    .fs-richtextfield-node-variable {
+        .fs-rich-text-field-node-variable-code {
+            background-color: grey;
+            border-radius: 2px;
+            padding: 2px;
+        }
+    }
 
     &:focus-within {
         border-color: var(--fs-rich-text-field-active-border-color) !important;
