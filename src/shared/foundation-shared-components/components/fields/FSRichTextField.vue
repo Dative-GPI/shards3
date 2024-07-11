@@ -117,6 +117,7 @@
         </FSIcon>
         <v-menu
           v-if="$props.variableReferences && $props.variableReferences.length > 0"
+          v-model="menuVariable"
           :close-on-content-click="false"
         >
           <template
@@ -228,7 +229,7 @@ import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
+import { emptyLexicalState, getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
 import type { ColorBase } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -317,12 +318,11 @@ export default defineComponent({
     const isUnderline = ref(false);
     const isStrikethrough = ref(false);
     const isVariable = ref(false);
+    const menuVariable = ref(false);
 
     const id = `${Math.random()}-editor`;
-    const emptyState = "{\"root\":{\"children\":[{\"children\":[],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}";
 
     const linkUrl = ref("https://");
-    const selectedVariable = ref<VariableNode>();
 
     const config = {
       namespace: "MyEditor",
@@ -366,7 +366,7 @@ export default defineComponent({
       }
       else {
         editor.update((): void => {
-          editor.setEditorState(editor.parseEditorState(emptyState));
+          editor.setEditorState(editor.parseEditorState(emptyLexicalState));
         });
       }
     });
@@ -462,7 +462,6 @@ export default defineComponent({
       else if($isNodeSelection(selection)){
         if($isVariableNode(selection?.getNodes()[0])){
           isVariable.value = true;
-          selectedVariable.value = selection?.getNodes()[0] as VariableNode;
         }
       }
     };
@@ -470,7 +469,7 @@ export default defineComponent({
     editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         updateToolbar();
-        if (JSON.stringify(editorState.toJSON()) !== emptyState) {
+        if (JSON.stringify(editorState.toJSON()) !== emptyLexicalState) {
           emit("update:modelValue", JSON.stringify(editorState.toJSON()));
         }
         else {
@@ -505,6 +504,7 @@ export default defineComponent({
     };
 
     const insertVariable = (variable: { code: string; defaultValue: any; type: string }) => {
+      menuVariable.value = false;
       editor.update(() => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
@@ -639,9 +639,9 @@ export default defineComponent({
             editor.setEditorState(editor.parseEditorState(props.modelValue!));
           });
         }
-        else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyState) {
+        else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyLexicalState) {
           editor.update(() => {
-            editor.setEditorState(editor.parseEditorState(emptyState));
+            editor.setEditorState(editor.parseEditorState(emptyLexicalState));
           });
         }
       }
@@ -655,7 +655,7 @@ export default defineComponent({
       isLink,
       linkUrl,
       toolbarColors,
-      selectedVariable,
+      menuVariable,
       openLink,
       toggleLink,
       formatText,

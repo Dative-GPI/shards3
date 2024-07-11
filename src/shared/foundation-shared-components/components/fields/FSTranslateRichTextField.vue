@@ -87,6 +87,8 @@ import { defineComponent, onMounted, type PropType, ref } from 'vue';
 
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
+import { emptyLexicalState } from '../../utils';
+
 import FSRichTextField from './FSRichTextField.vue';
 import FSButton from '../FSButton.vue';
 import FSCol from '../FSCol.vue';
@@ -137,15 +139,13 @@ export default defineComponent({
 
     const innerTranslations = ref(props.translations);
 
-    const emptyState = "{\"root\":{\"children\":[{\"children\":[],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}";
-
     const getTranslation = (languageCode: string): string => {
       if (!innerTranslations.value) {
-        return emptyState;
+        return emptyLexicalState;
       }
       const translation = innerTranslations.value.find((t) => t.languageCode === languageCode);
       if (!translation || !translation[props.property]) {
-        return emptyState;
+        return emptyLexicalState;
       }
       return translation[props.property].toString();
     };
