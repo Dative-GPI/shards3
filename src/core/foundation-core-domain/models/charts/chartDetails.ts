@@ -10,10 +10,14 @@ import type { ChartAxisDTO } from "./chartAxis";
 import { ChartAxis } from "./chartAxis";
 import type { ChartPlotDTO } from "./chartPlot";
 import { ChartPlot } from "./chartPlot";
-import { ChartSerie, ChartSerieDTO } from "./chartSerie";
-import { ChartOperand, ChartOperandDTO } from "./chartOperand";
-import { ChartModifier, ChartModifierDTO } from "./chartModifier";
-import { ChartFilter, ChartFilterDTO } from "./chartFilter";
+import { ChartSerie } from "./chartSerie";
+import type { ChartSerieDTO } from "./chartSerie";
+import { ChartOperand } from "./chartOperand";
+import type { ChartOperandDTO } from "./chartOperand";
+import { ChartModifier } from "./chartModifier";
+import type { ChartModifierDTO } from "./chartModifier";
+import { ChartFilter} from "./chartFilter";
+import type { ChartFilterDTO } from "./chartFilter";
 
 import type { ColorSets } from "../enums/chartEnums";
 

@@ -12,8 +12,15 @@ import type { ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis";
 import { ChartAxis } from "../charts/chartAxis";
 import type { ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
 import { ChartPlot } from "../charts/chartPlot";
+import { ChartFilter } from "../charts/chartFilter";
+import type { ChartFilterDTO,CreateChartFilterDTO } from "../charts/chartFilter";
+import { ChartModifier } from "../charts/chartModifier";
+import type { ChartModifierDTO,CreateChartModifierDTO } from "../charts/chartModifier";
+import { ChartOperand } from "../charts/chartOperand";
+import type { ChartOperandDTO,CreateChartOperandDTO } from "../charts/chartOperand";
+import { ChartSerie } from "../charts/chartSerie";
+import type { ChartSerieDTO,CreateChartSerieDTO } from "../charts/chartSerie";
 import type { ColorSets } from "../enums/chartEnums";
-import { ChartFilter, ChartFilterDTO, ChartModifier, ChartModifierDTO, ChartOperand, ChartOperandDTO, ChartSerie, ChartSerieDTO, CreateChartFilterDTO, CreateChartModifierDTO, CreateChartOperandDTO, CreateChartSerieDTO } from "../charts";
 
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   labelDefault: string;
