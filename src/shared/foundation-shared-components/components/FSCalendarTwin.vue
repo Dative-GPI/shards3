@@ -14,7 +14,7 @@
     </FSRow>
     <FSRow
       class="fs-calendar-twin"
-      align="center-top"
+      align="top-center"
       width="hug"
       height="375px"
       :style="style"
