@@ -13,6 +13,7 @@ import { ChartAxis } from "../charts/chartAxis";
 import type { ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
 import { ChartPlot } from "../charts/chartPlot";
 import type { ColorSets } from "../enums/chartEnums";
+import { ChartFilter, ChartFilterDTO, ChartModifier, ChartModifierDTO, ChartOperand, ChartOperandDTO, ChartSerie, ChartSerieDTO, CreateChartFilterDTO, CreateChartModifierDTO, CreateChartOperandDTO, CreateChartSerieDTO } from "../charts";
 
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   labelDefault: string;
@@ -26,6 +27,10 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   chartPresets: ChartPreset[];
   chartPresetFilters: ChartPresetFilter[];
   chartPlots: ChartPlot[];
+  chartSeries: ChartSerie[];
+  chartOperands: ChartOperand[];
+  chartFilters: ChartFilter[];
+  chartModifiers: ChartModifier[];
   translations: ChartTranslation[];
 
   constructor(params: ChartOrganisationTypeDetailsDTO) {
@@ -59,6 +64,11 @@ export interface ChartOrganisationTypeDetailsDTO extends ChartOrganisationTypeIn
   chartPresets: ChartPresetDTO[];
   chartPresetFilters: ChartPresetFilterDTO[];
   chartPlots: ChartPlotDTO[];
+  chartSeries: ChartSerieDTO[];
+  chartOperands: ChartOperandDTO[];
+  chartFilters: ChartFilterDTO[];
+  chartModifiers: ChartModifierDTO[];
+  yAxis: ChartAxis[];
   translations: ChartTranslationDTO[];
 }
 
@@ -87,5 +97,10 @@ export interface UpdateChartOrganisationTypeDTO {
   chartPresets: CreateChartPresetDTO[];
   chartPresetFilters: CreateChartPresetFilterDTO[];
   chartPlots: CreateChartPlotDTO[];
+  chartSeries: CreateChartSerieDTO[];
+  chartOperands: CreateChartOperandDTO[];
+  chartFilters: CreateChartFilterDTO[];
+  chartModifiers: CreateChartModifierDTO[];
+  yAxis: CreateChartAxisDTO[];
   translations: ChartTranslationDTO[];
 }

@@ -1,4 +1,6 @@
 export class ChartModifier {
+  chartId : string;
+  hiddenCode: string;
   dataDefinitionId: string;
   hideLabel: boolean;
   
@@ -9,11 +11,13 @@ export class ChartModifier {
 }
   
 export interface ChartModifierDTO {
+  hiddenCode: string;
   dataDefinitionId: string;
   hideLabel: boolean;
 }
 
 export interface CreateChartModifierDTO {
+  hiddenCode: string;
   dataDefinitionId: string;
   hideLabel: boolean;
 }

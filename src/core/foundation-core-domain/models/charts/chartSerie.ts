@@ -9,7 +9,9 @@ import { ChartOperand } from "./chartOperand";
 
 export class ChartSerie {
   id: string;
-  chartPlotId: string;
+  chartId: string;
+  hiddenCode: string;
+  chartPlotHiddenCode: string;
   serieType: number;
   plotPer?: number;
   shift?: ChartTimeStep;
@@ -50,7 +52,9 @@ export class ChartSerie {
 
   constructor(params: ChartSerieDTO) {
     this.id = params.id;
-    this.chartPlotId = params.chartPlotId;
+    this.chartId = params.chartId;
+    this.hiddenCode = params.hiddenCode;
+    this.chartPlotHiddenCode = params.chartPlotHiddenCode;
     this.serieType = params.serieType;
     this.plotPer = params.plotPer;
     this.shift = params.shift ? new ChartTimeStep(params.shift) : undefined;
@@ -80,7 +84,6 @@ export class ChartSerie {
     this.useOther = params.useOther;
     this.otherThreshold = params.otherThreshold;
     this.baseBreakdown = params.baseBreakdown;
-    this.chartOperands = params.chartOperands.map(o => new ChartOperand(o));
     this.label = params.label;
     this.xAxisLabel = params.xAxisLabel;
     this.yAxisLabel = params.yAxisLabel;
@@ -93,7 +96,9 @@ export class ChartSerie {
 
 export interface ChartSerieDTO {
   id: string;
-  chartPlotId: string;
+  chartId: string;
+  hiddenCode: string;
+  chartPlotHiddenCode: string;
   serieType: number;
   plotPer?: number;
   shift?: ChartTimeStepDTO;
@@ -123,7 +128,6 @@ export interface ChartSerieDTO {
   useOther?: boolean;
   otherThreshold?: number;
   baseBreakdown?: number;
-  chartOperands: ChartOperandDTO[];
   label?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
@@ -134,6 +138,8 @@ export interface ChartSerieDTO {
 }
 
 export interface CreateChartSerieDTO {
+  hiddenCode: string;
+  chartPlotHiddenCode: string;
   serieType: number;
   plotPer?: number;
   shift?: CreateChartTimeStepDTO;
@@ -158,7 +164,6 @@ export interface CreateChartSerieDTO {
   displayAs?: number;
   useOther?: boolean;
   otherThreshold?: number;
-  chartOperands: CreateChartOperandDTO[];
   labelDefault?: string;
   xAxisLabelDefault?: string;
   yAxisLabelDefault?: string;

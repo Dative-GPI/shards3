@@ -5,6 +5,9 @@ import { ChartTimeRange } from "./chartTimeRange";
 import { AxisType } from "../enums/chartEnums";
 
 export class ChartAxis {
+  id : string;
+  chartId : string;
+  hiddenCode : string;
   type: AxisType;
   logarithmic: boolean;
   boundaries: boolean;
@@ -14,29 +17,26 @@ export class ChartAxis {
   valueRanges: ChartValueRange[];
   timeRanges: ChartTimeRange[];
 
-  constructor(params?: ChartAxisDTO) {
-    if (params == null) {
-      this.type = AxisType.None;
-      this.logarithmic = false;
-      this.boundaries = false;
-      this.unit = "";
-      this.valueRanges = [];
-      this.timeRanges = [];
-    }
-    else {
-      this.type = params.type as AxisType;
-      this.logarithmic = params.logarithmic;
-      this.boundaries = params.boundaries;
-      this.min = params.min;
-      this.max = params.max;
-      this.unit = params.unit;
-      this.valueRanges = params.valueRanges.map(vr => new ChartValueRange(vr));
-      this.timeRanges = params.timeRanges.map(tr => new ChartTimeRange(tr));
-    }
+  constructor(params: ChartAxisDTO) {
+    this.id = params.id;
+    this.chartId = params.chartId;
+    this.hiddenCode = params.hiddenCode;
+    this.type = params.type as AxisType;
+    this.logarithmic = params.logarithmic;
+    this.boundaries = params.boundaries;
+    this.min = params.min;
+    this.max = params.max;
+    this.unit = params.unit;
+    this.valueRanges = params.valueRanges.map(vr => new ChartValueRange(vr));
+    this.timeRanges = params.timeRanges.map(tr => new ChartTimeRange(tr));
+    
   }
 }
 
 export interface ChartAxisDTO {
+  id : string;
+  chartId : string;
+  hiddenCode : string;
   type: AxisType;
   logarithmic: boolean;
   boundaries: boolean;
@@ -48,6 +48,7 @@ export interface ChartAxisDTO {
 }
 
 export interface CreateChartAxisDTO {
+  hiddenCode : string;
   type: AxisType;
   logarithmic: boolean;
   boundaries: boolean;

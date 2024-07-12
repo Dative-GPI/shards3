@@ -6,58 +6,68 @@ import type { AggregationType } from "../enums/chartEnums";
 
 export class ChartOperand {
   id: string;
+  chartId : string;
+  hiddenCode: string;
+  chartSerieHiddenCode: string;
   name: string;
   aggregation?: AggregationType;
   modelId: string;
   modelLabel: string;
   dataCategoryId: string;
   dataDefinitionId?: string;
-  xAxis?: ChartModifier;
-  yAxis?: ChartModifier;
-  firstModifier?: ChartModifier;
-  secondModifier?: ChartModifier;
-  filters: ChartFilter[];
+  xAxisModifierHiddenCode?: string;
+  yAxisModifierHiddenCode?: string;
+  firstModifierHiddenCode?: string;
+  secondModifierHiddenCode?: string;
+  index : number;
 
   constructor(params: ChartOperandDTO) {
     this.id = params.id;
+    this.chartId = params.chartId;
+    this.hiddenCode = params.hiddenCode;
+    this.chartSerieHiddenCode = params.chartSerieHiddenCode;
     this.name = params.name
     this.aggregation = (params.aggregation as AggregationType) ?? undefined;
     this.modelId = params.modelId;
     this.modelLabel = params.modelLabel;
     this.dataCategoryId = params.dataCategoryId;
     this.dataDefinitionId = params.dataDefinitionId;
-    this.xAxis = params.xAxis ? new ChartModifier(params.xAxis) : undefined;
-    this.yAxis = params.yAxis ? new ChartModifier(params.yAxis) : undefined;
-    this.firstModifier = params.firstModifier ? new ChartModifier(params.firstModifier) : undefined;
-    this.secondModifier = params.secondModifier ? new ChartModifier(params.secondModifier) : undefined;
-    this.filters = params.filters.map(f => new ChartFilter(f));
+    this.xAxisModifierHiddenCode = params.xAxisModifierHiddenCode;
+    this.yAxisModifierHiddenCode = params.yAxisModifierHiddenCode;
+    this.firstModifierHiddenCode = params.firstModifierHiddenCode;
+    this.secondModifierHiddenCode = params.secondModifierHiddenCode;
+    this.index = params.index;
   }
 }
 
 export interface ChartOperandDTO {
   id: string;
+  chartId : string;
+  hiddenCode: string;
+  chartSerieHiddenCode: string;
   name: string;
   aggregation?: number;
   modelId: string;
   modelLabel: string;
   dataCategoryId: string;
   dataDefinitionId?: string;
-  xAxis?: ChartModifierDTO;
-  yAxis?: ChartModifierDTO;
-  firstModifier?: ChartModifierDTO;
-  secondModifier?: ChartModifierDTO;
-  filters: ChartFilterDTO[];
+  xAxisModifierHiddenCode?: string;
+  yAxisModifierHiddenCode?: string;
+  firstModifierHiddenCode?: string;
+  secondModifierHiddenCode?: string;
+  index : number;
 }
 
 export interface CreateChartOperandDTO {
+  hiddenCode: string;
+  chartSerieHiddenCode: string;
   name: string;
   aggregation?: number;
   modelId: string;
   dataCategoryId: string;
   dataDefinitionId?: string;
-  xAxis?: CreateChartModifierDTO;
-  yAxis?: CreateChartModifierDTO;
-  firstModifier?: CreateChartModifierDTO;
-  secondModifier?: CreateChartModifierDTO;
-  filters: CreateChartFilterDTO[];
+  xAxisModifierHiddenCode?: string;
+  yAxisModifierHiddenCode?: string;
+  firstModifierHiddenCode?: string;
+  secondModifierHiddenCode?: string;
 }
