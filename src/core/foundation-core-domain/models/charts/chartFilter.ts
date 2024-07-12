@@ -2,8 +2,6 @@ import type { ChartFilterValueDTO, CreateChartFilterValueDTO } from "./chartFilt
 import { ChartFilterValue } from "./chartFilterValue";
 import type { ChartFilterTranslationDTO } from "./chartFilterTranslation";
 import { ChartFilterTranslation } from "./chartFilterTranslation";
-import type { ChartPresetFilterDTO } from "./chartPresetFilter";
-import { ChartPresetFilter } from "./chartPresetFilter";
 import type { FilterType } from "../enums/sharedEnums";
 
 export class ChartFilter {

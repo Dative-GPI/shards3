@@ -4,7 +4,6 @@ import type { ChartValueRangeDTO, CreateChartValueRangeDTO } from "./chartValueR
 import { ChartValueRange } from "./chartValueRange";
 import type { ChartTimeStepDTO, CreateChartTimeStepDTO } from "./chartTimeStep";
 import { ChartTimeStep } from "./chartTimeStep";
-import type { ChartOperandDTO, CreateChartOperandDTO } from "./chartOperand";
 import { ChartOperand } from "./chartOperand";
 
 export class ChartSerie {

@@ -1,7 +1,3 @@
-import type { ChartModifierDTO, CreateChartModifierDTO } from "./chartModifier";
-import { ChartModifier } from "./chartModifier";
-import type { ChartFilterDTO, CreateChartFilterDTO } from "./chartFilter";
-import { ChartFilter } from "./chartFilter";
 import type { AggregationType } from "../enums/chartEnums";
 
 export class ChartOperand {

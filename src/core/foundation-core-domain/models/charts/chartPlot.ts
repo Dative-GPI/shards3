@@ -1,7 +1,3 @@
-import type { ChartSerieDTO, CreateChartSerieDTO } from "./chartSerie";
-import { ChartSerie } from "./chartSerie";
-import type { ChartAxisDTO, CreateChartAxisDTO } from "./chartAxis";
-import { ChartAxis } from "./chartAxis";
 
 export class ChartPlot {
   id: string;
