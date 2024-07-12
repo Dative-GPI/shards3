@@ -4,7 +4,6 @@ import type { ChartValueRangeDTO, CreateChartValueRangeDTO } from "./chartValueR
 import { ChartValueRange } from "./chartValueRange";
 import type { ChartTimeStepDTO, CreateChartTimeStepDTO } from "./chartTimeStep";
 import { ChartTimeStep } from "./chartTimeStep";
-import { ChartOperand } from "./chartOperand";
 
 export class ChartSerie {
   id: string;
@@ -40,7 +39,6 @@ export class ChartSerie {
   useOther?: boolean;
   otherThreshold?: number;
   baseBreakdown?: number;
-  chartOperands: ChartOperand[];
   label?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;

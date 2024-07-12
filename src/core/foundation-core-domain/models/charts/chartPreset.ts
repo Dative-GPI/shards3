@@ -1,6 +1,5 @@
 import type { ChartPresetTranslationDTO } from "./chartPresetTranslation";
 import { ChartPresetTranslation } from "./chartPresetTranslation";
-import { ChartPresetFilter } from "./chartPresetFilter";
 
 export class ChartPreset {
   id: string;
@@ -9,7 +8,6 @@ export class ChartPreset {
   label: string;
   labelDefault: string;
   icon: string;
-  chartFilters: ChartPresetFilter[];
   translations: ChartPresetTranslation[];
 
   constructor(params: ChartPresetDTO) {

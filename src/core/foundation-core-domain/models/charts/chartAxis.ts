@@ -2,7 +2,7 @@ import type { ChartValueRangeDTO, CreateChartValueRangeDTO } from "./chartValueR
 import { ChartValueRange } from "./chartValueRange";
 import type { CreateChartTimeRangeDTO, ChartTimeRangeDTO } from "./chartTimeRange";
 import { ChartTimeRange } from "./chartTimeRange";
-import { AxisType } from "../enums/chartEnums";
+import type { AxisType } from "../enums/chartEnums";
 
 export class ChartAxis {
   id : string;
