@@ -77,10 +77,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { UserOrganisationFilters, UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
+import { type UserOrganisationFilters, type UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -136,7 +135,7 @@ export default defineComponent({
       }));
     });
     
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
 
@@ -144,7 +143,7 @@ export default defineComponent({
       userOrganisations,
       [() => props.userOrganisationFilters],
       emit,
-      innerFetch,
+      fetch,
       null,
       (item: UserOrganisationInfos) => item.id,
       (item: UserOrganisationInfos) => item.name

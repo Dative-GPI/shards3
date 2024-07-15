@@ -81,10 +81,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DashboardShallowFilters } from "@dative-gpi/foundation-core-domain/models";
+import { type DashboardOrganisationFilters, type DashboardOrganisationTypeFilters, type DashboardShallowFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDashboardOrganisations, useDashboardOrganisationTypes, useDashboardShallows } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { DashboardType } from "@dative-gpi/foundation-shared-domain/models";
@@ -175,7 +174,7 @@ export default defineComponent({
       return init.value && (fetchingDashboardOrganisationTypes.value || fetchingDashboardOrganisations.value || fetchingDashboardShallows.value);
     });
 
-    const innerUpdate = (value: Dashboard[] | Dashboard | null) => {
+    const update = (value: Dashboard[] | Dashboard | null) => {
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
         emit("update:type", value.map(v => v.type));
@@ -186,7 +185,7 @@ export default defineComponent({
       }
     };
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return Promise.all([
         getManyDashboardOrganisationTypes({ ...props.dashboardOrganisationTypeFilters, search: search ?? undefined }),
         getManyDashboardOrganisations({ ...props.dashboardOrganisationFilters, search: search ?? undefined }),
@@ -198,8 +197,8 @@ export default defineComponent({
       dashboards,
       [() => props.dashboardOrganisationTypeFilters, () => props.dashboardOrganisationFilters, () => props.dashboardShallowFilters],
       emit,
-      innerFetch,
-      innerUpdate
+      fetch,
+      update
     );
 
     return {

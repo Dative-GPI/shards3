@@ -81,11 +81,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { ChartOrganisationFilters, ChartOrganisationTypeFilters} from "@dative-gpi/foundation-core-domain/models";
-import { ChartOrigin } from "@dative-gpi/foundation-core-domain/models";
+import { type ChartOrganisationFilters, ChartOrigin, type ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -163,7 +161,7 @@ export default defineComponent({
       return init.value && (fetchingChartOrganisationTypes.value || fetchingChartOrganisations.value);
     });
 
-    const innerUpdate = (value: Chart[] | Chart | null) => {
+    const update = (value: Chart[] | Chart | null) => {
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
         emit("update:type", value.map(v => v.type));
@@ -174,7 +172,7 @@ export default defineComponent({
       }
     };
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return Promise.all([
         getManyChartOrganisationTypes({ ...props.chartOrganisationTypeFilters, search: search ?? undefined }),
         getManyChartOrganisations({ ...props.chartOrganisationFilters, search: search ?? undefined })
@@ -185,8 +183,8 @@ export default defineComponent({
       charts,
       [() => props.chartOrganisationTypeFilters, () => props.chartOrganisationFilters],
       emit,
-      innerFetch,
-      innerUpdate
+      fetch,
+      update
     );
 
     return {

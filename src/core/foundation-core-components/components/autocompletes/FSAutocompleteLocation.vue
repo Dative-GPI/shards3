@@ -94,7 +94,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyLocations, fetching: fetchingLocations, entities: locations } = useLocations();
 
-    const innerFetch = (search: string | null) => {
+    const loading = computed((): boolean => {
+      return init.value && fetchingLocations.value;
+    });
+
+    const fetch = (search: string | null) => {
       return getManyLocations({ ...props.locationFilters, search: search ?? undefined });
     };
 
@@ -102,12 +106,8 @@ export default defineComponent({
       locations,
       [() => props.locationFilters],
       emit,
-      innerFetch
+      fetch
     );
-
-    const loading = computed((): boolean => {
-      return init.value && fetchingLocations.value;
-    });
 
     return {
       locations,
