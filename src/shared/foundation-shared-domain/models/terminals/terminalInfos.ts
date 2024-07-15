@@ -6,6 +6,7 @@ export class TerminalInfos {
   label: string;
   icon: string;
   key: string;
+  location: string;
   lastConnection: number;
 
   constructor(params: TerminalInfosDTO) {
@@ -14,6 +15,7 @@ export class TerminalInfos {
     this.label = params.label;
     this.icon = params.icon;
     this.key = params.key;
+    this.location = params.location;
     this.lastConnection = utcToEpoch(params.lastConnection);
   }
 
@@ -25,6 +27,7 @@ export interface TerminalInfosDTO {
   label: string;
   icon: string;
   key: string;
+  location: string;
   lastConnection: string;
 }
 
