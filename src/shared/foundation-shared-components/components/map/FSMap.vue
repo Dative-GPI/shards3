@@ -347,11 +347,10 @@ export default defineComponent({
     };
 
     const onNewAddressEntered = (address: Address) => {
-      if (!props.selectedLocationId) {
-        return;
-      }
+      if (!map) return;
+      if (!props.selectedLocationId) return;
       modifyLocationAddress(props.selectedLocationId, address);
-      map?.panTo([address.latitude, address.longitude]);
+      map.panTo([address.latitude, address.longitude]);
     };
 
     const onNewCoordEntered = async (lat: number, lng: number) => {
@@ -365,17 +364,20 @@ export default defineComponent({
     };
 
     const zoomIn = () => {
-      map?.zoomIn();
+      if (!map) return;
+      map.zoomIn();
     };
 
     const zoomOut = () => {
-      map?.zoomOut();
+      if (!map) return;
+      map.zoomOut();
     };
 
     const locate = () => {
-      map?.locate();
-      map?.on('locationfound', (e: L.LocationEvent) => {
-        map?.panTo(e.latlng);
+      if (!map) return;
+      map.locate();
+      map.on('locationfound', (e: L.LocationEvent) => {
+        map.panTo(e.latlng);
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
         const icon = LL.divIcon({
           html: iconHtml,
@@ -391,12 +393,13 @@ export default defineComponent({
     const onCancel = () => {
       editingLocation.value = false;
       innerModelValue.value = props.modelValue;
+      if(!map) return;
       displayLocations();
       if (innerModelValue.value.length > 0) {
-        map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
+        map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map?.panTo([props.center[0], props.center[1]]);
+        map.panTo([props.center[0], props.center[1]]);
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -405,12 +408,13 @@ export default defineComponent({
 
     const onSubmit = () => {
       emit('update:modelValue', innerModelValue.value);
+      if(!map) return;
       editingLocation.value = false;
       if (innerModelValue.value.length > 0) {
-        map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
+        map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom, { animate: false });
+        map.flyTo([props.center[0], props.center[1]], map.getZoom() ?? defaultZoom, { animate: false });
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -426,25 +430,24 @@ export default defineComponent({
     });
 
     watch(() => props.selectedLocationId, () => {
+      if (!props.selectedLocationId) return;
+      if (!map) return;
+
       Object.values(markers).forEach((marker) => {
         marker.getElement()?.classList.remove('fs-map-location-selected');
       });
-
-      if (!props.selectedLocationId) {
-        return;
-      }
+      
       const marker = markers[props.selectedLocationId];
       marker.getElement()?.classList.add('fs-map-location-selected');
-      map?.flyTo(marker.getLatLng(), 17, { animate: false });
+      map.flyTo(marker.getLatLng(), 17, { animate: false });
     })
 
     watch(() => props.selectedSiteId, () => {
-      if (!props.selectedSiteId) {
-        return;
-      }
+      if (!props.selectedSiteId) return;
+      if (!map) return;
       const site = sites[props.selectedSiteId];
       if (site) {
-        map?.fitBounds(site.getBounds(), { maxZoom: 17 });
+        map.fitBounds(site.getBounds(), { maxZoom: 17 });
       }
     });
 
