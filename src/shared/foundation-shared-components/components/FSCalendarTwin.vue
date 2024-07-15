@@ -16,7 +16,7 @@
       class="fs-calendar-twin"
       align="top-center"
       width="hug"
-      height="375px"
+      :height="['380px', '375px']"
       :style="style"
     >
       <FSCol
