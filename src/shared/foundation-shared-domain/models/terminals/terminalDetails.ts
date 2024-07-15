@@ -13,9 +13,11 @@ export interface CreateTerminalDTO {
   label: string;
   icon: string;
   key: string;
+  location: string;
 }
 
 export interface UpdateTerminalDTO {
   label: string;
   icon: string;
+  location: string;
 }

@@ -58,11 +58,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
+import _ from "lodash";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -127,6 +126,7 @@ export default defineComponent({
     const { epochToShortDateFormat } = useAppTimeZone();
 
     const dialog = ref(false);
+    
     const innerDateRange = ref<number[] | null>(props.modelValue);
 
     const toShortDateFormat = computed((): string => {
@@ -153,6 +153,12 @@ export default defineComponent({
       emit("update:modelValue", innerDateRange.value);
       dialog.value = false;
     };
+
+    watch(() => props.modelValue, () => {
+      if (!_.isEqual(innerDateRange.value, props.modelValue)) {
+        innerDateRange.value = props.modelValue;
+      }
+    });
 
     return {
       toShortDateFormat,

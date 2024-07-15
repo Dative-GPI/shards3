@@ -12,6 +12,14 @@ import type { ChartAxisDTO, CreateChartAxisDTO } from "../charts/chartAxis";
 import { ChartAxis } from "../charts/chartAxis";
 import type { ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
 import { ChartPlot } from "../charts/chartPlot";
+import { ChartFilter } from "../charts/chartFilter";
+import type { ChartFilterDTO,CreateChartFilterDTO } from "../charts/chartFilter";
+import { ChartModifier } from "../charts/chartModifier";
+import type { ChartModifierDTO,CreateChartModifierDTO } from "../charts/chartModifier";
+import { ChartOperand } from "../charts/chartOperand";
+import type { ChartOperandDTO,CreateChartOperandDTO } from "../charts/chartOperand";
+import { ChartSerie } from "../charts/chartSerie";
+import type { ChartSerieDTO,CreateChartSerieDTO } from "../charts/chartSerie";
 import type { ColorSets } from "../enums/chartEnums";
 
 export class ChartOrganisationDetails extends ChartOrganisationInfos {
@@ -26,6 +34,11 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
   chartPresets: ChartPreset[];
   chartPresetFilters: ChartPresetFilter[];
   chartPlots: ChartPlot[];
+  chartSeries: ChartSerie[];
+  chartOperands: ChartOperand[];
+  chartModifiers: ChartModifier[];
+  chartFilters: ChartFilter[];
+  yAxis: ChartAxis[];
   translations: ChartTranslation[];
 
   constructor(params: ChartOrganisationDetailsDTO) {
@@ -43,6 +56,11 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
     this.chartPlots = params.chartPlots.map(cp => new ChartPlot(cp));
+    this.chartSeries = params.chartSeries.map(cs => new ChartSerie(cs));
+    this.chartOperands = params.chartOperands.map(co => new ChartOperand(co));
+    this.chartModifiers = params.chartModifiers.map(cm => new ChartModifier(cm));
+    this.chartFilters = params.chartFilters.map(cf => new ChartFilter(cf));
+    this.yAxis = params.yAxis.map(ya => new ChartAxis(ya));
     this.translations = params.translations.map(t => new ChartTranslation(t));
   }
 }
@@ -59,6 +77,11 @@ export interface ChartOrganisationDetailsDTO extends ChartOrganisationInfosDTO {
   chartPresets: ChartPresetDTO[];
   chartPresetFilters: ChartPresetFilterDTO[];
   chartPlots: ChartPlotDTO[];
+  chartSeries: ChartSerieDTO[];
+  chartOperands: ChartOperandDTO[];
+  chartModifiers: ChartModifierDTO[];
+  chartFilters: ChartFilterDTO[];
+  yAxis: ChartAxisDTO[]
   translations: ChartTranslationDTO[];
 }
 
@@ -94,5 +117,10 @@ export interface UpdateChartOrganisationDTO {
   chartPresets: CreateChartPresetDTO[];
   chartPresetFilters: CreateChartPresetFilterDTO[];
   chartPlots: CreateChartPlotDTO[];
+  chartSeries: CreateChartSerieDTO[];
+  chartOperands: CreateChartOperandDTO[];
+  chartModifiers: CreateChartModifierDTO[];
+  chartFilters: CreateChartFilterDTO[];
+  yAxis: ChartAxisDTO[];
   translations: ChartTranslationDTO[];
 }

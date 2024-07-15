@@ -81,11 +81,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { RoleOrganisationFilters, RoleOrganisationTypeFilters} from "@dative-gpi/foundation-core-domain/models";
-import { RoleType } from "@dative-gpi/foundation-core-domain/models";
+import { type RoleOrganisationFilters, type RoleOrganisationTypeFilters, RoleType } from "@dative-gpi/foundation-core-domain/models";
 import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -163,7 +161,7 @@ export default defineComponent({
       return init.value && (fetchingRoleOrganisationTypes.value || fetchingRoleOrganisations.value);
     });
 
-    const innerUpdate = (value: Role[] | Role | null) => {
+    const update = (value: Role[] | Role | null) => {
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
         emit("update:type", value.map(v => v.type));
@@ -174,7 +172,7 @@ export default defineComponent({
       }
     };
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return Promise.all([
         getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search ?? undefined }),
         getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search ?? undefined })
@@ -185,8 +183,8 @@ export default defineComponent({
       roles,
       [() => props.roleOrganisationTypeFilters, () => props.roleOrganisationFilters],
       emit,
-      innerFetch,
-      innerUpdate
+      fetch,
+      update
     );
 
     return {

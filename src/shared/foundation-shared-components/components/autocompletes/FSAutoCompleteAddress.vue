@@ -14,10 +14,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from "vue";
 
+import { type Address, type Place } from "@dative-gpi/foundation-shared-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { useAddress } from "../../composables/useAddress";
 
-import type { Address, Place } from "@dative-gpi/foundation-shared-domain/models";
+import { useAddress } from "../../composables/useAddress";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -40,7 +40,7 @@ export default defineComponent({
     const places = ref<Place[]>([]);
     const modelValuePlace = ref<Place | null>(null);
 
-    const innerFetch = async (search: string | null) => {
+    const fetch = async (search: string | null) => {
       if (search === null) {
         return Promise.resolve([]);
       }
@@ -48,7 +48,7 @@ export default defineComponent({
       return Promise.resolve([]);
     };
 
-    const innerUpdate = async (value: { id: string; label: string; } | { id: string; label: string; }[] | null) => {
+    const update = async (value: { id: string; label: string; } | { id: string; label: string; }[] | null) => {
       if (value === null) {
         emit("update:modelValue", null);
         return;
@@ -64,8 +64,8 @@ export default defineComponent({
       places,
       [],
       emit,
-      innerFetch,
-      innerUpdate,
+      fetch,
+      update,
       (item) => (item).id,
       (item) => (item).label,
       true,

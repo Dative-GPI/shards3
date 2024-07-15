@@ -10,12 +10,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { type ModelFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useModels } from "@dative-gpi/foundation-core-services/composables";
-import type { ModelFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -49,7 +48,7 @@ export default defineComponent({
       return init.value && fetchingModels.value;
     });
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return getManyModels({ ...props.modelFilters, search: search ?? undefined });
     };
 
@@ -57,7 +56,7 @@ export default defineComponent({
       models,
       [() => props.modelFilters],
       emit,
-      innerFetch
+      fetch
     );
 
     return {

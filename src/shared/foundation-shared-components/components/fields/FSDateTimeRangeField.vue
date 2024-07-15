@@ -76,11 +76,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -151,30 +149,10 @@ export default defineComponent({
     const { validateOn, getMessages } = useRules();
 
     const dialog = ref(false);
+
     const innerDateRange = ref<number[] | null>(null);
     const innerTimeRight = ref(0);
     const innerTimeLeft = ref(0);
-
-    if (props.modelValue && Array.isArray(props.modelValue)) {
-      // FSClock just gives two numbers without consideration for the time zone
-      // We must adjust the time to the user's time zone
-      switch (props.modelValue.length) {
-        case 0: {
-          break;
-        }
-        case 1: {
-          innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-          innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
-          break;
-        }
-        default: {
-          innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-          innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-          innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
-          break;
-        }
-      }
-    }
 
     const toShortTimeFormat = computed((): string => {
       if (!props.modelValue || !Array.isArray(props.modelValue) || !props.modelValue.length) {
@@ -218,6 +196,42 @@ export default defineComponent({
       }
       dialog.value = false;
     };
+
+    const reset = (): void => {
+      if (props.modelValue && Array.isArray(props.modelValue)) {
+        // FSClock just gives two numbers without consideration for the time zone
+        // We must adjust the time to the user's time zone
+        switch (props.modelValue.length) {
+          case 0: {
+            break;
+          }
+          case 1: {
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+            innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
+            break;
+          }
+          default: {
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+            innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+            innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
+            break;
+          }
+        }
+      }
+      else {
+        innerDateRange.value = null;
+        innerTimeLeft.value = 0;
+        innerTimeRight.value = 0;
+      }
+    };
+
+    onMounted((): void => {
+      reset();
+    });
+
+    watch(() => props.modelValue, () => {
+      reset();
+    });
 
     return {
       toShortTimeFormat,

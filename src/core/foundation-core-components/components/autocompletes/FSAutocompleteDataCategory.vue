@@ -57,12 +57,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { type DataCategoryFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDataCategories } from "@dative-gpi/foundation-core-services/composables";
-import type { DataCategoryFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
@@ -109,7 +108,7 @@ export default defineComponent({
       return init.value && fetchingDataCategories.value;
     });
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return getManyDataCategories({ ...props.dataCategoriesFilters, search: search ?? undefined });
     };
 
@@ -117,7 +116,7 @@ export default defineComponent({
       dataCategories,
       [() => props.dataCategoriesFilters],
       emit,
-      innerFetch
+      fetch
     );
 
     return {

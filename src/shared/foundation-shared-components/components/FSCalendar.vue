@@ -13,6 +13,7 @@
     </FSRow>
     <FSCol
       class="fs-calendar"
+      :height="['380px', '375px']"
       :style="style"
     >
       <FSRow

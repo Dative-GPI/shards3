@@ -19,11 +19,10 @@
     >
       <FSButton
         :prependIcon="$props.buttonPrependIcon"
-        :label="$props.buttonLabel"
         :appendIcon="$props.buttonAppendIcon"
         :variant="$props.buttonVariant"
         :color="$props.buttonColor"
-        :load="fetchingLanguages"
+        :label="$props.buttonLabel"
         @click="dialog = true"
       />
       <slot
@@ -84,12 +83,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, type PropType, ref } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useAppLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
 import { useColors, useSlots } from "../../composables";
 
@@ -159,14 +156,15 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:translations"],
   setup(props, { emit }) {
-    const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
+    const { languages } = useAppLanguages();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
     delete slots.append;
+    
+    const dialog = ref(false);
 
     const innerTranslations = ref(props.translations);
-    const dialog = ref(false);
 
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
@@ -220,12 +218,7 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      getManyLanguages();
-    });
-
     return {
-      fetchingLanguages,
       innerTranslations,
       ColorEnum,
       languages,
