@@ -169,7 +169,30 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
-      <FSMap />
+      <FSMap >
+        <template v-slot:leftoverlay >
+          <div style="background-color:white; padding:8px;boredr-radius:4px; display: flex; flex-direction: column; gap: 10px;">
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+            <span>Left overlay</span>
+          </div>
+        </template>
+      </FSMap>
       <FSMap
         :editable="false"
         :modelValue="args.locations3"

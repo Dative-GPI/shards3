@@ -8,21 +8,23 @@
       class="fs-map"
       width="fill"
     >
-      <FSRow
-        v-if="selectableLayers.length > 1"
-        class="fs-map-overlay-layer-choice"
+      <FSCol
+        v-if="$slots.leftoverlay"
+        width="hug"
+        height="calc(100% - 32px)"
+        class="fs-map-overlay-left"
         gap="2px"
-      >
-        <FSChip
-          v-for="mapLayer in mapLayers.filter((layer) => selectableLayers.includes(layer.name))"
-          variant="full"
-          :color="innerSelectedLayer === mapLayer.name ? 'dark' : 'light'"
-          :label="mapLayer.label"
-          :key="mapLayer.name"
-          :editable="true"
-          @click="setMapBaseLayer(mapLayer.name as 'osm' | 'imagery')"
-        />
-      </FSRow>
+      > 
+        <FSCard
+          height="100%"
+        >
+          <FSFadeOut
+            height="fill"
+          >
+            <slot name="leftoverlay" />
+          </FSFadeOut>
+        </FSCard>     
+      </FSCol>
       <FSRow
         v-if="$props.editable && !editingLocation && $props.selectedLocationId !== null"
         class="fs-map-overlay-edit-button"
@@ -41,9 +43,18 @@
           :id="mapId"
         />
       </FSCol>
-
       <FSCol
-        class="fs-map-overlay-container"
+        class="fs-map-overlay-right-top"
+        align="center-center"
+      >
+        <FSMapLayerButton
+          v-if="$props.selectableLayers?.length && $props.selectableLayers.length > 1"
+          :layers="selectableLayers"
+          v-model="selectedLayer"
+        />
+      </FSCol>
+      <FSCol
+        class="fs-map-overlay-right-bottom"
         align="center-center"
       >
         <FSCol
@@ -108,20 +119,24 @@ import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 import { useColors, useAddress } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
+import FSMapLayerButton from "./FSMapLayerButton.vue";
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSCol from "../FSCol.vue";
+import FSFadeOut from "../FSFadeOut.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSMap",
   components: {
     FSMapEditPointAddressOverlay,
+    FSMapLayerButton,
     FSButton,
     FSCard,
     FSChip,
     FSCol,
+    FSFadeOut,
     FSRow
   },
   props: {
@@ -199,7 +214,7 @@ export default defineComponent({
 
     const LL = window.L;
 
-    const innerSelectedLayer = ref(props.selectedLayer);
+    const selectedLayer = ref(props.selectedLayer);
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
 
@@ -323,7 +338,7 @@ export default defineComponent({
       baseLayerGroup.addTo(map);
       siteLayerGroup.addTo(map);
       myLocationLayerGroup.addTo(map);
-      setMapBaseLayer(props.selectedLayer);
+      setMapBaseLayer(selectedLayer.value);
       displaySites();
       displayLocations();
       markerLayerGroup.addTo(map);
@@ -340,7 +355,6 @@ export default defineComponent({
     };
 
     const setMapBaseLayer = (layerName: 'osm' | 'imagery') => {
-      innerSelectedLayer.value = layerName;
       const layer = mapLayers.find((mapLayer) => mapLayer.name === layerName) ?? mapLayers[0];
       baseLayerGroup.clearLayers();
       layer.layer.addTo(baseLayerGroup);
@@ -423,6 +437,9 @@ export default defineComponent({
 
     onMounted(() => {
       initMap();
+      if(props.selectedLocationId && props.modelValue.length === 1) {
+        editingLocation.value = true;
+      }
     });
 
     watch(() => innerModelValue.value, () => {
@@ -451,9 +468,13 @@ export default defineComponent({
       }
     });
 
+    watch(selectedLayer, () => {
+      setMapBaseLayer(selectedLayer.value);
+    });
+
     return {
       L,
-      innerSelectedLayer,
+      selectedLayer,
       editingLocation,
       innerModelValue,
       mapLayers,
