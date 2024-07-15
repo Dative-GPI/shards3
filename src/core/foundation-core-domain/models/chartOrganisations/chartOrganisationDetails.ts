@@ -34,7 +34,7 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
   chartPresets: ChartPreset[];
   chartPresetFilters: ChartPresetFilter[];
   chartPlots: ChartPlot[];
-  chartseries: ChartSerie[];
+  chartSeries: ChartSerie[];
   chartOperands: ChartOperand[];
   chartModifiers: ChartModifier[];
   chartFilters: ChartFilter[];
@@ -56,7 +56,7 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
     this.chartPlots = params.chartPlots.map(cp => new ChartPlot(cp));
-    this.chartseries = params.chartSeries.map(cs => new ChartSerie(cs));
+    this.chartSeries = params.chartSeries.map(cs => new ChartSerie(cs));
     this.chartOperands = params.chartOperands.map(co => new ChartOperand(co));
     this.chartModifiers = params.chartModifiers.map(cm => new ChartModifier(cm));
     this.chartFilters = params.chartFilters.map(cf => new ChartFilter(cf));
