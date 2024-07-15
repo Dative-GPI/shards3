@@ -10,12 +10,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
+import { type OrganisationTypeFilters } from "@dative-gpi/foundation-shared-domain/models";
 import { useOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import type { OrganisationTypeFilters } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -49,7 +48,7 @@ export default defineComponent({
       return init.value && fetchingOrganisationTypes.value;
     });
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return getManyOrganisationTypes({ ...props.organisationTypeFilters, search: search ?? undefined });
     };
 
@@ -57,7 +56,7 @@ export default defineComponent({
       organisationTypes,
       [() => props.organisationTypeFilters],
       emit,
-      innerFetch
+      fetch
     );
 
     return {

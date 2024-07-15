@@ -10,12 +10,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { type ManufacturerFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useManufacturers } from "@dative-gpi/foundation-core-services/composables";
-import type { ManufacturerFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -45,7 +44,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyManufacturers, fetching: fetchingManufacturers, entities: manufacturers } = useManufacturers();
 
-    const innerFetch = (search: string | null) => {
+    const loading = computed((): boolean => {
+      return init.value && fetchingManufacturers.value;
+    });
+
+    const fetch = (search: string | null) => {
       return getManyManufacturers({ ...props.manufacturerFilters, search: search ?? undefined });
     };
 
@@ -53,12 +56,8 @@ export default defineComponent({
       manufacturers,
       [() => props.manufacturerFilters],
       emit,
-      innerFetch
+      fetch
     );
-
-    const loading = computed((): boolean => {
-      return init.value && fetchingManufacturers.value;
-    });
 
     return {
       manufacturers,

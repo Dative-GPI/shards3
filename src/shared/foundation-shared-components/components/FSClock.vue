@@ -52,11 +52,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -108,8 +106,8 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const innerHours = ref(props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0);
-    const innerMinutes = ref(props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0);
+    const innerHours = ref(0);
+    const innerMinutes = ref(0);
 
     const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
@@ -147,6 +145,24 @@ export default defineComponent({
       number = Math.min(59, Math.max(0, number));
       innerMinutes.value = number;
     };
+
+    const reset = (): void => {
+      innerHours.value = props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0;
+      innerMinutes.value = props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0;
+    };
+
+    onMounted(() => {
+      reset();
+    });
+
+    watch(() => props.modelValue, () => {
+      if (
+        innerHours.value !== (props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0) ||
+        innerMinutes.value !== (props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0)
+      ) {
+        reset();
+      }
+    });
 
     watch([innerHours, innerMinutes], () => {
       emit("update:modelValue", (innerHours.value * 60 * 60 * 1000) + (innerMinutes.value * 60 * 1000));

@@ -49,12 +49,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { type GroupFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useGroups } from "@dative-gpi/foundation-core-services/composables";
-import type { GroupFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
@@ -99,7 +98,7 @@ export default defineComponent({
       return init.value && fetchingGroups.value;
     });
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return getManyGroups({ ...props.groupFilters, search: search ?? undefined });
     };
 
@@ -107,7 +106,7 @@ export default defineComponent({
       groups,
       [() => props.groupFilters],
       emit,
-      innerFetch
+      fetch
     );
 
     return {

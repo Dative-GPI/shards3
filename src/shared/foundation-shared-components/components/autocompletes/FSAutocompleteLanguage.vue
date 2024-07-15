@@ -49,12 +49,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue"
+import { computed, defineComponent, type PropType } from "vue"
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { type LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
-import type { LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
 import FSIcon from "../FSIcon.vue";
@@ -99,7 +98,7 @@ export default defineComponent({
       return init.value && fetchingLanguages.value;
     });
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return getManyLanguages({ ...props.languageFilters, search: search ?? undefined });
     };
 
@@ -107,7 +106,7 @@ export default defineComponent({
       languages,
       [() => props.languageFilters],
       emit,
-      innerFetch
+      fetch
     );
 
     return {

@@ -18,19 +18,19 @@
           :editable="$props.editable"
           :variant="$props.variant"
           :hideHeader="true"
-          :modelValue="localDateSetting"
-          @update:modelValue="localDateSettingChange"
+          :modelValue="innerDateSetting"
+          @update:modelValue="innerDateSettingChange"
         />
         <FSNumberField
-          v-if="pastSettings.includes(localDateSetting)"
+          v-if="pastSettings.includes(innerDateSetting)"
           :rules="[NumberRules.required(), NumberRules.min(0)]"
           :editable="$props.editable"
           :hideHeader="true"
-          :modelValue="localDateValue"
-          @update:modelValue="localDateValueChange"
+          :modelValue="innerDateValue"
+          @update:modelValue="innerDateValueChange"
         />
         <template
-          v-else-if="localDateSetting === DateSetting.Expression"
+          v-else-if="innerDateSetting === DateSetting.Expression"
         >
           <FSRow
             align="center-left"
@@ -43,8 +43,8 @@
               :rules="[TextRules.required(), DateRules.validateExpression($props.variant)]"
               :editable="$props.editable"
               :hideHeader="true"
-              :modelValue="localStartDate"
-              @update:modelValue="localStartDateChange"
+              :modelValue="innerStartDate"
+              @update:modelValue="innerStartDateChange"
             />
           </FSRow>
           <FSRow
@@ -58,17 +58,17 @@
               :rules="[TextRules.required(), DateRules.validateExpression($props.variant)]"
               :editable="$props.editable"
               :hideHeader="true"
-              :modelValue="localEndDate"
-              @update:modelValue="localEndDateChange"
+              :modelValue="innerEndDate"
+              @update:modelValue="innerEndDateChange"
             />
           </FSRow>
         </template>
         <FSDateTimeRangeField
-          v-else-if="localDateSetting === DateSetting.Pick"
+          v-else-if="innerDateSetting === DateSetting.Pick"
           :rules="[DateRules.required()]"
           :editable="$props.editable"
           :hideHeader="true"
-          :modelValue="[parseForPicker(localStartDate)!, parseForPicker(localEndDate)!]"
+          :modelValue="[parseForPicker(innerStartDate)!, parseForPicker(innerEndDate)!]"
           @update:modelValue="onPickDates"
         />
       </FSRow>
@@ -77,8 +77,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, ref} from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 import _ from "lodash";
 
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";
@@ -167,10 +166,10 @@ export default defineComponent({
     const { parseForPicker,formatFromPicker, formatCurrentForPicker } = useAppTimeZone();
     const { getMessages } = useRules();
 
-    const localDateSetting = ref<DateSetting>(DateSetting.PastDays);
-    const localDateValue = ref<number>(1);
-    const localStartDate = ref<string>("now - 1d");
-    const localEndDate = ref<string>("now");
+    const innerDateSetting = ref<DateSetting>(DateSetting.PastDays);
+    const innerDateValue = ref<number>(1);
+    const innerStartDate = ref<string>("now - 1d");
+    const innerEndDate = ref<string>("now");
 
     const valid = ref<boolean>(false);
 
@@ -187,12 +186,12 @@ export default defineComponent({
         getMessages(props.startDate, props.rules).concat(getMessages(props.endDate, props.rules));
     });
 
-    const localStartDateChange = (value: string) => {
+    const innerStartDateChange = (value: string) => {
       debouncedStartDate(value);
     };
 
     const onStartDateChange = (value: string) => {
-      localStartDate.value = value;
+      innerStartDate.value = value;
       if (valid.value) {
         emit("update:startDate", value);
       }
@@ -200,12 +199,12 @@ export default defineComponent({
 
     const debouncedStartDate = _.debounce(onStartDateChange, 1000);
 
-    const localEndDateChange = (value: string) => {
+    const innerEndDateChange = (value: string) => {
       debouncedEndDate(value);
     };
 
     const onEndDateChange = (value: string) => {
-      localEndDate.value = value;
+      innerEndDate.value = value;
       if (valid.value) {
         emit("update:endDate", value);
       }
@@ -213,255 +212,255 @@ export default defineComponent({
 
     const debouncedEndDate = _.debounce(onEndDateChange, 1000);
 
-    const localDateSettingChange = (value: DateSetting) => {
-      localDateSetting.value = value;
+    const innerDateSettingChange = (value: DateSetting) => {
+      innerDateSetting.value = value;
       switch (value) {
         case DateSetting.None:
           return;
         case DateSetting.PastHours:
-          localStartDate.value = `now - ${localDateValue.value}h`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}h`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastDays:
-          localStartDate.value = `now - ${localDateValue.value}d`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}d`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastWeeks:
-          localStartDate.value = `now - ${localDateValue.value}w`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}w`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastMonths:
-          localStartDate.value = `now - ${localDateValue.value}M`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}M`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastYears:
-          localStartDate.value = `now - ${localDateValue.value}y`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}y`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.CurrentHour:
-          localStartDate.value = "now/h";
-          localEndDate.value = "now";
+          innerStartDate.value = "now/h";
+          innerEndDate.value = "now";
           break;
         case DateSetting.CurrentDay:
-          localStartDate.value = "now/d";
-          localEndDate.value = "now";
+          innerStartDate.value = "now/d";
+          innerEndDate.value = "now";
           break;
         case DateSetting.CurrentWeek:
-          localStartDate.value = "now/w";
-          localEndDate.value = "now";
+          innerStartDate.value = "now/w";
+          innerEndDate.value = "now";
           break;
         case DateSetting.CurrentMonth:
-          localStartDate.value = "now/M";
-          localEndDate.value = "now";
+          innerStartDate.value = "now/M";
+          innerEndDate.value = "now";
           break;
         case DateSetting.CurrentYear:
-          localStartDate.value = "now/y";
-          localEndDate.value = "now";
+          innerStartDate.value = "now/y";
+          innerEndDate.value = "now";
           break;
         case DateSetting.LastDay:
-          localStartDate.value = `now - 1d/d`;
-          localEndDate.value = "now/d";
+          innerStartDate.value = `now - 1d/d`;
+          innerEndDate.value = "now/d";
           break;
         case DateSetting.LastWeek:
-          localStartDate.value = `now - 1w/w`;
-          localEndDate.value = "now/w";
+          innerStartDate.value = `now - 1w/w`;
+          innerEndDate.value = "now/w";
           break;
         case DateSetting.LastMonth:
-          localStartDate.value = `now - 1M/M`;
-          localEndDate.value = "now/M";
+          innerStartDate.value = `now - 1M/M`;
+          innerEndDate.value = "now/M";
           break;
         case DateSetting.LastYear:
-          localStartDate.value = `now - 1y/y`;
-          localEndDate.value = "now/y";
+          innerStartDate.value = `now - 1y/y`;
+          innerEndDate.value = "now/y";
           break;
         case DateSetting.SinceLastDay:
-          localStartDate.value = `now - 1d/d`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - 1d/d`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.SinceLastWeek:
-          localStartDate.value = `now - 1w/w`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - 1w/w`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.SinceLastMonth:
-          localStartDate.value = `now - 1M/M`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - 1M/M`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.SinceLastYear:
-          localStartDate.value = `now - 1y/y`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - 1y/y`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.LastPeriod:
-          localStartDate.value = "from - to + from";
-          localEndDate.value = "from";
+          innerStartDate.value = "from - to + from";
+          innerEndDate.value = "from";
           break;
         case DateSetting.MinutesBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}m`;
-          localEndDate.value = `alertend + ${localDateValue.value}m`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}m`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}m`;
           break;
         case DateSetting.HoursBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}h`;
-          localEndDate.value = `alertend + ${localDateValue.value}h`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}h`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}h`;
           break;
         case DateSetting.DaysBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}d`;
-          localEndDate.value = `alertend + ${localDateValue.value}d`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}d`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}d`;
           break;
         case DateSetting.WeeksBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}w`;
-          localEndDate.value = `alertend + ${localDateValue.value}w`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}w`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}w`;
           break;
         case DateSetting.MinutesBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}m`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}m`;
+          innerEndDate.value = "alertend";
           break;
         case DateSetting.HoursBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}h`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}h`;
+          innerEndDate.value = "alertend";
           break;
         case DateSetting.DaysBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}d`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}d`;
+          innerEndDate.value = "alertend";
           break;
         case DateSetting.WeeksBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}w`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}w`;
+          innerEndDate.value = "alertend";
           break;
         case DateSetting.Expression:
           if (props.variant === "before-after") {
-            localStartDate.value = `alertstart - ${localDateValue.value}d`;
-            localEndDate.value = "alertend";
+            innerStartDate.value = `alertstart - ${innerDateValue.value}d`;
+            innerEndDate.value = "alertend";
           }
           else {
-            localStartDate.value = `now - ${localDateValue.value}d`;
-            localEndDate.value = "now";
+            innerStartDate.value = `now - ${innerDateValue.value}d`;
+            innerEndDate.value = "now";
           }
           break;
         case DateSetting.Pick:
-          localEndDate.value = formatCurrentForPicker(0);
-          localStartDate.value = formatCurrentForPicker(-1);
+          innerEndDate.value = formatCurrentForPicker(0);
+          innerStartDate.value = formatCurrentForPicker(-1);
           break;
       }
-      emit("update:startDate", localStartDate.value);
-      emit("update:endDate", localEndDate.value);
+      emit("update:startDate", innerStartDate.value);
+      emit("update:endDate", innerEndDate.value);
     };
 
-    const localDateValueChange = (value: number) => {
-      localDateValue.value = value ? value : 1;
+    const innerDateValueChange = (value: number) => {
+      innerDateValue.value = value ? value : 1;
 
-      switch (localDateSetting.value) {
+      switch (innerDateSetting.value) {
         case DateSetting.None:
           return;
         case DateSetting.PastHours:
-          localStartDate.value = `now - ${localDateValue.value}h`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}h`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastDays:
-          localStartDate.value = `now - ${localDateValue.value}d`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}d`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastWeeks:
-          localStartDate.value = `now - ${localDateValue.value}w`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}w`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastMonths:
-          localStartDate.value = `now - ${localDateValue.value}M`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}M`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.PastYears:
-          localStartDate.value = `now - ${localDateValue.value}y`;
-          localEndDate.value = "now";
+          innerStartDate.value = `now - ${innerDateValue.value}y`;
+          innerEndDate.value = "now";
           break;
         case DateSetting.MinutesBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}m`;
-          localEndDate.value = `alertend + ${localDateValue.value}m`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}m`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}m`;
           break;
         case DateSetting.HoursBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}h`;
-          localEndDate.value = `alertend + ${localDateValue.value}h`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}h`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}h`;
           break;
         case DateSetting.DaysBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}d`;
-          localEndDate.value = `alertend + ${localDateValue.value}d`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}d`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}d`;
           break;
         case DateSetting.WeeksBeforeAfter:
-          localStartDate.value = `alertstart - ${localDateValue.value}w`;
-          localEndDate.value = `alertend + ${localDateValue.value}w`;
+          innerStartDate.value = `alertstart - ${innerDateValue.value}w`;
+          innerEndDate.value = `alertend + ${innerDateValue.value}w`;
           break;
         case DateSetting.MinutesBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}m`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}m`;
+          innerEndDate.value = "alertend";
           break;
         case DateSetting.HoursBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}h`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}h`;
+          innerEndDate.value = "alertend";
           break;
         case DateSetting.DaysBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}d`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}d`;
+          innerEndDate.value = "alertend";
           break;
         case DateSetting.WeeksBefore:
-          localStartDate.value = `alertstart - ${localDateValue.value}w`;
-          localEndDate.value = "alertend";
+          innerStartDate.value = `alertstart - ${innerDateValue.value}w`;
+          innerEndDate.value = "alertend";
           break;
       }
-      emit("update:startDate", localStartDate.value);
-      emit("update:endDate", localEndDate.value);
+      emit("update:startDate", innerStartDate.value);
+      emit("update:endDate", innerEndDate.value);
     };
 
     const onPickDates = (value: number[] | null) => {
       if (!value) {
-        localEndDate.value = formatCurrentForPicker(0);
-        localStartDate.value = formatCurrentForPicker(-1);
+        innerEndDate.value = formatCurrentForPicker(0);
+        innerStartDate.value = formatCurrentForPicker(-1);
         if (valid.value) {
-          emit("update:startDate", localStartDate.value);
-          emit("update:endDate", localEndDate.value);
+          emit("update:startDate", innerStartDate.value);
+          emit("update:endDate", innerEndDate.value);
         }
       }
       else {
-        if (value && value[0] != null && formatFromPicker(value[0]) !== localStartDate.value) {
-          localStartDate.value = formatFromPicker(value[0]);
+        if (value && value[0] != null && formatFromPicker(value[0]) !== innerStartDate.value) {
+          innerStartDate.value = formatFromPicker(value[0]);
           if (valid.value) {
-            emit("update:startDate", localStartDate.value);
+            emit("update:startDate", innerStartDate.value);
           }
         }
-        if (value && value[1] != null && formatFromPicker(value[1]) !== localEndDate.value) {
-          localEndDate.value = formatFromPicker(value[1]);
+        if (value && value[1] != null && formatFromPicker(value[1]) !== innerEndDate.value) {
+          innerEndDate.value = formatFromPicker(value[1]);
           if (valid.value) {
-            emit("update:endDate", localEndDate.value);
+            emit("update:endDate", innerEndDate.value);
           }
         }
       }
     };
 
     const reset = (): void => {
-      localStartDate.value = props.startDate;
-      localEndDate.value = props.endDate;
+      innerStartDate.value = props.startDate;
+      innerEndDate.value = props.endDate;
 
       if (props.variant === "before-after") {
         if (props.endDate === "alertend") {
           let match = /^alertstart-([\d]+)([mhdw])$/g.exec(props.startDate.replaceAll(" ", ""));
           if (match != null) {
-            localDateValue.value = parseInt(match[1]);
+            innerDateValue.value = parseInt(match[1]);
             switch (match[2]) {
               case 'm': {
-                localDateSetting.value = DateSetting.MinutesBefore;
+                innerDateSetting.value = DateSetting.MinutesBefore;
                 return;
               }
               case 'h': {
-                localDateSetting.value = DateSetting.HoursBefore;
+                innerDateSetting.value = DateSetting.HoursBefore;
                 return;
               }
               case 'd': {
-                localDateSetting.value = DateSetting.DaysBefore;
+                innerDateSetting.value = DateSetting.DaysBefore;
                 return;
               }
               case 'w': {
-                localDateSetting.value = DateSetting.WeeksBefore;
+                innerDateSetting.value = DateSetting.WeeksBefore;
                 return;
               }
               default: {
-                localDateSetting.value = DateSetting.Expression;
-                localDateValue.value = 1;
+                innerDateSetting.value = DateSetting.Expression;
+                innerDateValue.value = 1;
                 return;
               }
             }
@@ -475,113 +474,113 @@ export default defineComponent({
           let startMatch = /^alertstart-([\d]+)([mhdw])$/g.exec(props.startDate.replaceAll(" ", ""));
           let endMatch = /^alertend\+([\d]+)([mhdw])$/g.exec(props.endDate.replaceAll(" ", ""));
           if (startMatch != null && endMatch != null && startMatch[1] === endMatch[1] && startMatch[2] === endMatch[2]) {
-            localDateValue.value = parseInt(startMatch[1]);
+            innerDateValue.value = parseInt(startMatch[1]);
             switch(startMatch[2]) {
               case 'm': {
-                localDateSetting.value = DateSetting.MinutesBeforeAfter;
+                innerDateSetting.value = DateSetting.MinutesBeforeAfter;
                 return;
               }
               case 'h': {
-                localDateSetting.value = DateSetting.HoursBeforeAfter;
+                innerDateSetting.value = DateSetting.HoursBeforeAfter;
                 return;
               }
               case 'd': {
-                localDateSetting.value = DateSetting.DaysBeforeAfter;
+                innerDateSetting.value = DateSetting.DaysBeforeAfter;
                 return;
               }
               case 'w': {
-                localDateSetting.value = DateSetting.WeeksBeforeAfter;
+                innerDateSetting.value = DateSetting.WeeksBeforeAfter;
                 return;
               }
               default: {
-                localDateSetting.value = DateSetting.Expression;
-                localDateValue.value = 1;
+                innerDateSetting.value = DateSetting.Expression;
+                innerDateValue.value = 1;
                 return;
               }
             }
           }
         }
 
-        localDateSetting.value = DateSetting.Expression;
-        localDateValue.value = 1;
+        innerDateSetting.value = DateSetting.Expression;
+        innerDateValue.value = 1;
         return;
       }
 
       if (props.lastPeriod && props.endDate === "from" && props.startDate === "from - to + from") {
-        localDateSetting.value = DateSetting.LastPeriod;
+        innerDateSetting.value = DateSetting.LastPeriod;
         return;
       }
       if (props.endDate === "now/d" && props.startDate === "now - 1d/d") {
-        localDateSetting.value = DateSetting.LastDay;
+        innerDateSetting.value = DateSetting.LastDay;
         return;
       }
       if (props.endDate === "now/w" && props.startDate === "now - 1w/w") {
-        localDateSetting.value = DateSetting.LastWeek;
+        innerDateSetting.value = DateSetting.LastWeek;
         return;
       }
       if (props.endDate === "now/M" && props.startDate === "now - 1M/M") {
-        localDateSetting.value = DateSetting.LastMonth;
+        innerDateSetting.value = DateSetting.LastMonth;
         return;
       }
       if (props.endDate === "now/y" && props.startDate === "now - 1y/y") {
-        localDateSetting.value = DateSetting.LastYear;
+        innerDateSetting.value = DateSetting.LastYear;
         return;
       }
 
       if (props.endDate === "now") {
         let match = /^now-1([dwMy])\/([dwMy])$/g.exec(props.startDate.replaceAll(" ", ""));
         if (match != null) {
-          localDateValue.value = 1;
+          innerDateValue.value = 1;
           switch (match[1]) {
             case 'd': {
-              localDateSetting.value = DateSetting.SinceLastDay;
+              innerDateSetting.value = DateSetting.SinceLastDay;
               return;
             }
             case 'w': {
-              localDateSetting.value = DateSetting.SinceLastWeek;
+              innerDateSetting.value = DateSetting.SinceLastWeek;
               return;
             }
             case 'M': {
-              localDateSetting.value = DateSetting.SinceLastMonth;
+              innerDateSetting.value = DateSetting.SinceLastMonth;
               return;
             }
             case 'y': {
-              localDateSetting.value = DateSetting.SinceLastYear;
+              innerDateSetting.value = DateSetting.SinceLastYear;
               return;
             }
             default: {
-              localDateSetting.value = DateSetting.Expression;
+              innerDateSetting.value = DateSetting.Expression;
               return;
             }
           }
         }
         match = /^now-([\d]+)([hdwMy])$/g.exec(props.startDate.replaceAll(" ", ""));
         if (match != null) {
-          localDateValue.value = parseInt(match[1]);
+          innerDateValue.value = parseInt(match[1]);
           switch (match[2]) {
             case 'h': {
-              localDateSetting.value = DateSetting.PastHours;
+              innerDateSetting.value = DateSetting.PastHours;
               return;
             }
             case 'd': {
-              localDateSetting.value = DateSetting.PastDays;
+              innerDateSetting.value = DateSetting.PastDays;
               return;
             }
             case 'w': {
-              localDateSetting.value = DateSetting.PastWeeks;
+              innerDateSetting.value = DateSetting.PastWeeks;
               return;
             }
             case 'M': {
-              localDateSetting.value = DateSetting.PastMonths;
+              innerDateSetting.value = DateSetting.PastMonths;
               return;
             }
             case 'y': {
-              localDateSetting.value = DateSetting.PastYears;
+              innerDateSetting.value = DateSetting.PastYears;
               return;
             }
             default: {
-              localDateSetting.value = DateSetting.Expression;
-              localDateValue.value = 1;
+              innerDateSetting.value = DateSetting.Expression;
+              innerDateValue.value = 1;
               return;
             }
           }
@@ -589,30 +588,30 @@ export default defineComponent({
 
         match = /^now\/([hdwMy])$/g.exec(props.startDate.replaceAll(" ", ""));
         if (match != null) {
-          localDateValue.value = 1;
+          innerDateValue.value = 1;
           switch (match[1]) {
             case 'h': {
-              localDateSetting.value = DateSetting.CurrentHour;
+              innerDateSetting.value = DateSetting.CurrentHour;
               return;
             }
             case 'd': {
-              localDateSetting.value = DateSetting.CurrentDay;
+              innerDateSetting.value = DateSetting.CurrentDay;
               return;
             }
             case 'w': {
-              localDateSetting.value = DateSetting.CurrentWeek;
+              innerDateSetting.value = DateSetting.CurrentWeek;
               return;
             }
             case 'M': {
-              localDateSetting.value = DateSetting.CurrentMonth;
+              innerDateSetting.value = DateSetting.CurrentMonth;
               return;
             }
             case 'y': {
-              localDateSetting.value = DateSetting.CurrentYear;
+              innerDateSetting.value = DateSetting.CurrentYear;
               return;
             }
             default: {
-              localDateSetting.value = DateSetting.Expression;
+              innerDateSetting.value = DateSetting.Expression;
               return;
             }
           }
@@ -620,24 +619,33 @@ export default defineComponent({
       }
 
       if (parseForPicker(props.endDate) != null && parseForPicker(props.startDate) != null) {
-        localDateSetting.value = DateSetting.Pick;
-        localDateValue.value = 1;
+        innerDateSetting.value = DateSetting.Pick;
+        innerDateValue.value = 1;
         return;
       }
 
-      localDateSetting.value = DateSetting.Expression;
-      localDateValue.value = 1;
+      innerDateSetting.value = DateSetting.Expression;
+      innerDateValue.value = 1;
     };
 
     onMounted(() => {
       reset();
     });
 
+    watch([() => props.startDate, () => props.endDate], () => {
+      if (
+        innerStartDate.value !== props.startDate ||
+        innerEndDate.value !== props.endDate
+      ) {
+        reset();
+      }
+    });
+
     return {
-      localDateSetting,
-      localDateValue,
-      localStartDate,
-      localEndDate,
+      innerDateSetting,
+      innerDateValue,
+      innerStartDate,
+      innerEndDate,
       pastSettings,
       DateSetting,
       NumberRules,
@@ -645,10 +653,10 @@ export default defineComponent({
       TextRules,
       messages,
       valid,
-      localDateSettingChange,
-      localDateValueChange,
-      localStartDateChange,
-      localEndDateChange,
+      innerDateSettingChange,
+      innerDateValueChange,
+      innerStartDateChange,
+      innerEndDateChange,
       parseForPicker,
       onPickDates
     };

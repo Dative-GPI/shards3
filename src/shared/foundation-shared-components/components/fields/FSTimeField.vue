@@ -53,8 +53,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-components/utils";
@@ -131,16 +130,6 @@ export default defineComponent({
     const innerTime = ref(0);
     const selectedUnit = ref(timeScale[0]);
 
-    if (props.modelValue) {
-      if (getTimeScaleIndex(props.modelValue) !== 0) {
-        selectedUnit.value = timeScale[getTimeScaleIndex(props.modelValue)];
-        innerTime.value = props.modelValue / selectedUnit.value.id;
-      }
-      else {
-        innerTime.value = props.modelValue;
-      }
-    }
-
     const style = computed((): { [key: string] : string | null | undefined } => {
       if (!props.editable) {
         return {
@@ -185,6 +174,26 @@ export default defineComponent({
       selectedUnit.value = timeScale.find((item) => item.id === value);
       emit("update:modelValue", innerTime.value * selectedUnit.value.id);
     };
+
+    const reset = (): void => {
+      if (props.modelValue) {
+        if (getTimeScaleIndex(props.modelValue) !== 0) {
+          selectedUnit.value = timeScale[getTimeScaleIndex(props.modelValue)];
+          innerTime.value = props.modelValue / selectedUnit.value.id;
+        }
+        else {
+          innerTime.value = props.modelValue;
+        }
+      }
+    };
+
+    onMounted((): void => {
+      reset();
+    });
+
+    watch(() => props.modelValue, () => {
+      reset();
+    });
 
     return {
       selectedUnit,

@@ -20,12 +20,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import { useTreeView } from "@dative-gpi/foundation-shared-components/composables";
+import { type GroupFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useGroups } from "@dative-gpi/foundation-core-services/composables";
-import type { GroupFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSTreeViewField from "@dative-gpi/foundation-shared-components/components/fields/FSTreeViewField.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
@@ -57,7 +56,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyGroups, fetching: fetchingGroups, entities: groups } = useGroups();
 
-    const innerFetch = () => {
+    const fetch = () => {
       return getManyGroups({ ...props.groupFilters });
     };
 
@@ -65,7 +64,7 @@ export default defineComponent({
       groups,
       [() => props.groupFilters],
       emit,
-      innerFetch
+      fetch
     );
 
     return {
