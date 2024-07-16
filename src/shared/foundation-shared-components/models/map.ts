@@ -5,6 +5,7 @@ import { type Address } from "@dative-gpi/foundation-shared-domain/models";
 export interface MapLayer {
   name : string;
   label: string;
+  image: string;
   layer: Layer;
 }
 

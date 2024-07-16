@@ -115,6 +115,37 @@
         >
           mdi-link
         </FSIcon>
+        <v-menu
+          v-if="$props.variableReferences && $props.variableReferences.length > 0"
+          :closeOnContentClick="false"
+          v-model="menuVariable"
+        >
+          <template
+            v-slot:activator="{ props }"
+          >
+            <FSIcon
+              v-bind="props"
+              class="fs-rich-text-field-icon"
+              :color="toolbarColors.variable"
+              :style="style"
+            >
+              mdi-variable
+            </FSIcon>
+          </template>
+          <FSCard
+            padding="12"
+            width="300px"
+            :elevation="true"
+          >
+            <FSAutoCompleteField
+              itemTitle="code"
+              :placeholder="$tr('ui.rich-text-field.variable-placeholder', 'Choose a variable...')"
+              :items="$props.variableReferences"
+              :returnObject="true"
+              @update:modelValue="insertVariable($event)"
+            />
+          </FSCard>
+        </v-menu>
         <v-divider
           vertical
         />
@@ -150,10 +181,21 @@
     </FSRow>
     <div
       class="fs-rich-text-field"
-      :id="id"
       :style="style"
-      :contenteditable="!readonly && $props.editable"
-    />
+    >
+      <div
+        class="fs-rich-text-field-content"
+        :data-variable-values="JSON.stringify($props.variableValues)"
+        :contenteditable="!readonly && $props.editable"
+        :data-readonly="$props.variant === 'readonly'"
+        :id="id"
+      />
+      <slot
+        name="append-inner"
+        v-bind="{ props: $props }"
+      />
+    </div>
+
     <FSTextField
       v-if="isLink && !readonly && $props.editable"
       :hideHeader="true"
@@ -176,31 +218,35 @@
 </template>
 
 <script lang="ts">
-import type { ElementNode} from "lexical";
-import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
-import type { HeadingTagType} from "@lexical/rich-text";
-import { $createHeadingNode, HeadingNode, registerRichText } from "@lexical/rich-text";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+
+import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $isNodeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, type ElementNode, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
+import { $createHeadingNode, HeadingNode, type HeadingTagType, registerRichText } from "@lexical/rich-text";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
-import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
+import { emptyLexicalState, getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
-import { getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import { $createVariableNode, $isVariableNode, VariableNode } from "../../models/variableNode";
+import { type RichTextVariable } from "../../models/richTextVariable";
+
+import FSAutoCompleteField from "./FSAutocompleteField.vue";
 import FSTextField from "./FSTextField.vue";
 import FSIcon from "../FSIcon.vue";
+import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSRichTextField",
   components: {
+    FSAutoCompleteField,
     FSTextField,
     FSIcon,
+    FSCard,
     FSCol,
     FSRow
   },
@@ -240,6 +286,15 @@ export default defineComponent({
       required: false,
       default: "standard"
     },
+    variableReferences: {
+      type: Array as PropType<Array<RichTextVariable>>,
+      default: () => []
+    },
+    variableValues: {
+      type: Object,
+      required: false,
+      default: () => ({})
+    },
     editable: {
       type: Boolean,
       required: false,
@@ -251,7 +306,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
-    const linkColors = computed(()=> getColors(props.linkColor));
+    const linkColors = computed(() => getColors(props.linkColor));
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
@@ -261,13 +316,13 @@ export default defineComponent({
     const isItalic = ref(false);
     const isUnderline = ref(false);
     const isStrikethrough = ref(false);
+    const isVariable = ref(false);
+    const menuVariable = ref(false);
 
     const id = `${Math.random()}-editor`;
-    const emptyState = "{\"root\":{\"children\":[{\"children\":[],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}";
-
 
     const linkUrl = ref("https://");
-    
+
     const config = {
       namespace: "MyEditor",
       theme: {
@@ -289,7 +344,8 @@ export default defineComponent({
       nodes: [
         HeadingNode,
         LinkNode,
-        ParagraphNode
+        ParagraphNode,
+        VariableNode
       ],
       onError: console.error
     }
@@ -309,7 +365,7 @@ export default defineComponent({
       }
       else {
         editor.update((): void => {
-          editor.setEditorState(editor.parseEditorState(emptyState));
+          editor.setEditorState(editor.parseEditorState(emptyLexicalState));
         });
       }
     });
@@ -318,7 +374,7 @@ export default defineComponent({
       return ["readonly"].includes(props.variant);
     });
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): { [key: string]: string | null | undefined } => {
       let minHeight: string | undefined = "auto";
       if (!readonly.value) {
         const base = isMobileSized.value ? 30 : 42;
@@ -335,38 +391,40 @@ export default defineComponent({
         case "standard": {
           if (!props.editable) {
             return {
-              "--fs-rich-text-field-undo-cursor"        : "default",
-              "--fs-rich-text-field-icon-cursor"        : "default",
-              "--fs-rich-text-field-border-color"       : lights.base,
-              "--fs-rich-text-field-color"              : lights.dark,
+              "--fs-rich-text-field-undo-cursor": "default",
+              "--fs-rich-text-field-icon-cursor": "default",
+              "--fs-rich-text-field-border-color": lights.base,
+              "--fs-rich-text-field-color": lights.dark,
               "--fs-rich-text-field-active-border-color": lights.base,
-              "--fs-rich-text-field-link-color"         : linkColors.value.light,
-              "--fs-rich-text-field-min-height"         : minHeight
+              "--fs-rich-text-field-link-color": linkColors.value.light,
+              "--fs-rich-text-field-min-height": minHeight
             };
           }
           else {
             return {
-              "--fs-rich-text-field-undo-cursor"        : canUndo.value ? "pointer" : "default",
-              "--fs-rich-text-field-icon-cursor"        : "pointer",
-              "--fs-rich-text-field-border-color"       : lights.dark,
-              "--fs-rich-text-field-color"              : darks.base,
+              "--fs-rich-text-field-undo-cursor": canUndo.value ? "pointer" : "default",
+              "--fs-rich-text-field-icon-cursor": "pointer",
+              "--fs-rich-text-field-border-color": lights.dark,
+              "--fs-rich-text-field-color": darks.base,
               "--fs-rich-text-field-active-border-color": darks.dark,
-              "--fs-rich-text-field-link-color"         : linkColors.value.dark,
-              "--fs-rich-text-field-min-height"         : minHeight
+              "--fs-rich-text-field-link-color": linkColors.value.dark,
+              "--fs-rich-text-field-min-height": minHeight,
+              "--fs-rich-text-field-variable-backgroundcolor": getColors(ColorEnum.Primary).light,
+              "--fs-rich-text-field-variable-color": getColors(ColorEnum.Primary).lightContrast
             };
           }
         }
         case "readonly": return {
-          "--fs-rich-text-field-border-color"       : "transparent",
-          "--fs-rich-text-field-color"              : darks.base,
+          "--fs-rich-text-field-border-color": "transparent",
+          "--fs-rich-text-field-color": darks.base,
           "--fs-rich-text-field-active-border-color": "transparent",
-          "--fs-rich-text-field-link-color"         : linkColors.value.dark,
-          "--fs-rich-text-field-min-height"         : minHeight
+          "--fs-rich-text-field-link-color": linkColors.value.dark,
+          "--fs-rich-text-field-min-height": minHeight
         }
       }
     });
 
-    const toolbarColors = computed((): {[code: string]: string} => {
+    const toolbarColors = computed((): { [code: string]: string } => {
       if (props.editable) {
         return {
           undo: canUndo.value ? darks.base : lights.base,
@@ -374,7 +432,8 @@ export default defineComponent({
           italic: isItalic.value ? darks.base : lights.base,
           underline: isUnderline.value ? darks.base : lights.base,
           strikethrough: isStrikethrough.value ? darks.base : lights.base,
-          link: isLink.value ? darks.base : lights.base
+          link: isLink.value ? darks.base : lights.base,
+          variable: isVariable.value ? darks.base : lights.base
         };
       }
       else {
@@ -391,6 +450,7 @@ export default defineComponent({
 
     const updateToolbar = (): void => {
       const selection = $getSelection();
+      isVariable.value = false;
       if ($isRangeSelection(selection)) {
         isBold.value = selection.hasFormat("bold");
         isItalic.value = selection.hasFormat("italic");
@@ -398,12 +458,17 @@ export default defineComponent({
         isStrikethrough.value = selection.hasFormat("strikethrough");
         isLink.value = $isLinkNode(getSelectedNode(selection)) || $isLinkNode(getSelectedNode(selection).getParent());
       }
+      else if($isNodeSelection(selection)){
+        if($isVariableNode(selection?.getNodes()[0])){
+          isVariable.value = true;
+        }
+      }
     };
 
     editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         updateToolbar();
-        if (JSON.stringify(editorState.toJSON()) !== emptyState) {
+        if (JSON.stringify(editorState.toJSON()) !== emptyLexicalState) {
           emit("update:modelValue", JSON.stringify(editorState.toJSON()));
         }
         else {
@@ -437,6 +502,17 @@ export default defineComponent({
       });
     };
 
+    const insertVariable = (variable: { code: string; defaultValue: any; type: string }) => {
+      menuVariable.value = false;
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const variableNode = $createVariableNode(variable.code, variable.defaultValue, variable.type);
+          selection.insertNodes([variableNode]);
+        }
+      });
+    };
+
     const openLink = (): void => {
       if (!isLink.value) {
         isLink.value = true;
@@ -448,7 +524,7 @@ export default defineComponent({
           if ($isRangeSelection(selection)) {
             toggleLink();
           }
-        }); 
+        });
       }
     };
 
@@ -498,7 +574,7 @@ export default defineComponent({
             let linkNode: LinkNode | null = null;
             nodes.forEach((node) => {
               const parent = node.getParent();
-              if ( parent === linkNode || parent === null || ($isElementNode(node) && !node.isInline())) {
+              if (parent === linkNode || parent === null || ($isElementNode(node) && !node.isInline())) {
                 return;
               }
               if ($isLinkNode(parent)) {
@@ -517,7 +593,7 @@ export default defineComponent({
               }
               if (!parent.is(prevParent)) {
                 prevParent = parent;
-                linkNode = $createLinkNode(linkUrl.value, {rel, target, title});
+                linkNode = $createLinkNode(linkUrl.value, { rel, target, title });
 
                 if ($isLinkNode(parent)) {
                   if (node.getPreviousSibling() === null) {
@@ -562,30 +638,32 @@ export default defineComponent({
             editor.setEditorState(editor.parseEditorState(props.modelValue!));
           });
         }
-        else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyState) {
+        else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyLexicalState) {
           editor.update(() => {
-            editor.setEditorState(editor.parseEditorState(emptyState));
+            editor.setEditorState(editor.parseEditorState(emptyLexicalState));
           });
         }
       }
     });
 
     return {
+      FORMAT_ELEMENT_COMMAND,
+      FORMAT_TEXT_COMMAND,
+      toolbarColors,
+      menuVariable,
+      UNDO_COMMAND,
       readonly,
-      style,
-      id,
+      linkUrl,
       editor,
       isLink,
-      linkUrl,
-      toolbarColors,
-      openLink,
-      toggleLink,
-      formatText,
+      style,
+      id,
       formatParagraph,
-      UNDO_COMMAND,
-      FORMAT_TEXT_COMMAND,
-      FORMAT_ELEMENT_COMMAND,
-    }
+      insertVariable,
+      formatText,
+      toggleLink,
+      openLink
+    };
   }
 });
 </script>
