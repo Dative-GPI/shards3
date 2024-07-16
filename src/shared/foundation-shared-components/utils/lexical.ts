@@ -1,6 +1,8 @@
 import type { ElementNode, LexicalNode, RangeSelection, TextNode } from "lexical";
 import { $isAtNodeEnd } from "@lexical/selection";
 
+export const emptyLexicalState = "{\"root\":{\"children\":[{\"children\":[],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":null,\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}";
+
 export const getSelectedNode = (selection: RangeSelection): ElementNode | TextNode => {
   const anchor = selection.anchor;
   const focus = selection.focus;
