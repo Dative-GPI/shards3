@@ -4,6 +4,7 @@
     v-bind="$attrs"
   >
     <FSCol
+      v-if="L"
       class="fs-map"
       width="fill"
     >
@@ -96,7 +97,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
-import type * as L from "leaflet";
+import * as L from "leaflet";
 import "leaflet.markercluster";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
@@ -448,6 +449,7 @@ export default defineComponent({
     });
 
     return {
+      L,
       innerSelectedLayer,
       editingLocation,
       innerModelValue,

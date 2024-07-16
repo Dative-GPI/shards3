@@ -193,12 +193,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
 import { useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSDialogMenu from "../FSDialogMenu.vue";
@@ -273,15 +271,9 @@ export default defineComponent({
     const dialog = ref(false);
     const menu = ref(false);
     const tabs = ref(0);
+
     const innerDate = ref<number | null>(null);
     const innerTime = ref(0);
-
-    if (props.modelValue) {
-      // FSClock just gives two numbers without consideration for the time zone
-      // We must adjust the time to the user's time zone
-      innerTime.value = Math.floor((props.modelValue + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-      innerDate.value = props.modelValue - innerTime.value;
-    }
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
 
@@ -303,6 +295,27 @@ export default defineComponent({
       dialog.value = false;
       menu.value = false;
     };
+
+    const reset = (): void => {
+      if (props.modelValue) {
+        // FSClock just gives two numbers without consideration for the time zone
+        // We must adjust the time to the user's time zone
+        innerTime.value = Math.floor((props.modelValue + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+        innerDate.value = props.modelValue - innerTime.value;
+      }
+      else {
+        innerDate.value = null;
+        innerTime.value = 0;
+      }
+    };
+
+    onMounted((): void => {
+      reset();
+    });
+
+    watch(() => props.modelValue, () => {
+      reset();
+    });
 
     watch([menu, dialog], (): void => {
       if (!menu.value && !dialog.value) {

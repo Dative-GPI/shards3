@@ -65,10 +65,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { TimeZoneFilters, TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
+import { type TimeZoneFilters, type TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -118,7 +117,7 @@ export default defineComponent({
       return init.value && fetchingTimeZones.value;
     });
 
-    const innerFetch = (search: string | null) => {
+    const fetch = (search: string | null) => {
       return getManyTimeZones({ ...props.timeZoneFilters, search: search ?? undefined });
     };
 
@@ -126,7 +125,7 @@ export default defineComponent({
       timeZones,
       [() => props.timeZoneFilters],
       emit,
-      innerFetch,
+      fetch,
       null,
       (item: TimeZoneInfos) => item.id,
       (item: TimeZoneInfos) => item.id

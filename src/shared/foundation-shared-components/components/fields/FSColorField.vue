@@ -77,19 +77,18 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSBaseField from "./FSBaseField.vue";
 import FSCard from "../FSCard.vue";
 import FSIcon from "../FSIcon.vue";
+import FSText from "../FSText.vue";
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
-import FSBaseField from "./FSBaseField.vue";
-import FSText from "../FSText.vue";
 
 export default defineComponent({
   name: "FSColorField",
@@ -99,7 +98,7 @@ export default defineComponent({
     FSCard,
     FSIcon,
     FSCol,
-    FSRow,
+    FSRow
   },
   props: {
     label: {
@@ -164,6 +163,7 @@ export default defineComponent({
     const darks = getColors(ColorEnum.Dark);
 
     const menu = ref(false);
+
     const innerColor = ref(props.modelValue.toString().substring(0, 7));
     const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
     const fullColor = ref(innerColor.value + innerOpacity.value);
@@ -194,16 +194,14 @@ export default defineComponent({
       emit("update:opacity", getPercentageFromHex(innerOpacity.value));
     };
 
-    onMounted(() => {
+    const reset = (): void => {
       innerColor.value = getColors(props.modelValue)['base'];
       innerOpacity.value = getHexFromPercentage(props.opacityValue);
       fullColor.value = innerColor.value + innerOpacity.value;
-    });
+    };
 
-    watch(() => props.modelValue, (value) => {
-      innerColor.value = getColors(value)['base'];
-      innerOpacity.value = getHexFromPercentage(props.opacityValue);
-      fullColor.value = innerColor.value + innerOpacity.value;
+    watch(() => props.modelValue, () => {
+      reset();
     });
 
     return {

@@ -147,12 +147,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
+import _ from "lodash";
 
 import { useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSDialogMenu from "../FSDialogMenu.vue";
@@ -222,6 +221,7 @@ export default defineComponent({
 
     const dialog = ref(false);
     const menu = ref(false);
+    
     const innerDate = ref<number | null>(props.modelValue);
 
     const messages = computed((): string[] => getMessages(props.modelValue, props.rules));
@@ -243,6 +243,12 @@ export default defineComponent({
       dialog.value = false;
       menu.value = false;
     };
+
+    watch(() => props.modelValue, () => {
+      if (!_.isEqual(innerDate.value, props.modelValue)) {
+        innerDate.value = props.modelValue;
+      }
+    });
 
     return {
       isExtraSmall,

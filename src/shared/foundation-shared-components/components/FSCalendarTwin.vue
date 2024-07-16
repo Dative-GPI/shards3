@@ -14,8 +14,9 @@
     </FSRow>
     <FSRow
       class="fs-calendar-twin"
-      align="center-center"
+      align="top-center"
       width="hug"
+      :height="['380px', '375px']"
       :style="style"
     >
       <FSCol
