@@ -1,11 +1,18 @@
 .fs-image-card {
   > .fs-card {
     background-image: var(--fs-image-card-background);
-    background-size: cover;
+    background-size: 100%;
+    background-position: center;
   }
 
   .fs-image-card-label {
     background-color: #0000009d;
     color: white;
+  }
+}
+
+.fs-image-card:hover {
+  > .fs-card {
+    background-size: 105%;
   }
 }
