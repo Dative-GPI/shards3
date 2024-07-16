@@ -117,8 +117,8 @@
         </FSIcon>
         <v-menu
           v-if="$props.variableReferences && $props.variableReferences.length > 0"
+          :closeOnContentClick="false"
           v-model="menuVariable"
-          :close-on-content-click="false"
         >
           <template
             v-slot:activator="{ props }"
@@ -138,9 +138,9 @@
             :elevation="true"
           >
             <FSAutoCompleteField
-              :items="$props.variableReferences"
-              :placeholder="$tr('ui.richTextField.variable.placeholder', 'Choose a variable...')"
               itemTitle="code"
+              :placeholder="$tr('ui.rich-text-field.variable-placeholder', 'Choose a variable...')"
+              :items="$props.variableReferences"
               :returnObject="true"
               @update:modelValue="insertVariable($event)"
             />
@@ -185,15 +185,15 @@
     >
       <div
         class="fs-rich-text-field-content"
-        :contenteditable="!readonly && $props.editable"
-        :id="id"
-        :data-readonly="$props.variant === 'readonly'"
         :data-variable-values="JSON.stringify($props.variableValues)"
+        :contenteditable="!readonly && $props.editable"
+        :data-readonly="$props.variant === 'readonly'"
+        :id="id"
       />
       <slot
         name="append-inner"
         v-bind="{ props: $props }"
-      ></slot>
+      />
     </div>
 
     <FSTextField
@@ -218,39 +218,37 @@
 </template>
 
 <script lang="ts">
-import type { ElementNode } from "lexical";
-import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $isNodeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
-import type { HeadingTagType } from "@lexical/rich-text";
-import { $createHeadingNode, HeadingNode, registerRichText } from "@lexical/rich-text";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+
+import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $isNodeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, type ElementNode, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
+import { $createHeadingNode, HeadingNode, type HeadingTagType, registerRichText } from "@lexical/rich-text";
 import { createEmptyHistoryState, registerHistory } from "@lexical/history";
-import type { PropType } from "vue";
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { $createLinkNode, $isLinkNode, LinkNode } from "@lexical/link";
 import { $wrapNodes } from "@lexical/selection";
 
-import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { emptyLexicalState, getAncestor, getSelectedNode } from "@dative-gpi/foundation-shared-components/utils";
-import type { ColorBase } from "@dative-gpi/foundation-shared-components/models";
-import type { RichTextVariable } from "../../models/richTextVariable";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import { $createVariableNode, $isVariableNode, VariableNode } from "../../models/variableNode";
+import { type RichTextVariable } from "../../models/richTextVariable";
+
+import FSAutoCompleteField from "./FSAutocompleteField.vue";
 import FSTextField from "./FSTextField.vue";
 import FSIcon from "../FSIcon.vue";
+import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import { $createVariableNode, $isVariableNode, VariableNode } from "../../models/variableNode";
-import FSAutoCompleteField from "./FSAutocompleteField.vue";
-import FSCard from "../FSCard.vue";
 
 export default defineComponent({
   name: "FSRichTextField",
   components: {
+    FSAutoCompleteField,
     FSTextField,
     FSIcon,
+    FSCard,
     FSCol,
-    FSRow,
-    FSAutoCompleteField,
-    FSCard
+    FSRow
   },
   props: {
     label: {
@@ -649,23 +647,23 @@ export default defineComponent({
     });
 
     return {
-      readonly,
-      style,
-      id,
-      editor,
-      isLink,
-      linkUrl,
+      FORMAT_ELEMENT_COMMAND,
+      FORMAT_TEXT_COMMAND,
       toolbarColors,
       menuVariable,
-      openLink,
-      toggleLink,
-      formatText,
+      UNDO_COMMAND,
+      readonly,
+      linkUrl,
+      editor,
+      isLink,
+      style,
+      id,
       formatParagraph,
       insertVariable,
-      UNDO_COMMAND,
-      FORMAT_TEXT_COMMAND,
-      FORMAT_ELEMENT_COMMAND,
-    }
+      formatText,
+      toggleLink,
+      openLink
+    };
   }
 });
 </script>

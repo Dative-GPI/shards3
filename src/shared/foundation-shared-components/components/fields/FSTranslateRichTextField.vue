@@ -11,18 +11,13 @@
         :modelValue="$props.modelValue"
         v-bind="$attrs"
       />
-      <FSLoader
-        v-if="fetchingLanguages"
-        width="100%"
-        height="300px"
-      />
       <FSRichTextField
         v-for="(language, index) in languages"
         :editable="$props.editable"
         :key="index"
         :modelValue="getTranslation(language.code)"
-        v-bind="$attrs"
         @update:modelValue="setTranslation(language.code, $event)"
+        v-bind="$attrs"
       >
         <template
           #label
@@ -45,16 +40,16 @@
       :wrap="false"
     >
       <FSButton
+        prependIcon="mdi-cancel"
         :label="$tr('ui.translateRichTextField.cancelButton.label', 'Cancel')"
-        prepend-icon="mdi-cancel"
         :fullWidth="true"
         @click="onCancelTranslations"
       />
       <FSButton
         v-if="$props.editable"
-        :label="$tr('ui.translateRichTextField.validateButton.label', 'Validate translations')"
+        prependIcon="mdi-check"
         color="primary"
-        prepend-icon="mdi-check"
+        :label="$tr('ui.translateRichTextField.validateButton.label', 'Validate translations')"
         :fullWidth="true"
         @click="onSubmitTranslations"
       />
@@ -62,19 +57,18 @@
   </FSCol>
   <FSRichTextField
     v-else
-    :modelValue="$props.modelValue"
     :editable="$props.editable"
-    v-bind="$attrs"
+    :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
   >
     <template
       #append-inner
     >
       <FSButton
-        :label="$tr('ui.translateRichTextField.translateButton.label', 'Manage translations')"
-        :load="fetchingLanguages"
+        prependIcon="mdi-translate"
         color="primary"
-        prepend-icon="mdi-translate"
+        :label="$tr('ui.translateRichTextField.translateButton.label', 'Manage translations')"
         :fullWidth="true"
         @click="() => $emit('update:translationsExpanded', true)"
       />
@@ -83,30 +77,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, type PropType, ref } from 'vue';
+import { defineComponent, type PropType, ref } from 'vue';
 
-import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
 import { emptyLexicalState } from '../../utils';
 
 import FSRichTextField from './FSRichTextField.vue';
 import FSButton from '../FSButton.vue';
-import FSCol from '../FSCol.vue';
 import FSIcon from '../FSIcon.vue';
-import FSLoader from '../FSLoader.vue';
-import FSRow from '../FSRow.vue';
 import FSSpan from '../FSSpan.vue';
+import FSCol from '../FSCol.vue';
+import FSRow from '../FSRow.vue';
 
 export default defineComponent({
   name: 'FSTranslateRichTextField',
   components: {
-    FSButton,
-    FSCol,
-    FSIcon,
-    FSLoader,
     FSRichTextField,
-    FSRow,
+    FSButton,
+    FSIcon,
     FSSpan,
+    FSCol,
+    FSRow
   },
   props: {
     translationsExpanded: {
@@ -131,11 +123,11 @@ export default defineComponent({
       type: String as PropType<string>,
       required: false,
       default: "label"
-    },
+    }
   },
   emits: ['update:translationsExpanded', 'update:modelValue', 'update:translations'],
   setup(props, { emit }) {
-    const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
+    const { languages } = useAppLanguages();
 
     const innerTranslations = ref(props.translations);
 
@@ -181,19 +173,13 @@ export default defineComponent({
       emit('update:translationsExpanded', false);
     };
 
-    onMounted(() => {
-      getManyLanguages();
-    });
-
     return {
-      fetchingLanguages,
       languages,
-      getTranslation,
       onCancelTranslations,
       onSubmitTranslations,
-      setTranslation,
+      getTranslation,
+      setTranslation
     };
-  },
+  }
 });
-
 </script>
