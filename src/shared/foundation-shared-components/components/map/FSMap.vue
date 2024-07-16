@@ -5,30 +5,34 @@
   >
     <FSCol
       v-if="L"
-      class="fs-map"
       width="fill"
+      :class="['fs-map', { 'fs-map-fullscreen': fullScreen }]"
     >
-      <FSRow
-        v-if="selectableLayers.length > 1"
-        class="fs-map-overlay-layer-choice"
+      <FSCol
+        v-if="$slots.leftoverlay"
+        class="fs-map-overlay-left"
+        height="calc(100% - 32px)"
+        width="hug"
         gap="2px"
       >
-        <FSChip
-          v-for="mapLayer in mapLayers.filter((layer) => selectableLayers.includes(layer.name))"
-          variant="full"
-          :color="innerSelectedLayer === mapLayer.name ? 'dark' : 'light'"
-          :label="mapLayer.label"
-          :key="mapLayer.name"
-          :editable="true"
-          @click="setMapBaseLayer(mapLayer.name as 'osm' | 'imagery')"
-        />
-      </FSRow>
+        <FSCard
+          height="100%"
+        >
+          <FSFadeOut
+            height="fill"
+          >
+            <slot
+              name="leftoverlay"
+            />
+          </FSFadeOut>
+        </FSCard>
+      </FSCol>
       <FSRow
         v-if="$props.editable && !editingLocation && $props.selectedLocationId !== null"
         class="fs-map-overlay-edit-button"
       >
         <FSButton
-          prepend-icon="mdi-pencil"
+          prependIcon="mdi-pencil"
           :label="$tr('ui.map.modify', 'Modify')"
           @click="editingLocation = true"
         />
@@ -41,45 +45,73 @@
           :id="mapId"
         />
       </FSCol>
-
       <FSCol
-        class="fs-map-overlay-container"
+        class="fs-map-overlay-right-top"
         align="center-center"
       >
-        <FSCol
-          class="fs-map-zoom-overlay"
-          align="bottom-center"
-          width="hug"
+        <slot
+          name="toprightoverlay"
         >
-          <FSButton
-            v-if="$props.showMyLocation"
-            prependIcon="mdi-crosshairs-gps"
-            color="primary"
-            variant="full"
-            :elevation="true"
-            :border="false"
-            @click="locate"
-          />
+          <FSRow
+            gap="2px"
+          >
+            <FSMapLayerButton
+              v-if="$props.selectableLayers?.length && $props.selectableLayers.length > 1"
+              :layers="mapLayers.filter((layer) => $props.selectableLayers?.includes(layer.name) ?? true)"
+              v-model="innerSelectedLayer"
+            />
+            <FSButton
+              v-if="$props.showFullScreen"
+              prependIcon="mdi-fullscreen"
+              :elevation="true"
+              @click="fullScreen = !fullScreen"
+            />
+          </FSRow>
+        </slot>
+      </FSCol>
+      <FSCol
+        class="fs-map-overlay-right-bottom"
+        align="center-center"
+      >
+        <slot
+          name="bottomrightoverlay"
+        >
           <FSCol
-            v-if="$props.showZoomButtons"
-            gap="0"
+            class="fs-map-zoom-overlay"
+            align="bottom-center"
+            width="hug"
           >
             <FSButton
-              class="fs-map-zoom-plus"
-              prependIcon="mdi-plus"
+              v-if="$props.showMyLocation"
+              prependIcon="mdi-crosshairs-gps"
+              color="primary"
+              variant="full"
               :elevation="true"
               :border="false"
-              @click="zoomIn"
+              @click="locate"
             />
-            <FSButton
-              class="fs-map-zoom-minus"
-              prependIcon="mdi-minus"
-              :elevation="true"
-              :border="false"
-              @click="zoomOut"
-            />
+            <FSCol
+              v-if="$props.showZoomButtons"
+              gap="0"
+            >
+
+              <FSButton
+                class="fs-map-zoom-plus"
+                prependIcon="mdi-plus"
+                :elevation="true"
+                :border="false"
+                @click="zoomIn"
+              />
+              <FSButton
+                class="fs-map-zoom-minus"
+                prependIcon="mdi-minus"
+                :elevation="true"
+                :border="false"
+                @click="zoomOut"
+              />
+            </FSCol>
           </FSCol>
-        </FSCol>
+        </slot>
         <FSMapEditPointAddressOverlay
           v-if="editingLocation"
           :label="$tr('ui.map.address', 'Address')"
@@ -108,9 +140,10 @@ import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 import { useColors, useAddress } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
+import FSMapLayerButton from "./FSMapLayerButton.vue";
+import FSFadeOut from "../FSFadeOut.vue";
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
-import FSChip from "../FSChip.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
@@ -118,9 +151,10 @@ export default defineComponent({
   name: "FSMap",
   components: {
     FSMapEditPointAddressOverlay,
+    FSMapLayerButton,
+    FSFadeOut,
     FSButton,
     FSCard,
-    FSChip,
     FSCol,
     FSRow
   },
@@ -185,6 +219,11 @@ export default defineComponent({
       required: false,
       default: true
     },
+    showFullScreen: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     grayscale: {
       type: Boolean,
       required: false,
@@ -202,6 +241,7 @@ export default defineComponent({
     const innerSelectedLayer = ref(props.selectedLayer);
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
+    const fullScreen = ref(false);
 
     const mapId = `map-${Math.random().toString(36).substring(7)}`;
     const defaultZoom = 15;
@@ -238,6 +278,7 @@ export default defineComponent({
       {
         name: "osm",
         label: $tr("ui.map.layer.osm", "Map"),
+        image: new URL("../../assets/images/map/osm.png", import.meta.url).href,
         layer: LL.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 20,
           attribution: '© OpenStreetMap'
@@ -246,6 +287,7 @@ export default defineComponent({
       {
         name: "imagery",
         label: $tr("ui.map.layer.imagery", "Imagery"),
+        image: new URL("../../assets/images/map/imagery.png", import.meta.url).href,
         layer: LL.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
           maxZoom: 19
@@ -323,7 +365,7 @@ export default defineComponent({
       baseLayerGroup.addTo(map);
       siteLayerGroup.addTo(map);
       myLocationLayerGroup.addTo(map);
-      setMapBaseLayer(props.selectedLayer);
+      setMapBaseLayer(innerSelectedLayer.value);
       displaySites();
       displayLocations();
       markerLayerGroup.addTo(map);
@@ -340,18 +382,16 @@ export default defineComponent({
     };
 
     const setMapBaseLayer = (layerName: 'osm' | 'imagery') => {
-      innerSelectedLayer.value = layerName;
       const layer = mapLayers.find((mapLayer) => mapLayer.name === layerName) ?? mapLayers[0];
       baseLayerGroup.clearLayers();
       layer.layer.addTo(baseLayerGroup);
     };
 
     const onNewAddressEntered = (address: Address) => {
-      if (!props.selectedLocationId) {
-        return;
-      }
+      if (!map) {return;}
+      if (!props.selectedLocationId) {return;}
       modifyLocationAddress(props.selectedLocationId, address);
-      map?.panTo([address.latitude, address.longitude]);
+      map.panTo([address.latitude, address.longitude]);
     };
 
     const onNewCoordEntered = async (lat: number, lng: number) => {
@@ -365,17 +405,26 @@ export default defineComponent({
     };
 
     const zoomIn = () => {
-      map?.zoomIn();
+      if (!map) {
+        return;
+      }
+      map.zoomIn();
     };
 
     const zoomOut = () => {
-      map?.zoomOut();
+      if (!map) {
+        return;
+      }
+      map.zoomOut();
     };
 
     const locate = () => {
-      map?.locate();
-      map?.on('locationfound', (e: L.LocationEvent) => {
-        map?.panTo(e.latlng);
+      if (!map) {
+        return;
+      }
+      map.locate();
+      map.on('locationfound', (e: L.LocationEvent) => {
+        map.panTo(e.latlng);
         const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
         const icon = LL.divIcon({
           html: iconHtml,
@@ -391,12 +440,15 @@ export default defineComponent({
     const onCancel = () => {
       editingLocation.value = false;
       innerModelValue.value = props.modelValue;
+      if (!map) {
+        return;
+      }
       displayLocations();
       if (innerModelValue.value.length > 0) {
-        map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
+        map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map?.panTo([props.center[0], props.center[1]]);
+        map.panTo([props.center[0], props.center[1]]);
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -405,12 +457,15 @@ export default defineComponent({
 
     const onSubmit = () => {
       emit('update:modelValue', innerModelValue.value);
+      if (!map) {
+        return;
+      }
       editingLocation.value = false;
       if (innerModelValue.value.length > 0) {
-        map?.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
+        map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map?.flyTo([props.center[0], props.center[1]], map?.getZoom() ?? defaultZoom, { animate: false });
+        map.flyTo([props.center[0], props.center[1]], map.getZoom() ?? defaultZoom, { animate: false });
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -419,6 +474,9 @@ export default defineComponent({
 
     onMounted(() => {
       initMap();
+      if (props.selectedLocationId && props.modelValue.length === 1) {
+        editingLocation.value = true;
+      }
     });
 
     watch(() => innerModelValue.value, () => {
@@ -426,36 +484,42 @@ export default defineComponent({
     });
 
     watch(() => props.selectedLocationId, () => {
+      if (!props.selectedLocationId || !map) {
+        return;
+      }
+
       Object.values(markers).forEach((marker) => {
         marker.getElement()?.classList.remove('fs-map-location-selected');
       });
 
-      if (!props.selectedLocationId) {
-        return;
-      }
       const marker = markers[props.selectedLocationId];
       marker.getElement()?.classList.add('fs-map-location-selected');
-      map?.flyTo(marker.getLatLng(), 17, { animate: false });
+      map.flyTo(marker.getLatLng(), 17, { animate: false });
     })
 
     watch(() => props.selectedSiteId, () => {
-      if (!props.selectedSiteId) {
+      if (!props.selectedSiteId || !map) {
         return;
       }
       const site = sites[props.selectedSiteId];
       if (site) {
-        map?.fitBounds(site.getBounds(), { maxZoom: 17 });
+        map.fitBounds(site.getBounds(), { maxZoom: 17 });
       }
     });
 
+    watch(innerSelectedLayer, () => {
+      setMapBaseLayer(innerSelectedLayer.value);
+    });
+
     return {
-      L,
       innerSelectedLayer,
       editingLocation,
       innerModelValue,
+      fullScreen,
       mapLayers,
       mapId,
       style,
+      L,
       onNewAddressEntered,
       onNewCoordEntered,
       setMapBaseLayer,

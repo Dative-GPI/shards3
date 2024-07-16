@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 import _ from "lodash";
 
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";
@@ -628,10 +628,6 @@ export default defineComponent({
       innerDateValue.value = 1;
     };
 
-    onMounted(() => {
-      reset();
-    });
-
     watch([() => props.startDate, () => props.endDate], () => {
       if (
         innerStartDate.value !== props.startDate ||
@@ -639,7 +635,7 @@ export default defineComponent({
       ) {
         reset();
       }
-    });
+    }, { immediate: true });
 
     return {
       innerDateSetting,

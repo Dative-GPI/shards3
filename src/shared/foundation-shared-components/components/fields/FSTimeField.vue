@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { getTimeScaleIndex, timeScale } from "@dative-gpi/foundation-shared-components/utils";
@@ -187,13 +187,9 @@ export default defineComponent({
       }
     };
 
-    onMounted((): void => {
-      reset();
-    });
-
     watch(() => props.modelValue, () => {
       reset();
-    });
+    }, { immediate: true });
 
     return {
       selectedUnit,
