@@ -10,18 +10,18 @@
     >
       <FSCol
         v-if="$slots.leftoverlay"
-        width="hug"
         class="fs-map-overlay-left"
+        width="hug"
         gap="2px"
       >
         <FSCard
-          :border="false"
-          :elevation="true"
           padding="4px"
+          :elevation="true"
+          :border="false"
         >
           <FSFadeOut
+            maskHeight="0"
             :height="`calc(${$props.height} - 40px)`"
-            mask-height="0"
           >
             <slot
               name="leftoverlay"
@@ -293,7 +293,7 @@ export default defineComponent({
         layer: LL.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
           maxZoom: 19
-        }),
+        })
       }
     ];
 
@@ -324,7 +324,6 @@ export default defineComponent({
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
-
       });
     };
 
@@ -341,7 +340,7 @@ export default defineComponent({
         areas[area.id] = areaPolygon;
         areaPolygon.on('click', () => emit('update:selectedAreaId', area.id));
       });
-    }
+    };
 
     const modifyLocationAddress = (locationId: string, newAddress: Address) => {
       const location = innerModelValue.value.find((loc) => loc.id === locationId);
@@ -395,8 +394,9 @@ export default defineComponent({
     };
 
     const onNewAddressEntered = (address: Address) => {
-      if (!map) { return; }
-      if (!props.selectedLocationId) { return; }
+      if (!props.selectedLocationId || !map) {
+        return;
+      }
       modifyLocationAddress(props.selectedLocationId, address);
       map.panTo([address.latitude, address.longitude]);
     };
@@ -505,10 +505,7 @@ export default defineComponent({
     })
 
     watch(() => props.selectedAreaId, () => {
-      if (!props.selectedAreaId) {
-        return;
-      }
-      if (!map) {
+      if (!props.selectedAreaId || !map) {
         return;
       }
       const area = areas[props.selectedAreaId];
