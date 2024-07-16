@@ -14,11 +14,11 @@
     >
       <FSImageCard
         v-for="layer in layers"
-        :key="layer.name"
+        :variant="modelValue === layer.name ? 'full' : 'background'"
+        :color="modelValue === layer.name ? 'primary' : 'light'"
         :label="layer.label"
         :src="layer.image"
-        :color="modelValue === layer.name ? 'primary' : 'light'"
-        :variant="modelValue === layer.name ? 'full' : 'background'"
+        :key="layer.name"
         @click="onLayerClick(layer.name)"
       />
     </template>
@@ -26,44 +26,46 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, type PropType, ref } from "vue";
 
-import type { MapLayer } from "../../models";
+import { type MapLayer } from "../../models";
 
+import FSImageCard from "../FSImageCard.vue";
 import FSButton from "../FSButton.vue";
 import FSDialog from "../FSDialog.vue";
-import FSImageCard from "../FSImageCard.vue";
 
 export default defineComponent({
   name: "FSMapLayerButton",
   components: {
+    FSImageCard,
     FSButton,
-    FSDialog,
-    FSImageCard
+    FSDialog
   },
   props: {
     layers: {
-      type: Array<MapLayer>,
+      type: Array as PropType<MapLayer[]>,
+      required: false,
       default: () => []
     },
     modelValue: {
       type: String,
-      default: () => ""
+      required: false,
+      default: ""
     }
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup(_, { emit }) {
     const dialog = ref(false);
 
     const onLayerClick = (layer: string) => {
       emit("update:modelValue", layer);
       dialog.value = false;
-    }
+    };
 
     return {
-      onLayerClick,
-      dialog
-    }
+      dialog,
+      onLayerClick
+    };
   }
 });
 </script>

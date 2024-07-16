@@ -5,14 +5,14 @@
   >
     <FSCol
       v-if="L"
-      :class="['fs-map', { 'fs-map-fullscreen': fullScreen }]"
       width="fill"
+      :class="['fs-map', { 'fs-map-fullscreen': fullScreen }]"
     >
       <FSCol
         v-if="$slots.leftoverlay"
-        width="hug"
-        height="calc(100% - 32px)"
         class="fs-map-overlay-left"
+        height="calc(100% - 32px)"
+        width="hug"
         gap="2px"
       >
         <FSCard
@@ -32,7 +32,7 @@
         class="fs-map-overlay-edit-button"
       >
         <FSButton
-          prepend-icon="mdi-pencil"
+          prependIcon="mdi-pencil"
           :label="$tr('ui.map.modify', 'Modify')"
           @click="editingLocation = true"
         />
@@ -141,10 +141,10 @@ import { useColors, useAddress } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSMapLayerButton from "./FSMapLayerButton.vue";
+import FSFadeOut from "../FSFadeOut.vue";
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
-import FSFadeOut from "../FSFadeOut.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
@@ -152,10 +152,10 @@ export default defineComponent({
   components: {
     FSMapEditPointAddressOverlay,
     FSMapLayerButton,
+    FSFadeOut,
     FSButton,
     FSCard,
     FSCol,
-    FSFadeOut,
     FSRow
   },
   props: {
@@ -405,17 +405,23 @@ export default defineComponent({
     };
 
     const zoomIn = () => {
-      if (!map) {return;}
+      if (!map) {
+        return;
+      }
       map.zoomIn();
     };
 
     const zoomOut = () => {
-      if (!map) {return;}
+      if (!map) {
+        return;
+      }
       map.zoomOut();
     };
 
     const locate = () => {
-      if (!map) {return;}
+      if (!map) {
+        return;
+      }
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
         map.panTo(e.latlng);
@@ -434,7 +440,9 @@ export default defineComponent({
     const onCancel = () => {
       editingLocation.value = false;
       innerModelValue.value = props.modelValue;
-      if (!map) {return;}
+      if (!map) {
+        return;
+      }
       displayLocations();
       if (innerModelValue.value.length > 0) {
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
@@ -449,7 +457,9 @@ export default defineComponent({
 
     const onSubmit = () => {
       emit('update:modelValue', innerModelValue.value);
-      if (!map) {return;}
+      if (!map) {
+        return;
+      }
       editingLocation.value = false;
       if (innerModelValue.value.length > 0) {
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
@@ -474,8 +484,9 @@ export default defineComponent({
     });
 
     watch(() => props.selectedLocationId, () => {
-      if (!props.selectedLocationId) {return;}
-      if (!map) {return;}
+      if (!props.selectedLocationId || !map) {
+        return;
+      }
 
       Object.values(markers).forEach((marker) => {
         marker.getElement()?.classList.remove('fs-map-location-selected');
@@ -487,8 +498,9 @@ export default defineComponent({
     })
 
     watch(() => props.selectedSiteId, () => {
-      if (!props.selectedSiteId) {return;}
-      if (!map) {return;}
+      if (!props.selectedSiteId || !map) {
+        return;
+      }
       const site = sites[props.selectedSiteId];
       if (site) {
         map.fitBounds(site.getBounds(), { maxZoom: 17 });
@@ -500,14 +512,14 @@ export default defineComponent({
     });
 
     return {
-      L,
-      fullScreen,
       innerSelectedLayer,
       editingLocation,
       innerModelValue,
+      fullScreen,
       mapLayers,
       mapId,
       style,
+      L,
       onNewAddressEntered,
       onNewCoordEntered,
       setMapBaseLayer,
