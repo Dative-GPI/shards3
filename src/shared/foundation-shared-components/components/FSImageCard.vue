@@ -2,38 +2,36 @@
   <FSClickable
     :height="height"
     :width="width"
+    class="fs-image-card"
     v-bind="$attrs"
-    :style="{ backgroundImage: `url(${src})` }"
+    :style="style"
   >
     <FSRow
       height="fill"
       align="bottom-left"
     >
-      <FSCard
-        width="100%"
+      <FSRow align="center-left"
         padding="8px"
-        :border="false"
-        bgcolor="#ff0000"
+        class="fs-image-card-label"
       >
-        <FSRow
-          align="center-left"
+        <FSSpan
+          font="text-overline"
         >
-          <FSText>
-            {{ $props.label }}
-          </FSText>
-        </FSRow>
-      </FSCard>
+          {{ $props.label }}
+        </FSSpan>
+      </FSRow>
+
     </FSRow>
   </FSClickable>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { defineComponent, computed, type PropType } from "vue";
 
 import FSCard from "./FSCard.vue";
 import FSClickable from "./FSClickable.vue";
 import FSRow from "./FSRow.vue";
-import FSText from "./FSText.vue";
+import FSSpan from "./FSSpan.vue";
 
 export default defineComponent({
   name: "FSImageCard",
@@ -41,7 +39,7 @@ export default defineComponent({
     FSCard,
     FSClickable,
     FSRow,
-    FSText
+    FSSpan
   },
   props: {
     src: {
@@ -62,6 +60,15 @@ export default defineComponent({
       required: false,
       default: '200px'
     },
+  },
+  setup(props) {
+    const style = computed(() => ({
+      "--fs-image-card-background": `url(${props.src})`
+    }));
+
+    return {
+      style
+    };
   }
 });
 

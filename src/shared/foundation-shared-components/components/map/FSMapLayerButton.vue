@@ -12,13 +12,12 @@
     <template v-slot:body>
       <FSImageCard
         v-for="layer in layers"
-        :key="layer"
-        :label="layer"
-        :src="imageUrl(layer)"
-        :color="modelValue === layer ? 'primary' : 'light'"
-        :variant="modelValue === layer ? 'full' : 'background'"
-        :editable="modelValue !== layer"
-        @click="onLayerClick(layer)"
+        :key="layer.name"
+        :label="layer.label"
+        :src="layer.image"
+        :color="modelValue === layer.name ? 'primary' : 'light'"
+        :variant="modelValue === layer.name ? 'full' : 'background'"
+        @click="onLayerClick(layer.name)"
       />
     </template>
   </FSDialog> 
@@ -26,6 +25,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+
+import type { MapLayer } from "../../models";
 
 import FSButton from "../FSButton.vue";
 import FSDialog from "../FSDialog.vue";
@@ -40,7 +41,7 @@ export default defineComponent({
   },
   props: {
     layers: {
-      type: Array<string>,
+      type: Array<MapLayer>,
       default: () => []
     },
     modelValue: {
@@ -57,15 +58,9 @@ export default defineComponent({
       dialog.value = false;
     }
 
-    const imageUrl = (layer: string) => {
-      const strPath = `../../assets/images/map/${layer}.png`
-      return new URL(strPath, import.meta.url).href
-    }
-
     return {
       onLayerClick,
-      dialog,
-      imageUrl
+      dialog
     }
   }
 });
