@@ -193,7 +193,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -309,13 +309,9 @@ export default defineComponent({
       }
     };
 
-    onMounted((): void => {
-      reset();
-    });
-
     watch(() => props.modelValue, () => {
       reset();
-    });
+    }, { immediate: true });
 
     watch([menu, dialog], (): void => {
       if (!menu.value && !dialog.value) {
