@@ -3,6 +3,7 @@
     :bottomColor="ColorEnum.Primary"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
+    :width="$props.width"
     v-bind="$attrs"
   >
     <FSCol
@@ -17,10 +18,10 @@
       >
         <FSCol
           gap="12px"
+          :width="`calc(100% - ${imageSize}px - 24px)`"
         >
           <FSCol
             gap="6px"
-            :width="infoWidth"
           >
             <FSText
               font="text-button"
@@ -141,7 +142,12 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
-    }
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: () => [352, 336]
+    },
   },
   setup(props) {
     const { isMobileSized } = useBreakpoints();
@@ -190,13 +196,6 @@ export default defineComponent({
       return isMobileSized.value ? 90 : 100;
     });
 
-    const infoWidth = computed((): number => {
-      let width = isMobileSized.value ? 288 : 304;
-      if (props.imageId) {
-        width -= imageSize.value;
-      }
-      return width;
-    });
 
     return {
       carouselDeviceStatuses,
@@ -205,7 +204,6 @@ export default defineComponent({
       singleModelStatuses,
       ColorEnum,
       imageSize,
-      infoWidth
     };
   }
 });

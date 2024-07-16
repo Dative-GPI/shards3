@@ -5,7 +5,6 @@
     class="fs-tile"
     padding="12px"
     :height="height"
-    :width="width"
     :style="style"
     :href="$props.href"
     :to="$props.to"
@@ -33,7 +32,6 @@
     class="fs-tile"
     padding="12px"
     :style="style"
-    :width="width"
     :height="height"
     v-bind="$attrs"
   >
@@ -118,17 +116,12 @@ export default defineComponent({
       return {};
     });
 
-    const width = computed(() => {
-      return isMobileSized.value ? 336 : 352;
-    });
-
     const height = computed(() => {
       return isMobileSized.value ? 156 : 170;
     });
 
     return {
       height,
-      width,
       style
     };
   }
