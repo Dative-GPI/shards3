@@ -1,3 +1,3 @@
 export * from "./address";
+export * from "./area";
 export * from "./coordinates";
-export * from "./siteInfos";

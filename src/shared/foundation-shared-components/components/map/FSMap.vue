@@ -11,15 +11,17 @@
       <FSCol
         v-if="$slots.leftoverlay"
         class="fs-map-overlay-left"
-        height="calc(100% - 32px)"
         width="hug"
         gap="2px"
       >
         <FSCard
-          height="100%"
+          padding="4px"
+          :elevation="true"
+          :border="false"
         >
           <FSFadeOut
-            height="fill"
+            maskHeight="0"
+            :height="`calc(${$props.height} - 40px)`"
           >
             <slot
               name="leftoverlay"
@@ -134,7 +136,7 @@ import "leaflet.markercluster";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
-import { type Address, type SiteInfos } from '@dative-gpi/foundation-shared-domain/models';
+import { type Address, type FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 import { useColors, useAddress } from "../../composables";
@@ -160,7 +162,7 @@ export default defineComponent({
   },
   props: {
     height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      type: [String, Number] as PropType<string | number | null>,
       required: false,
       default: '400px'
     },
@@ -169,40 +171,10 @@ export default defineComponent({
       required: false,
       default: '100%'
     },
-    sites: {
-      type: Array as PropType<SiteInfos[]>,
+    grayscale: {
+      type: Boolean,
       required: false,
-      default: () => [],
-    },
-    center: {
-      type: Array as PropType<number[]>,
-      required: false,
-      default: () => [45.71, 5.07]
-    },
-    selectedLayer: {
-      type: String as PropType<"osm" | "imagery">,
-      required: false,
-      default: "osm"
-    },
-    selectableLayers: {
-      type: Array as PropType<string[]>,
-      required: false,
-      default: () => ["osm", "imagery"]
-    },
-    selectedLocationId: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    selectedSiteId: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    modelValue: {
-      type: Array as PropType<FSLocation[]>,
-      required: false,
-      default: () => [],
+      default: false
     },
     editable: {
       type: Boolean,
@@ -224,13 +196,43 @@ export default defineComponent({
       required: false,
       default: false
     },
-    grayscale: {
-      type: Boolean,
+    center: {
+      type: Array as PropType<number[]>,
       required: false,
-      default: false
+      default: () => [45.71, 5.07]
+    },
+    modelValue: {
+      type: Array as PropType<FSLocation[]>,
+      required: false,
+      default: () => [],
+    },
+    areas: {
+      type: Array as PropType<FSArea[]>,
+      required: false,
+      default: () => [],
+    },
+    selectedLayer: {
+      type: String as PropType<"osm" | "imagery">,
+      required: false,
+      default: "osm"
+    },
+    selectableLayers: {
+      type: Array as PropType<string[]>,
+      required: false,
+      default: () => ["osm", "imagery"]
+    },
+    selectedLocationId: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    selectedAreaId: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     }
   },
-  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedSiteId"],
+  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId"],
   setup(props, { emit }) {
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
@@ -246,8 +248,8 @@ export default defineComponent({
     const mapId = `map-${Math.random().toString(36).substring(7)}`;
     const defaultZoom = 15;
     const markers: { [key: string]: L.Marker } = {};
-    const sites: { [key: string]: L.Polygon } = {};
-    const siteLayerGroup = new LL.FeatureGroup();
+    const areas: { [key: string]: L.Polygon } = {};
+    const areaLayerGroup = new LL.FeatureGroup();
     const baseLayerGroup = new LL.LayerGroup();
     const myLocationLayerGroup = new LL.LayerGroup();
 
@@ -291,7 +293,7 @@ export default defineComponent({
         layer: LL.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
           maxZoom: 19
-        }),
+        })
       }
     ];
 
@@ -307,34 +309,38 @@ export default defineComponent({
     const displayLocations = () => {
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-        const iconHtml = `<div class="fs-map-location-pin"><i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;"  ></i></div>`;
+        const iconHtml = `
+          <div style="--fs-map-mylocation-pin-color-alpha:${getColors(location.color).base}50;--fs-map-location-pin-color: ${getColors(location.color).base}">
+            <div class="fs-map-location-pin">
+              <i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;"  ></i>
+            </div>
+          </div>`;
         const icon = LL.divIcon({
           html: iconHtml,
-          className: 'fs-map-location',
           iconSize: [36, 36],
+          className: 'fs-map-location',
           iconAnchor: [18, 18],
         });
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
-
       });
     };
 
-    const displaySites = () => {
-      siteLayerGroup.clearLayers();
-      props.sites.forEach((site) => {
-        const sitePolygon = LL.polygon(site.coordinates.map((coord) => [coord.latitude, coord.longitude]), {
-          color: site.color,
-          fillColor: site.color + "50",
+    const displayAreas = () => {
+      areaLayerGroup.clearLayers();
+      props.areas.forEach((area) => {
+        const areaPolygon = LL.polygon(area.coordinates.map((coord) => [coord.latitude, coord.longitude]), {
+          color: area.color,
+          fillColor: area.color + "50",
           fillOpacity: 0.5,
-          className: 'fs-map-site',
-        }).addTo(siteLayerGroup);
+          className: 'fs-map-area',
+        }).addTo(areaLayerGroup);
 
-        sites[site.id] = sitePolygon;
-        sitePolygon.on('click', () => emit('update:selectedSiteId', site.id));
+        areas[area.id] = areaPolygon;
+        areaPolygon.on('click', () => emit('update:selectedAreaId', area.id));
       });
-    }
+    };
 
     const modifyLocationAddress = (locationId: string, newAddress: Address) => {
       const location = innerModelValue.value.find((loc) => loc.id === locationId);
@@ -363,10 +369,10 @@ export default defineComponent({
       LL.control.attribution({ position: 'bottomleft' }).addTo(map);
 
       baseLayerGroup.addTo(map);
-      siteLayerGroup.addTo(map);
+      areaLayerGroup.addTo(map);
       myLocationLayerGroup.addTo(map);
       setMapBaseLayer(innerSelectedLayer.value);
-      displaySites();
+      displayAreas();
       displayLocations();
       markerLayerGroup.addTo(map);
 
@@ -388,8 +394,9 @@ export default defineComponent({
     };
 
     const onNewAddressEntered = (address: Address) => {
-      if (!map) {return;}
-      if (!props.selectedLocationId) {return;}
+      if (!props.selectedLocationId || !map) {
+        return;
+      }
       modifyLocationAddress(props.selectedLocationId, address);
       map.panTo([address.latitude, address.longitude]);
     };
@@ -493,17 +500,17 @@ export default defineComponent({
       });
 
       const marker = markers[props.selectedLocationId];
-      marker.getElement()?.classList.add('fs-map-location-selected');
       map.flyTo(marker.getLatLng(), 17, { animate: false });
+      marker.getElement()?.classList.add('fs-map-location-selected');
     })
 
-    watch(() => props.selectedSiteId, () => {
-      if (!props.selectedSiteId || !map) {
+    watch(() => props.selectedAreaId, () => {
+      if (!props.selectedAreaId || !map) {
         return;
       }
-      const site = sites[props.selectedSiteId];
-      if (site) {
-        map.fitBounds(site.getBounds(), { maxZoom: 17 });
+      const area = areas[props.selectedAreaId];
+      if (area) {
+        map.fitBounds(area.getBounds(), { maxZoom: 17 });
       }
     });
 

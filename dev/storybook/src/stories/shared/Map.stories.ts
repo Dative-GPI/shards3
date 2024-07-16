@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { LocationInfos } from '@dative-gpi/foundation-core-domain/models';
-import { SiteInfos } from '@dative-gpi/foundation-shared-domain/models';
-
 import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
+import type { FSLocation } from '@dative-gpi/foundation-shared-components/models';
 
 const meta = {
   title: 'Foundation/Shared/Map',
@@ -14,38 +12,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const location1 = new LocationInfos({
+const location1: FSLocation = {
   "id": "3fb7ebf0-3227-4767-bb96-001384efdd57",
-  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
-  "deviceOrganisationsIds": [
-    "4c910b7e-053c-4adb-81cb-b50069c6fbf1",
-    "8c10328e-6fe3-44ff-9d5f-d7312c71aa2f",
-    "83963f32-6bd5-453d-b271-2b5a41672966",
-    "3e5f9f59-5274-4fe8-ab5f-00a91ef8c2be",
-    "07c2c80c-a5e1-41d2-9415-ab066a0009ae",
-    "39f082ea-b594-49fa-8af4-1c562fde5c67",
-    "9a5defba-f7c9-4b85-a511-bcefc45a3db6",
-    "2237730d-0bd6-4037-945d-c68f6b678d2e",
-    "01b80c0a-147e-495c-9689-886de892df1b",
-    "b70798f8-b8d8-4990-9893-1cec07cd3f3f",
-    "556158ce-e29e-45d1-8fdb-fbbd6e0e853f",
-    "1d13f124-4739-4d23-bf42-1011cc83a499",
-    "b5d508ca-35ab-4e9a-956f-631986054eab",
-    "11754704-3e18-47cd-93de-c31c77ae0f4b",
-    "fce81b40-fac2-4fdb-aab0-c67a5582751a",
-    "aef1eb69-b0cb-42a6-8100-154a1825c957"
-  ],
-  "modelsIds": [
-    "9a588e50-3461-4ff7-9edb-4d6d310357e2",
-    "b0bd50e9-3166-4a72-aff5-abb1c8e3861d",
-    "d4586ec6-3a8b-4588-9ac3-03df80ed0251",
-    "808479dc-6e96-4380-9c35-df21bd155c22"
-  ],
   "label": "Le Mans GERAL",
   "icon": "mdi-factory",
-  "code": "",
-  "deviceOrganisationsCount": 16,
-  "tags": [],
+  "color": "primary",
   "address": {
     "formattedAddress": "Bd Marie et Alexandre Oyon, 72100 Le Mans, France",
     "locality": "Le Mans",
@@ -56,18 +27,13 @@ const location1 = new LocationInfos({
     "placeLabel": "Boulevard Marie et Alexandre Oyon, Le Mans, France"
 
   }
-})
+}
 
-const location2 = new LocationInfos({
+const location2: FSLocation = {
   "id": "83963f32-6bd5-453d-b271-2b5a41672966",
-  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
-  "deviceOrganisationsIds": [],
-  "modelsIds": [],
   "label": "Dative GPI",
   "icon": "mdi-laptop",
-  "code": "",
-  "deviceOrganisationsCount": 0,
-  "tags": [],
+  "color": "primary",
   "address": {
     "formattedAddress": "100 rue de norvège, Colombier Saugnieu, France",
     "locality": "Colombier Saugnieu",
@@ -78,18 +44,13 @@ const location2 = new LocationInfos({
     "placeLabel": "Dative, France"
 
   }
-})
+}
 
-const location3 = new LocationInfos({
+const location3: FSLocation = {
   "id": "44e00e4b-ef50-4f88-9fb2-d94659ee5881",
-  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
-  "deviceOrganisationsIds": [],
-  "modelsIds": [],
   "label": "Gerard Perrier Industrie",
   "icon": "mdi-home",
-  "code": "",
-  "deviceOrganisationsCount": 0,
-  "tags": [],
+  "color": "primary",
   "address": {
     "formattedAddress": "160 rue de norvège, Colombier Saugnieu, France",
     "locality": "Colombier Saugnieu",
@@ -100,18 +61,13 @@ const location3 = new LocationInfos({
     "placeLabel": "GPI, France"
 
   }
-})
+}
 
-const location4 = new LocationInfos({
+const location4: FSLocation = {
   "id": "4a3ced7a-d7e7-4004-b40a-ed57fa45615d",
-  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
-  "deviceOrganisationsIds": [],
-  "modelsIds": [],
   "label": "Seirel Automatismes SAS",
   "icon": "mdi-snowflake",
-  "code": "",
-  "deviceOrganisationsCount": 0,
-  "tags": [],
+  "color": "#FF0000",
   "address": {
     "formattedAddress": "7 Rue Galilée, 69800 Saint-Priest, France",
     "locality": "Saint-Priest",
@@ -122,21 +78,7 @@ const location4 = new LocationInfos({
     "placeLabel": "Seirel, France"
 
   }
-})
-
-const site1 = new SiteInfos({
-  "id": "3fb7ebf0-3227-4767-bb96-001384efdd57",
-  "organisationId": "e7650411-48ff-4064-bf34-473350985098",
-  "label": "GPI Aéroport Lyon Saint-Exupéry",
-  "color": "#0000ff",
-  "coordinates": [
-    [45.7120, 5.0712],
-    [45.7110, 5.0713],
-    [45.7110, 5.0723],
-    [45.7118, 5.0720],
-    [45.7120, 5.0716]
-  ]
-})
+}
 
 export const Variations: Story = {
   args: {
@@ -151,9 +93,6 @@ export const Variations: Story = {
         { ...location3 },
         { ...location2 },
         { ...location4 }
-      ],
-      sites1: [
-        { ...site1 }
       ],
       selectedLocationId1: location1.id,
       selectedLocationId2: null,
@@ -196,11 +135,14 @@ export const Variations: Story = {
       <FSMap
         :editable="false"
         :modelValue="args.locations3"
-        :sites="args.sites1"
         height="600px"
         v-model:selectedLocationId="args.selectedLocationId3"
         v-model:selectedSiteId="args.selectedSiteId1"
-      />
+      >
+        <template v-slot:leftoverlay >
+          Testttttttttttttttttttttttttttttttttttttttt
+        </template>
+      </FSMap>
       <FSMap
         :editable="true"
         v-model="args.locations1"

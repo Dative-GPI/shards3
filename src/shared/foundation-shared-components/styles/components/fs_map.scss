@@ -14,7 +14,7 @@
     top: 0;
     left: 0;
     z-index: 950;
-    margin: 8px;
+    margin: 4px;
   }
 
   .fs-map-overlay-edit-button {
@@ -64,7 +64,6 @@
   }
 
   .fs-map-mylocation {
-    background-color: var(--fs-map-location-pin-color);
     border: 3px solid white;
     border-radius: 100%;
     animation: fs-map-shadow 1.4s linear infinite;
@@ -84,27 +83,15 @@
     }
   }
 
-  .fs-map-location {
+  .fs-map-location > div {
     display: flex;
+    height: 100%;
     color: var(--fs-map-location-pin-color);
     border-radius: 50%;
     background-color: white;
     filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
     align-items: center;
     justify-content: center;
-
-    &.fs-map-location-full {
-      background-color: var(--fs-map-location-pin-color);
-      color: white;
-    }
-
-    >* {
-      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .mdi-loading {
-      animation: spin 1s linear infinite;
-    }
 
     &:hover {
       filter: brightness(0.92) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
@@ -114,32 +101,27 @@
         transform: scale(1.15);
       }
     }
+  }
 
-    @keyframes spin {
+  .fs-map-location-full > div {
+    background-color: var(--fs-map-location-pin-color);
+    color: white;
+  }
+
+  .fs-map-location-selected > div {
+    animation: fs-map-shadow 1.4s linear infinite;
+
+    @keyframes fs-map-shadow {
       0% {
-        transform: rotate(0deg);
+        box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
+      }
+
+      50% {
+        box-shadow: 0 0 0px 7px var(--fs-map-mylocation-pin-color-alpha);
       }
 
       100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    &.fs-map-location-selected {
-      animation: fs-map-shadow 1.4s linear infinite;
-
-      @keyframes fs-map-shadow {
-        0% {
-          box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
-        }
-
-        50% {
-          box-shadow: 0 0 0px 7px var(--fs-map-mylocation-pin-color-alpha);
-        }
-
-        100% {
-          box-shadow: 0 0 0px 20px transparent;
-        }
+        box-shadow: 0 0 0px 20px transparent;
       }
     }
   }

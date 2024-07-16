@@ -14,4 +14,5 @@ export interface FSLocation {
   label: string;
   icon: string;
   address: Address;
+  color: string;
 }
