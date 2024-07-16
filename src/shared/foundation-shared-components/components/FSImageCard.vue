@@ -10,7 +10,8 @@
       height="fill"
       align="bottom-left"
     >
-      <FSRow align="center-left"
+      <FSRow
+        align="center-left"
         padding="8px"
         class="fs-image-card-label"
       >
@@ -28,7 +29,6 @@
 <script lang="ts">
 import { defineComponent, computed, type PropType } from "vue";
 
-import FSCard from "./FSCard.vue";
 import FSClickable from "./FSClickable.vue";
 import FSRow from "./FSRow.vue";
 import FSSpan from "./FSSpan.vue";
@@ -36,7 +36,6 @@ import FSSpan from "./FSSpan.vue";
 export default defineComponent({
   name: "FSImageCard",
   components: {
-    FSCard,
     FSClickable,
     FSRow,
     FSSpan

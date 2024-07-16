@@ -5,7 +5,7 @@
   >
     <FSCol
       v-if="L"
-      class="fs-map"
+      :class="['fs-map', { 'fs-map-fullscreen': fullScreen }]"
       width="fill"
     >
       <FSCol
@@ -15,9 +15,15 @@
         class="fs-map-overlay-left"
         gap="2px"
       >
-        <FSCard height="100%">
-          <FSFadeOut height="fill">
-            <slot name="leftoverlay" />
+        <FSCard
+          height="100%"
+        >
+          <FSFadeOut
+            height="fill"
+          >
+            <slot
+              name="leftoverlay"
+            />
           </FSFadeOut>
         </FSCard>
       </FSCol>
@@ -31,7 +37,9 @@
           @click="editingLocation = true"
         />
       </FSRow>
-      <FSCol :style="style">
+      <FSCol
+        :style="style"
+      >
         <div
           class="fs-leaflet-container"
           :id="mapId"
@@ -41,19 +49,33 @@
         class="fs-map-overlay-right-top"
         align="center-center"
       >
-        <slot name="toprightoverlay">
-          <FSMapLayerButton
-            v-if="$props.selectableLayers?.length && $props.selectableLayers.length > 1"
-            :layers="mapLayers.filter((layer) => $props.selectableLayers?.includes(layer.name) ?? true)"
-            v-model="selectedLayer"
-          />
+        <slot
+          name="toprightoverlay"
+        >
+          <FSRow
+            gap="2px"
+          >
+            <FSMapLayerButton
+              v-if="$props.selectableLayers?.length && $props.selectableLayers.length > 1"
+              :layers="mapLayers.filter((layer) => $props.selectableLayers?.includes(layer.name) ?? true)"
+              v-model="innerSelectedLayer"
+            />
+            <FSButton
+              v-if="$props.showFullScreen"
+              prependIcon="mdi-fullscreen"
+              :elevation="true"
+              @click="fullScreen = !fullScreen"
+            />
+          </FSRow>
         </slot>
       </FSCol>
       <FSCol
         class="fs-map-overlay-right-bottom"
         align="center-center"
       >
-        <slot name="bottomrightoverlay">
+        <slot
+          name="bottomrightoverlay"
+        >
           <FSCol
             class="fs-map-zoom-overlay"
             align="bottom-center"
@@ -121,7 +143,6 @@ import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSMapLayerButton from "./FSMapLayerButton.vue";
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
-import FSChip from "../FSChip.vue";
 import FSCol from "../FSCol.vue";
 import FSFadeOut from "../FSFadeOut.vue";
 import FSRow from "../FSRow.vue";
@@ -133,7 +154,6 @@ export default defineComponent({
     FSMapLayerButton,
     FSButton,
     FSCard,
-    FSChip,
     FSCol,
     FSFadeOut,
     FSRow
@@ -199,6 +219,11 @@ export default defineComponent({
       required: false,
       default: true
     },
+    showFullScreen: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     grayscale: {
       type: Boolean,
       required: false,
@@ -213,9 +238,10 @@ export default defineComponent({
 
     const LL = window.L;
 
-    const selectedLayer = ref(props.selectedLayer);
+    const innerSelectedLayer = ref(props.selectedLayer);
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
+    const fullScreen = ref(false);
 
     const mapId = `map-${Math.random().toString(36).substring(7)}`;
     const defaultZoom = 15;
@@ -339,7 +365,7 @@ export default defineComponent({
       baseLayerGroup.addTo(map);
       siteLayerGroup.addTo(map);
       myLocationLayerGroup.addTo(map);
-      setMapBaseLayer(selectedLayer.value);
+      setMapBaseLayer(innerSelectedLayer.value);
       displaySites();
       displayLocations();
       markerLayerGroup.addTo(map);
@@ -362,8 +388,8 @@ export default defineComponent({
     };
 
     const onNewAddressEntered = (address: Address) => {
-      if (!map) return;
-      if (!props.selectedLocationId) return;
+      if (!map) {return;}
+      if (!props.selectedLocationId) {return;}
       modifyLocationAddress(props.selectedLocationId, address);
       map.panTo([address.latitude, address.longitude]);
     };
@@ -379,17 +405,17 @@ export default defineComponent({
     };
 
     const zoomIn = () => {
-      if (!map) return;
+      if (!map) {return;}
       map.zoomIn();
     };
 
     const zoomOut = () => {
-      if (!map) return;
+      if (!map) {return;}
       map.zoomOut();
     };
 
     const locate = () => {
-      if (!map) return;
+      if (!map) {return;}
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
         map.panTo(e.latlng);
@@ -408,7 +434,7 @@ export default defineComponent({
     const onCancel = () => {
       editingLocation.value = false;
       innerModelValue.value = props.modelValue;
-      if (!map) return;
+      if (!map) {return;}
       displayLocations();
       if (innerModelValue.value.length > 0) {
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
@@ -423,7 +449,7 @@ export default defineComponent({
 
     const onSubmit = () => {
       emit('update:modelValue', innerModelValue.value);
-      if (!map) return;
+      if (!map) {return;}
       editingLocation.value = false;
       if (innerModelValue.value.length > 0) {
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
@@ -448,8 +474,8 @@ export default defineComponent({
     });
 
     watch(() => props.selectedLocationId, () => {
-      if (!props.selectedLocationId) return;
-      if (!map) return;
+      if (!props.selectedLocationId) {return;}
+      if (!map) {return;}
 
       Object.values(markers).forEach((marker) => {
         marker.getElement()?.classList.remove('fs-map-location-selected');
@@ -461,21 +487,22 @@ export default defineComponent({
     })
 
     watch(() => props.selectedSiteId, () => {
-      if (!props.selectedSiteId) return;
-      if (!map) return;
+      if (!props.selectedSiteId) {return;}
+      if (!map) {return;}
       const site = sites[props.selectedSiteId];
       if (site) {
         map.fitBounds(site.getBounds(), { maxZoom: 17 });
       }
     });
 
-    watch(selectedLayer, () => {
-      setMapBaseLayer(selectedLayer.value);
+    watch(innerSelectedLayer, () => {
+      setMapBaseLayer(innerSelectedLayer.value);
     });
 
     return {
       L,
-      selectedLayer,
+      fullScreen,
+      innerSelectedLayer,
       editingLocation,
       innerModelValue,
       mapLayers,

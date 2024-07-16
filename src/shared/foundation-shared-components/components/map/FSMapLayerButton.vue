@@ -9,7 +9,9 @@
     title="Select Layers"
     width="460px"
   >
-    <template v-slot:body>
+    <template
+      v-slot:body
+    >
       <FSImageCard
         v-for="layer in layers"
         :key="layer.name"
@@ -46,7 +48,7 @@ export default defineComponent({
     },
     modelValue: {
       type: String,
-      default: false
+      default: () => ""
     }
   },
   emits: ["update:modelValue"],
