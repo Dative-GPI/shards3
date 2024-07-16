@@ -5,6 +5,7 @@ export class LocationInfos {
   organisationId: string;
   icon: string;
   code: string;
+  color: string;
   label: string;
   tags: string[];
   address: Address;
@@ -17,6 +18,7 @@ export class LocationInfos {
     this.organisationId = params.organisationId;
     this.icon = params.icon;
     this.code = params.code;
+    this.color = params.color;
     this.label = params.label;
     this.tags = params.tags.slice();
     this.address = new Address(params.address);
@@ -31,6 +33,7 @@ export interface LocationInfosDTO {
   organisationId: string;
   icon: string;
   code: string;
+  color: string;
   label: string;
   tags: string[];
   address: AddressDTO;
