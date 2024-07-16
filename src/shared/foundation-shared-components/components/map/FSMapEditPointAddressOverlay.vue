@@ -1,8 +1,8 @@
 <template>
   <FSCard
     padding="16px"
-    width="100%"
     height="100%"
+    width="100%"
     :elevation="true"
   >
     <FSCol
@@ -50,11 +50,11 @@
             />
           </FSRow>
           <FSButton
-            :label="$tr('ui.map.save', 'Save')"
-            color="primary"
-            prepend-icon="mdi-content-save"
-            type="submit"
+            prependIcon="mdi-content-save"
             style="display: none;"
+            color="primary"
+            type="submit"
+            :label="$tr('ui.map.save', 'Save')"
           />
         </FSForm>
       </FSCol>
@@ -66,9 +66,9 @@
           @click="onCancel"
         />
         <FSButton
-          :label="$tr('ui.map.save', 'Save')"
+          prependIcon="mdi-content-save"
           color="primary"
-          prepend-icon="mdi-content-save"
+          :label="$tr('ui.map.save', 'Save')"
           @click="onSubmit"
         />
       </FSRow>
@@ -104,17 +104,16 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object as PropType<Address>,
-      default: null,
-      required: false,
+      type: Object as PropType<Address | null>,
+      default: null
     }
   },
   emits: ["update:modelValue", "update:locationCoordinates", "submit", "cancel"],
   setup(props, { emit }) {
     const menuLocationCoordinates = ref(false);
 
-    const latitude = ref(props.modelValue.latitude);
-    const longitude = ref(props.modelValue.longitude);
+    const latitude = ref(0);
+    const longitude = ref(0);
 
     const onCoordinatesChange = () => {
       const newModelValue = new Address({
@@ -130,7 +129,7 @@ export default defineComponent({
     };
 
     const onAddressFieldSubmit = (address: Address|null) => {
-      if(address === null) {
+      if(!address) {
         return;
       }
       emit('update:modelValue', address);
@@ -144,10 +143,12 @@ export default defineComponent({
       emit('cancel');
     };
 
-    watch(() => props.modelValue, (value) => {
-      latitude.value = value.latitude;
-      longitude.value = value.longitude;
-    });
+    watch(() => props.modelValue, () => {
+      if (props.modelValue) {
+        latitude.value = props.modelValue.latitude;
+        longitude.value = props.modelValue.longitude;
+      }
+    }, { immediate: true });
 
     return {
       menuLocationCoordinates,
@@ -155,8 +156,8 @@ export default defineComponent({
       latitude,
       onAddressFieldSubmit,
       onCoordinatesChange,
-      onSubmit,
-      onCancel
+      onCancel,
+      onSubmit
     };
   }
 });

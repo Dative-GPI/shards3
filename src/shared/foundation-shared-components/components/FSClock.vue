@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -151,10 +151,6 @@ export default defineComponent({
       innerMinutes.value = props.modelValue ? Math.floor((props.modelValue % (60 * 60 * 1000)) / (60 * 1000)) : 0;
     };
 
-    onMounted(() => {
-      reset();
-    });
-
     watch(() => props.modelValue, () => {
       if (
         innerHours.value !== (props.modelValue ? Math.floor(props.modelValue / (60 * 60 * 1000)) : 0) ||
@@ -162,7 +158,7 @@ export default defineComponent({
       ) {
         reset();
       }
-    });
+    }, { immediate: true });
 
     watch([innerHours, innerMinutes], () => {
       emit("update:modelValue", (innerHours.value * 60 * 60 * 1000) + (innerMinutes.value * 60 * 1000));

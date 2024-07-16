@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
@@ -225,13 +225,9 @@ export default defineComponent({
       }
     };
 
-    onMounted((): void => {
-      reset();
-    });
-
     watch(() => props.modelValue, () => {
       reset();
-    });
+    }, { immediate: true });
 
     return {
       toShortTimeFormat,

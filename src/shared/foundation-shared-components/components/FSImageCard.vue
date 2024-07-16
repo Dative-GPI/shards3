@@ -1,19 +1,19 @@
 <template>
   <FSClickable
+    class="fs-image-card"
     :height="height"
     :width="width"
-    class="fs-image-card"
-    v-bind="$attrs"
     :style="style"
+    v-bind="$attrs"
   >
     <FSRow
-      height="fill"
       align="bottom-left"
+      height="fill"
     >
       <FSRow
+        class="fs-image-card-label"
         align="center-left"
         padding="8px"
-        class="fs-image-card-label"
       >
         <FSSpan
           font="text-overline"
@@ -21,24 +21,23 @@
           {{ $props.label }}
         </FSSpan>
       </FSRow>
-
     </FSRow>
   </FSClickable>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, type PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import FSClickable from "./FSClickable.vue";
-import FSRow from "./FSRow.vue";
 import FSSpan from "./FSSpan.vue";
+import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSImageCard",
   components: {
     FSClickable,
-    FSRow,
-    FSSpan
+    FSSpan,
+    FSRow
   },
   props: {
     src: {
@@ -58,7 +57,7 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: '200px'
-    },
+    }
   },
   setup(props) {
     const style = computed(() => ({
@@ -70,5 +69,4 @@ export default defineComponent({
     };
   }
 });
-
 </script>
