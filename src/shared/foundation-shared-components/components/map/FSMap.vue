@@ -212,14 +212,14 @@ export default defineComponent({
       default: () => [],
     },
     selectedLayer: {
-      type: String as PropType<"osm" | "imagery">,
+      type: String as PropType<"map" | "imagery">,
       required: false,
-      default: "osm"
+      default: "map"
     },
     selectableLayers: {
       type: Array as PropType<string[]>,
       required: false,
-      default: () => ["osm", "imagery"]
+      default: () => ["map", "imagery"]
     },
     selectedLocationId: {
       type: String as PropType<string | null>,
@@ -278,22 +278,24 @@ export default defineComponent({
     }
     const mapLayers: MapLayer[] = [
       {
-        name: "osm",
-        label: $tr("ui.map.layer.osm", "Map"),
-        image: new URL("../../assets/images/map/osm.png", import.meta.url).href,
-        layer: LL.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 20,
-          attribution: '© OpenStreetMap'
+        name: "map",
+        label: $tr("ui.map.layer.map", "Map"),
+        image: new URL("../../assets/images/map/map.png", import.meta.url).href,
+        layer: LL.tileLayer(`http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
+          maxZoom: 22,
+          subdomains:['mt0','mt1','mt2','mt3'],
+          attribution: '© Google Map Data'
         })
       },
       {
         name: "imagery",
         label: $tr("ui.map.layer.imagery", "Imagery"),
         image: new URL("../../assets/images/map/imagery.png", import.meta.url).href,
-        layer: LL.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-          maxZoom: 19
-        }),
+        layer: LL.tileLayer(`http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
+          maxZoom: 22,
+          subdomains:['mt0','mt1','mt2','mt3'],
+          attribution: '© Google Map Data'
+        })
       }
     ];
 
@@ -388,7 +390,7 @@ export default defineComponent({
       });
     };
 
-    const setMapBaseLayer = (layerName: 'osm' | 'imagery') => {
+    const setMapBaseLayer = (layerName: 'map' | 'imagery') => {
       const layer = mapLayers.find((mapLayer) => mapLayer.name === layerName) ?? mapLayers[0];
       baseLayerGroup.clearLayers();
       layer.layer.addTo(baseLayerGroup);
