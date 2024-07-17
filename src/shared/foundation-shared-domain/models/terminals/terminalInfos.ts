@@ -8,6 +8,7 @@ export class TerminalInfos {
   key: string;
   location: string;
   lastConnection: number;
+  token: string;
 
   constructor(params: TerminalInfosDTO) {
     this.id = params.id;
@@ -17,6 +18,7 @@ export class TerminalInfos {
     this.key = params.key;
     this.location = params.location;
     this.lastConnection = utcToEpoch(params.lastConnection);
+    this.token = params.token;
   }
 
 }
@@ -29,8 +31,9 @@ export interface TerminalInfosDTO {
   key: string;
   location: string;
   lastConnection: string;
+  token: string;
 }
 
 export interface TerminalFilters {
-  key?: string | null;
+  token?: string | null;
 }
