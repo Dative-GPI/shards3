@@ -12,6 +12,7 @@
       <FSRow>
         <FSColorField
           v-for="colorIndex in $props.colorCount"
+          :allowOpacity="$props.allowOpacity"
           :key="colorIndex"
           :modelValue="$props.modelValue[colorIndex-1]"
           :required="$props.required"
@@ -34,7 +35,7 @@
             height="fill"
             width="100%"
             class="fs-gradient-field-preview"
-            :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${JSON.parse(item.value).join(', ')})` }"
+            :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(JSON.parse(item.value))})` }"
           >
             <span />
           </FSRow>
@@ -52,7 +53,7 @@
                 height="fill"
                 width="100%"
                 class="fs-gradient-field-preview"
-                :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${JSON.parse(item.value).join(', ')})` }"
+                :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(JSON.parse(item.value))})` }"
               >
                 <span />
               </FSRow>
@@ -67,11 +68,14 @@
 <script lang="ts">
 import { type PropType, defineComponent } from "vue";
 
+import { useColors } from "../../composables";
+
 import FSColorField from "./FSColorField.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 import FSBaseField from "./FSBaseField.vue";
 import FSSelectField from "./FSSelectField.vue";
+
 import { groupedGradients } from "../../utils";
 
 export default defineComponent({
@@ -112,14 +116,27 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 2
+    },
+    allowOpacity: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue"],
   setup(props) {
+    const { getColors } = useColors();
+
     const items = groupedGradients[props.colorCount] ?? [];
 
+    const encodeGradientCssColors = (colors: string[]) => {
+      return colors.map((color) => getColors(color).base).join(", ");
+    };
+
     return {
-      items
+      items,
+      encodeGradientCssColors,
+      getColors
     };
   }
 });
