@@ -65,13 +65,13 @@
           >
             <FSText
               v-if="fileSelected && fileSelected.fileName"
-              lineClamp="2"
               font="text-body"
+              :lineClamp="2"
             >
               {{ fileSelected.fileName }}
             </FSText>
             <FSCol
-              gap="0"
+              gap="0px"
             >
               <FSText
                 class="fs-edit-image-overline"
@@ -97,7 +97,7 @@
           <FSButtonFileMini
             accept="image/*"
             :readFile="false"
-            @update:modelValue="onUpload"
+            @update:metadata="onUpload"
           />
           <FSButtonRemoveMini
             @click="onRemove"
@@ -124,7 +124,7 @@
         <FSButtonFileMini
           accept="image/*"
           :readFile="false"
-          @update:modelValue="onUpload"
+          @update:metadata="onUpload"
         />
         <FSButtonRemoveMini
           @click="onRemove"
@@ -147,17 +147,17 @@
           mdi-plus-box-outline
         </FSIcon>
         <FSText
-          lineClamp="2"
           font="text-body"
+          :lineClamp="2"
         >
           {{ $tr('ui.edit-image.add-image', 'Add an image.') }}
         </FSText>
         <FSButtonFileMini
-          ref="invisibleButtonRef"
           class="fs-edit-image-hidden-button"
+          ref="invisibleButtonRef"
           accept="image/*"
           :readFile="false"
-          @update:modelValue="onUpload"
+          @update:metadata="onUpload"
         />
       </FSRow>
     </FSClickable>
@@ -165,13 +165,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum, type FileImage } from "@dative-gpi/foundation-shared-components/models";
 import { useFiles } from "@dative-gpi/foundation-shared-services/composables";
-import type { FileImage } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButtonRemoveMini from "./buttons/FSButtonRemoveMini.vue";
 import FSButtonFileMini from "./buttons/FSButtonFileMini.vue";

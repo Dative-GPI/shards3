@@ -19,8 +19,10 @@ export interface CreateLocationDTO {
   icon: string;
   code: string;
   label: string;
+  color: string;
   description: string;
   tags: string[];
+  deviceOrganisationsIds: string[];
   address: AddressDTO | null;
 }
 
@@ -28,7 +30,9 @@ export interface UpdateLocationDTO {
   icon: string;
   code: string;
   label: string;
+  color: string;
   description: string;
   tags: string[];
+  deviceOrganisationsIds: string[];
   address: AddressDTO | null;
 }

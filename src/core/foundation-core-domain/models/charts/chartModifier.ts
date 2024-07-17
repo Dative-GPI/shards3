@@ -1,5 +1,4 @@
 export class ChartModifier {
-  chartId : string;
   hiddenCode: string;
   dataDefinitionId: string;
   hideLabel: boolean;
@@ -7,6 +6,7 @@ export class ChartModifier {
   constructor(params: ChartModifierDTO) {
     this.dataDefinitionId = params.dataDefinitionId;
     this.hideLabel = params.hideLabel;
+    this.hiddenCode = params.hiddenCode;
   }
 }
   
