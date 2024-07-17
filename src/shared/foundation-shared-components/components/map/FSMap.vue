@@ -34,7 +34,7 @@
         class="fs-map-overlay-edit-button"
       >
         <FSButton
-          prependIcon="mdi-pencil"
+          prependIcon="mdi-pencil-outline"
           :label="$tr('ui.map.modify', 'Modify')"
           @click="editingLocation = true"
         />
