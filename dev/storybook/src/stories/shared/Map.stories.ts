@@ -135,6 +135,7 @@ export const Variations: Story = {
       <FSMap
         :editable="false"
         :modelValue="args.locations3"
+        :enableScrollWheelZoom="true"
         height="600px"
         v-model:selectedLocationId="args.selectedLocationId3"
         v-model:selectedSiteId="args.selectedSiteId1"

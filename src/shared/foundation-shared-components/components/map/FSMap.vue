@@ -196,6 +196,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    enableScrollWheelZoom: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     center: {
       type: Array as PropType<number[]>,
       required: false,
@@ -362,7 +367,7 @@ export default defineComponent({
     const initMap = () => {
       const mapOptions = {
         zoomControl: false,
-        scrollWheelZoom: false,
+        scrollWheelZoom: props.enableScrollWheelZoom,
         minZoom: 2,
         maxBounds: LL.latLngBounds(LL.latLng(-90, -180), LL.latLng(90, 180)),
         maxBoundsViscosity: 1.0
