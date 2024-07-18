@@ -138,10 +138,10 @@
             :elevation="true"
           >
             <FSAutoCompleteField
-              itemTitle="code"
+              itemTitle="label"
+              itemValue="code"
               :placeholder="$tr('ui.rich-text-field.variable-placeholder', 'Choose a variable...')"
               :items="$props.variableReferences"
-              :returnObject="true"
               @update:modelValue="insertVariable($event)"
             />
           </FSCard>
@@ -291,7 +291,7 @@ export default defineComponent({
       default: () => []
     },
     variableValues: {
-      type: Object,
+      type: Object as PropType<{ [key: string]: any }>,
       required: false,
       default: () => ({})
     },
@@ -502,12 +502,16 @@ export default defineComponent({
       });
     };
 
-    const insertVariable = (variable: { code: string; defaultValue: any; type: string }) => {
+    const insertVariable = (code: string) => {
+      const variable = props.variableReferences.find((v) => v.code === code);
+      if (!variable) {
+        return;
+      }
       menuVariable.value = false;
       editor.update(() => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
-          const variableNode = $createVariableNode(variable.code, variable.defaultValue, variable.type);
+          const variableNode = $createVariableNode(code, variable.defaultValue);
           selection.insertNodes([variableNode]);
         }
       });

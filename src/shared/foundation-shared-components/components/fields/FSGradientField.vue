@@ -23,7 +23,7 @@
       <FSSelectField
         class="fs-gradient-select-field"
         :items="items"
-        @update:modelValue="$emit('update:modelValue', JSON.parse($event))"
+        @update:modelValue="$emit('update:modelValue', presetGradients[$event])"
         :clearable="false"
         :editable="$props.editable"
         :modelValue="JSON.stringify($props.modelValue)"
@@ -53,7 +53,7 @@
                 height="fill"
                 width="100%"
                 class="fs-gradient-field-preview"
-                :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(JSON.parse(item.value))})` }"
+                :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(presetGradients[item.value])})` }"
               >
                 <span />
               </FSRow>
@@ -126,8 +126,8 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props) {
     const { getColors } = useColors();
-
-    const items = groupedGradients[props.colorCount] ?? [];
+    const presetGradients = groupedGradients[props.colorCount];
+    const items = Object.keys(presetGradients)
 
     const encodeGradientCssColors = (colors: string[]) => {
       return colors.map((color) => getColors(color).base).join(", ");
@@ -135,8 +135,8 @@ export default defineComponent({
 
     return {
       items,
-      encodeGradientCssColors,
-      getColors
+      presetGradients,
+      encodeGradientCssColors
     };
   }
 });
