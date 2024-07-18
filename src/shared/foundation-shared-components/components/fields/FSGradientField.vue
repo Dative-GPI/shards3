@@ -16,13 +16,14 @@
           :modelValue="$props.modelValue[colorIndex-1]"
           :required="$props.required"
           :editable="$props.editable"
+          :allow-opacity="false"
           @update:modelValue="($event, index) => $emit('update:modelValue', $props.modelValue.map((color, i) => colorIndex === i + 1 ? $event : color))"
         />
       </FSRow>
       <FSSelectField
         class="fs-gradient-select-field"
         :items="items"
-        @update:modelValue="$emit('update:modelValue', JSON.parse($event))"
+        @update:modelValue="$emit('update:modelValue', presetGradients[$event])"
         :clearable="false"
         :editable="$props.editable"
         :modelValue="JSON.stringify($props.modelValue)"
@@ -52,7 +53,7 @@
                 height="fill"
                 width="100%"
                 class="fs-gradient-field-preview"
-                :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${JSON.parse(item.value).join(', ')})` }"
+                :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${presetGradients[item.value].join(', ')})` }"
               >
                 <span />
               </FSRow>
@@ -115,11 +116,13 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props) {
-    const items = groupedGradients[props.colorCount] ?? [];
+  setup(props) {   
+    const presetGradients = groupedGradients[props.colorCount];
+    const items = Object.keys(presetGradients)
 
     return {
-      items
+      items,
+      presetGradients
     };
   }
 });
