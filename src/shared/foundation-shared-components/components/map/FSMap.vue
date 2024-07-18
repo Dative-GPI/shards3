@@ -8,27 +8,26 @@
       width="fill"
       :class="['fs-map', { 'fs-map-fullscreen': fullScreen }]"
     >
-      <FSCol
-        v-if="$slots.leftoverlay"
-        class="fs-map-overlay-left"
-        width="hug"
-        gap="2px"
+      <FSMapOverlay
+        v-if="$slots['leftoverlay-header'] || $slots['leftoverlay-body']"
+        :height="$props.height"
+        v-model:mode="$props.overlayMode"
       >
-        <FSCard
-          padding="4px"
-          :elevation="true"
-          :border="false"
+        <template
+          v-slot:leftoverlay-header
         >
-          <FSFadeOut
-            maskHeight="0"
-            :height="`calc(${$props.height} - 40px)`"
-          >
-            <slot
-              name="leftoverlay"
-            />
-          </FSFadeOut>
-        </FSCard>
-      </FSCol>
+          <slot
+            name="leftoverlay-header"
+          />
+        </template>
+        <template
+          v-slot:leftoverlay-body
+        >
+          <slot
+            name="leftoverlay-body"
+          />
+        </template>
+      </FSMapOverlay>
       <FSRow
         v-if="$props.editable && !editingLocation && $props.selectedLocationId !== null"
         class="fs-map-overlay-edit-button"
@@ -143,7 +142,7 @@ import { useColors, useAddress } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSMapLayerButton from "./FSMapLayerButton.vue";
-import FSFadeOut from "../FSFadeOut.vue";
+import FSMapOverlay from "./FSMapOverlay.vue";
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
@@ -154,7 +153,7 @@ export default defineComponent({
   components: {
     FSMapEditPointAddressOverlay,
     FSMapLayerButton,
-    FSFadeOut,
+    FSMapOverlay,
     FSButton,
     FSCard,
     FSCol,
@@ -180,6 +179,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    overlayMode: {
+      type: String as PropType<'collapse' | 'half' | 'expand'>,
+      required: false,
+      default: 'collapse'
     },
     showMyLocation: {
       type: Boolean,
@@ -288,7 +292,7 @@ export default defineComponent({
         image: new URL("../../assets/images/map/map.png", import.meta.url).href,
         layer: LL.tileLayer(`http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
           maxZoom: 22,
-          subdomains:['mt0','mt1','mt2','mt3'],
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
           attribution: '© Google Map Data'
         })
       },
@@ -298,7 +302,7 @@ export default defineComponent({
         image: new URL("../../assets/images/map/imagery.png", import.meta.url).href,
         layer: LL.tileLayer(`http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
           maxZoom: 22,
-          subdomains:['mt0','mt1','mt2','mt3'],
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
           attribution: '© Google Map Data'
         })
       }
@@ -526,10 +530,10 @@ export default defineComponent({
     });
 
     return {
-      innerSelectedLayer,
       editingLocation,
-      innerModelValue,
       fullScreen,
+      innerSelectedLayer,
+      innerModelValue,
       mapLayers,
       mapId,
       style,

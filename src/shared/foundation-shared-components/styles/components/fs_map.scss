@@ -83,7 +83,7 @@
     }
   }
 
-  .fs-map-location > div {
+  .fs-map-location>div {
     display: flex;
     height: 100%;
     color: var(--fs-map-location-pin-color);
@@ -103,12 +103,12 @@
     }
   }
 
-  .fs-map-location-full > div {
+  .fs-map-location-full>div {
     background-color: var(--fs-map-location-pin-color);
     color: white;
   }
 
-  .fs-map-location-selected > div {
+  .fs-map-location-selected>div {
     animation: fs-map-shadow 1.4s linear infinite;
 
     @keyframes fs-map-shadow {

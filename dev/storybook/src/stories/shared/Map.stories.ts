@@ -97,7 +97,8 @@ export const Variations: Story = {
       selectedLocationId1: location1.id,
       selectedLocationId2: null,
       selectedLocationId3: null,
-      selectedSiteId1: null
+      overlayMode1: 'half',
+      overlayMode2: 'collapse',
     }
   },
   render: (args, { argTypes }) => ({
@@ -108,8 +109,13 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
-      <FSMap >
-        <template v-slot:leftoverlay >
+      <FSMap
+        v-model:overlayMode="args.overlayMode1"
+      >
+        <template v-slot:leftoverlay-header >
+          <span>Header</span>
+        </template>
+        <template v-slot:leftoverlay-body >
           <div style="background-color:white; padding:8px;boredr-radius:4px; display: flex; flex-direction: column; gap: 10px;">
             <span>Left overlay</span>
             <span>Left overlay</span>
@@ -136,12 +142,12 @@ export const Variations: Story = {
         :editable="false"
         :modelValue="args.locations3"
         :enableScrollWheelZoom="true"
+        v-model:overlayMode="args.overlayMode2"
         height="600px"
         v-model:selectedLocationId="args.selectedLocationId3"
-        v-model:selectedSiteId="args.selectedSiteId1"
       >
-        <template v-slot:leftoverlay >
-          Testttttttttttttttttttttttttttttttttttttttt
+        <template v-slot:leftoverlay-body >
+          Test
         </template>
       </FSMap>
       <FSMap
