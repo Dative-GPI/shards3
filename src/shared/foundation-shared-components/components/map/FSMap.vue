@@ -11,7 +11,8 @@
       <FSMapOverlay
         v-if="$slots['leftoverlay-header'] || $slots['leftoverlay-body']"
         :height="$props.height"
-        v-model:mode="$props.overlayMode"
+        :mode="$props.overlayMode"
+        @update:mode="($event: string) => $emit('update:overlayMode', $event)"
       >
         <template
           v-slot:leftoverlay-header
@@ -147,6 +148,7 @@ import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
+import { clusterMarker, locationMarker, myLocationMarker } from "../../utils";
 
 export default defineComponent({
   name: "FSMap",
@@ -241,7 +243,7 @@ export default defineComponent({
       default: null
     }
   },
-  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId"],
+  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId", 'update:overlayMode'],
   setup(props, { emit }) {
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
@@ -274,14 +276,7 @@ export default defineComponent({
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
         iconCreateFunction: function (cluster: any) {
-          return LL.divIcon({
-            html: `<div>
-                    <span>${cluster.getChildCount()}</span>
-                   </div>`,
-            className: 'fs-map-location fs-map-location-full',
-            iconSize: [36, 36],
-            iconAnchor: [18, 18],
-          });
+          return clusterMarker(cluster.getChildCount());
         }
       });
     }
@@ -320,18 +315,7 @@ export default defineComponent({
     const displayLocations = () => {
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-        const iconHtml = `
-          <div style="--fs-map-mylocation-pin-color-alpha:${getColors(location.color).base}50;--fs-map-location-pin-color: ${getColors(location.color).base}">
-            <div class="fs-map-location-pin">
-              <i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;"  ></i>
-            </div>
-          </div>`;
-        const icon = LL.divIcon({
-          html: iconHtml,
-          iconSize: [36, 36],
-          className: 'fs-map-location',
-          iconAnchor: [18, 18],
-        });
+        const icon = locationMarker(location.icon, getColors(location.color).base);
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
@@ -443,13 +427,7 @@ export default defineComponent({
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
         map.panTo(e.latlng);
-        const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
-        const icon = LL.divIcon({
-          html: iconHtml,
-          className: 'fs-map-mylocation',
-          iconSize: [16, 16],
-          iconAnchor: [8, 8],
-        });
+        const icon = myLocationMarker();
         myLocationLayerGroup.clearLayers();
         LL.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
       });
