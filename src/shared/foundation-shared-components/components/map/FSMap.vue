@@ -1,6 +1,7 @@
 <template>
   <FSCard
     :width="$props.width"
+    :style="style"
     v-bind="$attrs"
   >
     <FSCol
@@ -12,6 +13,7 @@
         v-if="$slots['leftoverlay-header'] || $slots['leftoverlay-body']"
         :mode="$props.overlayMode"
         :height="$props.height"
+        :mapId="mapId"
         @update:mode="$emit('update:overlayMode', $event)"
       >
         <template
@@ -39,9 +41,7 @@
           @click="editingLocation = true"
         />
       </FSRow>
-      <FSCol
-        :style="style"
-      >
+      <FSCol>
         <div
           class="fs-leaflet-container"
           :id="mapId"
@@ -129,7 +129,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, watch } from "vue";
 
 import * as L from "leaflet";
 import "leaflet.markercluster";
@@ -139,7 +139,7 @@ import { type Address, type FSArea } from '@dative-gpi/foundation-shared-domain/
 
 import { clusterMarker, locationMarker, myLocationMarker } from "../../utils";
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
-import { useColors, useAddress } from "../../composables";
+import { useColors, useAddress, useBreakpoints } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSMapLayerButton from "./FSMapLayerButton.vue";
@@ -247,6 +247,7 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
+    const { isExtraSmall } = useBreakpoints();
 
     const LL = window.L;
 
@@ -254,6 +255,9 @@ export default defineComponent({
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
     const fullScreen = ref(false);
+    const leftOverlayHeight = ref<number>();
+    const leftOverlayWidth = ref<number>();
+    const resizeObserver = ref<ResizeObserver | null>(null);
 
     const mapId = `map-${Math.random().toString(36).substring(7)}`;
     const defaultZoom = 15;
@@ -266,19 +270,6 @@ export default defineComponent({
     let map: L.Map;
     let markerLayerGroup: L.FeatureGroup | any;
 
-    if (props.editable) {
-      markerLayerGroup = new LL.FeatureGroup();
-    }
-    else {
-      markerLayerGroup = new LL.MarkerClusterGroup({
-        spiderfyOnMaxZoom: false,
-        showCoverageOnHover: false,
-        disableClusteringAtZoom: 17,
-        iconCreateFunction: function (cluster: any) {
-          return clusterMarker(cluster.getChildCount());
-        }
-      });
-    }
     const mapLayers: MapLayer[] = [
       {
         name: "map",
@@ -302,11 +293,29 @@ export default defineComponent({
       }
     ];
 
+    const bottomMargin = computed(() => {
+      let margin = 0;
+      if (props.overlayMode !== 'expand' && leftOverlayHeight.value && isExtraSmall.value) {
+        margin += leftOverlayHeight.value;
+      }
+      return margin;
+    });
+
+    const leftMargin = computed(() => {
+      let margin = 0;
+      if (leftOverlayWidth.value && !isExtraSmall.value) {
+        margin += leftOverlayWidth.value;
+      }
+      return margin;
+    });
+
     const style = computed((): { [key: string]: string | undefined } => {
       return {
         "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
+        "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
         "--fs-map-leaflet-container-height": props.height as string,
+        "--fs-map-leaflet-bottom-overlay-margin": `${bottomMargin.value}px`,
         "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
       };
     });
@@ -314,7 +323,7 @@ export default defineComponent({
     const displayLocations = () => {
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-        const icon = locationMarker(location.icon, getColors(location.color).base);
+        const icon = locationMarker(location.icon, getColors(location.color).base, L);
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
@@ -351,6 +360,19 @@ export default defineComponent({
     };
 
     const initMap = () => {
+      if (props.editable) {
+        markerLayerGroup = new LL.FeatureGroup();
+      }
+      else {
+        markerLayerGroup = new LL.MarkerClusterGroup({
+          spiderfyOnMaxZoom: false,
+          showCoverageOnHover: false,
+          disableClusteringAtZoom: 17,
+          iconCreateFunction: function (cluster: any) {
+            return clusterMarker(cluster.getChildCount(), L);
+          }
+        });
+      }
       const mapOptions = {
         zoomControl: false,
         scrollWheelZoom: props.enableScrollWheelZoom,
@@ -392,7 +414,7 @@ export default defineComponent({
         return;
       }
       modifyLocationAddress(props.selectedLocationId, address);
-      map.panTo([address.latitude, address.longitude]);
+      map.panTo(calculateTargetPosition(new L.LatLng(address.latitude, address.longitude)));
     };
 
     const onNewCoordEntered = async (lat: number, lng: number) => {
@@ -425,12 +447,17 @@ export default defineComponent({
       }
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
-        map.panTo(e.latlng);
-        const icon = myLocationMarker();
+        map.panTo(calculateTargetPosition(e.latlng));
+        const icon = myLocationMarker(L);
         myLocationLayerGroup.clearLayers();
         LL.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
       });
     };
+
+    const calculateTargetPosition = (target: L.LatLng, zoom: number = map.getZoom()) => {
+      const targetPoint = map.project(target, zoom).subtract([leftMargin.value / 2, -bottomMargin.value / 2]);
+      return map.unproject(targetPoint, zoom);
+    }
 
     const onCancel = () => {
       editingLocation.value = false;
@@ -443,7 +470,7 @@ export default defineComponent({
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map.panTo([props.center[0], props.center[1]]);
+        map.panTo(calculateTargetPosition(new L.LatLng(props.center[0], props.center[1])), { animate: false });
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -460,7 +487,7 @@ export default defineComponent({
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map.flyTo([props.center[0], props.center[1]], map.getZoom() ?? defaultZoom, { animate: false });
+        map.panTo(calculateTargetPosition(new L.LatLng(props.center[0], props.center[1])), { animate: false });
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -471,6 +498,29 @@ export default defineComponent({
       initMap();
       if (props.selectedLocationId && props.modelValue.length === 1) {
         editingLocation.value = true;
+      }
+
+      resizeObserver.value = new ResizeObserver(entries => {
+        entries.forEach((entry) => {
+          if (entry.target.id === `left-overlay-${mapId}`) {
+            leftOverlayWidth.value = entry.contentRect.width;
+          }
+          if(entry.target.id === `left-overlay-mobile-${mapId}`) {
+            leftOverlayHeight.value = entry.contentRect.height;
+          }
+        });
+      });
+      if (document.querySelector(`#left-overlay-mobile-${mapId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#left-overlay-mobile-${mapId}`)!);
+      }
+      if (document.querySelector(`#left-overlay-${mapId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#left-overlay-${mapId}`)!);
+      }
+    });
+
+    onUnmounted((): void => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
       }
     });
 
@@ -488,7 +538,7 @@ export default defineComponent({
       });
 
       const marker = markers[props.selectedLocationId];
-      map.flyTo(marker.getLatLng(), 17, { animate: false });
+      map.flyTo(calculateTargetPosition(marker.getLatLng(), 17), 17, { animate: false });
       marker.getElement()?.classList.add('fs-map-location-selected');
     })
 
@@ -507,10 +557,11 @@ export default defineComponent({
     });
 
     return {
-      innerSelectedLayer,
+      bottomMargin,
       editingLocation,
-      innerModelValue,
       fullScreen,
+      innerModelValue,
+      innerSelectedLayer,
       mapLayers,
       mapId,
       style,

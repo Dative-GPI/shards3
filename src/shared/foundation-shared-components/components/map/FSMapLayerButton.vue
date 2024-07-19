@@ -7,20 +7,24 @@
   <FSDialog
     v-model="dialog"
     title="Select Layers"
-    width="460px"
+    width="442px"
   >
     <template
       v-slot:body
     >
-      <FSImageCard
-        v-for="layer in layers"
-        :variant="modelValue === layer.name ? 'full' : 'background'"
-        :color="modelValue === layer.name ? 'primary' : 'light'"
-        :label="layer.label"
-        :src="layer.image"
-        :key="layer.name"
-        @click="onLayerClick(layer.name)"
-      />
+      <FSRow
+        align="center-center"
+      >
+        <FSImageCard
+          v-for="layer in layers"
+          :variant="modelValue === layer.name ? 'full' : 'background'"
+          :color="modelValue === layer.name ? 'primary' : 'light'"
+          :label="layer.label"
+          :src="layer.image"
+          :key="layer.name"
+          @click="onLayerClick(layer.name)"
+        />
+      </FSRow>
     </template>
   </FSDialog> 
 </template>
@@ -33,13 +37,15 @@ import { type MapLayer } from "../../models";
 import FSImageCard from "../FSImageCard.vue";
 import FSButton from "../FSButton.vue";
 import FSDialog from "../FSDialog.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSMapLayerButton",
   components: {
     FSImageCard,
     FSButton,
-    FSDialog
+    FSDialog,
+    FSRow
   },
   props: {
     layers: {

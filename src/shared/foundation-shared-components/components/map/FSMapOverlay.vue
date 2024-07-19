@@ -1,6 +1,7 @@
 <template>
   <FSCol
-    v-if="isExtraSmall"
+    v-show="isExtraSmall"
+    :id="`left-overlay-mobile-${$props.mapId}`"
     :height="$props.mode === 'expand' ? '100%' : ($props.mode === 'half' ? '50%' : 'hug')"
     :style="style"
     class="fs-map-overlay-left-mobile"
@@ -49,7 +50,9 @@
     </FSCard>
   </FSCol>
   <FSCol
-    v-else
+    v-show="!isExtraSmall"
+    :style="style"
+    :id="`left-overlay-${$props.mapId}`"
     class="fs-map-overlay-left"
     width="hug"
     gap="2px"
@@ -60,7 +63,7 @@
       :border="false"
     >
       <FSCol
-        :height="`calc(${$props.height} - 40px)`"
+        class="fs-map-overlay-left-content"
       >
         <slot
           name="leftoverlay-header"
@@ -101,6 +104,10 @@ export default defineComponent({
       type: String as PropType<"collapse" | "half" | "expand">,
       required: false,
       default: "collapse"
+    },
+    mapId: {
+      type: String,
+      required: true
     }
   },
   components: {
@@ -120,11 +127,13 @@ export default defineComponent({
     const style = computed((): { [key: string]: string | null | undefined } => {
       if (props.mode === "expand") {
         return {
+          "--fs-map-overlay-max-height": `calc(${props.height} - 40px)`,
           "--fs-map-overlay-card-height": "95%",
         };
       }
       else {
         return {
+          "--fs-map-overlay-max-height": `calc(${props.height} - 40px)`,
           "--fs-map-overlay-card-height": "100%",
         };
       }

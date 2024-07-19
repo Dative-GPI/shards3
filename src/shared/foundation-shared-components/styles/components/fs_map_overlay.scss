@@ -1,3 +1,15 @@
+.fs-map-overlay-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 950;
+  margin: 4px;
+
+  .fs-map-overlay-left-content {
+    max-height: var(--fs-map-overlay-max-height);
+  }
+}
+
 .fs-map-overlay-left-mobile {
   position: absolute;
   bottom: 0;
