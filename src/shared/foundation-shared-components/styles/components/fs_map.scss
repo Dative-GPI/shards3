@@ -9,14 +9,6 @@
     filter: grayscale(var(--fs-map-container-grayscale));
   }
 
-  .fs-map-overlay-left {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 950;
-    margin: 4px;
-  }
-
   .fs-map-overlay-edit-button {
     position: absolute;
     top: 0;
@@ -65,10 +57,11 @@
 
   .fs-map-mylocation {
     border: 3px solid white;
+    background-color: var(--fs-map-mylocation-pin-color);
     border-radius: 100%;
-    animation: fs-map-shadow 1.4s linear infinite;
+    animation: fs-map-shadow-mylocation 1.4s linear infinite;
 
-    @keyframes fs-map-shadow {
+    @keyframes fs-map-shadow-mylocation {
       0% {
         box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
       }
@@ -108,9 +101,9 @@
   }
 
   .fs-map-location-selected > div {
-    animation: fs-map-shadow 1.4s linear infinite;
+    animation: fs-map-shadow-location 1.4s linear infinite;
 
-    @keyframes fs-map-shadow {
+    @keyframes fs-map-shadow-location {
       0% {
         box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
       }

@@ -1,11 +1,7 @@
-import L from 'leaflet';
-
-export const locationMarker = (icon: string, color: string, size = 36) => {
+export const locationMarker = (icon: string, color: string, L: any, size = 36) => {
   const iconHtml = `
   <div style="--fs-map-mylocation-pin-color-alpha:${color}50;--fs-map-location-pin-color: ${color}">
-    <div class="fs-map-location-pin">
-      <i class="${icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;" />
-    </div>
+    <i class="${icon} mdi notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;" />
   </div>`;
 
   return L.divIcon({
@@ -16,7 +12,7 @@ export const locationMarker = (icon: string, color: string, size = 36) => {
   });
 }
 
-export const clusterMarker = (label: string, size = 36) => {
+export const clusterMarker = (label: string, L: any, size = 36) => {
   const iconHtml = `
   <div class="fs-map-cluster">
     <span>${label}</span>
@@ -30,7 +26,7 @@ export const clusterMarker = (label: string, size = 36) => {
   })
 }
 
-export const myLocationMarker = (size = 16) => {
+export const myLocationMarker = (L: any, size = 16) => {
   const iconHtml = `<div class="fs-map-mylocation-pin" />`;
 
   return L.divIcon({

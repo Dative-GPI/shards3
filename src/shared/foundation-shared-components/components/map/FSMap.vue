@@ -275,7 +275,7 @@ export default defineComponent({
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
         iconCreateFunction: function (cluster: any) {
-          return clusterMarker(cluster.getChildCount());
+          return clusterMarker(cluster.getChildCount(), L);
         }
       });
     }
@@ -305,6 +305,7 @@ export default defineComponent({
     const style = computed((): { [key: string]: string | undefined } => {
       return {
         "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
+        "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
         "--fs-map-leaflet-container-height": props.height as string,
         "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
@@ -314,7 +315,8 @@ export default defineComponent({
     const displayLocations = () => {
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-        const icon = locationMarker(location.icon, getColors(location.color).base);
+        const icon = locationMarker(location.icon, getColors(location.color).base, L);
+        console.log(icon)
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
@@ -426,7 +428,7 @@ export default defineComponent({
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
         map.panTo(e.latlng);
-        const icon = myLocationMarker();
+        const icon = myLocationMarker(L);
         myLocationLayerGroup.clearLayers();
         LL.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
       });

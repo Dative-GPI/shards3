@@ -50,6 +50,7 @@
   </FSCol>
   <FSCol
     v-else
+    :style="style"
     class="fs-map-overlay-left"
     width="hug"
     gap="2px"
@@ -60,7 +61,7 @@
       :border="false"
     >
       <FSCol
-        :height="`calc(${$props.height} - 40px)`"
+        class="fs-map-overlay-left-content"
       >
         <slot
           name="leftoverlay-header"
@@ -120,11 +121,13 @@ export default defineComponent({
     const style = computed((): { [key: string]: string | null | undefined } => {
       if (props.mode === "expand") {
         return {
+          "--fs-map-overlay-max-height": `calc(${props.height} - 40px)`,
           "--fs-map-overlay-card-height": "95%",
         };
       }
       else {
         return {
+          "--fs-map-overlay-max-height": `calc(${props.height} - 40px)`,
           "--fs-map-overlay-card-height": "100%",
         };
       }
