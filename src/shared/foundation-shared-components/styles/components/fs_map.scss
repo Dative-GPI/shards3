@@ -38,7 +38,7 @@
       bottom: 100%;
       right: 0;
       z-index: 1001;
-      margin-bottom: 8px;
+      margin-bottom: calc(var(--fs-map-leaflet-bottom-overlay-margin) + 8px);
 
       button.fs-map-zoom-plus > * {
         border-bottom-left-radius: 0 !important;

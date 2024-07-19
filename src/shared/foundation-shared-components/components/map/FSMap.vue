@@ -1,6 +1,7 @@
 <template>
   <FSCard
     :width="$props.width"
+    :style="style"
     v-bind="$attrs"
   >
     <FSCol
@@ -12,6 +13,7 @@
         v-if="$slots['leftoverlay-header'] || $slots['leftoverlay-body']"
         :mode="$props.overlayMode"
         :height="$props.height"
+        :mapId="mapId"
         @update:mode="$emit('update:overlayMode', $event)"
       >
         <template
@@ -39,9 +41,7 @@
           @click="editingLocation = true"
         />
       </FSRow>
-      <FSCol
-        :style="style"
-      >
+      <FSCol>
         <div
           class="fs-leaflet-container"
           :id="mapId"
@@ -129,7 +129,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, watch } from "vue";
 
 import * as L from "leaflet";
 import "leaflet.markercluster";
@@ -139,7 +139,7 @@ import { type Address, type FSArea } from '@dative-gpi/foundation-shared-domain/
 
 import { clusterMarker, locationMarker, myLocationMarker } from "../../utils";
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
-import { useColors, useAddress } from "../../composables";
+import { useColors, useAddress, useBreakpoints } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSMapLayerButton from "./FSMapLayerButton.vue";
@@ -247,6 +247,7 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
+    const { isExtraSmall } = useBreakpoints();
 
     const LL = window.L;
 
@@ -254,6 +255,8 @@ export default defineComponent({
     const innerModelValue = ref(props.modelValue);
     const editingLocation = ref(false);
     const fullScreen = ref(false);
+    const leftOverlayHeight = ref<number>();
+    const resizeObserver = ref<ResizeObserver | null>(null);
 
     const mapId = `map-${Math.random().toString(36).substring(7)}`;
     const defaultZoom = 15;
@@ -302,12 +305,21 @@ export default defineComponent({
       }
     ];
 
+    const bottomMargin = computed(() => {
+      let margin = 0;
+      if(props.overlayMode !== 'expand' && leftOverlayHeight.value && isExtraSmall.value) {
+        margin += leftOverlayHeight.value;
+      }
+      return `${margin}px`;
+    });
+
     const style = computed((): { [key: string]: string | undefined } => {
       return {
         "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
         "--fs-map-leaflet-container-height": props.height as string,
+        "--fs-map-leaflet-bottom-overlay-margin": bottomMargin.value,
         "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
       };
     });
@@ -316,7 +328,6 @@ export default defineComponent({
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
         const icon = locationMarker(location.icon, getColors(location.color).base, L);
-        console.log(icon)
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
@@ -474,6 +485,21 @@ export default defineComponent({
       if (props.selectedLocationId && props.modelValue.length === 1) {
         editingLocation.value = true;
       }
+
+      resizeObserver.value = new ResizeObserver(entries => {
+        entries.forEach((entry) => {
+          leftOverlayHeight.value = entry.contentRect.height;
+        });
+      });
+      if (document.querySelector(`#left-overlay-mobile-${mapId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#left-overlay-mobile-${mapId}`)!);
+      }
+    });
+
+    onUnmounted((): void => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
+      }
     });
 
     watch(() => innerModelValue.value, () => {
@@ -509,10 +535,11 @@ export default defineComponent({
     });
 
     return {
-      innerSelectedLayer,
+      bottomMargin,
       editingLocation,
-      innerModelValue,
       fullScreen,
+      innerModelValue,
+      innerSelectedLayer,
       mapLayers,
       mapId,
       style,

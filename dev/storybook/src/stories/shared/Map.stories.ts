@@ -97,8 +97,8 @@ export const Variations: Story = {
       selectedLocationId1: location1.id,
       selectedLocationId2: null,
       selectedLocationId3: null,
-      overlayMode1: 'half',
-      overlayMode2: 'collapse',
+      overlayMode1: 'collapse',
+      overlayMode2: 'half',
     }
   },
   render: (args, { argTypes }) => ({
@@ -111,6 +111,18 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 30px;">
       <FSMap
         v-model:overlayMode="args.overlayMode1"
+      >
+        <template v-slot:leftoverlay-body >
+          Test
+        </template>
+      </FSMap>
+      <FSMap
+        :editable="false"
+        :modelValue="args.locations3"
+        :enableScrollWheelZoom="true"
+        v-model:overlayMode="args.overlayMode2"
+        height="600px"
+        v-model:selectedLocationId="args.selectedLocationId3"
       >
         <template v-slot:leftoverlay-header >
           <span>Header</span>
@@ -136,18 +148,6 @@ export const Variations: Story = {
             <span>Left overlay</span>
             <span>Left overlay</span>
           </div>
-        </template>
-      </FSMap>
-      <FSMap
-        :editable="false"
-        :modelValue="args.locations3"
-        :enableScrollWheelZoom="true"
-        v-model:overlayMode="args.overlayMode2"
-        height="600px"
-        v-model:selectedLocationId="args.selectedLocationId3"
-      >
-        <template v-slot:leftoverlay-body >
-          Test
         </template>
       </FSMap>
       <FSMap
