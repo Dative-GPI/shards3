@@ -48,12 +48,12 @@
       z-index: 1001;
       margin-bottom: 8px;
 
-      button.fs-map-zoom-plus>* {
+      button.fs-map-zoom-plus > * {
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
       }
 
-      button.fs-map-zoom-minus>* {
+      button.fs-map-zoom-minus > * {
         margin-top: 1px;
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
@@ -96,8 +96,7 @@
     &:hover {
       filter: brightness(0.92) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
 
-      >* {
-
+      > * {
         transform: scale(1.15);
       }
     }
@@ -134,5 +133,4 @@
       opacity: 1;
     }
   }
-
 }

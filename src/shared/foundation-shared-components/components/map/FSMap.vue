@@ -8,27 +8,27 @@
       width="fill"
       :class="['fs-map', { 'fs-map-fullscreen': fullScreen }]"
     >
-      <FSCol
-        v-if="$slots.leftoverlay"
-        class="fs-map-overlay-left"
-        width="hug"
-        gap="2px"
+      <FSMapOverlay
+        v-if="$slots['leftoverlay-header'] || $slots['leftoverlay-body']"
+        :mode="$props.overlayMode"
+        :height="$props.height"
+        @update:mode="$emit('update:overlayMode', $event)"
       >
-        <FSCard
-          padding="4px"
-          :elevation="true"
-          :border="false"
+        <template
+          v-slot:leftoverlay-header
         >
-          <FSFadeOut
-            maskHeight="0"
-            :height="`calc(${$props.height} - 40px)`"
-          >
-            <slot
-              name="leftoverlay"
-            />
-          </FSFadeOut>
-        </FSCard>
-      </FSCol>
+          <slot
+            name="leftoverlay-header"
+          />
+        </template>
+        <template
+          v-slot:leftoverlay-body
+        >
+          <slot
+            name="leftoverlay-body"
+          />
+        </template>
+      </FSMapOverlay>
       <FSRow
         v-if="$props.editable && !editingLocation && $props.selectedLocationId !== null"
         class="fs-map-overlay-edit-button"
@@ -135,15 +135,15 @@ import * as L from "leaflet";
 import "leaflet.markercluster";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-
 import { type Address, type FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
+import { clusterMarker, locationMarker, myLocationMarker } from "../../utils";
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 import { useColors, useAddress } from "../../composables";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSMapLayerButton from "./FSMapLayerButton.vue";
-import FSFadeOut from "../FSFadeOut.vue";
+import FSMapOverlay from "./FSMapOverlay.vue";
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
@@ -154,7 +154,7 @@ export default defineComponent({
   components: {
     FSMapEditPointAddressOverlay,
     FSMapLayerButton,
-    FSFadeOut,
+    FSMapOverlay,
     FSButton,
     FSCard,
     FSCol,
@@ -181,6 +181,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    overlayMode: {
+      type: String as PropType<'collapse' | 'half' | 'expand'>,
+      required: false,
+      default: 'collapse'
+    },
     showMyLocation: {
       type: Boolean,
       required: false,
@@ -192,6 +197,11 @@ export default defineComponent({
       default: true
     },
     showFullScreen: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    enableScrollWheelZoom: {
       type: Boolean,
       required: false,
       default: false
@@ -212,14 +222,14 @@ export default defineComponent({
       default: () => [],
     },
     selectedLayer: {
-      type: String as PropType<"osm" | "imagery">,
+      type: String as PropType<"map" | "imagery">,
       required: false,
-      default: "osm"
+      default: "map"
     },
     selectableLayers: {
       type: Array as PropType<string[]>,
       required: false,
-      default: () => ["osm", "imagery"]
+      default: () => ["map", "imagery"]
     },
     selectedLocationId: {
       type: String as PropType<string | null>,
@@ -232,11 +242,11 @@ export default defineComponent({
       default: null
     }
   },
-  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId"],
+  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId", 'update:overlayMode'],
   setup(props, { emit }) {
+    const { $tr } = useTranslationsProvider();
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
-    const { $tr } = useTranslationsProvider();
 
     const LL = window.L;
 
@@ -265,34 +275,29 @@ export default defineComponent({
         showCoverageOnHover: false,
         disableClusteringAtZoom: 17,
         iconCreateFunction: function (cluster: any) {
-          return LL.divIcon({
-            html: `<div>
-                    <span>${cluster.getChildCount()}</span>
-                   </div>`,
-            className: 'fs-map-location fs-map-location-full',
-            iconSize: [36, 36],
-            iconAnchor: [18, 18],
-          });
+          return clusterMarker(cluster.getChildCount());
         }
       });
     }
     const mapLayers: MapLayer[] = [
       {
-        name: "osm",
-        label: $tr("ui.map.layer.osm", "Map"),
-        image: new URL("../../assets/images/map/osm.png", import.meta.url).href,
-        layer: LL.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 20,
-          attribution: '© OpenStreetMap'
+        name: "map",
+        label: $tr("ui.map.layer.map", "Map"),
+        image: new URL("../../assets/images/map/map.png", import.meta.url).href,
+        layer: LL.tileLayer(`http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
+          maxZoom: 22,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+          attribution: '© Google Map Data'
         })
       },
       {
         name: "imagery",
         label: $tr("ui.map.layer.imagery", "Imagery"),
         image: new URL("../../assets/images/map/imagery.png", import.meta.url).href,
-        layer: LL.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-          maxZoom: 19
+        layer: LL.tileLayer(`http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
+          maxZoom: 22,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+          attribution: '© Google Map Data'
         })
       }
     ];
@@ -309,18 +314,7 @@ export default defineComponent({
     const displayLocations = () => {
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-        const iconHtml = `
-          <div style="--fs-map-mylocation-pin-color-alpha:${getColors(location.color).base}50;--fs-map-location-pin-color: ${getColors(location.color).base}">
-            <div class="fs-map-location-pin">
-              <i class="${location.icon} mdi v-icon notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;"  ></i>
-            </div>
-          </div>`;
-        const icon = LL.divIcon({
-          html: iconHtml,
-          iconSize: [36, 36],
-          className: 'fs-map-location',
-          iconAnchor: [18, 18],
-        });
+        const icon = locationMarker(location.icon, getColors(location.color).base);
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
@@ -359,7 +353,7 @@ export default defineComponent({
     const initMap = () => {
       const mapOptions = {
         zoomControl: false,
-        scrollWheelZoom: false,
+        scrollWheelZoom: props.enableScrollWheelZoom,
         minZoom: 2,
         maxBounds: LL.latLngBounds(LL.latLng(-90, -180), LL.latLng(90, 180)),
         maxBoundsViscosity: 1.0
@@ -387,7 +381,7 @@ export default defineComponent({
       });
     };
 
-    const setMapBaseLayer = (layerName: 'osm' | 'imagery') => {
+    const setMapBaseLayer = (layerName: 'map' | 'imagery') => {
       const layer = mapLayers.find((mapLayer) => mapLayer.name === layerName) ?? mapLayers[0];
       baseLayerGroup.clearLayers();
       layer.layer.addTo(baseLayerGroup);
@@ -432,13 +426,7 @@ export default defineComponent({
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
         map.panTo(e.latlng);
-        const iconHtml = `<div class="fs-map-mylocation-pin"></div>`;
-        const icon = LL.divIcon({
-          html: iconHtml,
-          className: 'fs-map-mylocation',
-          iconSize: [16, 16],
-          iconAnchor: [8, 8],
-        });
+        const icon = myLocationMarker();
         myLocationLayerGroup.clearLayers();
         LL.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
       });
@@ -536,6 +524,6 @@ export default defineComponent({
       locate,
       zoomIn
     };
-  },
+  }
 });
 </script>
