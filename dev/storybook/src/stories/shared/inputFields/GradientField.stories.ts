@@ -19,7 +19,7 @@ export const Variations: Story = {
   args: {
     args: {
       value1: ["#008FFF", "#FFFF00"],
-      value2: ["#FF00F0", "#00FF00"],
+      value2: ["primary", "success"],
       value3: ["#FFF000", "#FF0000"],
       value4: ["#FF0000", "#8FA0F0", "#8FA000"],
     }

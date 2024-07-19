@@ -23,7 +23,9 @@ export const Variations: Story = {
       value2: "#00FF12",
       opacity2: 0.2,
       value3: "primary",
-      opacity3: 0.7
+      opacity3: 1,
+      value4: "primary",
+      opacity4: 0.5
     }
   },
   render: (args, { argTypes }) => ({
@@ -62,8 +64,8 @@ export const Variations: Story = {
         :editable="false"
         :onlyBaseColors="false"     
         description="Description for this field"
-        v-model="args.value3"
-        v-model:opacityValue="args.opacity3"
+        v-model="args.value4"
+        v-model:opacityValue="args.opacity4"
       />
     </FSCol>`
   })

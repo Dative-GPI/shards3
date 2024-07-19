@@ -164,7 +164,7 @@ export default defineComponent({
 
     const menu = ref(false);
 
-    const innerColor = ref(props.modelValue.toString().substring(0, 7));
+    const innerColor = ref(getColors(props.modelValue).base);
     const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
     const fullColor = ref(innerColor.value + innerOpacity.value);
 
@@ -174,14 +174,14 @@ export default defineComponent({
           "--fs-color-field-cursor"             : "default",
           "--fs-color-field-border-color"       : lights.base,
           "--fs-color-field-color"              : lights.dark,
-          "--fs-color-field-colorvalue": fullColor.value,
+          "--fs-color-field-colorvalue"         : fullColor.value,
         };
       }
       return {
         "--fs-color-field-cursor"             : "pointer",
         "--fs-color-field-border-color"       : lights.dark,
         "--fs-color-field-color"              : darks.base,
-        "--fs-color-field-colorvalue": fullColor.value,
+        "--fs-color-field-colorvalue"         : fullColor.value,
       };
     });
 
