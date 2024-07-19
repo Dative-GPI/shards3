@@ -14,7 +14,7 @@
     >
       <FSRow
         align="center-center"
-        >
+      >
         <FSImageCard
           v-for="layer in layers"
           :variant="modelValue === layer.name ? 'full' : 'background'"

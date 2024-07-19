@@ -256,6 +256,7 @@ export default defineComponent({
     const editingLocation = ref(false);
     const fullScreen = ref(false);
     const leftOverlayHeight = ref<number>();
+    const leftOverlayWidth = ref<number>();
     const resizeObserver = ref<ResizeObserver | null>(null);
 
     const mapId = `map-${Math.random().toString(36).substring(7)}`;
@@ -307,10 +308,18 @@ export default defineComponent({
 
     const bottomMargin = computed(() => {
       let margin = 0;
-      if(props.overlayMode !== 'expand' && leftOverlayHeight.value && isExtraSmall.value) {
+      if (props.overlayMode !== 'expand' && leftOverlayHeight.value && isExtraSmall.value) {
         margin += leftOverlayHeight.value;
       }
-      return `${margin}px`;
+      return margin;
+    });
+
+    const leftMargin = computed(() => {
+      let margin = 0;
+      if (leftOverlayWidth.value && !isExtraSmall.value) {
+        margin += leftOverlayWidth.value;
+      }
+      return margin;
     });
 
     const style = computed((): { [key: string]: string | undefined } => {
@@ -319,7 +328,7 @@ export default defineComponent({
         "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
         "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
         "--fs-map-leaflet-container-height": props.height as string,
-        "--fs-map-leaflet-bottom-overlay-margin": bottomMargin.value,
+        "--fs-map-leaflet-bottom-overlay-margin": `${bottomMargin.value}px`,
         "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
       };
     });
@@ -405,7 +414,7 @@ export default defineComponent({
         return;
       }
       modifyLocationAddress(props.selectedLocationId, address);
-      map.panTo([address.latitude, address.longitude]);
+      map.panTo(calculateTargetPosition(new L.LatLng(address.latitude, address.longitude)));
     };
 
     const onNewCoordEntered = async (lat: number, lng: number) => {
@@ -438,12 +447,17 @@ export default defineComponent({
       }
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
-        map.panTo(e.latlng);
+        map.panTo(calculateTargetPosition(e.latlng));
         const icon = myLocationMarker(L);
         myLocationLayerGroup.clearLayers();
         LL.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
       });
     };
+
+    const calculateTargetPosition = (target: L.LatLng, zoom: number = map.getZoom()) => {
+      const targetPoint = map.project(target, zoom).subtract([leftMargin.value / 2, -bottomMargin.value / 2]);
+      return map.unproject(targetPoint, zoom);
+    }
 
     const onCancel = () => {
       editingLocation.value = false;
@@ -456,7 +470,7 @@ export default defineComponent({
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map.panTo([props.center[0], props.center[1]]);
+        map.panTo(calculateTargetPosition(new L.LatLng(props.center[0], props.center[1])), { animate: false });
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -473,7 +487,7 @@ export default defineComponent({
         map.fitBounds(markerLayerGroup.getBounds(), { maxZoom: defaultZoom });
       }
       else {
-        map.flyTo([props.center[0], props.center[1]], map.getZoom() ?? defaultZoom, { animate: false });
+        map.panTo(calculateTargetPosition(new L.LatLng(props.center[0], props.center[1])), { animate: false });
       }
       if (props.modelValue.length > 1) {
         emit('update:selectedLocationId', null);
@@ -488,11 +502,19 @@ export default defineComponent({
 
       resizeObserver.value = new ResizeObserver(entries => {
         entries.forEach((entry) => {
-          leftOverlayHeight.value = entry.contentRect.height;
+          if (entry.target.id === `left-overlay-${mapId}`) {
+            leftOverlayWidth.value = entry.contentRect.width;
+          }
+          if(entry.target.id === `left-overlay-mobile-${mapId}`) {
+            leftOverlayHeight.value = entry.contentRect.height;
+          }
         });
       });
       if (document.querySelector(`#left-overlay-mobile-${mapId}`)) {
         resizeObserver.value.observe(document.querySelector(`#left-overlay-mobile-${mapId}`)!);
+      }
+      if (document.querySelector(`#left-overlay-${mapId}`)) {
+        resizeObserver.value.observe(document.querySelector(`#left-overlay-${mapId}`)!);
       }
     });
 
@@ -516,7 +538,7 @@ export default defineComponent({
       });
 
       const marker = markers[props.selectedLocationId];
-      map.flyTo(marker.getLatLng(), 17, { animate: false });
+      map.flyTo(calculateTargetPosition(marker.getLatLng(), 17), 17, { animate: false });
       marker.getElement()?.classList.add('fs-map-location-selected');
     })
 

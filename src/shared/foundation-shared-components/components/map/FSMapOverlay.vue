@@ -1,74 +1,84 @@
 <template>
-    <FSCol
-      v-show="isExtraSmall"
-      :id="`left-overlay-mobile-${$props.mapId}`"
-      :height="$props.mode === 'expand' ? '100%' : ($props.mode === 'half' ? '50%' : 'hug')"
-      :style="style"
-      class="fs-map-overlay-left-mobile"
-      ref="mobileOverlayElement"
-      align="bottom-center"
-      width="hug"
-      gap="2px"
-      @click="$event.target === mobileOverlayElement?.$el ? $emit('update:mode', 'collapse') : null"
+  <FSCol
+    v-show="isExtraSmall"
+    :id="`left-overlay-mobile-${$props.mapId}`"
+    :height="$props.mode === 'expand' ? '100%' : ($props.mode === 'half' ? '50%' : 'hug')"
+    :style="style"
+    class="fs-map-overlay-left-mobile"
+    ref="mobileOverlayElement"
+    align="bottom-center"
+    width="hug"
+    gap="2px"
+    @click="$event.target === mobileOverlayElement?.$el ? $emit('update:mode', 'collapse') : null"
+  >
+    <FSCard
+      padding="0px"
+      :elevation="true"
+      :border="false"
     >
-      <FSCard
-        padding="0px"
-        :elevation="true"
-        :border="false"
+      <FSCol
+        gap="0px"
+        height="fill"
       >
+        <FSRow
+          align="center-center"
+          @touchstart="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
+        >
+          <FSButton
+            :icon="$props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up'"
+            variant="icon"
+            @click="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
+          />
+        </FSRow>
         <FSCol
-          gap="0px"
+          class="fs-map-overlay-left-mobile-content"
           height="fill"
         >
-          <FSRow
-            align="center-center"
-            @touchstart="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
-          >
-            <FSButton
-              :icon="$props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up'"
-              variant="icon"
-              @click="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
-            />
-          </FSRow>
-          <FSCol
-            class="fs-map-overlay-left-mobile-content"
-            height="fill"
-          >
-            <slot name="leftoverlay-header" />
-            <FSFadeOut
-              :height="$props.mode === 'collapse' ? '0px' : '100%'"
-              maskHeight="0px"
-            >
-              <slot name="leftoverlay-body" />
-            </FSFadeOut>
-          </FSCol>
-        </FSCol>
-      </FSCard>
-    </FSCol>
-    <FSCol
-      v-show="!isExtraSmall"
-      :style="style"
-      :id="`left-overlay-${$props.mapId}`"
-      class="fs-map-overlay-left"
-      width="hug"
-      gap="2px"
-    >
-      <FSCard
-        padding="4px"
-        :elevation="true"
-        :border="false"
-      >
-        <FSCol class="fs-map-overlay-left-content">
-          <slot name="leftoverlay-header" />
+          <slot
+            name="leftoverlay-header"
+          />
           <FSFadeOut
-            maskHeight="0"
-            height="100%"
+            :height="$props.mode === 'collapse' ? '0px' : '100%'"
+            maskHeight="0px"
           >
-            <slot name="leftoverlay-body" />
+            <slot
+              name="leftoverlay-body"
+            />
           </FSFadeOut>
         </FSCol>
-      </FSCard>
-    </FSCol>
+      </FSCol>
+    </FSCard>
+  </FSCol>
+  <FSCol
+    v-show="!isExtraSmall"
+    :style="style"
+    :id="`left-overlay-${$props.mapId}`"
+    class="fs-map-overlay-left"
+    width="hug"
+    gap="2px"
+  >
+    <FSCard
+      padding="4px"
+      :elevation="true"
+      :border="false"
+    >
+      <FSCol
+        class="fs-map-overlay-left-content"
+      >
+        <slot
+          name="leftoverlay-header"
+        />
+        <FSFadeOut
+          maskHeight="0"
+          height="100%"
+        >
+          <slot
+            name="leftoverlay-body"
+          />
+        </FSFadeOut>
+      </FSCol>
+    </FSCard>
+  </FSCol>
 </template>
 
 <script lang="ts">

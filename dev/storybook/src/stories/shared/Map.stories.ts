@@ -125,7 +125,7 @@ export const Variations: Story = {
         v-model:selectedLocationId="args.selectedLocationId3"
       >
         <template v-slot:leftoverlay-header >
-          <span>Header</span>
+          <span>I am a fixed header of the left overlay</span>
         </template>
         <template v-slot:leftoverlay-body >
           <div style="background-color:white; padding:8px;boredr-radius:4px; display: flex; flex-direction: column; gap: 10px;">
