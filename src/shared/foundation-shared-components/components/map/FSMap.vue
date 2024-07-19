@@ -270,19 +270,6 @@ export default defineComponent({
     let map: L.Map;
     let markerLayerGroup: L.FeatureGroup | any;
 
-    if (props.editable) {
-      markerLayerGroup = new LL.FeatureGroup();
-    }
-    else {
-      markerLayerGroup = new LL.MarkerClusterGroup({
-        spiderfyOnMaxZoom: false,
-        showCoverageOnHover: false,
-        disableClusteringAtZoom: 17,
-        iconCreateFunction: function (cluster: any) {
-          return clusterMarker(cluster.getChildCount(), L);
-        }
-      });
-    }
     const mapLayers: MapLayer[] = [
       {
         name: "map",
@@ -373,6 +360,19 @@ export default defineComponent({
     };
 
     const initMap = () => {
+      if (props.editable) {
+        markerLayerGroup = new LL.FeatureGroup();
+      }
+      else {
+        markerLayerGroup = new LL.MarkerClusterGroup({
+          spiderfyOnMaxZoom: false,
+          showCoverageOnHover: false,
+          disableClusteringAtZoom: 17,
+          iconCreateFunction: function (cluster: any) {
+            return clusterMarker(cluster.getChildCount(), L);
+          }
+        });
+      }
       const mapOptions = {
         zoomControl: false,
         scrollWheelZoom: props.enableScrollWheelZoom,
