@@ -48,12 +48,12 @@
       z-index: 1001;
       margin-bottom: 8px;
 
-      button.fs-map-zoom-plus>* {
+      button.fs-map-zoom-plus > * {
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
       }
 
-      button.fs-map-zoom-minus>* {
+      button.fs-map-zoom-minus > * {
         margin-top: 1px;
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
@@ -83,7 +83,7 @@
     }
   }
 
-  .fs-map-location>div {
+  .fs-map-location > div {
     display: flex;
     height: 100%;
     color: var(--fs-map-location-pin-color);
@@ -96,19 +96,18 @@
     &:hover {
       filter: brightness(0.92) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
 
-      >* {
-
+      > * {
         transform: scale(1.15);
       }
     }
   }
 
-  .fs-map-location-full>div {
+  .fs-map-location-full > div {
     background-color: var(--fs-map-location-pin-color);
     color: white;
   }
 
-  .fs-map-location-selected>div {
+  .fs-map-location-selected > div {
     animation: fs-map-shadow 1.4s linear infinite;
 
     @keyframes fs-map-shadow {
@@ -134,5 +133,4 @@
       opacity: 1;
     }
   }
-
 }

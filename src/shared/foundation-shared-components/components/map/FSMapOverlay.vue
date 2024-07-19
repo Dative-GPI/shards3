@@ -4,14 +4,14 @@
     :height="$props.mode === 'expand' ? '100%' : ($props.mode === 'half' ? '50%' : 'hug')"
     :style="style"
     class="fs-map-overlay-left-mobile"
-    width="hug"
     ref="mobileOverlayElement"
     align="bottom-center"
+    width="hug"
     gap="2px"
     @click="$event.target === mobileOverlayElement?.$el ? $emit('update:mode', 'collapse') : null"
   >
     <FSCard
-      padding="0"
+      padding="0px"
       :elevation="true"
       :border="false"
     >
@@ -37,8 +37,8 @@
             name="leftoverlay-header"
           />
           <FSFadeOut
-            :height="$props.mode === 'collapse' ? '0' : '100%'"
-            maskHeight="0"
+            :height="$props.mode === 'collapse' ? '0px' : '100%'"
+            maskHeight="0px"
           >
             <slot
               name="leftoverlay-body"
@@ -79,36 +79,38 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, type PropType } from 'vue'
+import { computed, defineComponent, type PropType, ref } from "vue";
 
-import { useBreakpoints } from '../../composables';
+import { useBreakpoints } from "../../composables";
 
-import FSCard from '../FSCard.vue';
-import FSCol from '../FSCol.vue';
-import FSRow from '../FSRow.vue';
-import FSButton from '../FSButton.vue';
-import FSFadeOut from '../FSFadeOut.vue';
+import FSFadeOut from "../FSFadeOut.vue";
+import FSButton from "../FSButton.vue";
+import FSCard from "../FSCard.vue";
+import FSCol from "../FSCol.vue";
+import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: 'FSMapOverlay',
+  name: "FSMapOverlay",
   props: {
     height: {
       type: [String, Number] as PropType<string | number | null>,
-      default: '100%'
+      required: false,
+      default: "100%"
     },
     mode: {
-      type: String as PropType<'collapse' | 'half' | 'expand'>,
-      default: 'collapse'
+      type: String as PropType<"collapse" | "half" | "expand">,
+      required: false,
+      default: "collapse"
     }
   },
   components: {
+    FSFadeOut,
+    FSButton,
     FSCard,
     FSCol,
-    FSRow,
-    FSButton,
-    FSFadeOut
+    FSRow
   },
-  emits: ['update:mode'],
+  emits: ["update:mode"],
   setup(props) {
     const { isExtraSmall } = useBreakpoints();
 
@@ -116,23 +118,24 @@ export default defineComponent({
     const mobileOverlayElement = ref(null);
 
     const style = computed((): { [key: string]: string | null | undefined } => {
-      if (props.mode === 'expand') {
+      if (props.mode === "expand") {
         return {
-          "--fs-map-overlay-card-height": '95%',
+          "--fs-map-overlay-card-height": "95%",
         };
-      }else{
+      }
+      else {
         return {
-          "--fs-map-overlay-card-height": '100%',
+          "--fs-map-overlay-card-height": "100%",
         };
       }
     });
 
     return {
-      isExtraSmall,
       leftOverlayMenuMobile,
       mobileOverlayElement,
+      isExtraSmall,
       style
-    }
+    };
   }
-})
+});
 </script>

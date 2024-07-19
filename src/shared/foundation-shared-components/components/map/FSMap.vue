@@ -10,9 +10,9 @@
     >
       <FSMapOverlay
         v-if="$slots['leftoverlay-header'] || $slots['leftoverlay-body']"
-        :height="$props.height"
         :mode="$props.overlayMode"
-        @update:mode="($event: string) => $emit('update:overlayMode', $event)"
+        :height="$props.height"
+        @update:mode="$emit('update:overlayMode', $event)"
       >
         <template
           v-slot:leftoverlay-header
@@ -135,9 +135,9 @@ import * as L from "leaflet";
 import "leaflet.markercluster";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-
 import { type Address, type FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
+import { clusterMarker, locationMarker, myLocationMarker } from "../../utils";
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 import { useColors, useAddress } from "../../composables";
 
@@ -148,7 +148,6 @@ import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import { clusterMarker, locationMarker, myLocationMarker } from "../../utils";
 
 export default defineComponent({
   name: "FSMap",
@@ -245,9 +244,9 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId", 'update:overlayMode'],
   setup(props, { emit }) {
+    const { $tr } = useTranslationsProvider();
     const { reverseSearch } = useAddress();
     const { getColors } = useColors();
-    const { $tr } = useTranslationsProvider();
 
     const LL = window.L;
 
@@ -508,10 +507,10 @@ export default defineComponent({
     });
 
     return {
-      editingLocation,
-      fullScreen,
       innerSelectedLayer,
+      editingLocation,
       innerModelValue,
+      fullScreen,
       mapLayers,
       mapId,
       style,
@@ -525,6 +524,6 @@ export default defineComponent({
       locate,
       zoomIn
     };
-  },
+  }
 });
 </script>
