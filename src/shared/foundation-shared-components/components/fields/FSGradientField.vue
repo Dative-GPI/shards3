@@ -13,28 +13,28 @@
         <FSColorField
           v-for="colorIndex in $props.colorCount"
           :allowOpacity="$props.allowOpacity"
-          :key="colorIndex"
-          :modelValue="$props.modelValue[colorIndex-1]"
+          :modelValue="$props.modelValue[colorIndex - 1]"
           :required="$props.required"
           :editable="$props.editable"
-          @update:modelValue="($event, index) => $emit('update:modelValue', $props.modelValue.map((color, i) => colorIndex === i + 1 ? $event : color))"
+          :key="colorIndex"
+          @update:modelValue="$emit('update:modelValue', $props.modelValue.map((color, i) => colorIndex === i + 1 ? $event : color))"
         />
       </FSRow>
       <FSSelectField
         class="fs-gradient-select-field"
-        :items="items"
-        @update:modelValue="$emit('update:modelValue', presetGradients[$event])"
         :clearable="false"
         :editable="$props.editable"
+        :items="items"
         :modelValue="JSON.stringify($props.modelValue)"
+        @update:modelValue="$emit('update:modelValue', presetGradients[$event])"
       >
         <template
           v-slot:selection="{ item }"
         >
           <FSRow
+            class="fs-gradient-field-preview"
             height="fill"
             width="100%"
-            class="fs-gradient-field-preview"
             :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(JSON.parse(item.value))})` }"
           >
             <span />
@@ -50,9 +50,9 @@
               #title
             >
               <FSRow
+                class="fs-gradient-field-preview"
                 height="fill"
                 width="100%"
-                class="fs-gradient-field-preview"
                 :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(presetGradients[item.value])})` }"
               >
                 <span />
@@ -68,24 +68,23 @@
 <script lang="ts">
 import { type PropType, defineComponent } from "vue";
 
+import { groupedGradients } from "../../utils";
 import { useColors } from "../../composables";
 
+import FSSelectField from "./FSSelectField.vue";
 import FSColorField from "./FSColorField.vue";
+import FSBaseField from "./FSBaseField.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
-import FSBaseField from "./FSBaseField.vue";
-import FSSelectField from "./FSSelectField.vue";
-
-import { groupedGradients } from "../../utils";
 
 export default defineComponent({
   name: "FSGradientField",
   components: {
-    FSBaseField,
+    FSSelectField,
     FSColorField,
+    FSBaseField,
     FSCol,
-    FSRow,
-    FSSelectField
+    FSRow
   },
   props: {
     label: {
@@ -97,6 +96,11 @@ export default defineComponent({
       type: String as PropType<string | null>,
       required: false,
       default: null
+    },
+    colorCount: {
+      type: Number,
+      required: false,
+      default: 2
     },
     modelValue: {
       type: Array as PropType<string[]>,
@@ -112,11 +116,6 @@ export default defineComponent({
       required: false,
       default: true
     },
-    colorCount: {
-      type: Number,
-      required: false,
-      default: 2
-    },
     allowOpacity: {
       type: Boolean,
       required: false,
@@ -126,6 +125,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props) {
     const { getColors } = useColors();
+
     const presetGradients = groupedGradients[props.colorCount];
     const items = Object.keys(presetGradients)
 
@@ -134,8 +134,8 @@ export default defineComponent({
     };
 
     return {
-      items,
       presetGradients,
+      items,
       encodeGradientCssColors
     };
   }
