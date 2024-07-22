@@ -14,9 +14,10 @@
       >
         <FSOptionItem
           v-for="(item, index) in props.values"
+          :padding="props.optionPadding"
+          :editable="props.editable"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -59,9 +60,10 @@
       >
         <FSOptionItem
           v-for="(item, index) in props.values"
+          :padding="props.optionPadding"
+          :editable="props.editable"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -92,14 +94,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum, type FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
-import type { FSToggle } from "@dative-gpi/foundation-shared-components/models"; 
 
 import FSOptionItem from "./FSOptionItem.vue";
 import FSSlideGroup from "./FSSlideGroup.vue";
@@ -177,6 +176,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "3px"
+    },
+    optionPadding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "4px"
     },
     gap: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,

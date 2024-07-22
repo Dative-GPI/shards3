@@ -35,6 +35,7 @@ export * from "./locations";
 export * from "./manufacturers";
 export * from "./models";
 export * from "./modelStatuses";                    // No service
+export * from "./notifications";
 export * from "./organisations";
 export * from "./permissionCategories";
 export * from "./roleOrganisations";
