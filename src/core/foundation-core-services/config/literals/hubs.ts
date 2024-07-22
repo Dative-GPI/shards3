@@ -12,3 +12,5 @@ export const REMOVE_ALERT = "RemoveAlert";
 export const CREATE_CONNECTIVITY_ALERT = "CreateConnectivityAlert";
 export const UPDATE_CONNECTIVITY_ALERT = "UpdateConnectivityAlert";
 export const REMOVE_CONNECTIVITY_ALERT = "RemoveConnectivityAlert";
+
+export const CREATE_NOTIFICATION = "CreateNotification";

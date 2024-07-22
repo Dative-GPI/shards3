@@ -25,6 +25,7 @@ export * from "./useGroups";
 export * from "./useLocations";
 export * from "./useManufacturers";
 export * from "./useModels";
+export * from "./useNotifications";
 export * from "./useOrganisations";
 export * from "./useOrganisationTypes";
 export * from "./usePermissionCategories";

@@ -1,13 +1,12 @@
 <template>
   <FSClickable
-    padding="4px"
     :editable="$props.editable"
     :height="['32px', '28px']"
+    :padding="$props.padding"
     :variant="$props.variant"
     :color="$props.color"
     :load="$props.load"
     :border="false"
-    :width="width"
     @click.stop="onClick"
     v-bind="$attrs"
   >
@@ -52,12 +51,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { sizeToVar, varToSize } from "@dative-gpi/foundation-shared-components/utils";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSClickable from "./FSClickable.vue";
@@ -99,15 +95,15 @@ export default defineComponent({
       required: false,
       default: "standard"
     },
-    ItemWidth: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: false,
-      default: () => ["32px","28px"]
-    },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "4px"
     },
     load: {
       type: Boolean,
@@ -126,13 +122,6 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const width = computed((): string => {
-      if (props.label) {
-        return "fit-content";
-      }
-      return sizeToVar(varToSize(props.ItemWidth));
-    });
-
     const onClick = (event: MouseEvent) => {
       if (props.editable && !props.load) {
         emit("click", event);
@@ -141,7 +130,6 @@ export default defineComponent({
 
     return {
       colors,
-      width,
       onClick
     };
   }
