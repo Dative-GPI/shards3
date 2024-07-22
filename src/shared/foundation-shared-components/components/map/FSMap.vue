@@ -137,7 +137,7 @@ import "leaflet.markercluster";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type Address, type FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
-import { clusterMarker, locationMarker, myLocationMarker } from "../../utils";
+import { clusterMarkerHtml, locationMarkerHtml, myLocationMarkerHtml } from "../../utils";
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 import { useColors, useAddress, useBreakpoints } from "../../composables";
 
@@ -323,7 +323,13 @@ export default defineComponent({
     const displayLocations = () => {
       markerLayerGroup.clearLayers();
       innerModelValue.value.forEach((location) => {
-        const icon = locationMarker(location.icon, getColors(location.color).base, L);
+        const size = 36;
+        const icon = L.divIcon({
+          html: locationMarkerHtml(location.icon, getColors(location.color).base),
+          iconSize: [size, size],
+          className: 'fs-map-location',
+          iconAnchor: [size / 2, size / 2],
+        });
         const marker = LL.marker([location.address.latitude, location.address.longitude], { icon }).addTo(markerLayerGroup);
         markers[location.id] = marker;
         marker.on('click', () => emit('update:selectedLocationId', location.id));
@@ -369,7 +375,13 @@ export default defineComponent({
           showCoverageOnHover: false,
           disableClusteringAtZoom: 17,
           iconCreateFunction: function (cluster: any) {
-            return clusterMarker(cluster.getChildCount(), L);
+            const size = 36;
+            return L.divIcon({
+              html: clusterMarkerHtml(cluster.getChildCount()),
+              className: 'fs-map-location fs-map-location-full',
+              iconSize: [size, size],
+              iconAnchor: [size / 2, size / 2],
+            });
           }
         });
       }
@@ -448,7 +460,13 @@ export default defineComponent({
       map.locate();
       map.on('locationfound', (e: L.LocationEvent) => {
         map.panTo(calculateTargetPosition(e.latlng));
-        const icon = myLocationMarker(L);
+        const size= 16;
+        const icon = L.divIcon({
+          html: myLocationMarkerHtml(L),
+          className: 'fs-map-mylocation',
+          iconSize: [size, size],
+          iconAnchor: [size / 2, size / 2],
+        });
         myLocationLayerGroup.clearLayers();
         LL.marker(e.latlng, { icon }).addTo(myLocationLayerGroup);
       });
@@ -505,7 +523,7 @@ export default defineComponent({
           if (entry.target.id === `left-overlay-${mapId}`) {
             leftOverlayWidth.value = entry.contentRect.width;
           }
-          if(entry.target.id === `left-overlay-mobile-${mapId}`) {
+          if (entry.target.id === `left-overlay-mobile-${mapId}`) {
             leftOverlayHeight.value = entry.contentRect.height;
           }
         });
