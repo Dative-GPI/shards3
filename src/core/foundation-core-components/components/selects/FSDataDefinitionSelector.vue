@@ -37,8 +37,8 @@ export default defineComponent({
     },
     
   },
-  emits: ['update:modelValue', 'update:dataDefinition'],
-  setup(props, {emit}) {
+  emits: ['update:modelValue'],
+  setup(props) {
 
     const {getMany : fetchDataDefinitions, entities : dataDefinitions} = useDataDefinitions()
 
@@ -53,12 +53,6 @@ export default defineComponent({
 
     watch(() => [props.modelId, props.dataCategoryId], async () => {
       await fetchDataDefinitions({modelsIds: props.modelId ? [props.modelId] : undefined, dataCategoryId: props.dataCategoryId})
-    }, {immediate: true})
-
-    watch(() => [props.modelValue, dataDefinitions.value], () => {
-      if(dataDefinitions.value){
-        emit('update:dataDefinition', dataDefinitions.value.find((d) => d.id === props.modelValue))
-      }
     }, {immediate: true})
 
     return {

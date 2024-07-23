@@ -33,8 +33,8 @@ export default defineComponent({
       required: false
     },
   },
-  emits: ['update:modelValue', 'update:dataCategory'],
-  setup(props, {emit}) {
+  emits: ['update:modelValue'],
+  setup(props) {
     const {getMany : fetchdataCategories, entities : dataCategories} = useDataCategories()
 
     const toggleDataCategories = computed(()=>{
@@ -48,12 +48,6 @@ export default defineComponent({
 
     watch(() => props.modelId, () => {
       fetchdataCategories({modelId: props.modelId})
-    }, {immediate: true})
-
-    watch(() => [props.modelValue, dataCategories.value], () => {
-      if(dataCategories.value){
-        emit('update:dataCategory', dataCategories.value.find((d) => d.id === props.modelValue))
-      }
     }, {immediate: true})
 
 
