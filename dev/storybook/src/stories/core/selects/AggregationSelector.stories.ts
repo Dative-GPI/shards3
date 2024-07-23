@@ -31,7 +31,7 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSAggregationSelector
-        v-model:aggregationType="args.value"
+        v-model="args.value"
       />
     </FSCol>`
   })

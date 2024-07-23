@@ -31,7 +31,7 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSModelSelector
-        v-model:modelId="args.value"
+        v-model="args.value"
       />
     </FSCol>`
   })
