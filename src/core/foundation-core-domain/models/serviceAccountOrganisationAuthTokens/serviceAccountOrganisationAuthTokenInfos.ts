@@ -25,4 +25,6 @@ export interface ServiceAccountOrganisationAuthTokenInfosDTO {
 }
 
 export interface ServiceAccountOrganisationAuthTokenFilters {
+    active?: boolean;
+    minimumSecondDuration?: number;
 }
