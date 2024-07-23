@@ -20,7 +20,6 @@ export interface CreateAuthTokenDTO {
 }
 
 export interface AuthTokenFilters {
-  userId?: string;
   active?: boolean;
   minimumSecondDuration?: number;
 }
