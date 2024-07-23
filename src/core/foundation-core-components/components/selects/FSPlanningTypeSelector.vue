@@ -1,10 +1,10 @@
 <template>
   <FSCol>
     <FSSelectField
-      :label="$tr('ui.common.planning-type','Planning type')"
+      :label="label ?? $tr('ui.common.planning-type','Planning type')"
       :items="planningTypeItems"
-      :modelValue="planningType"
-      @update:modelValue="$emit('update:planningType', $event)"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -12,7 +12,6 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {PlanningType} from "@dative-gpi/foundation-core-domain/models";
 
 import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
@@ -24,16 +23,17 @@ export default defineComponent({
     FSSelectField
   },
   props: {
-    planningType: {
+    modelValue: {
       type: Number as PropType<PlanningType>,
       required: false
     },
-    
+    label: {
+      type: String,
+      required: false
+    }
   },
-  emits: ['update:planningType'],
+  emits: ['update:modelValue'],
   setup() {
-
-    const { $tr } = useTranslationsProvider();
     
     const planningTypeItems = computed(()=>{
       return getEnumEntries(PlanningType).map((f)=>{
@@ -45,8 +45,7 @@ export default defineComponent({
     });
 
     return {
-      planningTypeItems,
-      $tr
+      planningTypeItems
     }
   }
 })

@@ -1,10 +1,10 @@
 <template>
   <FSCol>
     <FSSelectField
-      :label="$tr('ui.common.display-as','Display as')"
+      :label="label ?? $tr('ui.common.display-as','Display as')"
       :items="displayAsItems"
-      :modelValue="displayAs"
-      @update:modelValue="$emit('update:displayAs', $event)"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -12,7 +12,6 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {DisplayAs} from "@dative-gpi/foundation-core-domain/models";
 
 import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
@@ -24,16 +23,18 @@ export default defineComponent({
     FSSelectField
   },
   props: {
-    displayAs: {
+    modelValue: {
       type: Number as PropType<DisplayAs>,
       required: false
     },
+    label: {
+      type: String,
+      required: false
+    }
     
   },
-  emits: ['update:displayAs'],
+  emits: ['update:modelValue'],
   setup() {
-
-    const { $tr } = useTranslationsProvider();
     
     const displayAsItems = computed(()=>{
       return getEnumEntries(DisplayAs).map((f)=>{
@@ -46,7 +47,6 @@ export default defineComponent({
 
     return {
       displayAsItems,
-      $tr
     }
   }
 })

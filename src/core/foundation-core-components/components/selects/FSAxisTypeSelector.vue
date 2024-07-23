@@ -3,8 +3,8 @@
     <FSToggleSet
       :hideHeader="true"
       :values="axisTypeItems"
-      :modelValue="axisType"
-      @update:modelValue="$emit('update:axisType', $event)"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -12,7 +12,6 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import  {AxisType} from "@dative-gpi/foundation-core-domain/models";
 
 import {axisTypeLabel, getEnumEntries} from "../../utils";
@@ -25,16 +24,13 @@ export default defineComponent({
     FSToggleSet
   },
   props: {
-    axisType: {
+    modelValue: {
       type: Number as PropType<AxisType>,
       required: false
-    },
-    
+    }
   },
-  emits: ['update:axisType'],
+  emits: ['update:modelValue'],
   setup() {
-
-    const { $tr } = useTranslationsProvider();
 
     const axisTypeItems = computed(()=>{
       return getEnumEntries(AxisType).map((f)=>{
@@ -46,8 +42,7 @@ export default defineComponent({
     });
 
     return {
-      axisTypeItems,
-      $tr
+      axisTypeItems
     }
   }
 })

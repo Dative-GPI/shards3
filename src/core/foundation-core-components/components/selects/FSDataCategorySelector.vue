@@ -1,17 +1,16 @@
 <template>
   <FSAutocompleteField
-    :label="$tr('ui.common.data-category', 'Data category')"
+    :label="label ?? $tr('ui.common.data-category', 'Data category')"
     :items="toggleDataCategories"
-    :modelValue="dataCategoryId"
+    :modelValue="modelValue"
     :toggleSet="toggleDataCategories.length < 5"
-    @update:modelValue="$emit('update:dataCategoryId', $event);"
+    @update:modelValue="$emit('update:modelValue', $event);"
   />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, watch } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {useDataCategories} from "@dative-gpi/foundation-core-services/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
@@ -21,7 +20,7 @@ export default defineComponent({
     FSAutocompleteField
   },
   props:{
-    dataCategoryId: {
+    modelValue: {
       type: String,
       required: false
     },
@@ -29,11 +28,13 @@ export default defineComponent({
       type: String,
       required: false,
     },
-    
+    label: {
+      type: String,
+      required: false
+    },
   },
-  emits: ['update:dataCategoryId', 'update:dataCategory'],
+  emits: ['update:modelValue', 'update:dataCategory'],
   setup(props, {emit}) {
-    const { $tr } = useTranslationsProvider();
     const {getMany : fetchdataCategories, entities : dataCategories} = useDataCategories()
 
     const toggleDataCategories = computed(()=>{
@@ -49,17 +50,16 @@ export default defineComponent({
       fetchdataCategories({modelId: props.modelId})
     }, {immediate: true})
 
-    watch(() => [props.dataCategoryId, dataCategories.value], () => {
+    watch(() => [props.modelValue, dataCategories.value], () => {
       if(dataCategories.value){
-        emit('update:dataCategory', dataCategories.value.find((d) => d.id === props.dataCategoryId))
+        emit('update:dataCategory', dataCategories.value.find((d) => d.id === props.modelValue))
       }
     }, {immediate: true})
 
 
     return {
       toggleDataCategories,
-      dataCategories,
-      $tr
+      dataCategories
     }
   }
 })

@@ -1,11 +1,11 @@
 <template>
   <FSCol>
     <FSAutocompleteField
-      :label="$tr('ui.common.filter-type','Filter type')"
+      :label="label ?? $tr('ui.common.filter-type','Filter type')"
       :toggleSet="true"
       :items="filterTypeItems"
-      :modelValue="filterType"
-      @update:modelValue="$emit('update:filterType', $event)"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -13,7 +13,6 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {FilterType} from "@dative-gpi/foundation-core-domain/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
@@ -25,17 +24,18 @@ export default defineComponent({
     FSAutocompleteField
   },
   props: {
-    filterType: {
+    modelValue: {
       type: Number as PropType<FilterType>,
       required: false,
       default : FilterType.None
     },
-    
+    label: {
+      type: String,
+      required: false
+    }
   },
-  emits: ['update:filterType'],
+  emits: ['update:modelValue'],
   setup() {
-
-    const { $tr } = useTranslationsProvider();
 
     const filterTypeItems = computed(()=>{
       return getEnumEntries(FilterType).map((f)=>{
@@ -47,8 +47,7 @@ export default defineComponent({
     });
 
     return {
-      filterTypeItems,
-      $tr
+      filterTypeItems
     }
   }
 })

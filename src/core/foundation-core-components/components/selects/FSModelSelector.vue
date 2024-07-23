@@ -1,17 +1,16 @@
 <template>
   <FSAutocompleteField
-    :label="$tr('ui.common.model', 'Model')"
+    :label="label ?? $tr('ui.common.model', 'Model')"
     :items="modelItems"
     :toggleSet="modelItems.length < 5"
-    :modelValue="modelId"
-    @update:modelValue="$emit('update:modelId', $event)"
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
   />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onMounted } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {useModels} from "@dative-gpi/foundation-core-services/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
@@ -21,15 +20,17 @@ export default defineComponent({
     FSAutocompleteField
   },
   props:{
-    modelId: {
+    modelValue: {
       type: String,
       required: false
     },
-    
+    label: {
+      type: String,
+      required: false
+    }
   },
-  emits: ['update:modelId'],
+  emits: ['update:modelValue'],
   setup(){
-    const { $tr } = useTranslationsProvider();
     const {getMany : fetchModels, entities : models} = useModels()
 
     const modelItems = computed(()=>{
@@ -47,7 +48,6 @@ export default defineComponent({
 
     return {
       modelItems,
-      $tr
     }
   }
 })

@@ -1,16 +1,15 @@
 <template>
   <FSAutocompleteField
-    :label="label"
+    :label="label ?? $tr('ui.common.data-definition', 'Data')"
     :items="toggleDataDefinitions"
-    :modelValue="dataDefinitionId"
-    @update:modelValue="$emit('update:dataDefinitionId', $event)"
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
   />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, watch } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {useDataDefinitions} from "@dative-gpi/foundation-core-services/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
@@ -20,7 +19,7 @@ export default defineComponent({
     FSAutocompleteField
   },
   props:{
-    dataDefinitionId: {
+    modelValue: {
       type: String,
       required: false
     },
@@ -34,13 +33,13 @@ export default defineComponent({
     },
     label: {
       type: String,
-      required: false,
+      required: false
     },
     
   },
-  emits: ['update:dataDefinitionId', 'update:dataDefinition'],
+  emits: ['update:modelValue', 'update:dataDefinition'],
   setup(props, {emit}) {
-    const { $tr } = useTranslationsProvider();
+
     const {getMany : fetchDataDefinitions, entities : dataDefinitions} = useDataDefinitions()
 
     const toggleDataDefinitions = computed(()=>{
@@ -56,16 +55,15 @@ export default defineComponent({
       await fetchDataDefinitions({modelsIds: props.modelId ? [props.modelId] : undefined, dataCategoryId: props.dataCategoryId})
     }, {immediate: true})
 
-    watch(() => [props.dataDefinitionId, dataDefinitions.value], () => {
+    watch(() => [props.modelValue, dataDefinitions.value], () => {
       if(dataDefinitions.value){
-        emit('update:dataDefinition', dataDefinitions.value.find((d) => d.id === props.dataDefinitionId))
+        emit('update:dataDefinition', dataDefinitions.value.find((d) => d.id === props.modelValue))
       }
     }, {immediate: true})
 
     return {
       toggleDataDefinitions,
-      dataDefinitions,
-      $tr
+      dataDefinitions
     }
   }
 })

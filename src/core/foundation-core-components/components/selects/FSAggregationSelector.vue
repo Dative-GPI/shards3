@@ -1,10 +1,10 @@
 <template>
   <FSCol>
     <FSSelectField
-      :label="tr('ui.common.aggregation-type','Aggregation')"
+      :label="label ?? $tr('ui.common.aggregation-type','Aggregation')"
       :items="aggregationTypeItems"
-      :modelValue="aggregationType"
-      @update:modelValue="$emit('update:aggregationType', $event)"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -12,7 +12,6 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {AggregationType} from "@dative-gpi/foundation-core-domain/models";
 
 import {aggregationTypeLabel, getEnumEntries} from "../../utils";
@@ -24,16 +23,17 @@ export default defineComponent({
     FSSelectField
   },
   props: {
-    aggregationType: {
+    modelValue : {
       type: Number as PropType<AggregationType>,
       required: false
     },
-    
+    label : {
+      type: String,
+      required: false
+    }
   },
-  emits: ['update:aggregationType'],
+  emits: ['update:modelValue'],
   setup() {
-
-    const { $tr } = useTranslationsProvider();
 
     const aggregationTypeItems = computed(()=>{
       return getEnumEntries(AggregationType).map((f)=>{
@@ -45,8 +45,7 @@ export default defineComponent({
     });
 
     return {
-      aggregationTypeItems,
-      tr : $tr 
+      aggregationTypeItems
     }
   }
 })

@@ -1,10 +1,10 @@
 <template>
   <FSCol>
     <FSSelectField
-      :label="$tr('ui.common.operation-on','Operation on')"
+      :label="label ?? $tr('ui.common.operation-on','Operation on')"
       :items="operationOnItems"
-      :modelValue="operationOn"
-      @update:modelValue="$emit('update:operationOn', $event)"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -12,7 +12,6 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {OperationOn} from "@dative-gpi/foundation-core-domain/models";
 
 import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
@@ -24,16 +23,17 @@ export default defineComponent({
     FSSelectField
   },
   props: {
-    operationOn: {
+    modelValue: {
       type: Number as PropType<OperationOn>,
       required: false
     },
-    
+    label : {
+      type: String,
+      required: false
+    }
   },
-  emits: ['update:operationOn'],
+  emits: ['update:modelValue'],
   setup() {
-
-    const { $tr } = useTranslationsProvider();
     
     const operationOnItems = computed(()=>{
       return getEnumEntries(OperationOn).map((f)=>{
@@ -45,8 +45,7 @@ export default defineComponent({
     });
 
     return {
-      operationOnItems,
-      $tr
+      operationOnItems
     }
   }
 })

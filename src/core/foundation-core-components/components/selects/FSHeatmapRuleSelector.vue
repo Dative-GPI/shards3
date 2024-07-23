@@ -1,10 +1,10 @@
 <template>
   <FSCol>
     <FSSelectField
-      :label="$tr('ui.common.heat-rule','Heat rule')"
+      :label="label ?? $tr('ui.common.heat-rule','Heat rule')"
       :items="heatmapRuleItems"
-      :modelValue="heatmapRule"
-      @update:modelValue="$emit('update:heatmapRule', $event)"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
     />
   </FSCol>
 </template>
@@ -12,7 +12,6 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import {HeatmapRule} from "@dative-gpi/foundation-core-domain/models";
 
 import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
@@ -24,16 +23,18 @@ export default defineComponent({
     FSSelectField
   },
   props: {
-    heatmapRule: {
+    modelValue: {
       type: Number as PropType<HeatmapRule>,
       required: false
     },
+    label: {
+      type: String,
+      required: false
+    }
     
   },
-  emits: ['update:heatmapRule'],
+  emits: ['update:modelValue'],
   setup() {
-
-    const { $tr } = useTranslationsProvider();
     
     const heatmapRuleItems = computed(()=>{
       return getEnumEntries(HeatmapRule).map((f)=>{
@@ -45,8 +46,7 @@ export default defineComponent({
     });
 
     return {
-      heatmapRuleItems,
-      $tr
+      heatmapRuleItems
     }
   }
 })
