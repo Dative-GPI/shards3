@@ -279,12 +279,8 @@
           >
             <FSRow
               v-if="showSearch"
-              class="fs-autocomplete-custom-no-data"
               padding="17px"
             >
-              <FSSpan>
-                {{search}}
-              </FSSpan>
               <FSButton
                 variant="icon"
                 :label="$tr('ui.common.add', 'Add this item')"
