@@ -8,6 +8,7 @@
       :modelValue="modelValue"
       @update:modelValue="$emit('update:modelValue', $event)"
       @keydown="onKeydown"
+      v-binds="$attrs"
     >
       <template
         #autocomplete-chip
@@ -24,6 +25,7 @@
       @update:modelValue="$emit('update:modelValue', $event)"
       @add:item="onAddItem"
       @keydown="onKeydown"
+      v-binds="$attrs"
     >
       <template
         #autocomplete-chip
