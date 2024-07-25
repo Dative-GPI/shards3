@@ -1,12 +1,10 @@
 <template>
-  <FSCol>
-    <FSSelectField
-      :label="label ?? $tr('ui.common.heat-rule','Heat rule')"
-      :items="heatmapRuleItems"
-      :modelValue="modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
-    />
-  </FSCol>
+  <FSSelectField
+    :label="label ?? $tr('ui.common.heat-rule','Heat rule')"
+    :items="heatmapRuleItems"
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+  />
 </template>
 
 <script lang="ts">

@@ -278,6 +278,22 @@
             #no-data
           >
             <FSRow
+              v-if="showSearch"
+              class="fs-autocomplete-custom-no-data"
+              padding="17px"
+            >
+              <FSSpan>
+                {{search}}
+              </FSSpan>
+              <FSButton
+                variant="icon"
+                :label="$tr('ui.common.add', 'Add this item')"
+                :color="ColorEnum.Primary"
+                @click="$emit('add:item', search)"
+              />
+            </FSRow>
+            <FSRow
+              v-else
               padding="17px"
             >
               <FSSpan>
@@ -293,7 +309,7 @@
 
 <script lang="ts">
 import type { PropType} from "vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -404,9 +420,14 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    showSearch: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
-  emits: ["update:modelValue", "update:search"],
+  emits: ["update:modelValue", "update:search", "add:item"],
   setup: (props, { emit }) => {
     const { isExtraSmall, isMobileSized } = useBreakpoints();
     const { validateOn, getMessages } = useRules();
@@ -434,13 +455,14 @@ export default defineComponent({
         };
       }
       return {
-        "--fs-autocomplete-field-cursor":              "text",
-        "--fs-autocomplete-field-background-color":    backgrounds.base,
-        "--fs-autocomplete-field-border-color":        lights.dark,
-        "--fs-autocomplete-field-color":               darks.base,
-        "--fs-autocomplete-field-active-border-color": darks.dark,
-        "--fs-autocomplete-field-error-color":         errors.base,
-        "--fs-autocomplete-field-error-border-color":  errors.base
+        "--fs-autocomplete-field-cursor":                   "text",
+        "--fs-autocomplete-field-background-color":         backgrounds.base,
+        "--fs-autocomplete-field-no-data-background-color": lights.light,
+        "--fs-autocomplete-field-border-color":             lights.dark,
+        "--fs-autocomplete-field-color":                    darks.base,
+        "--fs-autocomplete-field-active-border-color":      darks.dark,
+        "--fs-autocomplete-field-error-color":              errors.base,
+        "--fs-autocomplete-field-error-border-color":       errors.base
       };
     });
 
@@ -576,18 +598,9 @@ export default defineComponent({
 
     const onClick = () => {
       if (props.modelValue && !props.multiple) {
-        search.value = "";
-        emit("update:search", search.value);
-        emit("update:modelValue", null);
-      }
+        search.value="";
+      } 
     };
-
-    watch(search, () => {
-      emit("update:search", search.value);
-      if (props.modelValue && search.value &&  !props.multiple) {
-        emit("update:modelValue", null);
-      }
-    });
 
     return {
       mobileSelectionProps,

@@ -1,13 +1,11 @@
 <template>
-  <FSCol>
-    <FSAutocompleteField
-      :label="label ?? $tr('ui.common.filter-type','Filter type')"
-      :toggleSet="true"
-      :items="filterTypeItems"
-      :modelValue="modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
-    />
-  </FSCol>
+  <FSAutocompleteField
+    :label="label ?? $tr('ui.common.filter-type','Filter type')"
+    :toggleSet="true"
+    :items="filterTypeItems"
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+  />
 </template>
 
 <script lang="ts">

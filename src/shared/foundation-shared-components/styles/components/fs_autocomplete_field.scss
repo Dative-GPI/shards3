@@ -22,6 +22,17 @@
     }
 }
 
+.fs-autocomplete-custom-no-data {
+    border: 1px solid var(--fs-autocomplete-field-border-color) !important;
+    border-radius: 4px;
+    background-color: var(--fs-autocomplete-field-no-data-background-color) !important;
+    padding: 2px 8px 2px 16px;
+    color: var(--fs-autocomplete-field-color);
+    margin-top: 2px;
+    height: 48px;
+    cursor: var(--fs-autocomplete-field-cursor) !important;
+}
+
 .fs-autocomplete-field-label {
     color: var(--fs-autocomplete-field-color);
 }
