@@ -5,8 +5,8 @@
       :label="label"
       :items="innerItems"
       :multiple="true"
-      :modelValue="modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
+      :modelValue="modelValue?.map(m=>m.id)"
+      @update:modelValue="onUpdateModelValue"
       @keydown="onKeydown"
       v-binds="$attrs"
     >
@@ -20,9 +20,9 @@
       :label="label"
       :items="innerItems"
       :multiple="true"
-      :modelValue="modelValue"
+      :modelValue="modelValue?.map(m=>m.id)"
       :showSearch="true"
-      @update:modelValue="$emit('update:modelValue', $event)"
+      @update:modelValue="onUpdateModelValue"
       @add:item="onAddItem"
       @keydown="onKeydown"
       v-binds="$attrs"
@@ -34,14 +34,15 @@
     </FSAutocompleteField> 
     <FSTagGroup
       v-if="modelValue != null"
-      :tags="innerItems.filter(i=>modelValue && modelValue.includes(i.id)).map(i=>i.label) ?? []"
+      :tags="modelValue?.map((v) => v.label) ?? []"
       @remove="onRemoveValue($event)"
     />
   </FSCol>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref, watch } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 
 import { uuidv4 } from '@dative-gpi/bones-ui';
 
@@ -55,12 +56,12 @@ export default defineComponent({
   },
   props:{
     modelValue: {
-      type: Array as PropType<string[] | null>,
+      type: Array as PropType<{id : string, label : string, isCustom: boolean}[] | null>,
       required: false,
       default: () => []
     },
     items: {
-      type: Array as PropType<{id : string, label : string}[]>,
+      type: Array as PropType<{id : string, label : string, isCustom: boolean}[]>,
       required: false,
       default: () => []
     },
@@ -72,39 +73,45 @@ export default defineComponent({
       type: String as PropType<'standard' | 'tagged'>,
       required: false,
       default : 'standard'
-    }
+    },
   },
   emits: ["update:modelValue"],
   setup(props, {emit}) {
-    const tagValues = ref<{id : string, label : string}[]>([]);
 
-    const innerItems = computed(() => {
-      if (props.variant === 'standard') {
+    const tagValues = ref<{id : string, label : string, isCustom : boolean}[]>([]);
+
+    const innerItems = computed(()=>{
+
+      if(props.variant === 'standard'){
         return props.items
       }
-      else {
-        return props.items.concat(tagValues.value.filter(t=>props.modelValue?.includes(t.id)) ?? []);
+      else{
+        return props.items.concat(tagValues.value);
       }
     });
+
+    const onUpdateModelValue = (value: string[] | null) => {
+      emit('update:modelValue', value?.map((v) => innerItems.value.find((i) => i.id === v)));
+    }
 
     const onRemoveValue = (value: string) => {
       const idValue = innerItems.value.find((v) => v.label === value)?.id;
       if (idValue) {
-        if (tagValues.value.map((v) => v.label).includes(value)) {
+        if(tagValues.value.map((v) => v.label).includes(value)){
           tagValues.value = tagValues.value.filter((v) => v.label !== value);
         }
-        emit('update:modelValue', [...props.modelValue?.filter((v) => v !== idValue) ?? []]);
+        emit('update:modelValue', [...props.modelValue?.filter((v) => v.id !== idValue) ?? []]);
       }
-    };
+    }
 
     const onAddItem = (value: string) => {
       if (innerItems.value.map((v) => v.label).includes(value)) {
         return;
       }
-      let item = {id: uuidv4(), label: value};
+      let item = {id: uuidv4(), label: value, isCustom: true};
       tagValues.value.push(item);
-      emit('update:modelValue', [...props.modelValue ?? [], ...[item.id]]);
-    };
+      emit('update:modelValue', [...props.modelValue?? [],item]);
+    }
 
     const onKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Backspace') {
@@ -112,18 +119,20 @@ export default defineComponent({
       }
     };
 
-    watch(() => props.modelValue, () => {
-      if (props.modelValue) {
-        tagValues.value = tagValues.value.filter((v) => props.modelValue!.includes(v.id));
+    watch(() => props.modelValue, (newValue) => {
+      if (newValue) {
+        tagValues.value = props.modelValue?.filter(m=>m.isCustom) ?? [];
       }
     }, {immediate: true});
 
+
     return {
       innerItems,
-      onRemoveValue,
+      onUpdateModelValue,
       onAddItem,
+      onRemoveValue,
       onKeydown
-    };
+    }
   }
-});
+})
 </script>
