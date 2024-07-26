@@ -284,7 +284,7 @@ export const MultipleForm: Story = {
       label6: "",
       label7: "",
       label8: "",
-      rightButton: () => {
+      submitButton: () => {
         console.log("Form is valid");
       }
     }
@@ -308,7 +308,7 @@ export const MultipleForm: Story = {
         title="Star wars 1"
         subtitle="The phantom menace"
         :steps="3"
-        @click:rightButton="args.rightButton"
+        @click:submitButton="args.submitButton"
         v-model="args.value1"
       >
         <template #step-1>
@@ -393,7 +393,7 @@ export const Remove: Story = {
       <FSDialogRemove
         :removeTotal="1"
         :removing="args.removing1"
-        @click:rightButton="() => args.removing1 = true"
+        @click:submitButton="() => args.removing1 = true"
         v-model="args.value1"
       />
       <FSButton
@@ -403,7 +403,7 @@ export const Remove: Story = {
       <FSDialogRemove
         :removeTotal="12"
         :removing="args.removing2"
-        @click:rightButton="() => args.removing2 = true"
+        @click:submitButton="() => args.removing2 = true"
         v-model="args.value2"
       />
       <FSButton
@@ -413,7 +413,7 @@ export const Remove: Story = {
       <FSDialogRemove
         :removeTotal="9999999"
         :removing="args.removing3"
-        @click:rightButton="() => args.removing3 = true"
+        @click:submitButton="() => args.removing3 = true"
         v-model="args.value3"
       />
     </div>`
