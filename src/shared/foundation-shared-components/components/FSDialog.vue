@@ -34,7 +34,7 @@ import { computed, defineComponent } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
-import FSDialogContent from "./FSDialogContent";
+import FSDialogContent from "./FSDialogContent.vue";
 
 export default defineComponent({
   name: "FSDialog",
