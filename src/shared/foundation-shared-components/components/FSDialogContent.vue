@@ -1,31 +1,51 @@
 <template>
-  <v-dialog
-    transition="dialog-bottom-transition"
-    :class="classes"
-    :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
-    v-bind="$attrs"
+  <FSCard
+    padding="24px 8px 24px 24px"
+    gap="24px"
+    :class="$props.cardClasses"
+    :color="$props.color"
+    :width="cardWidth"
   >
-    <slot>
-      <FSDialogContent
-        :title="$props.title"
-        :subtitle="$props.subtitle"
-        :width="$props.width"
-        :modelValue="$props.modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
+    <template
+      #header
+    >
+      <FSCol
+        padding="0 16px 0 0"
       >
-        <template
-          v-for="(_, name) in $slots"
-          v-slot:[name]="slotData"
+        <FSRow
+          align="center-left"
+          :wrap="false"
         >
-          <slot
-            :name="name"
-            v-bind="slotData"
+          <FSText
+            font="text-h2"
+          >
+            {{ $props.title }}
+          </FSText>
+          <v-spacer />
+          <FSButton
+            icon="mdi-close"
+            variant="icon"
+            :color="ColorEnum.Dark"
+            @click="$emit('update:modelValue', false)"
           />
-        </template>
-      </FSDialogContent>
-    </slot>
-  </v-dialog>
+        </FSRow>
+        <FSText
+          v-if="$props.subtitle"
+        >
+          {{ $props.subtitle }}
+        </FSText>
+      </FSCol>
+    </template>
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
+    </template>
+  </FSCard>
 </template>
 
 <script lang="ts">
@@ -37,16 +57,14 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
-import FSDialogContent from "./FSDialogContent";
 import FSButton from "./FSButton.vue";
 import FSCard from "./FSCard.vue";
 import FSText from "./FSText.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
-  name: "FSDialog",
+  name: "FSDialogContent",
   components: {
-    FSDialogContent,
     FSButton,
     FSCard,
     FSText,
@@ -99,8 +117,16 @@ export default defineComponent({
       return classNames;
     });
 
+    const cardWidth = computed((): string => {
+      if (isExtraSmall.value) {
+        return "100%";
+      }
+      return sizeToVar(props.width);
+    });
+
     return {
       isExtraSmall,
+      cardWidth,
       ColorEnum,
       classes
     };
