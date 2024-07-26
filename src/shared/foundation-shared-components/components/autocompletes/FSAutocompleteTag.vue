@@ -41,8 +41,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { uuidv4 } from '@dative-gpi/bones-ui';
 
@@ -73,19 +72,17 @@ export default defineComponent({
       type: String as PropType<'standard' | 'tagged'>,
       required: false,
       default : 'standard'
-    },
+    }
   },
   emits: ["update:modelValue"],
   setup(props, {emit}) {
-
     const tagValues = ref<{id : string, label : string}[]>([]);
 
-    const innerItems = computed(()=>{
-
-      if(props.variant === 'standard'){
+    const innerItems = computed(() => {
+      if (props.variant === 'standard') {
         return props.items
       }
-      else{
+      else {
         return props.items.concat(tagValues.value.filter(t=>props.modelValue?.includes(t.id)) ?? []);
       }
     });
@@ -93,12 +90,12 @@ export default defineComponent({
     const onRemoveValue = (value: string) => {
       const idValue = innerItems.value.find((v) => v.label === value)?.id;
       if (idValue) {
-        if(tagValues.value.map((v) => v.label).includes(value)){
+        if (tagValues.value.map((v) => v.label).includes(value)) {
           tagValues.value = tagValues.value.filter((v) => v.label !== value);
         }
         emit('update:modelValue', [...props.modelValue?.filter((v) => v !== idValue) ?? []]);
       }
-    }
+    };
 
     const onAddItem = (value: string) => {
       if (innerItems.value.map((v) => v.label).includes(value)) {
@@ -107,7 +104,7 @@ export default defineComponent({
       let item = {id: uuidv4(), label: value};
       tagValues.value.push(item);
       emit('update:modelValue', [...props.modelValue ?? [], ...[item.id]]);
-    }
+    };
 
     const onKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Backspace') {
@@ -115,19 +112,18 @@ export default defineComponent({
       }
     };
 
-    watch(() => props.modelValue, (newValue) => {
-      if (newValue) {
-        tagValues.value = tagValues.value.filter((v) => newValue.includes(v.id));
+    watch(() => props.modelValue, () => {
+      if (props.modelValue) {
+        tagValues.value = tagValues.value.filter((v) => props.modelValue!.includes(v.id));
       }
     }, {immediate: true});
 
-
     return {
       innerItems,
-      onAddItem,
       onRemoveValue,
+      onAddItem,
       onKeydown
-    }
+    };
   }
-})
+});
 </script>
