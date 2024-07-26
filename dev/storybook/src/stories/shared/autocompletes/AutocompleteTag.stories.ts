@@ -18,9 +18,9 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value1: ["1","2","3"],
-      value2: [{id : "1", label : "Non"},{id : "2", label : "Etage"}, {id : "3", label : "Buée"}],
-      value3: ["2"]
+      value1: [{id : "1", label : "Non", isCustom : false},{id : "2", label : "Etage", isCustom : false}],
+      value2: [{id : "1", label : "Non", isCustom : false},{id : "2", label : "Etage", isCustom : false}, {id : "3", label : "Buée", isCustom : false}],
+      value3: [{id : "3", label : "Buée", isCustom : false}]
     }
   },
   render: (args, { argTypes }) => ({
