@@ -32,25 +32,14 @@
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
-import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSDialogContent from "./FSDialogContent";
-import FSButton from "./FSButton.vue";
-import FSCard from "./FSCard.vue";
-import FSText from "./FSText.vue";
-import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSDialog",
   components: {
-    FSDialogContent,
-    FSButton,
-    FSCard,
-    FSText,
-    FSRow
+    FSDialogContent
   },
   props: {
     title: {
@@ -85,7 +74,7 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props) {
+  setup() {
     const { isExtraSmall } = useBreakpoints();
 
     const classes = computed((): string[] => {
@@ -100,8 +89,6 @@ export default defineComponent({
     });
 
     return {
-      isExtraSmall,
-      ColorEnum,
       classes
     };
   }

@@ -71,7 +71,7 @@ export default defineComponent({
     },
   },
   emits: ["update:modelValue", "click:submitButton"],
-  setup(props, { emit }) {
+  setup() {
 
     return {
     };
