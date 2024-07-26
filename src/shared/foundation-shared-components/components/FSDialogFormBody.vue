@@ -93,12 +93,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, type PropType, ref } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSFadeOut from "./FSFadeOut.vue";
@@ -116,7 +114,7 @@ export default defineComponent({
   },
   props: {
     variant: {
-      type: String as PropType<"standard" | "lazy" | "submit">,
+      type: String as PropType<"standard" | "submit">,
       required: false,
       default: "submit"
     },
