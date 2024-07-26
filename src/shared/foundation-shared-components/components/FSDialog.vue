@@ -66,11 +66,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: ColorEnum.Dark
     }
   },
   emits: ["update:modelValue"],
