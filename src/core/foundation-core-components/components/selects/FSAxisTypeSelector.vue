@@ -1,12 +1,10 @@
 <template>
-  <FSCol>
-    <FSToggleSet
-      :hideHeader="true"
-      :values="axisTypeItems"
-      :modelValue="modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
-    />
-  </FSCol>
+  <FSToggleSet
+    :hideHeader="true"
+    :values="axisTypeItems"
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+  />
 </template>
 
 <script lang="ts">
