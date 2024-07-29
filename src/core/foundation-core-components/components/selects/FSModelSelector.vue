@@ -5,6 +5,7 @@
     :toggleSet="modelItems.length < 5"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
   />
 </template>
 
