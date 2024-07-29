@@ -1,6 +1,6 @@
-import { GATEWAY_EXTENSION_URL } from "./base";
+import { GATEWAY_URL } from "./base";
 
-export const IMAGES_URL = () => `${GATEWAY_EXTENSION_URL()}/images`;
+export const IMAGES_URL = () => `${GATEWAY_URL()}/images`;
 
 export const IMAGES_RAW_URL = () => `${IMAGES_URL()}/raw`;
 export const IMAGE_RAW_URL = (imageId: string) => `${IMAGES_RAW_URL()}/${encodeURIComponent(imageId)}`;
