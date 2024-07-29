@@ -4,6 +4,7 @@
     :items="toggleDataDefinitions"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
   />
 </template>
 

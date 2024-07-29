@@ -4,7 +4,8 @@
     :items="toggleDataCategories"
     :modelValue="modelValue"
     :toggleSet="toggleDataCategories.length < 5"
-    @update:modelValue="$emit('update:modelValue', $event);"
+    @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
   />
 </template>
 
