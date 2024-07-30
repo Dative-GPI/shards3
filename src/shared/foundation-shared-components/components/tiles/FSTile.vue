@@ -1,7 +1,19 @@
 <template>
   <FSClickable
-    v-if="$props.href || $props.to || $attrs.onClick"
-    variant="background"
+    v-if="$props.singleSelect"
+    :variant="$props.modelValue ? 'standard' : 'background'"
+    class="fs-tile"
+    padding="12px"
+    :height="height"
+    :style="style"
+    @click="() => $emit('update:modelValue', !$props.modelValue)"
+    v-bind="$attrs"
+  >
+    <slot />
+  </FSClickable>
+  <FSClickable
+    v-else-if="!$props.singleSelect && ($props.href || $props.to || $attrs.onClick)"
+    :variant="$props.modelValue ? 'standard' : 'background'"
     class="fs-tile"
     padding="12px"
     :height="height"
@@ -96,6 +108,11 @@ export default defineComponent({
       default: null
     },
     editable: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    singleSelect: {
       type: Boolean,
       required: false,
       default: false

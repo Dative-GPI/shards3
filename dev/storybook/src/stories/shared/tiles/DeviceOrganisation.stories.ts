@@ -396,6 +396,7 @@ export const Variations: Story = {
         :deviceAlerts="deviceOrganisation.deviceAlerts"
         :modelStatuses="deviceOrganisation.modelStatuses"
         :deviceStatuses="deviceOrganisation.deviceStatuses"
+        :singleSelect="true"
         href="www.google.fr"
         v-model="args.selected[index]"
       />

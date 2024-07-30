@@ -4,6 +4,7 @@
     :editable="$props.editable"
     :modelValue="$props.modelValue"
     :width="$props.width"
+    :color="$props.modelValue ? ColorEnum.Primary : ColorEnum.Background"
     v-bind="$attrs"
   >
     <FSCol
@@ -23,18 +24,18 @@
           <FSCol
             gap="6px"
           >
-            <FSText
+            <FSSpan
               font="text-button"
               :lineClamp="2"
             >
               {{ $props.label }}
-            </FSText>
-            <FSText
+            </FSSpan>
+            <FSSpan
               font="text-overline"
               variant="soft"
             >
               {{ $props.code }}
-            </FSText>
+            </FSSpan>
           </FSCol>
           <FSStatusesRow
             :deviceConnectivity="$props.deviceConnectivity"
@@ -75,7 +76,7 @@ import FSStatusesCarousel from "../deviceOrganisations/FSStatusesCarousel.vue";
 import FSStatusesRow from "../deviceOrganisations/FSStatusesRow.vue";
 import FSDivider from "../FSDivider.vue";
 import FSImage from "../FSImage.vue";
-import FSText from "../FSText.vue";
+import FSSpan from "../FSSpan.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -87,7 +88,7 @@ export default defineComponent({
     FSStatusesRow,
     FSDivider,
     FSImage,
-    FSText,
+    FSSpan,
     FSTile,
     FSCol,
     FSRow
@@ -147,7 +148,7 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: () => [352, 336]
-    },
+    }
   },
   setup(props) {
     const { isMobileSized } = useBreakpoints();
