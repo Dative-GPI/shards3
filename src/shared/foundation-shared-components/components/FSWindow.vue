@@ -27,8 +27,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType, VNode } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type VNode } from "vue";
 
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
@@ -60,7 +59,7 @@ export default defineComponent({
       style,
       getChildren,
       value
-    }
+    };
   }
 });
 </script>
