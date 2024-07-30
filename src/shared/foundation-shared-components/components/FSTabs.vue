@@ -10,14 +10,7 @@
     @update:modelValue="$emit('update:tab', $event)"
     v-bind="$attrs"
   >
-    <template
-      v-for="(component, index) in getChildren()"
-      :key="index"
-    >
-      <component
-        :is="component"
-      />
-    </template>
+    <slot/>
   </v-tabs>
 </template>
 
@@ -25,7 +18,7 @@
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -44,7 +37,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getChildren } = useSlots();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
@@ -62,8 +54,7 @@ export default defineComponent({
     }));
 
     return {
-      style,
-      getChildren
+      style
     };
   }
 });
