@@ -27,7 +27,8 @@ export const Variations: Story = {
       tab1: 0,
       tab2: 1,
       tab3: 2,
-      tab4: 3
+      tab4: 3,
+      tab5: 0
     }
   },
   render: (args, { argTypes }) => ({
@@ -41,11 +42,11 @@ export const Variations: Story = {
         <FSText> Tabs in FadeOut </FSText>
         <FSFadeOut height="200px">
           <FSCol>
-            <FSTabs v-model:tab="args.tab4" color="success">
+            <FSTabs v-model:tab="args.tab5" color="success">
               <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
               <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
             </FSTabs>
-            <FSWindow :modelValue="args.tab4" width="100%">
+            <FSWindow :modelValue="args.tab5" width="100%">
               <FSCol :value="0">
                 <FSText v-for="(arg, index) in 50">
                   Line {{ index }}
@@ -61,11 +62,11 @@ export const Variations: Story = {
         </FSFadeOut>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Fade outs in tabs </FSText>
-        <FSTabs v-model:tab="args.tab4" color="success">
+        <FSTabs v-model:tab="args.tab5" color="success">
           <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
           <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
         </FSTabs>
-        <FSWindow v-model="args.tab4" width="100%">
+        <FSWindow v-model="args.tab5" width="100%">
           <FSFadeOut :value="0" height="200px">
             <FSCol>
               <FSText v-for="(arg, index) in 50">
@@ -82,13 +83,12 @@ export const Variations: Story = {
           </FSFadeOut>
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-
         <FSText> Slide groups in tabs </FSText>
-        <FSTabs v-model:tab="args.tab4" color="success">
+        <FSTabs v-model:tab="args.tab5" color="success">
           <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
           <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
         </FSTabs>
-        <FSWindow v-model="args.tab4" width="100%">
+        <FSWindow v-model="args.tab5" width="100%">
           <FSCol :value="0">
             <FSSlideGroup :value="0">
               <FSButton label="Button 1" />

@@ -88,7 +88,7 @@ export const Variations: Story = {
       <FSToggleSet
         variant="slide"
         buttonVariant="standard"
-        activeVariant="standard"
+        activeVariant="full"
         buttonColor="dark"
         activeColor="light"
         :multiple="true"
