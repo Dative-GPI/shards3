@@ -310,7 +310,7 @@ export const Variations: Story = {
           deviceStatuses: []
         }, {
           id: "7",
-          label: "Bakery Guiomar Hernandes de Medeiros",
+          label: "Bakery Guiomar Hernandes de Medeiras e Albuquerque",
           code: "9300000000099206",
           imageId: "1",
           deviceConnectivity: connectivities[0],
@@ -396,7 +396,7 @@ export const Variations: Story = {
         :deviceAlerts="deviceOrganisation.deviceAlerts"
         :modelStatuses="deviceOrganisation.modelStatuses"
         :deviceStatuses="deviceOrganisation.deviceStatuses"
-        href="www.google.fr"
+        :singleSelect="true"
         v-model="args.selected[index]"
       />
     </div>`
@@ -462,7 +462,7 @@ export const Imageless: Story = {
         deviceStatuses: []
       }, {
         id: "7",
-        label: "Bakery Guiomar Hernandes de Medeiras",
+        label: "Bakery Guiomar Hernandes de Medeiras e Albuquerque",
         code: "9300000000099206",
         deviceConnectivity: connectivities[0],
         deviceWorstAlert: alerts[0],
@@ -539,6 +539,7 @@ export const Imageless: Story = {
       :deviceAlerts="deviceOrganisation.deviceAlerts"
       :modelStatuses="deviceOrganisation.modelStatuses"
       :deviceStatuses="deviceOrganisation.deviceStatuses"
+      href="www.google.fr"
       v-model="args.selected[index]"
     />
   </div>`

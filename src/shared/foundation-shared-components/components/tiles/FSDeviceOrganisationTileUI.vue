@@ -1,9 +1,10 @@
 <template>
   <FSTile
+    :activeColor="ColorEnum.Primary"
     :bottomColor="ColorEnum.Primary"
     :editable="$props.editable"
-    :modelValue="$props.modelValue"
     :width="$props.width"
+    :modelValue="$props.modelValue"
     v-bind="$attrs"
   >
     <FSCol
@@ -18,23 +19,23 @@
       >
         <FSCol
           gap="12px"
-          :width="`calc(100% - ${imageSize}px - 24px)`"
+          :width="infoWidth"
         >
           <FSCol
             gap="6px"
           >
-            <FSText
+            <FSSpan
               font="text-button"
               :lineClamp="2"
             >
               {{ $props.label }}
-            </FSText>
-            <FSText
+            </FSSpan>
+            <FSSpan
               font="text-overline"
               variant="soft"
             >
               {{ $props.code }}
-            </FSText>
+            </FSSpan>
           </FSCol>
           <FSStatusesRow
             :deviceConnectivity="$props.deviceConnectivity"
@@ -64,18 +65,16 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { FSModelStatus, FSDeviceStatus, FSDeviceAlert, FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, type FSModelStatus, type FSDeviceStatus, type FSDeviceAlert, type FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSStatusesCarousel from "../deviceOrganisations/FSStatusesCarousel.vue";
 import FSStatusesRow from "../deviceOrganisations/FSStatusesRow.vue";
 import FSDivider from "../FSDivider.vue";
 import FSImage from "../FSImage.vue";
-import FSText from "../FSText.vue";
+import FSSpan from "../FSSpan.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -87,7 +86,7 @@ export default defineComponent({
     FSStatusesRow,
     FSDivider,
     FSImage,
-    FSText,
+    FSSpan,
     FSTile,
     FSCol,
     FSRow
@@ -133,6 +132,11 @@ export default defineComponent({
       required: true,
       default: () => []
     },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: () => [352, 336]
+    },
     modelValue: {
       type: Boolean,
       required: false,
@@ -142,12 +146,7 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
-    },
-    width: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: false,
-      default: () => [352, 336]
-    },
+    }
   },
   setup(props) {
     const { isMobileSized } = useBreakpoints();
@@ -196,6 +195,12 @@ export default defineComponent({
       return isMobileSized.value ? 90 : 100;
     });
 
+    const infoWidth = computed((): string => {
+      if (!props.imageId) {
+        return "100%";
+      }
+      return `calc(100% - ${imageSize.value}px - 24px)`;
+    });
 
     return {
       carouselDeviceStatuses,
@@ -204,6 +209,7 @@ export default defineComponent({
       singleModelStatuses,
       ColorEnum,
       imageSize,
+      infoWidth
     };
   }
 });

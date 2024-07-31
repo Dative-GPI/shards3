@@ -1,6 +1,8 @@
 <template>
   <FSTile
+    :activeColor="ColorEnum.Primary"
     :editable="$props.editable"
+    :width="$props.width"
     :modelValue="$props.modelValue"
     v-bind="$attrs"
   >
@@ -18,16 +20,17 @@
           gap="4px"
           :width="infoWidth"
         >
-          <FSText
+          <FSSpan
             font="text-button"
             :lineClamp="2"
           >
-            {{ title }}
-          </FSText>
+            {{ $props.name }}
+          </FSSpan>
           <FSRow
             v-if="roleLabel"
             align="center-left"
             gap="4px"
+            :wrap="false"
           >
             <FSIcon
               v-if="roleIcon"
@@ -36,12 +39,12 @@
             >
               {{ roleIcon }}
             </FSIcon>
-            <FSText
+            <FSSpan
               font="text-overline"
               variant="soft"
             >
               {{ roleLabel }}
-            </FSText>
+            </FSSpan>
           </FSRow>
         </FSCol>
         <FSImage
@@ -55,16 +58,14 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { UserType } from "@dative-gpi/foundation-core-domain/models";
 
 import FSImage from "../FSImage.vue";
-import FSText from "../FSText.vue";
+import FSSpan from "../FSSpan.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -73,7 +74,7 @@ export default defineComponent({
   name: "FSUserOrganisationTileUI",
   components: {
     FSImage,
-    FSText,
+    FSSpan,
     FSTile,
     FSCol,
     FSRow
@@ -88,16 +89,6 @@ export default defineComponent({
       type: String as PropType<string | null>,
       required: false,
       default: null
-    },
-    label: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    userType: {
-      type: Number as PropType<UserType>,
-      required: false,
-      default: UserType.User
     },
     roleIcon: {
       type: String as PropType<string | null>,
@@ -114,6 +105,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: () => [352, 336]
+    },
     modelValue: {
       type: Boolean,
       required: false,
@@ -128,13 +124,6 @@ export default defineComponent({
   setup(props) {
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
-
-    const title = computed((): string | null => {
-      switch (props.userType) {
-        case UserType.ServiceAccount: return props.label;
-        default: return props.name;
-      }
-    });
 
     const roleIcon = computed((): string | null => {
       if (props.admin) {
@@ -151,24 +140,25 @@ export default defineComponent({
     });
 
     const imageSize = computed((): number => {
+      if (!props.imageId) {
+        return 0;
+      }
       return isMobileSized.value ? 90 : 100;
     });
 
-    const infoWidth = computed((): number => {
-      let width = isMobileSized.value ? 288 : 304;
-      if (props.imageId) {
-        width -= imageSize.value;
+    const infoWidth = computed((): string => {
+      if (!props.imageId) {
+        return "100%";
       }
-      return width;
+      return `calc(100% - ${imageSize.value}px - 24px)`;
     });
 
     return {
+      ColorEnum,
       imageSize,
       infoWidth,
-      ColorEnum,
       roleLabel,
-      roleIcon,
-      title
+      roleIcon
     };
   }
 });

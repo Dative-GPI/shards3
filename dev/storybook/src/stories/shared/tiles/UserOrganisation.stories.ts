@@ -15,53 +15,45 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Variations: Story = {
+  args: {
     args: {
-      args: {
-        values: [{
-          id: "1",
-          name: "Jean Martin",
-          userType: 0,
-          imageId: "1",
-          admin: true
-        }, {
-          id: "2",
-          label: "Service user",
-          userType: 1,
-          roleLabel: "Service administrator",
-          roleIcon: "mdi-cog",
-          imageId: "1",
-          admin: false
-        }, {
-          id: "3",
-          name: "Juano Alphonso Santos de la Cruz de la Balina",
-          userType: 0,
-          roleLabel: "User",
-          roleIcon: "mdi-account-outline",
-          imageId: "1",
-          admin: false
-        }],
-        selected: [
-          false,
-          false,
-          false
-        ]
-      }
-    },
-    render: (args, { argTypes }) => ({
-    components: { FSUserOrganisationTileUI },
-    props: Object.keys(argTypes),
-    setup() {
-      return { ...args };
-    },
-    template: `
+      values: [{
+        id: "1",
+        name: "Jean-Michel Quelqu'un",
+        admin: true
+      }, {
+        id: "2",
+        name: "Jean-Michel Personne",
+        roleLabel: "Red shirt",
+        roleIcon: "mdi-cog",
+        admin: false
+      }, {
+        id: "3",
+        name: "Juano Alphonso Santos de la Cruz de la Balina",
+        roleLabel: "User",
+        roleIcon: "mdi-account-outline",
+        admin: false
+      }],
+      selected: [
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  render: (args, { argTypes }) => ({
+  components: { FSUserOrganisationTileUI },
+  props: Object.keys(argTypes),
+  setup() {
+    return { ...args };
+  },
+  template: `
     <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
       <FSUserOrganisationTileUI
         v-for="(userOrganisation, index) in args.values"
         :key="index"
         :imageId="userOrganisation.imageId"
         :name="userOrganisation.name"
-        :label="userOrganisation.label"
-        :userType="userOrganisation.userType"
         :roleIcon="userOrganisation.roleIcon"
         :roleLabel="userOrganisation.roleLabel"
         :admin="userOrganisation.admin"
@@ -76,20 +68,17 @@ export const Imageless: Story = {
     args: {
       values: [{
         id: "1",
-        name: "Jean Martin",
-        userType: 0,
+        name: "Jean-Michel Quelqu'un",
         admin: true
       }, {
         id: "2",
-        label: "Service user",
-        userType: 1,
-        roleLabel: "Service administrator",
+        name: "Jean-Michel Personne",
+        roleLabel: "Red shirt",
         roleIcon: "mdi-cog",
         admin: false
       }, {
         id: "3",
         name: "Juano Alphonso Santos de la Cruz de la Balina",
-        userType: 0,
         roleLabel: "User",
         roleIcon: "mdi-account-outline",
         admin: false
@@ -107,18 +96,16 @@ export const Imageless: Story = {
     return { ...args };
   },
   template: `
-  <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
-    <FSUserOrganisationTileUI
-      v-for="(userOrganisation, index) in args.values"
-      :key="index"
-      :name="userOrganisation.name"
-      :label="userOrganisation.label"
-      :userType="userOrganisation.userType"
-      :roleIcon="userOrganisation.roleIcon"
-      :roleLabel="userOrganisation.roleLabel"
-      :admin="userOrganisation.admin"
-      v-model="args.selected[index]"
-    />
-  </div>`
-})
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
+      <FSUserOrganisationTileUI
+        v-for="(userOrganisation, index) in args.values"
+        :key="index"
+        :name="userOrganisation.name"
+        :roleIcon="userOrganisation.roleIcon"
+        :roleLabel="userOrganisation.roleLabel"
+        :admin="userOrganisation.admin"
+        v-model="args.selected[index]"
+      />
+    </div>`
+  })
 }

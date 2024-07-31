@@ -1,9 +1,10 @@
 <template>
   <FSTile
+    :activeColor="ColorEnum.Primary"
     :bottomColor="ColorEnum.Error"
     :editable="$props.editable"
-    :modelValue="$props.modelValue"
     :width="$props.width"
+    :modelValue="$props.modelValue"
     v-bind="$attrs"
   >
     <FSCol
@@ -13,27 +14,28 @@
       <FSRow
         align="center-center"
         gap="24px"
-        :wrap="false"
         :height="imageSize"
+        :wrap="false"
       >
         <FSCol
           gap="12px"
-          :width="`calc(100% - ${imageSize}px - 24px)`"
+          :width="infoWidth"
         >
           <FSCol
             gap="6px"
           >
-            <FSText
+            <FSSpan
               font="text-button"
+              :lineClamp="1"
             >
               {{ $props.label }}
-            </FSText>
-            <FSText
+            </FSSpan>
+            <FSSpan
               font="text-overline"
               variant="soft"
             >
               {{ $props.code }}
-            </FSText>
+            </FSSpan>
           </FSCol>
           <FSCol
             gap="6px"
@@ -50,18 +52,18 @@
                 <FSRow
                   align="center-center"
                 >
-                  <FSText
+                  <FSSpan
                     font="text-overline"
                   >
                     {{ groupsLabel }}
-                  </FSText>
+                  </FSSpan>
                 </FSRow>
               </FSColor>
-              <FSText
+              <FSSpan
                 font="text-overline"
               >
                 {{ $tr("ui.group-tile.group(s)", "Group(s)") }}
-              </FSText>
+              </FSSpan>
             </FSRow>
             <FSRow
               align="center-left"
@@ -75,18 +77,18 @@
                 <FSRow
                   align="center-center"
                 >
-                  <FSText
+                  <FSSpan
                     font="text-overline"
                   >
                     {{ deviceOrganisationsLabel }}
-                  </FSText>
+                  </FSSpan>
                 </FSRow>
               </FSColor>
-              <FSText
+              <FSSpan
                 font="text-overline"
               >
                 {{ $tr("ui.group-tile.device(s)", "Device(s)") }}
-              </FSText>
+              </FSSpan>
             </FSRow>
           </FSCol>
         </FSCol>
@@ -101,15 +103,14 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSImage from "../FSImage.vue";
 import FSColor from "../FSColor.vue";
-import FSText from "../FSText.vue";
+import FSSpan from "../FSSpan.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -119,7 +120,7 @@ export default defineComponent({
   components: {
     FSImage,
     FSColor,
-    FSText,
+    FSSpan,
     FSTile,
     FSCol,
     FSRow
@@ -181,11 +182,19 @@ export default defineComponent({
       return isMobileSized.value ? 90 : 100;
     });
 
+    const infoWidth = computed((): string => {
+      if (!props.imageId) {
+        return "100%";
+      }
+      return `calc(100% - ${imageSize.value}px - 24px)`;
+    });
+
     return {
-      ColorEnum,
-      groupsLabel,
       deviceOrganisationsLabel,
-      imageSize
+      groupsLabel,
+      ColorEnum,
+      imageSize,
+      infoWidth
     };
   }
 });

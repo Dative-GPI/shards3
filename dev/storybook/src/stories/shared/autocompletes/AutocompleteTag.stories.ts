@@ -20,7 +20,8 @@ export const Variations: Story = {
     args: {
       value1: [{id : "1", label : "Non", isCustom : false},{id : "2", label : "Etage", isCustom : false}],
       value2: [{id : "1", label : "Non", isCustom : false},{id : "2", label : "Etage", isCustom : false}, {id : "3", label : "Buée", isCustom : false}],
-      value3: [{id : "3", label : "Buée", isCustom : false}]
+      value3: [{id : "3", label : "Buée", isCustom : false}],
+      value4 : []
     }
   },
   render: (args, { argTypes }) => ({
@@ -32,13 +33,21 @@ export const Variations: Story = {
     template: `
     <FSCol gap="24px">
       <FSAutocompleteTag
+        label="default autocomplete width tag"
         :items="args.value2"
         v-model="args.value1"
       />
       <FSAutocompleteTag
+        label="custom autocomplete width default items and new value"
         variant="tagged"
         :items="args.value2"
         v-model="args.value3"
+      />
+      <FSAutocompleteTag
+        label="custom autocomplete with new value only"
+        variant="tagged"
+        :items="[]"
+        v-model="args.value4"
       />
     </FSCol>`
   })

@@ -275,19 +275,28 @@
             </slot>
           </template>
           <template
-            #no-data
+            #append-item
           >
             <FSRow
-              v-if="showSearch"
+              v-if="showSearch && !searchItems.map((item: any) => item[$props.itemTitle]).some(s=>s.toLowerCase() == search.toLowerCase())"
               padding="17px"
             >
               <FSButton
+                v-if="search && search.trim().length > 0"
                 variant="icon"
                 :label="$tr('ui.common.add', 'Add this item')"
                 :color="ColorEnum.Primary"
                 @click="$emit('add:item', search)"
               />
             </FSRow>
+          </template>
+          <template
+            #no-data
+          >
+            <template
+              v-if="showSearch"
+            >
+            </template>
             <FSRow
               v-else
               padding="17px"

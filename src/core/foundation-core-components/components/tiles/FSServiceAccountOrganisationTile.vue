@@ -5,13 +5,12 @@
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
   />
-  <FSUserOrganisationTileUI
+  <FSServiceAccountOrganisationTileUI
     v-else-if="entity"
     :imageId="entity.imageId"
-    :name="entity.name"
+    :label="entity.label"
     :roleLabel="entity.roleLabel"
     :roleIcon="entity.roleIcon"
-    :admin="entity.admin"
     :editable="$props.editable"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -22,19 +21,19 @@
 <script lang="ts">
 import { defineComponent, onMounted, watch } from "vue";
   
-import { useUserOrganisation } from "@dative-gpi/foundation-core-services/composables";
+import { useServiceAccountOrganisation } from "@dative-gpi/foundation-core-services/composables";
   
-import FSUserOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSUserOrganisationTileUI.vue";
+import FSServiceAccountOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSServiceAccountOrganisationTileUI.vue";
 import FSLoadTile from "@dative-gpi/foundation-shared-components/components/tiles/FSLoadTile.vue";
   
 export default defineComponent({
-  name: "FSUserOrganisationTile",
+  name: "FSServiceAccountOrganisationTile",
   components: {
-    FSUserOrganisationTileUI,
+    FSServiceAccountOrganisationTileUI,
     FSLoadTile
   },
   props: {
-    userOrganisationId: {
+    serviceAccountOrganisationId: {
       type: String,
       required: true
     },
@@ -50,14 +49,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { get, getting, entity } = useUserOrganisation();
+    const { get, getting, entity } = useServiceAccountOrganisation();
 
     onMounted(() => {
-      get(props.userOrganisationId);
+      get(props.serviceAccountOrganisationId);
     });
 
-    watch(() => props.userOrganisationId, () => {
-      get(props.userOrganisationId);
+    watch(() => props.serviceAccountOrganisationId, () => {
+      get(props.serviceAccountOrganisationId);
     });
 
     return {
