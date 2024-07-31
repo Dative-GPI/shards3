@@ -24,24 +24,42 @@ export const useSlots = () => {
     return null;
   };
 
-  const recursiveGetChildren = (element: any): any => {
-    if (element == null) {
+  const recursiveGetChildren = (elements: any): any => {
+    if (elements == null) {
       return null;
     }
-    switch (typeof(element[0].type)) {
-      // Directive wrapper (v-for, v-if)
-      case "symbol":
-        switch (element[0].type) {
-          case Symbol.for("v-fgt"): return recursiveGetChildren(element[0].children);
-          case Symbol.for("v-cmt"): return element;
-          default:                  return element;
-        }
-      // Custom component
-      case "object": return element;
-      // Pre-existing component
-      case "string": return element;
+    const returnElements: any[] = [];
+    for (const element of elements) {
+      switch (typeof(element.type)) {
+        // Directive wrapper (v-for, v-if)
+        case "symbol":
+          switch (element.type) {
+            case Symbol.for("v-fgt"):
+              returnElements.push(...recursiveGetChildren(element.children));
+              break;
+            case Symbol.for("v-cmt"):
+              returnElements.push(element);
+              break;
+            default:
+              returnElements.push(element);
+              break;
+          }
+          break;
+        // Custom component
+        case "object":
+          returnElements.push(element);
+          break;
+        // Pre-existing component
+        case "string":
+          returnElements.push(element);
+          break;
+        // Default
+        default:
+          returnElements.push(element);
+          break;
+      }
     }
-    return element;
+    return returnElements;
   };
 
   return {
