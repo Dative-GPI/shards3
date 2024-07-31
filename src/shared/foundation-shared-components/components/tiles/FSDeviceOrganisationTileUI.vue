@@ -1,10 +1,10 @@
 <template>
   <FSTile
+    :activeColor="ColorEnum.Primary"
     :bottomColor="ColorEnum.Primary"
     :editable="$props.editable"
-    :modelValue="$props.modelValue"
     :width="$props.width"
-    :color="$props.modelValue ? ColorEnum.Primary : ColorEnum.Background"
+    :modelValue="$props.modelValue"
     v-bind="$attrs"
   >
     <FSCol
@@ -19,7 +19,7 @@
       >
         <FSCol
           gap="12px"
-          :width="`calc(100% - ${imageSize}px - 24px)`"
+          :width="infoWidth"
         >
           <FSCol
             gap="6px"
@@ -65,12 +65,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { FSModelStatus, FSDeviceStatus, FSDeviceAlert, FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, type FSModelStatus, type FSDeviceStatus, type FSDeviceAlert, type FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSStatusesCarousel from "../deviceOrganisations/FSStatusesCarousel.vue";
 import FSStatusesRow from "../deviceOrganisations/FSStatusesRow.vue";
@@ -134,6 +132,11 @@ export default defineComponent({
       required: true,
       default: () => []
     },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: () => [352, 336]
+    },
     modelValue: {
       type: Boolean,
       required: false,
@@ -143,11 +146,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
-    },
-    width: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: false,
-      default: () => [352, 336]
     }
   },
   setup(props) {
@@ -197,6 +195,12 @@ export default defineComponent({
       return isMobileSized.value ? 90 : 100;
     });
 
+    const infoWidth = computed((): string => {
+      if (!props.imageId) {
+        return "100%";
+      }
+      return `calc(100% - ${imageSize.value}px - 24px)`;
+    });
 
     return {
       carouselDeviceStatuses,
@@ -205,6 +209,7 @@ export default defineComponent({
       singleModelStatuses,
       ColorEnum,
       imageSize,
+      infoWidth
     };
   }
 });
