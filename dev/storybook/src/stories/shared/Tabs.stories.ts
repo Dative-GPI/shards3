@@ -195,3 +195,79 @@ export const Variations: Story = {
     `,
   })
 };
+
+export const Tests: Story = {
+  args: {
+    args: {
+      tab1: 0,
+      tab2: 0,
+      tab3: 0
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSFadeOut, FSSlideGroup, FSButton },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 30px;">
+        <FSText> Mix v-for and components, v-for first </FSText>
+        <FSCol>
+          <FSTabs v-model:tab="args.tab1" color="success">
+            <FSTab :value="0" label="Tab 1" />
+            <FSTab :value="1" label="Tab 2" />
+            <FSTab :value="2" label="Tab 3" />
+          </FSTabs>
+          <FSWindow :modelValue="args.tab1" width="100%">
+            <FSText v-for="(arg, index) in 2" :value="index">
+              Tab in v-for {{ index + 1 }}
+            </FSText>
+            <FSText :value="2">
+              Tab outside of v-for
+            </FSText>
+          </FSWindow>
+        </FSCol>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Mix v-for and components, v-for last </FSText>
+        <FSCol>
+          <FSTabs v-model:tab="args.tab2" color="success">
+            <FSTab :value="0" label="Tab 1" />
+            <FSTab :value="1" label="Tab 2" />
+            <FSTab :value="2" label="Tab 3" />
+          </FSTabs>
+          <FSWindow :modelValue="args.tab2" width="100%">
+            <FSText :value="0">
+              Tab outside of v-for
+            </FSText>
+            <FSText v-for="(arg, index) in 2" :value="index + 1">
+              Tab in v-for {{ index + 2 }}
+            </FSText>
+          </FSWindow>
+        </FSCol>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Mix v-for and components, v-for surrounded </FSText>
+        <FSCol>
+          <FSTabs v-model:tab="args.tab3" color="success">
+            <FSTab :value="0" label="Tab 1" />
+            <FSTab :value="1" label="Tab 2" />
+            <FSTab :value="2" label="Tab 3" />
+            <FSTab :value="3" label="Tab 4" />
+            <FSTab :value="4" label="Tab 5" />
+          </FSTabs>
+          <FSWindow :modelValue="args.tab3" width="100%">
+            <FSText :value="0">
+              Tab before v-for
+            </FSText>
+            <FSText v-for="(arg, index) in 3" :value="index + 1">
+              Tab in v-for {{ index + 2 }}
+            </FSText>
+            <FSText :value="4">
+              Tab after v-for
+            </FSText>
+          </FSWindow>
+        </FSCol>
+      </div>
+    `,
+  })
+};
