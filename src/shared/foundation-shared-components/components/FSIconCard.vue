@@ -21,11 +21,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCard from "./FSCard.vue";
 import FSIcon from "./FSIcon.vue";
@@ -67,14 +65,14 @@ export default defineComponent({
     const variant = computed((): "background" | "gradient" => {
       switch (props.backgroundColor) {
         case ColorEnum.Background: return "background";
-        default:                   return "gradient";
+        default                  : return "gradient";
       }
     });
 
     const border = computed((): boolean => {
       switch (props.backgroundColor) {
         case ColorEnum.Background: return true;
-        default:                   return false;
+        default                  : return false;
       }
     });
 
