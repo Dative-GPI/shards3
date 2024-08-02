@@ -34,11 +34,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
@@ -73,7 +71,7 @@ export default defineComponent({
       default: "8px"
     },
     variant: {
-      type: String as PropType<"background" | "standard" | "gradient">,
+      type: String as PropType<"background" | "standard" | "full" | "gradient">,
       required: false,
       default: "background"
     },
@@ -119,6 +117,17 @@ export default defineComponent({
 
     const style = computed((): { [key: string] : string | null | undefined } => {
       switch (props.variant) {
+        case "background": return {
+          "--fs-card-border-size"     : props.border ? "1px" : "0",
+          "--fs-card-border-style"    : props.borderStyle,
+          "--fs-card-border-radius"   : sizeToVar(props.borderRadius),
+          "--fs-card-padding"         : sizeToVar(props.padding),
+          "--fs-card-height"          : sizeToVar(props.height),
+          "--fs-card-width"           : sizeToVar(props.width),
+          "--fs-card-background-color": backgrounds.base,
+          "--fs-card-border-color"    : lights.dark,
+          "--fs-card-color"           : darks.base
+        }
         case "standard": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
           "--fs-card-border-style"    : props.borderStyle,
@@ -130,16 +139,16 @@ export default defineComponent({
           "--fs-card-border-color"    : colors.value.lightContrast,
           "--fs-card-color"           : colors.value.lightContrast
         }
-        case "background": return {
+        case "full": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
           "--fs-card-border-style"    : props.borderStyle,
           "--fs-card-border-radius"   : sizeToVar(props.borderRadius),
           "--fs-card-padding"         : sizeToVar(props.padding),
           "--fs-card-height"          : sizeToVar(props.height),
           "--fs-card-width"           : sizeToVar(props.width),
-          "--fs-card-background-color": backgrounds.base,
-          "--fs-card-border-color"    : lights.dark,
-          "--fs-card-color"           : darks.base
+          "--fs-card-background-color": colors.value.base,
+          "--fs-card-border-color"    : colors.value.base,
+          "--fs-card-color"           : colors.value.baseContrast
         }
         case "gradient": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",

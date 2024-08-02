@@ -112,7 +112,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: "#000000"
     },
@@ -164,9 +164,9 @@ export default defineComponent({
 
     const menu = ref(false);
 
-    const innerColor = ref(getColors(props.modelValue).base);
-    const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
-    const fullColor = ref(innerColor.value + innerOpacity.value);
+    const innerColor = ref("#000000");
+    const innerOpacity = ref("00");
+    const fullColor = ref("#00000000");
 
     const style = computed((): { [key: string]: string | undefined } => {
       if (!props.editable) {
@@ -185,7 +185,6 @@ export default defineComponent({
       };
     });
 
-
     const onSubmit = (value: string) => {
       innerColor.value = value.substring(0, 7);
       innerOpacity.value = value.length === 9 ? value.substring(7, 9) : "FF";
@@ -195,14 +194,21 @@ export default defineComponent({
     };
 
     const reset = (): void => {
-      innerColor.value = getColors(props.modelValue)['base'];
-      innerOpacity.value = getHexFromPercentage(props.opacityValue);
-      fullColor.value = innerColor.value + innerOpacity.value;
+      if (props.modelValue) {
+        innerColor.value = getColors(props.modelValue)['base'];
+        innerOpacity.value = getHexFromPercentage(props.opacityValue);
+        fullColor.value = innerColor.value + innerOpacity.value;
+      }
+      else {
+        innerColor.value = "#000000";
+        innerOpacity.value = "00";
+        fullColor.value = "#00000000";
+      }
     };
 
     watch(() => props.modelValue, () => {
       reset();
-    });
+    }, { immediate: true });
 
     return {
       getPercentageFromHex,

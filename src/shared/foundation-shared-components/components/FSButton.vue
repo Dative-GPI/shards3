@@ -128,13 +128,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
-import type { RouteLocation } from "vue-router";
+import { computed, defineComponent, type PropType } from "vue";
+import { type RouteLocation } from "vue-router";
 
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSClickable from "./FSClickable.vue";
 import FSSpan from "./FSSpan.vue";
