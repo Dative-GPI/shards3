@@ -1,6 +1,7 @@
 .fs-text-area:not(.fs-text-area-auto-grow) {
     & > .v-input__control > .v-field {
         border: 1px solid var(--fs-text-area-border-color) !important;
+        height: var(--fs-text-area-height);
 
         &--error {
             border-color: var(--fs-text-area-error-border-color) !important;
@@ -24,8 +25,6 @@
             color: var(--fs-text-area-color);
             padding: 0;
         }
-
-        height: var(--fs-text-area-height);
         
         @include web {
             padding: 11px 16px !important;
