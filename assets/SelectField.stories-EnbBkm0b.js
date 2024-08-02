@@ -1,16 +1,22 @@
-import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOci7Wc.js";import{_ as p}from"./FSCol-B7HQy3FB.js";import{_ as g}from"./FSRow-DoCXWKDP.js";import{S as c}from"./rules-DlyQ2XjG.js";import"./vue.esm-bundler-DC82FEWN.js";import"./FSDialogMenu-pfqo0k-B.js";import"./FSCard-EcIwA-Oh.js";import"./useColors-C2RWUFtR.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-_Z9wfsFC.js";import"./theme-B5x8xkbY.js";import"./css-DYOPUjjE.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./VDialog-BV_tmW5d.js";import"./VOverlay-QKFvvy4k.js";import"./forwardRefs-DWGaNmQL.js";import"./color-DvJT0EEa.js";import"./proxiedModel-slW9zgh3.js";import"./anchor-C6LV5e1c.js";import"./dimensions-Dnxg3zhh.js";import"./display-B8HpKdBf.js";import"./lazy-Cw6rrZWC.js";import"./locale-BC9z6YbT.js";import"./router-DFGAHh1d.js";import"./transition-yl3lVN6J.js";import"./VDefaultsProvider-4deG1Ppv.js";import"./FSRadioGroup-DlwaMMqR.js";import"./FSRadio-DmODfA7R.js";import"./FSIcon-ClfMDAJS.js";import"./VIcon-Dc-dFojD.js";import"./FSSpan-CEjD71wr.js";import"./useSlots-Dr5tdD4b.js";import"./useRules-DS9e5-1Q.js";import"./VSelectionControl-Btb9GcG5.js";import"./density-CFGlRMM_.js";import"./index-9jSorrJj.js";import"./VLabel-D_bmQQv3.js";import"./FSBaseField-DTTIxaHw.js";import"./VSpacer-BjECYW1K.js";import"./FSTextField-DIbH7khU.js";import"./FSButton-DI_m72P8.js";import"./FSClickable-aI6guRt-.js";import"./VProgressCircular-C-U4HXtE.js";import"./VField-CAe7-ioi.js";import"./index-CvDsTioR.js";import"./VInput-ClkK-yNd.js";import"./loader-DENHXnzB.js";import"./rounded-YB6K8mOp.js";import"./index-DN-QUi1L.js";import"./FSCheckbox-Cwrt_PQ3.js";import"./FSFadeOut-CvvHY5il.js";import"./uuid-DTaye2KM.js";import"./VList-BzWIdAYG.js";import"./ssrBoot-D90vJCps.js";import"./border-Be_f35HL.js";import"./elevation-BTkUCD39.js";import"./VImg-DgHq50DD.js";import"./VSelect-CNGTpUTS.js";import"./VMenu-Cn6sY4-s.js";import"./VSlideGroup-DIpxwRsS.js";import"./group-szJg_hPo.js";import"./useAppTimeZone-SgthjzoP.js";import"./useTranslations-DV-taHAL.js";import"./time-xMV0WbLU.js";const Ce={title:"Foundation/Shared/Input fields/SelectField",component:l,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},t={args:{args:{items:Array.from(Array(5).keys()).map(e=>({id:e.toString(),label:`Option ${e+1}`})),value1:null,value2:["0","1","2"],value3:"2",value4:"2"}},render:(e,{argTypes:i})=>({components:{FSSelectField:l,FSCol:p},props:Object.keys(i),setup(){return{...e}},template:`
+import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOci7Wc.js";import{_ as p}from"./FSCol-B7HQy3FB.js";import{_ as g}from"./FSRow-DoCXWKDP.js";import{S}from"./rules-DlyQ2XjG.js";import"./vue.esm-bundler-DC82FEWN.js";import"./FSDialogMenu-pfqo0k-B.js";import"./FSCard-EcIwA-Oh.js";import"./useColors-C2RWUFtR.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-_Z9wfsFC.js";import"./theme-B5x8xkbY.js";import"./css-DYOPUjjE.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./VDialog-BV_tmW5d.js";import"./VOverlay-QKFvvy4k.js";import"./forwardRefs-DWGaNmQL.js";import"./color-DvJT0EEa.js";import"./proxiedModel-slW9zgh3.js";import"./anchor-C6LV5e1c.js";import"./dimensions-Dnxg3zhh.js";import"./display-B8HpKdBf.js";import"./lazy-Cw6rrZWC.js";import"./locale-BC9z6YbT.js";import"./router-DFGAHh1d.js";import"./transition-yl3lVN6J.js";import"./VDefaultsProvider-4deG1Ppv.js";import"./FSRadioGroup-DlwaMMqR.js";import"./FSRadio-DmODfA7R.js";import"./FSIcon-ClfMDAJS.js";import"./VIcon-Dc-dFojD.js";import"./FSSpan-CEjD71wr.js";import"./useSlots-Dr5tdD4b.js";import"./useRules-DS9e5-1Q.js";import"./VSelectionControl-Btb9GcG5.js";import"./density-CFGlRMM_.js";import"./index-9jSorrJj.js";import"./VLabel-D_bmQQv3.js";import"./FSBaseField-DTTIxaHw.js";import"./VSpacer-BjECYW1K.js";import"./FSTextField-DIbH7khU.js";import"./FSButton-DI_m72P8.js";import"./FSClickable-aI6guRt-.js";import"./VProgressCircular-C-U4HXtE.js";import"./VField-CAe7-ioi.js";import"./index-CvDsTioR.js";import"./VInput-ClkK-yNd.js";import"./loader-DENHXnzB.js";import"./rounded-YB6K8mOp.js";import"./index-DN-QUi1L.js";import"./FSCheckbox-Cwrt_PQ3.js";import"./FSFadeOut-CvvHY5il.js";import"./uuid-DTaye2KM.js";import"./VList-BzWIdAYG.js";import"./ssrBoot-D90vJCps.js";import"./border-Be_f35HL.js";import"./elevation-BTkUCD39.js";import"./VImg-DgHq50DD.js";import"./VSelect-CNGTpUTS.js";import"./VMenu-Cn6sY4-s.js";import"./VSlideGroup-DIpxwRsS.js";import"./group-szJg_hPo.js";import"./useAppTimeZone-SgthjzoP.js";import"./useTranslations-DV-taHAL.js";import"./time-xMV0WbLU.js";const Ce={title:"Foundation/Shared/Input fields/SelectField",component:l,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},t={args:{args:{items:Array.from(Array(5).keys()).map(e=>({id:e.toString(),label:`Option ${e+1}`})),value1:null,value2:null,value3:["0","1","2"],value4:"2",value5:"2"}},render:(e,{argTypes:i})=>({components:{FSSelectField:l,FSCol:p},props:Object.keys(i),setup(){return{...e}},template:`
     <FSCol>
       <FSSelectField
         label="Select"
         :items="args.items"
         v-model="args.value1"
       />
+      <FSSelectField
+        label="Select with suffix"
+        suffix="Hello there"
+        :items="args.items"
+        v-model="args.value2"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
         label="Multiple select"
         :items="args.items"
         :multiple="true"
-        v-model="args.value2"
+        v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
@@ -18,7 +24,7 @@ import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOc
         description="Description for this field"
         :required="true"
         :items="args.items"
-        v-model="args.value3"
+        v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
@@ -26,9 +32,9 @@ import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOc
         description="Uneditable description"
         :editable="false"
         :items="args.items"
-        v-model="args.value4"
+        v-model="args.value5"
       />
-    </FSCol>`})},r={args:{args:{valid:!1,items:Array.from(Array(5).keys()).map(e=>({id:e.toString(),label:`Option ${e+1}`})),value1:null,value2:null,value3:null,rules:c}},render:(e,{argTypes:i})=>({components:{FSForm:u,FSSelectField:l,FSCol:p,FSRow:g},props:Object.keys(i),setup(){return{...e}},template:`
+    </FSCol>`})},r={args:{args:{valid:!1,items:Array.from(Array(5).keys()).map(e=>({id:e.toString(),label:`Option ${e+1}`})),value1:null,value2:null,value3:null,rules:S}},render:(e,{argTypes:i})=>({components:{FSForm:u,FSSelectField:l,FSCol:p,FSRow:g},props:Object.keys(i),setup(){return{...e}},template:`
     <FSForm v-model="args.valid" variant="standard">
       <FSCol>
         <FSRow>
@@ -71,9 +77,10 @@ import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOc
         label: \`Option \${i + 1}\`
       })),
       value1: null,
-      value2: ["0", "1", "2"],
-      value3: "2",
-      value4: "2"
+      value2: null,
+      value3: ["0", "1", "2"],
+      value4: "2",
+      value5: "2"
     }
   },
   render: (args, {
@@ -96,12 +103,18 @@ import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOc
         :items="args.items"
         v-model="args.value1"
       />
+      <FSSelectField
+        label="Select with suffix"
+        suffix="Hello there"
+        :items="args.items"
+        v-model="args.value2"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
         label="Multiple select"
         :items="args.items"
         :multiple="true"
-        v-model="args.value2"
+        v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
@@ -109,7 +122,7 @@ import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOc
         description="Description for this field"
         :required="true"
         :items="args.items"
-        v-model="args.value3"
+        v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
@@ -117,7 +130,7 @@ import{F as l}from"./FSSelectField-CW2jYb0t.js";import{F as u}from"./FSForm-COOc
         description="Uneditable description"
         :editable="false"
         :items="args.items"
-        v-model="args.value4"
+        v-model="args.value5"
       />
     </FSCol>\`
   })
