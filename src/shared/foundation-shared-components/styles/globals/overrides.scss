@@ -5,8 +5,8 @@
 
 // Otherwise a v-progress-circular has the size of its parent and can trigger the vertical scroll when spinning
 .v-progress-circular > svg {
-    height: fit-content;
-    width: fit-content;
+    height: fit-content !important;
+    width: fit-content !important;
 }
 
 // No default hover effect on switches and others, no limited opacity, no limited width...
