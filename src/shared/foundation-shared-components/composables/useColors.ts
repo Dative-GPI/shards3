@@ -56,11 +56,20 @@ export const useColors = () => {
         return color.lighten(color.value() / 50);
     }
 
-    const getColors = (color: ColorBase): ColorVariations => {
+    const parseColor = (color: ColorBase): Color => {
         const themed = (Object as any).values(ColorEnum).includes(color);
+        
+        try {
+            return themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
+        }
+        catch {
+            return new Color("#000000");
+        }
+    }
 
-        const base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
-
+    const getColors = (color: ColorBase): ColorVariations => {
+        const base = parseColor(color);
+        
         const light = getLight(base);
         const soft = getSoft(base);
         const dark = getDark(base);

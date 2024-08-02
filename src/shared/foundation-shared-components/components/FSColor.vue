@@ -1,8 +1,8 @@
 <template>
   <FSCard
+    :variant="$props.variant"
     :border="$props.border"
-    :class="classes"
-    :style="style"
+    :color="$props.color"
     v-bind="$attrs"
   >
     <slot
@@ -12,11 +12,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSCard from "./FSCard.vue";
@@ -27,15 +25,20 @@ export default defineComponent({
     FSCard
   },
   props: {
-    border: {
-      type: Boolean,
+    variant: {
+      type: String as PropType<"standard" | "full">,
       required: false,
-      default: true
+      default: "standard"
     },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    border: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   setup(props) {
@@ -43,29 +46,8 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-color-background-color": colors.value.light,
-        "--fs-color-border-color"    : colors.value.lightContrast,
-        "--fs-color-color"           : colors.value.lightContrast,
-        "--fs-color-light"           : colors.value.light,
-        "--fs-color-base"            : colors.value.base,
-        "--fs-color-dark"            : colors.value.dark
-      };
-    });
-
-    const classes = computed((): string[] => {
-      const classNames = ["fs-color"];
-      if (props.border) {
-        classNames.push("fs-color-border");
-      }
-      return classNames;
-    });
-
     return {
-      classes,
-      colors,
-      style
+      colors
     };
   }
 });
