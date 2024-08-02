@@ -143,6 +143,24 @@
     display: none !important;
 }
 
+.v-text-field__suffix {
+    padding: 0 8px 0 0 !important;
+
+    @include web {
+        min-height: 38px !important;
+        height: 38px !important;
+    }
+
+    @include mobile {
+        min-height: 34px !important;
+        height: 34px !important;
+    }
+
+    & > .v-text-field__suffix__text {
+        @extend .text-body;
+    }
+}
+
 // Ellipsis on input of all fields
 input {
     text-overflow: ellipsis;
