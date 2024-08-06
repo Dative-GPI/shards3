@@ -31,7 +31,7 @@ export default defineComponent({
       default: null
     },
     variant: {
-      type: String as PropType<"base" | "baseContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
+      type: String as PropType<"base" | "baseContrast" | "soft" | "softContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
       required: false,
       default: "base"
     }

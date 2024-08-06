@@ -150,9 +150,9 @@
         />
         <FSIcon
           v-else-if="$props.icon"
+          :color="$props.color"
           :icon="$props.icon"
           :size="imageSize"
-          :color="$props.color"
         />
         <FSCol
           align="center-left"
@@ -210,7 +210,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { type ColorEnum, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSBreadcrumbs from "../FSBreadcrumbs.vue";
@@ -245,8 +245,8 @@ export default defineComponent({
       required: false,
       default: null
     },
-    color : {
-      type: Object as PropType<ColorEnum | null>,
+    color: {
+      type: String as PropType<ColorBase>,
       required: false,
       default: null
     },
