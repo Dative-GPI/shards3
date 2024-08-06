@@ -1,18 +1,18 @@
 <template>
   <FSCard
+    :variant="$props.backgroundVariant"
     :color="$props.backgroundColor"
+    :border="$props.border"
     :height="$props.size"
     :width="$props.size"
-    :variant="variant"
-    :border="border"
   >
     <FSRow
       align="center-center"
     >
       <FSIcon 
-        variant="dark"
-        :size="$props.iconSize"
+        :variant="$props.iconVariant"
         :color="$props.iconColor"
+        :size="$props.iconSize"
       >
         {{ $props.icon }}
       </FSIcon>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
@@ -45,6 +45,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    backgroundVariant: {
+      type: String as PropType<"background" | "gradient">,
+      required: false,
+      default: "background"
+    },
     icon: {
       type: String as PropType<string>,
       required: false,
@@ -55,31 +60,21 @@ export default defineComponent({
       required: false,
       default: ColorEnum.Dark
     },
+    iconVariant: {
+      type: String as PropType<"base" | "baseContrast" | "soft" | "softContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
+      required: false,
+      default: "base"
+    },
     iconSize: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "56px"
+    },
+    border: {
+      type: Boolean,
+      required: false,
+      default: true
     }
-  },
-  setup(props) {
-    const variant = computed((): "background" | "gradient" => {
-      switch (props.backgroundColor) {
-        case ColorEnum.Background: return "background";
-        default                  : return "gradient";
-      }
-    });
-
-    const border = computed((): boolean => {
-      switch (props.backgroundColor) {
-        case ColorEnum.Background: return true;
-        default                  : return false;
-      }
-    });
-
-    return {
-      variant,
-      border
-    };
   }
 });
 </script>
