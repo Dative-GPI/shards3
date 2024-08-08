@@ -10,6 +10,6 @@ const ServiceAccountOrganisationAuthTokenServiceFactory = new ServiceFactory<Ser
   factory.addNotify()
 ));
 
-export const useServiceAccountOrganisationAuthTokens = ComposableFactory.custom(ServiceAccountOrganisationAuthTokenServiceFactory.getMany);
-export const useCreateServiceAccountOrganisationAuthToken = ComposableFactory.custom(ServiceAccountOrganisationAuthTokenServiceFactory.create);
-export const useRemoveServiceAccountOrganisationAuthToken = ComposableFactory.custom(ServiceAccountOrganisationAuthTokenServiceFactory.remove);
+export const useServiceAccountOrganisationAuthTokens = ComposableFactory.getMany(ServiceAccountOrganisationAuthTokenServiceFactory);
+export const useCreateServiceAccountOrganisationAuthToken = ComposableFactory.create(ServiceAccountOrganisationAuthTokenServiceFactory);
+export const useRemoveServiceAccountOrganisationAuthToken = ComposableFactory.remove(ServiceAccountOrganisationAuthTokenServiceFactory);
