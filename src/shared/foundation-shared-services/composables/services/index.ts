@@ -1,4 +1,5 @@
 export * from "./useAuthTokens";
+export * from "./useExtensionCommunication";
 export * from "./useImages";
 export * from "./useLanguages";
 export * from "./useOrganisations";
