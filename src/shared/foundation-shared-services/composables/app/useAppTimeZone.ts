@@ -79,6 +79,14 @@ export const useAppTimeZone = () => {
     return (parseInt(offsetParts[0]) * 60 + parseInt(offsetParts[1])) * 60 * 1000;
   };
 
+  const getOffsetUserChart = (withUTC: boolean = true): string => {
+    const offsetPart = (Intl.DateTimeFormat(undefined, {
+      timeZone: timeZone.value,
+      timeZoneName: "longOffset"
+    }).formatToParts(new Date).pop()?.value.slice(3) || "+00:00");
+    return `${withUTC ? 'UTC ' : ''}${offsetPart}`;
+  }
+
   const getOffsetMachine = (): number => {
     const offsetParts = (Intl.DateTimeFormat(undefined, {
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -86,6 +94,14 @@ export const useAppTimeZone = () => {
     }).formatToParts(new Date).pop()?.value.slice(3) || "+00:00").split(':');
     return (parseInt(offsetParts[0]) * 60 + parseInt(offsetParts[1])) * 60 * 1000;
   };
+
+  const getOffsetMachineChart = (withUTC: boolean = true): string => {
+    const offsetPart = (Intl.DateTimeFormat(undefined, {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      timeZoneName: "longOffset"
+    }).formatToParts(new Date).pop()?.value.slice(3) || "+00:00");
+    return `${withUTC ? 'UTC ' : ''}${offsetPart}`;
+  }
 
   const getOffsetDifference = (): number => {
     if (timeZone.value == null) {
@@ -173,6 +189,8 @@ export const useAppTimeZone = () => {
     formatEpochToVariable,
     getOffsetUser,
     getOffsetMachine,
-    getOffsetDifference
+    getOffsetDifference,
+    getOffsetUserChart,
+    getOffsetMachineChart
   };
 }
