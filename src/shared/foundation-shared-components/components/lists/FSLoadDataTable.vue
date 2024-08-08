@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type StyleValue } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -81,11 +81,9 @@ export default defineComponent({
 
     const backgroundColors = getColors(ColorEnum.Background);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-load-data-table-background-color": backgroundColors.base
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-load-data-table-background-color": backgroundColors.base
+    }));
 
     return {
       style

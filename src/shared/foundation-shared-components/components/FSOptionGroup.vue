@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { type ColorBase, ColorEnum, type FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -211,14 +211,12 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const colors = getColors(props.optionColor);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-option-group-background-color": backgrounds.base,
-        "--fs-option-group-border-size"     : props.border ? "1px" : "0",
-        "--fs-option-group-border-radius"   : sizeToVar(props.borderRadius),
-        "--fs-option-group-border-color"    : lights.base
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-option-group-background-color": backgrounds.base,
+      "--fs-option-group-border-size"     : props.border ? "1px" : "0",
+      "--fs-option-group-border-radius"   : sizeToVar(props.borderRadius),
+      "--fs-option-group-border-color"    : lights.base
+    }));
 
     const getVariant = (value: FSToggle): "standard" | "background" | "full" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {

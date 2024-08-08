@@ -34,12 +34,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSText from "./FSText.vue";
@@ -87,7 +85,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       switch (props.variant) {
         case "base": return {
           "--fs-divider-size" : sizeToVar(props.size),
@@ -109,8 +107,8 @@ export default defineComponent({
     });
 
     return {
-      style,
-      isEmpty
+      isEmpty,
+      style
     };
   }
 });

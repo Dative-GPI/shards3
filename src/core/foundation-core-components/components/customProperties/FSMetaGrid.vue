@@ -38,8 +38,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import type { FSGridItem } from "@dative-gpi/foundation-shared-components/models";
 

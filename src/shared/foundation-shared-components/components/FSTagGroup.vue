@@ -32,11 +32,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSWrapGroup from "./FSWrapGroup.vue";
 import FSTag from "./FSTag.vue";

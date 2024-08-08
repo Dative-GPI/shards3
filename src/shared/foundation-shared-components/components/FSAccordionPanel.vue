@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -136,15 +136,13 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-accordion-panel-padding-title"         : sizeToVar(props.paddingTitle),
-        "--fs-accordion-panel-padding-content"       : sizeToVar(props.paddingContent),
-        "--fs-accordion-panel-divider-size"          : props.divider ? "1px" : "0",
-        "--fs-accordion-panel-divider-color"         : lights.dark,
-        "--fs-accordion-panel-background-color"      : backgrounds.base
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-accordion-panel-padding-title"   : sizeToVar(props.paddingTitle),
+      "--fs-accordion-panel-padding-content" : sizeToVar(props.paddingContent),
+      "--fs-accordion-panel-divider-size"    : props.divider ? "1px" : "0",
+      "--fs-accordion-panel-divider-color"   : lights.dark,
+      "--fs-accordion-panel-background-color": backgrounds.base
+    }));
 
     return {
       style

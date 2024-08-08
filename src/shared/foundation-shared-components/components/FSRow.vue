@@ -1,7 +1,7 @@
 <template>
   <div
-    :style="style"
     :class="classes"
+    :style="style"
     v-bind="$attrs"
   >
     <slot />
@@ -9,8 +9,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
@@ -54,7 +53,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const style = computed((): { [key: string] : string | null | undefined } => ({
+    const style = computed((): StyleValue => ({
       "--fs-row-flex-wrap": props.wrap ? "wrap" : "nowrap",
       "--fs-row-overflow" : props.overflow,
       "--fs-row-padding"  : sizeToVar(props.padding),

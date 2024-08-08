@@ -1,12 +1,50 @@
 import { parse } from "date-fns";
 
+export const ISO_FORMAT: string = "yyyy-MM-dd'T'HH:mm:ss";
+
+export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
+  shortDate: {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  },
+  longDate: {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  },
+  shortTime: {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  },
+  longTime: {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  },
+  time: {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  }
+};
+
+export const utcToEpoch = (value: string): number => {
+  return parse(value.substring(0, 19) + "Z", ISO_FORMAT + "X", new Date()).getTime();
+};
+
 const BASE = ["now"];
 const WIDGET = ["from", "to"];
 const ALERT = ["alert", "alertstart", "alertend"];
-
-const removeArtifacts = (date: string): string => {
-  return date.substring(0, 19) + "Z";
-};
 
 const fromExpression = (expression: string, variant: 'default' | 'before-after'): boolean => {
   if (
@@ -64,14 +102,6 @@ const fromExpression = (expression: string, variant: 'default' | 'before-after')
     return false;
   }
   return true;
-};
-
-export const isoTimeFormat = (timeZone: boolean = false): string => {
-    return `yyyy-MM-dd'T'HH:mm:ss${timeZone ? "X" : ""}`;
-};
-
-export const utcToEpoch = (value: string): number => {
-  return parse(removeArtifacts(value), isoTimeFormat(true), new Date()).getTime();
 };
 
 export const validateExpression = (expression: string, variant: "default" | "before-after"): boolean => {

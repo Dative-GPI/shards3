@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type StyleValue } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -92,6 +92,10 @@ export default defineComponent({
 
     const backgroundColors = getColors(ColorEnum.Background);
 
+    const style = computed((): StyleValue => ({
+      "--fs-load-tile-background-color": backgroundColors.base
+    }));
+
     const heights = computed(() => {
       return {
         image: isMobileSized.value ? "90px" : "100px",
@@ -106,12 +110,6 @@ export default defineComponent({
         card:  isMobileSized.value ? "336px" : "352px",
         col:   isMobileSized.value ? "198px" : "204px"
       }
-    });
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-load-tile-background-color": backgroundColors.base
-      };
     });
 
     return {

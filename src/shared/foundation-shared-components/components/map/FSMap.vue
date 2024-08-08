@@ -129,17 +129,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, watch } from "vue";
-
-import * as L from "leaflet";
+import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, type StyleValue, watch } from "vue";
 import "leaflet.markercluster";
+import * as L from "leaflet";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type Address, type FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
 import { clusterMarkerHtml, locationMarkerHtml, myLocationMarkerHtml } from "../../utils";
-import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 import { useColors, useAddress, useBreakpoints } from "../../composables";
+import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 
 import FSMapEditPointAddressOverlay from "./FSMapEditPointAddressOverlay.vue";
 import FSMapLayerButton from "./FSMapLayerButton.vue";
@@ -309,16 +308,14 @@ export default defineComponent({
       return margin;
     });
 
-    const style = computed((): { [key: string]: string | undefined } => {
-      return {
-        "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
-        "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
-        "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
-        "--fs-map-leaflet-container-height": props.height as string,
-        "--fs-map-leaflet-bottom-overlay-margin": `${bottomMargin.value}px`,
-        "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
+      "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
+      "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
+      "--fs-map-leaflet-container-height": props.height as string,
+      "--fs-map-leaflet-bottom-overlay-margin": `${bottomMargin.value}px`,
+      "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
+    }));
 
     const displayLocations = () => {
       markerLayerGroup.clearLayers();

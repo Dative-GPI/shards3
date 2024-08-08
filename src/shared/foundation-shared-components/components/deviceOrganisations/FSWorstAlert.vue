@@ -29,8 +29,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, type PropType, ref } from "vue";
 
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
 import type { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";

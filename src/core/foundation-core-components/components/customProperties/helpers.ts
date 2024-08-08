@@ -1,8 +1,8 @@
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
-import type { CustomPropertyInfos} from "../../../foundation-core-domain/models";
-import { FilterType, PropertyDataType } from "../../../foundation-core-domain/models";
 
-const { getUserOffsetMillis, getMachineOffsetMillis } = useAppTimeZone();
+import { type CustomPropertyInfos, FilterType, PropertyDataType } from "../../../foundation-core-domain/models";
+
+const { getOffsetDifference } = useAppTimeZone();
 
 export const getColor = (property: CustomPropertyInfos, value: string): string | undefined => {
     if (property.colorful) {
@@ -187,5 +187,5 @@ const getEpoch = (expression: string): string => {
         expression = expression.substring(match[0].length);
         match = /(?:(?:([-+])(\d*))?(\w+))?(?:\/(\w))?/g.exec(expression);
     }
-    return (date.getTime() + getMachineOffsetMillis() - getUserOffsetMillis()).toString();
+    return (date.getTime() + getOffsetDifference()).toString();
 }

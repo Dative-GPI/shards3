@@ -165,7 +165,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum, type FileImage } from "@dative-gpi/foundation-shared-components/models";
@@ -252,13 +252,11 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string]: string | undefined } => {
-      return {
-        "--fs-edit-image-overline-text-color": lights.dark,
-        "--fs-edit-image-color"              : darks.base,
-        "--fs-edit-image-error-color"        : errors.base
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-edit-image-overline-text-color": lights.dark,
+      "--fs-edit-image-color"              : darks.base,
+      "--fs-edit-image-error-color"        : errors.base
+    }));
 
     const onUpload = async (payload: File) => {
       const content = (await readFile(payload)) as string;

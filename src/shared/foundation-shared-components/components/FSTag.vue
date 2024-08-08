@@ -38,11 +38,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSIcon from "./FSIcon.vue";
@@ -84,23 +82,23 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       switch (props.variant) {
         case "standard": return {
           "--fs-tag-background-color"       : colors.value.light,
-          "--fs-tag-color"                  : colors.value.lightContrast,
+          "--fs-tag-color"                  : colors.value.lightContrast!,
           "--fs-tag-hover-background-color" : colors.value.base,
-          "--fs-tag-hover-color"            : colors.value.baseContrast,
+          "--fs-tag-hover-color"            : colors.value.baseContrast!,
           "--fs-tag-active-background-color": colors.value.dark,
-          "--fs-tag-active-color"           : colors.value.darkContrast
+          "--fs-tag-active-color"           : colors.value.darkContrast!
         };
         case "full": return {
           "--fs-tag-background-color"       : colors.value.base,
-          "--fs-tag-color"                  : colors.value.baseContrast,
+          "--fs-tag-color"                  : colors.value.baseContrast!,
           "--fs-tag-hover-background-color" : colors.value.base,
-          "--fs-tag-hover-color"            : colors.value.baseContrast,
+          "--fs-tag-hover-color"            : colors.value.baseContrast!,
           "--fs-tag-active-background-color": colors.value.dark,
-          "--fs-tag-active-color"           : colors.value.darkContrast
+          "--fs-tag-active-color"           : colors.value.darkContrast!
         };
       }
     });

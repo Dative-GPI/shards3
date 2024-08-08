@@ -9,8 +9,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
@@ -49,7 +48,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const style = computed((): { [key: string] : string | null | undefined } => ({
+    const style = computed((): StyleValue => ({
       "--fs-col-overflow": props.overflow,
       "--fs-col-padding" : sizeToVar(props.padding),
       "--fs-col-gap"     : sizeToVar(props.gap),

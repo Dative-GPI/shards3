@@ -55,8 +55,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import type { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";

@@ -44,7 +44,7 @@ export const DateRules = {
     required: (message: string | undefined = undefined) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
     min: (min: number, message: string | undefined = undefined) => (value: number) => (!value || value >= min) || (message ?? $tr("ui.rules.date-min", "Must be after {0}", epochToLongDateFormat(min))),
     max: (max: number, message: string | undefined = undefined) => (value: number) => (!value || value <= max) || (message ?? $tr("ui.rules.date-max", "Must be before {0}", epochToLongDateFormat(max))),
-    validateExpression: (variant: "default" | "before-after") => (value: string) => validateExpression(value, variant)
+    validateExpression: (variant: "default" | "before-after" | undefined = "default") => (value: string) => validateExpression(value, variant)
 };
 
 export const SelectRules = {

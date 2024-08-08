@@ -66,12 +66,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
+import { ColorEnum, type FSGridItem } from "@dative-gpi/foundation-shared-components/models";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import type { FSGridItem } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSText from "./FSText.vue";
 import FSCol from "./FSCol.vue";
@@ -97,11 +95,9 @@ export default defineComponent({
 
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-grid-border-color": lights.dark
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-grid-border-color": lights.dark
+    }));
 
     const headerSlot = (code: string) => {
       if (slots[`header.${code}`]) {

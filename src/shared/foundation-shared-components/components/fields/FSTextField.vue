@@ -65,8 +65,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -145,7 +144,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-text-field-cursor"             : "default",

@@ -1,3 +1,4 @@
+export * from "./badge";
 export * from "./color";
 export * from "./css";
 export * from "./error";

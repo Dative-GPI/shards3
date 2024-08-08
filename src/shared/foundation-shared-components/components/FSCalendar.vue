@@ -65,12 +65,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, type StyleValue } from "vue";
 
 import { useAppTimeZone, useAppLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSButton from "./FSButton.vue";
@@ -113,27 +111,25 @@ export default defineComponent({
     const { epochToPicker, pickerToEpoch, todayToEpoch } = useAppTimeZone();
     const { languageCode } = useAppLanguageCode();
     const { getColors } = useColors();
+    
+    const innerMonth = ref(new Date().getMonth());
+    const innerYear = ref(new Date().getFullYear());
 
     const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
     const darks = getColors(ColorEnum.Dark);
-    
-    const innerMonth = ref(props.modelValue ? epochToPicker(props.modelValue).getMonth() : new Date().getMonth());
-    const innerYear = ref(props.modelValue ? epochToPicker(props.modelValue).getFullYear() : new Date().getFullYear());
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-calendar-background-color"       : backgrounds.base,
-        "--fs-calendar-hover-background-color" : colors.value.light,
-        "--fs-calendar-active-background-color": colors.value.base,
-        "--fs-calendar-border-color"           : darks.base,
-        "--fs-calendar-hover-border-color"     : colors.value.base,
-        "--fs-calendar-active-border-color"    : colors.value.base,
-        "--fs-calendar-color"                  : darks.base,
-        "--fs-calendar-hover-color"            : colors.value.base,
-        "--fs-calendar-active-color"           : colors.value.light
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-calendar-background-color"       : backgrounds.base,
+      "--fs-calendar-hover-background-color" : colors.value.light,
+      "--fs-calendar-active-background-color": colors.value.base,
+      "--fs-calendar-border-color"           : darks.base,
+      "--fs-calendar-hover-border-color"     : colors.value.base,
+      "--fs-calendar-active-border-color"    : colors.value.base,
+      "--fs-calendar-color"                  : darks.base,
+      "--fs-calendar-hover-color"            : colors.value.base,
+      "--fs-calendar-active-color"           : colors.value.light
+    }));
 
     const text = computed((): string => {
       const date = new Date(0);
@@ -163,23 +159,29 @@ export default defineComponent({
     };
 
     const onClickDate = (value: unknown): void => {
-      const date = (value as Date[])[0];
-      const epoch = pickerToEpoch(date);
-      emit("update:modelValue", epoch);
+      if (!Array.isArray(value) || !(value[0] instanceof Date)) {
+        return;
+      }
+      emit("update:modelValue", pickerToEpoch(value[0]));
     };
 
     const allowedDates = (value: unknown): boolean => {
-      const date = value as Date;
-      const valueEpoch = pickerToEpoch(date);
+      if (!(value instanceof Date)) {
+        return false;
+      }
       switch (props.limit) {
-        case "past":
-          return valueEpoch <= todayToEpoch(true);
-        case "future":
-          return valueEpoch >= todayToEpoch(true);
-        default:
-          return true;
+        case "past"  : return pickerToEpoch(value) <= todayToEpoch();
+        case "future": return pickerToEpoch(value) >= todayToEpoch();
+        default      : return true;
       }
     };
+
+    onMounted(() => {
+      if (props.modelValue) {
+        innerMonth.value = epochToPicker(props.modelValue).getMonth();
+        innerYear.value = epochToPicker(props.modelValue).getFullYear();
+      }
+    });
 
     return {
       ColorEnum,

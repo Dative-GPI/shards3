@@ -241,8 +241,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, type PropType, ref, type StyleValue } from "vue";
 
 import { useBreakpoints, useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -351,7 +350,7 @@ export default defineComponent({
 
     const dialog = ref(false);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-select-field-cursor"             : "default",

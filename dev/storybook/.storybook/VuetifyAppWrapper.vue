@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted } from "vue";
 
 import { useAppLanguageCode, useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 import { useFoundationCore, useAppOrganisationId } from "@dative-gpi/foundation-core-services/composables";
@@ -33,10 +33,7 @@ export default defineComponent({
     onMounted(async () => {
       setAppOrganisationId("dative");
       setAppLanguageCode("FR-fr");
-      setAppTimeZone({
-        id: "Europe/Paris",
-        offset: "+01:00"
-      });
+      setAppTimeZone("Europe/Paris");
     });
 
     return {

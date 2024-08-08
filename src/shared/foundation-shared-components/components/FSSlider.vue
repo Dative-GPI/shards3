@@ -16,8 +16,8 @@
         </FSSpan>
         <FSSpan
           v-if="$props.label && $props.required"
-          class="fs-slider-label"
           style="margin-left: -8px;"
+          class="fs-slider-label"
           font="text-overline"
           :ellipsis="false"
           :style="style"
@@ -29,12 +29,12 @@
     <v-slider
       class="fs-slider"
       hide-details
-      :tickSize="4"
+      :disabled="!$props.editable"
+      :ripple="false"
       :style="style"
       :elevation="0"
-      :ripple="false"
-      :disabled="!$props.editable"
-      :modelValue="$props.modelValue"
+      :tickSize="4"
+      :modelValue="$props.modelValue ?? undefined"
       @update:modelValue="(value) => $emit('update:modelValue', value)"
       v-bind="$attrs"
     >
@@ -64,11 +64,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSpan from "./FSSpan.vue";
@@ -121,7 +119,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-slider-cursor"     : "default",
