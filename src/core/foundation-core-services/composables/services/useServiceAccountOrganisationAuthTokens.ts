@@ -1,18 +1,13 @@
-import type { ServiceAccountOrganisationAuthTokenDetailsDTO, ServiceAccountOrganisationAuthTokenFilters, CreateServiceAccountOrganisationAuthTokenDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ServiceAccountOrganisationAuthTokenDetails } from "@dative-gpi/foundation-core-domain/models";
+import { type CreateServiceAccountOrganisationAuthTokenDTO, ServiceAccountOrganisationAuthTokenDetails, type ServiceAccountOrganisationAuthTokenDetailsDTO, type ServiceAccountOrganisationAuthTokenFilters, ServiceAccountOrganisationAuthTokenInfos, type ServiceAccountOrganisationAuthTokenInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKENS_URL, SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKEN_URL } from "../../config/urls";
 
 const ServiceAccountOrganisationAuthTokenServiceFactory = new ServiceFactory<ServiceAccountOrganisationAuthTokenDetailsDTO, ServiceAccountOrganisationAuthTokenDetails>("serviceAccountOrganisationAuthToken", ServiceAccountOrganisationAuthTokenDetails).create(factory => factory.build(
-    ServiceFactory.addCustom("getMany", (axios, serviceAccountOrganisationId: string, filters: ServiceAccountOrganisationAuthTokenFilters) => axios.get(SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKENS_URL(serviceAccountOrganisationId), filters), (dtos: ServiceAccountOrganisationAuthTokenDetailsDTO[]) => dtos.map((dto: ServiceAccountOrganisationAuthTokenDetailsDTO) => new ServiceAccountOrganisationAuthTokenDetails(dto))),
-    factory.addNotify(notifyService => ({
-        ...ServiceFactory.addCustom("create", (axios, serviceAccountOrganisationId: string, data: CreateServiceAccountOrganisationAuthTokenDTO) => axios.post(SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKENS_URL(serviceAccountOrganisationId), data), (dto: ServiceAccountOrganisationAuthTokenDetailsDTO) => {
-            const result = new ServiceAccountOrganisationAuthTokenDetails(dto);
-            notifyService.notify("add", result);
-        }),
-        ...ServiceFactory.addCustom("remove", (axios, serviceAccountOrganisationId: string, authTokenId: string) => axios.delete(SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKEN_URL(serviceAccountOrganisationId, authTokenId)), () => {})
-    }))
+  factory.addGetMany<ServiceAccountOrganisationAuthTokenInfosDTO, ServiceAccountOrganisationAuthTokenInfos, ServiceAccountOrganisationAuthTokenFilters>(SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKENS_URL, ServiceAccountOrganisationAuthTokenInfos),
+  factory.addCreate<CreateServiceAccountOrganisationAuthTokenDTO>(SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKENS_URL),
+  factory.addRemove(SERVICE_ACCOUNT_ORGANISATION_AUTH_TOKEN_URL),
+  factory.addNotify()
 ));
 
 export const useServiceAccountOrganisationAuthTokens = ComposableFactory.custom(ServiceAccountOrganisationAuthTokenServiceFactory.getMany);

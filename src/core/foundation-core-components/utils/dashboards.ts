@@ -1,6 +1,5 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { DashboardType } from "@dative-gpi/foundation-shared-domain/models"
 
 const { $tr } = useTranslationsProvider();

@@ -145,7 +145,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getUserOffsetMillis, epochToShortTimeFormat } = useAppTimeZone();
+    const { epochToShortTimeFormat, getOffsetUser } = useAppTimeZone();
     const { validateOn, getMessages } = useRules();
 
     const dialog = ref(false);
@@ -206,13 +206,13 @@ export default defineComponent({
             break;
           }
           case 1: {
-            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getOffsetUser()) % (24 * 60 * 60 * 1000));
             innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
             break;
           }
           default: {
-            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
-            innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getOffsetUser()) % (24 * 60 * 60 * 1000));
+            innerTimeRight.value = Math.floor((props.modelValue[1] + getOffsetUser()) % (24 * 60 * 60 * 1000));
             innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
             break;
           }

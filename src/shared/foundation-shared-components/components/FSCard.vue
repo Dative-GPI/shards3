@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -115,7 +115,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       switch (props.variant) {
         case "background": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
@@ -136,8 +136,8 @@ export default defineComponent({
           "--fs-card-height"          : sizeToVar(props.height),
           "--fs-card-width"           : sizeToVar(props.width),
           "--fs-card-background-color": colors.value.light,
-          "--fs-card-border-color"    : colors.value.lightContrast,
-          "--fs-card-color"           : colors.value.lightContrast
+          "--fs-card-border-color"    : colors.value.lightContrast!,
+          "--fs-card-color"           : colors.value.lightContrast!
         }
         case "full": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
@@ -148,7 +148,7 @@ export default defineComponent({
           "--fs-card-width"           : sizeToVar(props.width),
           "--fs-card-background-color": colors.value.base,
           "--fs-card-border-color"    : colors.value.base,
-          "--fs-card-color"           : colors.value.baseContrast
+          "--fs-card-color"           : colors.value.baseContrast!
         }
         case "gradient": return {
           "--fs-card-border-size"     : props.border ? "1px" : "0",
@@ -158,8 +158,8 @@ export default defineComponent({
           "--fs-card-height"          : sizeToVar(props.height),
           "--fs-card-width"           : sizeToVar(props.width),
           "--fs-card-background-color": gradients.value.base,
-          "--fs-card-border-color"    : colors.value.lightContrast,
-          "--fs-card-color"           : colors.value.lightContrast
+          "--fs-card-border-color"    : colors.value.lightContrast!,
+          "--fs-card-color"           : colors.value.lightContrast!
         }
       }
     });

@@ -30,8 +30,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import { ColorEnum } from "../models";
 

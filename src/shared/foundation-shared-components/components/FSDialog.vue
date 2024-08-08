@@ -29,8 +29,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 

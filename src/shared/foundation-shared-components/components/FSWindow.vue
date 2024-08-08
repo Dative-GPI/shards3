@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, type VNode } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue, type VNode } from "vue";
 
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
@@ -46,7 +46,7 @@ export default defineComponent({
 
     delete slots.default;
 
-    const style = computed((): { [key: string] : string | null | undefined } => ({
+    const style = computed((): StyleValue => ({
       "--fs-window-width": sizeToVar(props.width)
     }));
 

@@ -6,7 +6,6 @@ export class UserDetails extends UserInfos {
     hasSignedPolicies: boolean;
     languageCode: string;
     timeZoneId: string;
-    timeZoneOffset: string;
     allowNotifications: boolean;
     allowSms: boolean;
     allowEmails: boolean;
@@ -18,7 +17,6 @@ export class UserDetails extends UserInfos {
         this.hasSignedPolicies = params.hasSignedPolicies;
         this.languageCode = params.languageCode;
         this.timeZoneId = params.timeZoneId;
-        this.timeZoneOffset = params.timeZoneOffset;
         this.allowNotifications = params.allowNotifications;
         this.allowSms = params.allowSms;
         this.allowEmails = params.allowEmails;
@@ -30,7 +28,6 @@ export interface UserDetailsDTO extends UserInfosDTO {
     hasSignedPolicies: boolean;
     languageCode: string;
     timeZoneId: string;
-    timeZoneOffset: string;
     allowNotifications: boolean;
     allowSms: boolean;
     allowEmails: boolean;

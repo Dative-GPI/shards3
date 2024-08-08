@@ -10,11 +10,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 export default defineComponent({
@@ -40,14 +39,13 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
-    const color = computed((): string | null => {
+    const color = computed((): string | undefined => {
       if (props.color) {
         return getColors(props.color)[props.variant]!;
       }
-      return null;
     });
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       switch(props.size) {
         case "s": return {
           "--fs-icon-font-size": isMobileSized.value ? "14px" : "16px"

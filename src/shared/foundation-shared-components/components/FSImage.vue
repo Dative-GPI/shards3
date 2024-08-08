@@ -39,8 +39,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 import { decode, isBlurhashValid } from "blurhash";
 
 import { IMAGE_RAW_EXTENSION_URL, IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
@@ -111,12 +110,10 @@ export default defineComponent({
       "/9j/"     : "image/jpg",
     });
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
-        "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"
-      }
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-image-border-radius"   : sizeToVar(props.borderRadius),
+      "--fs-image-blurhash-opacity": blurHash.value ? "1" : "0"
+    }));
 
     const computedHeight = computed((): string | undefined => {
       if (props.height) {
@@ -156,7 +153,7 @@ export default defineComponent({
       return undefined;
     });
 
-    const realSource = computed((): string | null => {
+    const realSource = computed((): string | undefined => {
       if (props.imageB64) {
         if (imageType.value && imageData.value) {
           return `${imageType.value},${imageData.value}`;
@@ -168,7 +165,9 @@ export default defineComponent({
         }
         return IMAGE_RAW_URL(props.imageId);
       }
-      return props.source;
+      else if (props.source) {
+        return props.source;
+      }
     });
 
     const imageData = computed((): string | null => {

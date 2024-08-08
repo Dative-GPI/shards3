@@ -218,7 +218,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, type StyleValue, watch } from "vue";
 
 import { $createParagraphNode, $getSelection, $isElementNode, $isRangeSelection, $isNodeSelection, $setSelection, CAN_UNDO_COMMAND, createEditor, type ElementNode, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, ParagraphNode, UNDO_COMMAND } from "lexical";
 import { $createHeadingNode, HeadingNode, type HeadingTagType, registerRichText } from "@lexical/rich-text";
@@ -374,7 +374,7 @@ export default defineComponent({
       return ["readonly"].includes(props.variant);
     });
 
-    const style = computed((): { [key: string]: string | null | undefined } => {
+    const style = computed((): StyleValue => {
       let minHeight: string | undefined = "auto";
       if (!readonly.value) {
         const base = isMobileSized.value ? 30 : 42;
@@ -386,7 +386,6 @@ export default defineComponent({
           minHeight = `${base}px`;
         }
       }
-
       switch (props.variant) {
         case "standard": {
           if (!props.editable) {
@@ -410,7 +409,7 @@ export default defineComponent({
               "--fs-rich-text-field-link-color": linkColors.value.dark,
               "--fs-rich-text-field-min-height": minHeight,
               "--fs-rich-text-field-variable-backgroundcolor": getColors(ColorEnum.Primary).light,
-              "--fs-rich-text-field-variable-color": getColors(ColorEnum.Primary).lightContrast
+              "--fs-rich-text-field-variable-color": getColors(ColorEnum.Primary).lightContrast!
             };
           }
         }

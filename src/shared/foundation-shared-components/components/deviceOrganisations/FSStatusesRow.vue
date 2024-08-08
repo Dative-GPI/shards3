@@ -27,8 +27,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import type { FSDeviceAlert, FSDeviceConnectivity, FSDeviceStatus, FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, type StyleValue, watch } from "vue";
 
 import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -58,16 +58,14 @@ export default defineComponent({
 
     const elementId = `id${uuidv4()}`;
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-fade-out-height"             : sizeToVar(props.height),
-        "--fs-fade-out-width"              : sizeToVar(props.width),
-        "--fs-fade-out-padding"            : sizeToVar(props.padding),
-        "--fs-fade-out-mask-color"         : backgrounds.base,
-        "--fs-fade-out-top-mask-height"    : topMaskHeight.value,
-        "--fs-fade-out-bottom-mask-height" : bottomMaskHeight.value,
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-fade-out-height"            : sizeToVar(props.height),
+      "--fs-fade-out-width"             : sizeToVar(props.width),
+      "--fs-fade-out-padding"           : sizeToVar(props.padding),
+      "--fs-fade-out-mask-color"        : backgrounds.base,
+      "--fs-fade-out-top-mask-height"   : topMaskHeight.value,
+      "--fs-fade-out-bottom-mask-height": bottomMaskHeight.value
+    }));
 
     const handleMasks = () => {
       if (fadeOutRef.value) {

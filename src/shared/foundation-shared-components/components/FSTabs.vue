@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -41,14 +41,14 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => ({
-      "--fs-group-color"                 : darks.soft,
-      "--fs-group-hover-color"           : darks.dark,
-      "--fs-tab-border-color"            : lights.dark,
-      "--fs-tab-hover-border-color"      : darks.dark,
-      "--fs-tab-active-background-color" : colors.value.light,
-      "--fs-tab-tag-background-color"    : colors.value.base,
-      "--fs-tab-tag-color"               : colors.value.baseContrast
+    const style = computed((): StyleValue => ({
+      "--fs-group-color"                : darks.soft,
+      "--fs-group-hover-color"          : darks.dark,
+      "--fs-tab-border-color"           : lights.dark,
+      "--fs-tab-hover-border-color"     : darks.dark,
+      "--fs-tab-active-background-color": colors.value.light,
+      "--fs-tab-tag-background-color"   : colors.value.base,
+      "--fs-tab-tag-color"              : colors.value.baseContrast!
     }));
 
     return {

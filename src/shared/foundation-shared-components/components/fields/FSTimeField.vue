@@ -130,7 +130,7 @@ export default defineComponent({
     const innerTime = ref(0);
     const selectedUnit = ref(timeScale[0]);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-time-field-cursor"             : "default",

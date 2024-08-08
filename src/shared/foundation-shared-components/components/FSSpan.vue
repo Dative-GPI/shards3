@@ -11,8 +11,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -43,6 +42,10 @@ export default defineComponent({
   setup(props) {
     const { slots } = useSlots();
 
+    const style = computed((): StyleValue => ({
+      "--fs-span-line-clamp": props.lineClamp.toString()
+    }));
+
     const classes = computed((): string[] => {
       const classNames = ["fs-span", props.font];
       if (!slots.default) {
@@ -55,12 +58,6 @@ export default defineComponent({
         classNames.push("fs-span-ellipsis");
       }
       return classNames;
-    });
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-span-line-clamp": props.lineClamp.toString()
-      };
     });
 
     return {

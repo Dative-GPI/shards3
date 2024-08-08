@@ -25,13 +25,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
-import type { RouteLocation } from "vue-router";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
+import { type RouteLocation } from "vue-router";
 
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
   name: "FSLink",
@@ -83,21 +81,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const classes = computed((): string[] => {
-      const classNames = ["fs-link", props.font];
-      if (!slots.default) {
-        classNames.push("fs-span-pre-wrap");
-      }
-      if (props.lineClamp > 1) {
-        classNames.push("fs-span-line-clamp");
-      }
-      else if (props.ellipsis) {
-        classNames.push("fs-span-ellipsis");
-      }
-      return classNames;
-    });
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       switch (props.variant) {
         case "base": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
@@ -112,6 +96,20 @@ export default defineComponent({
           "--fs-link-color"     : colors.value.dark
         };
       }
+    });
+
+    const classes = computed((): string[] => {
+      const classNames = ["fs-link", props.font];
+      if (!slots.default) {
+        classNames.push("fs-span-pre-wrap");
+      }
+      if (props.lineClamp > 1) {
+        classNames.push("fs-span-line-clamp");
+      }
+      else if (props.ellipsis) {
+        classNames.push("fs-span-ellipsis");
+      }
+      return classNames;
     });
 
     return {

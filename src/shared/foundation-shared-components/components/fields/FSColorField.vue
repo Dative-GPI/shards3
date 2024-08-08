@@ -9,29 +9,29 @@
     >
       <FSBaseField
         class="fs-color-field"
-        :hideHeader="$props.hideHeader"
-        :required="$props.required"
-        :editable="$props.editable"
-        :modelValue="innerColor"
         :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :editable="$props.editable"
+        :required="$props.required"
         :label="$props.label"
-        :style="style"
         :width="$props.width"
+        :style="style"
+        :modelValue="innerColor"
         v-bind="$attrs"
       >
         <FSCard
-          width="100%"
           padding="8px"
-          v-bind="props"
+          width="100%"
           :class="{ 'fs-color-field-disabled': !$props.editable }"
+          v-bind="props"
         >
           <FSRow
             align="center-center"
           >
             <FSIcon
-              :color="innerColor"
-              size="20px"
               icon="mdi-circle-half"
+              size="20px"
+              :color="innerColor"
             />
             <FSText
               font="text-overline"
@@ -53,23 +53,23 @@
           v-if="!$props.onlyBaseColors"
           class="fs-color-field-picker"
           mode="hexa"
-          :elevation="0"
           :modes="allowOpacity ? ['hexa', 'rgba'] : ['hex', 'rgb']"
+          :elevation="0"
           :modelValue="fullColor"
           @update:modelValue="onSubmit"
         />
         <v-color-picker
           v-else
           class="fs-color-field-picker"
+          swatches-max-height="400px"
+          show-swatches
+          hide-sliders
+          hide-canvas
+          hide-inputs
+          :swatches="getBasePaletteColors()"
           :elevation="0"
           :modelValue="fullColor"
           @update:modelValue="onSubmit"
-          swatches-max-height="400px"
-          show-swatches
-          hide-inputs
-          hide-canvas
-          hide-sliders
-          :swatches="getBasePaletteColors()"
         />
       </FSCol>
     </FSCard>
@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
@@ -168,7 +168,7 @@ export default defineComponent({
     const innerOpacity = ref("00");
     const fullColor = ref("#00000000");
 
-    const style = computed((): { [key: string]: string | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-color-field-cursor"             : "default",

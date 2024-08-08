@@ -39,7 +39,9 @@
           <FSRow
             align="center-left"
           >
-            <FSText>
+            <FSText
+              v-if="header.value"
+            >
               {{ $props.item[header.value] }}
             </FSText>
           </FSRow>
@@ -67,11 +69,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import type { FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, type FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCheckbox from "../FSCheckbox.vue";
 import FSCard from "../FSCard.vue";
@@ -135,11 +135,9 @@ export default defineComponent({
       }
     });
 
-    const style = computed((): { [key: string]: string | null | undefined } => {
-      return {
-        "--fs-data-iterator-item-cursor": props.clickable ? "pointer" : "default"
-      }
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-data-iterator-item-cursor": props.clickable ? "pointer" : "default"
+    }));
 
     return {
       variant,

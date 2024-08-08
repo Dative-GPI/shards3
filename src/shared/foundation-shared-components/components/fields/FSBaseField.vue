@@ -27,14 +27,18 @@
         <v-spacer
           style="min-width: 40px;"
         />
-        <FSSpan
-          v-if="$props.messages.length > 0"
-          class="fs-base-field-messages"
-          font="text-overline"
-          :style="style"
+        <template
+          v-if="$props.messages"
         >
-          {{ $props.messages.join(", ") }}
-        </FSSpan>
+          <FSSpan
+            v-if="$props.messages.length > 0"
+            class="fs-base-field-messages"
+            font="text-overline"
+            :style="style"
+          >
+            {{ $props.messages.join(", ") }}
+          </FSSpan>
+        </template>
       </FSRow>
     </slot>
     <slot />
@@ -54,8 +58,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -114,7 +117,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-base-field-color": lights.dark

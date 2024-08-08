@@ -1,6 +1,6 @@
 <template>
   <FSClickable
-    v-if="!['icon'].includes($props.variant)"
+    v-if="$props.variant !== 'icon'"
     :editable="$props.editable"
     :height="['40px', '36px']"
     :variant="$props.variant"
@@ -128,7 +128,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 import { type RouteLocation } from "vue-router";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -164,7 +164,7 @@ export default defineComponent({
       default: null
     },
     label: {
-      type: [String, Function],
+      type: [String, Function] as PropType<string | Function | null>,
       required: false,
       default: null
     },
@@ -218,7 +218,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         switch (props.variant) {
           case "icon": return {

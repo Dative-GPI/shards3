@@ -163,7 +163,7 @@ export default defineComponent({
   },
   emits: ["update:startDate", "update:endDate"],
   setup(props, { emit }) {
-    const { parseForPicker,formatFromPicker, formatCurrentForPicker } = useAppTimeZone();
+    const { parseForPicker, formatFromPicker, todayToPicker, yesterdayToPicker } = useAppTimeZone();
     const { getMessages } = useRules();
 
     const innerDateSetting = ref<DateSetting>(DateSetting.PastDays);
@@ -336,8 +336,8 @@ export default defineComponent({
           }
           break;
         case DateSetting.Pick:
-          innerEndDate.value = formatCurrentForPicker(0);
-          innerStartDate.value = formatCurrentForPicker(-1);
+          innerEndDate.value = todayToPicker();
+          innerStartDate.value = yesterdayToPicker();
           break;
       }
       emit("update:startDate", innerStartDate.value);
@@ -409,14 +409,15 @@ export default defineComponent({
 
     const onPickDates = (value: number[] | null) => {
       if (!value) {
-        innerEndDate.value = formatCurrentForPicker(0);
-        innerStartDate.value = formatCurrentForPicker(-1);
+        innerEndDate.value = todayToPicker();
+        innerStartDate.value = yesterdayToPicker();
         if (valid.value) {
           emit("update:startDate", innerStartDate.value);
           emit("update:endDate", innerEndDate.value);
         }
       }
       else {
+        console.log(value[0], value[1]);
         if (value && value[0] != null && formatFromPicker(value[0]) !== innerStartDate.value) {
           innerStartDate.value = formatFromPicker(value[0]);
           if (valid.value) {

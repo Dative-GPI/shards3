@@ -1,14 +1,14 @@
 <template>
   <FSCol
     v-show="isExtraSmall"
-    :id="`left-overlay-mobile-${$props.mapId}`"
-    :height="$props.mode === 'expand' ? '100%' : ($props.mode === 'half' ? '50%' : 'hug')"
-    :style="style"
     class="fs-map-overlay-left-mobile"
     ref="mobileOverlayElement"
     align="bottom-center"
     width="hug"
     gap="2px"
+    :height="$props.mode === 'expand' ? '100%' : ($props.mode === 'half' ? '50%' : 'hug')"
+    :id="`left-overlay-mobile-${$props.mapId}`"
+    :style="style"
     @click="$event.target === mobileOverlayElement?.$el ? $emit('update:mode', 'collapse') : null"
   >
     <FSCard
@@ -17,16 +17,16 @@
       :border="false"
     >
       <FSCol
-        gap="0px"
         height="fill"
+        gap="0px"
       >
         <FSRow
           align="center-center"
           @touchstart="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
         >
           <FSButton
-            :icon="$props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up'"
             variant="icon"
+            :icon="$props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up'"
             @click="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
           />
         </FSRow>
@@ -38,8 +38,8 @@
             name="leftoverlay-header"
           />
           <FSFadeOut
-            :height="$props.mode === 'collapse' ? '0px' : '100%'"
             maskHeight="0px"
+            :height="$props.mode === 'collapse' ? '0px' : '100%'"
           >
             <slot
               name="leftoverlay-body"
@@ -51,11 +51,11 @@
   </FSCol>
   <FSCol
     v-show="!isExtraSmall"
-    :style="style"
-    :id="`left-overlay-${$props.mapId}`"
     class="fs-map-overlay-left"
     width="hug"
     gap="2px"
+    :id="`left-overlay-${$props.mapId}`"
+    :style="style"
   >
     <FSCard
       padding="4px"
@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref } from "vue";
+import { computed, defineComponent, type PropType, ref, type StyleValue } from "vue";
 
 import { useBreakpoints } from "../../composables";
 
@@ -124,7 +124,7 @@ export default defineComponent({
     const leftOverlayMenuMobile = ref(false);
     const mobileOverlayElement = ref(null);
 
-    const style = computed((): { [key: string]: string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (props.mode === "expand") {
         return {
           "--fs-map-overlay-max-height": `calc(${props.height} - 40px)`,
