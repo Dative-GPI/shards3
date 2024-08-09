@@ -502,12 +502,12 @@ export const CustomButton: Story = {
   render: () => ({
     components: { FSButton },
     template: `
-    <div style="display: flex; flex-direction: row; gap: 10px; width: 400px">
+    <div style="display: flex; flex-direction: row; gap: 10px; width: 200px">
       <FSButton
         color="primary"
         variant="full"
         width="100%"
-        label="Custom button"
+        label="Custom button Tatatata dlsqkqsdklqslsq jln"
       />
       <FSButton
         color="error"
