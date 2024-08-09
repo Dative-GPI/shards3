@@ -192,16 +192,6 @@ export default defineComponent({
     FSRow
   },
   props: {
-    // height: {
-    //   type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-    //   required: false,
-    //   default: () => ["40px", "36px"]
-    // },
-    // width: {
-    //   type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-    //   required: false,
-    //   default: "fit-content"
-    // },
     padding: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
