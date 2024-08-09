@@ -24,7 +24,7 @@ export const Variations: Story = {
       <div style="display: flex; gap: 10px;">
         <FSButton color="primary">
           <template #prepend>
-            <FSIcon> mdi-plus-circle-outline </FSIcon>
+            <FSIcon size="24"> mdi-plus-circle-outline </FSIcon>
           </template>
           <FSSpan> Create </FSSpan>
         </FSButton>
@@ -34,12 +34,12 @@ export const Variations: Story = {
         <FSButton color="error">
           <FSSpan> Remove </FSSpan>
           <template #append>
-            <FSIcon> mdi-minus-circle-outline </FSIcon>
+            <FSIcon size="24"> mdi-minus-circle-outline </FSIcon>
           </template>
         </FSButton>
         <FSButton color="success">
           <template #prepend>
-            <FSIcon> mdi-pencil </FSIcon>
+            <FSIcon size="24"> mdi-pencil </FSIcon>
           </template>
         </FSButton>
         <FSButton :editable="false">
@@ -493,6 +493,30 @@ export const Checkbox: Story = {
         label="Checkbox colored"
         color="success"
         v-model="args.value2"
+      />
+    </div>`
+  })
+}
+
+export const CustomButton: Story = {
+  render: () => ({
+    components: { FSButton },
+    template: `
+    <div style="display: flex; flex-direction: row; gap: 10px; width: 400px">
+      <FSButton
+        color="primary"
+        variant="full"
+        width="100%"
+        label="Custom button"
+      />
+      <FSButton
+        color="error"
+        icon="mdi-delete"
+        direction="column"
+        height="200px"
+        width="100%"
+        variant="full"
+        label="Custom button"
       />
     </div>`
   })
