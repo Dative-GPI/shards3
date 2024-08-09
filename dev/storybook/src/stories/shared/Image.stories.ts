@@ -45,6 +45,11 @@ export const Variations: Story = {
           :width="args.size1.width"
           :height="args.size1.height"
         />
+        <FSImage
+          source="https://products.dative-gpi.io/api/foundation/shared/v1/images/8da71ca6-3e31-47b2-93e6-a7a026ea062a/raw"
+          :height="args.size1.height"
+          :cover="false"
+        />
       </FSCol>
     </div>`
   })
