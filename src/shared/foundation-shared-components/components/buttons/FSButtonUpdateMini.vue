@@ -1,6 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-pencil-outline"
+    padding="0 7px"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

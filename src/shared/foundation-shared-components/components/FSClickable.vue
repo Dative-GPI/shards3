@@ -11,6 +11,7 @@
     <FSCard
       :borderRadius="$props.borderRadius"
       :borderStyle="$props.borderStyle"
+      :padding="$props.padding"
       :height="$props.height"
       :width="$props.width"
       :class="classes"
@@ -51,6 +52,7 @@
     <FSCard
       :borderRadius="$props.borderRadius"
       :borderStyle="$props.borderStyle"
+      :padding="$props.padding"
       :height="$props.height"
       :width="$props.width"
       :class="classes"
@@ -92,6 +94,7 @@
     <FSCard
       :borderRadius="$props.borderRadius"
       :borderStyle="$props.borderStyle"
+      :padding="$props.padding"
       :height="$props.height"
       :width="$props.width"
       :class="classes"
@@ -147,6 +150,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: null
+    },
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "0"
     },
     to: {
       type: [String, Object] as PropType<string | RouteLocation | null>,

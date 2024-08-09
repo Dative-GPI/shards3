@@ -40,9 +40,9 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import type { FSGridItem } from "@dative-gpi/foundation-shared-components/models";
+import { type FSGridItem } from "@dative-gpi/foundation-shared-components/models";
 
-import type { CustomPropertyInfos } from "../../../foundation-core-domain/models";
+import { type CustomPropertyInfos } from "../../../foundation-core-domain/models";
 
 import FSGrid from "@dative-gpi/foundation-shared-components/components/FSGrid.vue";
 

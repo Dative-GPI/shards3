@@ -65,6 +65,7 @@
             <FSButton
               v-if="$props.showFullScreen"
               prependIcon="mdi-fullscreen"
+              padding="0 7px"
               :elevation="true"
               @click="fullScreen = !fullScreen"
             />
@@ -86,10 +87,10 @@
             <FSButton
               v-if="$props.showMyLocation"
               prependIcon="mdi-crosshairs-gps"
+              padding="0 7px"
               color="primary"
               variant="full"
               :elevation="true"
-              :border="false"
               @click="locate"
             />
             <FSCol
@@ -98,17 +99,15 @@
             >
 
               <FSButton
-                class="fs-map-zoom-plus"
                 prependIcon="mdi-plus"
+                padding="0 7px"
                 :elevation="true"
-                :border="false"
                 @click="zoomIn"
               />
               <FSButton
-                class="fs-map-zoom-minus"
                 prependIcon="mdi-minus"
+                padding="0 7px"
                 :elevation="true"
-                :border="false"
                 @click="zoomOut"
               />
             </FSCol>

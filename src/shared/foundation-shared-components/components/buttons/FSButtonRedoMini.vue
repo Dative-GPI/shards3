@@ -1,6 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-redo-variant"
+    padding="0 7px"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

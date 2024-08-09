@@ -1,19 +1,21 @@
 <template>
   <FSButton
     prependIcon="mdi-layers-outline"
+    padding="0 7px"
     :elevation="true"
     @click="dialog = true"
   />
   <FSDialog
     v-model="dialog"
-    title="Select Layers"
-    width="442px"
+    width="500px"
+    :title="$tr('ui.map.select-layer', 'Select layer')"
   >
     <template
       v-slot:body
     >
       <FSRow
         align="center-center"
+        padding="0 16px 0 0"
       >
         <FSImageCard
           v-for="layer in layers"
