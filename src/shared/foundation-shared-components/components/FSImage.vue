@@ -1,6 +1,6 @@
 <template>
   <FSImageUI
-    :blurhash="image"
+    :blurHash="image"
     :source="source"
     @error="onError"
     v-bind="$attrs"
