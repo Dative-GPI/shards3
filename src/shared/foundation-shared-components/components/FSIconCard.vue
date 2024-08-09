@@ -46,7 +46,7 @@ export default defineComponent({
       default: null
     },
     backgroundVariant: {
-      type: String as PropType<"background" | "gradient">,
+      type: String as PropType<"background" | "standard" | "full" | "gradient">,
       required: false,
       default: "background"
     },

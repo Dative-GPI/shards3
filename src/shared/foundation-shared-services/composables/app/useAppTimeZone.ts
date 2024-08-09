@@ -164,7 +164,7 @@ export const useAppTimeZone = () => {
     if (epoch == null || !isFinite(epoch)) {
       return "";
     }
-    return format(epoch, ISO_FORMAT);
+    return format(epoch - getOffsetMachine(), ISO_FORMAT);
   };
 
   const ready = computed(() => timeZone.value !== null);

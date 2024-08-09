@@ -36,13 +36,15 @@
         </FSCol>
         <FSImage
           v-if="$props.imageId"
+          :imageId="$props.imageId"
           :height="imageSize"
           :width="imageSize"
-          :imageId="$props.imageId"
         />
         <FSIconCard
           v-else
-          :backgroundColor="iconBackgroundColor"
+          :backgroundVariant="$props.iconBackgroundVariant"
+          :backgroundColor="$props.iconBackgroundColor"
+          :border="$props.iconBorder"
           :icon="$props.icon"
           :size="imageSize"
         />
@@ -90,15 +92,25 @@ export default defineComponent({
       required: false,
       default: null
     },
-    iconBackgroundColor: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     icon: {
       type: String as PropType<string>,
       required: false,
       default: "mdi-ab-testing"
+    },
+    iconBackgroundVariant: {
+      type: String as PropType<"background" | "standard" | "full" | "gradient">,
+      required: false,
+      default: "background"
+    },
+    iconBackgroundColor: {
+      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
+      required: false,
+      default: ColorEnum.Background
+    },
+    iconBorder: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: true
     },
     activeColor: {
       type: String as PropType<ColorBase>,
