@@ -1,7 +1,9 @@
 <template>
   <FSSimpleTileUI
-    :iconBackgroundColor="true"
+    iconBackgroundVariant="gradient"
+    :iconBackgroundColor="color"
     :bottomColor="color"
+    :iconBorder="false"
     :icon="$props.icon"
     v-bind="$attrs"
   />

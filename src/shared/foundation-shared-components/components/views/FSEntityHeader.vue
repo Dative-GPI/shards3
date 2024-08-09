@@ -17,21 +17,23 @@
         <FSImage
           v-if="$props.imageId"
           :imageId="$props.imageId"
+          :cover="imageCover"
           :height="imageSize"
           :width="imageSize"
-          :cover="imageCover"
         />
         <FSIcon
           v-else-if="$props.icon && $props.color"
+          :color="$props.color"
           :icon="$props.icon"
           :size="imageSize"
-          :color="$props.color"
         />
         <FSIconCard
-          v-else-if="$props.icon && $props.iconBackgroundColors && $props.iconBackgroundColors.length > 0"
+          v-else-if="$props.icon && $props.iconBackgroundColor && $props.iconBackgroundColor.length > 0"
+          :backgroundVariant="$props.iconBackgroundVariant"
+          :backgroundColor="$props.iconBackgroundColor"
+          :border="$props.iconBorder"
           :icon="$props.icon"
           :size="imageSize"
-          :backgroundColor="$props.iconBackgroundColors"
         />
         <FSCol
           align="center-left"
@@ -137,16 +139,18 @@
         <FSImage
           v-if="$props.imageId"
           :imageId="$props.imageId"
+          :cover="imageCover"
           :height="imageSize"
           :width="imageSize"
-          :cover="imageCover"
         />
         <FSIconCard
-          v-else-if="$props.icon && $props.iconBackgroundColors && $props.iconBackgroundColors.length > 0"
+          v-else-if="$props.icon && $props.iconBackgroundColor && $props.iconBackgroundColor.length > 0"
+          iconSize="70px"
+          :backgroundVariant="$props.iconBackgroundVariant"
+          :backgroundColor="$props.iconBackgroundColor"
+          :border="$props.iconBorder"
           :icon="$props.icon"
           :size="imageSize"
-          iconSize="70px"
-          :backgroundColor="$props.iconBackgroundColors"
         />
         <FSIcon
           v-else-if="$props.icon"
@@ -210,7 +214,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { type ColorBase, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, type ColorBase, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSBreadcrumbs from "../FSBreadcrumbs.vue";
@@ -240,20 +244,30 @@ export default defineComponent({
       required: false,
       default: null
     },
-    icon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
       default: null
     },
-    iconBackgroundColors: {
-      type: Array as PropType<string[]>,
+    icon: {
+      type: String as PropType<string>,
       required: false,
-      default: () => []
+      default: "mdi-ab-testing"
+    },
+    iconBackgroundVariant: {
+      type: String as PropType<"background" | "standard" | "full" | "gradient">,
+      required: false,
+      default: "background"
+    },
+    iconBackgroundColor: {
+      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
+      required: false,
+      default: ColorEnum.Background
+    },
+    iconBorder: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: true
     },
     title: {
       type: String as PropType<string | null>,
