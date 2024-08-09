@@ -1,6 +1,6 @@
 <template>
   <FSImageUI
-    :blurhash="blurHash"
+    :blurhash="image"
     :source="source"
     @error="onError"
     v-bind="$attrs"
@@ -12,7 +12,7 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
 
-import { useImageBlurHash } from "@dative-gpi/foundation-shared-services/composables";
+import { useImage } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSImageUI from "./FSImageUI.vue";
 
@@ -29,7 +29,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { fetch: fetchBlurHash, entity: blurHash } = useImageBlurHash();
+    const { get: getImage, entity: image } = useImage();
 
     const source = computed(() => {
       return props.imageId ? IMAGE_RAW_URL(props.imageId) : null;
@@ -37,13 +37,13 @@ export default defineComponent({
 
     const onError = (): void => {
       if (props.imageId) {
-        fetchBlurHash(props.imageId);
+        getImage(props.imageId);
       }
     };
 
     return {
-      blurHash,
       source,
+      image,
       onError
     };
   }

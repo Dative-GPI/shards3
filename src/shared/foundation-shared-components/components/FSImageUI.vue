@@ -42,7 +42,7 @@
 import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 import { decode, isBlurhashValid } from "blurhash";
 
-import type { BlurHash } from "@dative-gpi/foundation-shared-domain/models";
+import type { ImageDetails } from "@dative-gpi/foundation-shared-domain/models";
 
 import { sizeToVar, varToSize } from "@dative-gpi/foundation-shared-components/utils";
 
@@ -75,7 +75,7 @@ export default defineComponent({
       default: null
     },
     blurHash: {
-      type: Object as PropType<BlurHash | null>,
+      type: Object as PropType<ImageDetails | null>,
       required: false,
       default: null
     },

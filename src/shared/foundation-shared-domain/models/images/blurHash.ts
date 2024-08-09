@@ -1,16 +1,16 @@
-export class BlurHash {
+export class ImageDetails {
     blurHash: string;
     width: number;
     height: number;
 
-    constructor(params: BlurHashDTO) {
+    constructor(params: ImageDetailsDTO) {
         this.blurHash = params.blurHash;
         this.width = params.width;
         this.height = params.height;
     }
 }
 
-export interface BlurHashDTO {
+export interface ImageDetailsDTO {
     blurHash: string;
     width: number;
     height: number;
