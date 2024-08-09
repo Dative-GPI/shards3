@@ -32,7 +32,7 @@ export default defineComponent({
       default: "0"
     },
     variant: {
-      type: String as PropType<"standard" | "button" | "input" | "field" | "chip" | "text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
+      type: String as PropType<"standard" | "button" | "input" | "field" | "chip" | "text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline">,
       required: false,
       default: "standard"
     },
@@ -70,7 +70,7 @@ export default defineComponent({
         case "text-body"     :
         case "text-button"   : return isMobileSized.value ? "14px" : "16px";
         case "text-overline" :
-        case "text-underline": return "16px";
+        case "text-overline": return "16px";
       }
     });
 

@@ -54,7 +54,7 @@
       <FSSpan
         v-if="$props.description"
         class="fs-slider-description"
-        font="text-underline"
+        font="text-overline"
         :style="style"
       >
         {{ $props.description }}

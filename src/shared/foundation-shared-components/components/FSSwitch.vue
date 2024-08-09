@@ -36,7 +36,7 @@
       <FSSpan
         v-if="$props.description"
         class="fs-switch-description"
-        font="text-underline"
+        font="text-overline"
         :style="style"
       >
         {{ $props.description }}

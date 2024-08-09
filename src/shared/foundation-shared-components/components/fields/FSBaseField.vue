@@ -48,7 +48,7 @@
       <FSSpan
         v-if="$props.description"
         class="fs-base-field-description"
-        font="text-underline"
+        font="text-overline"
         :style="style"
       >
         {{ $props.description }}

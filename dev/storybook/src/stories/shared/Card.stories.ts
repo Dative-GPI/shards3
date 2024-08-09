@@ -43,7 +43,7 @@ export const Variations: Story = {
                     <FSText> - General Kenobi!</FSText>
                 </template>
                 <template #footer>
-                    <FSText font="text-underline">(suprised)</FSText>
+                    <FSText font="text-overline">(suprised)</FSText>
                 </template>
             </FSCard>
             <FSCard>

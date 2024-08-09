@@ -49,7 +49,7 @@
       <FSSpan
         v-if="$props.description"
         class="fs-checkbox-description"
-        font="text-underline"
+        font="text-overline"
         :style="style"
       >
         {{ $props.description }}
