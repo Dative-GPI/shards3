@@ -22,6 +22,7 @@
         <FSButton
           v-if="filterableHeaders.length > 0"
           prependIcon="mdi-filter-variant"
+          padding="0 7px"
           :variant="showFilters ? 'full' : 'standard'"
           @click="showFilters = !showFilters"
         />

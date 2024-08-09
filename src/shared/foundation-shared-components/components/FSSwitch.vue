@@ -74,7 +74,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | null>,
       required: false,
       default: false
     },

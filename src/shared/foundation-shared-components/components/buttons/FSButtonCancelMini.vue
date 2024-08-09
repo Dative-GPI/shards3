@@ -1,6 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-cancel"
+    padding="0 7px"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

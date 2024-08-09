@@ -2,19 +2,20 @@
   <FSClickable
     v-if="$props.variant !== 'icon'"
     :editable="$props.editable"
-    :height="['40px', '36px']"
+    :padding="$props.padding"
     :variant="$props.variant"
+    :height="$props.height"
     :color="$props.color"
+    :width="$props.width"
     :load="$props.load"
     :href="$props.href"
-    :padding="padding"
     :to="$props.to"
     :style="style"
-    :width="width"
     @click.stop="onClick"
     v-bind="$attrs"
   >
     <FSRow
+      v-if="$props.axis === 'horizontal'"
       align="center-center"
       width="fill"
       :wrap="false"
@@ -51,6 +52,43 @@
         </FSIcon>
       </slot>
     </FSRow>
+    <FSCol
+      v-else
+      align="center-center"
+      width="fill"
+    >
+      <slot
+        name="prepend"
+        v-bind="{ color: $props.color, colors }"
+      >
+        <FSIcon
+          v-if="$props.prependIcon || $props.icon"
+          :size="$props.iconSize"
+        >
+          {{ $props.prependIcon ?? $props.icon }}
+        </FSIcon>
+      </slot>
+      <slot
+        v-bind="{ color: $props.color, colors }"
+      >
+        <FSSpan
+          v-if="$props.label"
+        >
+          {{ $props.label }}
+        </FSSpan>
+      </slot>
+      <slot
+        name="append"
+        v-bind="{ color: $props.color, colors }"
+      >
+        <FSIcon
+          v-if="$props.appendIcon"
+          :size="$props.iconSize"
+        >
+          {{ $props.appendIcon }}
+        </FSIcon>
+      </slot>
+    </FSCol>
   </FSClickable>
   <FSRow
     v-else
@@ -132,11 +170,12 @@ import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 import { type RouteLocation } from "vue-router";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSClickable from "./FSClickable.vue";
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
+import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
@@ -145,9 +184,25 @@ export default defineComponent({
     FSClickable,
     FSSpan,
     FSIcon,
+    FSCol,
     FSRow
   },
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: () => ["40px", "36px"]
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "fit-content"
+    },
+    padding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "0 16px"
+    },
     to: {
       type: [String, Object] as PropType<string | RouteLocation | null>,
       required: false,
@@ -188,15 +243,15 @@ export default defineComponent({
       required: false,
       default: "standard"
     },
+    axis: {
+      type: String as PropType<"horizontal" | "vertical">,
+      required: false,
+      default: "horizontal"
+    },
     color: {
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Light
-    },
-    fullWidth: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     load: {
       type: Boolean,
@@ -212,7 +267,6 @@ export default defineComponent({
   emits: ["click"],
   setup(props, { emit }) {
     const { getColors } = useColors();
-    const { slots } = useSlots();
 
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
@@ -260,21 +314,6 @@ export default defineComponent({
       }
     });
 
-    const padding = computed((): string | number => {
-      switch (props.variant) {
-        case "standard":
-        case "full":     return (!slots.default && !props.label) ? "0 7px" : "0 16px";
-        default:         return "0px";
-      }
-    });
-
-    const width = computed((): string | number => {
-      if (props.fullWidth) {
-        return "100%";
-      }
-      return "fit-content";
-    });
-
     const onClick = (event: MouseEvent) => {
       if (!props.to && !props.href && props.editable && !props.load) {
         emit("click", event);
@@ -284,10 +323,8 @@ export default defineComponent({
     return {
       iconClasses,
       loadColor,
-      padding,
       colors,
       style,
-      width,
       onClick
     };
   }

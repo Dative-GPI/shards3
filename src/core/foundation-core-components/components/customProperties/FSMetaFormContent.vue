@@ -27,14 +27,13 @@
 </template>
 
   <script lang="ts">
-import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
+import { defineComponent, type PropType } from "vue";
 
-import type { CustomPropertyInfos } from '@dative-gpi/foundation-core-domain/models';
+import { type CustomPropertyInfos } from "@dative-gpi/foundation-core-domain/models";
 
-import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
+import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 
-import FSMetaField from './FSMetaField.vue';
+import FSMetaField from "./FSMetaField.vue";
 
 export default defineComponent({
   name: "FSMetaFormContent",
