@@ -8,7 +8,7 @@
         :breadcrumbs="$props.breadcrumbs"
         :description="$props.description"
         :subtitle="$props.subtitle"
-        :imageId="$props.imageId"
+        :imageSource="$props.imageSource"
         :title="$props.title"
         :light="lightHeader"
         :icon="$props.icon"
@@ -60,14 +60,14 @@ import FSSkeletonView from "./FSSkeletonView.vue";
 // import FSFadeOut from "../FSFadeOut.vue";
 
 export default defineComponent({
-  name: "FSEntityView",
+  name: "FSEntityViewUI",
   components: {
     FSEntityHeader,
     FSSkeletonView
     // FSFadeOut
   },
   props: {
-    imageId: {
+    imageSource: {
       type: String as PropType<string | null>,
       required: false,
       default: null
