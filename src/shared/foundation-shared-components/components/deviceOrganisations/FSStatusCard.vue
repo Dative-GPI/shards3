@@ -12,6 +12,7 @@
         gap="0px"
       >
         <FSRow
+          v-if="$props.closable"
           align="center-right"
         >
           <FSButton
@@ -92,6 +93,10 @@ export default defineComponent({
     FSRow
   },
   props: {
+    closable: {
+      type: Boolean,
+      default: true
+    },
     modelStatus: {
       type: Object as PropType<FSModelStatus>,
       required: true
