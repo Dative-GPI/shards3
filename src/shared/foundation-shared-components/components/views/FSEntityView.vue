@@ -1,147 +1,36 @@
 <template>
-  <FSSkeletonView>
-    <template
-      #header
-    >
-      <FSEntityHeader
-        ref="headerRef"
-        :breadcrumbs="$props.breadcrumbs"
-        :description="$props.description"
-        :subtitle="$props.subtitle"
-        :imageSource="$props.imageSource"
-        :title="$props.title"
-        :light="lightHeader"
-        :icon="$props.icon"
-        :color="$props.color"
-        :iconBackgroundColors="$props.iconBackgroundColors"
-        :imageCover="$props.imageCover"
-      >
-        <template
-          #title-append
-        >
-          <slot
-            name="title-append"
-          />
-        </template>
-        <template
-          #toolbar
-          v-if="slots['toolbar']"
-        >
-          <slot
-            name="toolbar"
-          />
-        </template>
-      </FSEntityHeader>
-    </template>
-    <template
-      #default
-    >
-      <!-- <FSFadeOut
-        padding="0 8px 0 0"
-        :height="height"
-        @scroll="onScroll"
-      > -->
-      <slot
-        name="default"
-      />
-      <!-- </FSFadeOut> -->
-    </template>
-  </FSSkeletonView>
+  <FSEntityViewUI
+    :imageSource="source"
+    v-bind="$attrs"
+  />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import { type ColorEnum, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
-import { useBreakpoints, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config";
 
-import FSEntityHeader from "./FSEntityHeader.vue";
-import FSSkeletonView from "./FSSkeletonView.vue";
-// import FSFadeOut from "../FSFadeOut.vue";
+import FSEntityViewUI from "./FSEntityViewUI.vue";
 
 export default defineComponent({
-  name: "FSEntityViewUI",
+  name: "FSEntityView",
   components: {
-    FSEntityHeader,
-    FSSkeletonView
-    // FSFadeOut
+    FSEntityViewUI
   },
   props: {
-    imageSource: {
+    imageId: {
       type: String as PropType<string | null>,
       required: false,
       default: null
-    },
-    imageCover: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    icon: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    color : {
-      type: Object as PropType<ColorEnum | null>,
-      required: false,
-      default: null
-    },
-    iconBackgroundColors: {
-      type: Array as PropType<string[]>,
-      required: false,
-      default: () => []
-    },
-    title: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    subtitle: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    description: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
-    breadcrumbs: {
-      type: Array as PropType<FSBreadcrumbItem[]>,
-      required: false,
-      default: () => []
     }
   },
-  setup() {
-    const { isExtraSmall, windowHeight } = useBreakpoints();
-    const { slots } = useSlots();
-
-    const headerRef = ref<HTMLElement | null>(null);
-
-    const lightHeader = ref(false);
-
-    const height = computed((): string => {
-      let other = isExtraSmall.value ? 16 + 16 : 24 + 24; // Paddings
-
-      return `${windowHeight.value - other}px`;
+  setup(props) {
+    const source = computed(() => {
+      return props.imageId ? IMAGE_RAW_URL(props.imageId) : null;
     });
 
-    // const onScroll = (event: any): void => {
-    //   if (event.onTop) {
-    //     lightHeader.value = false;
-    //   }
-    //   else if (event.target.scrollTop > (headerRef.value as any)?.$el.clientHeight) {
-    //     lightHeader.value = true;
-    //   }
-    // };
-
     return {
-      lightHeader,
-      headerRef,
-      height,
-      slots
-      // onScroll
+      source
     };
   }
 });
