@@ -14,9 +14,9 @@
         :height="imageSize"
         :wrap="false"
       >
-        <FSImage
-          v-if="$props.imageId"
-          :imageId="$props.imageId"
+        <FSImageUI
+          v-if="$props.imageSource"
+          :source="$props.imageSource"
           :cover="imageCover"
           :height="imageSize"
           :width="imageSize"
@@ -136,9 +136,9 @@
         :height="imageSize"
         :wrap="false"
       >
-        <FSImage
-          v-if="$props.imageId"
-          :imageId="$props.imageId"
+        <FSImageUI
+          v-if="$props.imageSource"
+          :source="$props.imageSource"
           :cover="imageCover"
           :height="imageSize"
           :width="imageSize"
@@ -220,7 +220,7 @@ import { useBreakpoints, useSlots } from "@dative-gpi/foundation-shared-componen
 import FSBreadcrumbs from "../FSBreadcrumbs.vue";
 import FSSlideGroup from "../FSSlideGroup.vue";
 import FSIconCard from "../FSIconCard.vue";
-import FSImage from "../FSImage.vue";
+import FSImageUI from "../FSImageUI.vue";
 import FSIcon from "../FSIcon.vue";
 import FSText from "../FSText.vue";
 import FSCol from "../FSCol.vue";
@@ -232,14 +232,14 @@ export default defineComponent({
     FSBreadcrumbs,
     FSSlideGroup,
     FSIconCard,
-    FSImage,
+    FSImageUI,
     FSIcon,
     FSText,
     FSCol,
     FSRow
   },
   props: {
-    imageId: {
+    imageSource: {
       type: String as PropType<string | null>,
       required: false,
       default: null
