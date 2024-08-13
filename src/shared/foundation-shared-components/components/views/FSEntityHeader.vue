@@ -14,13 +14,21 @@
         :height="imageSize"
         :wrap="false"
       >
-        <FSImageUI
-          v-if="$props.imageSource"
-          :source="$props.imageSource"
-          :cover="imageCover"
-          :height="imageSize"
-          :width="imageSize"
-        />
+        <template
+          v-if="$props.imageId"
+        >
+          <slot 
+            name="image"
+            v-bind="{ imageSize }"
+          >
+            <FSImage
+              :imageId="$props.imageId"
+              :cover="imageCover"
+              :height="imageSize"
+              :width="imageSize"
+            />
+          </slot>
+        </template>
         <FSIcon
           v-else-if="$props.icon && $props.color"
           :color="$props.color"
@@ -136,13 +144,22 @@
         :height="imageSize"
         :wrap="false"
       >
-        <FSImageUI
-          v-if="$props.imageSource"
-          :source="$props.imageSource"
-          :cover="imageCover"
-          :height="imageSize"
-          :width="imageSize"
-        />
+        
+        <template
+          v-if="$props.imageId"
+        >
+          <slot 
+            name="image"
+            v-bind="{ imageSize }"
+          >
+            <FSImage
+              :imageId="$props.imageId"
+              :cover="imageCover"
+              :height="imageSize"
+              :width="imageSize"
+            />
+          </slot>
+        </template>
         <FSIconCard
           v-else-if="$props.icon && $props.iconBackgroundColor && $props.iconBackgroundColor.length > 0"
           iconSize="70px"
@@ -220,7 +237,7 @@ import { useBreakpoints, useSlots } from "@dative-gpi/foundation-shared-componen
 import FSBreadcrumbs from "../FSBreadcrumbs.vue";
 import FSSlideGroup from "../FSSlideGroup.vue";
 import FSIconCard from "../FSIconCard.vue";
-import FSImageUI from "../FSImageUI.vue";
+import FSImage from "../FSImage.vue";
 import FSIcon from "../FSIcon.vue";
 import FSText from "../FSText.vue";
 import FSCol from "../FSCol.vue";
@@ -232,14 +249,14 @@ export default defineComponent({
     FSBreadcrumbs,
     FSSlideGroup,
     FSIconCard,
-    FSImageUI,
+    FSImage,
     FSIcon,
     FSText,
     FSCol,
     FSRow
   },
   props: {
-    imageSource: {
+    imageId: {
       type: String as PropType<string | null>,
       required: false,
       default: null
