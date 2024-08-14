@@ -10,5 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dative-gpi/foundation-shared-domain": "1.0.0"
   }
 }

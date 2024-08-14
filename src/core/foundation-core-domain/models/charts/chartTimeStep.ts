@@ -1,4 +1,4 @@
-import type { TimeUnit } from "../enums/sharedEnums";
+import type { TimeUnit } from "@dative-gpi/foundation-shared-domain/models";
 
 export class ChartTimeStep {
   use: boolean;

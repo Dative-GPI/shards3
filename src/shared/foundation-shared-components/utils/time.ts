@@ -1,7 +1,22 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
+import { TimeUnit } from "@dative-gpi/foundation-shared-domain/models"
+
 const { $tr } = useTranslationsProvider();
 
+export const timeSteps = [
+  { id: TimeUnit.Second,      label: $tr("ui.time-step.second.singular", "Second"), plural: $tr("ui.time-step.second.plural", "Seconds") },
+  { id: TimeUnit.Minute,      label: $tr("ui.time-step.minute.singular", "Minute"), plural: $tr("ui.time-step.minute.plural", "Minutes") },
+  { id: TimeUnit.Hour,        label: $tr("ui.time-step.hour.singular", "Hour"),     plural: $tr("ui.time-step.hour.plural", "Hours") },
+  { id: TimeUnit.Day,         label: $tr("ui.time-step.day.singular", "Day"),       plural: $tr("ui.time-step.day.plural", "Days") },
+  { id: TimeUnit.Week,        label: $tr("ui.time-step.week.singular", "Week"),     plural: $tr("ui.time-step.week.plural", "Weeks") },
+  { id: TimeUnit.Month,       label: $tr("ui.time-step.month.singular", "Month"),   plural: $tr("ui.time-step.month.plural", "Months") },
+  { id: TimeUnit.Year,        label: $tr("ui.time-step.year.singular", "Year"),     plural: $tr("ui.time-step.year.plural", "Years") },
+]
+
+
+
+// TODO : remove everything below this line
 export const timeScale: any[] = [
   { id: 1,      label: $tr("ui.time-field.second.singular", "Second"), plural: $tr("ui.time-field.second.plural", "Seconds") },
   { id: 60,     label: $tr("ui.time-field.minute.singular", "Minute"), plural: $tr("ui.time-field.minute.plural", "Minutes") },
