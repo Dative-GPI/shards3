@@ -1,5 +1,6 @@
-import o from"./FSTimeField-iHSVhfzM.js";import{F as u}from"./FSForm-3-6JxcXo.js";import{_ as p}from"./FSCol-DX423FHf.js";import{_ as F}from"./FSRow-Bpa2jjpJ.js";import{b as g}from"./rules-DNRn5gD7.js";import"./vue.esm-bundler-gWFTcvUr.js";import"./FSNumberField-C-Rd40i6.js";import"./FSTextField-DmPsFJH8.js";import"./FSBaseField-C6NDZpLW.js";import"./FSSpan-BlywDO8Z.js";import"./useSlots-qbJuQIJ1.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./useColors-4hVwr1YC.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-3zl-tJp_.js";import"./theme-DA9ermhM.js";import"./VSpacer-DqpPKsvm.js";import"./color-CI1OEbFE.js";import"./FSButton-C0cjY78b.js";import"./FSClickable-aki8YuqU.js";import"./FSCard-B-jXuIJy.js";import"./css-Bc8dJONt.js";import"./VProgressCircular-DqlO5PEF.js";import"./VIcon-BiBYr0XY.js";import"./FSIcon-C7-l9IT-.js";import"./useRules-CMc02QlE.js";import"./VField-0o7ofOT0.js";import"./index-C2ELxjkU.js";import"./transition-14-CCvbq.js";import"./VLabel-B0q5I27e.js";import"./VInput-ClhP4L1h.js";import"./locale-C1ZNn_CS.js";import"./density-cGginCT8.js";import"./proxiedModel-ClxH85aG.js";import"./loader-DNzkAbrM.js";import"./anchor-D8sPv6Az.js";import"./rounded-DlJ8CYNz.js";import"./VDefaultsProvider-CYAySfh3.js";import"./forwardRefs-DWGaNmQL.js";import"./index-BHt-17iJ.js";import"./FSSelectField-DK2yvB1s.js";import"./FSDialogMenu-C6wq00J3.js";import"./VDialog-Dt2j2rPJ.js";import"./VOverlay-BOOfoO8K.js";import"./dimensions-CmIA1DmV.js";import"./display-DIiwMx3y.js";import"./lazy-Cvx00My1.js";import"./router-B2tkk-4w.js";import"./FSRadioGroup-BAFwCk5I.js";import"./FSRadio-CgLvIMAY.js";import"./VSelectionControl-CyZYkafj.js";import"./index-BTMLtsqI.js";import"./FSCheckbox-Dh4I1x40.js";import"./FSFadeOut-D80WCGTA.js";import"./uuid-DTaye2KM.js";import"./VList-BToIo4RO.js";import"./ssrBoot-2G_E7J1h.js";import"./border-CDY4nf3P.js";import"./elevation-B3TY2UXi.js";import"./VImg-CHF0S8ll.js";import"./VSelect-BmHh8iYM.js";import"./VMenu-lXYF3tO5.js";import"./VSlideGroup-DIBYkq4d.js";import"./group-DEdtjQ6D.js";import"./time-B7rb1r3-.js";import"./useTranslations-DebMVrXy.js";import"./useAppTimeZone-BTXoL9eb.js";const _e={title:"Foundation/Shared/Input fields/TimeField",component:o,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},e={args:{args:{value1:null,value2:3600,value3:691200}},render:(t,{argTypes:i})=>({components:{FSTimeField:o,FSCol:p},props:Object.keys(i),setup(){return{...t}},template:`
+import o from"./FSTimeField-BeBjzDpc.js";import{F as u}from"./FSForm-3-6JxcXo.js";import{_ as p}from"./FSCol-DX423FHf.js";import{_ as F}from"./FSRow-Bpa2jjpJ.js";import{b as g}from"./rules-B9fT_6L5.js";import"./vue.esm-bundler-gWFTcvUr.js";import"./FSNumberField-C-Rd40i6.js";import"./FSTextField-DmPsFJH8.js";import"./FSBaseField-C6NDZpLW.js";import"./FSSpan-BlywDO8Z.js";import"./useSlots-qbJuQIJ1.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./useColors-4hVwr1YC.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-3zl-tJp_.js";import"./theme-DA9ermhM.js";import"./VSpacer-DqpPKsvm.js";import"./color-CI1OEbFE.js";import"./FSButton-C0cjY78b.js";import"./FSClickable-aki8YuqU.js";import"./FSCard-B-jXuIJy.js";import"./css-Bc8dJONt.js";import"./VProgressCircular-DqlO5PEF.js";import"./VIcon-BiBYr0XY.js";import"./FSIcon-C7-l9IT-.js";import"./useRules-CMc02QlE.js";import"./VField-0o7ofOT0.js";import"./index-C2ELxjkU.js";import"./transition-14-CCvbq.js";import"./VLabel-B0q5I27e.js";import"./VInput-ClhP4L1h.js";import"./locale-C1ZNn_CS.js";import"./density-cGginCT8.js";import"./proxiedModel-ClxH85aG.js";import"./loader-DNzkAbrM.js";import"./anchor-D8sPv6Az.js";import"./rounded-DlJ8CYNz.js";import"./VDefaultsProvider-CYAySfh3.js";import"./forwardRefs-DWGaNmQL.js";import"./index-BHt-17iJ.js";import"./FSSelectField-DK2yvB1s.js";import"./FSDialogMenu-C6wq00J3.js";import"./VDialog-Dt2j2rPJ.js";import"./VOverlay-BOOfoO8K.js";import"./dimensions-CmIA1DmV.js";import"./display-DIiwMx3y.js";import"./lazy-Cvx00My1.js";import"./router-B2tkk-4w.js";import"./FSRadioGroup-BAFwCk5I.js";import"./FSRadio-CgLvIMAY.js";import"./VSelectionControl-CyZYkafj.js";import"./index-BTMLtsqI.js";import"./FSCheckbox-Dh4I1x40.js";import"./FSFadeOut-D80WCGTA.js";import"./uuid-DTaye2KM.js";import"./VList-BToIo4RO.js";import"./ssrBoot-2G_E7J1h.js";import"./border-CDY4nf3P.js";import"./elevation-B3TY2UXi.js";import"./VImg-CHF0S8ll.js";import"./VSelect-BmHh8iYM.js";import"./VMenu-lXYF3tO5.js";import"./VSlideGroup-DIBYkq4d.js";import"./group-DEdtjQ6D.js";import"./time-Nb8kLLbZ.js";import"./useTranslations-DebMVrXy.js";import"./useAppTimeZone-BTXoL9eb.js";const _e={title:"Foundation/Shared/Input fields/TimeField",component:o,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},e={args:{args:{value1:null,value2:3600,value3:691200}},render:(t,{argTypes:i})=>({components:{FSTimeField:o,FSCol:p},props:Object.keys(i),setup(){return{...t}},template:`
     <FSCol>
+      <div style="color: red" class="text-h2">DEPRECATED : use FSTimeStepField instead</div>
       <FSTimeField
         label="Time"
         v-model="args.value1"
@@ -47,7 +48,7 @@ import o from"./FSTimeField-iHSVhfzM.js";import{F as u}from"./FSForm-3-6JxcXo.js
           v-model="args.value3"
         />
       </FSCol>
-    </FSForm>`})};var l,n,s;e.parameters={...e.parameters,docs:{...(l=e.parameters)==null?void 0:l.docs,source:{originalSource:`{
+    </FSForm>`})};var l,s,n;e.parameters={...e.parameters,docs:{...(l=e.parameters)==null?void 0:l.docs,source:{originalSource:`{
   args: {
     args: {
       value1: null,
@@ -70,6 +71,7 @@ import o from"./FSTimeField-iHSVhfzM.js";import{F as u}from"./FSForm-3-6JxcXo.js
     },
     template: \`
     <FSCol>
+      <div style="color: red" class="text-h2">DEPRECATED : use FSTimeStepField instead</div>
       <FSTimeField
         label="Time"
         v-model="args.value1"
@@ -90,7 +92,7 @@ import o from"./FSTimeField-iHSVhfzM.js";import{F as u}from"./FSForm-3-6JxcXo.js
       />
     </FSCol>\`
   })
-}`,...(s=(n=e.parameters)==null?void 0:n.docs)==null?void 0:s.source}}};var m,d,a;r.parameters={...r.parameters,docs:{...(m=r.parameters)==null?void 0:m.docs,source:{originalSource:`{
+}`,...(n=(s=e.parameters)==null?void 0:s.docs)==null?void 0:n.source}}};var m,d,a;r.parameters={...r.parameters,docs:{...(m=r.parameters)==null?void 0:m.docs,source:{originalSource:`{
   args: {
     args: {
       valid: false,
@@ -146,4 +148,4 @@ import o from"./FSTimeField-iHSVhfzM.js";import{F as u}from"./FSForm-3-6JxcXo.js
       </FSCol>
     </FSForm>\`
   })
-}`,...(a=(d=r.parameters)==null?void 0:d.docs)==null?void 0:a.source}}};const ke=["Variations","Rules"];export{r as Rules,e as Variations,ke as __namedExportsOrder,_e as default};
+}`,...(a=(d=r.parameters)==null?void 0:d.docs)==null?void 0:a.source}}};const Ee=["Variations","Rules"];export{r as Rules,e as Variations,Ee as __namedExportsOrder,_e as default};
