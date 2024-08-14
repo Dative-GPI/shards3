@@ -3,12 +3,16 @@
     :values="availableConfigurations"
     v-model="selectedConfiguration"
   >
-    <template #label="{ item, font }">
+    <template
+      #label="{ item, font }"
+    >
       <FSRow
         v-if="item.value === 'customDayNumber'"
         align="center-left"
       >
-        <FSSpan :font="font">
+        <FSSpan
+          :font="font"
+        >
           {{ $tr('ui.periodicfield.monthly.day', 'Day') }}
         </FSSpan>
         <FSSelectField
@@ -18,10 +22,13 @@
           :items="dayNumbers"
           @update:modelValue="onUpdateDayNumber($event)"
         />
-        <FSSpan :font="font">
+        <FSSpan
+          :font="font"
+        >
           {{ $tr('ui.periodicfield.monthly.every-month-at', 'every month at') }}
         </FSSpan>
         <FSClock
+          color="light"
           :modelValue="time"
           :hideHeader="true"
           :slider="false"
@@ -32,7 +39,9 @@
         v-else-if="item.value === 'customDayWeek'"
         align="center-left"
       >
-        <FSSpan :font="font">
+        <FSSpan
+          :font="font"
+        >
           {{ $tr('ui.periodicfield.monthly.every', 'Every') }}
         </FSSpan>
         <FSSelectField
@@ -48,10 +57,13 @@
           :useAllDays="false"
           @update:modelValue="onUpdateDayWeek($event)"
         />
-        <FSSpan :font="font">
+        <FSSpan
+          :font="font"
+        >
           {{ $tr('ui.periodicfield.monthly.at', 'at') }}
         </FSSpan>
         <FSClock
+          color="light"
           :modelValue="time"
           :hideHeader="true"
           :slider="false"

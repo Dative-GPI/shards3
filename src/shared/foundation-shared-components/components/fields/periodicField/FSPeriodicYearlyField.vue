@@ -3,12 +3,16 @@
     :values="availableConfigurations"
     v-model="selectedConfiguration"
   >
-    <template #label="{ item, font }">
+    <template
+      #label="{ item, font }"
+    >
       <FSRow
         v-if="item.value === 'custom'"
         align="center-left"
       >
-        <FSSpan :font="font">
+        <FSSpan
+          :font="font"
+        >
           {{ $tr('ui.periodicfield.yearly.everyyear', 'Every year') }}
         </FSSpan>
         <FSSelectMonths
@@ -22,10 +26,13 @@
           :clearable="false"
           @update:modelValue="onUpdateDay($event)"
         />
-        <FSSpan :font="font">
+        <FSSpan
+          :font="font"
+        >
           {{ $tr('ui.periodicfield.yearly.at', 'at') }}
         </FSSpan>
         <FSClock
+          color="light"
           :modelValue="time"
           :hideHeader="true"
           :slider="false"

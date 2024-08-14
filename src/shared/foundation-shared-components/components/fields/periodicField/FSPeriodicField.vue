@@ -13,23 +13,23 @@
     >
       <FSPeriodicDailyField
         v-if="selectedPeriod === 'daily'"
-        :modelValue="$props.modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
+        :modelValue="$props.modelValue.split(' ')"
+        @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicWeeklyField
         v-else-if="selectedPeriod === 'weekly'"
-        :modelValue="$props.modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
+        :modelValue="$props.modelValue.split(' ')"
+        @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicMonthlyField
         v-else-if="selectedPeriod === 'monthly'"
-        :modelValue="$props.modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
+        :modelValue="$props.modelValue.split(' ')"
+        @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicYearlyField
         v-else-if="selectedPeriod === 'yearly'"
-        :modelValue="$props.modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
+        :modelValue="$props.modelValue.split(' ')"
+        @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
     </FSRow>
   </FSRow>
@@ -43,7 +43,6 @@ import { useTranslations } from '@dative-gpi/bones-ui';
 import FSRow from '../../FSRow.vue';
 import FSRadioGroup from '../../FSRadioGroup.vue';
 import FSDivider from '../../FSDivider.vue';
-import FSCol from '../../FSCol.vue';
 import FSPeriodicDailyField from './FSPeriodicDailyField.vue';
 import FSPeriodicWeeklyField from './FSPeriodicWeeklyField.vue';
 import FSPeriodicMonthlyField from './FSPeriodicMonthlyField.vue';
@@ -52,7 +51,6 @@ import FSPeriodicYearlyField from './FSPeriodicYearlyField.vue';
 export default defineComponent({
   name: 'FSPeriodicField',
   components: {
-    FSCol,
     FSDivider,
     FSPeriodicDailyField,
     FSPeriodicMonthlyField,
@@ -63,7 +61,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Array<string>,
+      type: String,
       required: true
     },
     defaultSelectedPeriod: {

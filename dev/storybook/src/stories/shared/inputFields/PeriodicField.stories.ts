@@ -19,9 +19,9 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value1: ["*", "*", "*", "*", "*"],
-      value2: ["30", "14", "*/2", "*", "*"],
-      value3: ["0", "9", "8-14", "*", "4"]
+      value1: "* * * * *",
+      value2: "30 14 */2 * *",
+      value3: "0 9 8-14 * 4"
     }
   },
   render: (args, { argTypes }) => ({
@@ -35,18 +35,18 @@ export const Variations: Story = {
       <FSPeriodicField
         v-model="args.value1"
         defaultSelectedPeriod="yearly"
-        @update:modelValue="console.log($event.join(' '))"
+        @update:modelValue="console.log($event)"
       />
       <FSDivider />
       <FSPeriodicField
         v-model="args.value2"
-        @update:modelValue="console.log($event.join(' '))"
+        @update:modelValue="console.log($event)"
       />
       <FSDivider />
       <FSPeriodicField
         v-model="args.value3"
         defaultSelectedPeriod="monthly"
-        @update:modelValue="console.log($event.join(' '))"
+        @update:modelValue="console.log($event)"
       />
     </FSCol>`
   })
