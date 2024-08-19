@@ -1097,10 +1097,10 @@ export default defineComponent({
           },
           mobile: (event: any, item: any) => {
             if (props.itemTo && router) {
-              router.push(props.itemTo(item));
+              router.push(props.itemTo(item.raw));
             }
             else {
-              emit("click:row", item);
+              emit("click:row", item.raw);
             }
           }
         }
