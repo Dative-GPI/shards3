@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
 
     const filterTypeItems = computed(()=>{
-      return getEnumEntries(FilterType).map((f)=>{
+      return getEnumEntries(FilterType).filter(f=>f.value != FilterType.None).map((f)=>{
         return {
           id: f.value,
           label: filterTypeLabel(f.value)
