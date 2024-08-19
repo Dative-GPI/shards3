@@ -1,4 +1,4 @@
-import { type CreateServiceAccountOrganisationDTO, type UpdateServiceAccountOrganisationDTO, ServiceAccountOrganisationDetails, type ServiceAccountOrganisationDetailsDTO, type ServiceAccountOrganisationFilters, ServiceAccountOrganisationInfos, type ServiceAccountOrganisationInfosDTO } from "@dative-gpi/foundation-core-domain/models";
+import { type CreateServiceAccountOrganisationDTO, ServiceAccountOrganisationDetails, type ServiceAccountOrganisationDetailsDTO, type ServiceAccountOrganisationFilters, ServiceAccountOrganisationInfos, type ServiceAccountOrganisationInfosDTO, type UpdateServiceAccountOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { SERVICE_ACCOUNT_ORGANISATIONS_URL, SERVICE_ACCOUNT_ORGANISATION_URL } from "../../config/urls";

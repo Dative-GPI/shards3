@@ -1,33 +1,32 @@
-import type { Ref } from "vue";
+import { type Ref } from "vue";
+
+import { type ChangeDeviceOrganisationGroupDTO, type ChangeDeviceOrganisationLocationDTO, type CreateDeviceOrganisationDTO, DeviceOrganisationDetails, type DeviceOrganisationDetailsDTO, type DeviceOrganisationFilters, DeviceOrganisationInfos, type DeviceOrganisationInfosDTO, type UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import type { ChangeDeviceOrganisationGroupDTO, ChangeDeviceOrganisationLocationDTO, CreateDeviceOrganisationDTO, DeviceOrganisationDetailsDTO, DeviceOrganisationFilters, DeviceOrganisationInfosDTO, UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
-import { DeviceOrganisationDetails, DeviceOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import { DEVICE_ORGANISATIONS_URL, DEVICE_ORGANISATION_URL, DEVICE_ORGANISATION_GROUP_URL, DEVICE_ORGANISATION_LOCATION_URL } from "../../config/urls";
 
 import { useTrackDeviceConnectivity, useWatchDeviceConnectivity } from "./useDeviceConnectivities";
 import { useTrackDeviceStatuses, useWatchDeviceStatuses } from "./useDeviceStatuses";
 
-const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDetailsDTO, DeviceOrganisationDetails>("deviceOrganisation", DeviceOrganisationDetails)
-  .create(factory => factory.build(
-    factory.addGet(DEVICE_ORGANISATION_URL),
-    factory.addGetMany<DeviceOrganisationInfosDTO, DeviceOrganisationInfos, DeviceOrganisationFilters>(DEVICE_ORGANISATIONS_URL, DeviceOrganisationInfos),
-    factory.addCreate<CreateDeviceOrganisationDTO>(DEVICE_ORGANISATIONS_URL),
-    factory.addUpdate<UpdateDeviceOrganisationDTO>(DEVICE_ORGANISATION_URL),
-    factory.addRemove(DEVICE_ORGANISATION_URL),
-    factory.addNotify(notifyService => ({
-      ...ServiceFactory.addCustom("changeGroup", (axios, deviceOrganisationId: string, payload: ChangeDeviceOrganisationGroupDTO) => axios.put(DEVICE_ORGANISATION_GROUP_URL(deviceOrganisationId), payload), (dto: DeviceOrganisationDetailsDTO) => {
-        const result = new DeviceOrganisationDetails(dto);
-        notifyService.notify("update", result);
-        return result;
-      }),
-      ...ServiceFactory.addCustom("changeLocation", (axios, deviceOrganisationId: string, payload: ChangeDeviceOrganisationLocationDTO) => axios.put(DEVICE_ORGANISATION_LOCATION_URL(deviceOrganisationId), payload), (dto: DeviceOrganisationDetailsDTO) => {
-        const result = new DeviceOrganisationDetails(dto);
-        notifyService.notify("update", result);
-        return result;
-      })
-    }))
-  ));
+const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDetailsDTO, DeviceOrganisationDetails>("deviceOrganisation", DeviceOrganisationDetails).create(factory => factory.build(
+  factory.addGet(DEVICE_ORGANISATION_URL),
+  factory.addGetMany<DeviceOrganisationInfosDTO, DeviceOrganisationInfos, DeviceOrganisationFilters>(DEVICE_ORGANISATIONS_URL, DeviceOrganisationInfos),
+  factory.addCreate<CreateDeviceOrganisationDTO>(DEVICE_ORGANISATIONS_URL),
+  factory.addUpdate<UpdateDeviceOrganisationDTO>(DEVICE_ORGANISATION_URL),
+  factory.addRemove(DEVICE_ORGANISATION_URL),
+  factory.addNotify(notifyService => ({
+    ...ServiceFactory.addCustom("changeGroup", (axios, deviceOrganisationId: string, payload: ChangeDeviceOrganisationGroupDTO) => axios.put(DEVICE_ORGANISATION_GROUP_URL(deviceOrganisationId), payload), (dto: DeviceOrganisationDetailsDTO) => {
+      const result = new DeviceOrganisationDetails(dto);
+      notifyService.notify("update", result);
+      return result;
+    }),
+    ...ServiceFactory.addCustom("changeLocation", (axios, deviceOrganisationId: string, payload: ChangeDeviceOrganisationLocationDTO) => axios.put(DEVICE_ORGANISATION_LOCATION_URL(deviceOrganisationId), payload), (dto: DeviceOrganisationDetailsDTO) => {
+      const result = new DeviceOrganisationDetails(dto);
+      notifyService.notify("update", result);
+      return result;
+    })
+  }))
+));
 
 const trackDeviceOrganisation = () => {
   const { track: trackDeviceStatuses } = useTrackDeviceStatuses();
@@ -67,8 +66,6 @@ export const useDeviceOrganisation = ComposableFactory.get(DeviceOrganisationSer
 export const useDeviceOrganisations = ComposableFactory.getMany(DeviceOrganisationServiceFactory, trackDeviceOrganisations);
 export const useCreateDeviceOrganisation = ComposableFactory.create(DeviceOrganisationServiceFactory, trackDeviceOrganisation);
 export const useUpdateDeviceOrganisation = ComposableFactory.update(DeviceOrganisationServiceFactory, trackDeviceOrganisation);
-
 export const useRemoveDeviceOrganisation = ComposableFactory.remove(DeviceOrganisationServiceFactory);
-
 export const useChangeDeviceOrganisationGroup = ComposableFactory.custom(DeviceOrganisationServiceFactory.changeGroup, trackDeviceOrganisation);
 export const useChangeDeviceOrganisationLocation = ComposableFactory.custom(DeviceOrganisationServiceFactory.changeLocation, trackDeviceOrganisation);

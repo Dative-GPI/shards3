@@ -1,22 +1,20 @@
+import { type CreateScenarioOrganisationDTO, ScenarioOrganisationDetails, type ScenarioOrganisationDetailsDTO, type ScenarioOrganisationFilters, ScenarioOrganisationInfos, type ScenarioOrganisationInfosDTO, type UpdateScenarioOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import type { CreateScenarioOrganisationDTO, ScenarioOrganisationDetailsDTO, ScenarioOrganisationFilters, ScenarioOrganisationInfosDTO, UpdateScenarioOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ScenarioOrganisationDetails, ScenarioOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
-import { SCENARIO_ORGANISATION_URL, SCENARIO_ORGANISATIONS_URL } from "../../config/urls/scenarioOrganisations";
 
+import { SCENARIO_ORGANISATION_URL, SCENARIO_ORGANISATIONS_URL } from "../../config/urls/scenarioOrganisations";
 
 const ScenarioOrganisationServiceFactory = new ServiceFactory<ScenarioOrganisationDetailsDTO, ScenarioOrganisationDetails>("scenarioOrganisation", ScenarioOrganisationDetails)
   .createComplete<ScenarioOrganisationInfos, ScenarioOrganisationInfosDTO, CreateScenarioOrganisationDTO, UpdateScenarioOrganisationDTO, ScenarioOrganisationFilters>(SCENARIO_ORGANISATIONS_URL, SCENARIO_ORGANISATION_URL, ScenarioOrganisationInfos);
   
-const ScenarioOrganisationServiceFactoryIncomplete = new ServiceFactory<ScenarioOrganisationDetailsDTO, ScenarioOrganisationDetails>("scenarioOrganisation", ScenarioOrganisationDetails)
-    .create(factory => factory.build(
-        factory.addNotify(notifyService => ({
-            ...ServiceFactory.addCustom("duplicate", (axios, scenarioOrganisationId: string) => axios.patch(SCENARIO_ORGANISATION_URL(scenarioOrganisationId)), (dto: ScenarioOrganisationDetailsDTO) => {
-              const result = new ScenarioOrganisationDetails(dto);
-              notifyService.notify("add", result);
-              return result;
-            })
-        })
-    )));
+const ScenarioOrganisationServiceFactoryIncomplete = new ServiceFactory<ScenarioOrganisationDetailsDTO, ScenarioOrganisationDetails>("scenarioOrganisation", ScenarioOrganisationDetails).create(factory => factory.build(
+  factory.addNotify(notifyService => ({
+    ...ServiceFactory.addCustom("duplicate", (axios, scenarioOrganisationId: string) => axios.patch(SCENARIO_ORGANISATION_URL(scenarioOrganisationId)), (dto: ScenarioOrganisationDetailsDTO) => {
+      const result = new ScenarioOrganisationDetails(dto);
+      notifyService.notify("add", result);
+      return result;
+    })
+  })
+)));
 
 export const useScenarioOrganisation = ComposableFactory.get(ScenarioOrganisationServiceFactory);
 export const useScenarioOrganisations = ComposableFactory.getMany(ScenarioOrganisationServiceFactory);

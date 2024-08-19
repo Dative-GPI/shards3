@@ -1,6 +1,5 @@
+import { type CreateScenarioDeviceOrganisationDTO, ScenarioDeviceOrganisationDetails, type ScenarioDeviceOrganisationDetailsDTO, type ScenarioDeviceOrganisationFilters, ScenarioDeviceOrganisationInfos, type ScenarioDeviceOrganisationInfosDTO, type UpdateScenarioDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import type { CreateScenarioDeviceOrganisationDTO, ScenarioDeviceOrganisationDetailsDTO, ScenarioDeviceOrganisationFilters, ScenarioDeviceOrganisationInfosDTO, UpdateScenarioDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ScenarioDeviceOrganisationDetails, ScenarioDeviceOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import { SCENARIO_DEVICE_ORGANISATIONS_URL, SCENARIO_DEVICE_ORGANISATION_URL } from "../../config";
 
@@ -12,4 +11,3 @@ export const useScenarioDeviceOrganisations = ComposableFactory.getMany(Scenario
 export const useCreateScenarioDeviceOrganisation = ComposableFactory.create(ScenarioDeviceOrganisationServiceFactory);
 export const useUpdateScenarioDeviceOrganisation = ComposableFactory.update(ScenarioDeviceOrganisationServiceFactory);
 export const useRemoveScenarioDeviceOrganisation = ComposableFactory.remove(ScenarioDeviceOrganisationServiceFactory);
-

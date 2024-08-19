@@ -4,7 +4,7 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 import { LOCATIONS_URL, LOCATION_URL } from "../../config/urls";
 
 const LocationServiceFactory = new ServiceFactory<LocationDetailsDTO, LocationDetails>("location", LocationDetails)
-    .createComplete<LocationInfos, LocationInfosDTO, CreateLocationDTO, UpdateLocationDTO, LocationFilters>(LOCATIONS_URL, LOCATION_URL, LocationInfos);
+  .createComplete<LocationInfos, LocationInfosDTO, CreateLocationDTO, UpdateLocationDTO, LocationFilters>(LOCATIONS_URL, LOCATION_URL, LocationInfos);
 
 export const useLocation = ComposableFactory.get(LocationServiceFactory);
 export const useLocations = ComposableFactory.getMany(LocationServiceFactory);

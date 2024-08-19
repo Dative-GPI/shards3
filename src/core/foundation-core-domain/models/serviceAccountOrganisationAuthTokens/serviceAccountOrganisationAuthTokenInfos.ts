@@ -6,6 +6,7 @@ export class ServiceAccountOrganisationAuthTokenInfos {
   label: string;
   creationDate: number;
   dateMax: number;
+  token?: string | null;
 
   constructor(params: ServiceAccountOrganisationAuthTokenInfosDTO) {
     this.id = params.id;
@@ -13,6 +14,7 @@ export class ServiceAccountOrganisationAuthTokenInfos {
     this.label = params.label;
     this.creationDate = utcToEpoch(params.creationDate);
     this.dateMax = utcToEpoch(params.dateMax);
+    this.token = params.token;
   }
 }
 
@@ -22,6 +24,7 @@ export interface ServiceAccountOrganisationAuthTokenInfosDTO {
   label: string;
   creationDate: string;
   dateMax: string;
+  token?: string | null;
 }
 
 export interface ServiceAccountOrganisationAuthTokenFilters {
