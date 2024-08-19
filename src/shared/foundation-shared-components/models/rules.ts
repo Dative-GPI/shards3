@@ -3,6 +3,7 @@ import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composabl
 import { validateExpression } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { getTimeBestString } from "../utils";
+import type { TimeUnit } from "@/shared/foundation-shared-domain";
 
 const { epochToLongDateFormat } = useAppTimeZone()!;
 const { $tr } = useTranslationsProvider();
@@ -64,6 +65,10 @@ export const TimeRules = {
     min: (min: number, message: string | undefined = undefined) => (value: number) => value >= min || (message ?? $tr("ui.rules.time-min", "Must be more than {0}", getTimeBestString(min))),
     max: (max: number, message: string | undefined = undefined) => (value: number) => value <= max || (message ?? $tr("ui.rules.time-max", "Must be less than {0}", getTimeBestString(max)))
 };
+
+export const TimeStepRules = {
+    required: (message: string | undefined = undefined) => (value: { value: number, unit: TimeUnit } | null) => (!!value && value.value !== 0) || (message ?? $tr("ui.rules.required", "Required")),
+}
 
 export const ToggleRules = {
     required: (message: string | undefined = undefined) => (value: boolean) => value || (message ?? $tr("ui.rules.required", "Required"))

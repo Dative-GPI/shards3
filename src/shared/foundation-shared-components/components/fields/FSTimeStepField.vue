@@ -16,7 +16,7 @@
         :hideHeader="true"
         :messages="messages"
         :modelValue="$props.modelValue && $props.modelValue.value || 0"
-        @update:modelValue="$emit('update:modelValue', { value: $event, unit: $props.modelValue && $props.modelValue.unit || 1 })"
+        @update:modelValue="$emit('update:modelValue', { value: $event, unit: $props.modelValue && $props.modelValue.unit || units[0].id })"
         v-bind="$attrs"
       >
         <template
