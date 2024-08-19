@@ -3,16 +3,12 @@
     :values="availableConfigurations"
     v-model="selectedConfiguration"
   >
-    <template
-      #label="{ item, font }"
-    >
+    <template #label="{ item, font }">
       <FSRow
         v-if="item.value === 'custom'"
         align="center-left"
       >
-        <FSSpan
-          :font="font"
-        >
+        <FSSpan :font="font">
           {{ $tr('ui.periodicfield.daily.every', 'Every') }}
         </FSSpan>
         <FSNumberField
@@ -21,9 +17,7 @@
           :clearable="false"
           @update:modelValue="onUpdateDays($event)"
         />
-        <FSSpan
-          :font="font"
-        >
+        <FSSpan :font="font">
           {{ $tr('ui.periodicfield.daily.daysat', 'day(s) at') }}
         </FSSpan>
         <FSClock
@@ -64,7 +58,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    
+
     const days = ref(1);
     const time = ref(0);
     const selectedConfiguration = ref('custom');
@@ -105,7 +99,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      if(JSON.stringify(formatModelValue(props.modelValue)) !== JSON.stringify(props.modelValue)) {
+      if (JSON.stringify(formatModelValue(props.modelValue)) !== JSON.stringify(props.modelValue)) {
         emit('update:modelValue', formatModelValue(props.modelValue));
       }
     })

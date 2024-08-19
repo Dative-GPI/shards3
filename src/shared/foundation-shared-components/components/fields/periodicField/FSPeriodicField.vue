@@ -1,16 +1,21 @@
 <template>
-  <FSRow>
+  <FSRow
+    gap="12px"
+    :wrap="false"
+  >
     <FSRadioGroup
       :values="availablePeriod"
       v-model="selectedPeriod"
     />
-    <FSDivider
-      :vertical="true"
-    />
     <FSRow
+      :wrap="false"
+      gap="12px"
       height="fill"
       align="center-left"
     >
+      <FSDivider
+        :vertical="true"
+      />
       <FSPeriodicDailyField
         v-if="selectedPeriod === 'daily'"
         :modelValue="$props.modelValue.split(' ')"

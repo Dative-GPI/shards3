@@ -18,6 +18,7 @@
         <FSSelectMonths
           :modelValue="month"
           :useAllMonths="false"
+          :hideHeader="true"
           @update:modelValue="onUpdateMonth($event)"
         />
         <FSNumberField
