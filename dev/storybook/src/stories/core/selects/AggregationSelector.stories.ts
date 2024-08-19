@@ -18,8 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value: 0,
-
+      value: null,
     }
   },
   render: (args, { argTypes }) => ({
