@@ -20,8 +20,10 @@ export const Variations: Story = {
   args: {
     args: {
       value1: "0 14 */3 * *",
-      value2: "30 14 */2 * *",
-      value3: "0 9 8-14 * 4"
+      value2: "30 14 * * 4",
+      value3: "35 22 15 * *",
+      value4: "0 9 8-14 * 4",
+      value5: "0 4 14 6 *"
     }
   },
   render: (args, { argTypes }) => ({
@@ -43,6 +45,15 @@ export const Variations: Story = {
       <FSDivider />
       <FSPeriodicField
         v-model="args.value3"
+      />
+      <FSDivider />
+      <FSPeriodicField
+        v-model="args.value4"
+      />
+      <FSDivider />
+      <FSPeriodicField
+        :editable="false"
+        v-model="args.value5"
       />
     </FSCol>`
   })

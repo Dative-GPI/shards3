@@ -1,6 +1,7 @@
 <template>
   <FSRadioGroup
     :values="availableConfigurations"
+    :editable="editable"
     v-model="selectedConfiguration"
   >
     <template
@@ -19,12 +20,14 @@
           :modelValue="month"
           :useAllMonths="false"
           :hideHeader="true"
+          :editable="editable"
           @update:modelValue="onUpdateMonth($event)"
         />
         <FSNumberField
           :modelValue="day"
           :hideHeader="true"
           :clearable="false"
+          :editable="editable"
           @update:modelValue="onUpdateDay($event)"
         />
         <FSSpan
@@ -37,6 +40,7 @@
           :modelValue="time"
           :hideHeader="true"
           :slider="false"
+          :editable="editable"
           @update:modelValue="onUpdateHours($event)"
         />
       </FSRow>
@@ -68,6 +72,10 @@ export default defineComponent({
     modelValue: {
       type: Array<string>,
       required: true
+    },
+    editable: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['update:modelValue'],

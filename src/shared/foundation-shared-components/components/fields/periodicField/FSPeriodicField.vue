@@ -5,6 +5,7 @@
   >
     <FSRadioGroup
       :values="availablePeriod"
+      :editable="editable"
       v-model="selectedPeriod"
     />
     <FSRow
@@ -19,21 +20,25 @@
       <FSPeriodicDailyField
         v-if="selectedPeriod === 'daily'"
         :modelValue="$props.modelValue.split(' ')"
+        :editable="editable"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicWeeklyField
         v-else-if="selectedPeriod === 'weekly'"
         :modelValue="$props.modelValue.split(' ')"
+        :editable="editable"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicMonthlyField
         v-else-if="selectedPeriod === 'monthly'"
         :modelValue="$props.modelValue.split(' ')"
+        :editable="editable"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicYearlyField
         v-else-if="selectedPeriod === 'yearly'"
         :modelValue="$props.modelValue.split(' ')"
+        :editable="editable"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
     </FSRow>
@@ -68,6 +73,10 @@ export default defineComponent({
     modelValue: {
       type: String,
       required: true
+    },
+    editable: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['update:modelValue'],
@@ -76,14 +85,12 @@ export default defineComponent({
 
     const getPeriod = (value: string) => {
       const cronArray = value.split(' ');
-      if (cronArray[2].includes('*/')) {
-        return 'daily';
-      } else if (cronArray[4] !== '*' && !cronArray[2].includes('-')) {
-        return 'weekly';
-      } else if (cronArray[2] !== '*') {
-        return 'monthly';
-      } else if (cronArray[3] !== '*') {
+      if (cronArray[3] !== '*') {
         return 'yearly';
+      } else if(!cronArray[2].includes('*') || cronArray[2].includes('-')) {
+        return 'monthly';
+      } else if(cronArray[4] !== '*') {
+        return 'weekly';
       }
       return 'daily';
     }
