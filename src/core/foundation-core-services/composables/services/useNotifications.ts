@@ -20,12 +20,12 @@ const NotificationServiceFactory = new ServiceFactory<NotificationDetailsDTO, No
 
 const useNotificationsHub = HubFactory.create(NOTIFICATIONS_HUB_URL,
     (connection, { hasWatchers }) => {
-        connection.on(HUBS.CREATE_NOTIFICATION, (notificationId: string) => hasWatchers()
-            ? NotificationServiceFactory.get(notificationId).then(NotificationServiceFactory.notifyCreate)
-            : null);
+      connection.on(HUBS.CREATE_NOTIFICATION, (notificationId: string) => hasWatchers()
+        ? NotificationServiceFactory.get(notificationId).then(NotificationServiceFactory.notifyCreate)
+        : null);
     },
     async (connection) => {
-        await connection.invoke(HUBS.SUBSCRIBE);
+      await connection.invoke(HUBS.SUBSCRIBE);
     }
 );
 
