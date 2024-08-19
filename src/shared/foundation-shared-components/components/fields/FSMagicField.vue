@@ -66,7 +66,7 @@ import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composabl
 
 import { useMagicFieldProvider } from "../../composables";
 import { MagicFieldType } from "../../models/magicFields";
-import { getTimeBestString } from "../../utils";
+import { getTimeBestString, timeStepToString } from "../../utils";
 
 import FSSelectField from "./FSSelectField.vue";
 import FSIcon from "../FSIcon.vue";
@@ -149,6 +149,8 @@ export default defineComponent({
           return epochToShortTimeFormat(value);
         case MagicFieldType.TimeField:
           return getTimeBestString(value);
+        case MagicFieldType.TimeStepField:
+          return timeStepToString(value);
         default:
           return value;
       }
@@ -166,6 +168,7 @@ export default defineComponent({
           }
           emit("update:modelValue", value.toString());
           break;
+        case MagicFieldType.TimeStepField:
         default:
           emit("update:modelValue", value);
           break;

@@ -6,4 +6,5 @@ export enum MagicFieldType {
   DateTimeField = 4,
   IconField     = 5,
   TimeField     = 6,
+  TimeStepField = 7,
 }

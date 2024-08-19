@@ -35,7 +35,10 @@ export const Variations: Story = {
       value5: "",
       labelDefault6: "TimeField",
       translations6: [],
-      value6: ""
+      value6: "",
+      labelDefault7: "TimeStepField",
+      translations7: [],
+      value7: ""
     }
   },
   render: (args, { argTypes }) => ({
@@ -92,6 +95,14 @@ export const Variations: Story = {
         v-model:translations="args.translations6"
         v-model:labelDefault="args.labelDefault6"
         v-model:value="args.value6"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSMagicConfigField
+        label="Time step field"
+        :type="7"
+        v-model:translations="args.translations7"
+        v-model:labelDefault="args.labelDefault7"
+        v-model:value="args.value7"
       />
     </FSCol>`
   })

@@ -15,8 +15,8 @@
         :rules="$props.rules"
         :hideHeader="true"
         :messages="messages"
-        :modelValue="$props.modelValue.value"
-        @update:modelValue="$emit('update:modelValue', { value: $event, unit: $props.modelValue.unit })"
+        :modelValue="$props.modelValue && $props.modelValue.value || 0"
+        @update:modelValue="$emit('update:modelValue', { value: $event, unit: $props.modelValue && $props.modelValue.unit || 1 })"
         v-bind="$attrs"
       >
         <template
@@ -35,8 +35,8 @@
         :hideHeader="true"
         :clearable="false"
         :items="units"
-        :modelValue="$props.modelValue.unit"
-        @update:modelValue="$emit('update:modelValue', { value: $props.modelValue.value, unit: $event })"
+        :modelValue="$props.modelValue && $props.modelValue.unit || units[0].id"
+        @update:modelValue="$emit('update:modelValue', { value: $props.modelValue && $props.modelValue.value || 0, unit: $event })"
       >
         <template
           v-for="(_, name) in selectSlots"
@@ -85,7 +85,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Object as PropType<{ value: number, unit: TimeUnit }>,
+      type: Object as PropType<{ value: number, unit: TimeUnit } | null>,
       required: true
     },
     allowedUnits: {

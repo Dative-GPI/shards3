@@ -14,7 +14,18 @@ export const timeSteps = [
   { id: TimeUnit.Year,        label: $tr("ui.time-step.year.singular", "Year"),     plural: $tr("ui.time-step.year.plural", "Years") },
 ]
 
+export const timeStepToString = (value: { value: number, unit: TimeUnit } | null): string => {
+  if (!value) {
+    return "";
+  }
 
+  const unit = timeSteps.find(step => step.id === value.unit);
+  if (!unit) {
+    return "";
+  }
+  
+  return `${value.value} ${value.value === 1 ? unit.label.toLowerCase() : unit.plural.toLowerCase()}`;
+}
 
 // TODO : remove everything below this line
 export const timeScale: any[] = [
