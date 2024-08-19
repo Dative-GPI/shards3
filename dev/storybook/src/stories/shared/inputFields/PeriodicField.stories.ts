@@ -34,19 +34,14 @@ export const Variations: Story = {
     <FSCol>
       <FSPeriodicField
         v-model="args.value1"
-        defaultSelectedPeriod="yearly"
-        @update:modelValue="console.log($event)"
       />
       <FSDivider />
       <FSPeriodicField
         v-model="args.value2"
-        @update:modelValue="console.log($event)"
       />
       <FSDivider />
       <FSPeriodicField
         v-model="args.value3"
-        defaultSelectedPeriod="monthly"
-        @update:modelValue="console.log($event)"
       />
     </FSCol>`
   })

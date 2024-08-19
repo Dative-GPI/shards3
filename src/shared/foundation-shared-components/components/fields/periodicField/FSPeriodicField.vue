@@ -68,18 +68,26 @@ export default defineComponent({
     modelValue: {
       type: String,
       required: true
-    },
-    defaultSelectedPeriod: {
-      type: String,
-      required: false,
-      default: 'daily'
     }
   },
   emits: ['update:modelValue'],
   setup(props) {
     const { $tr } = useTranslations();
 
-    const selectedPeriod = ref(props.defaultSelectedPeriod);
+    const getPeriod = (value: string) => {
+      const cronArray = value.split(' ');
+      if (cronArray[2].includes('*/')) {
+        return 'daily';
+      } else if (cronArray[4] !== '*' && !cronArray[2].includes('-')) {
+        return 'weekly';
+      } else if (cronArray[2] !== '*') {
+        return 'monthly';
+      } else if (cronArray[3] !== '*') {
+        return 'yearly';
+      }
+      return 'daily';
+    }
+    const selectedPeriod = ref(getPeriod(props.modelValue));
 
     const availablePeriod = [
       { label: $tr('ui.periodicField.daily', 'Daily'), value: 'daily', item: null },

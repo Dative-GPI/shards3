@@ -192,10 +192,20 @@ export default defineComponent({
         emit('update:modelValue', formattedValue);
       }
     })
-    
 
     watch(() => props.modelValue, (value) => {
       formatModelValue(value);
+    })
+
+    watch(() => selectedConfiguration.value, (value: string) => {
+      const minutesAll = time.value / 60 / 1000;
+      const hours = Math.floor(minutesAll / 60);
+      const minutes = Math.floor(minutesAll % 60);
+      if(value === 'customDayNumber') {
+        emit('update:modelValue', [`${minutes}`, `${hours}`, `${dayNumber.value}`, `*`, `*`]);
+      } else {
+        emit('update:modelValue', [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${dayWeek.value + 1}`]);
+      }
     })
 
     return {
