@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      value1: "* * * * *",
+      value1: "0 14 */3 * *",
       value2: "30 14 */2 * *",
       value3: "0 9 8-14 * 4"
     }
@@ -33,6 +33,7 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSPeriodicField
+        @update:modelValue="console.log($event)"
         v-model="args.value1"
       />
       <FSDivider />

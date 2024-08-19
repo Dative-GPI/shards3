@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch, onMounted } from 'vue';
+import { ref, defineComponent, watch, computed } from 'vue';
 
 import { useTranslations } from '@dative-gpi/bones-ui';
 
@@ -106,11 +106,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { $tr } = useTranslations();
 
-    const dayNumber = ref(1);
-    const dayWeek = ref(1);
-    const dayWeekNumber = ref(1);
-    const time = ref(0);
-    const selectedConfiguration = ref('customDayNumber');
+    const selectedConfiguration = ref(props.modelValue[4] !== '*' ? 'customDayWeek' : 'customDayNumber');
 
     const dayNumbers = Array.from({ length: 31 }, (_, index) => ({ id: index + 1, label: String(index + 1) }));
     const dayWeekNumbers = [
@@ -118,13 +114,22 @@ export default defineComponent({
       { id: 2, label: $tr('ui.periodicfield.monthly.second', 'Second') },
       { id: 3, label: $tr('ui.periodicfield.monthly.third', 'Third') },
       { id: 4, label: $tr('ui.periodicfield.monthly.fourth', 'Fourth') },
-    ]
-    
-
+    ];
     const availableConfigurations = [
       { value: 'customDayNumber', item: { value: 'customDayNumber' } },
       { value: 'customDayWeek', item: { value: 'customDayWeek' } }
-    ]
+    ];
+
+    const dayNumber = computed(() => 
+      props.modelValue[4] !== '*' ? 1 : +props.modelValue[2]
+    );
+    const dayWeek = computed(() => 
+      props.modelValue[4] === '*' ? 0 : +props.modelValue[4] - 1
+    );
+    const dayWeekNumber = computed(() => 
+      props.modelValue[2].includes('-') ? Math.floor(+props.modelValue[2].split('-')[1] / 7) : 1
+    );
+    const time = computed(() => (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60);
 
     const onUpdateDayNumber = (value: number) => {
       const minutesAll = time.value / 60 / 1000;
@@ -161,41 +166,6 @@ export default defineComponent({
         emit('update:modelValue', [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${dayWeek.value + 1}`]);
       }
     }
-
-    const formatModelValue = (value: Array<string>) => {
-      if (value[1] !== '*' && value[0] !== '*') {
-        time.value = (+value[1] * 60 + +value[0]) * 1000 * 60;
-      }
-      if(value[4] !== '*') {
-        dayWeek.value = +value[4] - 1;
-      }
-
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-      if (value[2] !== '*') {
-        if (value[4] !== '*' && value[2].includes('-')) {
-          const weekDayCount = +value[2].split('-')[1];
-          dayWeekNumber.value = Math.floor(weekDayCount / 7);
-          selectedConfiguration.value = 'customDayWeek';
-          return [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${dayWeek.value + 1}`];
-        } else {
-          dayNumber.value = +value[2];
-        }
-      }
-      return [`${minutes}`, `${hours}`, '*', '*', `${dayNumber.value + 1}`];
-    }
-
-    onMounted(() => {
-      const formattedValue = formatModelValue(props.modelValue);
-      if(JSON.stringify(formattedValue) !== JSON.stringify(props.modelValue)) {
-        emit('update:modelValue', formattedValue);
-      }
-    })
-
-    watch(() => props.modelValue, (value) => {
-      formatModelValue(value);
-    })
 
     watch(() => selectedConfiguration.value, (value: string) => {
       const minutesAll = time.value / 60 / 1000;

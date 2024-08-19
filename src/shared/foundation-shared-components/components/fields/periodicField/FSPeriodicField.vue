@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
+import { ref, defineComponent, watch } from 'vue';
 
 import { useTranslations } from '@dative-gpi/bones-ui';
 
@@ -71,7 +71,7 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  setup(props) {
+  setup(props, { emit }) {
     const { $tr } = useTranslations();
 
     const getPeriod = (value: string) => {
@@ -90,11 +90,22 @@ export default defineComponent({
     const selectedPeriod = ref(getPeriod(props.modelValue));
 
     const availablePeriod = [
-      { label: $tr('ui.periodicField.daily', 'Daily'), value: 'daily', item: null },
-      { label: $tr('ui.periodicField.weekly', 'Weekly'), value: 'weekly', item: null },
-      { label: $tr('ui.periodicField.monthly', 'Monthly'), value: 'monthly', item: null },
-      { label: $tr('ui.periodicField.yearly', 'Yearly'), value: 'yearly', item: null }
+      { label: $tr('ui.periodicField.daily', 'Daily'), value: 'daily', item: { default : '0 12 */1 * *'} },
+      { label: $tr('ui.periodicField.weekly', 'Weekly'), value: 'weekly', item: { default : '0 12 * * 1'} },
+      { label: $tr('ui.periodicField.monthly', 'Monthly'), value: 'monthly', item: { default : '0 12 1 * *'} },
+      { label: $tr('ui.periodicField.yearly', 'Yearly'), value: 'yearly', item: { default : '0 12 1 1 *'} }
     ]
+
+    watch(() => selectedPeriod.value, (newValue) => {
+      if (getPeriod(props.modelValue) === newValue) {
+        return;
+      }
+      const period = availablePeriod.find((item) => item.value === newValue);
+      if (!period) {
+        return;
+      }
+      emit('update:modelValue', period.item.default);
+    })
 
     return {
       availablePeriod,

@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch, onMounted } from 'vue';
+import { ref, defineComponent, computed } from 'vue';
 
 import FSRadioGroup from '../../FSRadioGroup.vue';
 import FSRow from '../../FSRow.vue';
@@ -64,14 +64,18 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-
-    const days = ref(1);
-    const time = ref(0);
     const selectedConfiguration = ref('custom');
 
     const availableConfigurations = [
       { value: 'custom', item: { value: 'custom' } }
     ]
+
+    const days = computed(() => {
+      return +props.modelValue[2].replace('*/', '');
+    });
+    const time = computed(() => {
+      return (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60;
+    });
 
     const onUpdateDays = (value: number) => {
       const minutesAll = time.value / 60 / 1000;
@@ -88,31 +92,6 @@ export default defineComponent({
 
       emit('update:modelValue', [`${minutes}`, `${hours}`, `*/${days.value}`, '*', '*']);
     }
-
-    const formatModelValue = (value: Array<string>) => {
-      if (value[2].includes('*/')) {
-        days.value = +value[2].replace('*/', '');
-      }
-      if (value[1] !== '*' && value[0] !== '*') {
-        time.value = (+value[1] * 60 + +value[0]) * 1000 * 60;
-      }
-
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      return [`${minutes}`, `${hours}`, `*/${days.value}`, '*', '*'];
-    }
-
-    onMounted(() => {
-      if (JSON.stringify(formatModelValue(props.modelValue)) !== JSON.stringify(props.modelValue)) {
-        emit('update:modelValue', formatModelValue(props.modelValue));
-      }
-    })
-
-    watch(() => props.modelValue, (value) => {
-      formatModelValue(value);
-    })
 
     return {
       onUpdateDays,
