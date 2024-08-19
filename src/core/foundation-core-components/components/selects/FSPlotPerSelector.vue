@@ -1,5 +1,5 @@
 <template>
-  <FSSelectField
+  <FSAutocompleteField
     :label="label ?? $tr('ui.common.plot-per','Plot per')"
     :items="plotPerItems"
     :modelValue="modelValue"
@@ -13,13 +13,13 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {PlotPer} from "@dative-gpi/foundation-core-domain/models";
 
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
 import {plotPerLabel, getEnumEntries} from "../../utils";
 
 export default defineComponent({
   components: {
-    FSSelectField
+    FSAutocompleteField
   },
   props: {
     modelValue: {
@@ -35,7 +35,7 @@ export default defineComponent({
   setup() {
     
     const plotPerItems = computed(()=>{
-      return getEnumEntries(PlotPer).map((f)=>{
+      return getEnumEntries(PlotPer).filter(f=>f.value != PlotPer.None).map((f)=>{
         return {
           id: f.value,
           label: plotPerLabel(f.value)

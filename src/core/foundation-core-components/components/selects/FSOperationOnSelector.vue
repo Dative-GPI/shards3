@@ -1,5 +1,5 @@
 <template>
-  <FSSelectField
+  <FSAutocompleteField
     :label="label ?? $tr('ui.common.operation-on','Operation on')"
     :items="operationOnItems"
     :modelValue="modelValue"
@@ -13,13 +13,13 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {OperationOn} from "@dative-gpi/foundation-core-domain/models";
 
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
 import {operationOnLabel, getEnumEntries} from "../../utils";
 
 export default defineComponent({
   components: {
-    FSSelectField
+    FSAutocompleteField
   },
   props: {
     modelValue: {
@@ -35,7 +35,7 @@ export default defineComponent({
   setup() {
     
     const operationOnItems = computed(()=>{
-      return getEnumEntries(OperationOn).map((f)=>{
+      return getEnumEntries(OperationOn).filter(f=>f.value != OperationOn.None).map((f)=>{
         return {
           id: f.value,
           label: operationOnLabel(f.value)

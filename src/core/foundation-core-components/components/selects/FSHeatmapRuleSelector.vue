@@ -1,5 +1,5 @@
 <template>
-  <FSSelectField
+  <FSAutocompleteField
     :label="label ?? $tr('ui.common.heat-rule','Heat rule')"
     :items="heatmapRuleItems"
     :modelValue="modelValue"
@@ -13,13 +13,13 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {HeatmapRule} from "@dative-gpi/foundation-core-domain/models";
 
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
 import {heatmapRuleLabel, getEnumEntries} from "../../utils";
 
 export default defineComponent({
   components: {
-    FSSelectField
+    FSAutocompleteField
   },
   props: {
     modelValue: {
@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     
     const heatmapRuleItems = computed(()=>{
-      return getEnumEntries(HeatmapRule).map((f)=>{
+      return getEnumEntries(HeatmapRule).filter(f=>f.value != HeatmapRule.None).map((f)=>{
         return {
           id: f.value,
           label: heatmapRuleLabel(f.value)
