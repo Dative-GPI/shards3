@@ -1,4 +1,4 @@
-import { translate } from "@/shared/foundation-shared-services/tools";
+import { translate } from "@dative-gpi/foundation-shared-services/tools/translate";
 
 import type { DashboardVariableValueTranslationDTO } from "./dashboardVariableValueTranslation";
 import { DashboardVariableValueTranslation } from "./dashboardVariableValueTranslation";
