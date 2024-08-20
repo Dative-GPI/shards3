@@ -4,7 +4,7 @@ import type { ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTyp
 import { ScenarioOrganisationTypeInfos } from "./scenarioOrganisationTypeInfos";
 import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
 import { TimeRange } from "../shared/timeRange";
-import type { ScenarioTranslationDTO } from "../scenarios";
+import { ScenarioParameter, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
 import { ScenarioTranslation } from "../scenarios";
 
 export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInfos {
@@ -30,6 +30,7 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  scenarioParameters: ScenarioParameter[];
   translations: ScenarioTranslation[];
 
   constructor(params: ScenarioOrganisationTypeDetailsDTO) {
@@ -58,6 +59,7 @@ export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInf
     this.timeout = params.timeout;
     this.lock = params.lock;
     this.waitResolved = params.waitResolved;
+    this.scenarioParameters = params.scenarioParameters.map(p => new ScenarioParameter(p));
     this.translations = params.translations.map(t => new ScenarioTranslation(t));
   }
 }
@@ -85,6 +87,7 @@ export interface ScenarioOrganisationTypeDetailsDTO extends ScenarioOrganisation
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  scenarioParameters: ScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
 
@@ -120,5 +123,6 @@ export interface UpdateScenarioOrganisationTypeDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  scenarioParameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }

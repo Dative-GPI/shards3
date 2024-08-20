@@ -4,7 +4,7 @@ import type { ScenarioOrganisationInfosDTO } from "./scenarioOrganisationInfos";
 import { ScenarioOrganisationInfos } from "./scenarioOrganisationInfos";
 import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
 import { TimeRange } from "../shared/timeRange";
-import type { ScenarioTranslationDTO } from "../scenarios";
+import { ScenarioParameter, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
 import { ScenarioTranslation } from "../scenarios";
 
 export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
@@ -30,6 +30,7 @@ export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  scenarioParameters: ScenarioParameter[];
   translations: ScenarioTranslation[];
 
   constructor(params: ScenarioOrganisationDetailsDTO) {
@@ -57,6 +58,7 @@ export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
     this.timeout = params.timeout;
     this.lock = params.lock;
     this.waitResolved = params.waitResolved;
+    this.scenarioParameters = params.scenarioParameters.map(p => new ScenarioParameter(p));
     this.translations = params.translations.map(t => new ScenarioTranslation(t));
   }
 }
@@ -84,6 +86,7 @@ export interface ScenarioOrganisationDetailsDTO extends ScenarioOrganisationInfo
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  scenarioParameters: ScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
 
@@ -114,6 +117,7 @@ export interface CreateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  scenarioParameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
 
@@ -144,5 +148,6 @@ export interface UpdateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  scenarioParameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
