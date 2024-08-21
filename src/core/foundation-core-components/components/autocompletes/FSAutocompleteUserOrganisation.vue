@@ -139,7 +139,7 @@ export default defineComponent({
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       userOrganisations,
       [() => props.userOrganisationFilters],
       emit,
@@ -154,7 +154,6 @@ export default defineComponent({
       toggleSetItems,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }
