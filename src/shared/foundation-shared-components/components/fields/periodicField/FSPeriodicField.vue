@@ -9,36 +9,36 @@
       v-model="selectedPeriod"
     />
     <FSRow
-      :wrap="false"
-      gap="12px"
-      height="fill"
       align="center-left"
+      height="fill"
+      gap="12px"
+      :wrap="false"
     >
       <FSDivider
         :vertical="true"
       />
       <FSPeriodicDailyField
         v-if="selectedPeriod === 'daily'"
-        :modelValue="$props.modelValue.split(' ')"
         :editable="editable"
+        :modelValue="$props.modelValue.split(' ')"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicWeeklyField
         v-else-if="selectedPeriod === 'weekly'"
-        :modelValue="$props.modelValue.split(' ')"
         :editable="editable"
+        :modelValue="$props.modelValue.split(' ')"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicMonthlyField
         v-else-if="selectedPeriod === 'monthly'"
-        :modelValue="$props.modelValue.split(' ')"
         :editable="editable"
+        :modelValue="$props.modelValue.split(' ')"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
       <FSPeriodicYearlyField
         v-else-if="selectedPeriod === 'yearly'"
-        :modelValue="$props.modelValue.split(' ')"
         :editable="editable"
+        :modelValue="$props.modelValue.split(' ')"
         @update:modelValue="$emit('update:modelValue', $event.join(' '))"
       />
     </FSRow>
@@ -46,78 +46,86 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch } from 'vue';
+import { ref, defineComponent, onMounted, type PropType, watch } from "vue";
 
-import { useTranslations } from '@dative-gpi/bones-ui';
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
-import FSRow from '../../FSRow.vue';
-import FSRadioGroup from '../../FSRadioGroup.vue';
-import FSDivider from '../../FSDivider.vue';
-import FSPeriodicDailyField from './FSPeriodicDailyField.vue';
-import FSPeriodicWeeklyField from './FSPeriodicWeeklyField.vue';
-import FSPeriodicMonthlyField from './FSPeriodicMonthlyField.vue';
-import FSPeriodicYearlyField from './FSPeriodicYearlyField.vue';
+import FSPeriodicMonthlyField from "./FSPeriodicMonthlyField.vue";
+import FSPeriodicWeeklyField from "./FSPeriodicWeeklyField.vue";
+import FSPeriodicYearlyField from "./FSPeriodicYearlyField.vue";
+import FSPeriodicDailyField from "./FSPeriodicDailyField.vue";
+import FSRadioGroup from "../../FSRadioGroup.vue";
+import FSDivider from "../../FSDivider.vue";
+import FSRow from "../../FSRow.vue";
 
 export default defineComponent({
-  name: 'FSPeriodicField',
+  name: "FSPeriodicField",
   components: {
-    FSDivider,
-    FSPeriodicDailyField,
     FSPeriodicMonthlyField,
     FSPeriodicWeeklyField,
     FSPeriodicYearlyField,
+    FSPeriodicDailyField,
     FSRadioGroup,
+    FSDivider,
     FSRow
   },
   props: {
     modelValue: {
-      type: String,
+      type: String as PropType<"daily" | "weekly" | "monthly" | "yearly">,
       required: true
     },
     editable: {
       type: Boolean,
+      required: false,
       default: true
     }
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { $tr } = useTranslations();
-
-    const getPeriod = (value: string) => {
-      const cronArray = value.split(' ');
-      if (cronArray[3] !== '*') {
-        return 'yearly';
-      } else if(!cronArray[2].includes('*') || cronArray[2].includes('-')) {
-        return 'monthly';
-      } else if(cronArray[4] !== '*') {
-        return 'weekly';
-      }
-      return 'daily';
-    }
-    const selectedPeriod = ref(getPeriod(props.modelValue));
+    const { $tr } = useTranslationsProvider();
 
     const availablePeriod = [
-      { label: $tr('ui.periodicField.daily', 'Daily'), value: 'daily', item: { default : '0 12 */1 * *'} },
-      { label: $tr('ui.periodicField.weekly', 'Weekly'), value: 'weekly', item: { default : '0 12 * * 1'} },
-      { label: $tr('ui.periodicField.monthly', 'Monthly'), value: 'monthly', item: { default : '0 12 1 * *'} },
-      { label: $tr('ui.periodicField.yearly', 'Yearly'), value: 'yearly', item: { default : '0 12 1 1 *'} }
-    ]
+      { label: $tr("ui.periodicField.daily", "Daily")    , value: "daily"  , item: { default : "0 12 */1 * *"} },
+      { label: $tr("ui.periodicField.weekly", "Weekly")  , value: "weekly" , item: { default : "0 12 * * 1"} },
+      { label: $tr("ui.periodicField.monthly", "Monthly"), value: "monthly", item: { default : "0 12 1 * *"} },
+      { label: $tr("ui.periodicField.yearly", "Yearly")  , value: "yearly" , item: { default : "0 12 1 1 *"} }
+    ];
+    
+    const selectedPeriod = ref("daily");
 
-    watch(() => selectedPeriod.value, (newValue) => {
-      if (getPeriod(props.modelValue) === newValue) {
+    const getPeriod = (value: string) => {
+      const cronArray = value.split(" ");
+      if (cronArray[3] !== "*") {
+        return "yearly";
+      }
+      else if(!cronArray[2].includes("*") || cronArray[2].includes("-")) {
+        return "monthly";
+      }
+      else if(cronArray[4] !== "*") {
+        return "weekly";
+      }
+      return "daily";
+    };
+
+    watch(() => selectedPeriod.value, () => {
+      if (getPeriod(props.modelValue) === selectedPeriod.value) {
         return;
       }
-      const period = availablePeriod.find((item) => item.value === newValue);
+      const period = availablePeriod.find((item) => item.value === selectedPeriod.value);
       if (!period) {
         return;
       }
       emit('update:modelValue', period.item.default);
-    })
+    });
+
+    onMounted(() => {
+      selectedPeriod.value = getPeriod(props.modelValue);
+    });
 
     return {
       availablePeriod,
       selectedPeriod
-    }
+    };
   }
-})
+});
 </script>

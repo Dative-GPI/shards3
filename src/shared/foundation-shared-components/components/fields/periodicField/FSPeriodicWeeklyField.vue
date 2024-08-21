@@ -1,8 +1,8 @@
 <template>
   <FSRadioGroup
     :values="availableConfigurations"
+    :editable="$props.editable"
     v-model="selectedConfiguration"
-    :editable="editable"
   >
     <template
       #label="{ item, font }"
@@ -14,26 +14,26 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.weekly.every', 'Every') }}
+          {{ $tr("ui.periodicfield.weekly.every", "Every") }}
         </FSSpan>
         <FSSelectDays
-          :modelValue="day"
-          :hideHeader="true"
+          :editable="$props.editable"
           :useAllDays="false"
-          :editable="editable"
+          :hideHeader="true"
+          :modelValue="day"
           @update:modelValue="onUpdateDay($event)"
         />
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.weekly.at', 'at') }}
+          {{ $tr("ui.periodicfield.weekly.at", "at") }}
         </FSSpan>
         <FSClock
-          color="light"
-          :modelValue="time"
+          :editable="$props.editable"
+          :color="ColorEnum.Light"
           :hideHeader="true"
           :slider="false"
-          :editable="editable"
+          :modelValue="time"
           @update:modelValue="onUpdateHours($event)"
         />
       </FSRow>
@@ -42,22 +42,24 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue';
+import { ref, defineComponent, computed } from "vue";
 
-import FSRadioGroup from '../../FSRadioGroup.vue';
-import FSRow from '../../FSRow.vue';
-import FSSpan from '../../FSSpan.vue';
-import FSClock from '../../FSClock.vue';
-import FSSelectDays from '../../selects/FSSelectDays.vue';
+import { ColorEnum } from "@/shared/foundation-shared-components/models";
+
+import FSSelectDays from "../../selects/FSSelectDays.vue";
+import FSRadioGroup from "../../FSRadioGroup.vue";
+import FSClock from "../../FSClock.vue";
+import FSSpan from "../../FSSpan.vue";
+import FSRow from "../../FSRow.vue";
 
 export default defineComponent({
-  name: 'FSPeriodicWeeklyField',
+  name: "FSPeriodicWeeklyField",
   components: {
-    FSClock,
-    FSSelectDays,
     FSRadioGroup,
-    FSRow,
-    FSSpan
+    FSSelectDays,
+    FSClock,
+    FSSpan,
+    FSRow
   },
   props: {
     modelValue: {
@@ -66,49 +68,47 @@ export default defineComponent({
     },
     editable: {
       type: Boolean,
+      required: false,
       default: true
     }
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
-
-    const selectedConfiguration = ref('custom');
-
     const availableConfigurations = [
-      { value: 'custom', item: { value: 'custom' } }
-    ]
+      { value: "custom", item: { value: "custom" } }
+    ];
+
+    const selectedConfiguration = ref("custom");
     
     const day = computed(() => {
       return +props.modelValue[4] - 1;
     });
+
     const time = computed(() => {
       return (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60;
     });
 
     const onUpdateDay = (value: number) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `*`, `*`, `${value + 1}`]);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${value + 1}`]);
+    };
 
     const onUpdateHours = (value: number) => {
-      const minutesAll = value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `*`, `*`, `${day.value + 1}`]);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${day.value + 1}`]);
+    };
 
     return {
-      onUpdateDay,
-      onUpdateHours,
       availableConfigurations,
-      day,
       selectedConfiguration,
-      time
-    }
+      ColorEnum,
+      time,
+      day,
+      onUpdateHours,
+      onUpdateDay
+    };
   }
-})
+});
 </script>

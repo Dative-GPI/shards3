@@ -1,8 +1,8 @@
 <template>
   <FSRadioGroup
     :values="availableConfigurations"
+    :editable="$props.editable"
     v-model="selectedConfiguration"
-    :editable="editable"
   >
     <template
       #label="{ item, font }"
@@ -14,27 +14,27 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.monthly.day', 'Day') }}
+          {{ $tr("ui.periodicfield.monthly.day", "Day") }}
         </FSSpan>
         <FSSelectField
-          :modelValue="dayNumber"
-          :clearable="false"
-          :hideHeader="true"
+          :editable="$props.editable"
           :items="dayNumbers"
-          :editable="editable"
+          :hideHeader="true"
+          :clearable="false"
+          :modelValue="dayNumber"
           @update:modelValue="onUpdateDayNumber($event)"
         />
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.monthly.every-month-at', 'every month at') }}
+          {{ $tr("ui.periodicfield.monthly.every-month-at", "every month at") }}
         </FSSpan>
         <FSClock
-          color="light"
-          :modelValue="time"
+          :editable="$props.editable"
+          :color="ColorEnum.Light"
           :hideHeader="true"
           :slider="false"
-          :editable="editable"
+          :modelValue="time"
           @update:modelValue="onUpdateHours($event)"
         />
       </FSRow>
@@ -45,34 +45,34 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.monthly.every', 'Every') }}
+          {{ $tr("ui.periodicfield.monthly.every", "Every") }}
         </FSSpan>
         <FSSelectField
+          :editable="$props.editable"
           :items="dayWeekNumbers"
-          :modelValue="dayWeekNumber"
-          :clearable="false"
           :hideHeader="true"
-          :editable="editable"
+          :clearable="false"
+          :modelValue="dayWeekNumber"
           @update:modelValue="onUpdateDayWeekNumber($event)"
         />
         <FSSelectDays
-          :modelValue="dayWeek"
-          :hideHeader="true"
+          :editable="$props.editable"
           :useAllDays="false"
-          :editable="editable"
+          :hideHeader="true"
+          :modelValue="dayWeek"
           @update:modelValue="onUpdateDayWeek($event)"
         />
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.monthly.at', 'at') }}
+          {{ $tr("ui.periodicfield.monthly.at", "at") }}
         </FSSpan>
         <FSClock
-          color="light"
-          :modelValue="time"
+          :editable="$props.editable"
+          :color="ColorEnum.Light"
           :hideHeader="true"
           :slider="false"
-          :editable="editable"
+          :modelValue="time"
           @update:modelValue="onUpdateHours($event)"
         />
       </FSRow>
@@ -81,26 +81,27 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch, computed } from 'vue';
+import { ref, defineComponent, watch, computed } from "vue";
 
-import { useTranslations } from '@dative-gpi/bones-ui';
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSRadioGroup from '../../FSRadioGroup.vue';
-import FSRow from '../../FSRow.vue';
-import FSSpan from '../../FSSpan.vue';
-import FSClock from '../../FSClock.vue';
-import FSSelectDays from '../../selects/FSSelectDays.vue';
-import FSSelectField from '../../fields/FSSelectField.vue';
+import FSSelectField from "../../fields/FSSelectField.vue";
+import FSSelectDays from "../../selects/FSSelectDays.vue";
+import FSRadioGroup from "../../FSRadioGroup.vue";
+import FSClock from "../../FSClock.vue";
+import FSSpan from "../../FSSpan.vue";
+import FSRow from "../../FSRow.vue";
 
 export default defineComponent({
-  name: 'FSPeriodicMonthlyField',
+  name: "FSPeriodicMonthlyField",
   components: {
-    FSClock,
     FSSelectField,
-    FSSelectDays,
     FSRadioGroup,
-    FSRow,
-    FSSpan
+    FSSelectDays,
+    FSClock,
+    FSSpan,
+    FSRow
   },
   props: {
     modelValue: {
@@ -109,99 +110,99 @@ export default defineComponent({
     },
     editable: {
       type: Boolean,
+      required: false,
       default: true
     }
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { $tr } = useTranslations();
+    const { $tr } = useTranslationsProvider();
 
-    const selectedConfiguration = ref(props.modelValue[4] !== '*' ? 'customDayWeek' : 'customDayNumber');
+    const dayWeekNumbers = [
+      { id: 1, label: $tr("ui.periodicfield.monthly.first" , "First") },
+      { id: 2, label: $tr("ui.periodicfield.monthly.second", "Second") },
+      { id: 3, label: $tr("ui.periodicfield.monthly.third" , "Third") },
+      { id: 4, label: $tr("ui.periodicfield.monthly.fourth", "Fourth") },
+    ];
+
+    const availableConfigurations = [
+      { value: "customDayNumber", item: { value: "customDayNumber" } },
+      { value: "customDayWeek"  , item: { value: "customDayWeek" } }
+    ];
 
     const dayNumbers = Array.from({ length: 31 }, (_, index) => ({ id: index + 1, label: String(index + 1) }));
-    const dayWeekNumbers = [
-      { id: 1, label: $tr('ui.periodicfield.monthly.first', 'First') },
-      { id: 2, label: $tr('ui.periodicfield.monthly.second', 'Second') },
-      { id: 3, label: $tr('ui.periodicfield.monthly.third', 'Third') },
-      { id: 4, label: $tr('ui.periodicfield.monthly.fourth', 'Fourth') },
-    ];
-    const availableConfigurations = [
-      { value: 'customDayNumber', item: { value: 'customDayNumber' } },
-      { value: 'customDayWeek', item: { value: 'customDayWeek' } }
-    ];
+
+    const selectedConfiguration = ref(props.modelValue[4] !== "*" ? "customDayWeek" : "customDayNumber");
 
     const dayNumber = computed(() => 
-      props.modelValue[4] !== '*' ? 1 : +props.modelValue[2]
+      props.modelValue[4] !== "*" ? 1 : +props.modelValue[2]
     );
+
     const dayWeek = computed(() => 
-      props.modelValue[4] === '*' ? 0 : +props.modelValue[4] - 1
+      props.modelValue[4] === "*" ? 0 : +props.modelValue[4] - 1
     );
+
     const dayWeekNumber = computed(() => 
-      props.modelValue[2].includes('-') ? Math.floor(+props.modelValue[2].split('-')[1] / 7) : 1
+      props.modelValue[2].includes("-") ? Math.floor(+props.modelValue[2].split("-")[1] / 7) : 1
     );
+
     const time = computed(() => (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60);
 
     const onUpdateDayNumber = (value: number) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `${value}`, `*`, `*`]);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `${value}`, `*`, `*`]);
+    };
 
     const onUpdateDayWeekNumber = (value: number) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `${(value - 1) * 7 + 1}-${value * 7}`, `*`, `${dayWeek.value + 1}`]);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `${(value - 1) * 7 + 1}-${value * 7}`, `*`, `${dayWeek.value + 1}`]);
+    };
 
     const onUpdateDayWeek = (value: number) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${value + 1}`]);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${value + 1}`]);
+    };
 
     const onUpdateHours = (value: number) => {
-      const minutesAll = value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      if (selectedConfiguration.value === 'customDayNumber') {
-        emit('update:modelValue', [`${minutes}`, `${hours}`, `${dayNumber.value}`, `*`, `*`]);
-      } else {
-        emit('update:modelValue', [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${dayWeek.value + 1}`]);
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      if (selectedConfiguration.value === "customDayNumber") {
+        emit("update:modelValue", [`${minutes}`, `${hours}`, `${dayNumber.value}`, `*`, `*`]);
       }
-    }
+      else {
+        emit("update:modelValue", [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${dayWeek.value + 1}`]);
+      }
+    };
 
     watch(() => selectedConfiguration.value, (value: string) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-      if(value === 'customDayNumber') {
-        emit('update:modelValue', [`${minutes}`, `${hours}`, `${dayNumber.value}`, `*`, `*`]);
-      } else {
-        emit('update:modelValue', [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${dayWeek.value + 1}`]);
+      const hours = Math.floor(time.value / (60 * 60 * 1000));
+      const minutes = Math.floor(time.value / (60 * 1000) % 60);
+      if(value === "customDayNumber") {
+        emit("update:modelValue", [`${minutes}`, `${hours}`, `${dayNumber.value}`, `*`, `*`]);
       }
-    })
+      else {
+        emit("update:modelValue", [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${dayWeek.value + 1}`]);
+      }
+    });
 
     return {
+      availableConfigurations,
+      selectedConfiguration,
+      dayWeekNumbers,
+      dayWeekNumber,
+      dayNumbers,
+      ColorEnum,
+      dayNumber,
+      dayWeek,
+      time,
+      onUpdateDayWeekNumber,
       onUpdateDayNumber,
       onUpdateDayWeek,
-      onUpdateDayWeekNumber,
-      onUpdateHours,
-      availableConfigurations,
-      dayNumber,
-      dayNumbers,
-      dayWeek,
-      dayWeekNumber,
-      dayWeekNumbers,
-      selectedConfiguration,
-      time
-    }
+      onUpdateHours
+    };
   }
-})
+});
 </script>

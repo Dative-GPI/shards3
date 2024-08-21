@@ -1,8 +1,8 @@
 <template>
   <FSRadioGroup
     :values="availableConfigurations"
+    :editable="$props.editable"
     v-model="selectedConfiguration"
-    :editable="editable"
   >
     <template
       #label="{ item, font }"
@@ -17,10 +17,10 @@
           {{ $tr('ui.periodicfield.daily.every', 'Every') }}
         </FSSpan>
         <FSNumberField
+          :editable="$props.editable"
           :modelValue="days"
           :hideHeader="true"
           :clearable="false"
-          :editable="editable"
           @update:modelValue="onUpdateDays($event)"
         />
         <FSSpan
@@ -29,11 +29,11 @@
           {{ $tr('ui.periodicfield.daily.daysat', 'day(s) at') }}
         </FSSpan>
         <FSClock
-          color="light"
+          :editable="$props.editable"
+          :color="ColorEnum.Light"
           :modelValue="time"
           :hideHeader="true"
           :slider="false"
-          :editable="editable"
           @update:modelValue="onUpdateHours($event)"
         />
       </FSRow>
@@ -42,22 +42,24 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue';
+import { ref, defineComponent, computed } from "vue";
 
-import FSRadioGroup from '../../FSRadioGroup.vue';
-import FSRow from '../../FSRow.vue';
-import FSSpan from '../../FSSpan.vue';
-import FSNumberField from '../FSNumberField.vue';
-import FSClock from '../../FSClock.vue';
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+
+import FSRadioGroup from "../../FSRadioGroup.vue";
+import FSNumberField from "../FSNumberField.vue";
+import FSClock from "../../FSClock.vue";
+import FSSpan from "../../FSSpan.vue";
+import FSRow from "../../FSRow.vue";
 
 export default defineComponent({
-  name: 'FSPeriodicDailyField',
+  name: "FSPeriodicDailyField",
   components: {
-    FSClock,
     FSNumberField,
     FSRadioGroup,
-    FSRow,
-    FSSpan
+    FSClock,
+    FSSpan,
+    FSRow
   },
   props: {
     modelValue: {
@@ -66,47 +68,45 @@ export default defineComponent({
     },
     editable: {
       type: Boolean,
+      required: false,
       default: true
     }
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const selectedConfiguration = ref('custom');
-
     const availableConfigurations = [
-      { value: 'custom', item: { value: 'custom' } }
-    ]
+      { value: "custom", item: { value: "custom" } }
+    ];
+
+    const selectedConfiguration = ref("custom");
 
     const days = computed(() => {
-      return +props.modelValue[2].replace('*/', '');
+      return +props.modelValue[2].replace("*/", "");
     });
     const time = computed(() => {
       return (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60;
     });
 
     const onUpdateDays = (value: number) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `*/${value}`, '*', '*']);
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `*/${value}`, "*", "*"]);
     }
 
     const onUpdateHours = (value: number) => {
-      const minutesAll = value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `*/${days.value}`, '*', '*']);
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `*/${days.value}`, "*", "*"]);
     }
 
     return {
-      onUpdateDays,
-      onUpdateHours,
       availableConfigurations,
-      days,
       selectedConfiguration,
-      time
+      ColorEnum,
+      days,
+      time,
+      onUpdateHours,
+      onUpdateDays
     }
   }
 })

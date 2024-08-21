@@ -1,7 +1,7 @@
 <template>
   <FSRadioGroup
     :values="availableConfigurations"
-    :editable="editable"
+    :editable="$props.editable"
     v-model="selectedConfiguration"
   >
     <template
@@ -14,33 +14,33 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.yearly.everyyear', 'Every year') }}
+          {{ $tr("ui.periodicfield.yearly.everyyear", "Every year") }}
         </FSSpan>
         <FSSelectMonths
-          :modelValue="month"
+          :editable="$props.editable"
           :useAllMonths="false"
           :hideHeader="true"
-          :editable="editable"
+          :modelValue="month"
           @update:modelValue="onUpdateMonth($event)"
         />
         <FSNumberField
-          :modelValue="day"
+          :editable="$props.editable"
           :hideHeader="true"
           :clearable="false"
-          :editable="editable"
+          :modelValue="day"
           @update:modelValue="onUpdateDay($event)"
         />
         <FSSpan
           :font="font"
         >
-          {{ $tr('ui.periodicfield.yearly.at', 'at') }}
+          {{ $tr("ui.periodicfield.yearly.at", "at") }}
         </FSSpan>
         <FSClock
-          color="light"
-          :modelValue="time"
+          :editable="$props.editable"
+          :color="ColorEnum.Light"
           :hideHeader="true"
           :slider="false"
-          :editable="editable"
+          :modelValue="time"
           @update:modelValue="onUpdateHours($event)"
         />
       </FSRow>
@@ -49,24 +49,26 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue';
+import { ref, defineComponent, computed } from "vue";
 
-import FSRadioGroup from '../../FSRadioGroup.vue';
-import FSRow from '../../FSRow.vue';
-import FSSpan from '../../FSSpan.vue';
-import FSNumberField from '../FSNumberField.vue';
-import FSClock from '../../FSClock.vue';
-import FSSelectMonths from '../../selects/FSSelectMonths.vue';
+import { ColorEnum } from "@/shared/foundation-shared-components/models";
+
+import FSSelectMonths from "../../selects/FSSelectMonths.vue";
+import FSRadioGroup from "../../FSRadioGroup.vue";
+import FSNumberField from "../FSNumberField.vue";
+import FSClock from "../../FSClock.vue";
+import FSSpan from "../../FSSpan.vue";
+import FSRow from "../../FSRow.vue";
 
 export default defineComponent({
-  name: 'FSPeriodicDailyField',
+  name: "FSPeriodicDailyField",
   components: {
-    FSClock,
+    FSSelectMonths,
     FSNumberField,
     FSRadioGroup,
-    FSRow,
-    FSSelectMonths,
-    FSSpan
+    FSClock,
+    FSSpan,
+    FSRow
   },
   props: {
     modelValue: {
@@ -75,61 +77,59 @@ export default defineComponent({
     },
     editable: {
       type: Boolean,
+      required: false,
       default: true
     }
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const selectedConfiguration = ref('custom');
-
     const availableConfigurations = [
-      { value: 'custom', item: { value: 'custom' } }
-    ]
+      { value: "custom", item: { value: "custom" } }
+    ];
+
+    const selectedConfiguration = ref("custom");
     
     const day = computed(() => {
       return +props.modelValue[2];
     });
+
     const month = computed(() => {
       return +props.modelValue[3] - 1;
     });
+
     const time = computed(() => {
       return (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60;
     });
 
     const onUpdateDay = (value: number) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `${value}`, `${month.value + 1}`, '*']);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `${value}`, `${month.value + 1}`, "*"]);
+    };
 
     const onUpdateHours = (value: number) => {
-      const minutesAll = value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `${day.value}`, `${month.value + 1}`, '*']);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `${day.value}`, `${month.value + 1}`, "*"]);
+    };
 
     const onUpdateMonth = (value: number) => {
-      const minutesAll = time.value / 60 / 1000;
-      const hours = Math.floor(minutesAll / 60);
-      const minutes = Math.floor(minutesAll % 60);
-
-      emit('update:modelValue', [`${minutes}`, `${hours}`, `${day.value}`, `${value + 1}`, '*']);
-    }
+      const hours = Math.floor(value / (60 * 60 * 1000));
+      const minutes = Math.floor(value / (60 * 1000) % 60);
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `${day.value}`, `${value + 1}`, "*"]);
+    };
 
     return {
-      onUpdateDay,
+      availableConfigurations,
+      selectedConfiguration,
+      ColorEnum,
+      month,
+      time,
+      day,
       onUpdateHours,
       onUpdateMonth,
-      availableConfigurations,
-      day,
-      month,
-      selectedConfiguration,
-      time
-    }
+      onUpdateDay
+    };
   }
-})
+});
 </script>
