@@ -134,39 +134,53 @@ export default defineComponent({
 
     const selectedConfiguration = ref(props.modelValue[4] !== "*" ? "customDayWeek" : "customDayNumber");
 
-    const dayNumber = computed(() => 
-      props.modelValue[4] !== "*" ? 1 : +props.modelValue[2]
-    );
+    const dayNumber = computed((): number => {
+      if (props.modelValue[4] !== "*" || isNaN(parseInt(props.modelValue[2]))) {
+        return 1;
+      }
+      return parseInt(props.modelValue[2]);
+    });
 
-    const dayWeek = computed(() => 
-      props.modelValue[4] === "*" ? 0 : +props.modelValue[4] - 1
-    );
+    const dayWeek = computed((): number => {
+      if (props.modelValue[4] !== "*" || isNaN(parseInt(props.modelValue[4]))) {
+        return 0;
+      }
+      return parseInt(props.modelValue[4]) - 1;
+    });
 
-    const dayWeekNumber = computed(() => 
-      props.modelValue[2].includes("-") ? Math.floor(+props.modelValue[2].split("-")[1] / 7) : 1
-    );
+    const dayWeekNumber = computed((): number => {
+      if (!props.modelValue[2].includes("-") || isNaN(parseInt(props.modelValue[2].split("-")[1]))) {
+        return 1;
+      }
+      return Math.floor(parseInt(props.modelValue[2].split("-")[1]) / 7);
+    });
 
-    const time = computed(() => (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60);
+    const time = computed((): number => {
+      if (isNaN(parseInt(props.modelValue[0])) || isNaN(parseInt(props.modelValue[1]))) {
+        return 0;
+      }
+      return ((parseInt(props.modelValue[0])) + (parseInt(props.modelValue[1]) * 60)) * 60 * 1000;
+    });
 
-    const onUpdateDayNumber = (value: number) => {
+    const onUpdateDayNumber = (value: number): void => {
       const hours = Math.floor(value / (60 * 60 * 1000));
       const minutes = Math.floor(value / (60 * 1000) % 60);
       emit("update:modelValue", [`${minutes}`, `${hours}`, `${value}`, `*`, `*`]);
     };
 
-    const onUpdateDayWeekNumber = (value: number) => {
+    const onUpdateDayWeekNumber = (value: number): void => {
       const hours = Math.floor(value / (60 * 60 * 1000));
       const minutes = Math.floor(value / (60 * 1000) % 60);
       emit("update:modelValue", [`${minutes}`, `${hours}`, `${(value - 1) * 7 + 1}-${value * 7}`, `*`, `${dayWeek.value + 1}`]);
     };
 
-    const onUpdateDayWeek = (value: number) => {
+    const onUpdateDayWeek = (value: number): void => {
       const hours = Math.floor(value / (60 * 60 * 1000));
       const minutes = Math.floor(value / (60 * 1000) % 60);
       emit("update:modelValue", [`${minutes}`, `${hours}`, `${(dayWeekNumber.value - 1) * 7 + 1}-${dayWeekNumber.value * 7}`, `*`, `${value + 1}`]);
     };
 
-    const onUpdateHours = (value: number) => {
+    const onUpdateHours = (value: number): void => {
       const hours = Math.floor(value / (60 * 60 * 1000));
       const minutes = Math.floor(value / (60 * 1000) % 60);
       if (selectedConfiguration.value === "customDayNumber") {
@@ -177,7 +191,7 @@ export default defineComponent({
       }
     };
 
-    watch(() => selectedConfiguration.value, (value: string) => {
+    watch(() => selectedConfiguration.value, (value: string): void => {
       const hours = Math.floor(time.value / (60 * 60 * 1000));
       const minutes = Math.floor(time.value / (60 * 1000) % 60);
       if(value === "customDayNumber") {
