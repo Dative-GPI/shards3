@@ -14,14 +14,13 @@
       <FSRow
         v-if="$props.modelValue"
         align="center-center"
-        gap="2px"
-        class="mr-2"
+        padding="0 8px 0 0"
+        gap="4px"
         :wrap="false"
       >
         <FSSpan>
           {{ item.raw.label }}
         </FSSpan>
-        <v-spacer />
         <FSChip
           v-if="$props.multiple && item.raw.unit"
           :label="item.raw.unit"
@@ -29,11 +28,11 @@
       </FSRow> 
     </template>
     <template
+      v-if="selected && selected.unit"
       #autocomplete-suffix
     >
       <FSChip
-        v-if="dataDefinitionSelected && dataDefinitionSelected.unit"
-        :label="dataDefinitionSelected.unit"
+        :label="selected.unit"
       />
     </template>
     <template
@@ -80,8 +79,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import type { DataDefinitionInfos} from "@dative-gpi/foundation-core-domain/models";
-import { type DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
+import { type DataDefinitionInfos, type DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useDataDefinitions } from "@dative-gpi/foundation-core-services/composables";
 
@@ -130,8 +128,8 @@ export default defineComponent({
       return init.value && fetchingDataDefinitions.value;
     });
 
-    const dataDefinitionSelected = computed((): DataDefinitionInfos | undefined => {
-      if(props.multiple) {
+    const selected = computed((): DataDefinitionInfos | undefined => {
+      if (props.multiple) {
         return undefined;
       }
       return dataDefinitions.value.find((dataDefinition: DataDefinitionInfos) => dataDefinition.id === props.modelValue);
@@ -151,8 +149,8 @@ export default defineComponent({
     return {
       dataDefinitions,
       toggleSet,
+      selected,
       loading,
-      dataDefinitionSelected,
       onUpdate
     };
   }
