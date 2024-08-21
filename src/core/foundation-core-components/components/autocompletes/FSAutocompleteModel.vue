@@ -60,9 +60,9 @@ export default defineComponent({
     );
 
     return {
-      models,
       toggleSet,
       loading,
+      models,
       onUpdate
     };
   }

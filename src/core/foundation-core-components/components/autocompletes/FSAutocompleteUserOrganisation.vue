@@ -53,24 +53,22 @@
     >
       <FSButton
         :variant="props.getVariant(props.item)"
+        :padding="['6px 16px', '4px 12px']"
         :color="props.getColor(props.item)"
         :class="props.getClass(props.item)"
+        :label="props.item.name"
         @click="props.toggle(props.item)"
       >
-        <FSRow
-          align="center-center"
-          :wrap="false"
+        <template
+          v-if="props.item.imageId"
+          #prepend
         >
           <FSImage
-            v-if="props.item.imageId"
             height="26px"
             width="26px"
             :imageId="props.item.imageId"
           />
-          <FSSpan>
-            {{ props.item.name }}
-          </FSSpan>
-        </FSRow>
+        </template>
       </FSButton>
     </template>
   </FSAutocompleteField>
@@ -127,19 +125,12 @@ export default defineComponent({
     const loading = computed((): boolean => {
       return init.value && fetchingUserOrganisations.value;
     });
-
-    const toggleSetItems = computed((): any[] => {
-      return userOrganisations.value.map((userOrganisation: UserOrganisationInfos) => ({
-        id: userOrganisation.id,
-        label: userOrganisation.name
-      }));
-    });
     
     const fetch = (search: string | null) => {
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       userOrganisations,
       [() => props.userOrganisationFilters],
       emit,
@@ -151,10 +142,8 @@ export default defineComponent({
 
     return {
       userOrganisations,
-      toggleSetItems,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }

@@ -68,7 +68,6 @@
           #append
         >
           <FSChip
-            v-if="props.item.unit"
             :label="props.item.unit"
           />
         </template>

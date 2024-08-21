@@ -49,6 +49,7 @@ export * from "./scenarios";                        // No service
 export * from "./shared";                           // No service
 export * from "./serviceAccountOrganisationAuthTokens";
 export * from "./serviceAccountOrganisations";
+export * from "./serviceAccountRoleOrganisations";
 export * from "./userOrganisationColumns";          // No service
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";

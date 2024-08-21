@@ -53,6 +53,7 @@
         @click="props.toggle(props.item)"
       >
         <template
+          v-if="props.item.offset"
           #prepend
         >
           <FSChip
@@ -121,7 +122,7 @@ export default defineComponent({
       return getManyTimeZones({ ...props.timeZoneFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       timeZones,
       [() => props.timeZoneFilters],
       emit,
@@ -136,7 +137,6 @@ export default defineComponent({
       timeZones,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }
