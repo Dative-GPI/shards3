@@ -1,9 +1,10 @@
 <template>
-  <FSSelectField
+  <FSAutocompleteField
     :label="label ?? $tr('ui.common.planning-type','Planning type')"
     :items="planningTypeItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
   />
 </template>
 
@@ -12,13 +13,13 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {PlanningType} from "@dative-gpi/foundation-core-domain/models";
 
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
 import {planningTypeLabel, getEnumEntries} from "../../utils";
 
 export default defineComponent({
   components: {
-    FSSelectField
+    FSAutocompleteField
   },
   props: {
     modelValue: {
@@ -34,7 +35,7 @@ export default defineComponent({
   setup() {
     
     const planningTypeItems = computed(()=>{
-      return getEnumEntries(PlanningType).map((f)=>{
+      return getEnumEntries(PlanningType).filter(f=>f.value != PlanningType.None).map((f)=>{
         return {
           id: f.value,
           label: planningTypeLabel(f.value)

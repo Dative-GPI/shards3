@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSAggregationSelector from "@dative-gpi/foundation-core-components/components/selects/FSAggregationSelector.vue";
+import FSDataDefinitionSelector from "@dative-gpi/foundation-core-components/components/selects/FSDataDefinitionSelector.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
-  title: 'Foundation/Core/Selects/AggregationSelector',
-  component: FSAggregationSelector,
+  title: 'Foundation/Core/Selects/DataDefinitionSelector',
+  component: FSDataDefinitionSelector,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   },
-} satisfies Meta<typeof FSAggregationSelector>;
+} satisfies Meta<typeof FSDataDefinitionSelector>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -22,15 +22,18 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSAggregationSelector, FSCol },
+    components: { FSDataDefinitionSelector, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
     <FSCol>
-      <FSAggregationSelector
-        v-model="args.value"
+      <FSDataDefinitionSelector
+      modelId="1"
+      width="600px"
+      categoryId="1"
+      v-model="args.value"
       />
     </FSCol>`
   })

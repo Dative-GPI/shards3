@@ -1,5 +1,5 @@
 <template>
-  <FSSelectField
+  <FSAutocompleteField
     :label="label ?? $tr('ui.common.display-as','Display as')"
     :items="displayAsItems"
     :modelValue="modelValue"
@@ -13,13 +13,13 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {DisplayAs} from "@dative-gpi/foundation-core-domain/models";
 
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
 import {displayAsLabel, getEnumEntries} from "../../utils";
 
 export default defineComponent({
   components: {
-    FSSelectField
+    FSAutocompleteField
   },
   props: {
     modelValue: {
@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     
     const displayAsItems = computed(()=>{
-      return getEnumEntries(DisplayAs).map((f)=>{
+      return getEnumEntries(DisplayAs).filter(f=>f.value != DisplayAs.None).map((f)=>{
         return {
           id: f.value,
           label: displayAsLabel(f.value)

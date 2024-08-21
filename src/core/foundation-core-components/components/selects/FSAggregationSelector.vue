@@ -1,5 +1,5 @@
 <template>
-  <FSSelectField
+  <FSAutocompleteField
     :label="label ?? $tr('ui.common.aggregation-type','Aggregation')"
     :items="aggregationTypeItems"
     :modelValue="modelValue"
@@ -15,11 +15,11 @@ import {AggregationType} from "@dative-gpi/foundation-core-domain/models";
 
 import {aggregationTypeLabel, getEnumEntries} from "../../utils";
 
-import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
 export default defineComponent({
   components: {
-    FSSelectField
+    FSAutocompleteField
   },
   props: {
     modelValue : {
@@ -35,7 +35,7 @@ export default defineComponent({
   setup() {
 
     const aggregationTypeItems = computed(()=>{
-      return getEnumEntries(AggregationType).map((f)=>{
+      return getEnumEntries(AggregationType).filter(f=>f.value != AggregationType.None).map((f)=>{
         return {
           id: f.value,
           label: aggregationTypeLabel(f.value)
