@@ -1,43 +1,38 @@
 import { PermissionInfos, type PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
-import { type ApplicationScope } from "../enums/applicationEnums";
-
-export class RoleOrganisationInfos {
+export class ServiceAccountRoleOrganisationInfos {
   id: string;
   roleId: string;
   organisationId: string;
   icon: string;
   code: string;
   label: string;
-  scope: ApplicationScope;
   tags: string[];
   permissions: PermissionInfos[];
 
-  constructor(params: RoleOrganisationInfosDTO) {
+  constructor(params: ServiceAccountRoleOrganisationInfosDTO) {
     this.id = params.id;
     this.roleId = params.roleId;
     this.organisationId = params.organisationId;
     this.icon = params.icon;
     this.code = params.code;
     this.label = params.label;
-    this.scope = params.scope;
     this.tags = params.tags.slice();
     this.permissions = params.permissions.map(dto => new PermissionInfos(dto));
   }
 }
 
-export interface RoleOrganisationInfosDTO {
+export interface ServiceAccountRoleOrganisationInfosDTO {
   id: string;
   roleId: string;
   organisationId: string;
   icon: string;
   code: string;
   label: string;
-  scope: ApplicationScope;
   tags: string[];
   permissions: PermissionInfosDTO[];
 }
 
-export interface RoleOrganisationFilters {
+export interface ServiceAccountRoleOrganisationFilters {
   search?: string | null;
 }
