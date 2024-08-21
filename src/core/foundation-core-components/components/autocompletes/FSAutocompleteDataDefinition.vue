@@ -65,6 +65,7 @@
         @click="props.toggle(props.item)"
       >
         <template
+          v-if="props.item.unit"
           #append
         >
           <FSChip
