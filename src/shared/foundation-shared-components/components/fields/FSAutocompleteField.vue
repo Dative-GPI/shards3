@@ -251,13 +251,22 @@
             <slot
               name="clear"
             >
-              <FSButton
-                v-if="$props.clearable && $props.editable && !!$props.modelValue"
-                icon="mdi-close"
-                variant="icon"
-                :color="ColorEnum.Dark"
-                @click="$emit('update:modelValue', null)"
-              />
+              <FSRow
+                gap="16px"
+                :wrap="false"
+              >
+                <slot
+                  v-if="!$props.multiple"
+                  name="autocomplete-suffix"
+                />
+                <FSButton
+                  v-if="$props.clearable && $props.editable && !!$props.modelValue"
+                  icon="mdi-close"
+                  variant="icon"
+                  :color="ColorEnum.Dark"
+                  @click="$emit('update:modelValue', null)"
+                />
+              </FSRow>
             </slot>
           </template>
           <template

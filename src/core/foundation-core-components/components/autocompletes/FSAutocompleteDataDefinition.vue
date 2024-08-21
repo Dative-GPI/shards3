@@ -14,16 +14,26 @@
       <FSRow
         v-if="$props.modelValue"
         align="center-center"
+        padding="0 8px 0 0"
+        gap="4px"
         :wrap="false"
       >
-        <FSChip
-          v-if="item.raw.unit"
-          :label="item.raw.unit"
-        />
         <FSSpan>
           {{ item.raw.label }}
         </FSSpan>
-      </FSRow>
+        <FSChip
+          v-if="$props.multiple && item.raw.unit"
+          :label="item.raw.unit"
+        />
+      </FSRow> 
+    </template>
+    <template
+      v-if="selected && selected.unit"
+      #autocomplete-suffix
+    >
+      <FSChip
+        :label="selected.unit"
+      />
     </template>
     <template
       #item-label="{ item, font }"
@@ -32,15 +42,15 @@
         align="center-left"
         :wrap="false"
       >
-        <FSChip
-          v-if="item.raw.unit"
-          :label="item.raw.unit"
-        />
         <FSSpan
           :font="font"
         >
           {{ item.raw.label }}
         </FSSpan>
+        <FSChip
+          v-if="item.raw.unit"
+          :label="item.raw.unit"
+        />
       </FSRow>
     </template>
     <template
@@ -54,10 +64,10 @@
         @click="props.toggle(props.item)"
       >
         <template
-          #prepend
+          v-if="props.item.unit"
+          #append
         >
           <FSChip
-            v-if="props.item.unit"
             :label="props.item.unit"
           />
         </template>
@@ -69,7 +79,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { type DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
+import { type DataDefinitionInfos, type DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useDataDefinitions } from "@dative-gpi/foundation-core-services/composables";
 
@@ -118,6 +128,13 @@ export default defineComponent({
       return init.value && fetchingDataDefinitions.value;
     });
 
+    const selected = computed((): DataDefinitionInfos | undefined => {
+      if (props.multiple) {
+        return undefined;
+      }
+      return dataDefinitions.value.find((dataDefinition: DataDefinitionInfos) => dataDefinition.id === props.modelValue);
+    });
+
     const fetch = (search: string | null) => {
       return getManyDataDefinitions({ ...props.dataDefinitionFilters, search: search ?? undefined });
     };
@@ -132,6 +149,7 @@ export default defineComponent({
     return {
       dataDefinitions,
       toggleSet,
+      selected,
       loading,
       onUpdate
     };

@@ -67,6 +67,7 @@
         @click="props.toggle(props.item)"
       >
         <template
+          v-if="props.item.type"
           #append
         >
           <FSChip
@@ -179,7 +180,7 @@ export default defineComponent({
       ]);
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       roles,
       [() => props.roleOrganisationTypeFilters, () => props.roleOrganisationFilters],
       emit,
@@ -191,7 +192,6 @@ export default defineComponent({
       toggleSet,
       RoleType,
       loading,
-      search,
       roles,
       roleTypeColor,
       roleTypeLabel,

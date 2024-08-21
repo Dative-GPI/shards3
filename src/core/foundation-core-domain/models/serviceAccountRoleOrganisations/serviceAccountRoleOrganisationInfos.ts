@@ -1,13 +1,10 @@
 import { PermissionInfos, type PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
-
-import { type ApplicationScope } from "../enums/applicationEnums";
 import { type UserType } from "../enums/userEnums";
 
-export class RoleOrganisationInfos {
+export class ServiceAccountRoleOrganisationInfos {
   id: string;
   roleId: string;
   organisationId: string;
-  scope: ApplicationScope;
   userType: UserType
   icon: string;
   code: string;
@@ -15,11 +12,10 @@ export class RoleOrganisationInfos {
   tags: string[];
   permissions: PermissionInfos[];
 
-  constructor(params: RoleOrganisationInfosDTO) {
+  constructor(params: ServiceAccountRoleOrganisationInfosDTO) {
     this.id = params.id;
     this.roleId = params.roleId;
     this.organisationId = params.organisationId;
-    this.scope = params.scope;
     this.userType = params.userType;
     this.icon = params.icon;
     this.code = params.code;
@@ -29,12 +25,11 @@ export class RoleOrganisationInfos {
   }
 }
 
-export interface RoleOrganisationInfosDTO {
+export interface ServiceAccountRoleOrganisationInfosDTO {
   id: string;
   roleId: string;
   organisationId: string;
-  scope: ApplicationScope;
-  userType: UserType;
+  userType: UserType
   icon: string;
   code: string;
   label: string;
@@ -42,6 +37,6 @@ export interface RoleOrganisationInfosDTO {
   permissions: PermissionInfosDTO[];
 }
 
-export interface RoleOrganisationFilters {
+export interface ServiceAccountRoleOrganisationFilters {
   search?: string | null;
 }

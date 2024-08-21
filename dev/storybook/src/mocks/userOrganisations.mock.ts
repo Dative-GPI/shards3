@@ -20,7 +20,7 @@ export const USERORGANISATIONS: UserOrganisationInfosDTO[] = [{
     userId: "1",
     userType: 1,
     validity: 1,
-    imageId: IMAGES[0].id,
+    imageId: "1",
     roleId: "1"
 },
 {
@@ -42,6 +42,6 @@ export const USERORGANISATIONS: UserOrganisationInfosDTO[] = [{
     userId: "2",
     userType: 1,
     validity: 1,
-    imageId: IMAGES[0].id,
+    imageId: "2",
     roleId: "1"
 }];

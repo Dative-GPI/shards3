@@ -31,7 +31,7 @@ export const TagRules = {
 };
 
 export const NumberRules = {
-    required: (message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value))) || (message ?? $tr("ui.rules.required", "Required")),
+    required: (message: string | undefined = undefined) => (value: string) => (value != null && !isNaN(parseFloat(value))) || (message ?? $tr("ui.rules.required", "Required")),
     min: (min: number, message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value)) && parseFloat(value) >= min) || (message ?? $tr("ui.rules.number-min", "Must be at least {0}", min.toString())),
     max: (max: number, message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value)) && parseFloat(value) <= max) || (message ?? $tr("ui.rules.number-max", "Must be at most {0}", max.toString())),
     integer: (message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value)) && Number.isInteger(parseFloat(value))) || (message ?? $tr("ui.rules.number-integer", "Must be an integer"))

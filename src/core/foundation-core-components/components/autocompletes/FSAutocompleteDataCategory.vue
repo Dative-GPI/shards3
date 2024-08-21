@@ -14,15 +14,30 @@
       <FSRow
         v-if="$props.modelValue"
         align="center-center"
+        padding="0 8px 0 0"
+        gap="4px"
         :wrap="false"
       >
-        <FSIcon>
-          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
-        </FSIcon>
         <FSSpan>
           {{ item.raw.label }}
         </FSSpan>
+        <FSIcon
+          v-if="$props.multiple"
+          :color="item.raw.correlated ? ColorEnum.Success : ColorEnum.Warning"
+        >
+          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
+        </FSIcon>
       </FSRow>
+    </template>
+    <template
+      v-if="selected"
+      #autocomplete-suffix
+    >
+      <FSChip
+        :label="selected.correlated ? $tr('ui.common.linked','Linked') : $tr('ui.common.not-linked','Not linked')"
+        :color="selected.correlated ? ColorEnum.Success : ColorEnum.Warning"
+        :prependIcon="selected.correlated ? 'mdi-link' : 'mdi-link-off'"
+      />
     </template>
     <template
       #item-label="{ item, font }"
@@ -31,20 +46,23 @@
         align="center-left"
         :wrap="false"
       >
-        <FSIcon>
-          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
-        </FSIcon>
         <FSSpan
           :font="font"
         >
           {{ item.raw.label }}
         </FSSpan>
+        <FSIcon
+          :color="item.raw.correlated ? ColorEnum.Success : ColorEnum.Warning"
+        >
+          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
+        </FSIcon>
       </FSRow>
     </template>
     <template
       #toggle-set-item="props"
     >
       <FSButton
+        :iconColor="props.item.correlated ? ColorEnum.Success : ColorEnum.Warning"
         :prependIcon="props.item.correlated ? 'mdi-link' : 'mdi-link-off'"
         :variant="props.getVariant(props.item)"
         :color="props.getColor(props.item)"
@@ -59,14 +77,16 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
+import { type DataCategoryInfos, type DataCategoryFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
-import { type DataCategoryFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDataCategories } from "@dative-gpi/foundation-core-services/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
@@ -76,6 +96,7 @@ export default defineComponent({
     FSButton,
     FSIcon,
     FSSpan,
+    FSChip,
     FSRow
   },
   props: {
@@ -108,6 +129,13 @@ export default defineComponent({
       return init.value && fetchingDataCategories.value;
     });
 
+    const selected = computed((): DataCategoryInfos | undefined => {
+      if (props.multiple) {
+        return undefined;
+      }
+      return dataCategories.value.find((dataCategory: DataCategoryInfos) => dataCategory.id === props.modelValue);
+    });
+
     const fetch = (search: string | null) => {
       return getManyDataCategories({ ...props.dataCategoriesFilters, search: search ?? undefined });
     };
@@ -121,7 +149,9 @@ export default defineComponent({
 
     return {
       dataCategories,
+      ColorEnum,
       toggleSet,
+      selected,
       loading,
       onUpdate
     };

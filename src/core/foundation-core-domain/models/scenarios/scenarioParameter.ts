@@ -36,7 +36,6 @@ export interface ScenarioParameterDTO {
 
 export interface CreateScenarioParameterDTO {
   id : string
-  scenarioId: string;
   hiddenCode : string;
   labelDefault : string;
   valueDefault : string;
