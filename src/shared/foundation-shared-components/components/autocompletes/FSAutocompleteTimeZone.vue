@@ -53,6 +53,7 @@
         @click="props.toggle(props.item)"
       >
         <template
+          v-if="props.item.offset"
           #prepend
         >
           <FSChip
