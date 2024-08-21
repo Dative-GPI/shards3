@@ -179,7 +179,7 @@ export default defineComponent({
       ]);
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       charts,
       [() => props.chartOrganisationTypeFilters, () => props.chartOrganisationFilters],
       emit,
@@ -190,7 +190,6 @@ export default defineComponent({
     return {
       toggleSet,
       loading,
-      search,
       charts,
       chartOriginColor,
       chartOriginLabel,
