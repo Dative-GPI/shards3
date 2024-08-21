@@ -79,22 +79,28 @@ export default defineComponent({
     ];
 
     const selectedConfiguration = ref("custom");
-    
-    const day = computed(() => {
-      return +props.modelValue[4] - 1;
+
+    const day = computed((): number => {
+      if (isNaN(parseInt(props.modelValue[4]))) {
+        return 0;
+      }
+      return parseInt(props.modelValue[4]) - 1;
     });
 
-    const time = computed(() => {
-      return (+props.modelValue[1] * 60 + +props.modelValue[0]) * 1000 * 60;
+    const time = computed((): number => {
+      if (isNaN(parseInt(props.modelValue[0])) || isNaN(parseInt(props.modelValue[1]))) {
+        return 0;
+      }
+      return ((parseInt(props.modelValue[0])) + (parseInt(props.modelValue[1]) * 60)) * 60 * 1000;
     });
 
-    const onUpdateDay = (value: number) => {
+    const onUpdateDay = (value: number): void => {
       const hours = Math.floor(value / (60 * 60 * 1000));
       const minutes = Math.floor(value / (60 * 1000) % 60);
       emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${value + 1}`]);
     };
 
-    const onUpdateHours = (value: number) => {
+    const onUpdateHours = (value: number): void => {
       const hours = Math.floor(value / (60 * 60 * 1000));
       const minutes = Math.floor(value / (60 * 1000) % 60);
       emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${day.value + 1}`]);

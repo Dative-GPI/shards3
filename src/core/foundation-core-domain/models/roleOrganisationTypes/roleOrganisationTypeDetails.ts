@@ -1,16 +1,15 @@
-import type { RoleOrganisationTypeInfosDTO } from "./roleOrganisationTypeInfos";
-import { RoleOrganisationTypeInfos } from "./roleOrganisationTypeInfos";
+import { RoleOrganisationTypeInfos, type RoleOrganisationTypeInfosDTO } from "./roleOrganisationTypeInfos";
 
 export class RoleOrganisationTypeDetails extends RoleOrganisationTypeInfos {
-    description: string;
+  description: string;
 
-    constructor(params: RoleOrganisationTypeDetailsDTO) {
-        super(params);
+  constructor(params: RoleOrganisationTypeDetailsDTO) {
+    super(params);
 
-        this.description = params.description;
-    }
+    this.description = params.description;
+  }
 }
 
 export interface RoleOrganisationTypeDetailsDTO extends RoleOrganisationTypeInfosDTO {
-    description: string;
+  description: string;
 }
