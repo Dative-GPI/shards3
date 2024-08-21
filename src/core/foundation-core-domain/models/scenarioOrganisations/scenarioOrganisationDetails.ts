@@ -30,7 +30,7 @@ export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
-  scenarioParameters: ScenarioParameter[];
+  parameters: ScenarioParameter[];
   translations: ScenarioTranslation[];
 
   constructor(params: ScenarioOrganisationDetailsDTO) {
@@ -58,7 +58,7 @@ export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
     this.timeout = params.timeout;
     this.lock = params.lock;
     this.waitResolved = params.waitResolved;
-    this.scenarioParameters = params.scenarioParameters.map(p => new ScenarioParameter(p));
+    this.parameters = params.parameters.map(p => new ScenarioParameter(p));
     this.translations = params.translations.map(t => new ScenarioTranslation(t));
   }
 }
@@ -86,7 +86,7 @@ export interface ScenarioOrganisationDetailsDTO extends ScenarioOrganisationInfo
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
-  scenarioParameters: ScenarioParameterDTO[];
+  parameters: ScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
 
@@ -117,7 +117,7 @@ export interface CreateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
-  scenarioParameters: CreateScenarioParameterDTO[];
+  parameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
 
@@ -148,6 +148,6 @@ export interface UpdateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
-  scenarioParameters: CreateScenarioParameterDTO[];
+  parameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
