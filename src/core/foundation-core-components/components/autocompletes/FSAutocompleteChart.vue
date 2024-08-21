@@ -67,6 +67,7 @@
         @click="props.toggle(props.item)"
       >
         <template
+          v-if="props.item.type"
           #append
         >
           <FSChip

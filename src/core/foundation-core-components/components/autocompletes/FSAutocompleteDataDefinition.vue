@@ -54,10 +54,10 @@
         @click="props.toggle(props.item)"
       >
         <template
+          v-if="props.item.unit"
           #prepend
         >
           <FSChip
-            v-if="props.item.unit"
             :label="props.item.unit"
           />
         </template>
