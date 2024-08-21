@@ -20,7 +20,7 @@ export class ScenarioOrganisationTypeInfos {
   code: string;
   icon: string;
   tags: string[];
-  scenarioParameters: ScenarioParameter[];
+  parameters: ScenarioParameter[];
 
   constructor(params: ScenarioOrganisationTypeInfosDTO) {
     this.id = params.id;
@@ -39,7 +39,7 @@ export class ScenarioOrganisationTypeInfos {
     this.code = params.code;
     this.icon = params.icon;
     this.tags = params.tags.slice();
-    this.scenarioParameters = params.scenarioParameters.map(p => new ScenarioParameter(p));
+    this.parameters = params.parameters.map(p => new ScenarioParameter(p));
   }
 }
 
@@ -60,7 +60,7 @@ export interface ScenarioOrganisationTypeInfosDTO {
   code: string;
   icon: string;
   tags: string[];
-  scenarioParameters: ScenarioParameterDTO[];
+  parameters: ScenarioParameterDTO[];
 }
 
 export interface ScenarioOrganisationTypeFilters {
