@@ -1,5 +1,7 @@
 <template>
-  <FSRow>
+  <FSRow
+    class="fs-magic-config-field"
+  >
     <component
       class="fs-magic-config-field-value"
       :is="get($props.type)"
@@ -107,7 +109,7 @@ export default defineComponent({
     });
 
     const valueToInput = computed((): any => {
-      if (props.modelValue == null) {
+      if (!props.modelValue) {
         return null;
       }
 
@@ -129,8 +131,7 @@ export default defineComponent({
     });
 
     const inputToValue = (value: any) => {
-
-      if (value == null) {
+      if (!value) {
         emit("update:modelValue", null);
       }
 
