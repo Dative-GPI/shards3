@@ -6,9 +6,10 @@ export enum DashboardType {
 }
 
 export enum DashboardVariableType {
-  Number   = 0,
-  String   = 1,
-  TimeStep = 2
+  None     = 0,
+  Number   = 1,
+  String   = 2,
+  TimeStep = 3
 }
 
 export enum AutoRefresh {
