@@ -44,7 +44,7 @@
 <script lang="ts">
 import { ref, defineComponent, computed } from "vue";
 
-import { ColorEnum } from "@/shared/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSelectDays from "../../selects/FSSelectDays.vue";
 import FSRadioGroup from "../../FSRadioGroup.vue";
