@@ -81,7 +81,7 @@
             v-model="search"
           />
           <FSFadeOut
-            :height="height"
+            :maxHeight="maxHeight"
           >
             <FSCol
               v-if="$props.multiple"
@@ -515,7 +515,7 @@ export default defineComponent({
       });
     });
 
-    const height = computed(() => {
+    const maxHeight = computed(() => {
       const other = 8 + 8                // Paddings
         + (isMobileSized ? 36 : 40) + 8; // Header
       return `calc(100vh - 40px - ${other}px)`;
@@ -625,10 +625,10 @@ export default defineComponent({
       validateOn,
       ColorEnum,
       listStyle,
+      maxHeight,
       messages,
       classes,
       dialog,
-      height,
       search,
       slots,
       style,

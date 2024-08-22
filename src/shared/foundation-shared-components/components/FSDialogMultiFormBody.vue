@@ -14,8 +14,8 @@
         gap="24px"
       >
         <FSFadeOut
-          :height="height"
           padding="0 8px 0 0"
+          :maxHeight="maxHeight"
         >
           <slot
             :name="`step-${step}`"
@@ -167,7 +167,7 @@ export default defineComponent({
     const valid = ref(false);
     const valids = ref(Array.from({ length: props.steps }, () => false));
 
-    const height = computed(() => {
+    const maxHeight = computed(() => {
       const other = 24 + 24                                          // Paddings
         + (isMobileSized.value ? 24 : 32) + 24                       // Title
         + (props.subtitle ? (isMobileSized.value ? 14 : 16) + 8 : 0) // Subtitle
@@ -220,7 +220,7 @@ export default defineComponent({
       nextButtonLabel,
       currentStep,
       ColorEnum,
-      height,
+      maxHeight,
       valids,
       valid,
       onPrevious,
