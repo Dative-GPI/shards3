@@ -7,10 +7,10 @@
       #activator="{ props }"
     >
       <FSChip
+        prependIcon="mdi-filter-variant"
         class="fs-filter-button"
         variant="standard"
-        prependIcon="mdi-filter-variant"
-        :height="[30, 24]"
+        :height="['30px', '24px']"
         :color="ColorEnum.Dark"
         :editable="true"
         :label="label"
@@ -23,12 +23,12 @@
       :border="false"
     >
       <FSCol
-        gap="12px"
         padding="16px 0 24px 16px"
+        gap="12px"
       >
         <FSCol
-          gap="12px"
           padding="0 16px 0 0"
+          gap="12px"
         >
           <FSSpan
             font="text-overline"
@@ -37,11 +37,11 @@
           </FSSpan>
           <FSChip
             class="fs-filter-button-chip"
-            :height="[30, 24]"
-            :editable="true"
-            :color="$props.color"
-            :variant="getAllVariant()"
             :label="$tr('ui.data-table.all-values', 'All values')"
+            :height="['30px', '24px']"
+            :variant="getAllVariant()"
+            :color="$props.color"
+            :editable="true"
             @click="onToggleAll"
           />
           <FSDivider
@@ -55,7 +55,7 @@
         </FSCol>
         <FSFadeOut
           padding="0 8px 0 0"
-          height="360px"
+          maxHeight="360px"
         >
           <FSCol
             gap="6px"
@@ -63,12 +63,12 @@
             <FSChip
               v-for="(filter, index) in searchedFilters"
               class="fs-filter-button-chip"
-              :height="[30, 24]"
-              :key="index"
-              :editable="true"
-              :label="filter.text"
-              :color="$props.color"
               :variant="getVariant(filter)"
+              :height="['30px', '24px']"
+              :color="$props.color"
+              :label="filter.text"
+              :editable="true"
+              :key="index"
               @click="() => onToggle(filter)"
             >
               <template
@@ -89,8 +89,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, ref } from "vue";
 
-import type { ColorBase, FSDataTableColumn, FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum, type FSDataTableColumn, type FSDataTableFilter } from "@dative-gpi/foundation-shared-components/models";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
 import FSSearchField from "../fields/FSSearchField.vue";
@@ -195,15 +194,15 @@ export default defineComponent({
 
     return {
       searchedFilters,
+      singlePick,
       ColorEnum,
       expanded,
       search,
       label,
-      singlePick,
-      getVariant,
       getAllVariant,
-      onToggle,
-      onToggleAll
+      onToggleAll,
+      getVariant,
+      onToggle
     };
   }
 });

@@ -11,8 +11,8 @@
       #body
     >
       <FSFadeOut
-        :height="height"
         padding="0 8px 0 0"
+        :maxHeight="maxHeight"
       >
         <slot
           name="body"
@@ -167,7 +167,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
-    const height = computed(() => {
+    const maxHeight = computed(() => {
       const other = 24 + 24                                          // Paddings
         + (isMobileSized.value ? 24 : 32) + 24                       // Title
         + (props.subtitle ? (isMobileSized.value ? 14 : 16) + 8 : 0) // Subtitle
@@ -187,7 +187,7 @@ export default defineComponent({
       cancelLabel,
       submitLabel,
       ColorEnum,
-      height
+      maxHeight
     };
   }
 });

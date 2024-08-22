@@ -61,7 +61,7 @@
           #body
         >
           <FSFadeOut
-            :height="height"
+            :maxHeight="maxHeight"
           >
             <FSCol
               v-if="$props.multiple"
@@ -377,7 +377,7 @@ export default defineComponent({
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
-    const height = computed(() => {
+    const maxHeight = computed(() => {
       const other = 8 + 8; // Paddings
       return `calc(100vh - 40px - ${other}px)`;
     });
@@ -477,9 +477,9 @@ export default defineComponent({
       validateOn,
       ColorEnum,
       listStyle,
+      maxHeight,
       messages,
       dialog,
-      height,
       style,
       openMobileOverlay,
       onCheckboxChange,
