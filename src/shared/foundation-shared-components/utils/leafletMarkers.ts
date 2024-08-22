@@ -16,7 +16,7 @@ export const clusterMarkerHtml = (label: string) => {
   return iconHtml;
 }
 
-export const myLocationMarkerHtml = () => {
+export const gpsMarkerHtml = () => {
   const iconHtml = `<div class="fs-map-mylocation-pin" />`;
 
   return iconHtml;

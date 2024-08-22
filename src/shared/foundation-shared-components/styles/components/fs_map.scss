@@ -30,6 +30,34 @@
     transition: height 0.28s;
   }
 
+  .fs-map-layer-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 12px;
+  }
+
+  .fs-map-control-buttons {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 12px;
+
+    .fs-map-zoom-plus-button > * {
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+
+      border-bottom: 0px !important;
+    }
+
+    .fs-map-zoom-minus-button > * {
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+
+      border-top: 0px !important;
+    }
+  }
+
   .fs-map-overlay-edit-button {
     position: absolute;
     top: 0;
@@ -45,36 +73,6 @@
     margin: 4px 8px;
   }
 
-  .fs-map-overlay-right-bottom {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 1000;
-    margin: 4px 8px;
-    width: calc(100% - 16px);
-
-
-    .fs-map-zoom-overlay {
-      position: absolute;
-      bottom: 100%;
-      right: 0;
-      z-index: 1001;
-      margin-bottom: calc(var(--fs-map-leaflet-bottom-overlay-margin) + 8px);
-
-      button.fs-map-zoom-plus > * {
-        border-bottom-left-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-      }
-
-      button.fs-map-zoom-minus > * {
-        margin-top: 1px;
-        border-top-left-radius: 0 !important;
-        border-top-right-radius: 0 !important;
-
-        border-top: solid 1px var(--fs-card-border-color) !important;
-      }
-    }
-  }
 
   .fs-map-mylocation {
     border: 3px solid white;

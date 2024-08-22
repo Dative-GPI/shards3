@@ -3,6 +3,7 @@
     v-if="$props.href"
     :href="$props.href"
     :style="style"
+    :class="$props.class"
     @mouseover="hover = true"
     @mouseleave="hover = false"
     @mousedown="active = true"
@@ -44,6 +45,7 @@
     v-else-if="$props.to"
     :style="style"
     :to="$props.to"
+    :class="$props.class"
     @mouseover="hover = true"
     @mouseleave="hover = false"
     @mousedown="active = true"
@@ -85,6 +87,7 @@
     v-else
     :type="$props.type"
     :style="style"
+    :class="$props.class"
     @click.stop="onClick"
     @mouseover="hover = true"
     @mouseleave="hover = false"
@@ -115,6 +118,7 @@
       v-if="$props.load"
     >
       <v-progress-circular
+        :class="$props.class"
         class="fs-clickable-load"
         width="2"
         size="24"
@@ -155,6 +159,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "0"
+    },
+    class: {
+      type: [String, Array] as PropType<string | string[] | null>,
+      required: false,
+      default: null
     },
     to: {
       type: [String, Object] as PropType<string | RouteLocation | null>,
