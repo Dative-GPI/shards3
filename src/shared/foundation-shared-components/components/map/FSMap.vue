@@ -1,128 +1,120 @@
 <template>
   <FSCard
+    class="fs-map"
     :width="$props.width"
+    :height="$props.height"
     :style="style"
     v-bind="$attrs"
   >
-    <FSCol
-      v-if="L"
-      width="fill"
-      :class="['fs-map', { 'fs-map-fullscreen': fullScreen }]"
-    >
-      <FSMapOverlay
-        v-if="$slots['leftoverlay-header'] || $slots['leftoverlay-body']"
-        :mode="$props.overlayMode"
-        :height="$props.height"
-        :mapId="mapId"
-        @update:mode="$emit('update:overlayMode', $event)"
-      >
-        <template
-          v-slot:leftoverlay-header
-        >
-          <slot
-            name="leftoverlay-header"
-          />
-        </template>
-        <template
-          v-slot:leftoverlay-body
-        >
-          <slot
-            name="leftoverlay-body"
-          />
-        </template>
-      </FSMapOverlay>
-      <FSRow
-        v-if="$props.editable && !editingLocation && $props.selectedLocationId !== null"
-        class="fs-map-overlay-edit-button"
-      >
-        <FSButton
-          prependIcon="mdi-pencil-outline"
-          :label="$tr('ui.map.modify', 'Modify')"
-          @click="editingLocation = true"
-        />
-      </FSRow>
-      <FSCol>
-        <div
-          class="fs-leaflet-container"
-          :id="mapId"
-        />
-      </FSCol>
-      <FSCol
-        class="fs-map-overlay-right-top"
-        align="center-center"
-      >
-        <slot
-          name="toprightoverlay"
-        >
-          <FSRow
-            gap="2px"
-          >
-            <FSMapLayerButton
-              v-if="$props.selectableLayers?.length && $props.selectableLayers.length > 1"
-              :layers="mapLayers.filter((layer) => $props.selectableLayers?.includes(layer.name) ?? true)"
-              v-model="innerSelectedLayer"
-            />
-            <FSButton
-              v-if="$props.showFullScreen"
-              prependIcon="mdi-fullscreen"
-              padding="0 7px"
-              :elevation="true"
-              @click="fullScreen = !fullScreen"
-            />
-          </FSRow>
-        </slot>
-      </FSCol>
-      <FSCol
-        class="fs-map-overlay-right-bottom"
-        align="center-center"
-      >
-        <slot
-          name="bottomrightoverlay"
-        >
-          <FSCol
-            class="fs-map-zoom-overlay"
-            align="bottom-center"
-            width="hug"
-          >
-            <FSButton
-              v-if="$props.showMyLocation"
-              prependIcon="mdi-crosshairs-gps"
-              padding="0 7px"
-              color="primary"
-              variant="full"
-              :elevation="true"
-              @click="locate"
-            />
-            <FSCol
-              v-if="$props.showZoomButtons"
-              gap="0"
-            >
 
-              <FSButton
-                prependIcon="mdi-plus"
-                padding="0 7px"
-                :elevation="true"
-                @click="zoomIn"
-              />
-              <FSButton
-                prependIcon="mdi-minus"
-                padding="0 7px"
-                :elevation="true"
-                @click="zoomOut"
-              />
-            </FSCol>
-          </FSCol>
-        </slot>
-        <FSMapEditPointAddressOverlay
-          v-if="editingLocation"
-          :label="$tr('ui.map.address', 'Address')"
-          :modelValue="(innerModelValue.find((loc) => loc.id === $props.selectedLocationId))?.address"
-          @update:locationCoordinates="($event: Address) => onNewCoordEntered($event.latitude, $event.longitude)"
-          @update:modelValue="($event: Address) => onNewAddressEntered($event)"
-          @cancel="onCancel"
-          @submit="onSubmit"
+    <div
+      class="fs-leaflet-container"
+      :id="mapId"
+    >
+    </div>
+
+    <FSMapOverlay
+      v-if="$slots['overlay']"
+      :mode="$props.overlayMode"
+      :mapId="mapId"
+      @update:mode="$emit('update:overlayMode', $event)"
+    >
+      <template
+        #body
+      >
+        <slot
+          name="overlay"
         />
-      </FSCol>
+      </template>
+    </FSMapOverlay>
+    
+    <FSRow
+      v-if="$props.editable && !editingLocation && $props.selectedLocationId !== null"
+      class="fs-map-overlay-edit-button"
+    >
+      <FSButton
+        prependIcon="mdi-pencil-outline"
+        :label="$tr('ui.map.modify', 'Modify')"
+        @click="editingLocation = true"
+      />
+    </FSRow>
+    <FSCol>
+    </FSCol>
+    <FSCol
+      class="fs-map-overlay-right-top"
+      align="center-center"
+    >
+      <slot
+        name="toprightoverlay"
+      >
+        <FSRow
+          gap="2px"
+        >
+          <FSMapLayerButton
+            v-if="$props.selectableLayers?.length && $props.selectableLayers.length > 1"
+            :layers="mapLayers.filter((layer) => $props.selectableLayers?.includes(layer.name) ?? true)"
+            v-model="innerSelectedLayer"
+          />
+          <FSButton
+            v-if="$props.showFullScreen"
+            prependIcon="mdi-fullscreen"
+            padding="0 7px"
+            :elevation="true"
+            @click="fullScreen = !fullScreen"
+          />
+        </FSRow>
+      </slot>
+    </FSCol>
+    <FSCol
+      class="fs-map-overlay-right-bottom"
+      align="center-center"
+    >
+      <slot
+        name="bottomrightoverlay"
+      >
+        <FSCol
+          class="fs-map-zoom-overlay"
+          align="bottom-center"
+          width="hug"
+        >
+          <FSButton
+            v-if="$props.showMyLocation"
+            prependIcon="mdi-crosshairs-gps"
+            padding="0 7px"
+            color="primary"
+            variant="full"
+            :elevation="true"
+            @click="locate"
+          />
+          <FSCol
+            v-if="$props.showZoomButtons"
+            gap="0"
+          >
+
+            <FSButton
+              prependIcon="mdi-plus"
+              padding="0 7px"
+              :elevation="true"
+              @click="zoomIn"
+            />
+            <FSButton
+              prependIcon="mdi-minus"
+              padding="0 7px"
+              :elevation="true"
+              @click="zoomOut"
+            />
+          </FSCol>
+        </FSCol>
+      </slot>
+      <FSMapEditPointAddressOverlay
+        v-if="editingLocation"
+        :label="$tr('ui.map.address', 'Address')"
+        :modelValue="(innerModelValue.find((loc) => loc.id === $props.selectedLocationId))?.address"
+        @update:locationCoordinates="($event: Address) => onNewCoordEntered($event.latitude, $event.longitude)"
+        @update:modelValue="($event: Address) => onNewAddressEntered($event)"
+        @cancel="onCancel"
+        @submit="onSubmit"
+      />
     </FSCol>
   </FSCard>
 </template>
@@ -311,7 +303,7 @@ export default defineComponent({
       "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
       "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
       "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
-      "--fs-map-leaflet-container-height": props.height as string,
+      // "--fs-map-leaflet-container-height": props.height as string,
       "--fs-map-leaflet-bottom-overlay-margin": `${bottomMargin.value}px`,
       "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
     }));

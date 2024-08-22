@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
 import type { FSLocation } from '@dative-gpi/foundation-shared-components/models';
+import FSFadeOut from '@dative-gpi/foundation-shared-components/components/FSFadeOut.vue';
+import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
+import FSRow from '@dative-gpi/foundation-shared-components/components/FSRow.vue';
 
 const meta = {
   title: 'Foundation/Shared/Map',
@@ -102,7 +105,7 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSMap },
+    components: { FSMap, FSRow, FSCol, FSFadeOut },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -112,8 +115,12 @@ export const Variations: Story = {
       <FSMap
         v-model:overlayMode="args.overlayMode1"
       >
-        <template v-slot:leftoverlay-body >
-          Test
+        <template v-slot:overlay >
+          <FSRow>
+            <span>I am a fixed header of the left overlay</span>
+          </FSRow>
+          <FSCol height="hug">
+          </FSCol>
         </template>
       </FSMap>
       <FSMap
@@ -124,30 +131,34 @@ export const Variations: Story = {
         height="600px"
         v-model:selectedLocationId="args.selectedLocationId3"
       >
-        <template v-slot:leftoverlay-header >
-          <span>I am a fixed header of the left overlay</span>
-        </template>
-        <template v-slot:leftoverlay-body >
-          <div style="background-color:white; padding:8px;boredr-radius:4px; display: flex; flex-direction: column; gap: 10px;">
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-            <span>Left overlay</span>
-          </div>
+        <template v-slot:overlay>
+          <FSRow>
+            <span>I am a fixed header of the left overlay</span>
+          </FSRow>
+          <FSCol height="hug" style="min-height: 0;">
+            <FSFadeOut height="100%">
+                <div style="background-color:white; padding:8px;boredr-radius:4px; display: flex; flex-direction: column; gap: 10px;">
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                </div>
+            </FSFadeOut>
+          </FSCol>
         </template>
       </FSMap>
       <FSMap
