@@ -17,15 +17,22 @@
           :layer="actualLayer"
         />
         <FSMapMarker 
+          v-if="gpsPosition"
           variant="gps"
           :color="ColorEnum.Primary"
           :latlng="gpsPosition"
         />
   
-        <FSMapFeatureGroup>
+        <FSMapFeatureGroup
+          v-if="$props.areas"
+          :expected-layers="$props.areas.length"
+        >
           <FSMapPolygon
             v-for="area in areas"
             :key="area.id"
+            :color="area.color"
+            :latlngs="area.coordinates.map((coord) => ({lat: coord.latitude, lng: coord.longitude}))"
+            @click="$emit('update:selectedAreaId', area.id)"
           />
         </FSMapFeatureGroup>
   
@@ -33,17 +40,15 @@
           v-if="$props.locations"
           :expected-layers="$props.locations.length"
         >
-          <template
+          <FSMapMarker
             v-for="location in $props.locations"
-          >
-            <FSMapMarker
-              v-if="location.address"
-              :key="location.id"
-              :color="location.color"
-              :icon="location.icon"
-              :latlng="{lat: location.address.latitude, lng: location.address.longitude}"
-            />
-          </template>
+            :selected="location.id === $props.selectedLocationId"
+            :key="location.id"
+            :color="location.color"
+            :icon="location.icon"
+            :latlng="{lat: location.address.latitude, lng: location.address.longitude}"
+            @click="$emit('update:selectedLocationId', location.id)"
+          />
         </FSMapMarkerClusterGroup>
       </template>
     </div>
@@ -107,7 +112,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue } from "vue";
+import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch } from "vue";
 
 import type {} from "leaflet.markercluster";
 import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng } from "leaflet";
@@ -128,6 +133,7 @@ import FSMapMarker from "./FSMapMarker.vue";
 import FSMapTileLayer from "./FSMapTileLayer.vue";
 import FSMapFeatureGroup from "./FSMapFeatureGroup.vue";
 import FSMapMarkerClusterGroup from "./FSMapMarkerClusterGroup.vue";
+import FSMapPolygon from "./FSMapPolygon.vue";
 
 export default defineComponent({
   name: "FSMap",
@@ -136,6 +142,7 @@ export default defineComponent({
     FSMapTileLayer,
     FSMapFeatureGroup,
     FSMapMarkerClusterGroup,
+    FSMapPolygon,
 
     FSMapLayerButton,
     FSMapOverlay,
@@ -215,8 +222,8 @@ export default defineComponent({
       default: null
     }
   },
-  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId", 'update:overlayMode', 'update:currentLayer'],
-  setup(props) {
+  emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId", 'update:overlayMode', 'update:currentLayer', "click:latlng"],
+  setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();
 
@@ -277,6 +284,10 @@ export default defineComponent({
 
       map.value = createMap(leafletContainer.value, mapOptions)
         .setView([props.center[0], props.center[1]], defaultZoom);
+      
+      map.value.on('click', (e: L.LeafletMouseEvent) => {
+        emit('click:latlng', e.latlng);
+      });
 
       map.value.attributionControl.remove();
       // to display google attribution in bottom left corner
@@ -296,6 +307,24 @@ export default defineComponent({
         map.value.panTo(e.latlng);
       });
     });
+
+    watch (() => props.center, (center) => {
+      if(!map.value) {
+        return;
+      }
+      map.value.setView([center[0], center[1]], defaultZoom);
+    });
+
+    watch (() => props.selectedLocationId, (selectedLocationId) => {
+      if(!map.value) {
+        return;
+      }
+      const selectedLocation = props.locations.find((location) => location.id === selectedLocationId);
+      if(!selectedLocation) {
+        return;
+      }
+      map.value.panTo(latLng(selectedLocation?.address.latitude, selectedLocation?.address.longitude));
+    }, { immediate: true });
 
     return {
       ColorEnum,

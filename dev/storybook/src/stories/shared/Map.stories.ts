@@ -5,6 +5,7 @@ import type { FSLocation } from '@dative-gpi/foundation-shared-components/models
 import FSFadeOut from '@dative-gpi/foundation-shared-components/components/FSFadeOut.vue';
 import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
 import FSRow from '@dative-gpi/foundation-shared-components/components/FSRow.vue';
+import type { FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
 const meta = {
   title: 'Foundation/Shared/Map',
@@ -83,6 +84,19 @@ const location4: FSLocation = {
   }
 }
 
+const area1: FSArea = {
+  id: 'area1',
+  color: 'error',
+  coordinates: [
+    { latitude: 45.799455, longitude: 4.886445 },
+    { latitude: 45.904229, longitude: 5.193776 },
+    { latitude: 45.582651, longitude: 5.308631 },
+    { latitude: 45.476594, longitude: 5.001300 },
+    { latitude: 45.836335, longitude: 4.754118 },
+
+  ]
+}
+
 export const Variations: Story = {
   args: {
     args: {
@@ -103,7 +117,8 @@ export const Variations: Story = {
       overlayMode1: 'collapse',
       overlayMode2: 'half',
       currentLayer1: 'map',
-      currentLayer2: 'imagery'
+      currentLayer2: 'imagery',
+      areas1: [area1]
     }
   },
   render: (args, { argTypes }) => ({
@@ -117,6 +132,7 @@ export const Variations: Story = {
       <FSMap
         v-model:overlayMode="args.overlayMode1"
         v-model:currentLayer="args.currentLayer1"
+        v-model:selectedLocationId="args.selectedLocationId1"
         :locations="args.locations3"
       >
         <template v-slot:overlay >
@@ -133,6 +149,7 @@ export const Variations: Story = {
         v-model:currentLayer="args.currentLayer2"
         height="600px"
         v-model:selectedLocationId="args.selectedLocationId3"
+        :areas="args.areas1"
       >
         <template v-slot:overlay>
           <FSRow>
@@ -180,7 +197,7 @@ export const Variations: Story = {
         :grayscale="true"
         :showMyLocation="false"
         :showZoomButtons="false"
-        v-model:selectedLocationId="args.selectedLocationId2"
+        :selectedLocationId="args.selectedLocationId2"
       />
     </div>`,
   })

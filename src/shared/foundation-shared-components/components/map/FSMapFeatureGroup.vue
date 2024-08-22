@@ -1,13 +1,25 @@
+<template>
+  <slot />
+</template>
+
 <script lang="ts">
-import { inject, ref, type Ref } from 'vue';
+import { inject, provide, ref, type Ref } from 'vue';
 
 import { type Map, FeatureGroup } from 'leaflet';
 
 export default {
   name: 'FSMapFeatureGroup',
-  setup() {
+  props: {
+    expectedLayers: {
+      type: Number,
+      default: 0,
+      required: false
+    }
+  },
+  setup(props, { emit }) {
     const map = inject<Ref<Map | null>>('map');
-
+    let added = false;
+    
     if(!map) {
       throw new Error('FSMapFeatureGroup must be used inside a FSMap component');
     }
@@ -16,9 +28,25 @@ export default {
       throw new Error('FSMapFeatureGroup must be used inside a FSMap component with a map');
     }
 
-    const featureGroup = ref<FeatureGroup | null>(new FeatureGroup());
+    const featureGroup = ref<FeatureGroup>(new FeatureGroup());
 
-    inject('featureGroup', featureGroup);
+    provide('featureGroup', featureGroup);
+
+    featureGroup.value.on("layeradd", () => {
+      if(!map.value) {
+        return;
+      }
+
+      const layers = featureGroup.value.getLayers();
+
+      if(layers.length === props.expectedLayers) {
+        if(!added){
+          featureGroup.value.addTo(map.value);
+          added = true;
+        }
+        emit("update:bounds", featureGroup.value.getBounds());
+      }
+    });
   }
 };
 </script>

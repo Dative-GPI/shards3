@@ -1,3 +1,7 @@
+<template>
+  <slot />
+</template>
+
 <script lang="ts">
 import { inject, type PropType, onMounted, type Ref, watch, ref } from 'vue';
 
@@ -6,6 +10,7 @@ import { type Map, type DivIcon, divIcon, type LatLng, marker, type Marker, type
 import { useColors } from "../../composables";
 
 import { gpsMarkerHtml, locationMarkerHtml } from '../../utils/leafletMarkers';
+import type { Layer } from 'leaflet';
 
 export default {
   name: 'FSMapMarker',
@@ -27,11 +32,17 @@ export default {
     icon: {
       type: String,
       required: false
+    },
+    selected: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit }) {
     const map = inject<Ref<Map | null>>('map');
-    const markerClusterGroup = inject<Ref<MarkerClusterGroup | null>>('markerClusterGroup');
+    const markerClusterGroup = inject<Ref<MarkerClusterGroup | null>>('markerClusterGroup', ref(null));
 
     const { getColors } = useColors();
 
@@ -51,7 +62,11 @@ export default {
       }
 
       if(lastMarker.value) {
-        lastMarker.value.remove();
+        if(markerClusterGroup && markerClusterGroup.value) {
+          markerClusterGroup.value.removeLayer(lastMarker.value);
+        } else {
+          map.value.removeLayer(lastMarker.value as Layer);
+        }
       }
 
       let icon: DivIcon | null = null;
@@ -68,7 +83,7 @@ export default {
         icon = divIcon({
           html: locationMarkerHtml(props.icon, getColors(props.color).base),
           iconSize: [size, size],
-          className: 'fs-map-location',
+          className: props.selected ? 'fs-map-location fs-map-location-selected' : 'fs-map-location',
           iconAnchor: [size / 2, size / 2],
         });
       }
@@ -78,19 +93,20 @@ export default {
       }
       
       lastMarker.value = marker(props.latlng, { icon });
+      lastMarker.value.on('click', (e) => {
+        emit('click', e);
+      });
 
       if(markerClusterGroup && markerClusterGroup.value) {
-        console.log("cluster")
         lastMarker.value.addTo(markerClusterGroup.value);
       } else {
-        console.log("map")
         lastMarker.value.addTo(map.value);
       }
     };
 
     onMounted(updateMarker);
 
-    watch(() => [props.variant, props.color, props.latlng], updateMarker);
+    watch(() => [props.variant, props.color, props.latlng, props.selected], updateMarker);
   }
 };
 </script>

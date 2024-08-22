@@ -1,3 +1,7 @@
+<template>
+  <slot />
+</template>
+
 <script lang="ts">
 import { inject, type PropType, onMounted, type Ref, watch } from 'vue';
 
