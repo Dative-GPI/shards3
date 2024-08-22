@@ -4,10 +4,12 @@
 
     @include web {
         height: 48px !important;
+        max-height: 48px;
     }
 
     @include mobile {
         height: 40px !important;
+        max-height: 40px;
     }
 }
 
@@ -30,10 +32,12 @@
 
     @include web {
         height: 48px !important;
+        max-height: 48px;
     }
 
     @include mobile {
         height: 40px !important;
+        max-height: 40px;
     }
 }
 

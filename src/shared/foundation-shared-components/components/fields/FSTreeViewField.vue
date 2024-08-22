@@ -57,7 +57,7 @@
             #body
           >
             <FSFadeOut
-              :height="height"
+              :maxHeight="maxHeight"
             >
               <v-treeview
                 :itemTitle="$props.itemTitle"
@@ -381,7 +381,7 @@ export default defineComponent({
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
-    const height = computed(() => {
+    const maxHeight = computed(() => {
       const other = 8 + 8; // Paddings
       return `calc(100vh - 40px - ${other}px)`;
     });
@@ -501,11 +501,11 @@ export default defineComponent({
       innerValue,
       fieldSlots,
       validateOn,
+      maxHeight,
       menuSlots,
       treeItems,
       messages,
       dialog,
-      height,
       style,
       menu,
       openMobileOverlay,

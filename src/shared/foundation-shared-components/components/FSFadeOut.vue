@@ -22,8 +22,14 @@ export default defineComponent({
   name: "FSFadeOut",
   props: {
     height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: true
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null | undefined>,
+      required: false,
+      default: undefined
+    },
+    maxHeight: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null | undefined>,
+      required: false,
+      default: undefined
     },
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
@@ -59,7 +65,8 @@ export default defineComponent({
     const elementId = `id${uuidv4()}`;
 
     const style = computed((): StyleValue => ({
-      "--fs-fade-out-height"            : sizeToVar(props.height),
+      "--fs-fade-out-height"            : props.height ? sizeToVar(props.height) : undefined,
+      "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : undefined,
       "--fs-fade-out-width"             : sizeToVar(props.width),
       "--fs-fade-out-padding"           : sizeToVar(props.padding),
       "--fs-fade-out-mask-color"        : backgrounds.base,
