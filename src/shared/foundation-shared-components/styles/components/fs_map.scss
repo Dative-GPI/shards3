@@ -77,6 +77,11 @@
     }
   }
 
+  .fs-map-point-pin {
+    background-color: var(--fs-map-point-pin-color);
+    border-radius: 100%;
+  }
+
   .fs-map-location > div {
     display: flex;
     height: 100%;
@@ -106,11 +111,11 @@
 
     @keyframes fs-map-shadow-location {
       0% {
-        box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
+        box-shadow: 0 0 0px 0px var(--fs-map-location-pin-color-alpha);
       }
 
       50% {
-        box-shadow: 0 0 0px 7px var(--fs-map-mylocation-pin-color-alpha);
+        box-shadow: 0 0 0px 7px var(--fs-map-location-pin-color-alpha);
       }
 
       100% {

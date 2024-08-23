@@ -18,7 +18,10 @@
       :elevation="true"
       :border="false"
     >
-      <FSCol height="100%" gap="0px">
+      <FSCol
+        height="100%"
+        gap="0px"
+      >
         <FSRow
           align="center-center"
           @touchstart="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
@@ -29,8 +32,14 @@
             @click="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
           />
         </FSRow>
-        <FSCol v-if="$props.mode !== 'collapse'" height="fill" style="min-height: 0;">
-          <slot name="body" />
+        <FSCol
+          v-if="$props.mode !== 'collapse'"
+          height="fill"
+          style="min-height: 0;"
+        >
+          <slot
+            name="body"
+          />
         </FSCol>
       </FSCol>
     </FSCard>
@@ -43,8 +52,12 @@
     :elevation="true"
     :border="false"
   >
-    <FSCol height="fill">
-      <slot name="body" />
+    <FSCol
+      height="fill"
+    >
+      <slot
+        name="body"
+      />
     </FSCol>
   </FSCard>
 </template>

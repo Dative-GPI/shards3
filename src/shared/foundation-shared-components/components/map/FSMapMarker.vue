@@ -5,12 +5,11 @@
 <script lang="ts">
 import { inject, type PropType, onMounted, type Ref, watch, ref } from 'vue';
 
-import { type Map, type DivIcon, divIcon, type LatLng, marker, type Marker, type MarkerClusterGroup } from 'leaflet';
+import { type Map, type DivIcon, divIcon, type LatLng, marker, type Marker, type MarkerClusterGroup, type Layer } from 'leaflet';
 
 import { useColors } from "../../composables";
 
-import { gpsMarkerHtml, locationMarkerHtml } from '../../utils/leafletMarkers';
-import type { Layer } from 'leaflet';
+import { gpsMarkerHtml, locationMarkerHtml, pinMarkerHtml } from '../../utils/leafletMarkers';
 import { INJECTION_FSMAP_MAP, INJECTION_FSMAP_MARKERCLUSTERGROUP } from './keys';
 
 export default {
@@ -87,10 +86,14 @@ export default {
           className: props.selected ? 'fs-map-location fs-map-location-selected' : 'fs-map-location',
           iconAnchor: [size / 2, size / 2],
         });
-      }
-      
-      if(!icon) {
-        return;
+      } else {
+        const size = 20;
+        icon = divIcon({
+          html: pinMarkerHtml(getColors(props.color).base),
+          iconSize: [size, size],
+          className: props.selected ? 'fs-map-location fs-map-location-selected' : 'fs-map-location',
+          iconAnchor: [size / 2, size / 2],
+        });
       }
       
       lastMarker.value = marker(props.latlng, { icon });
