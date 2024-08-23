@@ -11,6 +11,7 @@ import { useColors } from "../../composables";
 
 import { gpsMarkerHtml, locationMarkerHtml } from '../../utils/leafletMarkers';
 import type { Layer } from 'leaflet';
+import { INJECTION_FSMAP_MAP, INJECTION_FSMAP_MARKERCLUSTERGROUP } from './keys';
 
 export default {
   name: 'FSMapMarker',
@@ -41,8 +42,8 @@ export default {
   },
   emits: ['click'],
   setup(props, { emit }) {
-    const map = inject<Ref<Map | null>>('map');
-    const markerClusterGroup = inject<Ref<MarkerClusterGroup | null>>('markerClusterGroup', ref(null));
+    const map = inject<Ref<Map | null>>(INJECTION_FSMAP_MAP);
+    const markerClusterGroup = inject<Ref<MarkerClusterGroup | null>>(INJECTION_FSMAP_MARKERCLUSTERGROUP, ref(null));
 
     const { getColors } = useColors();
 

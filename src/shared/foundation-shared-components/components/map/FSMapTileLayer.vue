@@ -7,6 +7,8 @@ import { inject, type PropType, onMounted, type Ref, watch } from 'vue';
 
 import type { Map, Layer } from 'leaflet';
 
+import { INJECTION_FSMAP_MAP } from './keys';
+
 export default {
   name: 'FSMapTileLayer',
   props: {
@@ -16,7 +18,7 @@ export default {
     }
   },
   setup(props) {
-    const map = inject<Ref<Map | null>>('map');
+    const map = inject<Ref<Map | null>>(INJECTION_FSMAP_MAP);
 
     const lastLayer = props.layer;
 

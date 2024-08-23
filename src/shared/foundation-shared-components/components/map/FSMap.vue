@@ -119,7 +119,7 @@
 import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch } from "vue";
 
 import type {} from "leaflet.markercluster";
-import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, type LatLngBounds } from "leaflet";
+import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, LatLngBounds, type FitBoundsOptions } from "leaflet";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type FSArea } from '@dative-gpi/foundation-shared-domain/models';
@@ -267,20 +267,18 @@ export default defineComponent({
       }
     ];
 
-    const bottomMargin = computed(() => {
-      let margin = 0;
+    const bottomOffset = computed(() => {
       if (props.overlayMode !== 'expand' && overlayHeight.value && isExtraSmall.value) {
-        margin += overlayHeight.value;
+        return overlayHeight.value;
       }
-      return margin;
+      return 0;
     });
 
-    const leftMargin = computed(() => {
-      let margin = 0;
+    const leftOffset = computed(() => {
       if (overlayWidth.value && !isExtraSmall.value) {
-        margin += overlayWidth.value;
+        return overlayWidth.value;
       }
-      return margin;
+      return 0;
     });
 
     const style = computed((): StyleValue => ({
@@ -288,11 +286,24 @@ export default defineComponent({
       "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
       "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
       "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0',
-      "--fs-map-control-buttons-margin-bottom": `${bottomMargin.value}px`,
+      "--fs-map-control-buttons-margin-bottom": `${bottomOffset.value}px`,
     }));
 
     const actualLayer = computed(() => {
       return mapLayers.find((layer) => layer.name === props.currentLayer)?.layer ?? mapLayers[0].layer;
+    });
+
+    const bounds = computed<LatLngBounds | null>(() => {
+      if(!locationGroupBounds.value && !areaGroupBounds.value) {
+        return null;
+      }
+      let bounds = locationGroupBounds.value;
+      if(bounds && areaGroupBounds.value) {
+        bounds.extend(areaGroupBounds.value);
+      } else if(areaGroupBounds.value) {
+        bounds = areaGroupBounds.value;
+      }
+      return bounds as LatLngBounds;
     });
 
     const calculateTargetPosition = (target: L.LatLng) => {
@@ -300,8 +311,33 @@ export default defineComponent({
         return target;
       }
       const zoom = map.value.getZoom();
-      const targetPoint = map.value.project(target, zoom).subtract([leftMargin.value / 2, -bottomMargin.value / 2]);
+      const targetPoint = map.value.project(target, zoom).subtract([leftOffset.value / 2, -bottomOffset.value / 2]);
       return map.value.unproject(targetPoint, zoom);
+    }
+
+    const panTo = (lat: number, lng: number) => {
+      if(!map.value) {
+        return;
+      }
+      map.value.panTo(calculateTargetPosition(latLng(lat, lng)));
+    }
+
+    const setView = (lat: number, lng: number, zoom: number) => {
+      if(!map.value) {
+        return;
+      }
+      map.value.setView(calculateTargetPosition(latLng(lat, lng)), zoom);
+    }
+
+    const fitBounds = (bounds: LatLngBounds, options?: FitBoundsOptions) => {
+      if(!map.value) {
+        return;
+      }
+      const calculatedBounds = new LatLngBounds(
+        calculateTargetPosition(bounds.getSouthWest()),
+        calculateTargetPosition(bounds.getNorthEast())
+      );
+      map.value.fitBounds(calculatedBounds, options);
     }
 
     onMounted(() => {
@@ -318,8 +354,8 @@ export default defineComponent({
         maxBoundsViscosity: 1.0
       };
 
-      map.value = createMap(leafletContainer.value, mapOptions)
-        .setView(calculateTargetPosition(latLng(props.center[0], props.center[1])), defaultZoom);
+      map.value = createMap(leafletContainer.value, mapOptions);
+      setView(props.center[0], props.center[1], defaultZoom);
       
       map.value.on('click', (e: L.LeafletMouseEvent) => {
         emit('click:latlng', e.latlng);
@@ -340,7 +376,7 @@ export default defineComponent({
           return;
         }
 
-        map.value.panTo(calculateTargetPosition(e.latlng));
+        panTo(e.latlng.lat, e.latlng.lng);
       });
     });
 
@@ -348,7 +384,7 @@ export default defineComponent({
       if(!map.value) {
         return;
       }
-      map.value.setView(calculateTargetPosition(latLng(center[0], center[1])), defaultZoom);
+      setView(center[0], center[1], defaultZoom);
     });
 
     watch (() => props.selectedLocationId, (selectedLocationId) => {
@@ -359,7 +395,7 @@ export default defineComponent({
       if(!selectedLocation) {
         return;
       }
-      map.value.panTo(calculateTargetPosition(latLng(selectedLocation?.address.latitude, selectedLocation?.address.longitude)));
+      panTo(selectedLocation?.address.latitude, selectedLocation?.address.longitude);
     }, { immediate: true });
 
     watch(() => props.selectedAreaId, (selectedAreaId) => {
@@ -370,24 +406,15 @@ export default defineComponent({
       if(!selectedArea) {
         return;
       }
-      const bounds = latLngBounds(selectedArea.coordinates.map((coord) => calculateTargetPosition(latLng(coord.latitude, coord.longitude))));
-      map.value.fitBounds(bounds);
+      const bounds = latLngBounds(selectedArea.coordinates.map((coord) => latLng(coord.latitude, coord.longitude)));
+      fitBounds(bounds);
     }, { immediate: true });
 
-    watch( () => [locationGroupBounds.value, areaGroupBounds.value], ([locationBounds, areaBounds]) => {
-      if(!map.value) {
+    watch( () => bounds.value, (bounds) => {
+      if(!map.value || !bounds) {
         return;
       }
-      let bounds = locationBounds;
-      if(bounds && areaBounds) {
-        bounds.extend(areaBounds);
-      } else if(areaBounds) {
-        bounds = areaBounds;
-      }
-      if(!bounds) {
-        return;
-      }
-      map.value.fitBounds(bounds, { maxZoom: defaultZoom });
+      fitBounds(bounds, { maxZoom: defaultZoom });
     });
 
     return {

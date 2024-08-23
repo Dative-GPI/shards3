@@ -6,6 +6,7 @@
 import { inject, provide, ref, type Ref } from 'vue';
 
 import { type Map, FeatureGroup } from 'leaflet';
+import { INJECTION_FSMAP_MAP } from './keys';
 
 export default {
   name: 'FSMapFeatureGroup',
@@ -17,7 +18,7 @@ export default {
     }
   },
   setup(props, { emit }) {
-    const map = inject<Ref<Map | null>>('map');
+    const map = inject<Ref<Map | null>>(INJECTION_FSMAP_MAP);
     let added = false;
     
     if(!map) {

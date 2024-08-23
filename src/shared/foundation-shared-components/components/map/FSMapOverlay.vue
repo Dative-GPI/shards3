@@ -1,44 +1,40 @@
 <template>
   <v-overlay
-    v-show="isExtraSmall"
+    v-if="isExtraSmall"
     :modelValue="$props.mode === 'expand'"
     :contained="true"
     @click="$emit('update:mode', 'collapse')"
     zIndex="0"
   />
-  <FSCard
+  <div
     v-show="isExtraSmall"
+    ref="mobileOverlayWrapper"
     class="fs-map-overlay-mobile"
-    ref="mobileOverlay"
-    :elevation="true"
-    :height="$props.mode === 'expand' ? '90%' : ($props.mode === 'half' ? '50%' : '20px')"
-    :border="false"
+    :style="{ height: $props.mode === 'expand' ? '90%' : ($props.mode === 'half' ? '50%' : '20px') }"
   >
-    <FSCol
+    <FSCard
+      width="100%"
       height="100%"
-      gap="0px"
+      :elevation="true"
+      :border="false"
     >
-      <FSRow
-        align="center-center"
-        @touchstart="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
-      >
-        <FSButton
-          variant="icon"
-          :icon="$props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up'"
-          @click="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
-        />
-      </FSRow>
-      <FSCol
-        v-if="$props.mode !== 'collapse'"
-        height="fill"
-        style="min-height: 0;"
-      >
-        <slot
-          name="body"
-        />
+      <FSCol height="100%" gap="0px">
+        <FSRow
+          align="center-center"
+          @touchstart="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
+        >
+          <FSButton
+            variant="icon"
+            :icon="$props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up'"
+            @click="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
+          />
+        </FSRow>
+        <FSCol v-if="$props.mode !== 'collapse'" height="fill" style="min-height: 0;">
+          <slot name="body" />
+        </FSCol>
       </FSCol>
-    </FSCol>
-  </FSCard>
+    </FSCard>
+  </div>
 
   <FSCard
     v-show="!isExtraSmall"
@@ -47,21 +43,15 @@
     :elevation="true"
     :border="false"
   >
-    <FSCol
-      height="fill"
-    >
-      <slot
-        name="body"
-      />
+    <FSCol height="fill">
+      <slot name="body" />
     </FSCol>
   </FSCard>
 </template>
 
 <script lang="ts">
 import { defineComponent, type PropType, onUnmounted, onMounted, ref } from "vue";
-
 import { useBreakpoints } from "../../composables";
-
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSCol from "../FSCol.vue";
@@ -86,40 +76,46 @@ export default defineComponent({
   setup(_, { emit }) {
     const { isExtraSmall } = useBreakpoints();
 
-    const resizeObserver = ref<ResizeObserver | null>(null);
-    const mobileOverlay = ref<InstanceType<typeof FSCard> | null>(null);
+    const mobileOverlayWrapper = ref<HTMLDivElement | null>(null);
     const desktopOverlay = ref<InstanceType<typeof FSCard> | null>(null);
 
+    const mobileResizeObserver = ref<ResizeObserver | null>(null);
+    const desktopResizeObserver = ref<ResizeObserver | null>(null);
+
     onMounted(() => {
-      resizeObserver.value = new ResizeObserver(entries => {
+      mobileResizeObserver.value = new ResizeObserver(entries => {
         entries.forEach((entry) => {
-          if (desktopOverlay.value && entry.target === desktopOverlay.value.$el) {
-            console.log("desktopOverlay change");
-            emit("update:width", entry.contentRect.width);
-          }
-          if (mobileOverlay.value && entry.target === mobileOverlay.value.$el) {
-            console.log("mobileOverlay change");
-            emit("update:height", entry.contentRect.height);
-          }
+          emit("update:height", entry.contentRect.height);
         });
       });
-      if (mobileOverlay.value) {
-        resizeObserver.value.observe(mobileOverlay.value.$el);
+
+      desktopResizeObserver.value = new ResizeObserver(entries => {
+        entries.forEach((entry) => {
+          emit("update:width", entry.contentRect.width);
+        });
+      });
+
+      if (mobileOverlayWrapper.value) {
+        mobileResizeObserver.value.observe(mobileOverlayWrapper.value);
       }
+
       if (desktopOverlay.value) {
-        resizeObserver.value.observe(desktopOverlay.value.$el);
+        desktopResizeObserver.value.observe(desktopOverlay.value.$el);
       }
     });
 
     onUnmounted((): void => {
-      if (resizeObserver.value) {
-        resizeObserver.value.disconnect();
+      if (mobileResizeObserver.value) {
+        mobileResizeObserver.value.disconnect();
+      }
+      if (desktopResizeObserver.value) {
+        desktopResizeObserver.value.disconnect();
       }
     });
 
     return {
       isExtraSmall,
-      mobileOverlay,
+      mobileOverlayWrapper,
       desktopOverlay
     };
   }

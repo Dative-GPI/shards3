@@ -16,7 +16,7 @@
     right: 0;
     width: 100%;
     margin: 0;
-    transition: height 0.28s;
+    transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .fs-map-overlay-desktop {
@@ -25,7 +25,6 @@
     left: 0;
     margin: 12px;
     max-height: calc(100% - 24px);
-    transition: height 0.28s;
   }
 
   .fs-map-layer-button {
