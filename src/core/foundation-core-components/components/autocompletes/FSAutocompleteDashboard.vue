@@ -135,6 +135,16 @@ export default defineComponent({
       required: false,
       default: DashboardType.None
     },
+    ignoreDashboardOrganisationTypes: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    ignoreDashboardOrganisations: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     multiple: {
       type: Boolean,
       required: false,
@@ -187,11 +197,15 @@ export default defineComponent({
     };
 
     const fetch = (search: string | null) => {
-      return Promise.all([
-        getManyDashboardOrganisationTypes({ ...props.dashboardOrganisationTypeFilters, search: search ?? undefined }),
-        getManyDashboardOrganisations({ ...props.dashboardOrganisationFilters, search: search ?? undefined }),
-        getManyDashboardShallows({ ...props.dashboardShallowFilters, search: search ?? undefined })
-      ]);
+      const promises = [];
+      if (!props.ignoreDashboardOrganisationTypes) {
+        promises.push(getManyDashboardOrganisationTypes({ ...props.dashboardOrganisationTypeFilters, search: search ?? undefined }));
+      }
+      if (!props.ignoreDashboardOrganisations) {
+        promises.push(getManyDashboardOrganisations({ ...props.dashboardOrganisationFilters, search: search ?? undefined }));
+        promises.push(getManyDashboardShallows({ ...props.dashboardShallowFilters, search: search ?? undefined }));
+      }
+      return Promise.all(promises);
     };
 
     const { toggleSet, init, onUpdate } = useAutocomplete(

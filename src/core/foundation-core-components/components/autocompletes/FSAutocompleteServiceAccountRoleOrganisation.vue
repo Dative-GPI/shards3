@@ -51,7 +51,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { type ServiceAccountRoleOrganisationsFilters } from "@dative-gpi/foundation-core-domain/models";
+import { type ServiceAccountRoleOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useServiceAccountRoleOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -70,7 +70,7 @@ export default defineComponent({
   },
   props: {
     serviceAccountRoleOrganisationsFilters: {
-      type: Object as PropType<ServiceAccountRoleOrganisationsFilters>,
+      type: Object as PropType<ServiceAccountRoleOrganisationFilters>,
       required: false,
       default: null
     },

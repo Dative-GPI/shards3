@@ -128,6 +128,16 @@ export default defineComponent({
       required: false,
       default: RoleType.None
     },
+    ignoreRoleOrganisationTypes: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    ignoreRoleOrganisations: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     multiple: {
       type: Boolean,
       required: false,
@@ -174,10 +184,14 @@ export default defineComponent({
     };
 
     const fetch = (search: string | null) => {
-      return Promise.all([
-        getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search ?? undefined }),
-        getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search ?? undefined })
-      ]);
+      const promises = [];
+      if (!props.ignoreRoleOrganisations) {
+        promises.push(getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search ?? undefined }));
+      }
+      if (!props.ignoreRoleOrganisationTypes) {
+        promises.push(getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search ?? undefined }));
+      }
+      return Promise.all(promises);
     };
 
     const { toggleSet, init, onUpdate } = useAutocomplete(

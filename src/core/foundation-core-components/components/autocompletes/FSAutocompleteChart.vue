@@ -128,6 +128,16 @@ export default defineComponent({
       required: false,
       default: ChartOrigin.None
     },
+    ignoreChartOrganisationTypes: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    ignoreChartOrganisations: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     multiple: {
       type: Boolean,
       required: false,
@@ -174,10 +184,14 @@ export default defineComponent({
     };
 
     const fetch = (search: string | null) => {
-      return Promise.all([
-        getManyChartOrganisationTypes({ ...props.chartOrganisationTypeFilters, search: search ?? undefined }),
-        getManyChartOrganisations({ ...props.chartOrganisationFilters, search: search ?? undefined })
-      ]);
+      const promises = [];
+      if (!props.ignoreChartOrganisationTypes) {
+        promises.push(getManyChartOrganisationTypes({ ...props.chartOrganisationTypeFilters, search: search ?? undefined }));
+      }
+      if (!props.ignoreChartOrganisations) {
+        promises.push(getManyChartOrganisations({ ...props.chartOrganisationFilters, search: search ?? undefined }));
+      }
+      return Promise.all(promises);
     };
 
     const { toggleSet, init, onUpdate } = useAutocomplete(
