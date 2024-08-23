@@ -47,11 +47,15 @@
         >
           {{ item.raw.label }}
         </FSSpan>
-        <FSChip
-          v-if="item.raw.unit"
-          :label="item.raw.unit"
-        />
       </FSRow>
+    </template>
+    <template
+      #item-append="{ item }"
+    >
+      <FSChip
+        v-if="item.unit"
+        :label="item.unit"
+      />
     </template>
     <template
       #toggle-set-item="props"

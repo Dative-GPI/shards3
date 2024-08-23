@@ -84,7 +84,6 @@
             :maxHeight="maxHeight"
           >
             <FSCol
-              v-if="$props.multiple"
               gap="12px"
             >
               <FSRow
@@ -92,10 +91,11 @@
                 :key="index"
               >
                 <FSCheckbox
-                  :label="item[$props.itemTitle]"
+                  v-if="$props.multiple"
+                  :label="item[$props.itemTitle!]"
                   :editable="$props.editable"
-                  :modelValue="$props.modelValue?.includes(item[$props.itemValue])"
-                  @update:modelValue="() => onCheckboxChange(item[$props.itemValue])"
+                  :modelValue="$props.modelValue?.includes(item[$props.itemValue!])"
+                  @update:modelValue="() => onCheckboxChange(item[$props.itemValue!])"
                 >
                   <template
                     #label="{ font }"
@@ -106,25 +106,34 @@
                     />
                   </template>
                 </FSCheckbox>
+                <FSRadio
+                  v-else
+                  :selected="$props.modelValue === item[$props.itemValue!]"
+                  :label="item[$props.itemTitle!]"
+                  :editable="$props.editable"
+                  :item="item"
+                  :modelValue="item[$props.itemValue!]"
+                  @update:modelValue="() => onRadioChange(item[$props.itemValue!])"
+                >
+                  <template
+                    #label="{ font }"
+                  >
+                    <slot
+                      name="item-label"
+                      v-bind="mobileItemProps(item, font)"
+                    />
+                  </template>
+                </FSRadio>
+                <FSRow
+                  align="center-right"
+                >
+                  <slot
+                    name="item-append"
+                    v-bind="{ item }"
+                  />
+                </FSRow>
               </FSRow>
             </FSCol>
-            <FSRadioGroup
-              v-else
-              gap="12px"
-              :values="searchItems.map((item: any) => ({ value: item[$props.itemValue], label: item[$props.itemTitle], item: item  }))"
-              :editable="$props.editable"
-              :modelValue="$props.modelValue"
-              @update:modelValue="onRadioChange"
-            >
-              <template
-                #label="{ item, font }"
-              >
-                <slot
-                  name="item-label"
-                  v-bind="mobileItemProps(item, font)"
-                />
-              </template>
-            </FSRadioGroup>
           </FSFadeOut>
         </template>
       </FSDialogMenu>
@@ -242,6 +251,14 @@
                     </FSSpan>
                   </slot>
                 </FSSpan>
+                <FSRow
+                  align="center-right"
+                >
+                  <slot
+                    name="item-append"
+                    v-bind="{ item: item.raw }"
+                  />
+                </FSRow>
               </FSRow>
             </v-list-item>
           </template>
@@ -287,7 +304,7 @@
             #append-item
           >
             <FSRow
-              v-if="showSearch && !searchItems.map((item: any) => item[$props.itemTitle]).some(s=>s.toLowerCase() == search.toLowerCase())"
+              v-if="showSearch && !searchItems.map((item: any) => item[$props.itemTitle!]).some(s => s.toLowerCase() == search.toLowerCase())"
               padding="17px"
             >
               <FSButton
@@ -329,7 +346,6 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSearchField from "./FSSearchField.vue";
 import FSDialogMenu from "../FSDialogMenu.vue";
-import FSRadioGroup from "../FSRadioGroup.vue";
 import FSToggleSet from "../FSToggleSet.vue";
 import FSBaseField from "./FSBaseField.vue";
 import FSTextField from "./FSTextField.vue";
@@ -337,6 +353,7 @@ import FSCheckbox from "../FSCheckbox.vue";
 import FSFadeOut from "../FSFadeOut.vue";
 import FSButton from "../FSButton.vue";
 import FSLoader from "../FSLoader.vue";
+import FSRadio from "../FSRadio.vue";
 import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -347,7 +364,6 @@ export default defineComponent({
   components: {
     FSSearchField,
     FSDialogMenu,
-    FSRadioGroup,
     FSBaseField,
     FSTextField,
     FSToggleSet,
@@ -355,6 +371,7 @@ export default defineComponent({
     FSFadeOut,
     FSButton,
     FSLoader,
+    FSRadio,
     FSSpan,
     FSCol,
     FSRow
