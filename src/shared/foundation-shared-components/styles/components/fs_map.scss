@@ -5,53 +5,54 @@
 
   .fs-leaflet-container {
     width: 100%;
-    height: var(--fs-map-leaflet-container-height);
+    height: 100%;
     filter: grayscale(var(--fs-map-container-grayscale));
   }
 
-  .fs-map-overlay-edit-button {
+  .fs-map-overlay-mobile {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fs-map-overlay-desktop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 12px;
+    max-height: calc(100% - 24px);
+  }
+
+  .fs-map-layer-button {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 960;
-    margin: 8px;
+    margin: 12px;
   }
 
-  .fs-map-overlay-right-top {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 4px 8px;
-  }
-
-  .fs-map-overlay-right-bottom {
+  .fs-map-control-buttons {
     position: absolute;
     bottom: 0;
     right: 0;
-    z-index: 1000;
-    margin: 4px 8px;
-    width: calc(100% - 16px);
+    margin: 12px;
+    margin-bottom: calc(12px + var(--fs-map-control-buttons-margin-bottom));
 
+    .fs-map-zoom-plus-button > * {
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
 
-    .fs-map-zoom-overlay {
-      position: absolute;
-      bottom: 100%;
-      right: 0;
-      z-index: 1001;
-      margin-bottom: calc(var(--fs-map-leaflet-bottom-overlay-margin) + 8px);
+      border-bottom: 0px !important;
+    }
 
-      button.fs-map-zoom-plus > * {
-        border-bottom-left-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-      }
+    .fs-map-zoom-minus-button > * {
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
 
-      button.fs-map-zoom-minus > * {
-        margin-top: 1px;
-        border-top-left-radius: 0 !important;
-        border-top-right-radius: 0 !important;
-
-        border-top: solid 1px var(--fs-card-border-color) !important;
-      }
+      border-top: 0px !important;
     }
   }
 
@@ -74,6 +75,11 @@
         box-shadow: 0 0 0px 20px transparent;
       }
     }
+  }
+
+  .fs-map-point-pin {
+    background-color: var(--fs-map-point-pin-color);
+    border-radius: 100%;
   }
 
   .fs-map-location > div {
@@ -105,11 +111,11 @@
 
     @keyframes fs-map-shadow-location {
       0% {
-        box-shadow: 0 0 0px 0px var(--fs-map-mylocation-pin-color-alpha);
+        box-shadow: 0 0 0px 0px var(--fs-map-location-pin-color-alpha);
       }
 
       50% {
-        box-shadow: 0 0 0px 7px var(--fs-map-mylocation-pin-color-alpha);
+        box-shadow: 0 0 0px 7px var(--fs-map-location-pin-color-alpha);
       }
 
       100% {

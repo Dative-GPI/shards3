@@ -1,7 +1,7 @@
 <template>
   <FSButton
-    prependIcon="mdi-layers-outline"
-    padding="0 7px"
+    class="fs-map-layer-button"
+    icon="mdi-layers-outline"
     :elevation="true"
     @click="dialog = true"
   />
