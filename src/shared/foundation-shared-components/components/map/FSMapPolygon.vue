@@ -5,8 +5,7 @@
 <script lang="ts">
 import { inject, type PropType, onMounted, type Ref, watch, ref } from 'vue';
 
-import type { Polygon, FeatureGroup} from 'leaflet';
-import { type Map, type LatLng, polygon } from 'leaflet';
+import { type Map, type LatLng, type Polygon, type FeatureGroup, polygon } from 'leaflet';
 
 import { useColors } from "../../composables";
 

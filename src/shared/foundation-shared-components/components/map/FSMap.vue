@@ -26,6 +26,7 @@
         <FSMapFeatureGroup
           v-if="$props.areas"
           :expected-layers="$props.areas.length"
+          @update:bounds="(bounds) => areaGroupBounds = bounds"
         >
           <FSMapPolygon
             v-for="area in areas"
@@ -39,6 +40,7 @@
         <FSMapMarkerClusterGroup
           v-if="$props.locations"
           :expected-layers="$props.locations.length"
+          @update:bounds="(bounds) => locationGroupBounds = bounds"
         >
           <FSMapMarker
             v-for="location in $props.locations"
@@ -99,6 +101,8 @@
       v-if="$slots['overlay']"
       :mode="$props.overlayMode"
       @update:mode="$emit('update:overlayMode', $event)"
+      @update:height="(height) => overlayHeight = height"
+      @update:width="(width) => overlayWidth = width"
     >
       <template
         #body
@@ -115,12 +119,12 @@
 import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch } from "vue";
 
 import type {} from "leaflet.markercluster";
-import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng } from "leaflet";
+import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, type LatLngBounds } from "leaflet";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
-import { useColors } from "../../composables";
+import { useBreakpoints, useColors } from "../../composables";
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 
 import FSMapLayerButton from "./FSMapLayerButton.vue";
@@ -226,12 +230,18 @@ export default defineComponent({
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();
+    const { isExtraSmall } = useBreakpoints();
 
     const leafletContainer = ref<HTMLElement>();
-    const defaultZoom = 15;
+    const locationGroupBounds = ref<LatLngBounds>();
+    const areaGroupBounds = ref<LatLngBounds>();
     const gpsPosition : Ref<LatLng | null> = ref(null);
-
     const map: Ref<L.Map | null> = ref(null);
+    const overlayHeight = ref<number>();
+    const overlayWidth = ref<number>();
+
+    const defaultZoom = 15;
+    
     provide('map', map);
 
     const mapLayers: MapLayer[] = [
@@ -257,16 +267,42 @@ export default defineComponent({
       }
     ];
 
+    const bottomMargin = computed(() => {
+      let margin = 0;
+      if (props.overlayMode !== 'expand' && overlayHeight.value && isExtraSmall.value) {
+        margin += overlayHeight.value;
+      }
+      return margin;
+    });
+
+    const leftMargin = computed(() => {
+      let margin = 0;
+      if (overlayWidth.value && !isExtraSmall.value) {
+        margin += overlayWidth.value;
+      }
+      return margin;
+    });
+
     const style = computed((): StyleValue => ({
       "--fs-map-location-pin-color": getColors(ColorEnum.Primary).base,
       "--fs-map-mylocation-pin-color": getColors(ColorEnum.Primary).base,
       "--fs-map-mylocation-pin-color-alpha": getColors(ColorEnum.Primary).base + "50",
-      "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0'
+      "--fs-map-container-grayscale": props.grayscale ? '0.9' : '0',
+      "--fs-map-control-buttons-margin-bottom": `${bottomMargin.value}px`,
     }));
 
     const actualLayer = computed(() => {
       return mapLayers.find((layer) => layer.name === props.currentLayer)?.layer ?? mapLayers[0].layer;
     });
+
+    const calculateTargetPosition = (target: L.LatLng) => {
+      if(!map.value) {
+        return target;
+      }
+      const zoom = map.value.getZoom();
+      const targetPoint = map.value.project(target, zoom).subtract([leftMargin.value / 2, -bottomMargin.value / 2]);
+      return map.value.unproject(targetPoint, zoom);
+    }
 
     onMounted(() => {
       if(!leafletContainer.value) {
@@ -283,7 +319,7 @@ export default defineComponent({
       };
 
       map.value = createMap(leafletContainer.value, mapOptions)
-        .setView([props.center[0], props.center[1]], defaultZoom);
+        .setView(calculateTargetPosition(latLng(props.center[0], props.center[1])), defaultZoom);
       
       map.value.on('click', (e: L.LeafletMouseEvent) => {
         emit('click:latlng', e.latlng);
@@ -304,7 +340,7 @@ export default defineComponent({
           return;
         }
 
-        map.value.panTo(e.latlng);
+        map.value.panTo(calculateTargetPosition(e.latlng));
       });
     });
 
@@ -312,7 +348,7 @@ export default defineComponent({
       if(!map.value) {
         return;
       }
-      map.value.setView([center[0], center[1]], defaultZoom);
+      map.value.setView(calculateTargetPosition(latLng(center[0], center[1])), defaultZoom);
     });
 
     watch (() => props.selectedLocationId, (selectedLocationId) => {
@@ -323,12 +359,44 @@ export default defineComponent({
       if(!selectedLocation) {
         return;
       }
-      map.value.panTo(latLng(selectedLocation?.address.latitude, selectedLocation?.address.longitude));
+      map.value.panTo(calculateTargetPosition(latLng(selectedLocation?.address.latitude, selectedLocation?.address.longitude)));
     }, { immediate: true });
+
+    watch(() => props.selectedAreaId, (selectedAreaId) => {
+      if(!map.value) {
+        return;
+      }
+      const selectedArea = props.areas.find((area) => area.id === selectedAreaId);
+      if(!selectedArea) {
+        return;
+      }
+      const bounds = latLngBounds(selectedArea.coordinates.map((coord) => calculateTargetPosition(latLng(coord.latitude, coord.longitude))));
+      map.value.fitBounds(bounds);
+    }, { immediate: true });
+
+    watch( () => [locationGroupBounds.value, areaGroupBounds.value], ([locationBounds, areaBounds]) => {
+      if(!map.value) {
+        return;
+      }
+      let bounds = locationBounds;
+      if(bounds && areaBounds) {
+        bounds.extend(areaBounds);
+      } else if(areaBounds) {
+        bounds = areaBounds;
+      }
+      if(!bounds) {
+        return;
+      }
+      map.value.fitBounds(bounds, { maxZoom: defaultZoom });
+    });
 
     return {
       ColorEnum,
       leafletContainer,
+      locationGroupBounds,
+      overlayHeight,
+      overlayWidth,
+      areaGroupBounds,
       map,
       actualLayer,
       mapLayers,

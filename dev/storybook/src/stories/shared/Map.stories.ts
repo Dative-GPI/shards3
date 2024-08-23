@@ -114,6 +114,8 @@ export const Variations: Story = {
       selectedLocationId1: location1.id,
       selectedLocationId2: null,
       selectedLocationId3: null,
+      selectedAreaId1: null,
+      selectedAreaId2: null,
       overlayMode1: 'collapse',
       overlayMode2: 'half',
       currentLayer1: 'map',
@@ -133,6 +135,7 @@ export const Variations: Story = {
         v-model:overlayMode="args.overlayMode1"
         v-model:currentLayer="args.currentLayer1"
         v-model:selectedLocationId="args.selectedLocationId1"
+        v-model:selectedAreaId="args.selectedAreaId1"
         :locations="args.locations3"
       >
         <template v-slot:overlay >
@@ -149,6 +152,7 @@ export const Variations: Story = {
         v-model:currentLayer="args.currentLayer2"
         height="600px"
         v-model:selectedLocationId="args.selectedLocationId3"
+        v-model:selectedAreaId="args.selectedAreaId2"
         :areas="args.areas1"
       >
         <template v-slot:overlay>

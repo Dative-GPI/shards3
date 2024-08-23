@@ -55,11 +55,9 @@ export default {
 
       const layers = markerClusterGroup.value.getLayers();
 
-      if(layers.length === props.expectedLayers) {
-        if(!added){
-          markerClusterGroup.value.addTo(map.value);
-          added = true;
-        }
+      if(layers.length === props.expectedLayers && !added) {
+        markerClusterGroup.value.addTo(map.value);
+        added = true;
         emit("update:bounds", markerClusterGroup.value.getBounds());
       }
     });

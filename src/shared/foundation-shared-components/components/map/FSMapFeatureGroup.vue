@@ -39,11 +39,9 @@ export default {
 
       const layers = featureGroup.value.getLayers();
 
-      if(layers.length === props.expectedLayers) {
-        if(!added){
-          featureGroup.value.addTo(map.value);
-          added = true;
-        }
+      if(layers.length === props.expectedLayers && !added) {
+        featureGroup.value.addTo(map.value);
+        added = true;
         emit("update:bounds", featureGroup.value.getBounds());
       }
     });
