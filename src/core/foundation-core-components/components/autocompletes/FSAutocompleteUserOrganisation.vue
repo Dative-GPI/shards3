@@ -3,6 +3,7 @@
     itemTitle="name"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :items="userOrganisations"
     :loading="loading"
     :modelValue="$props.modelValue"
@@ -10,43 +11,14 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
-      >
-        <FSImage
-          v-if="item.raw.imageId"
-          height="26px"
-          width="26px"
-          :imageId="item.raw.imageId"
-        />
-        <FSSpan>
-          {{ item.raw.name }}
-        </FSSpan>
-      </FSRow>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSImage
-          v-if="item.raw.imageId"
-          height="26px"
-          width="26px"
-          :imageId="item.raw.imageId"
-        />
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.name }}
-        </FSSpan>
-      </FSRow>
+      <FSImage
+        v-if="item.imageId"
+        height="26px"
+        width="26px"
+        :imageId="item.imageId"
+      />
     </template>
     <template
       #toggle-set-item="props"
@@ -80,21 +52,18 @@ import { computed, defineComponent, type PropType } from "vue";
 import { type UserOrganisationFilters, type UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteUserOrganisation",
   components: {
     FSAutocompleteField,
     FSButton,
-    FSImage,
-    FSSpan,
-    FSRow
+    FSImage
   },
   props: {
     userOrganisationFilters: {
@@ -121,9 +90,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyUserOrganisations, fetching: fetchingUserOrganisations, entities: userOrganisations } = useUserOrganisations();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingUserOrganisations.value;
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-user-organisation.placeholder", "{0} user(s) selected", props.modelValue.length);
+      }
+      return null;
     });
     
     const fetch = (search: string | null) => {
@@ -142,6 +119,7 @@ export default defineComponent({
 
     return {
       userOrganisations,
+      placeholder,
       toggleSet,
       loading,
       onUpdate

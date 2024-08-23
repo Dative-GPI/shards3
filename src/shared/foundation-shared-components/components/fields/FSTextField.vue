@@ -52,13 +52,17 @@
       <template
         #clear
       >
-        <FSButton
-          v-if="$props.clearable && $props.editable && !!$props.modelValue"
-          icon="mdi-close"
-          variant="icon"
-          :color="ColorEnum.Dark"
-          @click="$emit('update:modelValue', null)"
-        />
+        <slot
+          name="clear"
+        >
+          <FSButton
+            v-if="$props.clearable && $props.editable && !!$props.modelValue"
+            icon="mdi-close"
+            variant="icon"
+            :color="ColorEnum.Dark"
+            @click="$emit('update:modelValue', null)"
+          />
+        </slot>
       </template>
     </v-text-field>
   </FSBaseField>

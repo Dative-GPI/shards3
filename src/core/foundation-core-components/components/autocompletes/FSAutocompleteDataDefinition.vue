@@ -2,53 +2,13 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :items="dataDefinitions"
     :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
   >
-    <template
-      #autocomplete-selection="{ item }"
-    >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        padding="0 8px 0 0"
-        gap="4px"
-        :wrap="false"
-      >
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-        <FSChip
-          v-if="$props.multiple && item.raw.unit"
-          :label="item.raw.unit"
-        />
-      </FSRow> 
-    </template>
-    <template
-      v-if="selected && selected.unit"
-      #autocomplete-suffix
-    >
-      <FSChip
-        :label="selected.unit"
-      />
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
-    </template>
     <template
       #item-append="{ item }"
     >
@@ -83,24 +43,21 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { type DataDefinitionInfos, type DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
+import { type DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useDataDefinitions } from "@dative-gpi/foundation-core-services/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteDataDefinition",
   components: {
     FSAutocompleteField,
     FSButton,
-    FSChip,
-    FSSpan,
-    FSRow
+    FSChip
   },
   props: {
     dataDefinitionFilters: {
@@ -127,16 +84,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyDataDefinitions, fetching: fetchingDataDefinitions, entities: dataDefinitions } = useDataDefinitions();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingDataDefinitions.value;
     });
 
-    const selected = computed((): DataDefinitionInfos | undefined => {
-      if (props.multiple) {
-        return undefined;
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-data-definition.placeholder", "{0} data definition(s) selected", props.modelValue.length);
       }
-      return dataDefinitions.value.find((dataDefinition: DataDefinitionInfos) => dataDefinition.id === props.modelValue);
+      return null;
     });
 
     const fetch = (search: string | null) => {
@@ -152,8 +110,8 @@ export default defineComponent({
 
     return {
       dataDefinitions,
+      placeholder,
       toggleSet,
-      selected,
       loading,
       onUpdate
     };
