@@ -1,9 +1,6 @@
-import type { PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
-import { PermissionInfos } from "@dative-gpi/foundation-shared-domain/models";
+import { PermissionInfos, type PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
-import type { ServiceAccountOrganisationInfosDTO } from "./serviceAccountOrganisationInfos";
-import { ServiceAccountOrganisationInfos } from "./serviceAccountOrganisationInfos";
-import type { RoleType } from "../enums/roleEnums";
+import { ServiceAccountOrganisationInfos, type ServiceAccountOrganisationInfosDTO } from "./serviceAccountOrganisationInfos";
 
 export class ServiceAccountOrganisationDetails extends ServiceAccountOrganisationInfos {
   languageCode: string;
@@ -26,7 +23,6 @@ export interface ServiceAccountOrganisationDetailsDTO extends ServiceAccountOrga
 }
 
 export interface CreateServiceAccountOrganisationDTO {
-  roleType: RoleType;
   roleId: string | null;
   languageCode: string;
   timeZoneId: string;
@@ -37,7 +33,6 @@ export interface CreateServiceAccountOrganisationDTO {
 }
 
 export interface UpdateServiceAccountOrganisationDTO {
-  roleType: RoleType;
   roleId: string | null;
   languageCode: string;
   timeZoneId: string;
