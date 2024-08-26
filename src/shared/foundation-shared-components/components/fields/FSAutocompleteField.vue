@@ -33,7 +33,6 @@
           :messages="messages"
           :readonly="true"
           :modelValue="mobileValue"
-          @update:modelValue="$emit('update:modelValue', $event)"
           @click="openMobileOverlay"
           v-bind="$attrs"
         >
@@ -213,6 +212,25 @@
               </FSRow>
             </FSCol>
           </FSFadeOut>
+          <FSRow
+            v-if="allowAddItem"
+            padding="4px 3px"
+          >
+            <FSButton
+              variant="icon"
+              :label="$tr('ui.autocomplete.add-item', 'Add new item')"
+              :color="ColorEnum.Primary"
+              @click="$emit('add:item', search)"
+            />
+          </FSRow>
+          <FSRow
+            v-if="!allowAddItem && searchItems.length === 0"
+            padding="4px 3px"
+          >
+            <FSSpan>
+              {{ $tr("ui.common.no-data", "No data") }}
+            </FSSpan>
+          </FSRow>
         </template>
       </FSDialogMenu>
     </template>
@@ -271,9 +289,8 @@
             :class="classes"
             :style="style"
             :modelValue="$props.modelValue"
-            @update:modelValue="$emit('update:modelValue', $event)"
+            @update:modelValue="onSingleChange"
             @click="onClick"
-            @blur="onBlur"
             v-model:search="search"
             v-bind="$attrs"
           >
@@ -353,7 +370,7 @@
               #selection="{ index }"
             >
               <FSSpan
-                v-if="index === $props.modelValue.length - 1"
+                v-if="index === $props.modelValue.length - 1 && addExtra"
               >
                 {{ $props.placeholder }}
               </FSSpan>
@@ -400,13 +417,12 @@
               #append-item
             >
               <FSRow
-                v-if="showSearch && !searchItems.map((item: any) => item[$props.itemTitle!]).some(s => s.toLowerCase() == search.toLowerCase())"
+                v-if="allowAddItem"
                 padding="17px"
               >
                 <FSButton
-                  v-if="search && search.trim().length > 0"
                   variant="icon"
-                  :label="$tr('ui.common.add', 'Add this item')"
+                  :label="$tr('ui.autocomplete.add-item', 'Add new item')"
                   :color="ColorEnum.Primary"
                   @click="$emit('add:item', search)"
                 />
@@ -415,11 +431,8 @@
             <template
               #no-data
             >
-              <template
-                v-if="showSearch"
-              />
               <FSRow
-                v-else
+                v-if="!allowAddItem"
                 padding="17px"
               >
                 <FSSpan>
@@ -699,6 +712,10 @@ export default defineComponent({
       return [];
     });
 
+    const allowAddItem = computed((): boolean => {
+      return props.showSearch && search.value.trim().length > 0;
+    });
+
     const maxHeight = computed(() => {
       const other = 8 + 8                // Paddings
         + (isMobileSized ? 36 : 40) + 8; // Header
@@ -751,15 +768,16 @@ export default defineComponent({
       }
     };
 
-    const onClick = (): void => {
-      if (props.modelValue && !props.multiple) {
-        search.value = "";
-        addExtra.value = false;
-      } 
+    const onSingleChange = (value: string) => {
+      addExtra.value = true;
+      emit("update:modelValue", value);
     };
 
-    const onBlur = (): void => {
-      addExtra.value = true;
+    const onClick = (): void => {
+      addExtra.value = false;
+      if (props.modelValue && !props.multiple) {
+        search.value = "";
+      }
     };
 
     return {
@@ -767,6 +785,7 @@ export default defineComponent({
       toggleSetSlots,
       selectedItems,
       isExtraSmall,
+      allowAddItem,
       selectedItem,
       mobileValue,
       searchItems,
@@ -783,9 +802,9 @@ export default defineComponent({
       style,
       openMobileOverlay,
       onCheckboxChange,
+      onSingleChange,
       onRadioChange,
-      onClick,
-      onBlur
+      onClick
     };
   }
 });
