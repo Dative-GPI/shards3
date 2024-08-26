@@ -1,6 +1,8 @@
 <template>
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
+    :multiple="$props.multiple"
+    :placeholder="placeholder"
     :items="organisationTypes"
     :loading="loading"
     :modelValue="$props.modelValue"
@@ -15,6 +17,7 @@ import { computed, defineComponent, type PropType } from "vue";
 import { type OrganisationTypeFilters } from "@dative-gpi/foundation-shared-domain/models";
 import { useOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
@@ -34,6 +37,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    multiple: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     toggleSetDisabled: {
       type: Boolean,
       required: false,
@@ -43,9 +51,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyOrganisationTypes, fetching: fetchingOrganisationTypes, entities: organisationTypes } = useOrganisationTypes();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingOrganisationTypes.value;
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-organisation-type.placeholder", "{0} organisation type(s) selected", props.modelValue.length);
+      }
+      return null;
     });
 
     const fetch = (search: string | null) => {
@@ -61,6 +77,7 @@ export default defineComponent({
 
     return {
       organisationTypes,
+      placeholder,
       toggleSet,
       loading,
       onUpdate

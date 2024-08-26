@@ -24,8 +24,8 @@
       #toggle-set-item="props"
     >
       <FSButton
+        :padding="props.item.imageId ? ['6px 16px', '4px 12px'] : undefined"
         :variant="props.getVariant(props.item)"
-        :padding="['6px 16px', '4px 12px']"
         :color="props.getColor(props.item)"
         :class="props.getClass(props.item)"
         :label="props.item.name"

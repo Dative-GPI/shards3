@@ -1,7 +1,6 @@
 import type { GroupInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { ORGANISATIONS } from "./organisations.mock";
-import { IMAGES } from "./images.mock";
 
 const getParentId = (id: string) => {
     switch (id) {
@@ -17,7 +16,7 @@ const getParentId = (id: string) => {
 export const GROUPS: GroupInfosDTO[] = Array.from(Array(15).keys()).map(i => ({
     id: i.toString(),
     organisationId: ORGANISATIONS[0].id,
-    imageId: IMAGES[0].id,
+    imageId: "1",
     icon: `mdi-numeric-${i}-circle`,
     code: `number.${i}`,
     label: `Group ${i}`,

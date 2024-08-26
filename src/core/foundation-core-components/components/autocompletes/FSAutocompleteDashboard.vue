@@ -2,58 +2,30 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
-    :loading="loading"
+    :placeholder="placeholder"
     :items="dashboards"
+    :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
+      <FSIcon
+        v-if="item.icon"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-        <FSChip
-          :color="dashboardTypeColor(item.raw.type)"
-          :label="dashboardTypeLabel(item.raw.type)"
-          :editable="false"
-        />
-      </FSRow>
+        {{ item.icon }}
+      </FSIcon>
     </template>
     <template
-      #item-label="{ item, font }"
+      #item-append="{ item }"
     >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-        <FSChip
-          :color="dashboardTypeColor(item.raw.type)"
-          :label="dashboardTypeLabel(item.raw.type)"
-          :editable="false"
-        />
-      </FSRow>
+      <FSChip
+        :color="dashboardTypeColor(item.type)"
+        :label="dashboardTypeLabel(item.type)"
+        :editable="false"
+      />
     </template>
     <template
       #toggle-set-item="props"
@@ -87,6 +59,7 @@ import { computed, defineComponent, type PropType } from "vue";
 import { type DashboardOrganisationFilters, type DashboardOrganisationTypeFilters, type DashboardShallowFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDashboardOrganisations, useDashboardOrganisationTypes, useDashboardShallows } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 import { DashboardType } from "@dative-gpi/foundation-shared-domain/models";
 
 import { dashboardTypeColor, dashboardTypeLabel } from "../../utils";
@@ -95,8 +68,6 @@ import FSAutocompleteField from "@dative-gpi/foundation-shared-components/compon
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 
 export default defineComponent({
@@ -105,9 +76,7 @@ export default defineComponent({
     FSAutocompleteField,
     FSButton,
     FSChip,
-    FSIcon,
-    FSSpan,
-    FSRow
+    FSIcon
   },
   props: {
     dashboardOrganisationTypeFilters: {
@@ -161,6 +130,7 @@ export default defineComponent({
     const { getMany: getManyDashboardOrganisationTypes, fetching: fetchingDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
     const { getMany: getManyDashboardOrganisations, fetching: fetchingDashboardOrganisations, entities: dashboardOrganisations } = useDashboardOrganisations();
     const { getMany: getManyDashboardShallows, fetching: fetchingDashboardShallows, entities: dashboardShallows } = useDashboardShallows();
+    const { $tr } = useTranslationsProvider();
 
     const dashboards = computed(() => {
       return dashboardOrganisationTypes.value.map(rot => ({
@@ -183,6 +153,13 @@ export default defineComponent({
 
     const loading = computed((): boolean => {
       return init.value && (fetchingDashboardOrganisationTypes.value || fetchingDashboardOrganisations.value || fetchingDashboardShallows.value);
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-dashboard.placeholder", "{0} dashboard(s) selected", props.modelValue.length);
+      }
+      return null;
     });
 
     const update = (value: Dashboard[] | Dashboard | null) => {
@@ -217,6 +194,7 @@ export default defineComponent({
     );
 
     return {
+      placeholder,
       dashboards,
       toggleSet,
       loading,

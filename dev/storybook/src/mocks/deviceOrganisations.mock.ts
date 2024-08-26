@@ -5,7 +5,6 @@ import { MANUFACTURERS } from "./manufacturers.mock";
 import { MODELSTATUSES } from "./modelStatuses.mock";
 import { ARTICLES } from "./articles.mock";
 import { MODELS } from "./models.mock";
-import { IMAGES } from "./images.mock";
 
 const ONLINE_PROCESSED = new Date();
 const ONLINE_ENQUEUED = new Date(ONLINE_PROCESSED.getTime() - (5 * 60 * 1000));
@@ -211,7 +210,7 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     groupIcon: null,
     label: "Device 1",
     code: "980001",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     tags: [],
     unrestricted: true,
     online: 1,
@@ -249,7 +248,7 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     groupIcon: null,
     label: "Device 2",
     code: "980002",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     tags: [],
     unrestricted: true,
     online: 2,
@@ -287,7 +286,7 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     groupIcon: null,
     label: "Device 3",
     code: "980003",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     tags: [],
     unrestricted: true,
     online: 2,

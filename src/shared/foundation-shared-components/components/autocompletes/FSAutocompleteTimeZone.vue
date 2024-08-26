@@ -3,6 +3,7 @@
     itemTitle="id"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :loading="loading"
     :items="timeZones"
     :modelValue="$props.modelValue"
@@ -10,37 +11,12 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-append="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
-      >
-        <FSChip
-          :label="item.raw.offset"
-        />
-        <FSSpan>
-          {{ item.raw.id }}
-        </FSSpan>
-      </FSRow>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSChip
-          :label="item.raw.offset"
-        />
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.id }}
-        </FSSpan>
-      </FSRow>
+      <FSChip
+        v-if="item.offset"
+        :label="item.offset.split(':')[0]"
+      />
     </template>
     <template
       #toggle-set-item="props"
@@ -53,10 +29,10 @@
         @click="props.toggle(props.item)"
       >
         <template
-          v-if="props.item.offset"
-          #prepend
+          #append
         >
           <FSChip
+            v-if="props.item.offset"
             :label="props.item.offset.split(':')[0]"
           />
         </template>
@@ -70,23 +46,20 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { type TimeZoneFilters, type TimeZoneInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 import { useTimeZones } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
 import FSButton from "../FSButton.vue";
 import FSChip from "../FSChip.vue";
-import FSSpan from "../FSSpan.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteTimeZone",
   components: {
     FSAutocompleteField,
     FSButton,
-    FSChip,
-    FSSpan,
-    FSRow
+    FSChip
   },
   props: {
     timeZoneFilters: {
@@ -113,9 +86,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyTimeZones, fetching: fetchingTimeZones, entities: timeZones } = useTimeZones();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingTimeZones.value;
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-time-zone.placeholder", "{0} time zone(s) selected", props.modelValue.length);
+      }
+      return null;
     });
 
     const fetch = (search: string | null) => {
@@ -133,6 +114,7 @@ export default defineComponent({
     );
 
     return {
+      placeholder,
       ColorEnum,
       timeZones,
       toggleSet,
