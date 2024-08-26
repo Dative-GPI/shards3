@@ -1,21 +1,19 @@
 import type { ManufacturerInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 
-import { IMAGES } from "./images.mock";
-
 export const MANUFACTURERS: ManufacturerInfosDTO[] = [
     {
         id: "1",
-        imageId: IMAGES[0].id,
+        imageId: null,
         label: "BakeryOvens"
     },
     {
         id: "2",
-        imageId: IMAGES[0].id,
+        imageId: "1",
         label: "RDConstruct"
     },
     {
         id: "3",
-        imageId: IMAGES[0].id,
+        imageId: null,
         label: "DCorp"
     }
 ];

@@ -2,6 +2,7 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :loading="loading"
     :items="languages"
     :modelValue="$props.modelValue"
@@ -9,64 +10,33 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
+      <FSIcon
+        v-if="item.icon"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
+        {{ item.icon }}
+      </FSIcon>
     </template>
   </FSAutocompleteField>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue"
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { type LanguageFilters } from "@dative-gpi/foundation-shared-domain/models";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 import { useLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSAutocompleteField from "../fields/FSAutocompleteField.vue";
 import FSIcon from "../FSIcon.vue";
-import FSSpan from "../FSSpan.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteLanguage",
   components: {
     FSAutocompleteField,
-    FSIcon,
-    FSSpan,
-    FSRow
+    FSIcon
   },
   props: {
     languageFilters: {
@@ -93,9 +63,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyLanguages, fetching: fetchingLanguages, entities: languages } = useLanguages();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingLanguages.value;
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-language.placeholder", "{0} language(s) selected", props.modelValue.length);
+      }
+      return null;
     });
 
     const fetch = (search: string | null) => {
@@ -110,6 +88,7 @@ export default defineComponent({
     );
 
     return {
+      placeholder,
       languages,
       toggleSet,
       loading,

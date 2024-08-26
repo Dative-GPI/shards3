@@ -1,10 +1,8 @@
 import type { OrganisationInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 
-import { IMAGES } from "./images.mock";
-
 export const ORGANISATIONS: OrganisationInfosDTO[] = [{
     id: "1",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     label: "Organisation",
     userOrganisationsCount: 15,
     adminId: null,
@@ -12,7 +10,7 @@ export const ORGANISATIONS: OrganisationInfosDTO[] = [{
 },
 {
     id: "2",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     label: "Dative",
     userOrganisationsCount: 145,
     adminId: null,
@@ -20,7 +18,7 @@ export const ORGANISATIONS: OrganisationInfosDTO[] = [{
 },
 {
     id: "3",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     label: "Bongard",
     userOrganisationsCount: 7,
     adminId: null,
@@ -28,7 +26,7 @@ export const ORGANISATIONS: OrganisationInfosDTO[] = [{
 },
 {
     id: "4",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     label: "Organisation 4",
     userOrganisationsCount: 4,
     adminId: null,
@@ -36,7 +34,7 @@ export const ORGANISATIONS: OrganisationInfosDTO[] = [{
 },
 {
     id: "5",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     label: "Organisation 5",
     userOrganisationsCount: 9,
     adminId: null,

@@ -1,11 +1,10 @@
 import type { ArticleDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 
 import { MANUFACTURERS } from "./manufacturers.mock";
-import { IMAGES } from "./images.mock";
 
 export const ARTICLES: ArticleDetailsDTO[] = [{
     id: "1",
-    imageId: IMAGES[0].id,
+    imageId: "1",
     label: "Article 1",
     manufacturerId: MANUFACTURERS[0].id,
     familyId: "1",

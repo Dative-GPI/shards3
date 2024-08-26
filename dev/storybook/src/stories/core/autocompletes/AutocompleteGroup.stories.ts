@@ -42,6 +42,7 @@ export const Variations: Story = {
         :toggleSetDisabled="true"
         v-model="args.value2"
       />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteGroup
         label="Group with multiple selection"
         :multiple="true"

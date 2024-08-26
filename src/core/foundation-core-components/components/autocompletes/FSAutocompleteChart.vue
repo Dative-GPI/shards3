@@ -2,6 +2,7 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :loading="loading"
     :items="charts"
     :modelValue="$props.modelValue"
@@ -9,51 +10,22 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
+      <FSIcon
+        v-if="item.icon"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-        <FSChip
-          :color="chartOriginColor(item.raw.type)"
-          :label="chartOriginLabel(item.raw.type)"
-          :editable="false"
-        />
-      </FSRow>
+        {{ item.icon }}
+      </FSIcon>
     </template>
     <template
-      #item-label="{ item, font }"
+      #item-append="{ item }"
     >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-        <FSChip
-          :color="chartOriginColor(item.raw.type)"
-          :label="chartOriginLabel(item.raw.type)"
-          :editable="false"
-        />
-      </FSRow>
+      <FSChip
+        :color="chartOriginColor(item.type)"
+        :label="chartOriginLabel(item.type)"
+        :editable="false"
+      />
     </template>
     <template
       #toggle-set-item="props"
@@ -87,6 +59,7 @@ import { computed, defineComponent, type PropType } from "vue";
 import { type ChartOrganisationFilters, ChartOrigin, type ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
 import { chartOriginColor, chartOriginLabel } from "../../utils";
 
@@ -94,8 +67,6 @@ import FSAutocompleteField from "@dative-gpi/foundation-shared-components/compon
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteChart",
@@ -103,9 +74,7 @@ export default defineComponent({
     FSAutocompleteField,
     FSButton,
     FSChip,
-    FSIcon,
-    FSSpan,
-    FSRow
+    FSIcon
   },
   props: {
     chartOrganisationTypeFilters: {
@@ -128,6 +97,16 @@ export default defineComponent({
       required: false,
       default: ChartOrigin.None
     },
+    ignoreChartOrganisationTypes: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    ignoreChartOrganisations: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     multiple: {
       type: Boolean,
       required: false,
@@ -143,6 +122,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyChartOrganisationTypes, fetching: fetchingChartOrganisationTypes, entities: chartOrganisationTypes } = useChartOrganisationTypes();
     const { getMany: getManyChartOrganisations, fetching: fetchingChartOrganisations, entities: chartOrganisations } = useChartOrganisations();
+    const { $tr } = useTranslationsProvider();
 
     const charts = computed(() => {
       return chartOrganisationTypes.value.map(rot => ({
@@ -162,6 +142,13 @@ export default defineComponent({
       return init.value && (fetchingChartOrganisationTypes.value || fetchingChartOrganisations.value);
     });
 
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-chart.placeholder", "{0} chart(s) selected", props.modelValue.length);
+      }
+      return null;
+    });
+
     const update = (value: Chart[] | Chart | null) => {
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
@@ -174,10 +161,14 @@ export default defineComponent({
     };
 
     const fetch = (search: string | null) => {
-      return Promise.all([
-        getManyChartOrganisationTypes({ ...props.chartOrganisationTypeFilters, search: search ?? undefined }),
-        getManyChartOrganisations({ ...props.chartOrganisationFilters, search: search ?? undefined })
-      ]);
+      const promises = [];
+      if (!props.ignoreChartOrganisationTypes) {
+        promises.push(getManyChartOrganisationTypes({ ...props.chartOrganisationTypeFilters, search: search ?? undefined }));
+      }
+      if (!props.ignoreChartOrganisations) {
+        promises.push(getManyChartOrganisations({ ...props.chartOrganisationFilters, search: search ?? undefined }));
+      }
+      return Promise.all(promises);
     };
 
     const { toggleSet, init, onUpdate } = useAutocomplete(
@@ -189,6 +180,7 @@ export default defineComponent({
     );
 
     return {
+      placeholder,
       toggleSet,
       loading,
       charts,

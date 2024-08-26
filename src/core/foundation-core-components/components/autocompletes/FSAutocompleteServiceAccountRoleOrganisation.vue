@@ -3,47 +3,20 @@
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :items="serviceAccountRoleOrganisations"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :loading="loading"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
+      <FSIcon
+        v-if="item.icon"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
+        {{ item.icon }}
+      </FSIcon>
     </template>
   </FSAutocompleteField>
 </template>
@@ -51,26 +24,23 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { type ServiceAccountRoleOrganisationsFilters } from "@dative-gpi/foundation-core-domain/models";
+import { type ServiceAccountRoleOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useServiceAccountRoleOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteServiceAccountRoleOrganisation",
   components: {
     FSAutocompleteField,
-    FSIcon,
-    FSSpan,
-    FSRow
+    FSIcon
   },
   props: {
     serviceAccountRoleOrganisationsFilters: {
-      type: Object as PropType<ServiceAccountRoleOrganisationsFilters>,
+      type: Object as PropType<ServiceAccountRoleOrganisationFilters>,
       required: false,
       default: null
     },
@@ -93,9 +63,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyServiceAccountRoleOrganisations, fetching: fetchingServiceAccountRoleOrganisations, entities: serviceAccountRoleOrganisations } = useServiceAccountRoleOrganisations();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingServiceAccountRoleOrganisations.value;
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-service-account-role-organisation.placeholder", "{0} role(s) selected", props.modelValue.length);
+      }
+      return null;
     });
 
     const fetch = (search: string | null) => {
@@ -111,6 +89,7 @@ export default defineComponent({
 
     return {
       serviceAccountRoleOrganisations,
+      placeholder,
       toggleSet,
       loading,
       onUpdate

@@ -19,7 +19,9 @@ export const Variations: Story = {
   args: {
     args: {
       value1: null,
-      value2: "1"
+      value2: null,
+      value3: null,
+      value4: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -39,6 +41,19 @@ export const Variations: Story = {
         label="Location with toggleset disabled"
         :toggleSetDisabled="true"
         v-model="args.value2"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteLocation
+        label="Location with multiple selection"
+        :multiple="true"
+        v-model="args.value3"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteLocation
+        label="Location with toggleset disabled and multiple selection"
+        :multiple="true"
+        :toggleSetDisabled="true"
+        v-model="args.value4"
       />
     </FSCol>`
   })

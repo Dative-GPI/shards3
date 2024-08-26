@@ -42,6 +42,7 @@ export const Variations: Story = {
         :toggleSetDisabled="true"
         v-model="args.value2"
       />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSAutocompleteDataDefinition
         label="DataDefinition with multiple selection"
         :multiple="true"
