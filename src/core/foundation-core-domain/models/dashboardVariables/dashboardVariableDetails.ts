@@ -8,7 +8,7 @@ export interface CreateDashboardVariableDTO {
   variableType: DashboardVariableType;
   labelDefault: string;
   code: string;
-  defaultValue: string;
+  value: string;
   useOnlyAllowedValues: boolean;
   allowedValues: CreateDashboardVariableValueDTO[];
   translations: DashboardVariableTranslationDTO[];
