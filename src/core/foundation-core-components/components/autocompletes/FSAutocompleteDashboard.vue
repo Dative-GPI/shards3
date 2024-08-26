@@ -100,7 +100,7 @@ export default defineComponent({
       default: null
     },
     type: {
-      type: Number as PropType<DashboardType>,
+      type: [Array, Number] as PropType<DashboardType[] | DashboardType>,
       required: false,
       default: DashboardType.None
     },

@@ -93,7 +93,7 @@ export default defineComponent({
       default: null
     },
     type: {
-      type: Number as PropType<RoleType>,
+      type: [Array, Number] as PropType<RoleType[] | RoleType>,
       required: false,
       default: RoleType.None
     },

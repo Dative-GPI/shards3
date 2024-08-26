@@ -55,6 +55,7 @@ export interface UpdateDashboardOrganisationTypeDTO {
   image: string | null;
   labelDefault: string;
   code: string;
+  colors: string[];
   icon: string;
   tags: string[];
   translations: DashboardTranslationDTO[];

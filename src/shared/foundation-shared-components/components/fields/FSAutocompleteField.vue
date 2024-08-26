@@ -49,7 +49,7 @@
             #prepend-inner
           >
             <slot
-              v-if="selectedItem"
+              v-if="selectedItem && showExtra"
               name="item-prepend"
               v-bind="{ item: selectedItem }"
             />
@@ -61,7 +61,7 @@
               :wrap="false"
             >
               <slot
-                v-if="selectedItem"
+                v-if="selectedItem && showExtra"
                 name="item-append"
                 v-bind="{ item: selectedItem }"
               />
@@ -73,7 +73,7 @@
                   icon="mdi-close"
                   variant="icon"
                   :color="ColorEnum.Dark"
-                  @click="$emit('update:modelValue', null)"
+                  @click="onClear"
                 />
               </slot>
             </FSRow>
@@ -218,7 +218,7 @@
           >
             <FSButton
               variant="icon"
-              :label="$tr('ui.autocomplete.add-item', 'Add new item')"
+              :label="$tr('ui.autocomplete-field.add-item', 'Add new item')"
               :color="ColorEnum.Primary"
               @click="$emit('add:item', search)"
             />
@@ -228,7 +228,7 @@
             padding="4px 3px"
           >
             <FSSpan>
-              {{ $tr("ui.common.no-data", "No data") }}
+              {{ $tr("ui.autocomplete-field.no-data", "No data") }}
             </FSSpan>
           </FSRow>
         </template>
@@ -286,11 +286,11 @@
             :rules="$props.rules"
             :hideDetails="true"
             :menuIcon="null"
-            :class="classes"
             :style="style"
             :modelValue="$props.modelValue"
             @update:modelValue="onSingleChange"
             @click="onClick"
+            @blur="onBlur"
             v-model:search="search"
             v-bind="$attrs"
           >
@@ -360,7 +360,7 @@
               #prepend-inner
             >
               <slot
-                v-if="selectedItem && addExtra"
+                v-if="selectedItem && showExtra"
                 name="item-prepend"
                 v-bind="{ item: selectedItem }"
               />
@@ -370,7 +370,7 @@
               #selection="{ index }"
             >
               <FSSpan
-                v-if="index === $props.modelValue.length - 1 && addExtra"
+                v-if="index === $props.modelValue.length - 1 && showExtra"
               >
                 {{ $props.placeholder }}
               </FSSpan>
@@ -382,7 +382,7 @@
                 :wrap="false"
               >
                 <slot
-                  v-if="selectedItem"
+                  v-if="selectedItem && showExtra"
                   name="item-append"
                   v-bind="{ item: selectedItem }"
                 />
@@ -394,7 +394,7 @@
                     icon="mdi-close"
                     variant="icon"
                     :color="ColorEnum.Dark"
-                    @click="$emit('update:modelValue', null)"
+                    @click="onClear"
                   />
                 </slot>
               </FSRow>
@@ -418,7 +418,7 @@
             >
               <FSRow
                 v-if="allowAddItem"
-                padding="17px"
+                padding="15px"
               >
                 <FSButton
                   variant="icon"
@@ -433,7 +433,7 @@
             >
               <FSRow
                 v-if="!allowAddItem"
-                padding="17px"
+                padding="15px"
               >
                 <FSSpan>
                   {{ $tr("ui.common.no-data", "No data") }}
@@ -483,7 +483,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref, type StyleValue, type Slot } from "vue";
+import { computed, defineComponent, type PropType, ref, type Slot, type StyleValue } from "vue";
 
 import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -627,7 +627,7 @@ export default defineComponent({
 
     const dialog = ref(false);
     const search = ref("");
-    const addExtra = ref(true);
+    const showExtra = ref(true);
 
     const style = computed((): StyleValue => {
       if (!props.editable) {
@@ -668,14 +668,6 @@ export default defineComponent({
       return {
         style: style.value
       };
-    });
-
-    const classes = computed((): string[] => {
-      const classNames = ["fs-autocomplete-field"];
-      if (props.multiple) {
-        classNames.push("fs-autocomplete-multiple-field");
-      }
-      return classNames;
     });
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
@@ -723,7 +715,7 @@ export default defineComponent({
     });
 
     const mobileValue = computed((): string | null => {
-      if (props.multiple) {
+      if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         return props.placeholder;
       }
       if (selectedItem.value) {
@@ -740,13 +732,11 @@ export default defineComponent({
     };
 
     const onRadioChange = (value: string | null) => {
-      addExtra.value = true;
       emit("update:modelValue", value);
       dialog.value = false;
     };
 
     const onCheckboxChange = (value: string) => {
-      addExtra.value = true;
       if (Array.isArray(props.modelValue)) {
         if (props.modelValue.includes(value)) {
           emit("update:modelValue", props.modelValue.filter((item: any) => item !== value));
@@ -769,15 +759,24 @@ export default defineComponent({
     };
 
     const onSingleChange = (value: string) => {
-      addExtra.value = true;
       emit("update:modelValue", value);
+      if (value && !Array.isArray(value)) {
+        showExtra.value = true;
+      }
+    };
+
+    const onClear = () => {
+      emit("update:modelValue", null);
+      search.value = "";
     };
 
     const onClick = (): void => {
-      addExtra.value = false;
-      if (props.modelValue && !props.multiple) {
-        search.value = "";
-      }
+      search.value = "";
+      showExtra.value = false;
+    };
+
+    const onBlur = () => {
+      showExtra.value = true;
     };
 
     return {
@@ -793,9 +792,8 @@ export default defineComponent({
       ColorEnum,
       listStyle,
       maxHeight,
-      addExtra,
+      showExtra,
       messages,
-      classes,
       dialog,
       search,
       slots,
@@ -804,7 +802,9 @@ export default defineComponent({
       onCheckboxChange,
       onSingleChange,
       onRadioChange,
-      onClick
+      onClear,
+      onClick,
+      onBlur
     };
   }
 });

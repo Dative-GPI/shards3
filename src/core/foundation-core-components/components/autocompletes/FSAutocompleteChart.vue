@@ -93,7 +93,7 @@ export default defineComponent({
       default: null
     },
     type: {
-      type: Number as PropType<ChartOrigin>,
+      type: [Array, Number] as PropType<ChartOrigin[] | ChartOrigin>,
       required: false,
       default: ChartOrigin.None
     },
