@@ -1,3 +1,5 @@
+import { translate } from "@dative-gpi/foundation-shared-services/tools";
+
 import type { CreateDashboardEntityPresetDTO, DashboardEntityPresetInfosDTO } from "../dashboardEntityPresets";
 import { DashboardEntityPresetInfos } from "../dashboardEntityPresets";
 import type { CreateDashboardDatePresetDTO, DashboardDatePresetInfosDTO } from "../dashboardDatePresets";
@@ -18,6 +20,12 @@ export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
   labelDefault: string;
   path: PathCrumb[];
   translations: DashboardTranslation[];
+
+  // @ts-expect-error ts(2611)
+  get label() {
+    return translate(this.translations, t => t.label, this.labelDefault);
+  }
+
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;

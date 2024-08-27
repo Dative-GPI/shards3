@@ -26,12 +26,13 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   labelDefault: string;
   translations: DashboardTranslation[];
   path: PathCrumb[];
-  widgets: WidgetInfos[];
-
+  
   // @ts-expect-error ts(2611)
   get label() {
     return translate(this.translations, t => t.label, this.labelDefault);
   }
+  
+  widgets: WidgetInfos[];
   
   defaultEntityPresetCode: string | null;
   defaultDatePresetCode: string | null;
