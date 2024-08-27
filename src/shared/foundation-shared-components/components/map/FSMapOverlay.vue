@@ -37,31 +37,29 @@
           height="fill"
           style="min-height: 0;"
         >
-          <slot name="body" />
+          <slot
+            name="body"
+          />
         </FSCol>
       </FSCol>
     </FSCard>
   </div>
 
-  <div
+  <FSCard
     v-show="!isExtraSmall"
     class="fs-map-overlay-desktop"
-    ref="desktopOverlayWrapper"
+    ref="desktopOverlay"
+    :elevation="true"
+    :border="false"
   >
-    <div style="position: relative; width: 100%;
-      height: 100%;
-    ">
-      <FSCard
-        :elevation="true"
-        :border="false"
-        height="auto"
-      >
-        <FSCol height="fill">
-          <slot name="body" />
-        </FSCol>
-      </FSCard>
-    </div>
-  </div>
+    <FSCol
+      height="fill"
+    >
+      <slot
+        name="body"
+      />
+    </FSCol>
+  </FSCard>
 </template>
 
 <script lang="ts">
@@ -92,7 +90,7 @@ export default defineComponent({
     const { isExtraSmall } = useBreakpoints();
 
     const mobileOverlayWrapper = ref<HTMLDivElement | null>(null);
-    const desktopOverlayWrapper = ref<HTMLDivElement | null>(null);
+    const desktopOverlay = ref<InstanceType<typeof FSCard> | null>(null);
 
     const mobileResizeObserver = ref<ResizeObserver | null>(null);
     const desktopResizeObserver = ref<ResizeObserver | null>(null);
@@ -114,8 +112,8 @@ export default defineComponent({
         mobileResizeObserver.value.observe(mobileOverlayWrapper.value);
       }
 
-      if (desktopOverlayWrapper.value) {
-        desktopResizeObserver.value.observe(desktopOverlayWrapper.value);
+      if (desktopOverlay.value) {
+        desktopResizeObserver.value.observe(desktopOverlay.value.$el);
       }
     });
 
@@ -131,7 +129,7 @@ export default defineComponent({
     return {
       isExtraSmall,
       mobileOverlayWrapper,
-      desktopOverlayWrapper
+      desktopOverlay
     };
   }
 });
