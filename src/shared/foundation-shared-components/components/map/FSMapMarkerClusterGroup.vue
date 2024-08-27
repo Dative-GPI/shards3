@@ -17,6 +17,11 @@ export default {
       type: Number,
       default: 0,
       required: false
+    },
+    disableClusteringAtZoom: {
+      type: Number,
+      default: 17,
+      required: false
     }
   },
   setup(props, { emit }) {
@@ -34,7 +39,7 @@ export default {
     const markerClusterGroup = ref<MarkerClusterGroup>(new MarkerClusterGroup({
       spiderfyOnMaxZoom: false,
       showCoverageOnHover: false,
-      disableClusteringAtZoom: 17,
+      disableClusteringAtZoom: props.disableClusteringAtZoom,
       iconCreateFunction: function (cluster: any) {
         const size = 36;
 

@@ -6,6 +6,8 @@ import FSFadeOut from '@dative-gpi/foundation-shared-components/components/FSFad
 import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
 import FSRow from '@dative-gpi/foundation-shared-components/components/FSRow.vue';
 import type { FSArea } from '@dative-gpi/foundation-shared-domain/models';
+import FSButton from '@dative-gpi/foundation-shared-components/components/FSButton.vue';
+import FSDialogMultiForm from '@dative-gpi/foundation-shared-components/components/FSDialogMultiForm.vue';
 
 const meta = {
   title: 'Foundation/Shared/Map',
@@ -120,11 +122,12 @@ export const Variations: Story = {
       overlayMode2: 'half',
       currentLayer1: 'map',
       currentLayer2: 'imagery',
-      areas1: [area1]
+      areas1: [area1],
+      showDialog: false
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSMap, FSRow, FSCol, FSFadeOut },
+    components: { FSMap, FSRow, FSCol, FSFadeOut, FSButton, FSDialogMultiForm },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -192,6 +195,7 @@ export const Variations: Story = {
         :border="false"
         v-model:selectedLocationId="args.selectedLocationId1"
       />
+      
       <FSMap
         :editable="false"
         :locations="args.locations2"
@@ -202,6 +206,23 @@ export const Variations: Story = {
         :showMyLocation="false"
         :showZoomButtons="false"
         :selectedLocationId="args.selectedLocationId2"
+      />
+
+      <FSDialogMultiForm
+        width="800px"
+        :steps="2"
+        :title="$tr('ui.location.edit', 'Edit location')"
+        v-model="args.showDialog"
+      >
+        <template
+          #step-2
+        >
+          <FSMap />
+        </template>
+      </FSDialogMultiForm>
+      <FSButton
+        label="Open dialog with map"
+        @click="() => args.showDialog = true"
       />
     </div>`,
   })
