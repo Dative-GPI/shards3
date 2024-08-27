@@ -1,3 +1,8 @@
 .fs-window {
     width: var(--fs-window-width);
+    height: var(--fs-window-height);
+}
+.fs-window-item {
+    height: 100%;
+    min-height: 0;
 }
