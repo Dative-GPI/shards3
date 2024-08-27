@@ -66,14 +66,19 @@ export const Variations: Story = {
           <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
           <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
         </FSTabs>
-        <FSWindow v-model="args.tab5" width="100%">
-          <FSFadeOut :value="0" height="200px">
-            <FSCol>
-              <FSText v-for="(arg, index) in 50">
-                Line {{ index }}
-              </FSText>
-            </FSCol>
-          </FSFadeOut>
+        <FSWindow v-model="args.tab5" width="100%" >
+          <FSCol
+            height="100%"
+            :style="{ 'min-height': 0 }"
+          >
+            <FSFadeOut :value="0" height="100%">
+              <FSCol>
+                <FSText v-for="(arg, index) in 50">
+                  Line {{ index }}
+                </FSText>
+              </FSCol>
+            </FSFadeOut>
+          </FSCol>
           <FSFadeOut :value="1" height="200px">
             <FSCol>
               <FSText v-for="(arg, index) in 5">
