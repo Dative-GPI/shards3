@@ -1,5 +1,3 @@
-import { translate } from "@dative-gpi/foundation-shared-services/tools";
-
 import type { CreateDashboardShallowEntityPresetDTO, DashboardShallowEntityPresetInfosDTO } from "../dashboardShallowEntityPresets";
 import { DashboardShallowEntityPresetInfos } from "../dashboardShallowEntityPresets";
 import type { CreateDashboardShallowDatePresetDTO, DashboardShallowDatePresetInfosDTO } from "../dashboardShallowDatePresets";
@@ -26,11 +24,6 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
   labelDefault: string;
   translations: DashboardTranslation[];
   path: PathCrumb[];
-  
-  // @ts-expect-error ts(2611)
-  get label() {
-    return translate(this.translations, t => t.label, this.labelDefault);
-  }
   
   widgets: WidgetInfos[];
   

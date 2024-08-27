@@ -15,13 +15,15 @@ import type { CreateWidgetDTO } from "../widgets/widgetDetails";
 export class DashboardOrganisationTypeDetails extends DashboardOrganisationTypeInfos {
   labelDefault: string;
   translations: DashboardTranslation[];
+  
+  widgets: WidgetInfos[];
+
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
   datePresets: DashboardDatePresetInfos[];
   entityPresets: DashboardEntityPresetInfos[];
   variables: DashboardVariableInfos[];
-  widgets: WidgetInfos[];
 
   constructor(params: DashboardOrganisationTypeDetailsDTO) {
     super(params);
