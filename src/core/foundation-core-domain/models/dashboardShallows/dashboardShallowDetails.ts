@@ -95,12 +95,12 @@ export class DashboardShallowDetails extends DashboardShallowInfos {
     this.overrideEntityPresets = params.overrideEntityPresets.map(dto => new DashboardShallowEntityPresetInfos(dto));
     this.overrideVariables = params.overrideVariables.map(dto => new DashboardShallowVariableInfos(dto));
 
-    this.defaultEntityPresetCode = params.entityPresetCode;
-    this.defaultDatePresetCode = params.datePresetCode;
-    this.defaultVariableCode = params.variableCode;
-    this.defaultDatePresets = params.datePresets.map(dto => new DashboardDatePresetInfos(dto));
-    this.defaultEntityPresets = params.entityPresets.map(dto => new DashboardEntityPresetInfos(dto));
-    this.defaultVariables = params.variables.map(dto => new DashboardVariableInfos(dto));
+    this.defaultEntityPresetCode = params.defaultEntityPresetCode;
+    this.defaultDatePresetCode = params.defaultDatePresetCode;
+    this.defaultVariableCode = params.defaultVariableCode;
+    this.defaultDatePresets = params.defaultDatePresets.map(dto => new DashboardDatePresetInfos(dto));
+    this.defaultEntityPresets = params.defaultEntityPresets.map(dto => new DashboardEntityPresetInfos(dto));
+    this.defaultVariables = params.defaultVariables.map(dto => new DashboardVariableInfos(dto));
   }
 }
 
@@ -116,12 +116,12 @@ export interface DashboardShallowDetailsDTO extends DashboardShallowInfosDTO {
   translations: DashboardTranslationDTO[];
   dashboardId: string;
   scope: number;
-  entityPresetCode: string | null;
-  datePresetCode: string | null;
-  variableCode: string | null;
-  datePresets: DashboardDatePresetInfosDTO[];
-  entityPresets: DashboardEntityPresetInfosDTO[];
-  variables: DashboardVariableInfosDTO[];
+  defaultEntityPresetCode: string | null;
+  defaultDatePresetCode: string | null;
+  defaultVariableCode: string | null;
+  defaultDatePresets: DashboardDatePresetInfosDTO[];
+  defaultEntityPresets: DashboardEntityPresetInfosDTO[];
+  defaultVariables: DashboardVariableInfosDTO[];
   widgets: WidgetInfosDTO[];
 }
 
