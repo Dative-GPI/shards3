@@ -8,7 +8,7 @@ import { inject, provide, ref, type Ref } from 'vue';
 import { type Map, MarkerClusterGroup, divIcon } from 'leaflet';
 
 import { clusterMarkerHtml } from '../../utils/leafletMarkers';
-import { INJECTION_FSMAP_MAP } from './keys';
+import { MAP } from './keys';
 
 export default {
   name: 'FSMapMarkerClusterGroup',
@@ -17,10 +17,15 @@ export default {
       type: Number,
       default: 0,
       required: false
+    },
+    disableClusteringAtZoom: {
+      type: Number,
+      default: 17,
+      required: false
     }
   },
   setup(props, { emit }) {
-    const map = inject<Ref<Map | null>>(INJECTION_FSMAP_MAP);
+    const map = inject<Ref<Map | null>>(MAP);
     let added = false;
     
     if(!map) {
@@ -34,7 +39,7 @@ export default {
     const markerClusterGroup = ref<MarkerClusterGroup>(new MarkerClusterGroup({
       spiderfyOnMaxZoom: false,
       showCoverageOnHover: false,
-      disableClusteringAtZoom: 17,
+      disableClusteringAtZoom: props.disableClusteringAtZoom,
       iconCreateFunction: function (cluster: any) {
         const size = 36;
 
