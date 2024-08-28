@@ -1,8 +1,10 @@
 
 .fs-gradient-select-field .v-select__selection {
   width: 100%;
+}
 
-  
+.fs-gradient-select-field  .v-field {
+  grid-template-columns: min-content min-content minmax(0, 1fr) min-content;
 }
 
 .fs-gradient-field-preview {

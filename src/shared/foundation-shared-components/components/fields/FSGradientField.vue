@@ -25,40 +25,21 @@
         :clearable="false"
         :editable="$props.editable"
         :items="items"
-        :modelValue="JSON.stringify($props.modelValue)"
-        @update:modelValue="$emit('update:modelValue', presetGradients[$event])"
+        modelValue="custom"
+        @update:modelValue="$emit('update:modelValue', allGradients[$event])"
       >
         <template
-          v-slot:selection="{ item }"
+          #item-append="{ item }"
         >
           <FSRow
             class="fs-gradient-field-preview"
-            height="fill"
+            height="20px"
             width="100%"
-            :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(JSON.parse(item.value))})` }"
+            align="center-center"
+            :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(allGradients[item.id])})` }"
           >
             <span />
           </FSRow>
-        </template>
-        <template
-          v-slot:item="{ item, props }"
-        >
-          <v-list-item
-            v-bind="props"
-          >
-            <template
-              #title
-            >
-              <FSRow
-                class="fs-gradient-field-preview"
-                height="fill"
-                width="100%"
-                :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(presetGradients[item.value])})` }"
-              >
-                <span />
-              </FSRow>
-            </template>
-          </v-list-item>
         </template>
       </FSSelectField>
     </FSBaseField>
@@ -66,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { type PropType, defineComponent } from "vue";
+import { type PropType, defineComponent, computed } from "vue";
 
 import { groupedGradients } from "../../utils";
 import { useColors } from "../../composables";
@@ -127,14 +108,27 @@ export default defineComponent({
     const { getColors } = useColors();
 
     const presetGradients = groupedGradients[props.colorCount];
-    const items = Object.keys(presetGradients)
+
+    const allGradients = computed<Record<string, string[]>>(() => {
+      return {
+        'custom': [
+          ...props.modelValue
+        ],
+        ...presetGradients
+      }
+    });
+
+    const items = Object.keys(allGradients.value).map((key) => ({
+      id: key,
+      label: null
+    }));
 
     const encodeGradientCssColors = (colors: string[]) => {
       return colors.map((color) => getColors(color).base).join(", ");
     };
 
     return {
-      presetGradients,
+      allGradients,
       items,
       encodeGradientCssColors
     };
