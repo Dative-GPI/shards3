@@ -61,7 +61,7 @@ import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui
 import type { FSDeviceAlert} from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
@@ -90,7 +90,7 @@ export default defineComponent({
   },
   emits: ["close"],
   setup(props) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
     const { $tr } = useTranslationsProvider();
 
     const criticityColor = computed(() => {

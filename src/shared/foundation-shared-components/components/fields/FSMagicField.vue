@@ -62,7 +62,7 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import { useMagicFieldProvider } from "../../composables";
 import { MagicFieldType } from "../../models/magicFields";
@@ -105,7 +105,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToShortTimeFormat } = useAppTimeZone();
+    const { epochToShortTimeFormat } = useDateFormat();
     const { $tr } = useTranslationsProvider();
     const { get } = useMagicFieldProvider();
 

@@ -5,7 +5,7 @@ import FSText from "@dative-gpi/foundation-shared-components/components/FSText.v
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone, useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 const meta = {
@@ -24,12 +24,12 @@ export const DefaultTheme: Story = {  args: {
         utcToEpoch,
         timeZone: useAppTimeZone().timeZone,
         setTimeZone: useAppTimeZone().setAppTimeZone,
-        epochToShortDateFormat: useAppTimeZone().epochToShortDateFormat,
-        epochToLongDateFormat: useAppTimeZone().epochToLongDateFormat,
-        epochToShortTimeFormat: useAppTimeZone().epochToShortTimeFormat,
-        epochToLongTimeFormat: useAppTimeZone().epochToLongTimeFormat,
-        epochToTimeFormat: useAppTimeZone().epochToTimeOnlyFormat,
-        todayToEpoch: useAppTimeZone().todayToEpoch,
+        epochToShortDateFormat: useDateFormat().epochToShortDateFormat,
+        epochToLongDateFormat: useDateFormat().epochToLongDateFormat,
+        epochToShortTimeFormat: useDateFormat().epochToShortTimeFormat,
+        epochToLongTimeFormat: useDateFormat().epochToLongTimeFormat,
+        epochToTimeFormat: useDateFormat().epochToTimeOnlyFormat,
+        todayToEpoch: useDateFormat().todayToEpoch,
         todayAtMidnight: () => {
             const date = new Date();
             date.setHours(0, 0, 0, 0);
@@ -92,7 +92,7 @@ export const DefaultTheme: Story = {  args: {
                 </FSRow>
             </FSCol>
             <FSCol gap="16px">
-                <FSText> services/composables/useAppTimeZone/epochToLongTimeFormat </FSText>
+                <FSText> services/composables/useDateFormat/epochToLongTimeFormat </FSText>
                 <FSRow :wrap="false">
                     <FSCol width="300px">
                         <FSText> • 1640995200000 </FSText>
@@ -118,7 +118,7 @@ export const DefaultTheme: Story = {  args: {
                 </FSRow>
             </FSCol>
             <FSCol gap="16px">
-                <FSText> services/composables/useAppTimeZone/epochToLongDateFormat </FSText>
+                <FSText> services/composables/useDateFormat/epochToLongDateFormat </FSText>
                 <FSRow :wrap="false">
                     <FSCol width="300px">
                         <FSText> • 1640995200000 </FSText>
@@ -144,7 +144,7 @@ export const DefaultTheme: Story = {  args: {
                 </FSRow>
             </FSCol>
             <FSCol gap="16px">
-                <FSText> services/composables/useAppTimeZone/epochToShortDateFormat </FSText>
+                <FSText> services/composables/useDateFormat/epochToShortDateFormat </FSText>
                 <FSRow :wrap="false">
                     <FSCol width="300px">
                         <FSText> • 1640995200000 </FSText>
@@ -170,7 +170,7 @@ export const DefaultTheme: Story = {  args: {
                 </FSRow>
             </FSCol>
             <FSCol gap="16px">
-                <FSText> services/composables/useAppTimeZone/epochToShortTimeFormat </FSText>
+                <FSText> services/composables/useDateFormat/epochToShortTimeFormat </FSText>
                 <FSRow :wrap="false">
                     <FSCol width="300px">
                         <FSText> • 1640995200000 </FSText>

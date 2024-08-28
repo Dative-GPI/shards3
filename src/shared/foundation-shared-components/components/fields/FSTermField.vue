@@ -68,7 +68,7 @@
           :rules="[DateRules.required()]"
           :editable="$props.editable"
           :hideHeader="true"
-          :modelValue="[parseForPicker(innerStartDate)!, parseForPicker(innerEndDate)!]"
+          :modelValue="[parseForPicker(innerStartDate), parseForPicker(innerEndDate)]"
           @update:modelValue="onPickDates"
         />
       </FSRow>
@@ -81,7 +81,7 @@ import { computed, defineComponent, type PropType, ref, watch } from "vue";
 import _ from "lodash";
 
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";
 
@@ -163,7 +163,7 @@ export default defineComponent({
   },
   emits: ["update:startDate", "update:endDate"],
   setup(props, { emit }) {
-    const { parseForPicker, formatFromPicker, todayToPicker, yesterdayToPicker } = useAppTimeZone();
+    const { parseForPicker, epochToISO, todayToPicker, yesterdayToPicker } = useDateFormat();
     const { getMessages } = useRules();
 
     const innerDateSetting = ref<DateSetting>(DateSetting.PastDays);
@@ -418,14 +418,14 @@ export default defineComponent({
       }
       else {
         console.log(value[0], value[1]);
-        if (value && value[0] != null && formatFromPicker(value[0]) !== innerStartDate.value) {
-          innerStartDate.value = formatFromPicker(value[0]);
+        if (value && value[0] != null && epochToISO(value[0]) !== innerStartDate.value) {
+          innerStartDate.value = epochToISO(value[0]);
           if (valid.value) {
             emit("update:startDate", innerStartDate.value);
           }
         }
-        if (value && value[1] != null && formatFromPicker(value[1]) !== innerEndDate.value) {
-          innerEndDate.value = formatFromPicker(value[1]);
+        if (value && value[1] != null && epochToISO(value[1]) !== innerEndDate.value) {
+          innerEndDate.value = epochToISO(value[1]);
           if (valid.value) {
             emit("update:endDate", innerEndDate.value);
           }
