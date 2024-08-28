@@ -1,5 +1,6 @@
 <template>
   <FSSelectField
+    class="fs-select-date-setting"
     :items="dateSettings"
     :clearable="false"
     :modelValue="$props.modelValue"

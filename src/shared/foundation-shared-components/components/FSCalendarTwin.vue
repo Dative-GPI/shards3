@@ -114,7 +114,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, type PropType, ref, type StyleValue } from "vue";
 
-import { useAppTimeZone, useAppLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat, useAppLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -155,7 +155,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useAppTimeZone();
+    const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useDateFormat();
     const { languageCode } = useAppLanguageCode();
     const { getColors } = useColors();
     

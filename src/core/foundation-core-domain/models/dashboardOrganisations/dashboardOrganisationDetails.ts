@@ -18,13 +18,15 @@ export class DashboardOrganisationDetails extends DashboardOrganisationInfos {
   labelDefault: string;
   path: PathCrumb[];
   translations: DashboardTranslation[];
+
+  widgets: WidgetInfos[];
+
   entityPresetCode: string | null;
   datePresetCode: string | null;
   variableCode: string | null;
   datePresets: DashboardDatePresetInfos[];
   entityPresets: DashboardEntityPresetInfos[];
   variables: DashboardVariableInfos[];
-  widgets: WidgetInfos[];
 
   constructor(params: DashboardOrganisationDetailsDTO) {
     super(params);

@@ -79,7 +79,7 @@
 import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone, useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
@@ -115,7 +115,7 @@ export default defineComponent({
     modelValue: {
       type: Array as PropType<number[] | null>,
       required: false,
-      default: null
+      default: () => null
     },
     color: {
       type: String as PropType<ColorBase>,
@@ -145,7 +145,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToShortTimeFormat, getOffsetUser } = useAppTimeZone();
+    const { getUserOffset } = useAppTimeZone();
+    const { epochToShortTimeFormat } = useDateFormat();
     const { validateOn, getMessages } = useRules();
 
     const dialog = ref(false);
@@ -206,13 +207,13 @@ export default defineComponent({
             break;
           }
           case 1: {
-            innerTimeLeft.value = Math.floor((props.modelValue[0] + getOffsetUser()) % (24 * 60 * 60 * 1000));
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffset()) % (24 * 60 * 60 * 1000));
             innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
             break;
           }
           default: {
-            innerTimeLeft.value = Math.floor((props.modelValue[0] + getOffsetUser()) % (24 * 60 * 60 * 1000));
-            innerTimeRight.value = Math.floor((props.modelValue[1] + getOffsetUser()) % (24 * 60 * 60 * 1000));
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffset()) % (24 * 60 * 60 * 1000));
+            innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffset()) % (24 * 60 * 60 * 1000));
             innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
             break;
           }

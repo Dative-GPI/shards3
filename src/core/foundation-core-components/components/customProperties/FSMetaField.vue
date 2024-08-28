@@ -91,7 +91,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import { type CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
 
@@ -139,7 +139,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
 
     const items = computed((): { id: string, label: string, icon: string | null }[] => {
       return Object.keys(props.customProperty.allowedValues).map((key: string) => {

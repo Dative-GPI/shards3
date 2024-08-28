@@ -58,7 +58,7 @@
 import { computed, defineComponent, type PropType } from "vue";
 
 import type { FSDeviceConnectivity } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import { connectivityLabel } from "../../utils";
 
@@ -89,7 +89,7 @@ export default defineComponent({
   },
   emit: ["close"],
   setup(props) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
 
     const deviceTimestamp = computed((): string => {
       if (props.deviceConnectivity.sourceTimestamp) {

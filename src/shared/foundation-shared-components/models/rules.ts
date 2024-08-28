@@ -1,11 +1,11 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { validateExpression } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { getTimeBestString } from "../utils";
 import type { TimeUnit } from "@/shared/foundation-shared-domain";
 
-const { epochToLongDateFormat } = useAppTimeZone()!;
+const { epochToLongDateFormat } = useDateFormat()!;
 const { $tr } = useTranslationsProvider();
 
 export const TextRules = {

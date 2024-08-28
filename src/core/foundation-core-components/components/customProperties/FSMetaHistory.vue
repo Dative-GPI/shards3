@@ -38,7 +38,7 @@
 import { defineComponent, type PropType, ref, watch } from "vue";
 import _ from "lodash";
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import { type CustomPropertyInfos, type PropertyEntity } from "../../../foundation-core-domain/models";
 import { useCustomPropertyValues } from "../../../foundation-core-services/composables";
@@ -70,7 +70,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
     const { fetch, entity: customPropertyValues } = useCustomPropertyValues();
 
     const dialog = ref(false);

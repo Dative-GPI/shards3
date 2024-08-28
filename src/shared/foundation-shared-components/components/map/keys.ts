@@ -1,4 +1,4 @@
-export const INJECTION_FSMAP_FEATUREGROUP = 'featureGroup';
-export const INJECTION_FSMAP_MAP = 'map';
-export const INJECTION_FSMAP_MARKERCLUSTERGROUP = 'markerClusterGroup';
+export const FEATUREGROUP = 'featureGroup';
+export const MAP = 'map';
+export const MARKERCLUSTERGROUP = 'markerClusterGroup';
 

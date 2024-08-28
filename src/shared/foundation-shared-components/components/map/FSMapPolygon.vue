@@ -8,7 +8,7 @@ import { inject, type PropType, onMounted, type Ref, watch, ref } from 'vue';
 import { type Map, type LatLng, type Polygon, type FeatureGroup, polygon } from 'leaflet';
 
 import { useColors } from "../../composables";
-import { INJECTION_FSMAP_FEATUREGROUP, INJECTION_FSMAP_MAP } from './keys';
+import { FEATUREGROUP, MAP } from './keys';
 
 export default {
   name: 'FSMapPolygon',
@@ -25,8 +25,8 @@ export default {
   },
   emits: ['click'],
   setup(props, { emit }) {
-    const map = inject<Ref<Map | null>>(INJECTION_FSMAP_MAP);
-    const featureGroup = inject<Ref<FeatureGroup | null>>(INJECTION_FSMAP_FEATUREGROUP, ref(null));
+    const map = inject<Ref<Map | null>>(MAP);
+    const featureGroup = inject<Ref<FeatureGroup | null>>(FEATUREGROUP, ref(null));
 
     const { getColors } = useColors();
 
