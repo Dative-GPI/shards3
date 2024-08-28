@@ -51,8 +51,8 @@
         gap="0"
       >
         <FSCol
-        height="100%"
-        :width="dayColumnWidth"
+          height="100%"
+          :width="dayColumnWidth"
         >
         </FSCol>
         <FSAgendaHoursLine
@@ -105,7 +105,7 @@
 <script lang="ts">
 import { defineComponent, type PropType, computed, ref, onUnmounted } from 'vue';
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import type { AgendaEvent } from '../../models/agendaEvent';
 
@@ -158,7 +158,7 @@ export default defineComponent({
   },
   emits: ['update:mode'],
   setup(props) {
-    const { todayToEpoch } = useAppTimeZone();
+    const { todayToEpoch } = useDateFormat();
 
     const dayColumnWidth = '46px';
 
@@ -187,12 +187,12 @@ export default defineComponent({
 
     const nowHour = computed(() => new Date(now.value).getHours());
     const selectedDateMonthYear = computed(() => {
-      if(!beginRangeDate.value) return '';
+      if(!beginRangeDate.value) {return '';}
       return beginRangeDate.value.toLocaleString('default', { month: 'long', year: 'numeric' })
     });
 
     const nowIsInSelectedRange = computed(() => {
-      if(!beginRangeDate.value || !endRangeDate.value) return false;
+      if(!beginRangeDate.value || !endRangeDate.value) {return false;}
       return now.value >= beginRangeDate.value.getTime() && now.value <= endRangeDate.value.getTime();
     });
 

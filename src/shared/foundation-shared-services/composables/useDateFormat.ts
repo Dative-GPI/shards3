@@ -85,6 +85,14 @@ export const useDateFormat = () => {
     return date.toLocaleString(languageCode.value, { ...OPTIONS.time, timeZone: timeZone.value });
   };
 
+  const epochToShortTimeOnlyFormat = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.shortTimeOnly, timeZone: timeZone.value });
+  }
+
   const todayToEpoch = (): number => {
     return new Date().getTime() + getOffsetDifference();
   };
@@ -144,6 +152,7 @@ export const useDateFormat = () => {
     epochToLongTimeFormat,
     epochToShortDateFormat,
     epochToShortTimeFormat,
+    epochToShortTimeOnlyFormat,
     epochToTimeOnlyFormat,
     parseForPicker,
     todayToPicker,

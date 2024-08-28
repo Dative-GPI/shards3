@@ -29,12 +29,10 @@ import { defineComponent } from 'vue';
 
 import FSText from '../FSText.vue';
 import FSRow from '../FSRow.vue';
-import FSChip from '../FSChip.vue';
 
 export default defineComponent({
   name: 'FSAgendaHoursLine',
   components: {
-    FSChip,
     FSText,
     FSRow,
   },

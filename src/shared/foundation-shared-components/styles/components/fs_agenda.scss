@@ -39,6 +39,10 @@
   height: calc(100% - 4px) !important;
   left: var(--fs-agenda-event-left);
 
+  &.fs-agenda-event-past {
+    opacity: 0.35;
+  }
+
   > .fs-card{
     border-left: solid 3px var(--fs-clickable-border-color) !important;
   }

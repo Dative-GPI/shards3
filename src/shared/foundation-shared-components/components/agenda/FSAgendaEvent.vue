@@ -1,42 +1,51 @@
 <template>
   <FSClickable
-    class="fs-agenda-event"
+    :class="`fs-agenda-event fs-agenda-event-${$props.variant}`"
+    :variant="$props.variant === 'current' ? 'full' : 'standard'"
     :style="style"
     :color="$props.color"
     :width="`${width}%`"
     :border="false"
   >
-    <FSCol
-      height="100%"
-      align="center-left"
-      padding="8px"
+    <slot
+      name="default"
+      :label="label"
+      :icon="icon"
+      :timeStart="timeStart"
+      :timeEnd="timeEnd"
     >
-      <FSSpan>
-        {{ timeStart }}
-      </FSSpan>
-      <FSRow
+      <FSCol
+        height="100%"
         align="center-left"
-        :wrap="false"
+        padding="8px"
       >
-        <FSIcon
-          v-if="$props.icon"
-          :icon="$props.icon"
-          size="32px"
-        />
-        <FSSpan
-          font="text-button"
-        >
-          {{ $props.label }}
+        <FSSpan>
+          {{ `${timeStart} - ${timeEnd}` }}
         </FSSpan>
-      </FSRow>
-    </FSCol>
+        <FSRow
+          align="center-left"
+          :wrap="false"
+        >
+          <FSIcon
+            v-if="$props.icon"
+            :icon="$props.icon"
+            size="32px"
+          />
+          <FSSpan
+            font="text-button"
+          >
+            {{ $props.label }}
+          </FSSpan>
+        </FSRow>
+      </FSCol>
+    </slot>
   </FSClickable>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, type StyleValue } from 'vue';
+import { defineComponent, computed, type StyleValue, type PropType } from 'vue';
 
-import { useAppTimeZone } from '@/shared/foundation-shared-services/composables';
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSClickable from '../FSClickable.vue';
 import FSSpan from '../FSSpan.vue';
@@ -55,6 +64,10 @@ export default defineComponent({
     FSSpan
   },
   props: {
+    variant: {
+      type: String as PropType<'past' | 'current' | 'future'>,
+      default: 'future'
+    },
     label: {
       type: String,
       required: true
@@ -85,13 +98,16 @@ export default defineComponent({
     },
   },
   setup(props) {
-    //const { epochToTimeOnlyFormat } = useAppTimeZone();
+    const { epochToShortTimeOnlyFormat } = useDateFormat();
 
     const dayEnd = props.dayBegin + 1000 * 60 * 60 * 24;
 
     const timeStart = computed(() => {
-      //return epochToTimeOnlyFormat(props.start);
-      return new Date(props.start).toLocaleTimeString();
+      return epochToShortTimeOnlyFormat(props.start);
+    });
+
+    const timeEnd = computed(() => {
+      return epochToShortTimeOnlyFormat(props.end);
     });
 
     const leftPosition = computed(() => {
@@ -102,14 +118,16 @@ export default defineComponent({
     });
 
     const width = computed(() => {
-      if(props.end > dayEnd) {
+      if (props.end > dayEnd) {
         return (dayEnd - props.start) / 1000 / 60 / 60 / 24 * 100
       }
-      console.log(props.end, props.start, ((props.end - props.start) / 1000 / 60 / 60 / 24 * 100))
+      else if (props.start < props.dayBegin) {
+        return (props.end - props.dayBegin) / 1000 / 60 / 60 / 24 * 100;
+      }
       return (props.end - props.start) / 1000 / 60 / 60 / 24 * 100;
     });
 
-    const style = computed(():StyleValue => {
+    const style = computed((): StyleValue => {
       return {
         '--fs-agenda-event-left': `${leftPosition.value}%`,
       };
@@ -117,6 +135,7 @@ export default defineComponent({
 
     return {
       style,
+      timeEnd,
       timeStart,
       width
     };

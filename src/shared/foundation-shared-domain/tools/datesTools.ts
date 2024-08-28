@@ -35,6 +35,10 @@ export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit"
+  },
+  shortTimeOnly: {
+    hour: "2-digit",
+    minute: "2-digit"
   }
 };
 

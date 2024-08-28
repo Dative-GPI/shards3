@@ -8,7 +8,7 @@
       height="100%"
       gap="0"
       :width="$props.firstColumnWidth"
-      >
+    >
       <FSCol
         v-for="day in weekDays"
         class="fs-week-agenda-label-day"
@@ -37,7 +37,7 @@
       gap="0"
       height="100%"
       width="100%"
-      >
+    >
       <slot />
       <template
         v-if="loading"
@@ -60,8 +60,9 @@
           align="center-left"
         >
           <FSAgendaEvent
-            v-for="event in getDayEvents(day.dayNumber)"
+            v-for="event in getDayEvents(day.dayBeginEpoch)"
             :key="event.id"
+            :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
             :dayBegin="day.dayBeginEpoch"
             :label="event.label"
             :start="event.start"
@@ -160,11 +161,11 @@ export default defineComponent({
       return weekDaysArray;
     });
 
-    const getDayEvents = (day: number) => {
+    const getDayEvents = (dayBeginEpoch: number) => {
       return props.events.filter((event) => {
-        const eventDateStart = new Date(event.start);
-        const eventDateEnd = new Date(event.end);
-        return eventDateStart.getDate() === day || eventDateEnd.getDate() === day;
+        const isStartingInDay = event.start >= dayBeginEpoch && event.start < (dayBeginEpoch + 1000 * 60 * 60 * 24);
+        const isEndingInDay = event.end >= dayBeginEpoch && event.end < (dayBeginEpoch + 1000 * 60 * 60 * 24);
+        return isStartingInDay || isEndingInDay;
       });
     };
 
