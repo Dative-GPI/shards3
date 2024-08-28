@@ -33,17 +33,13 @@
         >
           <FSRow
             class="fs-gradient-field-preview"
+            align="center-center"
             height="12px"
             width="100%"
-            align="center-center"
             :style="{
               '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(allGradients[item.id])})`
             }"
-          >
-            <FSRow
-              class="fs-gradient-field-preview-mobile"
-            />
-          </FSRow>
+          />
         </template>
       </FSSelectField>
     </FSBaseField>
