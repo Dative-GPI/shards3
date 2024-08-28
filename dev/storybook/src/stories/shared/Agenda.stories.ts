@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSAgenda from "@dative-gpi/foundation-shared-components/components/agenda/FSAgenda.vue";
+import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
 
 const meta = {
   title: 'Foundation/Shared/Agenda',
@@ -18,16 +19,19 @@ export const Variations: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSAgenda },
+    components: { FSAgenda, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 30px;">
-      <FSAgenda
-        v-model:mode="args.mode1"
-      />
-    </div>`,
+      <FSCol
+        height="700px"
+        >
+        <FSAgenda
+          height="100%"
+          v-model:mode="args.mode1"
+        />
+      </FSCol>`,
   })
 }

@@ -6,18 +6,17 @@
   >
     <FSCol
       height="100%"
+      gap="0"
       :width="$props.firstColumnWidth"
       >
       <FSCol
         v-for="day in weekDays"
+        class="fs-week-agenda-label-day"
         :key="day.dayNumber"
+        padding="6px"
         height="100%"
         width="100%"
         align="center-left"
-        :style="{
-          borderRight: '1px solid #E0E0E0',
-          borderBottom: '1px solid #E0E0E0',
-        }"
       >
         <FSText
           :color="day.isNowDay ? 'primary' : 'dark'"
@@ -35,19 +34,33 @@
     </FSCol>
     <FSCol
       class="fs-week-agenda-body"
+      gap="0"
       height="100%"
       width="100%"
       >
       <slot />
-      <FSRow
-        v-for="day in weekDays"
-        :key="day.dayNumber"
-        class="fs-week-agenda-row-day"
-        height="100%"
-        width="fill"
-        align="center-left"
+      <template
+        v-if="loading"
       >
-      </FSRow>
+        <FSLoader
+          height="100%"
+          width="100%"
+          padding="2px"
+        />
+      </template>
+      <template
+        v-else
+      >
+        <FSRow
+          v-for="day in weekDays"
+          :key="day.dayNumber"
+          class="fs-week-agenda-row-day"
+          height="100%"
+          width="fill"
+          align="center-left"
+        >
+        </FSRow>
+      </template>
     </FSCol>
   </FSRow>
 </template>
@@ -57,14 +70,16 @@ import { defineComponent, computed } from 'vue';
 
 import FSText from '../FSText.vue';
 import FSCol from '../FSCol.vue';
+import FSRow from '../FSRow.vue';
+import FSLoader from '../FSLoader.vue';
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
-import FSRow from '../FSRow.vue';
 
 export default defineComponent({
   name: 'FSWeekAgenda',
   components: {
     FSCol,
+    FSLoader,
     FSRow,
     FSText
   },
@@ -80,9 +95,14 @@ export default defineComponent({
     firstColumnWidth: {
       type: String,
       required: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
-  setup(props) {
+  emits: ['update:begin', 'update:end'],
+  setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
 
     const weekDays = computed(() => {
@@ -110,6 +130,12 @@ export default defineComponent({
           isNowDay: day.getDate() === new Date(props.now).getDate() && day.getMonth() === new Date(props.now).getMonth() && day.getFullYear() === new Date(props.now).getFullYear(),
         });
       }
+
+      emit('update:begin', monday);
+      const sundayEnd = new Date(monday);
+      sundayEnd.setDate(monday.getDate() + 6);
+      sundayEnd.setHours(23, 59, 59, 999);
+      emit('update:end', sundayEnd);
 
       return weekDaysArray;
     });

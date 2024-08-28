@@ -1,7 +1,7 @@
 .fs-time-line-marker {
   position: absolute;
   top: 0;
-  left: var(--fs-time-line-marker-left);
+  left: calc(var(--fs-time-line-marker-left) + 1px);
   width: 2px;
   height: 100%;
   z-index: 1;

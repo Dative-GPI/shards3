@@ -43,8 +43,10 @@
       </FSRow>
     </FSRow>
     <FSCol
+      class="fs-agenda-view"
       height="100%"
-      gap="0">
+      gap="0"
+    >
       <FSRow
         gap="0"
       >
@@ -70,6 +72,9 @@
           :firstColumnWidth="dayColumnWidth"
           :selectedDate="selectedDate"
           :now="now"
+          :loading="$props.loading"
+          @update:begin="beginRangeDate = $event"
+          @update:end="endRangeDate = $event"
         >
           <FSTimeLineMarker
             v-if="nowIsInSelectedRange"
@@ -78,9 +83,18 @@
         </FSWeekAgenda>
         <FSMonthAgenda
           :value="modeValues.month"
+          :firstColumnWidth="dayColumnWidth"
+          :selectedDate="selectedDate"
+          :now="now"
+          :loading="$props.loading"
+          @update:begin="beginRangeDate = $event"
+          @update:end="endRangeDate = $event"
         >
+          <FSTimeLineMarker
+            v-if="nowIsInSelectedRange"
+            :modelValue="now"
+          />
         </FSMonthAgenda>
-        
       </FSWindow>
     </FSCol>
   </FSCol>
@@ -122,37 +136,38 @@ export default defineComponent({
     height: {
       type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
       required: false,
-      default: "500px"
+      default: "100%"
     },
     width: {
       type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
       required: false,
       default: "100%"
     },
+    loading: {
+      type: Boolean,
+      default: false
+    }
   },
   emits: ['update:mode'],
   setup(props) {
     const { todayToEpoch } = useAppTimeZone();
 
-    const now = ref(todayToEpoch());
-    const nowHour = computed(() => new Date(now.value).getHours());
-    const selectedDate = ref(now.value);
-    const selectedDateMonthYear = computed(() => new Date(selectedDate.value).toLocaleString('default', { month: 'long', year: 'numeric' }));
-
     const dayColumnWidth = '46px';
 
-    const nowIsInSelectedMonth = computed(() => {
-      return new Date(selectedDate.value).getMonth() === new Date(now.value).getMonth();
-    });
+    const now = ref(todayToEpoch());
+    const selectedDate = ref(now.value);
+    const beginRangeDate = ref<Date>();
+    const endRangeDate = ref<Date>();
 
-    const nowIsInSelectedWeek = computed(() => {
-      const monday = new Date(selectedDate.value).setDate(new Date(selectedDate.value).getDate() - new Date(selectedDate.value).getDay() + (new Date(selectedDate.value).getDay() === 0 ? -6 : 1));
-      const sunday = new Date(monday).setDate(new Date(monday).getDate() + 6);
-      return new Date(now.value) >= new Date(monday) && new Date(now.value) <= new Date(sunday);
+    const nowHour = computed(() => new Date(now.value).getHours());
+    const selectedDateMonthYear = computed(() => {
+      if(!beginRangeDate.value) return '';
+      return beginRangeDate.value.toLocaleString('default', { month: 'long', year: 'numeric' })
     });
 
     const nowIsInSelectedRange = computed(() => {
-      return props.mode === 'week' ? nowIsInSelectedWeek.value : nowIsInSelectedMonth.value;
+      if(!beginRangeDate.value || !endRangeDate.value) return false;
+      return now.value >= beginRangeDate.value.getTime() && now.value <= endRangeDate.value.getTime();
     });
 
     const modeValues = {
@@ -185,7 +200,9 @@ export default defineComponent({
     }, 10000);
 
     return {
+      beginRangeDate,
       dayColumnWidth,
+      endRangeDate,
       selectedDate,
       selectedDateMonthYear,
       modeValues,
