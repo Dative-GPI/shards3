@@ -10,7 +10,7 @@ import { type Map, type DivIcon, divIcon, type LatLng, marker, type Marker, type
 import { useColors } from "../../composables";
 
 import { gpsMarkerHtml, locationMarkerHtml, pinMarkerHtml } from '../../utils/leafletMarkers';
-import { INJECTION_FSMAP_MAP, INJECTION_FSMAP_MARKERCLUSTERGROUP } from './keys';
+import { MAP, MARKERCLUSTERGROUP } from './keys';
 
 export default {
   name: 'FSMapMarker',
@@ -41,8 +41,8 @@ export default {
   },
   emits: ['click'],
   setup(props, { emit }) {
-    const map = inject<Ref<Map | null>>(INJECTION_FSMAP_MAP);
-    const markerClusterGroup = inject<Ref<MarkerClusterGroup | null>>(INJECTION_FSMAP_MARKERCLUSTERGROUP, ref(null));
+    const map = inject<Ref<Map | null>>(MAP);
+    const markerClusterGroup = inject<Ref<MarkerClusterGroup | null>>(MARKERCLUSTERGROUP, ref(null));
 
     const { getColors } = useColors();
 

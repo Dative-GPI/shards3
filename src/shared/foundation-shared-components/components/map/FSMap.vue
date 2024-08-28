@@ -40,6 +40,7 @@
         <FSMapMarkerClusterGroup
           v-if="$props.locations"
           :expected-layers="$props.locations.length"
+          :disableClusteringAtZoom="defaultZoom"
           @update:bounds="(bounds) => locationGroupBounds = bounds"
         >
           <FSMapMarker
@@ -116,7 +117,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch } from "vue";
+import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch, onUnmounted } from "vue";
 
 import type {} from "leaflet.markercluster";
 import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, LatLngBounds, type FitBoundsOptions } from "leaflet";
@@ -240,9 +241,15 @@ export default defineComponent({
     const overlayHeight = ref<number>();
     const overlayWidth = ref<number>();
 
-    const defaultZoom = 15;
-    
     provide('map', map);
+
+    const defaultZoom = 16;
+    const mapResizeObserver = new ResizeObserver(() => {
+      if(!map.value) {
+        return;
+      }
+      map.value.invalidateSize();
+    });
 
     const mapLayers: MapLayer[] = [
       {
@@ -306,20 +313,20 @@ export default defineComponent({
       return bounds as LatLngBounds;
     });
 
-    const calculateTargetPosition = (target: L.LatLng) => {
+    const calculateTargetPosition = (target: L.LatLng, zoom?: number) => {
       if(!map.value) {
         return target;
       }
-      const zoom = map.value.getZoom();
+      zoom = zoom ?? map.value.getZoom();
       const targetPoint = map.value.project(target, zoom).subtract([leftOffset.value / 2, -bottomOffset.value / 2]);
       return map.value.unproject(targetPoint, zoom);
     }
 
-    const panTo = (lat: number, lng: number) => {
+    const flyTo = (lat: number, lng: number, zoom: number = defaultZoom) => {
       if(!map.value) {
         return;
       }
-      map.value.panTo(calculateTargetPosition(latLng(lat, lng)));
+      map.value.flyTo(calculateTargetPosition(latLng(lat, lng), zoom), zoom);
     }
 
     const setView = (lat: number, lng: number, zoom: number) => {
@@ -376,8 +383,14 @@ export default defineComponent({
           return;
         }
 
-        panTo(e.latlng.lat, e.latlng.lng);
+        flyTo(e.latlng.lat, e.latlng.lng);
       });
+      
+      mapResizeObserver.observe(leafletContainer.value);
+    });
+
+    onUnmounted(() => {
+      mapResizeObserver.disconnect();
     });
 
     watch (() => props.center, (center) => {
@@ -395,7 +408,7 @@ export default defineComponent({
       if(!selectedLocation) {
         return;
       }
-      panTo(selectedLocation?.address.latitude, selectedLocation?.address.longitude);
+      flyTo(selectedLocation?.address.latitude, selectedLocation?.address.longitude);
     }, { immediate: true });
 
     watch(() => props.selectedAreaId, (selectedAreaId) => {
@@ -419,6 +432,7 @@ export default defineComponent({
 
     return {
       ColorEnum,
+      defaultZoom,
       leafletContainer,
       locationGroupBounds,
       overlayHeight,
