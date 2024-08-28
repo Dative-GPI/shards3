@@ -21,25 +21,25 @@
         />
       </FSRow>
       <FSSelectField
-        class="fs-gradient-select-field"
-        :clearable="false"
+        class="fs-gradient-field-select"
         :editable="$props.editable"
+        :clearable="false"
         :items="items"
         modelValue="custom"
         @update:modelValue="$emit('update:modelValue', allGradients[$event])"
       >
         <template
-          #item-append="{ item }"
+          #item-prepend="{ item }"
         >
           <FSRow
             class="fs-gradient-field-preview"
-            height="20px"
+            height="12px"
             width="100%"
             align="center-center"
-            :style="{ '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(allGradients[item.id])})` }"
-          >
-            <span />
-          </FSRow>
+            :style="{
+              '--fs-gradient-field-background': `linear-gradient(to right, ${encodeGradientCssColors(allGradients[item.id])})`
+            }"
+          />
         </template>
       </FSSelectField>
     </FSBaseField>

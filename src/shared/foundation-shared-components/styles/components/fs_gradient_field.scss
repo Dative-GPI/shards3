@@ -1,18 +1,16 @@
+.fs-gradient-field-select > .v-input__control > .v-field {
+  display: flex;
 
-.fs-gradient-select-field .v-select__selection {
-  width: 100%;
-}
+  & > .v-field__prepend-inner {
+    flex: 1;
+  }
 
-.fs-gradient-select-field  .v-field {
-  grid-template-columns: min-content min-content minmax(0, 1fr) min-content;
-}
-
-.fs-gradient-field-preview {
-  padding: 13px 20px;
-  > span {
-    height: 12px;
-    background: var(--fs-gradient-field-background) !important;
-    width: 100%;
+  & > .v-field__field {
+    flex: 0;
   }
 }
 
+.fs-gradient-field-preview {
+  background: var(--fs-gradient-field-background) !important;
+  width: 100%;
+}
