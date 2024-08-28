@@ -1,0 +1,9 @@
+.fs-time-line-marker {
+  position: absolute;
+  top: 0;
+  left: var(--fs-time-line-marker-left);
+  width: 2px;
+  height: 100%;
+  z-index: 1;
+  background-color: var(--fs-time-line-marker-color);
+}
