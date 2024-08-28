@@ -12,5 +12,11 @@
 
 .fs-gradient-field-preview {
   background: var(--fs-gradient-field-background) !important;
+  overflow-x: hidden;
   width: 100%;
+  max-width: 100%;
+}
+
+.v-dialog .fs-gradient-field-preview-mobile {
+  width: 100vw;
 }
