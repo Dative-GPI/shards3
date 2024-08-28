@@ -69,12 +69,13 @@
       >
         <FSWeekAgenda
           :value="modeValues.week"
+          :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
           :selectedDate="selectedDate"
           :now="now"
           :loading="$props.loading"
-          @update:begin="beginRangeDate = $event"
-          @update:end="endRangeDate = $event"
+          @update:begin="beginWeekRangeDate = $event"
+          @update:end="endWeekRangeDate = $event"
         >
           <FSTimeLineMarker
             v-if="nowIsInSelectedRange"
@@ -83,12 +84,13 @@
         </FSWeekAgenda>
         <FSMonthAgenda
           :value="modeValues.month"
+          :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
           :selectedDate="selectedDate"
           :now="now"
           :loading="$props.loading"
-          @update:begin="beginRangeDate = $event"
-          @update:end="endRangeDate = $event"
+          @update:begin="beginMonthRangeDate = $event"
+          @update:end="endMonthRangeDate = $event"
         >
           <FSTimeLineMarker
             v-if="nowIsInSelectedRange"
@@ -101,9 +103,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, computed, ref } from 'vue';
+import { defineComponent, type PropType, computed, ref, onUnmounted } from 'vue';
 
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+
+import type { AgendaEvent } from '../../models/agendaEvent';
 
 import FSMonthAgenda from './FSMonthAgenda.vue';
 import FSWeekAgenda from './FSWeekAgenda.vue';
@@ -146,6 +150,10 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: false
+    },
+    events: {
+      type: Array as PropType<AgendaEvent[]>,
+      default: () => []
     }
   },
   emits: ['update:mode'],
@@ -156,8 +164,26 @@ export default defineComponent({
 
     const now = ref(todayToEpoch());
     const selectedDate = ref(now.value);
-    const beginRangeDate = ref<Date>();
-    const endRangeDate = ref<Date>();
+    const beginWeekRangeDate = ref<Date>();
+    const endWeekRangeDate = ref<Date>();
+    const beginMonthRangeDate = ref<Date>();
+    const endMonthRangeDate = ref<Date>();
+
+    const beginRangeDate = computed(() => {
+      if(props.mode === 'week') {
+        return beginWeekRangeDate.value;
+      } else if(props.mode === 'month') {
+        return beginMonthRangeDate.value;
+      }
+    });
+
+    const endRangeDate = computed(() => {
+      if(props.mode === 'week') {
+        return endWeekRangeDate.value;
+      } else if(props.mode === 'month') {
+        return endMonthRangeDate.value;
+      }
+    });
 
     const nowHour = computed(() => new Date(now.value).getHours());
     const selectedDateMonthYear = computed(() => {
@@ -195,14 +221,20 @@ export default defineComponent({
       selectedDate.value = now.value;
     }
 
-    setInterval(() => {
+    const nowInterval = setInterval(() => {
       now.value = todayToEpoch();
     }, 10000);
 
+    onUnmounted(() => {
+      clearInterval(nowInterval);
+    });
+
     return {
-      beginRangeDate,
+      beginMonthRangeDate,
+      beginWeekRangeDate,
       dayColumnWidth,
-      endRangeDate,
+      endMonthRangeDate,
+      endWeekRangeDate,
       selectedDate,
       selectedDateMonthYear,
       modeValues,

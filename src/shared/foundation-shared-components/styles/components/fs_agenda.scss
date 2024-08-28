@@ -13,6 +13,7 @@
 }
 
 .fs-week-agenda-row-day {
+  position: relative;
   border-bottom: 1px solid #E0E0E0;
 }
 
@@ -27,7 +28,21 @@
 }
 
 .fs-month-agenda-row-day {
+  position: relative;
   border-bottom: 1px solid #E0E0E0;
+}
+
+.fs-agenda-event {
+  position: absolute !important;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  height: calc(100% - 4px) !important;
+  left: var(--fs-agenda-event-left);
+
+  > .fs-card{
+    border-left: solid 3px var(--fs-clickable-border-color) !important;
+  }
+  
 }
 
 

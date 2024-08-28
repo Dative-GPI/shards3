@@ -59,6 +59,17 @@
           width="fill"
           align="center-left"
         >
+          <FSAgendaEvent
+            v-for="event in getDayEvents(day.dayNumber)"
+            :key="event.id"
+            :dayBegin="day.dayBeginEpoch"
+            :label="event.label"
+            :start="event.start"
+            :end="event.end"
+            :icon="event.icon"
+            :id="event.id"
+            :color="event.color"
+          />
         </FSRow>
       </template>
     </FSCol>
@@ -66,18 +77,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, type PropType } from 'vue';
 
+import FSAgendaEvent from './FSAgendaEvent.vue';
 import FSText from '../FSText.vue';
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
 import FSLoader from '../FSLoader.vue';
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
+import type { AgendaEvent } from '../../models/agendaEvent';
 
 export default defineComponent({
   name: 'FSWeekAgenda',
   components: {
+    FSAgendaEvent,
     FSCol,
     FSLoader,
     FSRow,
@@ -99,6 +113,10 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: false
+    },
+    events: {
+      type: Array as PropType<AgendaEvent[]>,
+      default: () => []
     }
   },
   emits: ['update:begin', 'update:end'],
@@ -124,9 +142,11 @@ export default defineComponent({
       for (let i = 0; i < 7; i++) {
         const day = new Date(monday);
         day.setDate(monday.getDate() + i);
+        day.setHours(0, 0, 0, 0);
         weekDaysArray.push({
           dayNumber: day.getDate(),
           dayName: daysOfWeek[i],
+          dayBeginEpoch: day.getTime(),
           isNowDay: day.getDate() === new Date(props.now).getDate() && day.getMonth() === new Date(props.now).getMonth() && day.getFullYear() === new Date(props.now).getFullYear(),
         });
       }
@@ -140,8 +160,17 @@ export default defineComponent({
       return weekDaysArray;
     });
 
+    const getDayEvents = (day: number) => {
+      return props.events.filter((event) => {
+        const eventDateStart = new Date(event.start);
+        const eventDateEnd = new Date(event.end);
+        return eventDateStart.getDate() === day || eventDateEnd.getDate() === day;
+      });
+    };
+
     return {
       weekDays,
+      getDayEvents,
     };
   },
 });

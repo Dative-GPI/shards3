@@ -1,7 +1,10 @@
 <template>
-  <FSRow>
+  <FSRow
+    gap="0"
+  >
     <FSRow
       v-for="hour in hours"
+      
       :key="hour"
       align="center-left"
     >
