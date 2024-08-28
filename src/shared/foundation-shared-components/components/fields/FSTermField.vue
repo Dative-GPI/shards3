@@ -68,7 +68,7 @@
           :rules="[DateRules.required()]"
           :editable="$props.editable"
           :hideHeader="true"
-          :modelValue="[parseForPicker(innerStartDate), parseForPicker(innerEndDate)]"
+          :modelValue="actualValue"
           @update:modelValue="onPickDates"
         />
       </FSRow>
@@ -180,6 +180,14 @@ export default defineComponent({
         DateSetting.MinutesBefore, DateSetting.HoursBefore, DateSetting.DaysBefore, DateSetting.WeeksBefore
       ];
     });
+
+    const actualValue = computed(() => {
+      const dates = [parseForPicker(innerStartDate.value), parseForPicker(innerEndDate.value)]
+      if(dates.some(d => d == null)) {
+        return null;
+      }
+      return dates as [number, number];
+    })
 
     const messages = computed((): string[] => {
       return props.messages ??
@@ -619,7 +627,7 @@ export default defineComponent({
         }
       }
 
-      if (parseForPicker(props.endDate) != null && parseForPicker(props.startDate) != null) {
+      if (props.endDate && parseForPicker(props.endDate) != null && props.startDate && parseForPicker(props.startDate) != null) {
         innerDateSetting.value = DateSetting.Pick;
         innerDateValue.value = 1;
         return;
@@ -643,6 +651,7 @@ export default defineComponent({
       innerDateValue,
       innerStartDate,
       innerEndDate,
+      actualValue,
       pastSettings,
       DateSetting,
       NumberRules,

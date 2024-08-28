@@ -115,7 +115,7 @@ export default defineComponent({
     modelValue: {
       type: Array as PropType<number[] | null>,
       required: false,
-      default: null
+      default: () => null
     },
     color: {
       type: String as PropType<ColorBase>,
