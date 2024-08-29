@@ -472,7 +472,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref, type Slot, type StyleValue } from "vue";
+import { computed, defineComponent, type PropType, ref, type Slot, type StyleValue, watch } from "vue";
 
 import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -767,6 +767,10 @@ export default defineComponent({
     const onBlur = () => {
       showExtra.value = true;
     };
+
+    watch(search, () => {
+      emit("update:search", search.value);
+    });
 
     return {
       autocompleteSlots,
