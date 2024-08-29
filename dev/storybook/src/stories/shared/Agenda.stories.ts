@@ -25,14 +25,38 @@ for (let i = 0; i < 200; i++) {
     start: todayStart + 8 * 3600000 + (i - 100) * 86400000,
     end: todayStart + 17.5 * 3600000 + (i - 100) * 86400000
   });
-  generatedEvents.push({
-    id: i.toString(),
-    label: `Chalet fermé`,
-    icon: 'mdi-home-outline',
-    color: 'error',
-    start: todayStart + 17.5 * 3600000 + (i - 100) * 86400000,
-    end: todayStart + 8 * 3600000 + (i - 100 + 1) * 86400000
-  });
+
+  if(i % 7 === 4) {
+    generatedEvents.push({
+      id: i.toString(),
+      label: `Chalet fermé`,
+      icon: 'mdi-home-remove-outline',
+      color: 'error',
+      start: todayStart + 21 * 3600000 + (i - 100) * 86400000,
+      end: todayStart + 8 * 3600000 + (i - 100 + 1) * 86400000
+    });
+    generatedEvents.push({
+      id: i.toString(),
+      label: `Maintenance`,
+      icon: 'mdi-account-hard-hat-outline',
+      color: 'warning',
+      start: todayStart + 17.5 * 3600000 + (i - 100) * 86400000,
+      end: todayStart + 21 * 3600000 + (i - 100) * 86400000
+    });
+  } else {
+    generatedEvents.push({
+      id: i.toString(),
+      label: `Chalet fermé`,
+      icon: 'mdi-home-remove-outline',
+      color: 'error',
+      start: todayStart + 17.5 * 3600000 + (i - 100) * 86400000,
+      end: todayStart + 8 * 3600000 + (i - 100 + 1) * 86400000
+    });
+  }
+
+  
+
+
 }
 
 export default meta;

@@ -77,6 +77,14 @@ export const useDateFormat = () => {
     return dateString[0].toLocaleUpperCase() + dateString.slice(1);
   };
 
+  const epochToMonthYearOnlyFormat = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.monthYearOnly, timeZone: timeZone.value });
+  }
+
   const epochToTimeOnlyFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -150,6 +158,7 @@ export const useDateFormat = () => {
     epochToPickerHeader,
     epochToLongDateFormat,
     epochToLongTimeFormat,
+    epochToMonthYearOnlyFormat,
     epochToShortDateFormat,
     epochToShortTimeFormat,
     epochToShortTimeOnlyFormat,

@@ -1,39 +1,56 @@
 <template>
   <FSRow
+    class="fs-agenda-month"
     height="100%"
+    :style="style"
     :wrap="false"
     gap="0px"
   >
     <FSCol
+      class="fs-agenda-label-day-container"
       height="100%"
       gap="0"
       :width="$props.firstColumnWidth"
     >
       <FSCol
+        class="fs-agenda-label-day"
         v-for="day in weekDays"
-        class="fs-week-agenda-label-day"
+        :style="getDayLabelStyle(day.isNowDay)"
         :key="day.dayNumber"
-        padding="6px"
         height="100%"
         width="100%"
-        align="center-left"
       >
-        <FSText
-          :color="day.isNowDay ? 'primary' : 'dark'"
-          font="text-overline"
+        <FSCard
+          height="100%"
+          width="100%"
+          :borderRadius="0"
+          :border="false"
+          variant="standard"
+          :color="day.isNowDay ? 'primary' : 'background'"
         >
-          {{ day.dayName }}
-        </FSText>
-        <FSText
-          :color="day.isNowDay ? 'primary' : 'dark'"
-          font="text-h3"
-        >
-          {{ day.dayNumber }}
-        </FSText>
+          <FSCol
+            padding="6px"
+            height="100%"
+            width="100%"
+            align="center-left"
+          >
+            <FSSpan
+              font="text-overline"
+            >
+              {{ day.dayName }}
+            </FSSpan>
+            <FSSpan
+              font="text-h3"
+            >
+              {{ day.dayNumber }}
+            </FSSpan>
+          </FSCol>
+        </FSCard>
       </FSCol>
+
     </FSCol>
     <FSCol
-      class="fs-week-agenda-body"
+      class="fs-agenda-body"
       gap="0"
       height="100%"
       width="100%"
@@ -54,7 +71,7 @@
         <FSRow
           v-for="day in weekDays"
           :key="day.dayNumber"
-          class="fs-week-agenda-row-day"
+          class="fs-agenda-row-day"
           height="100%"
           width="fill"
           align="center-left"
@@ -78,25 +95,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, type PropType } from 'vue';
+import { defineComponent, computed, type PropType, type StyleValue } from 'vue';
 
 import FSAgendaEvent from './FSAgendaEvent.vue';
-import FSText from '../FSText.vue';
+import FSCard from '../FSCard.vue';
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
 import FSLoader from '../FSLoader.vue';
+import FSSpan from '../FSSpan.vue';
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 import type { AgendaEvent } from '../../models/agendaEvent';
+import { useColors } from '../../composables';
+import { ColorEnum } from '../../models';
 
 export default defineComponent({
   name: 'FSWeekAgenda',
   components: {
     FSAgendaEvent,
+    FSCard,
     FSCol,
     FSLoader,
     FSRow,
-    FSText
+    FSSpan
   },
   props: {
     now: {
@@ -123,6 +144,10 @@ export default defineComponent({
   emits: ['update:begin', 'update:end'],
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
+    const { getColors } = useColors();
+
+    const primaryColors = getColors(ColorEnum.Primary);
+    const lightColors = getColors(ColorEnum.Light);
 
     const weekDays = computed(() => {
       const daysOfWeek = [
@@ -161,6 +186,25 @@ export default defineComponent({
       return weekDaysArray;
     });
 
+    const style = computed((): StyleValue => {
+      return {
+        '--fs-agenda-row-day-border-bottom-color': lightColors.base,
+      };
+    });
+
+    const getDayLabelStyle = (isNowDay: boolean = false) => {
+      if (isNowDay) {
+        return {
+          '--fs-agenda-label-day-border-bottom-color': primaryColors.base,
+          '--fs-agenda-label-day-border-right-color': lightColors.base,
+        };
+      }
+      return {
+        '--fs-agenda-label-day-border-bottom-color': lightColors.base,
+        '--fs-agenda-label-day-border-right-color': lightColors.base,
+      };
+    };
+
     const getDayEvents = (dayBeginEpoch: number) => {
       return props.events.filter((event) => {
         const isStartingInDay = event.start >= dayBeginEpoch && event.start < (dayBeginEpoch + 1000 * 60 * 60 * 24);
@@ -170,8 +214,10 @@ export default defineComponent({
     };
 
     return {
+      style,
       weekDays,
       getDayEvents,
+      getDayLabelStyle
     };
   },
 });

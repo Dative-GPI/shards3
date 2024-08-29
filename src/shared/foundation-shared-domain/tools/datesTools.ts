@@ -31,6 +31,10 @@ export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
     minute: "2-digit",
     second: "2-digit"
   },
+  monthYearOnly: {
+    month: "long",
+    year: "numeric"
+  },
   time: {
     hour: "2-digit",
     minute: "2-digit",

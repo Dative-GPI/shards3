@@ -2,12 +2,14 @@
   <FSCol
     :height="$props.height"
     :width="$props.width"
+    gap="24px"
   >
     <FSRow
       align="center-center"
     >
       <FSRow
         align="center-left"
+        :wrap="false"
       >
         <FSButton
           variant="icon"
@@ -16,7 +18,7 @@
         />
         <FSButton
           width="180px"
-          color="primary"
+          :color="buttonColor"
           :label="selectedDateMonthYear"
           variant="full"
         />
@@ -36,7 +38,7 @@
           @update:modelValue="$emit('update:mode', $event)"
         />
         <FSButton
-          prependIcon="mdi-calendar"
+          prependIcon="mdi-calendar-today-outline"
           :label="$tr('ui.agenda.today', 'Today')"
           @click="onToday"
         />
@@ -49,6 +51,7 @@
     >
       <FSRow
         gap="0"
+        :wrap="false"
       >
         <FSCol
           height="100%"
@@ -106,6 +109,7 @@
 import { defineComponent, type PropType, computed, ref, onUnmounted } from 'vue';
 
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
+import { useColors } from '../../composables';
 
 import type { AgendaEvent } from '../../models/agendaEvent';
 
@@ -158,7 +162,8 @@ export default defineComponent({
   },
   emits: ['update:mode'],
   setup(props) {
-    const { todayToEpoch } = useDateFormat();
+    const { todayToEpoch, epochToMonthYearOnlyFormat } = useDateFormat();
+    const { getColors } = useColors();
 
     const dayColumnWidth = '46px';
 
@@ -168,6 +173,12 @@ export default defineComponent({
     const endWeekRangeDate = ref<Date>();
     const beginMonthRangeDate = ref<Date>();
     const endMonthRangeDate = ref<Date>();
+
+    const buttonColor = getColors('primary').light;
+    const modeValues = {
+      'week': 1,
+      'month': 2,
+    }
 
     const beginRangeDate = computed(() => {
       if(props.mode === 'week') {
@@ -188,18 +199,13 @@ export default defineComponent({
     const nowHour = computed(() => new Date(now.value).getHours());
     const selectedDateMonthYear = computed(() => {
       if(!beginRangeDate.value) {return '';}
-      return beginRangeDate.value.toLocaleString('default', { month: 'long', year: 'numeric' })
+      return epochToMonthYearOnlyFormat(beginRangeDate.value.getTime());
     });
 
     const nowIsInSelectedRange = computed(() => {
       if(!beginRangeDate.value || !endRangeDate.value) {return false;}
       return now.value >= beginRangeDate.value.getTime() && now.value <= endRangeDate.value.getTime();
     });
-
-    const modeValues = {
-      'week': 1,
-      'month': 2,
-    }
 
     const onNext = () => {
       if(props.mode === 'week') {
@@ -232,6 +238,7 @@ export default defineComponent({
     return {
       beginMonthRangeDate,
       beginWeekRangeDate,
+      buttonColor,
       dayColumnWidth,
       endMonthRangeDate,
       endWeekRangeDate,

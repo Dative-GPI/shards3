@@ -1,32 +1,49 @@
 <template>
   <FSRow
+    class="fs-agenda-month"
+    :style="style"
     height="100%"
     :wrap="false"
     gap="0px"
   >
     <FSCol
+      class="fs-agenda-label-day-container"
       height="100%"
       gap="0"
       :width="$props.firstColumnWidth"
     >
       <FSCol
         v-for="day in monthDays"
-        class="fs-month-agenda-label-day"
+        class="fs-agenda-label-day"
+        :style="getDayLabelStyle(day.isNowDay)"
         :key="day.dayNumber"
         height="100%"
         width="100%"
         align="center-center"
       >
-        <FSText
-          :color="day.isNowDay ? 'primary' : 'dark'"
-          font="text-overline"
+        <FSCard
+          height="100%"
+          width="100%"
+          :borderRadius="0"
+          :border="false"
+          variant="standard"
+          :color="day.isNowDay ? 'primary' : 'background'"
         >
-          {{ day.dayNumber }}
-        </FSText>
+          <FSCol
+            align="center-center"
+          >
+            <FSSpan
+              :color="day.isNowDay ? 'primary' : 'dark'"
+              font="text-overline"
+            >
+              {{ day.dayNumber }}
+            </FSSpan>
+          </FSCol>
+        </FSCard>
       </FSCol>
     </FSCol>
     <FSCol
-      class="fs-month-agenda-body"
+      class="fs-agenda-body"
       gap="0"
       height="100%"
       width="100%"
@@ -47,7 +64,7 @@
         <FSRow
           v-for="day in monthDays"
           :key="day.dayNumber"
-          class="fs-month-agenda-row-day"
+          class="fs-agenda-row-day"
           height="100%"
           width="fill"
           align="center-left"
@@ -67,28 +84,23 @@
             <template
               #default="{ label, icon }"
             >
-              <FSCol
-                height="100%"
+              <FSRow
                 align="center-left"
-                padding="8px"
+                :wrap="false"
+                padding="0 4px"
+                gap="4px"
               >
-                <FSRow
-                  align="center-left"
-                  :wrap="false"
-                  gap="4px"
+                <FSIcon
+                  v-if="icon"
+                  :icon="icon"
+                  size="16px"
+                />
+                <FSSpan
+                  font="text-overline"
                 >
-                  <FSIcon
-                    v-if="icon"
-                    :icon="icon"
-                    size="16px"
-                  />
-                  <FSSpan
-                    font="text-overline"
-                  >
-                    {{ label }}
-                  </FSSpan>
-                </FSRow>
-              </FSCol>
+                  {{ label }}
+                </FSSpan>
+              </FSRow>
             </template>
           </FSAgendaEvent>
         </FSRow>
@@ -98,27 +110,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, type PropType } from 'vue';
+import { defineComponent, computed, type PropType, type StyleValue } from 'vue';
 
-import FSText from '../FSText.vue';
+import { useColors } from '../../composables';
+
+import { ColorEnum } from '../../models';
+import type { AgendaEvent } from '../../models/agendaEvent';
+
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
 import FSLoader from '../FSLoader.vue';
-import type { AgendaEvent } from '../../models/agendaEvent';
 import FSAgendaEvent from './FSAgendaEvent.vue';
 import FSIcon from '../FSIcon.vue';
 import FSSpan from '../FSSpan.vue';
+import FSCard from '../FSCard.vue';
+
 
 export default defineComponent({
   name: 'FSMonthAgenda',
   components: {
     FSAgendaEvent,
+    FSCard,
     FSCol,
     FSIcon,
     FSLoader,
     FSRow,
-    FSSpan,
-    FSText
+    FSSpan
   },
   props: {
     now: {
@@ -144,6 +161,11 @@ export default defineComponent({
   },
   emits: ['update:begin', 'update:end'],
   setup(props, { emit }) {
+    const { getColors } = useColors();
+
+    const primaryColors = getColors(ColorEnum.Primary);
+    const lightColors = getColors(ColorEnum.Light);
+
     const monthDays = computed(() => {
       const monthDaysArray = [];
       const selectedDate = new Date(props.selectedDate);
@@ -171,6 +193,25 @@ export default defineComponent({
       return monthDaysArray;
     });
 
+    const style = computed((): StyleValue => {
+      return {
+        '--fs-agenda-row-day-border-bottom-color': lightColors.base,
+      };
+    });
+
+    const getDayLabelStyle = (isNowDay: boolean = false) => {
+      if (isNowDay) {
+        return {
+          '--fs-agenda-label-day-border-bottom-color': primaryColors.base,
+          '--fs-agenda-label-day-border-right-color': lightColors.base,
+        };
+      }
+      return {
+        '--fs-agenda-label-day-border-bottom-color': lightColors.base,
+        '--fs-agenda-label-day-border-right-color': lightColors.base,
+      };
+    };
+
     const getDayEvents = (dayBeginEpoch: number) => {
       return props.events.filter((event) => {
         const isStartingInDay = event.start >= dayBeginEpoch && event.start < (dayBeginEpoch + 1000 * 60 * 60 * 24);
@@ -181,7 +222,9 @@ export default defineComponent({
 
     return {
       monthDays,
+      style,
       getDayEvents,
+      getDayLabelStyle
     };
   },
 });
