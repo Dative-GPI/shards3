@@ -72,6 +72,7 @@
           <FSAgendaEvent
             v-for="event in getDayEvents(day.dayBeginEpoch)"
             :key="event.id"
+            :now="$props.now"
             :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
             :dayBegin="day.dayBeginEpoch"
             :label="event.label"
@@ -80,6 +81,7 @@
             :icon="event.icon"
             :id="event.id"
             :color="event.color"
+            @click="() => $emit('click:eventId', event.id)"
           >
             <template
               #default="{ label, icon }"
@@ -159,7 +161,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  emits: ['update:begin', 'update:end'],
+  emits: ['update:begin', 'update:end', 'click:eventId'],
   setup(props, { emit }) {
     const { getColors } = useColors();
 

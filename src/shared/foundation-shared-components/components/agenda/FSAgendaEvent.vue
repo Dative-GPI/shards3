@@ -1,44 +1,52 @@
 <template>
+  <FSAgendaEvent
+    v-if="$props.variant === 'current'"
+    :key="$props.id"
+    variant="future"
+    :now="$props.now"
+    :dayBegin="$props.dayBegin"
+    :label="$props.label"
+    :start="$props.start"
+    :end="$props.end"
+    :icon="$props.icon"
+    :iconBis="$props.iconBis"
+    :id="$props.id"
+    :color="$props.color"
+    @click="$emit('click', $props.id)"
+  >
+    <template
+      #default="{ label, icon, timeStart, timeEnd, iconBis, variant }"
+    >
+      <slot
+        name="default"
+        :label="label"
+        :icon="icon"
+        :iconBis="iconBis"
+        :timeStart="timeStart"
+        :timeEnd="timeEnd"
+        :variant="variant"
+      />
+    </template>
+  </FSAgendaEvent>
   <FSClickable
+    v-if="$props.variant !== 'current' || $props.dayBegin < $props.now"
     :class="`fs-agenda-event fs-agenda-event-${$props.variant}`"
     :variant="$props.variant === 'current' ? 'full' : 'standard'"
     :style="style"
     :color="$props.color"
     :width="`${width}%`"
     :border="false"
+    @click="$emit('click', $props.id)"
   >
     <slot
       name="default"
       :label="label"
       :icon="icon"
+      :iconBis="iconBis"
       :timeStart="timeStart"
       :timeEnd="timeEnd"
-    >
-      <FSCol
-        height="100%"
-        align="center-left"
-        padding="8px"
-      >
-        <FSSpan>
-          {{ `${timeStart} - ${timeEnd}` }}
-        </FSSpan>
-        <FSRow
-          align="center-left"
-          :wrap="false"
-        >
-          <FSIcon
-            v-if="$props.icon"
-            :icon="$props.icon"
-            size="32px"
-          />
-          <FSSpan
-            font="text-button"
-          >
-            {{ $props.label }}
-          </FSSpan>
-        </FSRow>
-      </FSCol>
-    </slot>
+      :variant="$props.variant"
+    />
   </FSClickable>
 </template>
 
@@ -63,6 +71,7 @@ export default defineComponent({
     FSRow,
     FSSpan
   },
+  emits: ['click'],
   props: {
     variant: {
       type: String as PropType<'past' | 'current' | 'future'>,
@@ -84,6 +93,10 @@ export default defineComponent({
       type: String,
       required: false
     },
+    iconBis: {
+      type: String,
+      required: false
+    },
     id: {
       type: String,
       required: true
@@ -96,6 +109,10 @@ export default defineComponent({
       type: Number,
       required: true
     },
+    now: {
+      type: Number,
+      required: true
+    }
   },
   setup(props) {
     const { epochToShortTimeOnlyFormat } = useDateFormat();
@@ -118,13 +135,19 @@ export default defineComponent({
     });
 
     const width = computed(() => {
-      if (props.end > dayEnd) {
-        return (dayEnd - props.start) / 1000 / 60 / 60 / 24 * 100
+      let start = props.start;
+      let end = props.end;
+      if(props.variant === 'current') {
+        end = props.now;
+      } else if (props.end > dayEnd) {
+        end = dayEnd;
       }
-      else if (props.start < props.dayBegin) {
-        return (props.end - props.dayBegin) / 1000 / 60 / 60 / 24 * 100;
+      if (props.start < props.dayBegin) {
+        start = props.dayBegin;
       }
-      return (props.end - props.start) / 1000 / 60 / 60 / 24 * 100;
+      
+      const duration = (end - start) / 1000 / 60 / 60 / 24 * 100;
+      return duration > 0 ? duration : 0;
     });
 
     const style = computed((): StyleValue => {

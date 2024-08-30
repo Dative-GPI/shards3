@@ -38,6 +38,10 @@
   }
 }
 
+.fs-agenda-event .fs-col, .fs-agenda-event .fs-row {
+  overflow: hidden;
+}
+
 .fs-week-agenda .fs-agenda-event  {
   margin-top: 3px;
   margin-bottom: 3px;
@@ -48,4 +52,8 @@
   margin-top: 2px;
   margin-bottom: 2px;
   height: calc(100% - 4px) !important;
+}
+
+.fs-agenda-event-current span {
+  text-overflow: unset;
 }

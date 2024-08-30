@@ -34,14 +34,10 @@
             width="100%"
             align="center-left"
           >
-            <FSSpan
-              font="text-overline"
-            >
+            <FSSpan font="text-overline">
               {{ day.dayName }}
             </FSSpan>
-            <FSSpan
-              font="text-h3"
-            >
+            <FSSpan font="text-h3">
               {{ day.dayNumber }}
             </FSSpan>
           </FSCol>
@@ -56,18 +52,14 @@
       width="100%"
     >
       <slot />
-      <template
-        v-if="loading"
-      >
+      <template v-if="loading">
         <FSLoader
           height="100%"
           width="100%"
           padding="2px"
         />
       </template>
-      <template
-        v-else
-      >
+      <template v-else>
         <FSRow
           v-for="day in weekDays"
           :key="day.dayNumber"
@@ -80,14 +72,60 @@
             v-for="event in getDayEvents(day.dayBeginEpoch)"
             :key="event.id"
             :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
+            :now="now"
             :dayBegin="day.dayBeginEpoch"
             :label="event.label"
             :start="event.start"
             :end="event.end"
             :icon="event.icon"
+            :iconBis="event.iconBis"
             :id="event.id"
             :color="event.color"
-          />
+            @click="() => $emit('click:eventId', event.id)"
+          >
+            <template #default="{ label, icon, timeStart, timeEnd, iconBis, variant }">
+              <FSRow
+                align="center-left"
+                gap="4px"
+                :wrap="false"
+              >
+                <FSCol
+                  height="100%"
+                  width="fill"
+                  align="center-left"
+                  padding="8px 0 8px 8px"
+                >
+                  <FSSpan>
+                    {{ `${timeStart} - ${timeEnd}` }}
+                  </FSSpan>
+                  <FSRow
+                    align="center-left"
+                    :wrap="false"
+                  >
+                    <FSIcon
+                      v-if="icon"
+                      :icon="icon"
+                      size="24px"
+                    />
+                    <FSSpan font="text-button">
+                      {{ label }}
+                    </FSSpan>
+                  </FSRow>
+                </FSCol>
+                <FSCol
+                  v-if="iconBis && variant !== 'current'"
+                  align="center-right"
+                  padding="8px 8px 8px 0" 
+                  width="hug"
+                >
+                  <FSIcon
+                    :icon="iconBis"
+                    size="20px"
+                  />
+                </FSCol>
+              </FSRow>
+            </template>
+          </FSAgendaEvent>
         </FSRow>
       </template>
     </FSCol>
@@ -97,17 +135,22 @@
 <script lang="ts">
 import { defineComponent, computed, type PropType, type StyleValue } from 'vue';
 
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
+import { useColors } from '../../composables';
+
+import type { AgendaEvent } from '../../models/agendaEvent';
+import { ColorEnum } from '../../models';
+
 import FSAgendaEvent from './FSAgendaEvent.vue';
 import FSCard from '../FSCard.vue';
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
 import FSLoader from '../FSLoader.vue';
 import FSSpan from '../FSSpan.vue';
+import FSIcon from '../FSIcon.vue';
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
-import type { AgendaEvent } from '../../models/agendaEvent';
-import { useColors } from '../../composables';
-import { ColorEnum } from '../../models';
+
+
 
 export default defineComponent({
   name: 'FSWeekAgenda',
@@ -115,6 +158,7 @@ export default defineComponent({
     FSAgendaEvent,
     FSCard,
     FSCol,
+    FSIcon,
     FSLoader,
     FSRow,
     FSSpan
@@ -141,7 +185,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  emits: ['update:begin', 'update:end'],
+  emits: ['update:begin', 'update:end', 'click:eventId'],
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();

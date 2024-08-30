@@ -10,6 +10,7 @@
       <FSRow
         align="center-left"
         :wrap="false"
+        width="hug"
       >
         <FSButton
           variant="icon"
@@ -28,10 +29,12 @@
           @click="onNext"
         />
       </FSRow>
-      <v-spacer />
       <FSRow
         align="center-right"
       >
+        <FSRow
+          width="hug"
+          >
         <FSSelectAgendaMode
           :modelValue="$props.mode"
           :hideHeader="true"
@@ -42,6 +45,7 @@
           :label="$tr('ui.agenda.today', 'Today')"
           @click="onToday"
         />
+      </FSRow>
       </FSRow>
     </FSRow>
     <FSCol
@@ -77,6 +81,7 @@
           :selectedDate="selectedDate"
           :now="now"
           :loading="$props.loading"
+          @click:event-id="$emit('click:eventId', $event)"
           @update:begin="beginWeekRangeDate = $event"
           @update:end="endWeekRangeDate = $event"
         >
@@ -92,6 +97,7 @@
           :selectedDate="selectedDate"
           :now="now"
           :loading="$props.loading"
+          @click:event-id="$emit('click:eventId', $event)"
           @update:begin="beginMonthRangeDate = $event"
           @update:end="endMonthRangeDate = $event"
         >
@@ -160,7 +166,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  emits: ['update:mode'],
+  emits: ['update:mode', 'click:eventId'],
   setup(props) {
     const { todayToEpoch, epochToMonthYearOnlyFormat } = useDateFormat();
     const { getColors } = useColors();
