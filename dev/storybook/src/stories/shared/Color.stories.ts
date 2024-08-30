@@ -19,12 +19,15 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Variations: Story = {
-  render: () => ({
+  render: (args) => ({
     components: { VDivider, FSColor, FSSpan, FSRow },
+    setup() {
+      return { args };
+    },
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
         <div style="display: flex; gap: 10px;">
-            <FSColor color="primary">
+            <FSColor v-bind="args">
                 <FSRow padding="8px 16px">
                     <FSSpan> Primary color </FSSpan>
                 </FSRow>
