@@ -1,114 +1,136 @@
 <template>
-  <FSRow
-    class="fs-agenda-month"
-    :style="style"
+  <FSCol
+    class="fs-agenda-month-container"
     height="100%"
-    :wrap="false"
-    gap="0px"
+    width="100%"
+    gap="0"
   >
-    <FSCol
-      class="fs-agenda-label-day-container"
-      height="100%"
+    <FSRow
       gap="0"
-      :width="$props.firstColumnWidth"
+      :wrap="false"
     >
       <FSCol
-        v-for="day in monthDays"
-        class="fs-agenda-label-day"
-        :style="getDayLabelStyle(day.isNowDay)"
-        :key="day.dayNumber"
+        height="100%"
+        :width="$props.firstColumnWidth"
+      >
+      </FSCol>
+    
+      <FSAgendaHoursLine
+        :displayNow="$props.nowIsInSelectedRange"
+        :modelValue="nowHour"
+      />
+    </FSRow>
+    <FSRow
+      class="fs-agenda-month"
+      :style="style"
+      height="100%"
+      :wrap="false"
+      gap="0px"
+    >
+      <FSCol
+        class="fs-agenda-label-day-container"
+        height="100%"
+        gap="0"
+        :width="$props.firstColumnWidth"
+      >
+        <FSCol
+          v-for="day in monthDays"
+          class="fs-agenda-label-day"
+          :style="getDayLabelStyle(day.isNowDay)"
+          :key="day.dayNumber"
+          height="100%"
+          width="100%"
+          align="center-center"
+        >
+          <FSCard
+            height="100%"
+            width="100%"
+            :borderRadius="0"
+            :border="false"
+            variant="standard"
+            :color="day.isNowDay ? 'primary' : 'background'"
+          >
+            <FSCol
+              align="center-center"
+            >
+              <FSSpan
+                :color="day.isNowDay ? 'primary' : 'dark'"
+                font="text-overline"
+              >
+                {{ day.dayNumber }}
+              </FSSpan>
+            </FSCol>
+          </FSCard>
+        </FSCol>
+      </FSCol>
+      <FSCol
+        class="fs-agenda-body"
+        gap="0"
         height="100%"
         width="100%"
-        align="center-center"
       >
-        <FSCard
-          height="100%"
-          width="100%"
-          :borderRadius="0"
-          :border="false"
-          variant="standard"
-          :color="day.isNowDay ? 'primary' : 'background'"
+        <slot />
+        <template
+          v-if="loading"
         >
-          <FSCol
-            align="center-center"
-          >
-            <FSSpan
-              :color="day.isNowDay ? 'primary' : 'dark'"
-              font="text-overline"
-            >
-              {{ day.dayNumber }}
-            </FSSpan>
-          </FSCol>
-        </FSCard>
-      </FSCol>
-    </FSCol>
-    <FSCol
-      class="fs-agenda-body"
-      gap="0"
-      height="100%"
-      width="100%"
-    >
-      <slot />
-      <template
-        v-if="loading"
-      >
-        <FSLoader
-          height="100%"
-          width="100%"
-          padding="2px"
-        />
-      </template>
-      <template
-        v-else
-      >
-        <FSRow
-          v-for="day in monthDays"
-          :key="day.dayNumber"
-          class="fs-agenda-row-day"
-          height="100%"
-          width="fill"
-          align="center-left"
+          <FSLoader
+            height="100%"
+            width="100%"
+            padding="2px"
+          />
+        </template>
+        <template
+          v-else
         >
-          <FSAgendaEvent
-            v-for="event in getDayEvents(day.dayBeginEpoch)"
-            :key="event.id"
-            :now="$props.now"
-            :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
-            :dayBegin="day.dayBeginEpoch"
-            :label="event.label"
-            :start="event.start"
-            :end="event.end"
-            :icon="event.icon"
-            :id="event.id"
-            :color="event.color"
-            @click="() => $emit('click:eventId', event.id)"
+          <FSRow
+            v-for="day in monthDays"
+            :key="day.dayNumber"
+            class="fs-agenda-row-day"
+            height="100%"
+            width="fill"
+            align="center-left"
           >
-            <template
-              #default="{ label, icon }"
+            <FSAgendaEvent
+              v-for="event in getDayEvents(day.dayBeginEpoch)"
+              :key="event.id"
+              :now="$props.now"
+              :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
+              :dayBegin="day.dayBeginEpoch"
+              :label="event.label"
+              :start="event.start"
+              :end="event.end"
+              :icon="event.icon"
+              :id="event.id"
+              :color="event.color"
+              @click="() => $emit('click:eventId', event.id)"
             >
-              <FSRow
-                align="center-left"
-                :wrap="false"
-                padding="0 4px"
-                gap="4px"
+              <template
+                #default="{ label, icon }"
               >
-                <FSIcon
-                  v-if="icon"
-                  :icon="icon"
-                  size="16px"
-                />
-                <FSSpan
-                  font="text-overline"
+                <FSRow
+                  align="center-left"
+                  :wrap="false"
+                  padding="0 0 0 4px"
+                  gap="4px"
                 >
-                  {{ label }}
-                </FSSpan>
-              </FSRow>
-            </template>
-          </FSAgendaEvent>
-        </FSRow>
-      </template>
-    </FSCol>
-  </FSRow>
+                  <FSIcon
+                    v-if="icon"
+                    :icon="icon"
+                    size="16px"
+                  />
+                  <FSSpan
+                    font="text-overline"
+                  >
+                    {{ label }}
+                  </FSSpan>
+                </FSRow>
+              </template>
+            </FSAgendaEvent>
+          </FSRow>
+        </template>
+      </FSCol>
+    </FSRow>
+  </FSCol>
 </template>
 
 <script lang="ts">
@@ -119,10 +141,11 @@ import { useColors } from '../../composables';
 import { ColorEnum } from '../../models';
 import type { AgendaEvent } from '../../models/agendaEvent';
 
+import FSAgendaEvent from './FSAgendaEvent.vue';
+import FSAgendaHoursLine from './FSAgendaHoursLine.vue';
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
 import FSLoader from '../FSLoader.vue';
-import FSAgendaEvent from './FSAgendaEvent.vue';
 import FSIcon from '../FSIcon.vue';
 import FSSpan from '../FSSpan.vue';
 import FSCard from '../FSCard.vue';
@@ -132,6 +155,7 @@ export default defineComponent({
   name: 'FSMonthAgenda',
   components: {
     FSAgendaEvent,
+    FSAgendaHoursLine,
     FSCard,
     FSCol,
     FSIcon,
@@ -142,6 +166,10 @@ export default defineComponent({
   props: {
     now: {
       type: Number,
+      required: true
+    },
+    nowIsInSelectedRange: {
+      type: Boolean,
       required: true
     },
     selectedDate: {
@@ -167,6 +195,8 @@ export default defineComponent({
 
     const primaryColors = getColors(ColorEnum.Primary);
     const lightColors = getColors(ColorEnum.Light);
+
+    const nowHour = computed(() => new Date(props.now).getHours());
 
     const monthDays = computed(() => {
       const monthDaysArray = [];
@@ -223,6 +253,7 @@ export default defineComponent({
     };
 
     return {
+      nowHour,
       monthDays,
       style,
       getDayEvents,

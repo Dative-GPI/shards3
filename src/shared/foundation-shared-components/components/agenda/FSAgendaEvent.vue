@@ -56,20 +56,12 @@ import { defineComponent, computed, type StyleValue, type PropType } from 'vue';
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSClickable from '../FSClickable.vue';
-import FSSpan from '../FSSpan.vue';
-import FSIcon from '../FSIcon.vue';
-import FSRow from '../FSRow.vue';
-import FSCol from '../FSCol.vue';
 
 
 export default defineComponent({
   name: 'FSAgendaEvent',
   components: {
-    FSClickable,
-    FSCol,
-    FSIcon,
-    FSRow,
-    FSSpan
+    FSClickable
   },
   emits: ['click'],
   props: {

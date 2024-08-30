@@ -101,6 +101,17 @@ export const useDateFormat = () => {
     return date.toLocaleString(languageCode.value, { ...OPTIONS.shortTimeOnly, timeZone: timeZone.value });
   }
 
+  const epochToWeekNumber = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    const week1 = new Date(date.getFullYear(), 0, 4);
+    return `${1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7)}`;
+  }
+
   const todayToEpoch = (): number => {
     return new Date().getTime() + getOffsetDifference();
   };
@@ -163,6 +174,7 @@ export const useDateFormat = () => {
     epochToShortTimeFormat,
     epochToShortTimeOnlyFormat,
     epochToTimeOnlyFormat,
+    epochToWeekNumber,
     parseForPicker,
     todayToPicker,
     yesterdayToPicker,
