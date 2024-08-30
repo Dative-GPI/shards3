@@ -8,6 +8,9 @@
 import vuetify from "./vuetify";
 import router from "./router";
 
+import "leaflet";
+import "leaflet.markercluster";
+
 // Types
 import type { App } from "vue";
 

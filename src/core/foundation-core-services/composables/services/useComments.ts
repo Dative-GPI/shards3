@@ -1,11 +1,10 @@
-import type { CreateCommentDTO, CommentDetailsDTO, CommentFilters, CommentInfosDTO, UpdateCommentDTO } from "@dative-gpi/foundation-core-domain/models";
-import { CommentDetails, CommentInfos } from "@dative-gpi/foundation-core-domain/models";
+import { CommentDetails, type CommentDetailsDTO, type CommentFilters, CommentInfos, type CommentInfosDTO, type CreateCommentDTO, type UpdateCommentDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { COMMENTS_URL, COMMENT_URL } from "../../config/urls";
 
 const CommentServiceFactory = new ServiceFactory<CommentDetailsDTO, CommentDetails>("comment", CommentDetails)
-    .createComplete<CommentInfos, CommentInfosDTO, CreateCommentDTO, UpdateCommentDTO, CommentFilters>(COMMENTS_URL, COMMENT_URL, CommentInfos);
+  .createComplete<CommentInfos, CommentInfosDTO, CreateCommentDTO, UpdateCommentDTO, CommentFilters>(COMMENTS_URL, COMMENT_URL, CommentInfos);
 
 export const useComment = ComposableFactory.get(CommentServiceFactory);
 export const useComments = ComposableFactory.getMany(CommentServiceFactory);

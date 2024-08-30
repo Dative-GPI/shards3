@@ -5,7 +5,7 @@ import { type LanguageInfos } from "@dative-gpi/foundation-shared-domain/models"
 const languages = ref<LanguageInfos[] | undefined>(undefined);
 
 export const useAppLanguages = () => {
-    const sepAppLanguages = (payload: LanguageInfos[]) => {
+    const setAppLanguages = (payload: LanguageInfos[]) => {
         languages.value = payload;
     };
 
@@ -14,6 +14,6 @@ export const useAppLanguages = () => {
     return {
         ready,
         languages,
-        sepAppLanguages
+        setAppLanguages
     };
 }

@@ -9,8 +9,6 @@
     v-else-if="entity"
     :imageId="entity.imageId"
     :name="entity.name"
-    :label="entity.label"
-    :userType="entity.userType"
     :roleLabel="entity.roleLabel"
     :roleIcon="entity.roleIcon"
     :admin="entity.admin"

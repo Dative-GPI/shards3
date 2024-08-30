@@ -12,3 +12,14 @@
 .fs-radio-description {
     color: var(--fs-radio-color) !important;
 }
+
+.fs-radio-label .v-input__control {
+    @include web {
+        height: 40px !important;
+    }
+
+    @include mobile {            
+        height: 36px !important;
+    }
+    grid-area: 1 / 2 / 3 / 3 !important;
+}

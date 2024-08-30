@@ -1,10 +1,11 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { validateExpression } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { getTimeBestString } from "../utils";
+import type { TimeUnit } from "@/shared/foundation-shared-domain";
 
-const { epochToLongDateFormat } = useAppTimeZone()!;
+const { epochToLongDateFormat } = useDateFormat()!;
 const { $tr } = useTranslationsProvider();
 
 export const TextRules = {
@@ -30,7 +31,7 @@ export const TagRules = {
 };
 
 export const NumberRules = {
-    required: (message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value))) || (message ?? $tr("ui.rules.required", "Required")),
+    required: (message: string | undefined = undefined) => (value: string) => (value != null && !isNaN(parseFloat(value))) || (message ?? $tr("ui.rules.required", "Required")),
     min: (min: number, message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value)) && parseFloat(value) >= min) || (message ?? $tr("ui.rules.number-min", "Must be at least {0}", min.toString())),
     max: (max: number, message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value)) && parseFloat(value) <= max) || (message ?? $tr("ui.rules.number-max", "Must be at most {0}", max.toString())),
     integer: (message: string | undefined = undefined) => (value: string) => (!!value && !isNaN(parseFloat(value)) && Number.isInteger(parseFloat(value))) || (message ?? $tr("ui.rules.number-integer", "Must be an integer"))
@@ -44,7 +45,7 @@ export const DateRules = {
     required: (message: string | undefined = undefined) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
     min: (min: number, message: string | undefined = undefined) => (value: number) => (!value || value >= min) || (message ?? $tr("ui.rules.date-min", "Must be after {0}", epochToLongDateFormat(min))),
     max: (max: number, message: string | undefined = undefined) => (value: number) => (!value || value <= max) || (message ?? $tr("ui.rules.date-max", "Must be before {0}", epochToLongDateFormat(max))),
-    validateExpression: (variant: "default" | "before-after") => (value: string) => validateExpression(value, variant)
+    validateExpression: (variant: "default" | "before-after" | undefined = "default") => (value: string) => validateExpression(value, variant)
 };
 
 export const SelectRules = {
@@ -64,6 +65,10 @@ export const TimeRules = {
     min: (min: number, message: string | undefined = undefined) => (value: number) => value >= min || (message ?? $tr("ui.rules.time-min", "Must be more than {0}", getTimeBestString(min))),
     max: (max: number, message: string | undefined = undefined) => (value: number) => value <= max || (message ?? $tr("ui.rules.time-max", "Must be less than {0}", getTimeBestString(max)))
 };
+
+export const TimeStepRules = {
+    required: (message: string | undefined = undefined) => (value: { value: number, unit: TimeUnit } | null) => (!!value && value.value !== 0) || (message ?? $tr("ui.rules.required", "Required")),
+}
 
 export const ToggleRules = {
     required: (message: string | undefined = undefined) => (value: boolean) => value || (message ?? $tr("ui.rules.required", "Required"))

@@ -48,6 +48,7 @@ export const Variations: Story = {
     <div style="display: flex; flex-direction: column; gap: 30px;">
       <FSText> Props only, wrap, single selection, not required </FSText>
       <FSOptionGroup
+        optionPadding="4px 16px"
         :required="false"
         :values="args.values1"
         v-model="args.value1"
@@ -111,6 +112,16 @@ export const Variations: Story = {
           icon="mdi-wifi-strength-4"
           :color="(args.value4 === '5') ? 'success' : 'error'"
           @click="() => args.value4 === '5' ? args.value4 = null : args.value4 = '5'"
+        />
+        <FSOptionItem
+          label="UBER FORCE !"
+          :color="(args.value4 === '5') ? 'success' : 'error'"
+          @click="() => args.value4 === '6' ? args.value4 = null : args.value4 = '6'"
+        />
+        <FSOptionItem
+          label="IT'S OVER 9000 !"
+          :color="(args.value4 === '5') ? 'success' : 'error'"
+          @click="() => args.value4 === '7' ? args.value4 = null : args.value4 = '7'"
         />
       </FSOptionGroup>
     </div>`

@@ -35,6 +35,7 @@ export const Variations: Story = {
     },
     template: `
     <FSCol>
+      <div style="color: red" class="text-h2">DEPRECATED : use FSTimeStepField instead</div>
       <FSTimeField
         label="Time"
         v-model="args.value1"

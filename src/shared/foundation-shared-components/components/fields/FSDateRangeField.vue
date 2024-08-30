@@ -62,7 +62,7 @@ import { computed, defineComponent, type PropType, ref, watch } from "vue";
 import _ from "lodash";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
@@ -123,7 +123,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { validateOn, getMessages } = useRules();
-    const { epochToShortDateFormat } = useAppTimeZone();
+    const { epochToShortDateFormat } = useDateFormat();
 
     const dialog = ref(false);
     

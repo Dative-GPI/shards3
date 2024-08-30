@@ -28,13 +28,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
-import type { CustomPropertyInfos} from "../../../foundation-core-domain/models";
-import { PropertyDataType } from "../../../foundation-core-domain/models";
+import { type CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
 import { getColor } from "./helpers";
 
 import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
@@ -59,7 +57,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
 
     const value = computed((): string => {
       if (props.customProperty.useOnlyAllowedValues) {

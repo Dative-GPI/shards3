@@ -1,6 +1,5 @@
-import type { RoleOrganisationInfosDTO } from "./roleOrganisationInfos";
-import { RoleOrganisationInfos } from "./roleOrganisationInfos";
-import type { RoleType } from "../enums/roleEnums";
+import { RoleOrganisationInfos, type RoleOrganisationInfosDTO } from "./roleOrganisationInfos";
+import { type RoleType } from "../enums/roleEnums";
 
 export class RoleOrganisationDetails extends RoleOrganisationInfos {
   description: string;
@@ -19,7 +18,6 @@ export interface RoleOrganisationDetailsDTO extends RoleOrganisationInfosDTO {
 export interface CreateRoleOrganisationDTO {
   roleTemplateType: RoleType;
   roleTemplateId: string | null;
-  userType: number;
   icon: string;
   code: string;
   label: string;

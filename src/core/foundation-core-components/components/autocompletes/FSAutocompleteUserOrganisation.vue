@@ -3,6 +3,7 @@
     itemTitle="name"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :items="userOrganisations"
     :loading="loading"
     :modelValue="$props.modelValue"
@@ -10,67 +11,36 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
-      >
-        <FSImage
-          v-if="item.raw.imageId"
-          height="26px"
-          width="26px"
-          :imageId="item.raw.imageId"
-        />
-        <FSSpan>
-          {{ item.raw.name }}
-        </FSSpan>
-      </FSRow>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSImage
-          v-if="item.raw.imageId"
-          height="26px"
-          width="26px"
-          :imageId="item.raw.imageId"
-        />
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.name }}
-        </FSSpan>
-      </FSRow>
+      <FSImage
+        v-if="item.imageId"
+        height="26px"
+        width="26px"
+        :imageId="item.imageId"
+      />
     </template>
     <template
       #toggle-set-item="props"
     >
       <FSButton
+        :padding="props.item.imageId ? ['6px 16px', '4px 12px'] : undefined"
         :variant="props.getVariant(props.item)"
         :color="props.getColor(props.item)"
         :class="props.getClass(props.item)"
+        :label="props.item.name"
         @click="props.toggle(props.item)"
       >
-        <FSRow
-          align="center-center"
-          :wrap="false"
+        <template
+          v-if="props.item.imageId"
+          #prepend
         >
           <FSImage
-            v-if="props.item.imageId"
             height="26px"
             width="26px"
             :imageId="props.item.imageId"
           />
-          <FSSpan>
-            {{ props.item.name }}
-          </FSSpan>
-        </FSRow>
+        </template>
       </FSButton>
     </template>
   </FSAutocompleteField>
@@ -82,21 +52,18 @@ import { computed, defineComponent, type PropType } from "vue";
 import { type UserOrganisationFilters, type UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteUserOrganisation",
   components: {
     FSAutocompleteField,
     FSButton,
-    FSImage,
-    FSSpan,
-    FSRow
+    FSImage
   },
   props: {
     userOrganisationFilters: {
@@ -123,23 +90,24 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyUserOrganisations, fetching: fetchingUserOrganisations, entities: userOrganisations } = useUserOrganisations();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingUserOrganisations.value;
     });
 
-    const toggleSetItems = computed((): any[] => {
-      return userOrganisations.value.map((userOrganisation: UserOrganisationInfos) => ({
-        id: userOrganisation.id,
-        label: userOrganisation.name
-      }));
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-user-organisation.placeholder", "{0} user(s) selected", props.modelValue.length);
+      }
+      return null;
     });
     
     const fetch = (search: string | null) => {
       return getManyUserOrganisations({ ...props.userOrganisationFilters, search: search ?? undefined });
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       userOrganisations,
       [() => props.userOrganisationFilters],
       emit,
@@ -151,10 +119,9 @@ export default defineComponent({
 
     return {
       userOrganisations,
-      toggleSetItems,
+      placeholder,
       toggleSet,
       loading,
-      search,
       onUpdate
     };
   }

@@ -11,8 +11,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, type StyleValue, watch } from "vue";
 
 import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -23,8 +22,14 @@ export default defineComponent({
   name: "FSFadeOut",
   props: {
     height: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: true
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null | undefined>,
+      required: false,
+      default: undefined
+    },
+    maxHeight: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null | undefined>,
+      required: false,
+      default: undefined
     },
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
@@ -59,16 +64,15 @@ export default defineComponent({
 
     const elementId = `id${uuidv4()}`;
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-fade-out-height"             : sizeToVar(props.height),
-        "--fs-fade-out-width"              : sizeToVar(props.width),
-        "--fs-fade-out-padding"            : sizeToVar(props.padding),
-        "--fs-fade-out-mask-color"         : backgrounds.base,
-        "--fs-fade-out-top-mask-height"    : topMaskHeight.value,
-        "--fs-fade-out-bottom-mask-height" : bottomMaskHeight.value,
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-fade-out-height"            : props.height ? sizeToVar(props.height) : undefined,
+      "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : undefined,
+      "--fs-fade-out-width"             : sizeToVar(props.width),
+      "--fs-fade-out-padding"           : sizeToVar(props.padding),
+      "--fs-fade-out-mask-color"        : backgrounds.base,
+      "--fs-fade-out-top-mask-height"   : topMaskHeight.value,
+      "--fs-fade-out-bottom-mask-height": bottomMaskHeight.value
+    }));
 
     const handleMasks = () => {
       if (fadeOutRef.value) {

@@ -1,5 +1,6 @@
 <template>
   <FSSelectField
+    class="fs-select-date-setting"
     :items="dateSettings"
     :clearable="false"
     :modelValue="$props.modelValue"
@@ -9,8 +10,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";

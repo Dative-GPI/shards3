@@ -20,8 +20,12 @@ export const Variations: Story = {
     args: {
       value1: null,
       type1: 0,
-      value2: "11",
-      type2: 2
+      value2: null,
+      type2: 0,
+      value3: null,
+      type3: 0,
+      value4: null,
+      type4: 0
     }
   },
   render: (args, { argTypes }) => ({
@@ -43,6 +47,21 @@ export const Variations: Story = {
         :toggleSetDisabled="true"
         v-model="args.value2"
         v-model:type="args.type2"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteChart
+        label="Chart with multiple"
+        :multiple="true"
+        v-model="args.value3"
+        v-model:type="args.type3"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSAutocompleteChart
+        label="Chart with multiple and toggleSet disabled"
+        :multiple="true"
+        :toggleSetDisabled="true"
+        v-model="args.value4"
+        v-model:type="args.type4"
       />
     </FSCol>`
   })

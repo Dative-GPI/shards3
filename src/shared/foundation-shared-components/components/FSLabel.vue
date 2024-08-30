@@ -16,12 +16,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSLoader from "./FSLoader.vue";
 
@@ -37,7 +35,7 @@ export default defineComponent({
       default: null
     },
     font: {
-      type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
+      type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline">,
       required: false,
       default: "text-body"
     },
@@ -68,21 +66,7 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
-    const classes = computed((): string[] => {
-      const classNames = ["fs-label", props.font];
-      if (!slots.default) {
-        classNames.push("fs-span-pre-wrap");
-      }
-      if (props.lineClamp > 1) {
-        classNames.push("fs-span-line-clamp");
-      }
-      else if (props.ellipsis) {
-        classNames.push("fs-span-ellipsis");
-      }
-      return classNames;
-    });
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       switch (props.variant) {
         case "base": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
@@ -97,6 +81,20 @@ export default defineComponent({
           "--fs-label-color"    : colors.value.dark
         };
       }
+    });
+
+    const classes = computed((): string[] => {
+      const classNames = ["fs-label", props.font];
+      if (!slots.default) {
+        classNames.push("fs-span-pre-wrap");
+      }
+      if (props.lineClamp > 1) {
+        classNames.push("fs-span-line-clamp");
+      }
+      else if (props.ellipsis) {
+        classNames.push("fs-span-ellipsis");
+      }
+      return classNames;
     });
 
     return {

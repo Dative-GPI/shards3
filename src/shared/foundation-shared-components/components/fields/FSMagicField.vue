@@ -58,16 +58,15 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import { useMagicFieldProvider } from "../../composables";
 import { MagicFieldType } from "../../models/magicFields";
-import { getTimeBestString } from "../../utils";
+import { getTimeBestString, timeStepToString } from "../../utils";
 
 import FSSelectField from "./FSSelectField.vue";
 import FSIcon from "../FSIcon.vue";
@@ -106,7 +105,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToShortTimeFormat } = useAppTimeZone();
+    const { epochToShortTimeFormat } = useDateFormat();
     const { $tr } = useTranslationsProvider();
     const { get } = useMagicFieldProvider();
 
@@ -116,28 +115,32 @@ export default defineComponent({
     })));
 
     const valueToInput = computed((): any => {
+      if (props.modelValue == null) {
+        return null;
+      }
+
       switch (props.type) {
         case MagicFieldType.NumberField:
         case MagicFieldType.DateTimeField:
         case MagicFieldType.TimeField:
-          if (props.modelValue == null || isNaN(parseFloat(props.modelValue))) {
+          if (isNaN(parseFloat(props.modelValue))) {
             return null;
           }
           return parseFloat(props.modelValue);
         case MagicFieldType.Switch: 
-          if (props.modelValue == null) {
-            return null;
-          }
           return props.modelValue === "true";
+        case MagicFieldType.TimeStepField:
+          return JSON.parse(props.modelValue);
         default:
           return props.modelValue;
       }
     });
 
-    const asString = (value: any): string | null => {
+    const asString = (value: string): string | null => {
       if (value == null) {
-        return null;
+        return "";
       }
+      
       switch (props.type) {
         case MagicFieldType.NumberField:
           return value.toString();
@@ -147,25 +150,30 @@ export default defineComponent({
           }
           return $tr("ui.magic-field.false", "False");
         case MagicFieldType.DateTimeField:
-          return epochToShortTimeFormat(value);
+          return epochToShortTimeFormat(parseFloat(value));
         case MagicFieldType.TimeField:
-          return getTimeBestString(value);
+          return getTimeBestString(parseFloat(value));
+        case MagicFieldType.TimeStepField:
+          return timeStepToString(JSON.parse(value));
         default:
           return value;
       }
     }
 
     const inputToValue = (value: any) => {
+      if (value == null) {
+        emit("update:modelValue", null);
+      }
+
       switch (props.type) {
         case MagicFieldType.NumberField:
         case MagicFieldType.Switch: 
         case MagicFieldType.DateTimeField:
         case MagicFieldType.TimeField:
-          if (value == null) {
-            emit("update:modelValue", null);
-            break;
-          }
           emit("update:modelValue", value.toString());
+          break;
+        case MagicFieldType.TimeStepField:
+          emit("update:modelValue", JSON.stringify(value));
           break;
         default:
           emit("update:modelValue", value);

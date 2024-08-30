@@ -1,7 +1,7 @@
 <template>
   <v-breadcrumbs
-    :style="style"
     :items="$props.items"
+    :style="style"
     v-bind="$attrs"
   >
     <template
@@ -27,11 +27,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType, Ref} from "vue";
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import type { FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSpan from "./FSSpan.vue";
@@ -46,7 +44,8 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<FSBreadcrumbItem[]>,
-      required: true,
+      required: false,
+      default: () => []
     }
   },
   setup() {
@@ -54,11 +53,11 @@ export default defineComponent({
 
     const darks = getColors(ColorEnum.Dark);
 
-    const style: Ref<{ [key: string] : string }> = ref({
-      "--fs-breadcrumbs-color": darks.dark,
-      "--fs-breadcrumbs-active-color": darks.base,
+    const style = computed((): StyleValue => ({
+      "--fs-breadcrumbs-color"         : darks.dark,
+      "--fs-breadcrumbs-active-color"  : darks.base,
       "--fs-breadcrumbs-disabled-color": darks.soft
-    });
+    }));
 
     const classes = (item: FSBreadcrumbItem): string[] => {
       const classNames = ["fs-breadcrumbs-label"];

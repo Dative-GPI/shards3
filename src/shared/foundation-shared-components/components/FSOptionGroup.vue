@@ -14,9 +14,10 @@
       >
         <FSOptionItem
           v-for="(item, index) in props.values"
+          :padding="props.optionPadding"
+          :editable="props.editable"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -59,9 +60,10 @@
       >
         <FSOptionItem
           v-for="(item, index) in props.values"
+          :padding="props.optionPadding"
+          :editable="props.editable"
           :prependIcon="item.prependIcon"
           :appendIcon="item.appendIcon"
-          :editable="props.editable"
           :variant="getVariant(item)"
           :color="getColor(item)"
           :class="getClass(item)"
@@ -92,14 +94,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum, type FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
-import type { FSToggle } from "@dative-gpi/foundation-shared-components/models"; 
 
 import FSOptionItem from "./FSOptionItem.vue";
 import FSSlideGroup from "./FSSlideGroup.vue";
@@ -178,6 +177,11 @@ export default defineComponent({
       required: false,
       default: "3px"
     },
+    optionPadding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "4px"
+    },
     gap: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
@@ -207,14 +211,12 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const colors = getColors(props.optionColor);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-option-group-background-color": backgrounds.base,
-        "--fs-option-group-border-size"     : props.border ? "1px" : "0",
-        "--fs-option-group-border-radius"   : sizeToVar(props.borderRadius),
-        "--fs-option-group-border-color"    : lights.base
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-option-group-background-color": backgrounds.base,
+      "--fs-option-group-border-size"     : props.border ? "1px" : "0",
+      "--fs-option-group-border-radius"   : sizeToVar(props.borderRadius),
+      "--fs-option-group-border-color"    : lights.base
+    }));
 
     const getVariant = (value: FSToggle): "standard" | "background" | "full" => {
       if (Array.isArray(props.modelValue) && props.modelValue.some(v => v === value.id)) {

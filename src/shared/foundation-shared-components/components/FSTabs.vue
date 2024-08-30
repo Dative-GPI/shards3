@@ -10,24 +10,15 @@
     @update:modelValue="$emit('update:tab', $event)"
     v-bind="$attrs"
   >
-    <template
-      v-for="(component, index) in getChildren()"
-      :key="index"
-    >
-      <component
-        :is="component"
-      />
-    </template>
+    <slot/>
   </v-tabs>
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSTabs",
@@ -44,26 +35,24 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getChildren } = useSlots();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => ({
-      "--fs-group-color"                 : darks.soft,
-      "--fs-group-hover-color"           : darks.dark,
-      "--fs-tab-border-color"            : lights.dark,
-      "--fs-tab-hover-border-color"      : darks.dark,
-      "--fs-tab-active-background-color" : colors.value.light,
-      "--fs-tab-tag-background-color"    : colors.value.base,
-      "--fs-tab-tag-color"               : colors.value.baseContrast
+    const style = computed((): StyleValue => ({
+      "--fs-group-color"                : darks.soft,
+      "--fs-group-hover-color"          : darks.dark,
+      "--fs-tab-border-color"           : lights.dark,
+      "--fs-tab-hover-border-color"     : darks.dark,
+      "--fs-tab-active-background-color": colors.value.light,
+      "--fs-tab-tag-background-color"   : colors.value.base,
+      "--fs-tab-tag-color"              : colors.value.baseContrast!
     }));
 
     return {
-      style,
-      getChildren
+      style
     };
   }
 });

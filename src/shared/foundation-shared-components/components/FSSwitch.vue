@@ -10,10 +10,10 @@
         class="fs-switch"
         hide-details
         inset
-        :style="style"
-        :ripple="false"
-        :rules="$props.rules"
         :validateOn="validateOn"
+        :rules="$props.rules"
+        :ripple="false"
+        :style="style"
         :modelValue="$props.modelValue"
         @update:modelValue="onToggle"
         v-bind="$attrs"
@@ -36,7 +36,7 @@
       <FSSpan
         v-if="$props.description"
         class="fs-switch-description"
-        font="text-underline"
+        font="text-overline"
         :style="style"
       >
         {{ $props.description }}
@@ -46,12 +46,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
@@ -76,7 +74,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | null>,
       required: false,
       default: false
     },
@@ -112,7 +110,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-switch-translate-x": props.modelValue ? "8px" : "-8px",
@@ -140,7 +138,7 @@ export default defineComponent({
       };
     });
 
-    const font = computed((): string => props.modelValue ? "text-button" : "text-body");
+    const font = computed((): "text-button" | "text-body" => props.modelValue ? "text-button" : "text-body");
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 

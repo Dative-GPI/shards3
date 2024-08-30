@@ -1,5 +1,7 @@
 <template>
-  <FSRow>
+  <FSRow
+    class="fs-magic-config-field"
+  >
     <component
       class="fs-magic-config-field-value"
       :is="get($props.type)"
@@ -38,10 +40,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import { DateRules, IconRules, NumberRules, TextRules, TimeRules } from "../../models";
+import { DateRules, IconRules, NumberRules, TextRules, TimeRules, TimeStepRules } from "../../models";
 import { useMagicFieldProvider } from "../../composables";
 import { MagicFieldType } from "../../models/magicFields";
 
@@ -69,7 +70,7 @@ export default defineComponent({
       required: false,
       default: null
     },
-    value: {
+    modelValue: {
       type: String as PropType<string | null>,
       required: false,
       default: null
@@ -85,7 +86,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["click:remove", "click:add", "update:value", "update:labelDefault", "update:translations"],
+  emits: ["click:remove", "click:add", "update:modelValue", "update:labelDefault", "update:translations"],
   setup(props, { emit }) {
     const { get } = useMagicFieldProvider();
 
@@ -101,43 +102,51 @@ export default defineComponent({
           return [IconRules.required()];
         case MagicFieldType.TimeField:
           return [TimeRules.required()];
+        case MagicFieldType.TimeStepField:
+          return [TimeStepRules.required()];
       }
       return [];
     });
 
     const valueToInput = computed((): any => {
+      if (!props.modelValue) {
+        return null;
+      }
+
       switch (props.type) {
         case MagicFieldType.NumberField:
         case MagicFieldType.DateTimeField:
         case MagicFieldType.TimeField:
-          if (props.value == null || isNaN(parseFloat(props.value))) {
+          if (isNaN(parseFloat(props.modelValue))) {
             return null;
           }
-          return parseFloat(props.value);
+          return parseFloat(props.modelValue);
         case MagicFieldType.Switch: 
-          if (props.value == null) {
-            return null;
-          }
-          return props.value === "true";
+          return props.modelValue === "true";
+        case MagicFieldType.TimeStepField:
+          return JSON.parse(props.modelValue);
         default:
-          return props.value;
+          return props.modelValue;
       }
     });
 
     const inputToValue = (value: any) => {
+      if (!value) {
+        emit("update:modelValue", null);
+      }
+
       switch (props.type) {
         case MagicFieldType.NumberField:
         case MagicFieldType.Switch: 
         case MagicFieldType.DateTimeField:
         case MagicFieldType.TimeField:
-          if (value == null) {
-            emit("update:value", null);
-            break;
-          }
-          emit("update:value", value.toString());
+          emit("update:modelValue", value.toString());
+          break;
+        case MagicFieldType.TimeStepField:
+          emit("update:modelValue", JSON.stringify(value));
           break;
         default:
-          emit("update:value", value);
+          emit("update:modelValue", value);
           break;
       }
     };

@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import FSClickable from "./FSClickable.vue";
 import FSSpan from "./FSSpan.vue";
@@ -60,7 +60,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const style = computed(() => ({
+    const style = computed((): StyleValue => ({
       "--fs-image-card-background": `url(${props.src})`
     }));
 

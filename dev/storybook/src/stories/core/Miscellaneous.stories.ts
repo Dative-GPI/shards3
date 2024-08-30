@@ -66,7 +66,7 @@ export const TestForm: Story = {
             :type="args.fieldType"
             v-model:labelDefault="args.fieldLabel"
             v-model:translations="args.fieldTranslations"
-            v-model:value="args.fieldValue"
+            v-model="args.fieldValue"
           />
           <div style="display: flex; gap: 10px;">
             <FSButton

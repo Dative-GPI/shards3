@@ -1,6 +1,5 @@
+import { ConnectivityScenarioDetails, type ConnectivityScenarioDetailsDTO, type ConnectivityScenarioFilters, ConnectivityScenarioInfos, type ConnectivityScenarioInfosDTO, type CreateConnectivityScenarioDTO, type UpdateConnectivityScenarioDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import type { CreateConnectivityScenarioDTO, ConnectivityScenarioDetailsDTO, ConnectivityScenarioFilters, ConnectivityScenarioInfosDTO, UpdateConnectivityScenarioDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ConnectivityScenarioDetails, ConnectivityScenarioInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import { CONNECTIVITY_SCENARIOS_URL, CONNECTIVITY_SCENARIO_URL } from "../../config";
 

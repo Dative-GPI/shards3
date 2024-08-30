@@ -22,6 +22,7 @@
           </FSIcon>
           <FSSpan
             class="fs-accordion-panel-title"
+            :lineClamp="$props.lineClampTitle"
           >
             {{ $props.title }}
           </FSSpan>
@@ -35,23 +36,29 @@
         name="content"
       >
         <FSText
+          v-if="$props.variant === 'standard'"
           :lineClamp="$props.lineClampContent"
         >
           {{ $props.content }}
         </FSText>
+        <FSRichTextField
+          v-else-if="$props.variant === 'rich-text'"
+          variant="readonly"
+          :modelValue="$props.content"
+        />
       </slot>
     </template>
   </v-expansion-panel>
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
+import FSRichTextField from "./fields/FSRichTextField.vue";
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
 import FSText from "./FSText.vue";
@@ -60,6 +67,7 @@ import FSRow from "./FSRow.vue";
 export default defineComponent({
   name: "FSAccordionPanel",
   components: {
+    FSRichTextField,
     FSIcon,
     FSSpan,
     FSText,
@@ -91,6 +99,11 @@ export default defineComponent({
       required: false,
       default: "16px"
     },
+    lineClampTitle: {
+      type: Number,
+      required: false,
+      default: 2
+    },
     lineClampContent: {
       type: Number,
       required: false,
@@ -110,6 +123,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: ""
+    },
+    variant: {
+      type: String as PropType<"standard" | "rich-text">,
+      required: false,
+      default: "standard"
     }
   },
   setup(props) {
@@ -118,15 +136,13 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-accordion-panel-padding-title"         : sizeToVar(props.paddingTitle),
-        "--fs-accordion-panel-padding-content"       : sizeToVar(props.paddingContent),
-        "--fs-accordion-panel-divider-size"          : props.divider ? "1px" : "0",
-        "--fs-accordion-panel-divider-color"         : lights.dark,
-        "--fs-accordion-panel-background-color"      : backgrounds.base
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-accordion-panel-padding-title"   : sizeToVar(props.paddingTitle),
+      "--fs-accordion-panel-padding-content" : sizeToVar(props.paddingContent),
+      "--fs-accordion-panel-divider-size"    : props.divider ? "1px" : "0",
+      "--fs-accordion-panel-divider-color"   : lights.dark,
+      "--fs-accordion-panel-background-color": backgrounds.base
+    }));
 
     return {
       style

@@ -23,7 +23,8 @@ export const Variations: Story = {
       value3: "",
       value4: "",
       value5: "",
-      value6: ""
+      value6: "",
+      value7: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -69,79 +70,101 @@ export const Variations: Story = {
         :type="6"
         v-model="args.value6"
       />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSMagicField
+        label="Time step field"
+        :type="7"
+        v-model="args.value7"
+      />
     </FSCol>`
   })
 }
 
 export const Selects: Story = {
+  args: {
     args: {
-      args: {
-        value1: "",
-        allowedValues1: [{
-          value: 1,
-          label: "one"
-        }, {
-          value: 2,
-          label: "two"
-        }, {
-          value: 3
-        }],
-        value2: "",
-        allowedValues2: [{
-          value: false,
-          label: "I don't think so"
-        }, {
-          value: true
-        }],
-        value3: "",
-        allowedValues3: [{
-          value: "value a",
-          label: "Label A"
-        }, {
-          value: "value b",
-          label: "Label B"
-        }, {
-          value: "value c"
-        }],
-        value4: "",
-        allowedValues4: [{
-          value: 1704067200000,
-          label: "First of January 2024"
-        }, {
-          value: 567993600000,
-          label: "A long time ago"
-        }, {
-          value: 1735689600000
-        }],
-        value5: "",
-        allowedValues5: [{
-          value: "mdi-account",
-          label: "Account icon"
-        }, {
-          value: "mdi-account-circle"
-        }],
-        value6: "",
-        allowedValues6: [{
-          value: 900,
+      value1: "",
+      allowedValues1: [{
+        value: 1,
+        label: "one"
+      }, {
+        value: 2,
+        label: "two"
+      }, {
+        value: 3
+      }],
+      value2: "",
+      allowedValues2: [{
+        value: false,
+        label: "I don't think so"
+      }, {
+        value: true
+      }],
+      value3: "",
+      allowedValues3: [{
+        value: "value a",
+        label: "Label A"
+      }, {
+        value: "value b",
+        label: "Label B"
+      }, {
+        value: "value c"
+      }],
+      value4: "",
+      allowedValues4: [{
+        value: 1704067200000,
+        label: "First of January 2024"
+      }, {
+        value: 567993600000,
+        label: "A long time ago"
+      }, {
+        value: 1735689600000
+      }],
+      value5: "",
+      allowedValues5: [{
+        value: "mdi-account",
+        label: "Account icon"
+      }, {
+        value: "mdi-account-circle"
+      }],
+      value6: "",
+      allowedValues6: [{
+        value: 900,
+        label: "Quarter hour"
+      }, {
+        value: 1800
+      }, {
+        value: 7200
+      }],
+      value7: "",
+      allowedValues7: [
+        {
+          value: { value: 15, unit: 3 },
           label: "Quarter hour"
-        }, {
-          value: 1800
-        }, {
-          value: 7200
-        }]
-      }
+        },
+        {
+          value: { value: 30, unit: 3 }
+        },
+        {
+          value: { value: 3, unit: 4 }
+        },
+        {
+          value: { value: 1, unit: 5 }
+        }
+      ]
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSMagicField, FSCol },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
     },
-    render: (args, { argTypes }) => ({
-      components: { FSMagicField, FSCol },
-      props: Object.keys(argTypes),
-      setup() {
-        return { ...args };
-      },
-      template: `
+    template: `
       <FSCol>
         <FSMagicField
           label="Number field"
-          :type="0"
+          :type="1"
           :useOnlyAllowedValues="true"
           :allowedValues="args.allowedValues1"
           v-model="args.value1"
@@ -149,7 +172,7 @@ export const Selects: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSMagicField
           label="Switch"
-          :type="1"
+          :type="2"
           :useOnlyAllowedValues="true"
           :allowedValues="args.allowedValues2"
           v-model="args.value2"
@@ -157,7 +180,7 @@ export const Selects: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSMagicField
           label="Text field"
-          :type="2"
+          :type="3"
           :useOnlyAllowedValues="true"
           :allowedValues="args.allowedValues3"
           v-model="args.value3"
@@ -165,7 +188,7 @@ export const Selects: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSMagicField
           label="Date time field"
-          :type="3"
+          :type="4"
           :useOnlyAllowedValues="true"
           :allowedValues="args.allowedValues4"
           v-model="args.value4"
@@ -173,7 +196,7 @@ export const Selects: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSMagicField
           label="Icon field"
-          :type="4"
+          :type="5"
           :useOnlyAllowedValues="true"
           :allowedValues="args.allowedValues5"
           v-model="args.value5"
@@ -181,11 +204,19 @@ export const Selects: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSMagicField
           label="Time field"
-          :type="5"
+          :type="6"
           :useOnlyAllowedValues="true"
           :allowedValues="args.allowedValues6"
           v-model="args.value6"
         />
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSMagicField
+          label="Time step field"
+          :type="7"
+          :useOnlyAllowedValues="true"
+          :allowedValues="args.allowedValues7"
+          v-model="args.value7"
+        />
       </FSCol>`
-    })
+  })
 }

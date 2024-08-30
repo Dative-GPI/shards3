@@ -1,13 +1,12 @@
-import type { ArticleDetailsDTO, ArticleFilters, ArticleInfosDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ArticleDetails, ArticleInfos } from "@dative-gpi/foundation-core-domain/models";
+import { ArticleDetails, type ArticleDetailsDTO, type ArticleFilters, ArticleInfos, type ArticleInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { ARTICLES_URL, ARTICLE_URL } from "../../config/urls";
 
 const ArticleServiceFactory = new ServiceFactory<ArticleDetailsDTO, ArticleDetails>("article", ArticleDetails).create(factory => factory.build(
-    factory.addGet(ARTICLE_URL),
-    factory.addGetMany<ArticleInfosDTO, ArticleInfos, ArticleFilters>(ARTICLES_URL, ArticleInfos),
-    factory.addNotify()
+  factory.addGet(ARTICLE_URL),
+  factory.addGetMany<ArticleInfosDTO, ArticleInfos, ArticleFilters>(ARTICLES_URL, ArticleInfos),
+  factory.addNotify()
 ));
 
 export const useArticle = ComposableFactory.get(ArticleServiceFactory);

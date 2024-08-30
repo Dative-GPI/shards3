@@ -1,6 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-content-copy"
+    
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

@@ -20,8 +20,8 @@ export const Variations: Story = {
     args: {
       value1: null,
       type1: 0,
-      value2: "11",
-      type2: 2,
+      value2: null,
+      type2: 0,
       value3: null,
       type3: 0,
       value4: null,

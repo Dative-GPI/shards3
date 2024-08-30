@@ -112,12 +112,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, type StyleValue } from "vue";
 
-import { useAppTimeZone, useAppLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useDateFormat, useAppLanguageCode } from "@dative-gpi/foundation-shared-services/composables";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSButton from "./FSButton.vue";
@@ -157,13 +155,9 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useAppTimeZone();
+    const { epochToPicker, epochToPickerHeader, pickerToEpoch, todayToEpoch } = useDateFormat();
     const { languageCode } = useAppLanguageCode();
     const { getColors } = useColors();
-
-    const colors = computed(() => getColors(props.color));
-    const backgrounds = getColors(ColorEnum.Background);
-    const darks = getColors(ColorEnum.Dark);
     
     const innerLeftMonth = ref(new Date().getMonth());
     const innerLeftYear = ref(new Date().getFullYear());
@@ -173,72 +167,21 @@ export default defineComponent({
 
     const toggle = ref((props.modelValue?.length ?? 0) % 2);
 
-    onMounted((): void => {
-      if (!props.modelValue || !props.modelValue.length) {
-        innerLeftMonth.value = new Date().getMonth();
-        innerLeftYear.value = new Date().getFullYear();
-        if (innerLeftMonth.value < 11) {
-          innerRightMonth.value = innerLeftMonth.value + 1;
-          innerRightYear.value = innerLeftYear.value;
-        }
-        else {
-          innerRightMonth.value = 0;
-          innerRightYear.value = innerLeftYear.value + 1;
-        }
-      }
-      else {
-        innerLeftMonth.value = epochToPickerHeader(props.modelValue[0]).m;
-        innerLeftYear.value = epochToPickerHeader(props.modelValue[0]).y;
-        if (innerLeftMonth.value < 11) {
-          innerRightMonth.value = innerLeftMonth.value + 1;
-          innerRightYear.value = innerLeftYear.value;
-        }
-        else {
-          innerRightMonth.value = 0;
-          innerRightYear.value = innerLeftYear.value + 1;
-        }
-      }
-    });
+    const colors = computed(() => getColors(props.color));
+    const backgrounds = getColors(ColorEnum.Background);
+    const darks = getColors(ColorEnum.Dark);
 
-    const compare = (operator: "before" | "during" | "after", side: "left" | "right", date: { d: number, m: number, y: number }): boolean => {
-      switch (operator) {
-        case "before":
-          switch (side) {
-            case "left":
-              return innerLeftYear.value > date.y || (innerLeftYear.value === date.y && innerLeftMonth.value > date.m);
-            default:
-              return innerRightYear.value > date.y || (innerRightYear.value === date.y && innerRightMonth.value > date.m);
-          }
-        case "during":
-          switch (side) {
-            case "left":
-              return innerLeftYear.value === date.y && innerLeftMonth.value === date.m;
-            default:
-              return innerRightYear.value === date.y && innerRightMonth.value === date.m;
-          }
-        case "after":
-          switch (side) {
-            case "left":
-              return innerLeftYear.value < date.y || (innerLeftYear.value === date.y && innerLeftMonth.value < date.m);
-            default:
-              return innerRightYear.value < date.y || (innerRightYear.value === date.y && innerRightMonth.value < date.m);
-          }
-      }
-    }
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-calendar-background-color"       : backgrounds.base,
-        "--fs-calendar-hover-background-color" : colors.value.light,
-        "--fs-calendar-active-background-color": colors.value.base,
-        "--fs-calendar-border-color"           : darks.base,
-        "--fs-calendar-hover-border-color"     : colors.value.base,
-        "--fs-calendar-active-border-color"    : colors.value.base,
-        "--fs-calendar-color"                  : darks.base,
-        "--fs-calendar-hover-color"            : colors.value.base,
-        "--fs-calendar-active-color"           : colors.value.light
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-calendar-background-color"       : backgrounds.base,
+      "--fs-calendar-hover-background-color" : colors.value.light,
+      "--fs-calendar-active-background-color": colors.value.base,
+      "--fs-calendar-border-color"           : darks.base,
+      "--fs-calendar-hover-border-color"     : colors.value.base,
+      "--fs-calendar-active-border-color"    : colors.value.base,
+      "--fs-calendar-color"                  : darks.base,
+      "--fs-calendar-hover-color"            : colors.value.base,
+      "--fs-calendar-active-color"           : colors.value.light
+    }));
 
     const innerLeftValue = computed((): number[] => {
       if (!props.modelValue || !props.modelValue.length) {
@@ -318,6 +261,32 @@ export default defineComponent({
       return classNames;
     });
 
+    const compare = (operator: "before" | "during" | "after", side: "left" | "right", date: { d: number, m: number, y: number }): boolean => {
+      switch (operator) {
+        case "before":
+          switch (side) {
+            case "left":
+              return innerLeftYear.value > date.y || (innerLeftYear.value === date.y && innerLeftMonth.value > date.m);
+            default:
+              return innerRightYear.value > date.y || (innerRightYear.value === date.y && innerRightMonth.value > date.m);
+          }
+        case "during":
+          switch (side) {
+            case "left":
+              return innerLeftYear.value === date.y && innerLeftMonth.value === date.m;
+            default:
+              return innerRightYear.value === date.y && innerRightMonth.value === date.m;
+          }
+        case "after":
+          switch (side) {
+            case "left":
+              return innerLeftYear.value < date.y || (innerLeftYear.value === date.y && innerLeftMonth.value < date.m);
+            default:
+              return innerRightYear.value < date.y || (innerRightYear.value === date.y && innerRightMonth.value < date.m);
+          }
+      }
+    };
+
     const onClickPrevious = (): void => {
       if (innerLeftMonth.value === 11) {
         innerLeftMonth.value--;
@@ -372,7 +341,6 @@ export default defineComponent({
       }
     };
 
-
     const onClickRight = (value: unknown): void => {
       const dates = value as Date[];
       const clicked = pickerToEpoch(dates[dates.length - 1]);
@@ -395,17 +363,42 @@ export default defineComponent({
     };
 
     const allowedDates = (value: unknown): boolean => {
-      const date = value as Date;
-      const valueEpoch = pickerToEpoch(date);
+      if (!(value instanceof Date)) {
+        return false;
+      }
       switch (props.limit) {
-        case "past":
-          return valueEpoch <= todayToEpoch(true);
-        case "future":
-          return valueEpoch >= todayToEpoch(true);
-        default:
-          return true;
+        case "past"  : return pickerToEpoch(value) <= todayToEpoch();
+        case "future": return pickerToEpoch(value) >= todayToEpoch();
+        default      : return true;
       }
     };
+
+    onMounted((): void => {
+      if (!props.modelValue || !props.modelValue.length) {
+        innerLeftMonth.value = new Date().getMonth();
+        innerLeftYear.value = new Date().getFullYear();
+        if (innerLeftMonth.value < 11) {
+          innerRightMonth.value = innerLeftMonth.value + 1;
+          innerRightYear.value = innerLeftYear.value;
+        }
+        else {
+          innerRightMonth.value = 0;
+          innerRightYear.value = innerLeftYear.value + 1;
+        }
+      }
+      else {
+        innerLeftMonth.value = epochToPickerHeader(props.modelValue[0]).m;
+        innerLeftYear.value = epochToPickerHeader(props.modelValue[0]).y;
+        if (innerLeftMonth.value < 11) {
+          innerRightMonth.value = innerLeftMonth.value + 1;
+          innerRightYear.value = innerLeftYear.value;
+        }
+        else {
+          innerRightMonth.value = 0;
+          innerRightYear.value = innerLeftYear.value + 1;
+        }
+      }
+    });
 
     return {
       ColorEnum,

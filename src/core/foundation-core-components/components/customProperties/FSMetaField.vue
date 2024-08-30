@@ -89,13 +89,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
-import type { CustomPropertyInfos} from "../../../foundation-core-domain/models";
-import { PropertyDataType } from "../../../foundation-core-domain/models";
+import { type CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
 
 import FSDateTimeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateTimeField.vue";
 import FSNumberField from "@dative-gpi/foundation-shared-components/components/fields/FSNumberField.vue";
@@ -141,7 +139,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
 
     const items = computed((): { id: string, label: string, icon: string | null }[] => {
       return Object.keys(props.customProperty.allowedValues).map((key: string) => {

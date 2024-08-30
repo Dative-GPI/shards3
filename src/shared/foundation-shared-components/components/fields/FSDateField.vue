@@ -152,7 +152,7 @@ import _ from "lodash";
 
 import { useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSDialogMenu from "../FSDialogMenu.vue";
 import FSTextField from "./FSTextField.vue";
@@ -215,7 +215,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { epochToLongDateFormat } = useAppTimeZone();
+    const { epochToLongDateFormat } = useDateFormat();
     const { validateOn, getMessages} = useRules();
     const { isExtraSmall } = useBreakpoints();
 

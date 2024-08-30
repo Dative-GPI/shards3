@@ -35,6 +35,7 @@ export * from "./locations";
 export * from "./manufacturers";
 export * from "./models";
 export * from "./modelStatuses";                    // No service
+export * from "./notifications";
 export * from "./organisations";
 export * from "./permissionCategories";
 export * from "./roleOrganisations";
@@ -48,6 +49,7 @@ export * from "./scenarios";                        // No service
 export * from "./shared";                           // No service
 export * from "./serviceAccountOrganisationAuthTokens";
 export * from "./serviceAccountOrganisations";
+export * from "./serviceAccountRoleOrganisations";
 export * from "./userOrganisationColumns";          // No service
 export * from "./userOrganisations";
 export * from "./userOrganisationTables";

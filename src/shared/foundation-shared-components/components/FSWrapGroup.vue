@@ -19,8 +19,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, type PropType, type StyleValue, ref } from "vue";
 
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -52,7 +51,7 @@ export default defineComponent({
 
     const elementId = `id${uuidv4()}`;
 
-    const style = computed((): { [key: string] : string | null | undefined } => ({
+    const style = computed((): StyleValue => ({
       "--fs-group-padding"    : sizeToVar(props.padding),
       "--fs-group-gap"        : sizeToVar(props.gap),
       "--fs-group-color"      : darks.soft,

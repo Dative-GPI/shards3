@@ -1,11 +1,12 @@
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import type { BlurHashDTO } from "@dative-gpi/foundation-shared-domain/models";
-import { BlurHash } from "@dative-gpi/foundation-shared-domain/models";
+import type { ImageDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { ImageDetails } from "@dative-gpi/foundation-shared-domain/models";
 
-import { IMAGE_BLURHASH_URL } from "../../config/urls";
+import { IMAGE_URL } from "../../config/urls";
 
-const ImageServiceFactory = {
-    ...ServiceFactory.addCustom("getBlurHash", (axios, imageId: string) => axios.get(IMAGE_BLURHASH_URL(imageId)), (dto: BlurHashDTO) => new BlurHash(dto))
-};
+const ImageServiceFactory = new ServiceFactory<ImageDetailsDTO, ImageDetails>("image", ImageDetails).create(factory => factory.build(
+    factory.addGet(IMAGE_URL),
+    factory.addNotify()
+));
 
-export const useImageBlurHash = ComposableFactory.custom(ImageServiceFactory.getBlurHash);
+export const useImage = ComposableFactory.get(ImageServiceFactory);

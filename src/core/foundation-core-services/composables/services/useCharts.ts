@@ -1,6 +1,4 @@
-
-import type { ChartDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
-import { ChartDetails } from "@dative-gpi/foundation-core-domain/models";
+import { ChartDetails, type ChartDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { CHART_URL } from "../../config/urls";

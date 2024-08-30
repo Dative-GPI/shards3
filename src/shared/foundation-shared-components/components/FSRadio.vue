@@ -49,7 +49,7 @@
       <FSSpan
         v-if="$props.description"
         class="fs-radio-description"
-        font="text-underline"
+        font="text-overline"
         :style="style"
       >
         {{ $props.description }}
@@ -59,12 +59,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSIcon from "./FSIcon.vue";
 import FSSpan from "./FSSpan.vue";
@@ -135,7 +133,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-radio-cursor"     : "default",
@@ -159,7 +157,7 @@ export default defineComponent({
 
     const icon = computed((): string => props.selected ? "mdi-radiobox-marked" : "mdi-radiobox-blank");
 
-    const font = computed((): string => props.selected ? "text-button" : "text-body");
+    const font = computed((): "text-button" | "text-body" => props.selected ? "text-button" : "text-body");
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 

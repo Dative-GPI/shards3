@@ -22,6 +22,7 @@
         <FSButton
           v-if="filterableHeaders.length > 0"
           prependIcon="mdi-filter-variant"
+          padding="0 7px"
           :variant="showFilters ? 'full' : 'standard'"
           @click="showFilters = !showFilters"
         />
@@ -689,12 +690,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType, Ref, Slot} from "vue";
-import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, type PropType, type Ref, ref, type Slot, type StyleValue, watch } from "vue";
 import { useRouter } from "vue-router";
 
-import type { FSDataTableColumn, FSDataTableFilter, FSDataTableOrder, FSToggle } from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum, type FSDataTableColumn, type FSDataTableFilter, type FSDataTableOrder, type FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid"
@@ -963,13 +962,11 @@ export default defineComponent({
       return slots;
     });
 
-    const style = computed((): { [key: string]: string | undefined } => {
-      return {
-        "--fs-data-table-background-color": backgrounds.base,
-        "--fs-data-table-border-color": lights.base,
-        "--fs-data-table-row-gap": sizeToVar(props.rowGap)
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-data-table-background-color": backgrounds.base,
+      "--fs-data-table-border-color": lights.base,
+      "--fs-data-table-row-gap": sizeToVar(props.rowGap)
+    }));
 
     const classes = computed((): string[] => {
       const classNames = ["fs-data-table"];
@@ -1100,10 +1097,10 @@ export default defineComponent({
           },
           mobile: (event: any, item: any) => {
             if (props.itemTo && router) {
-              router.push(props.itemTo(item));
+              router.push(props.itemTo(item.raw));
             }
             else {
-              emit("click:row", item);
+              emit("click:row", item.raw);
             }
           }
         }

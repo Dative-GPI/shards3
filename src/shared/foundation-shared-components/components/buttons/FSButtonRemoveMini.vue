@@ -1,6 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-delete-outline"
+    
     :color="ColorEnum.Error"
     v-bind="$attrs"
   />

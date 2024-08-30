@@ -44,11 +44,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
@@ -107,7 +105,7 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const darks = getColors(ColorEnum.Dark);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       switch (props.variant) {
         case "standard": return {
           "--fs-chip-height"                 : sizeToVar(props.height),
@@ -125,13 +123,13 @@ export default defineComponent({
           "--fs-chip-height"                 : sizeToVar(props.height),
           "--fs-chip-background-color"       : colors.value.base,
           "--fs-chip-border-color"           : colors.value.base,
-          "--fs-chip-color"                  : colors.value.baseContrast,
+          "--fs-chip-color"                  : colors.value.baseContrast!,
           "--fs-chip-hover-background-color" : colors.value.base,
           "--fs-chip-hover-border-color"     : colors.value.base,
-          "--fs-chip-hover-color"            : colors.value.baseContrast,
+          "--fs-chip-hover-color"            : colors.value.baseContrast!,
           "--fs-chip-active-background-color": colors.value.dark,
-          "--fs-chip-active-border-color"    : colors.value.darkContrast,
-          "--fs-chip-active-color"           : colors.value.darkContrast
+          "--fs-chip-active-border-color"    : colors.value.darkContrast!,
+          "--fs-chip-active-color"           : colors.value.darkContrast!
         };
         case "borderless": return {
           "--fs-chip-height"                 : sizeToVar(props.height),
@@ -157,9 +155,9 @@ export default defineComponent({
     });
 
     return {
+      classes,
       colors,
-      style,
-      classes
+      style
     };
   }
 });

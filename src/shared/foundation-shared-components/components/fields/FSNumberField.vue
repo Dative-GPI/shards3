@@ -19,8 +19,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import FSTextField from "./FSTextField.vue";
 
@@ -44,13 +43,15 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(_, { emit }) {
     const onUpdate = (value: string) => {
-      const match = /([0-9 ]*[,.]?)?[0-9]+/.exec(value);
-      if (match && !isNaN(parseFloat(match[0].replace(",", ".").replace(" ", "")))) {
+      if (value === "-") {
+        return;
+      }
+      const match = /[-]?([0-9 ]*[,.]?)?[0-9]*/.exec(value);
+      if (match != null && !isNaN(parseFloat(match[0].replace(",", ".").replace(" ", "")))) {
         emit("update:modelValue", parseFloat(match[0].replace(",", ".").replace(" ", "")));
+        return;
       }
-      else {
-        emit("update:modelValue", 0);
-      }
+      emit("update:modelValue", 0);
     };
 
     return {

@@ -1,11 +1,9 @@
-import type { UserType, UserValidityState } from "../enums/userEnums";
-import type { RoleType } from "../enums/roleEnums";
+import { type UserType, type UserValidityState } from "../enums/userEnums";
 
 export class ServiceAccountOrganisationInfos {
   id: string;
   userId: string;
   organisationId: string;
-  roleType: RoleType;
   roleId: string | null;
   roleLabel: string;
   roleIcon: string;
@@ -20,7 +18,6 @@ export class ServiceAccountOrganisationInfos {
     this.id = params.id;
     this.userId = params.userId;
     this.organisationId = params.organisationId;
-    this.roleType = params.roleType;
     this.roleId = params.roleId;
     this.roleLabel = params.roleLabel;
     this.roleIcon = params.roleIcon;
@@ -37,7 +34,6 @@ export interface ServiceAccountOrganisationInfosDTO {
   id: string;
   userId: string;
   organisationId: string;
-  roleType: RoleType;
   roleId: string | null;
   roleLabel: string;
   roleIcon: string;

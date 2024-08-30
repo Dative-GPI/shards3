@@ -1,4 +1,6 @@
 .fs-data-table {
+  background-color: var(--fs-data-table-row-background-color) !important;
+  
   & > .v-table__wrapper {
     padding: 0 1px 0 0;
 

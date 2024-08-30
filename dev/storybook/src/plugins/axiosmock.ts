@@ -59,7 +59,8 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/languages", LANGUAGES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/models", MODELS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups", GROUPS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/service-account-role-organisations", ROLEORGANISATIONS);
 
-    onGetWithRegex("/api/shared/v1/images/raw/1", IMAGES[0].raw);
-    onGetWithRegex("/api/shared/v1/images/blurHash/1", IMAGES[0].blurHash);
+    // onGetWithRegex("/api/shared/v1/images/1/raw", IMAGES[0].raw);
+    onGetWithRegex("/api/foundation/shared/v1/images/1", IMAGES[0]);
 }

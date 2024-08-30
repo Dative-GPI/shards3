@@ -197,7 +197,7 @@ import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { useBreakpoints, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppTimeZone, useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSDialogMenu from "../FSDialogMenu.vue";
 import FSTextField from "./FSTextField.vue";
@@ -264,7 +264,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getUserOffsetMillis, epochToLongTimeFormat } = useAppTimeZone();
+    const { getUserOffset } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
     const { validateOn, getMessages } = useRules();
     const { isExtraSmall } = useBreakpoints();
 
@@ -300,7 +301,7 @@ export default defineComponent({
       if (props.modelValue) {
         // FSClock just gives two numbers without consideration for the time zone
         // We must adjust the time to the user's time zone
-        innerTime.value = Math.floor((props.modelValue + getUserOffsetMillis()) % (24 * 60 * 60 * 1000));
+        innerTime.value = Math.floor((props.modelValue + getUserOffset()) % (24 * 60 * 60 * 1000));
         innerDate.value = props.modelValue - innerTime.value;
       }
       else {

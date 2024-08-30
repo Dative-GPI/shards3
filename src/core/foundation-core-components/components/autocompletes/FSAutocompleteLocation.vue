@@ -2,6 +2,7 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :loading="loading"
     :items="locations"
     :modelValue="$props.modelValue"
@@ -9,41 +10,13 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
+      <FSIcon
+        v-if="item.icon"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
+        {{ item.icon }}
+      </FSIcon>
     </template>
   </FSAutocompleteField>
 </template>
@@ -52,21 +25,18 @@
 import { computed, defineComponent, type PropType } from "vue";
 
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 import { type LocationFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useLocations } from "@dative-gpi/foundation-core-services/composables";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteLocation",
   components: {
     FSAutocompleteField,
-    FSIcon,
-    FSSpan,
-    FSRow
+    FSIcon
   },
   props: {
     locationFilters: {
@@ -93,9 +63,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyLocations, fetching: fetchingLocations, entities: locations } = useLocations();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingLocations.value;
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-location.placeholder", "{0} location(s) selected", props.modelValue.length);
+      }
+      return null;
     });
 
     const fetch = (search: string | null) => {
@@ -110,6 +88,7 @@ export default defineComponent({
     );
 
     return {
+      placeholder,
       locations,
       toggleSet,
       loading,

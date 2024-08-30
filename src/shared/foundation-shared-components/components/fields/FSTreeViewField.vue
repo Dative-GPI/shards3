@@ -57,7 +57,7 @@
             #body
           >
             <FSFadeOut
-              :height="height"
+              :maxHeight="maxHeight"
             >
               <v-treeview
                 :itemTitle="$props.itemTitle"
@@ -240,13 +240,11 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, type PropType, ref, type StyleValue } from "vue";
+import { VTreeview } from "vuetify/labs/VTreeview";
 
 import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-
-import { VTreeview } from "vuetify/labs/VTreeview";
 
 import FSDialogMenu from "../FSDialogMenu.vue";
 import FSTextField from "./FSTextField.vue";
@@ -367,7 +365,7 @@ export default defineComponent({
     const dialog = ref(false);
     const menu = ref(false);
 
-    const style = computed((): { [key: string]: string | undefined | null } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-tree-view-field-cursor": "default"
@@ -383,7 +381,7 @@ export default defineComponent({
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
-    const height = computed(() => {
+    const maxHeight = computed(() => {
       const other = 8 + 8; // Paddings
       return `calc(100vh - 40px - ${other}px)`;
     });
@@ -431,7 +429,7 @@ export default defineComponent({
           return item[props.itemParent] == parentId;
         });
       });
-      const process = ((item: any) => {
+      const process = ((item: any): any => {
         if (props.items.some((child: any) => child[props.itemParent] === item[props.itemValue])) {
           return {
             ...item,
@@ -503,11 +501,11 @@ export default defineComponent({
       innerValue,
       fieldSlots,
       validateOn,
+      maxHeight,
       menuSlots,
       treeItems,
       messages,
       dialog,
-      height,
       style,
       menu,
       openMobileOverlay,

@@ -1,6 +1,6 @@
 export const locationMarkerHtml = (icon: string, color: string) => {
   const iconHtml = `
-  <div style="--fs-map-mylocation-pin-color-alpha:${color}50;--fs-map-location-pin-color: ${color}">
+  <div style="--fs-map-location-pin-color-alpha:${color}50;--fs-map-location-pin-color: ${color}">
     <i class="${icon} mdi notranslate v-theme--DefaultTheme fs-icon" aria-hidden="true" style="--fs-icon-font-size: 22px;" />
   </div>`;
 
@@ -16,8 +16,14 @@ export const clusterMarkerHtml = (label: string) => {
   return iconHtml;
 }
 
-export const myLocationMarkerHtml = () => {
+export const gpsMarkerHtml = () => {
   const iconHtml = `<div class="fs-map-mylocation-pin" />`;
+
+  return iconHtml;
+}
+
+export const pinMarkerHtml = (color: string) => {
+  const iconHtml = `<div style="--fs-map-point-pin-color:${color}" class="fs-map-point-pin" />`;
 
   return iconHtml;
 }

@@ -53,14 +53,24 @@ export const useColors = () => {
         if(color.darken(0.15).isLight()){
             return color.darken(0.8);
         }
-        return color.lighten(color.value() / 50);
+
+        return color.lightness(color.lightness() < 30 ? 100 : Math.min(color.lightness() + 60, 100));
+    }
+
+    const parseColor = (color: ColorBase): Color => {
+        const themed = (Object as any).values(ColorEnum).includes(color);
+        
+        try {
+            return themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
+        }
+        catch {
+            return new Color("#000000");
+        }
     }
 
     const getColors = (color: ColorBase): ColorVariations => {
-        const themed = (Object as any).values(ColorEnum).includes(color);
-
-        const base = themed ? new Color(theme.colors[color as ColorEnum]) : new Color(color);
-
+        const base = parseColor(color);
+        
         const light = getLight(base);
         const soft = getSoft(base);
         const dark = getDark(base);
@@ -96,7 +106,7 @@ export const useColors = () => {
         const colors: string[][] = [];
         for (let saturation = baseMinSaturation; saturation <= 100; saturation += (100 - baseMinSaturation) / (columnCount - 1)) {
             const colorsRow = [];
-            for (let hue = 0; hue < 360; hue += 15) {
+            for (let hue = 0; hue < 360; hue += 5) {
                 const color = new Color({ h: hue, s: saturation, v: baseFixedBrightness });
                 colorsRow.push(color.hex());
             }

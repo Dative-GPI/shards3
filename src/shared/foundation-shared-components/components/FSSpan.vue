@@ -11,8 +11,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
@@ -25,7 +24,7 @@ export default defineComponent({
       default: null
     },
     font: {
-      type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline" | "text-underline">,
+      type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline">,
       required: false,
       default: "text-body"
     },
@@ -43,6 +42,10 @@ export default defineComponent({
   setup(props) {
     const { slots } = useSlots();
 
+    const style = computed((): StyleValue => ({
+      "--fs-span-line-clamp": props.lineClamp.toString()
+    }));
+
     const classes = computed((): string[] => {
       const classNames = ["fs-span", props.font];
       if (!slots.default) {
@@ -55,12 +58,6 @@ export default defineComponent({
         classNames.push("fs-span-ellipsis");
       }
       return classNames;
-    });
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-span-line-clamp": props.lineClamp.toString()
-      };
     });
 
     return {

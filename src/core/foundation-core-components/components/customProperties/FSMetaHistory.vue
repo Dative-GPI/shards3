@@ -1,12 +1,12 @@
 <template>
   <FSButton
     prependIcon="mdi-history"
-    label="history"
+    :label="$tr('entity.custom-property.history', 'History')"
     @click="dialog = !dialog"
   />
   <FSDialog
-    title="History"
     width="500px"
+    :label="$tr('entity.custom-property.history', 'History')"
     v-model="dialog"
   >
     <template
@@ -17,14 +17,16 @@
           v-for="(customPropertyValue, index) in customPropertyValues"
           :key="index"
         >
-          <FSText>{{ epochToLongTimeFormat(customPropertyValue.timestamp) }}</FSText>
+          <FSText>
+            {{ epochToLongTimeFormat(customPropertyValue.timestamp) }}
+          </FSText>
           <FSCol
             padding="0 8px 0 0"
             align="center-right"
           >
             <FSMetaValue
-              :customProperty="$props.customProperty"
               :meta="{ code: customPropertyValue.value }"
+              :customProperty="$props.customProperty"
             />
           </FSCol>
         </FSRow>
@@ -33,22 +35,21 @@
   </FSDialog>
 </template>
 <script lang="ts">
-import type { PropType} from 'vue';
-import { defineComponent, ref, watch } from 'vue';
-import _ from 'lodash';
+import { defineComponent, type PropType, ref, watch } from "vue";
+import _ from "lodash";
 
-import { useAppTimeZone } from '@dative-gpi/foundation-shared-services/composables';
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
-import FSDialog from "@dative-gpi/foundation-shared-components/components/FSDialog.vue";
+import { type CustomPropertyInfos, type PropertyEntity } from "../../../foundation-core-domain/models";
+import { useCustomPropertyValues } from "../../../foundation-core-services/composables";
+
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
+import FSDialog from "@dative-gpi/foundation-shared-components/components/FSDialog.vue";
 
-import type { CustomPropertyInfos, PropertyEntity } from '../../../foundation-core-domain/models';
-import { useCustomPropertyValues } from '../../../foundation-core-services/composables';
-
-import FSMetaValue from './FSMetaValue.vue';
+import FSMetaValue from "./FSMetaValue.vue";
 
 export default defineComponent({
-  name: 'FSMetaHistory',
+  name: "FSMetaHistory",
   components: {
     FSMetaValue,
     FSButton,
@@ -69,7 +70,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
     const { fetch, entity: customPropertyValues } = useCustomPropertyValues();
 
     const dialog = ref(false);

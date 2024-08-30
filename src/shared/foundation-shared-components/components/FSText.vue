@@ -11,12 +11,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 export default defineComponent({
   name: "FSText",
@@ -27,7 +25,7 @@ export default defineComponent({
       default: null
     },
     font: {
-      type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
+      type: String as PropType<"text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline">,
       required: false,
       default: "text-body"
     },
@@ -58,6 +56,11 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
 
+    const style = computed((): StyleValue => ({
+      "--fs-span-line-clamp": props.lineClamp.toString(),
+      "--fs-text-color"     : colors.value[props.variant]!
+    }));
+
     const classes = computed((): string[] => {
       const classNames = ["fs-text", props.font];
       if (!slots.default) {
@@ -70,13 +73,6 @@ export default defineComponent({
         classNames.push("fs-span-ellipsis");
       }
       return classNames;
-    });
-
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-span-line-clamp": props.lineClamp.toString(),
-        "--fs-text-color"     : colors.value[props.variant]
-      };
     });
 
     return {

@@ -1,5 +1,4 @@
-import type { ChangeGroupParentDTO, CreateGroupDTO, GroupDetailsDTO, GroupFilters, GroupInfosDTO, UpdateGroupDTO } from "@dative-gpi/foundation-core-domain/models";
-import { GroupDetails, GroupInfos } from "@dative-gpi/foundation-core-domain/models";
+import { type ChangeGroupParentDTO, type CreateGroupDTO, GroupDetails, type GroupDetailsDTO, type GroupFilters, GroupInfos, type GroupInfosDTO, type UpdateGroupDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { GROUPS_URL, GROUP_URL } from "../../config/urls";

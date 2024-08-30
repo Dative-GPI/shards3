@@ -9,29 +9,29 @@
     >
       <FSBaseField
         class="fs-color-field"
-        :hideHeader="$props.hideHeader"
-        :required="$props.required"
-        :editable="$props.editable"
-        :modelValue="innerColor"
         :description="$props.description"
+        :hideHeader="$props.hideHeader"
+        :editable="$props.editable"
+        :required="$props.required"
         :label="$props.label"
-        :style="style"
         :width="$props.width"
+        :style="style"
+        :modelValue="innerColor"
         v-bind="$attrs"
       >
         <FSCard
-          width="100%"
           padding="8px"
-          v-bind="props"
+          width="100%"
           :class="{ 'fs-color-field-disabled': !$props.editable }"
+          v-bind="props"
         >
           <FSRow
             align="center-center"
           >
             <FSIcon
-              :color="innerColor"
-              size="20px"
               icon="mdi-circle-half"
+              size="20px"
+              :color="innerColor"
             />
             <FSText
               font="text-overline"
@@ -53,23 +53,23 @@
           v-if="!$props.onlyBaseColors"
           class="fs-color-field-picker"
           mode="hexa"
-          :elevation="0"
           :modes="allowOpacity ? ['hexa', 'rgba'] : ['hex', 'rgb']"
+          :elevation="0"
           :modelValue="fullColor"
           @update:modelValue="onSubmit"
         />
         <v-color-picker
           v-else
           class="fs-color-field-picker"
+          swatches-max-height="400px"
+          show-swatches
+          hide-sliders
+          hide-canvas
+          hide-inputs
+          :swatches="getBasePaletteColors()"
           :elevation="0"
           :modelValue="fullColor"
           @update:modelValue="onSubmit"
-          swatches-max-height="400px"
-          show-swatches
-          hide-inputs
-          hide-canvas
-          hide-sliders
-          :swatches="getBasePaletteColors()"
         />
       </FSCol>
     </FSCard>
@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 
 import { getPercentageFromHex, getHexFromPercentage } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
@@ -112,7 +112,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false,
       default: "#000000"
     },
@@ -164,11 +164,11 @@ export default defineComponent({
 
     const menu = ref(false);
 
-    const innerColor = ref(getColors(props.modelValue).base);
-    const innerOpacity = ref(getHexFromPercentage(props.opacityValue));
-    const fullColor = ref(innerColor.value + innerOpacity.value);
+    const innerColor = ref("#000000");
+    const innerOpacity = ref("00");
+    const fullColor = ref("#00000000");
 
-    const style = computed((): { [key: string]: string | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-color-field-cursor"             : "default",
@@ -185,7 +185,6 @@ export default defineComponent({
       };
     });
 
-
     const onSubmit = (value: string) => {
       innerColor.value = value.substring(0, 7);
       innerOpacity.value = value.length === 9 ? value.substring(7, 9) : "FF";
@@ -195,14 +194,21 @@ export default defineComponent({
     };
 
     const reset = (): void => {
-      innerColor.value = getColors(props.modelValue)['base'];
-      innerOpacity.value = getHexFromPercentage(props.opacityValue);
-      fullColor.value = innerColor.value + innerOpacity.value;
+      if (props.modelValue) {
+        innerColor.value = getColors(props.modelValue)['base'];
+        innerOpacity.value = getHexFromPercentage(props.opacityValue);
+        fullColor.value = innerColor.value + innerOpacity.value;
+      }
+      else {
+        innerColor.value = "#000000";
+        innerOpacity.value = "00";
+        fullColor.value = "#00000000";
+      }
     };
 
     watch(() => props.modelValue, () => {
       reset();
-    });
+    }, { immediate: true });
 
     return {
       getPercentageFromHex,

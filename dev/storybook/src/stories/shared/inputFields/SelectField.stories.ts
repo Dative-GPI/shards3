@@ -27,9 +27,10 @@ export const Variations: Story = {
         label: `Option ${i + 1}`
       })),
       value1: null,
-      value2: ["0", "1", "2"],
-      value3: "2",
-      value4: "2"
+      value2: null,
+      value3: ["0", "1", "2"],
+      value4: "2",
+      value5: "2"
     }
   },
   render: (args, { argTypes }) => ({
@@ -45,12 +46,18 @@ export const Variations: Story = {
         :items="args.items"
         v-model="args.value1"
       />
+      <FSSelectField
+        label="Select with suffix"
+        suffix="Hello there"
+        :items="args.items"
+        v-model="args.value2"
+      />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
         label="Multiple select"
         :items="args.items"
         :multiple="true"
-        v-model="args.value2"
+        v-model="args.value3"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
@@ -58,7 +65,7 @@ export const Variations: Story = {
         description="Description for this field"
         :required="true"
         :items="args.items"
-        v-model="args.value3"
+        v-model="args.value4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSSelectField
@@ -66,7 +73,7 @@ export const Variations: Story = {
         description="Uneditable description"
         :editable="false"
         :items="args.items"
-        v-model="args.value4"
+        v-model="args.value5"
       />
     </FSCol>`
   })

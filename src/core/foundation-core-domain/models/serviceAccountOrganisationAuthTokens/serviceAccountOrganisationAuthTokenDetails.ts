@@ -1,21 +1,20 @@
-import type { ServiceAccountOrganisationAuthTokenInfosDTO } from "./serviceAccountOrganisationAuthTokenInfos";
-import { ServiceAccountOrganisationAuthTokenInfos } from "./serviceAccountOrganisationAuthTokenInfos";
+import { ServiceAccountOrganisationAuthTokenInfos, type ServiceAccountOrganisationAuthTokenInfosDTO } from "./serviceAccountOrganisationAuthTokenInfos";
 
 export class ServiceAccountOrganisationAuthTokenDetails extends ServiceAccountOrganisationAuthTokenInfos {
-    token: string;
+  token: string;
 
-    constructor(params: ServiceAccountOrganisationAuthTokenDetailsDTO) {
-        super(params);
-        this.token = params.token;
-    }
+  constructor(params: ServiceAccountOrganisationAuthTokenDetailsDTO) {
+    super(params);
+    this.token = params.token;
+  }
 }
 
 export interface ServiceAccountOrganisationAuthTokenDetailsDTO extends ServiceAccountOrganisationAuthTokenInfosDTO {
-    token: string;
+  token: string;
 }
 
 export interface CreateServiceAccountOrganisationAuthTokenDTO {
-    serviceAccountOrganisationId?: string;
-    label?: string;
-    lifetime?: number;
+  serviceAccountOrganisationId?: string;
+  label?: string;
+  lifetime?: number;
 }

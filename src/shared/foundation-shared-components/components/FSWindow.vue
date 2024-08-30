@@ -16,6 +16,7 @@
     </template>
     <v-window-item
       v-for="(component, index) in getChildren()"
+      class="fs-window-item"
       :value="value(component, index)"
       :key="index"
     >
@@ -27,8 +28,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType, VNode } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue, type VNode } from "vue";
 
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
@@ -40,6 +40,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: null
+    },
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: null
     }
   },
   setup(props) {
@@ -47,8 +52,9 @@ export default defineComponent({
 
     delete slots.default;
 
-    const style = computed((): { [key: string] : string | null | undefined } => ({
-      "--fs-window-width": sizeToVar(props.width)
+    const style = computed((): StyleValue => ({
+      "--fs-window-width": sizeToVar(props.width),
+      "--fs-window-height": sizeToVar(props.height)
     }));
 
     const value = (component: VNode, index: number): any => {
@@ -60,7 +66,7 @@ export default defineComponent({
       style,
       getChildren,
       value
-    }
+    };
   }
 });
 </script>

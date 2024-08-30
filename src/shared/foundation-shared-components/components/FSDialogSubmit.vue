@@ -11,8 +11,8 @@
       #body
     >
       <FSFadeOut
-        :height="height"
         padding="0 8px 0 0"
+        :maxHeight="maxHeight"
       >
         <slot
           name="body"
@@ -61,12 +61,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSFadeOut from "./FSFadeOut.vue";
@@ -169,7 +167,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
-    const height = computed(() => {
+    const maxHeight = computed(() => {
       const other = 24 + 24                                          // Paddings
         + (isMobileSized.value ? 24 : 32) + 24                       // Title
         + (props.subtitle ? (isMobileSized.value ? 14 : 16) + 8 : 0) // Subtitle
@@ -189,7 +187,7 @@ export default defineComponent({
       cancelLabel,
       submitLabel,
       ColorEnum,
-      height
+      maxHeight
     };
   }
 });

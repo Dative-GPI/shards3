@@ -41,16 +41,16 @@
     >
       <FSButton
         prependIcon="mdi-cancel"
+        width="100%"
         :label="$tr('ui.translateRichTextField.cancelButton.label', 'Cancel')"
-        :fullWidth="true"
         @click="onCancelTranslations"
       />
       <FSButton
         v-if="$props.editable"
         prependIcon="mdi-check"
         color="primary"
+        width="100%"
         :label="$tr('ui.translateRichTextField.validateButton.label', 'Validate translations')"
-        :fullWidth="true"
         @click="onSubmitTranslations"
       />
     </FSRow>
@@ -68,8 +68,8 @@
       <FSButton
         prependIcon="mdi-translate"
         color="primary"
+        width="100%"
         :label="$tr('ui.translateRichTextField.translateButton.label', 'Manage translations')"
-        :fullWidth="true"
         @click="() => $emit('update:translationsExpanded', true)"
       />
     </template>

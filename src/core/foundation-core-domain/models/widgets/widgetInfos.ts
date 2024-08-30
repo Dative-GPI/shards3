@@ -1,3 +1,18 @@
+import _ from "lodash";
+
+const clean = <T>(meta: T): T => {
+  const newMeta = _.cloneDeepWith(meta, (value) => {
+    if (typeof value === "string") {
+      try {
+        return JSON.parse(value as string);
+      } catch {
+        return value
+      }
+    }
+  });
+  return newMeta;
+}
+
 export class WidgetInfos {
     id: string;
     templateId: string;
@@ -20,7 +35,7 @@ export class WidgetInfos {
         this.x = params.x;
         this.y = params.y;
         this.targetScreenSize = params.targetScreenSize;
-        this.meta = { ...params.meta };
+        this.meta = clean(params.meta);
     }
 }
   

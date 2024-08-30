@@ -2,6 +2,7 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :items="dataCategories"
     :loading="loading"
     :modelValue="$props.modelValue"
@@ -9,49 +10,48 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-append="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
-      >
-        <FSIcon>
-          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
-        </FSIcon>
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSIcon>
-          {{ item.raw.correlated ? 'mdi-link' : 'mdi-link-off' }}
-        </FSIcon>
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-      </FSRow>
+      <FSChip
+        v-if="item.correlated"
+        prependIcon="mdi-link"
+        :label="$tr('ui.autocomplete-data-category.linked','Linked')"
+        :color="ColorEnum.Success"
+      />
+      <FSChip
+        v-else
+        prependIcon="mdi-link-off"
+        :label="$tr('ui.autocomplete-data-category.not-linked','Not linked')"
+        :color="ColorEnum.Warning"
+      />
     </template>
     <template
       #toggle-set-item="props"
     >
       <FSButton
-        :prependIcon="props.item.correlated ? 'mdi-link' : 'mdi-link-off'"
         :variant="props.getVariant(props.item)"
         :color="props.getColor(props.item)"
         :class="props.getClass(props.item)"
         :label="props.item.label"
         @click="props.toggle(props.item)"
-      />
+      >
+        <template
+          #append
+        >
+          <FSChip
+            v-if="props.item.correlated"
+            prependIcon="mdi-link"
+            :label="$tr('ui.autocomplete-data-category.linked','Linked')"
+            :color="ColorEnum.Success"
+          />
+          <FSChip
+            v-else
+            prependIcon="mdi-link-off"
+            :label="$tr('ui.autocomplete-data-category.not-linked','Not linked')"
+            :color="ColorEnum.Warning"
+          />
+        </template>
+      </FSButton>
     </template>
   </FSAutocompleteField>
 </template>
@@ -62,21 +62,19 @@ import { computed, defineComponent, type PropType } from "vue";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { type DataCategoryFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDataCategories } from "@dative-gpi/foundation-core-services/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
-import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
+import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 
 export default defineComponent({
   name: "FSAutocompleteDataCategory",
   components: {
     FSAutocompleteField,
     FSButton,
-    FSIcon,
-    FSSpan,
-    FSRow
+    FSChip
   },
   props: {
     dataCategoriesFilters: {
@@ -103,9 +101,17 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { getMany: getManyDataCategories, fetching: fetchingDataCategories, entities: dataCategories } = useDataCategories();
+    const { $tr } = useTranslationsProvider();
 
     const loading = computed((): boolean => {
       return init.value && fetchingDataCategories.value;
+    });
+
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-data-category.placeholder", "{0} data category(ies) selected", props.modelValue.length);
+      }
+      return null;
     });
 
     const fetch = (search: string | null) => {
@@ -121,6 +127,8 @@ export default defineComponent({
 
     return {
       dataCategories,
+      placeholder,
+      ColorEnum,
       toggleSet,
       loading,
       onUpdate

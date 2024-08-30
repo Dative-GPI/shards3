@@ -1,6 +1,7 @@
 <template>
   <div>
     <FSButton
+      
       :prependIcon="$props.icon"
       :color="ColorEnum.Light"
       @click="onClick"

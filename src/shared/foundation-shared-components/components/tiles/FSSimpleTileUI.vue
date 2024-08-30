@@ -1,9 +1,10 @@
 <template>
   <FSTile 
+    :activeColor="$props.activeColor"
     :bottomColor="$props.bottomColor"
     :editable="$props.editable"
-    :modelValue="$props.modelValue"
     :width="$props.width"
+    :modelValue="$props.modelValue"
     v-bind="$attrs"
   >
     <FSCol
@@ -18,30 +19,32 @@
       >
         <FSCol
           gap="6px"
-          :width="`calc(100% - ${imageSize}px - 24px)`"
+          :width="infoWidth"
         >
-          <FSText
+          <FSSpan
             font="text-button"
             :lineClamp="2"
           >
             {{ $props.label }}
-          </FSText>
-          <FSText
+          </FSSpan>
+          <FSSpan
             font="text-overline"
             variant="soft"
           >
             {{ $props.code }}
-          </FSText>
+          </FSSpan>
         </FSCol>
         <FSImage
           v-if="$props.imageId"
+          :imageId="$props.imageId"
           :height="imageSize"
           :width="imageSize"
-          :imageId="$props.imageId"
         />
         <FSIconCard
           v-else
-          :backgroundColor="iconBackgroundColor"
+          :backgroundVariant="$props.iconBackgroundVariant"
+          :backgroundColor="$props.iconBackgroundColor"
+          :border="$props.iconBorder"
           :icon="$props.icon"
           :size="imageSize"
         />
@@ -51,16 +54,14 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSIconCard from "../FSIconCard.vue";
 import FSImage from "../FSImage.vue";
-import FSText from "../FSText.vue";
+import FSSpan from "../FSSpan.vue";
 import FSTile from "./FSTile.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -70,57 +71,72 @@ export default defineComponent({
   components: {
     FSIconCard,
     FSImage,
+    FSSpan,
     FSTile,
-    FSText,
     FSCol,
     FSRow
   },
   props: {
+    imageId: {
+      type: String as PropType<string>,
+      required: false,
+      default: null
+    },
     label: {
       type: String as PropType<string | null>,
       required: false,
       default: null
-    },
-    modelValue: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     code: {
       type: String as PropType<string | null>,
       required: false,
       default: null
     },
-    bottomColor: {
-      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
-      required: false,
-      default: ColorEnum.Light
-    },
-    iconBackgroundColor: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     icon: {
       type: String as PropType<string>,
       required: false,
       default: "mdi-ab-testing"
     },
-    imageId: {
-      type: String as PropType<string>,
+    iconBackgroundVariant: {
+      type: String as PropType<"background" | "standard" | "full" | "gradient">,
       required: false,
-      default: null
+      default: "background"
     },
-    editable: {
-      type: Boolean,
+    iconBackgroundColor: {
+      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
+      required: false,
+      default: ColorEnum.Background
+    },
+    iconBorder: {
+      type: Boolean as PropType<boolean>,
       required: false,
       default: true
+    },
+    activeColor: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Primary
+    },
+    bottomColor: {
+      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
+      required: false,
+      default: ColorEnum.Light
     },
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: () => [352, 336]
     },
+    modelValue: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
   },
   setup(props) {
     const { isMobileSized } = useBreakpoints();
@@ -133,10 +149,15 @@ export default defineComponent({
       return isMobileSized.value ? 90 : 100;
     });
 
+    const infoWidth = computed((): string => {
+      return `calc(100% - ${imageSize.value}px - 24px)`;
+    });
+
     return {
       iconBackgroundColor,
       ColorEnum,
-      imageSize
+      imageSize,
+      infoWidth
     };
   }
 });

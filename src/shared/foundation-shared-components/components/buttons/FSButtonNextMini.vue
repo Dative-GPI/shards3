@@ -1,6 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-chevron-right"
+    
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

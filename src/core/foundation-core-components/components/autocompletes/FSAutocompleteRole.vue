@@ -2,6 +2,7 @@
   <FSAutocompleteField
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
+    :placeholder="placeholder"
     :loading="loading"
     :items="roles"
     :modelValue="$props.modelValue"
@@ -9,51 +10,22 @@
     v-bind="$attrs"
   >
     <template
-      #autocomplete-selection="{ item }"
+      #item-prepend="{ item }"
     >
-      <FSRow
-        v-if="$props.modelValue"
-        align="center-center"
-        :wrap="false"
+      <FSIcon
+        v-if="item.icon"
       >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan>
-          {{ item.raw.label }}
-        </FSSpan>
-        <FSChip
-          :color="roleTypeColor(item.raw.type)"
-          :label="roleTypeLabel(item.raw.type)"
-          :editable="false"
-        />
-      </FSRow>
+        {{ item.icon }}
+      </FSIcon>
     </template>
     <template
-      #item-label="{ item, font }"
+      #item-append="{ item }"
     >
-      <FSRow
-        align="center-left"
-        :wrap="false"
-      >
-        <FSIcon
-          v-if="item.raw.icon"
-        >
-          {{ item.raw.icon }}
-        </FSIcon>
-        <FSSpan
-          :font="font"
-        >
-          {{ item.raw.label }}
-        </FSSpan>
-        <FSChip
-          :color="roleTypeColor(item.raw.type)"
-          :label="roleTypeLabel(item.raw.type)"
-          :editable="false"
-        />
-      </FSRow>
+      <FSChip
+        :color="roleTypeColor(item.type)"
+        :label="roleTypeLabel(item.type)"
+        :editable="false"
+      />
     </template>
     <template
       #toggle-set-item="props"
@@ -67,6 +39,7 @@
         @click="props.toggle(props.item)"
       >
         <template
+          v-if="props.item.type"
           #append
         >
           <FSChip
@@ -86,6 +59,7 @@ import { computed, defineComponent, type PropType } from "vue";
 import { type RoleOrganisationFilters, type RoleOrganisationTypeFilters, RoleType } from "@dative-gpi/foundation-core-domain/models";
 import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
 import { roleTypeColor, roleTypeLabel } from "../../utils";
 
@@ -93,8 +67,6 @@ import FSAutocompleteField from "@dative-gpi/foundation-shared-components/compon
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSAutocompleteRole",
@@ -102,9 +74,7 @@ export default defineComponent({
     FSAutocompleteField,
     FSButton,
     FSChip,
-    FSIcon,
-    FSSpan,
-    FSRow
+    FSIcon
   },
   props: {
     roleOrganisationTypeFilters: {
@@ -123,9 +93,19 @@ export default defineComponent({
       default: null
     },
     type: {
-      type: Number as PropType<RoleType>,
+      type: [Array, Number] as PropType<RoleType[] | RoleType>,
       required: false,
       default: RoleType.None
+    },
+    ignoreRoleOrganisationTypes: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    ignoreRoleOrganisations: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     multiple: {
       type: Boolean,
@@ -142,6 +122,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getMany: getManyRoleOrganisationTypes, fetching: fetchingRoleOrganisationTypes, entities: roleOrganisationTypes } = useRoleOrganisationTypes();
     const { getMany: getManyRoleOrganisations, fetching: fetchingRoleOrganisations, entities: roleOrganisations } = useRoleOrganisations();
+    const { $tr } = useTranslationsProvider();
 
     const roles = computed(() => {
       return roleOrganisationTypes.value.map(rot => ({
@@ -161,6 +142,13 @@ export default defineComponent({
       return init.value && (fetchingRoleOrganisationTypes.value || fetchingRoleOrganisations.value);
     });
 
+    const placeholder = computed((): string | null => {
+      if (props.multiple && props.modelValue) {
+        return $tr("ui.autocomplete-role.placeholder", "{0} role(s) selected", props.modelValue.length);
+      }
+      return null;
+    });
+
     const update = (value: Role[] | Role | null) => {
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
@@ -173,13 +161,17 @@ export default defineComponent({
     };
 
     const fetch = (search: string | null) => {
-      return Promise.all([
-        getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search ?? undefined }),
-        getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search ?? undefined })
-      ]);
+      const promises = [];
+      if (!props.ignoreRoleOrganisations) {
+        promises.push(getManyRoleOrganisations({ ...props.roleOrganisationFilters, search: search ?? undefined }));
+      }
+      if (!props.ignoreRoleOrganisationTypes) {
+        promises.push(getManyRoleOrganisationTypes({ ...props.roleOrganisationTypeFilters, search: search ?? undefined }));
+      }
+      return Promise.all(promises);
     };
 
-    const { toggleSet, search, init, onUpdate } = useAutocomplete(
+    const { toggleSet, init, onUpdate } = useAutocomplete(
       roles,
       [() => props.roleOrganisationTypeFilters, () => props.roleOrganisationFilters],
       emit,
@@ -188,10 +180,10 @@ export default defineComponent({
     );
 
     return {
+      placeholder,
       toggleSet,
       RoleType,
       loading,
-      search,
       roles,
       roleTypeColor,
       roleTypeLabel,

@@ -12,6 +12,7 @@
         gap="0px"
       >
         <FSRow
+          v-if="$props.closable"
           align="center-right"
         >
           <FSButton
@@ -67,11 +68,10 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
 import type { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
@@ -93,6 +93,10 @@ export default defineComponent({
     FSRow
   },
   props: {
+    closable: {
+      type: Boolean,
+      default: true
+    },
     modelStatus: {
       type: Object as PropType<FSModelStatus>,
       required: true
@@ -104,7 +108,7 @@ export default defineComponent({
   },
   emits: ["close"],
   setup(props) {
-    const { epochToLongTimeFormat } = useAppTimeZone();
+    const { epochToLongTimeFormat } = useDateFormat();
 
     const statusLabel = computed((): string => {
       return props.statusGroup.label || props.modelStatus.label;

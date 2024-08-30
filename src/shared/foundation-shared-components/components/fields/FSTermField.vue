@@ -68,7 +68,7 @@
           :rules="[DateRules.required()]"
           :editable="$props.editable"
           :hideHeader="true"
-          :modelValue="[parseForPicker(innerStartDate)!, parseForPicker(innerEndDate)!]"
+          :modelValue="actualValue"
           @update:modelValue="onPickDates"
         />
       </FSRow>
@@ -81,7 +81,7 @@ import { computed, defineComponent, type PropType, ref, watch } from "vue";
 import _ from "lodash";
 
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";
-import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";
 
@@ -163,7 +163,7 @@ export default defineComponent({
   },
   emits: ["update:startDate", "update:endDate"],
   setup(props, { emit }) {
-    const { parseForPicker,formatFromPicker, formatCurrentForPicker } = useAppTimeZone();
+    const { parseForPicker, epochToISO, todayToPicker, yesterdayToPicker } = useDateFormat();
     const { getMessages } = useRules();
 
     const innerDateSetting = ref<DateSetting>(DateSetting.PastDays);
@@ -180,6 +180,14 @@ export default defineComponent({
         DateSetting.MinutesBefore, DateSetting.HoursBefore, DateSetting.DaysBefore, DateSetting.WeeksBefore
       ];
     });
+
+    const actualValue = computed(() => {
+      const dates = [parseForPicker(innerStartDate.value), parseForPicker(innerEndDate.value)]
+      if(dates.some(d => d == null)) {
+        return null;
+      }
+      return dates as [number, number];
+    })
 
     const messages = computed((): string[] => {
       return props.messages ??
@@ -336,8 +344,8 @@ export default defineComponent({
           }
           break;
         case DateSetting.Pick:
-          innerEndDate.value = formatCurrentForPicker(0);
-          innerStartDate.value = formatCurrentForPicker(-1);
+          innerEndDate.value = todayToPicker();
+          innerStartDate.value = yesterdayToPicker();
           break;
       }
       emit("update:startDate", innerStartDate.value);
@@ -409,22 +417,23 @@ export default defineComponent({
 
     const onPickDates = (value: number[] | null) => {
       if (!value) {
-        innerEndDate.value = formatCurrentForPicker(0);
-        innerStartDate.value = formatCurrentForPicker(-1);
+        innerEndDate.value = todayToPicker();
+        innerStartDate.value = yesterdayToPicker();
         if (valid.value) {
           emit("update:startDate", innerStartDate.value);
           emit("update:endDate", innerEndDate.value);
         }
       }
       else {
-        if (value && value[0] != null && formatFromPicker(value[0]) !== innerStartDate.value) {
-          innerStartDate.value = formatFromPicker(value[0]);
+        console.log(value[0], value[1]);
+        if (value && value[0] != null && epochToISO(value[0]) !== innerStartDate.value) {
+          innerStartDate.value = epochToISO(value[0]);
           if (valid.value) {
             emit("update:startDate", innerStartDate.value);
           }
         }
-        if (value && value[1] != null && formatFromPicker(value[1]) !== innerEndDate.value) {
-          innerEndDate.value = formatFromPicker(value[1]);
+        if (value && value[1] != null && epochToISO(value[1]) !== innerEndDate.value) {
+          innerEndDate.value = epochToISO(value[1]);
           if (valid.value) {
             emit("update:endDate", innerEndDate.value);
           }
@@ -618,7 +627,7 @@ export default defineComponent({
         }
       }
 
-      if (parseForPicker(props.endDate) != null && parseForPicker(props.startDate) != null) {
+      if (props.endDate && parseForPicker(props.endDate) != null && props.startDate && parseForPicker(props.startDate) != null) {
         innerDateSetting.value = DateSetting.Pick;
         innerDateValue.value = 1;
         return;
@@ -642,6 +651,7 @@ export default defineComponent({
       innerDateValue,
       innerStartDate,
       innerEndDate,
+      actualValue,
       pastSettings,
       DateSetting,
       NumberRules,

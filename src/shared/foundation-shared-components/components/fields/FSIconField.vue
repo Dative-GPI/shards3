@@ -48,8 +48,7 @@ import { computed, defineComponent, ref, watch } from "vue";
 
 import { Icons, sortByLevenshteinDistance } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
-import type { ColorBase} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import type { FSToggle } from "@dative-gpi/foundation-shared-components/models";
 
 import FSToggleSet from "../FSToggleSet.vue";
@@ -139,7 +138,7 @@ export default defineComponent({
     const toggleSetRef = ref<HTMLElement | null>(null);
     const innerValue = ref<string | null>(null);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
+    const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
           "--fs-icon-field-color": lights.dark

@@ -1,8 +1,8 @@
 <template>
   <FSCol
-    padding="18px 32px"
     class="fs-error-toast"
     align="center-center"
+    padding="18px 32px"
     gap="24px"
     :style="style"
   >
@@ -28,8 +28,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { getError, sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -69,7 +68,7 @@ export default defineComponent({
 
     const errors = getColors(ColorEnum.Error);
 
-    const style = computed((): { [key: string]: string | undefined } => {
+    const style = computed((): StyleValue => {
       switch (props.variant) {
         case "standard": return {
           "--fs-error-toast-border-radius": sizeToVar(props.borderRadius),

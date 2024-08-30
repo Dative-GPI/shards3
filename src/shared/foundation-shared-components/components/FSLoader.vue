@@ -7,8 +7,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -33,7 +32,7 @@ export default defineComponent({
       default: "0"
     },
     variant: {
-      type: String as PropType<"standard" | "button" | "input" | "field" | "chip" | "text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline" | "text-underline">,
+      type: String as PropType<"standard" | "button" | "input" | "field" | "chip" | "text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline">,
       required: false,
       default: "standard"
     },
@@ -49,15 +48,13 @@ export default defineComponent({
 
     const backgrounds = getColors(ColorEnum.Background);
 
-    const style = computed((): { [key: string] : string | null | undefined } => {
-      return {
-        "--fs-loader-background-color": backgrounds.base,
-        "--fs-loader-border-radius"   : ["chip"].includes(props.variant) ? "50px" : sizeToVar(props.borderRadius),
-        "--fs-loader-padding"         : sizeToVar(props.padding),
-        "--fs-loader-height"          : sizeToVar(getHeight.value),
-        "--fs-loader-width"           : sizeToVar(getWidth.value)
-      };
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-loader-background-color": backgrounds.base,
+      "--fs-loader-border-radius"   : ["chip"].includes(props.variant) ? "50px" : sizeToVar(props.borderRadius),
+      "--fs-loader-padding"         : sizeToVar(props.padding),
+      "--fs-loader-height"          : sizeToVar(getHeight.value),
+      "--fs-loader-width"           : sizeToVar(getWidth.value)
+    }));
 
     const getHeight = computed((): string | number => {
       switch (props.variant) {
@@ -73,7 +70,7 @@ export default defineComponent({
         case "text-body"     :
         case "text-button"   : return isMobileSized.value ? "14px" : "16px";
         case "text-overline" :
-        case "text-underline": return "16px";
+        case "text-overline": return "16px";
       }
     });
 
