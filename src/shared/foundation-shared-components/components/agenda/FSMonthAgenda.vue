@@ -15,7 +15,7 @@
       >
       </FSCol>
     
-      <FSAgendaHoursLine
+      <FSAgendaHoursRow
         :displayNow="$props.nowIsInSelectedRange"
         :modelValue="nowHour"
       />
@@ -142,7 +142,7 @@ import { ColorEnum } from '../../models';
 import type { AgendaEvent } from '../../models/agendaEvent';
 
 import FSAgendaEvent from './FSAgendaEvent.vue';
-import FSAgendaHoursLine from './FSAgendaHoursLine.vue';
+import FSAgendaHoursRow from './FSAgendaHoursRow.vue';
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
 import FSLoader from '../FSLoader.vue';
@@ -155,7 +155,7 @@ export default defineComponent({
   name: 'FSMonthAgenda',
   components: {
     FSAgendaEvent,
-    FSAgendaHoursLine,
+    FSAgendaHoursRow,
     FSCard,
     FSCol,
     FSIcon,

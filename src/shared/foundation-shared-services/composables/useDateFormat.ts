@@ -31,6 +31,14 @@ export const useDateFormat = () => {
       === subDays(now, 1).toLocaleString(languageCode.value, { ...OPTIONS.shortDate, timeZone: timeZone.value });
   }
 
+  const epochToDayMonthLongOnly = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.dayMonthLongOnly, timeZone: timeZone.value });
+  }
+
   const epochToShortDateFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -165,6 +173,7 @@ export const useDateFormat = () => {
   return {
     todayToEpoch,
     pickerToEpoch,
+    epochToDayMonthLongOnly,
     epochToPicker,
     epochToPickerHeader,
     epochToLongDateFormat,

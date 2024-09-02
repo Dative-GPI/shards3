@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSAgenda from "@dative-gpi/foundation-shared-components/components/agenda/FSAgenda.vue";
-import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
-
 import { useDateFormat } from '@dative-gpi/foundation-shared-services/composables';
 import type { AgendaEvent } from '@dative-gpi/foundation-shared-components/models/agendaEvent';
+
+import FSAgenda from "@dative-gpi/foundation-shared-components/components/agenda/FSAgenda.vue";
+import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
+import FSCard from '@dative-gpi/foundation-shared-components/components/FSCard.vue';
 
 const meta = {
   title: 'Foundation/Shared/Agenda',
@@ -74,25 +75,42 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      mode1: 'week',
-      events1: [...generatedEvents]
+      mode1: 'day',
+      mode2: 'week',
+      events1: [...generatedEvents],
+      events2: [...generatedEvents],
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSAgenda, FSCol },
+    components: { FSAgenda, FSCard, FSCol },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
       <FSCol
-        height="700px"
         >
-        <FSAgenda
-          height="100%"
-          :events="args.events1"
-          v-model:mode="args.mode1"
-        />
+        <FSCard>
+          <FSCol
+            height="500px"
+          >
+            <FSAgenda
+              width="300px"
+              height="100%"
+              :events="args.events1"
+              v-model:mode="args.mode1"
+            />
+          </FSCol>
+        </FSCard>
+        <FSCol
+          height="700px"
+        >
+          <FSAgenda
+            height="100%"
+            :events="args.events2"
+            v-model:mode="args.mode2"
+          />
+        </FSCol>
       </FSCol>`,
   })
 }

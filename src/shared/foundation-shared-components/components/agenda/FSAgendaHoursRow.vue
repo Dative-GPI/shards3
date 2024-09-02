@@ -3,7 +3,7 @@
     gap="0"
   >
     <FSRow
-      class="fs-agenda-hours-line"
+      class="fs-agenda-hours-row"
       :wrap="false"
       gap="0"
       align="center-center"
@@ -15,20 +15,20 @@
         align="center-center"
       >
         <FSCard
-          class="fs-agenda-hours-line-now"
+          class="fs-agenda-hours-row-now"
           color="primary"
           variant="full"
           v-if="displayNow && hour === modelValue"
         >
           <FSSpan
-            class="fs-agenda-hours-line-text fs-agenda-hours-line-text-now"
+            class="fs-agenda-hours-row-text fs-agenda-hours-row-text-now"
           >
             {{ `${to2Digits(hour)}${$tr('ui.agenda-hour-line.hour.letter', 'h')}` }}
           </FSSpan>
         </FSCard>
         <FSText
           v-else
-          class="fs-agenda-hours-line-text"
+          class="fs-agenda-hours-row-text"
           :color="fontColor"
         >
           {{ `${to2Digits(hour)}${$tr('ui.agenda-hour-line.hour.letter', 'h')}` }}
@@ -36,7 +36,7 @@
       </FSRow>
     </FSRow>
     <FSRow
-      class="fs-agenda-hours-line"
+      class="fs-agenda-hours-row"
       :wrap="false"
       gap="0"
     >
@@ -50,7 +50,7 @@
       >
         <span 
           
-          class="fs-agenda-hours-line-marker"
+          class="fs-agenda-hours-row-marker"
         />
       </FSRow>
     </FSRow>
@@ -70,7 +70,7 @@ import FSCol from '../FSCol.vue';
 import { ColorEnum } from '../../models';
 
 export default defineComponent({
-  name: 'FSAgendaHoursLine',
+  name: 'FSAgendaHoursRow',
   components: {
     FSCard,
     FSCol,
@@ -107,11 +107,11 @@ export default defineComponent({
     const getMarkerStyle = (isNowHour: boolean): StyleValue => {
       if(isNowHour) {
         return {
-          '--fs-agenda-hours-line-marker-color': primaryColors.base,
+          '--fs-agenda-hours-row-marker-color': primaryColors.base,
         }
       }
       return {
-        '--fs-agenda-hours-line-marker-color': lightColors.base,
+        '--fs-agenda-hours-row-marker-color': lightColors.base,
       }
     };
 

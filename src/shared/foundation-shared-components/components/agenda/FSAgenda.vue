@@ -4,10 +4,9 @@
     :width="$props.width"
     gap="24px"
   >
-    <FSRow
-      align="center-center"
-    >
+    <FSRow align="center-center">
       <FSRow
+        v-if="$props.mode !== 'day'"
         align="center-left"
         :wrap="false"
         width="hug"
@@ -30,13 +29,42 @@
           @click="onNext"
         />
       </FSRow>
+      <FSCol v-else>
+        <FSButton
+          prependIcon="mdi-calendar-today-outline"
+          :label="$tr('ui.agenda.today', 'Today')"
+          width="100%"
+          @click="onToday"
+        />
+        <FSRow
+          :wrap="false"
+          align="center-center"
+          padding="0 4px"
+        >
+          <FSButton
+            variant="icon"
+            icon="mdi-chevron-left"
+            @click="onPrevious"
+          />
+          <FSButton
+            width="100%"
+            :color="buttonColor"
+            :label="selectedDateDayMonthYear"
+            variant="full"
+            @click="showCalendarDialog = true"
+          />
+          <FSButton
+            variant="icon"
+            icon="mdi-chevron-right"
+            @click="onNext"
+          />
+        </FSRow>
+      </FSCol>
       <FSRow
+        v-if="$props.mode !== 'day'"
         align="center-right"
       >
-        <FSRow
-          v-if="$props.mode !== 'day'"
-          width="hug"
-        >
+        <FSRow width="hug">
           <FSSelectAgendaMode
             :modelValue="$props.mode"
             :hideHeader="true"
@@ -54,7 +82,7 @@
       class="fs-agenda-view"
       height="100%"
       gap="0"
-    >      
+    >
       <FSWindow
         v-if="$props.mode"
         :modelValue="modeValues[$props.mode]"
@@ -67,10 +95,11 @@
           :firstColumnWidth="dayColumnWidth"
           :selectedDate="selectedDate"
           :now="now"
+          :nowIsInSelectedRange="nowIsInSelectedRange"
           :loading="$props.loading"
           @click:event-id="$emit('click:eventId', $event)"
-          @update:begin="beginWeekRangeDate = $event"
-          @update:end="endWeekRangeDate = $event"
+          @update:begin="beginDayRangeDate = $event"
+          @update:end="endDayRangeDate = $event"
         >
         </FSDayAgenda>
         <FSWeekAgenda
@@ -110,19 +139,13 @@
       </FSWindow>
     </FSCol>
   </FSCol>
-  <FSDialog
-    :modelValue="showCalendarDialog"
-  >
-    <FSCard
-      :elevation="true"
-    >
+  <FSDialog v-model="showCalendarDialog">
+    <FSCard :elevation="true">
       <FSCol
         gap="12px"
         padding="16px"
       >
-        <FSCalendar
-          v-model="selectedDialogDate"
-        />
+        <FSCalendar v-model="selectedDialogDate" />
         <FSButton
           color="primary"
           width="100%"
@@ -197,20 +220,22 @@ export default defineComponent({
   },
   emits: ['update:mode', 'click:eventId'],
   setup(props) {
-    const { todayToEpoch, epochToMonthYearOnlyFormat } = useDateFormat();
+    const { todayToEpoch, epochToMonthYearOnlyFormat, epochToDayMonthLongOnly } = useDateFormat();
     const { getColors } = useColors();
 
     const dayColumnWidth = '46px';
 
+    const beginDayRangeDate = ref<Date>();
     const beginMonthRangeDate = ref<Date>();
     const beginWeekRangeDate = ref<Date>();
+    const endDayRangeDate = ref<Date>();
     const endMonthRangeDate = ref<Date>();
     const endWeekRangeDate = ref<Date>();
     const now = ref(todayToEpoch());
     const selectedDate = ref(now.value);
     const selectedDialogDate = ref(selectedDate.value);
     const showCalendarDialog = ref(false);
-    
+
 
     const buttonColor = getColors('primary').light;
     const modeValues = {
@@ -220,44 +245,59 @@ export default defineComponent({
     }
 
     const beginRangeDate = computed(() => {
-      if(props.mode === 'week') {
+      if (props.mode === 'week' && beginWeekRangeDate.value) {
         return beginWeekRangeDate.value;
-      } else if(props.mode === 'month') {
+      } else if (props.mode === 'month' && beginMonthRangeDate.value) {
         return beginMonthRangeDate.value;
+      } else if (props.mode === 'day' && beginDayRangeDate.value) {
+        return beginDayRangeDate.value;
       }
+      return new Date(0);
     });
 
     const endRangeDate = computed(() => {
-      if(props.mode === 'week') {
+      if (props.mode === 'week' && endWeekRangeDate.value) {
         return endWeekRangeDate.value;
-      } else if(props.mode === 'month') {
+      } else if (props.mode === 'month' && endMonthRangeDate.value) {
         return endMonthRangeDate.value;
+      } else if (props.mode === 'day' && endDayRangeDate.value) {
+        return endDayRangeDate.value;
       }
+      return new Date(0);
     });
 
     const selectedDateMonthYear = computed(() => {
-      if(!beginRangeDate.value) {return '';}
+      if (!beginRangeDate.value) { return ''; }
       return epochToMonthYearOnlyFormat(beginRangeDate.value.getTime());
     });
 
+    const selectedDateDayMonthYear = computed(() => {
+      if (!beginRangeDate.value) { return ''; }
+      return epochToDayMonthLongOnly(beginRangeDate.value.getTime());
+    });
+
     const nowIsInSelectedRange = computed(() => {
-      if(!beginRangeDate.value || !endRangeDate.value) {return false;}
+      if (!beginRangeDate.value || !endRangeDate.value) { return false; }
       return now.value >= beginRangeDate.value.getTime() && now.value <= endRangeDate.value.getTime();
     });
 
     const onNext = () => {
-      if(props.mode === 'week') {
+      if (props.mode === 'week') {
         selectedDate.value += 7 * 24 * 60 * 60 * 1000;
-      } else if(props.mode === 'month') {
+      } else if (props.mode === 'month') {
         selectedDate.value = new Date(selectedDate.value).setMonth(new Date(selectedDate.value).getMonth() + 1);
+      } else if (props.mode === 'day') {
+        selectedDate.value += 24 * 60 * 60 * 1000;
       }
     }
 
     const onPrevious = () => {
-      if(props.mode === 'week') {
+      if (props.mode === 'week') {
         selectedDate.value -= 7 * 24 * 60 * 60 * 1000;
-      } else if(props.mode === 'month') {
+      } else if (props.mode === 'month') {
         selectedDate.value = new Date(selectedDate.value).setMonth(new Date(selectedDate.value).getMonth() - 1);
+      } else if (props.mode === 'day') {
+        selectedDate.value -= 24 * 60 * 60 * 1000;
       }
     }
 
@@ -279,13 +319,16 @@ export default defineComponent({
     });
 
     return {
+      beginDayRangeDate,
       beginMonthRangeDate,
       beginWeekRangeDate,
       buttonColor,
       dayColumnWidth,
+      endDayRangeDate,
       endMonthRangeDate,
       endWeekRangeDate,
       selectedDate,
+      selectedDateDayMonthYear,
       selectedDateMonthYear,
       selectedDialogDate,
       showCalendarDialog,
