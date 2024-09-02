@@ -22,7 +22,6 @@
         <FSButton
           v-if="filterableHeaders.length > 0"
           prependIcon="mdi-filter-variant"
-          padding="0 7px"
           :variant="showFilters ? 'full' : 'standard'"
           @click="showFilters = !showFilters"
         />
@@ -906,8 +905,8 @@ export default defineComponent({
     const elementId = `id${uuidv4()}`;
 
     const modeOptions: FSToggle[] = [
-      { id: "table", prependIcon: "mdi-table" },
-      { id: "iterator", prependIcon: "mdi-apps" }
+      { id: "iterator", prependIcon: "mdi-view-grid-outline" },
+      { id: "table", prependIcon: "mdi-format-list-bulleted" }
     ];
 
     const rowsPerPageOptions: { id: number, label: string }[] = [
