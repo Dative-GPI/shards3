@@ -1,12 +1,12 @@
 <template>
-  <FSTextField
+  <FSTextArea
     :editable="$props.editable"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
     <template
-      v-for="(_, name) in slots"
+      v-for="(_, name) in $slots"
       v-slot:[name]="slotData"
     >
       <slot
@@ -18,20 +18,21 @@
       #append
     >
       <FSButton
+        height="100%"
+        style=""
         :prependIcon="$props.buttonPrependIcon"
         :appendIcon="$props.buttonAppendIcon"
         :variant="$props.buttonVariant"
         :color="$props.buttonColor"
-        :label="$props.buttonLabel"
         @click="dialog = true"
-      />
+      /> 
       <slot
         name="append"
       />
     </template>
-  </FSTextField>
+  </FSTextArea>
   <FSDialogSubmit
-    :title="$tr('ui.translate-field.title', 'Handle translations')"
+    :title="$tr('ui.translate-text-area.title', 'Handle translations')"
     :submitButtonColor="$props.buttonColor"
     @click:submitButton="onSubmit"
     v-model="dialog"
@@ -42,19 +43,21 @@
       <FSCol
         gap="32px"
       >
-        <FSTextField
-          :label="$tr('ui.translate-field.default-value', 'Default value')"
+        <FSTextArea
+          :label="$tr('ui.translate-text-area.default-value', 'Default value')"
           :editable="false"
+          :rows="($attrs.rows as number)"
           :modelValue="$props.modelValue"
         />
         <FSCol
-          gap="16px"
+          gap="20px"
         >
-          <FSTextField
+          <FSTextArea
             v-for="(language, index) in languages"
             :editable="$props.editable"
             :key="index"
             :modelValue="getTranslation(language.code)"
+            :rows="($attrs.rows as number)"
             @update:modelValue="setTranslation(language.code, $event)"
           >
             <template
@@ -65,7 +68,6 @@
                 align="center-left"
               >
                 <FSSpan
-                  class="fs-translate-field-label"
                   font="text-overline"
                   :style="style"
                 >
@@ -74,9 +76,9 @@
                 <FSIcon>
                   {{ language.icon }}
                 </FSIcon>
-              </FSRow>
+              </FSRow> 
             </template>
-          </FSTextField>
+          </FSTextArea>
         </FSCol>
       </FSCol>
     </template>
@@ -89,20 +91,20 @@ import { computed, defineComponent, type PropType, ref, type StyleValue } from "
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
-import { useColors, useSlots } from "../../composables";
+import { useColors } from "../../composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
-import FSTextField from "./FSTextField.vue";
+import FSTextArea from "./FSTextArea.vue";
 import FSButton from "../FSButton.vue";
 import FSIcon from "../FSIcon.vue";
 import FSSpan from "../FSSpan.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSTranslateField",
+  name: "FSTranslateTextArea",
   components: {
     FSDialogSubmit,
-    FSTextField,
+    FSTextArea,
     FSButton,
     FSIcon,
     FSSpan,
@@ -159,9 +161,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const { languages } = useAppLanguages();
     const { getColors } = useColors();
-    const { slots } = useSlots();
-
-    delete slots.append;
     
     const dialog = ref(false);
 
@@ -224,7 +223,6 @@ export default defineComponent({
       ColorEnum,
       languages,
       dialog,
-      slots,
       style,
       getTranslation,
       setTranslation,
