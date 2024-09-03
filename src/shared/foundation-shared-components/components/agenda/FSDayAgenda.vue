@@ -7,9 +7,16 @@
     gap="0px"
     :style="style"
   >
+    <FSLoader
+      v-if="$props.loading"
+      width="100%"
+      height="100%"
+    />
     <FSRow
+      v-else
       height="100%"
       gap="0"
+      :wrap="false"
     >
       <FSAgendaHoursCol
         :displayNow="$props.nowIsInSelectedRange"
@@ -122,6 +129,7 @@ import FSAgendaHoursCol from './FSAgendaHoursCol.vue';
 import FSAgendaVerticalEvent from './FSAgendaVerticalEvent.vue';
 import FSIcon from '../FSIcon.vue';
 import FSSpan from '../FSSpan.vue';
+import FSLoader from '../FSLoader.vue';
 
 export default defineComponent({
   name: 'FSDayAgenda',
@@ -130,6 +138,7 @@ export default defineComponent({
     FSAgendaVerticalEvent,
     FSCol,
     FSIcon,
+    FSLoader,
     FSRow,
     FSSpan
   },

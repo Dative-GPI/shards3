@@ -174,10 +174,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, computed, ref, onUnmounted } from 'vue';
+import { defineComponent, type PropType, computed, ref, onUnmounted, watch } from 'vue';
 
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
-import { useColors } from '../../composables';
+import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import type { AgendaEvent } from '../../models/agendaEvent';
 
@@ -237,9 +237,10 @@ export default defineComponent({
     }
   },
   emits: ['update:mode', 'click:eventId'],
-  setup(props) {
+  setup(props, { emit }) {
     const { todayToEpoch, epochToMonthYearOnlyFormat, epochToDayMonthLongOnly } = useDateFormat();
     const { getColors } = useColors();
+    const { isExtraSmall } = useBreakpoints();
 
     const dayColumnWidth = '46px';
 
@@ -253,6 +254,7 @@ export default defineComponent({
     const selectedDate = ref(now.value);
     const selectedDialogDate = ref(selectedDate.value);
     const showCalendarDialog = ref(false);
+    const defaultMode = ref(props.mode);
 
 
     const buttonColor = getColors('primary').light;
@@ -335,6 +337,14 @@ export default defineComponent({
     onUnmounted(() => {
       clearInterval(nowInterval);
     });
+
+    watch(isExtraSmall, (value) => {
+      if (value && props.mode !== 'day') {
+        emit('update:mode', 'day');
+      } else if (!value && defaultMode.value !== 'day') {
+        emit('update:mode', defaultMode.value);
+      }
+    }, {immediate: true});
 
     return {
       beginDayRangeDate,
