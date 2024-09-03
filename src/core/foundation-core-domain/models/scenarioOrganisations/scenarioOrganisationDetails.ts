@@ -107,8 +107,8 @@ export interface CreateScenarioOrganisationDTO {
   alertCode: string;
   alertIcon: string;
   alertTags: string[];
-  startDate: string;
-  endDate: string;
+  chartStartDate: string;
+  chartEndDate: string;
   timeRanges: CreateTimeRangeDTO[];
   triggerOn: number;
   triggerCondition: string;
@@ -136,8 +136,8 @@ export interface UpdateScenarioOrganisationDTO {
   code: string;
   icon: string;
   tags: string[];
-  startDate: string;
-  endDate: string;
+  chartStartDate: string;
+  chartEndDate: string;
   alertLabelDefault: string;
   alertDescriptionDefault: string;
   alertCode: string;

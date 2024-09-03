@@ -42,13 +42,14 @@ export const Variations: Story = {
         label="Translation"
         v-model="args.value1"
         v-model:translations="args.translations1"
-        :rows="6"
+        :rows="4"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTranslateTextArea
         label="Required translation, with description"
         description="Description for this field"
         :required="true"
+        :autoGrow="false"
         v-model="args.value2"
         v-model:translations="args.translations2"
       />

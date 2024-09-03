@@ -20,8 +20,8 @@ export class ScenarioOrganisationTypeInfos {
   code: string;
   icon: string;
   tags: string[];
-  startDate: string;
-  endDate: string;
+  chartStartDate: string;
+  chartEndDate: string;
   charts: ScenarioChart[];
   parameters: ScenarioParameter[];
 
@@ -41,8 +41,8 @@ export class ScenarioOrganisationTypeInfos {
     this.label = params.label;
     this.code = params.code;
     this.icon = params.icon;
-    this.startDate = params.startDate;
-    this.endDate = params.endDate;
+    this.chartStartDate = params.chartStartDate;
+    this.chartEndDate = params.chartEndDate;
     this.tags = params.tags.slice();
     this.charts = params.charts.map(p => new ScenarioChart(p))
     this.parameters = params.parameters.map(p => new ScenarioParameter(p));
@@ -66,8 +66,8 @@ export interface ScenarioOrganisationTypeInfosDTO {
   code: string;
   icon: string;
   tags: string[];
-  startDate: string;
-  endDate: string;
+  chartStartDate: string;
+  chartEndDate: string;
   charts: ScenarioChartDTO[];
   parameters: ScenarioParameterDTO[];
 }

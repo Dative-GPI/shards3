@@ -108,8 +108,8 @@ export interface UpdateScenarioOrganisationTypeDTO {
   code: string;
   icon: string;
   tags: string[];
-  startDate: string;
-  endDate: string;
+  chartStartDate: string;
+  chartEndDate: string;
   alertLabelDefault: string;
   alertDescriptionDefault: string;
   alertCode: string;

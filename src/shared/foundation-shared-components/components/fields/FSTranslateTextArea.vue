@@ -1,40 +1,36 @@
 <template>
-  <FSCol>
-    <FSTextArea
-      :editable="$props.editable"
-      :modelValue="$props.modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
-      v-bind="$attrs"
+  <FSTextArea
+    :editable="$props.editable"
+    :modelValue="$props.modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
+  >
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
     >
-      <template
-        v-for="(_, name) in slots"
-        v-slot:[name]="slotData"
-      >
-        <slot
-          :name="name"
-          v-bind="slotData"
-        />
-      </template>
-    </FSTextArea>
-    <FSButton
-      width="100%"
-      :prependIcon="$props.buttonPrependIcon"
-      :appendIcon="$props.buttonAppendIcon"
-      :variant="$props.buttonVariant"
-      :color="$props.buttonColor"
-      :label="$props.buttonLabel ?? $tr('ui.translateTextArea.translateButton.label', 'Manage translations')"
-      @click="dialog = true"
-    />
-    <slot
-      name="description"
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
+    </template>
+    <template
+      #append
     >
-      <FSSpan
-        font="text-overline"
-      >
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
+      <FSButton
+        height="100%"
+        style=""
+        :prependIcon="$props.buttonPrependIcon"
+        :appendIcon="$props.buttonAppendIcon"
+        :variant="$props.buttonVariant"
+        :color="$props.buttonColor"
+        @click="dialog = true"
+      /> 
+      <slot
+        name="append"
+      />
+    </template>
+  </FSTextArea>
   <FSDialogSubmit
     :title="$tr('ui.translate-text-area.title', 'Handle translations')"
     :submitButtonColor="$props.buttonColor"
@@ -95,7 +91,7 @@ import { computed, defineComponent, type PropType, ref, type StyleValue } from "
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useAppLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
-import { useColors, useSlots } from "../../composables";
+import { useColors } from "../../composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
 import FSTextArea from "./FSTextArea.vue";
@@ -115,11 +111,6 @@ export default defineComponent({
     FSRow
   },
   props: {
-    description : {
-      type : String as PropType<string | null>,
-      required : false,
-      default: null
-    },
     buttonPrependIcon: {
       type: String as PropType<string | null>,
       required: false,
@@ -170,9 +161,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const { languages } = useAppLanguages();
     const { getColors } = useColors();
-    const { slots } = useSlots();
-
-    delete slots.description;
     
     const dialog = ref(false);
 
@@ -235,7 +223,6 @@ export default defineComponent({
       ColorEnum,
       languages,
       dialog,
-      slots,
       style,
       getTranslation,
       setTranslation,
