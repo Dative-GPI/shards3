@@ -1,5 +1,6 @@
 <template>
   <FSRow
+    padding="0 0 0 4px"
     gap="0"
     width="hug"
     height="100%"
@@ -15,6 +16,7 @@
         v-for="hour in hours"
         :key="hour"
         width="100%"
+        height="100%"
         align="center-center"
       >
         <FSCard
@@ -44,7 +46,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import { useBreakpoints, useColors } from '../../composables';
+import { useColors } from '../../composables';
 
 import { ColorEnum } from '../../models';
 
@@ -77,15 +79,11 @@ export default defineComponent({
   },
   setup() {
     const { getColors } = useColors();
-    const { isExtraSmall } = useBreakpoints();
 
     const lightColors = getColors(ColorEnum.Light);
     const fontColor = lightColors.dark;
 
     const hours = computed(() => {
-      if (isExtraSmall.value) {
-        return Array.from({ length: 6 }, (_, i) => i * 4);
-      }
       return Array.from({ length: 24 }, (_, i) => i);
     });
 

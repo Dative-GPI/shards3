@@ -4,7 +4,9 @@
     :width="$props.width"
     gap="24px"
   >
-    <FSRow align="center-center">
+    <FSRow
+      align="center-center"
+    >
       <FSRow
         v-if="$props.mode !== 'day'"
         align="center-left"
@@ -29,7 +31,9 @@
           @click="onNext"
         />
       </FSRow>
-      <FSCol v-else>
+      <FSCol
+        v-else
+      >
         <FSButton
           prependIcon="mdi-calendar-today-outline"
           :label="$tr('ui.agenda.today', 'Today')"
@@ -64,7 +68,9 @@
         v-if="$props.mode !== 'day'"
         align="center-right"
       >
-        <FSRow width="hug">
+        <FSRow
+          width="hug"
+        >
           <FSSelectAgendaMode
             :modelValue="$props.mode"
             :hideHeader="true"
@@ -101,6 +107,10 @@
           @update:begin="beginDayRangeDate = $event"
           @update:end="endDayRangeDate = $event"
         >
+          <FSAgendaVerticalTimeLineMarker
+            v-if="nowIsInSelectedRange"
+            :modelValue="now"
+          />
         </FSDayAgenda>
         <FSWeekAgenda
           :value="modeValues.week"
@@ -114,7 +124,7 @@
           @update:begin="beginWeekRangeDate = $event"
           @update:end="endWeekRangeDate = $event"
         >
-          <FSTimeLineMarker
+          <FSAgendaHorizontalTimeLineMarker
             v-if="nowIsInSelectedRange"
             :modelValue="now"
           />
@@ -131,7 +141,7 @@
           @update:begin="beginMonthRangeDate = $event"
           @update:end="endMonthRangeDate = $event"
         >
-          <FSTimeLineMarker
+          <FSAgendaHorizontalTimeLineMarker
             v-if="nowIsInSelectedRange"
             :modelValue="now"
           />
@@ -139,13 +149,19 @@
       </FSWindow>
     </FSCol>
   </FSCol>
-  <FSDialog v-model="showCalendarDialog">
-    <FSCard :elevation="true">
+  <FSDialog
+    v-model="showCalendarDialog"
+  >
+    <FSCard
+      :elevation="true"
+    >
       <FSCol
         gap="12px"
         padding="16px"
       >
-        <FSCalendar v-model="selectedDialogDate" />
+        <FSCalendar
+          v-model="selectedDialogDate"
+        />
         <FSButton
           color="primary"
           width="100%"
@@ -173,10 +189,11 @@ import FSWindow from '../FSWindow.vue';
 import FSCol from '../FSCol.vue';
 import FSButton from '../FSButton.vue';
 import FSRow from '../FSRow.vue';
-import FSTimeLineMarker from './FSTimeLineMarker.vue';
+import FSAgendaHorizontalTimeLineMarker from './FSAgendaHorizontalTimeLineMarker.vue';
 import FSDialog from '../FSDialog.vue';
 import FSCard from '../FSCard.vue';
 import FSCalendar from '../FSCalendar.vue';
+import FSAgendaVerticalTimeLineMarker from './FSAgendaVerticalTimeLineMarker.vue';
 
 export default defineComponent({
   name: 'FSAgenda',
@@ -190,7 +207,8 @@ export default defineComponent({
     FSRow,
     FSSelectAgendaMode,
     FSDialog,
-    FSTimeLineMarker,
+    FSAgendaHorizontalTimeLineMarker,
+    FSAgendaVerticalTimeLineMarker,
     FSWeekAgenda,
     FSWindow
   },

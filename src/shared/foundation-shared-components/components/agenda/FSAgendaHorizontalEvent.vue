@@ -1,5 +1,5 @@
 <template>
-  <FSAgendaEvent
+  <FSAgendaHorizontalEvent
     v-if="$props.variant === 'current'"
     :key="$props.id"
     variant="future"
@@ -27,7 +27,7 @@
         :variant="variant"
       />
     </template>
-  </FSAgendaEvent>
+  </FSAgendaHorizontalEvent>
   <FSClickable
     v-if="$props.variant !== 'current' || $props.dayBegin < $props.now"
     :class="`fs-agenda-event fs-agenda-event-${$props.variant}`"
@@ -59,7 +59,7 @@ import FSClickable from '../FSClickable.vue';
 
 
 export default defineComponent({
-  name: 'FSAgendaEvent',
+  name: 'FSAgendaHorizontalEvent',
   components: {
     FSClickable
   },

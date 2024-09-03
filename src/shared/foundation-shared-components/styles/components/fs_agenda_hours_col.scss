@@ -1,9 +1,4 @@
 .fs-agenda-hours-col {
-  justify-content: space-evenly !important;
-  transform: translateY(calc(-2.4% + 1.2%));
+  transform: translateY(calc(-2.4% + 4px));
   overflow: visible;
-}
-
-.fs-agenda-hours-col-text {
-  padding: 0 2px;
 }

@@ -2,84 +2,119 @@
   <FSRow
     class="fs-day-agenda"
     height="100%"
+    padding="8px 0 0 0"
     :wrap="false"
     gap="0px"
+    :style="style"
   >
-    <FSRow height="100%">
+    <FSRow
+      height="100%"
+      gap="0"
+    >
       <FSAgendaHoursCol
         :displayNow="$props.nowIsInSelectedRange"
         :modelValue="nowHour"
       />
-      <FSCol>
-        <FSAgendaVerticalEvent
-          v-for="event in dayEvents"
-          :key="event.id"
-          :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
-          :now="now"
-          :dayBegin="dayBegin"
-          :label="event.label"
-          :start="event.start"
-          :end="event.end"
-          :icon="event.icon"
-          :iconBis="event.iconBis"
-          :id="event.id"
-          :color="event.color"
-          @click="() => $emit('click:eventId', event.id)"
+      <FSCol
+        height="100%"
+        width="fill"
+        class="fs-agenda-body"
+        gap="0"
+      >
+        <span
+          v-for="hour in 24"
+          class="fs-day-agenda-hour-line"
+          :key="hour"
+        />
+        <FSCol
+          style="position: absolute;"
+          height="100%"
+          padding="0 0 0 3px"
+          width="calc(100% - 32px)"
         >
-          <template #default="{ label, icon, timeStart, timeEnd, iconBis, variant }">
-            <FSCol>
-              <FSRow
-                class="fs-agenda-event-day-label-container"
-                align="center-left"
-                gap="4px"
-                :wrap="false"
+          <slot />
+          <FSCol
+            style="position: relative;"
+            height="100%"
+          >
+            <FSAgendaVerticalEvent
+              v-for="event in dayEvents"
+              :key="event.id"
+              :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
+              :now="now"
+              :dayBegin="dayBegin"
+              :label="event.label"
+              :start="event.start"
+              :end="event.end"
+              :icon="event.icon"
+              :iconBis="event.iconBis"
+              :id="event.id"
+              :color="event.color"
+              @click="() => $emit('click:eventId', event.id)"
+            >
+              <template
+                #default="{ label, icon, timeStart, timeEnd, iconBis }"
               >
-                <FSCol
-                  height="hug"
-                  width="fill"
-                  align="center-left"
-                  padding="8px 8px 0 8px"
-                >
-                  <FSSpan>
-                    {{ `${timeStart} - ${timeEnd}` }}
-                  </FSSpan>
+                <FSCol>
                   <FSRow
+                    class="fs-agenda-event-day-label-container"
                     align="center-left"
+                    gap="4px"
                     :wrap="false"
                   >
-                    <FSIcon
-                      v-if="icon"
-                      :icon="icon"
-                    />
-                    <FSSpan font="text-button">
-                      {{ label }}
-                    </FSSpan>
+                    <FSCol
+                      height="hug"
+                      width="fill"
+                      align="center-left"
+                      padding="8px 8px 0 8px"
+                    >
+                      <FSSpan>
+                        {{ `${timeStart} - ${timeEnd}` }}
+                      </FSSpan>
+                      <FSRow
+                        align="center-left"
+                        :wrap="false"
+                      >
+                        <FSIcon
+                          v-if="icon"
+                          :icon="icon"
+                        />
+                        <FSSpan
+                          font="text-button"
+                        >
+                          {{ label }}
+                        </FSSpan>
+                      </FSRow>
+                    </FSCol>
+                    <FSCol
+                      v-if="iconBis"
+                      align="center-right"
+                      padding="8px 8px 8px 0"
+                      width="hug"
+                    >
+                      <FSIcon
+                        v-if="iconBis"
+                        :icon="iconBis"
+                      />
+                    </FSCol>
                   </FSRow>
                 </FSCol>
-                <FSCol
-                  v-if="iconBis"
-                  align="center-right"
-                  padding="8px 8px 8px 0"
-                  width="hug"
-                >
-                  <FSIcon
-                    v-if="iconBis"
-                    :icon="iconBis"
-                  />
-                </FSCol>
-              </FSRow>
-            </FSCol>
-          </template>
-        </FSAgendaVerticalEvent>
+              </template>
+            </FSAgendaVerticalEvent>
+          </FSCol>
+        </FSCol>
       </FSCol>
     </FSRow>
   </FSRow>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, computed, watch } from 'vue';
+import { defineComponent, type PropType, computed } from 'vue';
+
+import { useColors } from '../../composables';
 
 import type { AgendaEvent } from '../../models/agendaEvent';
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
@@ -126,6 +161,9 @@ export default defineComponent({
   },
   emits: ['update:begin', 'update:end', 'click:eventId'],
   setup(props, { emit }) {
+    const { getColors } = useColors();
+
+    const lightColors = getColors(ColorEnum.Light);
 
     const nowHour = computed(() => new Date(props.now).getHours());
 
@@ -145,14 +183,21 @@ export default defineComponent({
 
     const dayEvents = computed(() => {
       return props.events.filter((event) => {
-        return event.start <= dayEnd.value && event.end >= dayBegin.value;
+        return (event.start <= dayEnd.value && event.start >= dayBegin.value) || (event.end <= dayEnd.value && event.end >= dayBegin.value);
       });
+    });
+
+    const style = computed((): StyleValue => {
+      return {
+        '--fs-day-agenda-hour-line-color': lightColors.light,
+      };
     });
 
     return {
       dayBegin,
       dayEvents,
       nowHour,
+      style
     };
   },
 });

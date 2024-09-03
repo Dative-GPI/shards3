@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="fs-time-line-marker"
+    class="fs-agenda-vertical-time-line-marker"
     :style="style"
   >
   </div>
@@ -14,7 +14,7 @@ import { useColors } from '../../composables';
 import { ColorEnum } from '../../models';
 
 export default defineComponent({
-  name: 'FSTimeLineMarker',
+  name: 'FSAgendaVerticalTimeLineMarker',
   props: {
     modelValue: {
       type: Number,
@@ -29,12 +29,12 @@ export default defineComponent({
     const nowDate = computed(() => {
       return new Date(props.modelValue);
     });
-    const leftOffset = computed(() => {
+    const topOffset = computed(() => {
       return nowDate.value.getHours() * 100 / 24 + nowDate.value.getMinutes() * 100 / 24 / 60;
     });
     const style = computed((): StyleValue => ({
-      "--fs-time-line-marker-left": `${leftOffset.value}%`,
-      "--fs-time-line-marker-color": primaryColor.base
+      "--fs-agenda-vertical-time-line-marker-top": `${topOffset.value}%`,
+      "--fs-agenda-vertical-time-line-marker-color": primaryColor.base
     }));
 
     return {

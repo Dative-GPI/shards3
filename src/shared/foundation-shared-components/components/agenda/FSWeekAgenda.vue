@@ -109,7 +109,7 @@
             width="fill"
             align="center-left"
           >
-            <FSAgendaEvent
+            <FSAgendaHorizontalEvent
               v-for="event in getDayEvents(day.dayBeginEpoch)"
               :key="event.id"
               :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
@@ -170,7 +170,7 @@
                   </FSCol>
                 </FSRow>
               </template>
-            </FSAgendaEvent>
+            </FSAgendaHorizontalEvent>
           </FSRow>
         </template>
       </FSCol>
@@ -188,7 +188,7 @@ import { useDateFormat } from "@dative-gpi/foundation-shared-services/composable
 import type { AgendaEvent } from '../../models/agendaEvent';
 import { ColorEnum } from '../../models';
 
-import FSAgendaEvent from './FSAgendaEvent.vue';
+import FSAgendaHorizontalEvent from './FSAgendaHorizontalEvent.vue';
 import FSAgendaHoursRow from './FSAgendaHoursRow.vue';
 import FSCard from '../FSCard.vue';
 import FSCol from '../FSCol.vue';
@@ -201,7 +201,7 @@ import FSText from '../FSText.vue';
 export default defineComponent({
   name: 'FSWeekAgenda',
   components: {
-    FSAgendaEvent,
+    FSAgendaHorizontalEvent,
     FSAgendaHoursRow,
     FSCard,
     FSCol,

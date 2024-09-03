@@ -75,8 +75,8 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      mode1: 'day',
-      mode2: 'week',
+      mode1: 'week',
+      mode2: 'day',
       events1: [...generatedEvents],
       events2: [...generatedEvents],
     }
@@ -89,21 +89,19 @@ export const Variations: Story = {
     },
     template: `
       <FSCol
-        >
-        <FSCard>
-          <FSCol
-            height="500px"
-          >
-            <FSAgenda
-              width="300px"
-              height="100%"
-              :events="args.events1"
-              v-model:mode="args.mode1"
-            />
-          </FSCol>
-        </FSCard>
+        gap="24px"
+      >
         <FSCol
           height="700px"
+        >
+          <FSAgenda
+            height="100%"
+            :events="args.events1"
+            v-model:mode="args.mode1"
+          />
+        </FSCol>
+        <FSCol
+          height="800px"
         >
           <FSAgenda
             height="100%"

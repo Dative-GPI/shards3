@@ -90,7 +90,7 @@
             width="fill"
             align="center-left"
           >
-            <FSAgendaEvent
+            <FSAgendaHorizontalEvent
               v-for="event in getDayEvents(day.dayBeginEpoch)"
               :key="event.id"
               :now="$props.now"
@@ -125,7 +125,7 @@
                   </FSSpan>
                 </FSRow>
               </template>
-            </FSAgendaEvent>
+            </FSAgendaHorizontalEvent>
           </FSRow>
         </template>
       </FSCol>
@@ -141,7 +141,7 @@ import { useColors } from '../../composables';
 import { ColorEnum } from '../../models';
 import type { AgendaEvent } from '../../models/agendaEvent';
 
-import FSAgendaEvent from './FSAgendaEvent.vue';
+import FSAgendaHorizontalEvent from './FSAgendaHorizontalEvent.vue';
 import FSAgendaHoursRow from './FSAgendaHoursRow.vue';
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
@@ -154,7 +154,7 @@ import FSCard from '../FSCard.vue';
 export default defineComponent({
   name: 'FSMonthAgenda',
   components: {
-    FSAgendaEvent,
+    FSAgendaHorizontalEvent,
     FSAgendaHoursRow,
     FSCard,
     FSCol,

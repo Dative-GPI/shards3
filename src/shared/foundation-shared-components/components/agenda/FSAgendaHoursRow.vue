@@ -60,7 +60,7 @@
 <script lang="ts">
 import { defineComponent, computed, type StyleValue } from 'vue';
 
-import { useBreakpoints, useColors } from '../../composables';
+import { useColors } from '../../composables';
 
 import FSText from '../FSText.vue';
 import FSRow from '../FSRow.vue';
@@ -91,16 +91,12 @@ export default defineComponent({
   },
   setup() {
     const { getColors } = useColors();
-    const { isExtraSmall } = useBreakpoints();
 
     const lightColors = getColors(ColorEnum.Light);
     const primaryColors = getColors(ColorEnum.Primary);
     const fontColor = lightColors.dark;
 
     const hours = computed(() => {
-      if (isExtraSmall.value) {
-        return Array.from({ length: 6 }, (_, i) => i * 4);
-      }
       return Array.from({ length: 24 }, (_, i) => i);
     });
 

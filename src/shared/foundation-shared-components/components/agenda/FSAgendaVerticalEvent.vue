@@ -30,11 +30,12 @@
   </FSAgendaVerticalEvent>
   <FSClickable
     v-if="$props.variant !== 'current' || $props.dayBegin < $props.now"
-    :class="`fs-agenda-event fs-agenda-event-${$props.variant}`"
+    :class="`fs-agenda-event fs-agenda-vertical-event fs-agenda-event-${$props.variant}`"
     :variant="$props.variant === 'current' ? 'full' : 'standard'"
     :style="style"
     :color="$props.color"
     :height="`${height}%`"
+    width="100%"
     :border="false"
     @click="$emit('click', $props.id)"
   >
@@ -108,7 +109,9 @@ export default defineComponent({
   setup(props) {
     const { epochToShortTimeOnlyFormat } = useDateFormat();
 
-    const dayEnd = props.dayBegin + 1000 * 60 * 60 * 24;
+    const dayEnd = computed(() => {
+      return props.dayBegin + 1000 * 60 * 60 * 24;
+    });
 
     const timeStart = computed(() => {
       return epochToShortTimeOnlyFormat(props.start);
@@ -130,8 +133,8 @@ export default defineComponent({
       let end = props.end;
       if (props.variant === 'current') {
         end = props.now;
-      } else if (props.end > dayEnd) {
-        end = dayEnd;
+      } else if (props.end > dayEnd.value) {
+        end = dayEnd.value;
       }
       if (props.start < props.dayBegin) {
         start = props.dayBegin;

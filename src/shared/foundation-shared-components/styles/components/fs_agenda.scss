@@ -24,3 +24,9 @@
   position: relative;
   border-bottom: 1px solid var(--fs-agenda-row-day-border-bottom-color);
 }
+
+.fs-day-agenda-hour-line {
+  border-top: solid 1px var(--fs-day-agenda-hour-line-color);
+  width: 100%;
+  height: 100%;
+}
