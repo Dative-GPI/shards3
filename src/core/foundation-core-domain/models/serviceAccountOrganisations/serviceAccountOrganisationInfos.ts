@@ -1,4 +1,4 @@
-import { type UserType, type UserValidityState } from "../enums/userEnums";
+import { type UserType, type UserValidityState } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ServiceAccountOrganisationInfos {
   id: string;

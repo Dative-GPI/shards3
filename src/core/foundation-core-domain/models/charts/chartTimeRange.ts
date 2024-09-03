@@ -1,4 +1,4 @@
-import type { Days } from "@dative-gpi/foundation-shared-domain/models";
+import type { Days } from "@dative-gpi/foundation-shared-domain/enums";
 
 import type { ChartTimeRangeTranslationDTO, CreateChartTimeRangeTranslationDTO } from "./chartTimeRangeTranslation";
 import { ChartTimeRangeTranslation } from "./chartTimeRangeTranslation";

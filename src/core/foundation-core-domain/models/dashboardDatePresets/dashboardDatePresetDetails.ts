@@ -1,4 +1,4 @@
-import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/models";
+import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/enums";
 
 import type { DashboardDatePresetTranslationDTO } from "./dashboardDatePresetTranslation";
 

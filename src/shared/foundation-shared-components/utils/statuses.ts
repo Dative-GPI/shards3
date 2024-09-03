@@ -1,5 +1,5 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
+import { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/enums";
 
 const { $tr } = useTranslationsProvider();
 

@@ -1,4 +1,4 @@
-import type { ApplicationScope } from "../enums/applicationEnums";
+import type { ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class DashboardShallowInfos {
   id: string;

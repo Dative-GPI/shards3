@@ -1,5 +1,5 @@
-import type { UserType, UserValidityState } from "../enums/userEnums";
-import type { RoleType } from "../enums/roleEnums";
+import type { UserType, UserValidityState } from "@dative-gpi/foundation-shared-domain/enums";
+import type { RoleType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class UserOrganisationInfos {
   id: string;

@@ -1,4 +1,4 @@
-import type { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
+import type { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/enums";
 
 export interface FSDeviceConnectivity {
     id: string;

@@ -1,4 +1,4 @@
-import type { AggregationType } from "../enums/chartEnums";
+import type { AggregationType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ChartOperand {
   id: string;

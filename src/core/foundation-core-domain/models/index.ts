@@ -27,7 +27,6 @@ export * from "./dataDefinitionMappings";           // No service
 export * from "./deviceConnectivities";
 export * from "./deviceOrganisations";
 export * from "./deviceStatuses";
-export * from "./enums";                            // No service
 export * from "./extensionApplications";
 export * from "./folders";
 export * from "./groups";

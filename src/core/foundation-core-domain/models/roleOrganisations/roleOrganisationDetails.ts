@@ -1,5 +1,5 @@
 import { RoleOrganisationInfos, type RoleOrganisationInfosDTO } from "./roleOrganisationInfos";
-import { type RoleType } from "../enums/roleEnums";
+import { type RoleType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class RoleOrganisationDetails extends RoleOrganisationInfos {
   description: string;

@@ -1,4 +1,4 @@
-import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
+import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/enums";
 
 import type { ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
 import { ScenarioOrganisationTypeInfos } from "./scenarioOrganisationTypeInfos";

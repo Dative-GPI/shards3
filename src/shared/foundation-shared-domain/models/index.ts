@@ -1,6 +1,5 @@
 export * from "./applications";
 export * from "./authTokens";
-export * from "./enums";                    // No service
 export * from "./images";
 export * from "./languages";                // No service
 export * from "./locations";

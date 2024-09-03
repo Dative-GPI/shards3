@@ -1,9 +1,9 @@
-import type { DashboardType, PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import type { DashboardType, RoleType } from "@dative-gpi/foundation-shared-domain/enums";
+import type { PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { PermissionInfos } from "@dative-gpi/foundation-shared-domain/models";
 
 import type { UserOrganisationInfosDTO } from "./userOrganisationInfos";
 import { UserOrganisationInfos } from "./userOrganisationInfos";
-import type { RoleType } from "../enums/roleEnums";
 
 export class UserOrganisationDetails extends UserOrganisationInfos {
     mainDashboardType: DashboardType;

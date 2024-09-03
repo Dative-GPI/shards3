@@ -1,4 +1,4 @@
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class DeviceStatusInfos {
   id: string;
@@ -33,11 +33,11 @@ export class DeviceStatusGroup {
 
   constructor(params: DeviceStatusGroupDTO) {
     this.sourceTimestamp = params.sourceTimestamp ?
-      utcToEpoch(params.sourceTimestamp) : null;
+      isoToEpoch(params.sourceTimestamp) : null;
     this.enqueuedTimestamp = params.enqueuedTimestamp ?
-      utcToEpoch(params.enqueuedTimestamp) : null;
+      isoToEpoch(params.enqueuedTimestamp) : null;
     this.processedTimestamp = params.processedTimestamp ?
-      utcToEpoch(params.processedTimestamp) : null;
+      isoToEpoch(params.processedTimestamp) : null;
     this.groupByValue = params.groupByValue;
     this.value = params.value;
     this.unit = params.unit;

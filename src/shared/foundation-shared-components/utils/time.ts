@@ -1,6 +1,6 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 
-import { TimeUnit } from "@dative-gpi/foundation-shared-domain/models"
+import { TimeUnit } from "@dative-gpi/foundation-shared-domain/enums"
 
 const { $tr } = useTranslationsProvider();
 

@@ -19,7 +19,7 @@ import type { PropType} from "vue";
 import { defineComponent } from "vue";
   
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { ListModes } from "@dative-gpi/foundation-shared-domain/models";
+import { ListModes } from "@dative-gpi/foundation-shared-domain/enums";
   
 import FSSelectField from "../fields/FSSelectField.vue";
   

@@ -19,7 +19,7 @@ import type { ChartModifierDTO } from "./chartModifier";
 import { ChartFilter} from "./chartFilter";
 import type { ChartFilterDTO } from "./chartFilter";
 
-import type { ColorSets } from "../enums/chartEnums";
+import type { ColorSets } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ChartDetails extends ChartInfos {
   colorSet: ColorSets;

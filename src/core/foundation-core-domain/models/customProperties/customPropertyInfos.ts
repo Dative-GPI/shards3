@@ -1,6 +1,6 @@
 import type { CustomPropertyColorDTO } from "./customPropertyColor";
 import { CustomPropertyColor } from "./customPropertyColor";
-import type { PropertyDataType, PropertyEntity } from "../enums/customPropertyEnums";
+import type { PropertyDataType, PropertyEntity } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class CustomPropertyInfos {
     id: string;

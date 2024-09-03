@@ -1,4 +1,4 @@
-import { utcToEpoch } from "../../tools";
+import { isoToEpoch } from "../../tools";
 
 export class TerminalInfos {
   id: string;
@@ -17,7 +17,7 @@ export class TerminalInfos {
     this.icon = params.icon;
     this.key = params.key;
     this.location = params.location;
-    this.lastConnection = utcToEpoch(params.lastConnection);
+    this.lastConnection = isoToEpoch(params.lastConnection);
     this.token = params.token;
   }
 

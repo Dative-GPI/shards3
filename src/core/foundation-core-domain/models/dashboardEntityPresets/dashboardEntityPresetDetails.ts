@@ -1,11 +1,11 @@
 import type { DashboardEntityPresetTranslationDTO } from "./dashboardEntityPresetTranslation";
-import type { SelectedEntities } from "../enums/sharedEnums";
+import type { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export interface CreateDashboardEntityPresetDTO {
   hiddenCode: string;
   labelDefault: string;
   singleEntity: boolean;
-  selectedEntities: SelectedEntities;
+  EntityType: EntityType;
   entitiesFilters: string;
   entitiesIds: string[];
   translations: DashboardEntityPresetTranslationDTO[];

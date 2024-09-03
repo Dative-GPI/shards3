@@ -1,4 +1,18 @@
-import type { WidgetCategory } from "@dative-gpi/foundation-shared-domain/models";
+import _ from "lodash";
+import type { WidgetCategory } from "@dative-gpi/foundation-shared-domain/enums";
+
+const clean = <T>(meta: T): T => {
+  const newMeta = _.cloneDeepWith(meta, (value) => {
+    if (typeof value === "string") {
+      try {
+        return JSON.parse(value as string);
+      } catch {
+        return value
+      }
+    }
+  });
+  return newMeta;
+}
 
 export class WidgetTemplateInfos {
     id: string;
@@ -20,7 +34,7 @@ export class WidgetTemplateInfos {
         this.category = params.category;
         this.defaultWidth = params.defaultWidth;
         this.defaultHeight = params.defaultHeight;
-        this.defaultMeta = params.defaultMeta;
+        this.defaultMeta = clean(params.defaultMeta);
     }
 }
   

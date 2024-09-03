@@ -1,4 +1,4 @@
-import { AutoRefresh } from '../models';
+import { AutoRefresh } from '../enums';
 
 export const autoRefreshToSeconds = (autoRefresh: AutoRefresh): number => {
   switch (autoRefresh) {

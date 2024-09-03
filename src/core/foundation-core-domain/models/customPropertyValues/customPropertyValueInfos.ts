@@ -1,4 +1,4 @@
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class CustomPropertyValueInfos {
   value: string;
@@ -7,7 +7,7 @@ export class CustomPropertyValueInfos {
   constructor(params: CustomPropertyValueInfosDTO) {
     this.value = params.value;
     this.timestamp = params.timestamp ?
-      utcToEpoch(params.timestamp) : null;
+      isoToEpoch(params.timestamp) : null;
   }
 }
 

@@ -1,5 +1,5 @@
 import { PermissionInfos, type PermissionInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
-import { type UserType } from "../enums/userEnums";
+import { type UserType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ServiceAccountRoleOrganisationInfos {
   id: string;

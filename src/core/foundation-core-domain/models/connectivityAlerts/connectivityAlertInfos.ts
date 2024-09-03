@@ -1,5 +1,5 @@
-import type { AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import type { AlertStatus } from "@dative-gpi/foundation-shared-domain/enums";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 import type { DeviceConnectivityInfosDTO } from "../deviceConnectivities/deviceConnectivityInfos";
 import { DeviceConnectivityInfos } from "../deviceConnectivities/deviceConnectivityInfos";
@@ -27,9 +27,9 @@ export class ConnectivityAlertInfos {
     this.deviceOrganisationImageId = params.deviceOrganisationImageId;
     this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ?
       new DeviceConnectivityInfos({ ...params.deviceOrganisationConnectivity, id: params.deviceOrganisationId }) : null;
-    this.triggerProcessedTimestamp = utcToEpoch(params.triggerProcessedTimestamp);
+    this.triggerProcessedTimestamp = isoToEpoch(params.triggerProcessedTimestamp);
     this.resolveProcessedTimestamp = params.resolveProcessedTimestamp ?
-      utcToEpoch(params.resolveProcessedTimestamp) : null;
+      isoToEpoch(params.resolveProcessedTimestamp) : null;
     this.status = params.status;
   }
 }

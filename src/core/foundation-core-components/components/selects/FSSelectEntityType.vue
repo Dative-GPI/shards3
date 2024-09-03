@@ -1,6 +1,6 @@
 <template>
   <FSSelectField
-    :items="selectedEntities"
+    :items="entityTypes"
     :clearable="false"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -13,20 +13,20 @@ import type { PropType} from "vue";
 import { computed, defineComponent } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { SelectedEntities } from "@dative-gpi/foundation-core-domain/models";
+import { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSSelectField from "@dative-gpi/foundation-shared-components/components/fields/FSSelectField.vue";
 
 export default defineComponent({
-  name: "FSSelectSelectedEntities",
+  name: "FSSelectEntityType",
   components: {
     FSSelectField
   },
   props: {
     modelValue: {
-      type: Number as PropType<SelectedEntities>,
+      type: Number as PropType<EntityType>,
       required: false,
-      default: SelectedEntities.Devices
+      default: EntityType.Device
     },
     useNone: {
       type: Boolean,
@@ -38,21 +38,21 @@ export default defineComponent({
   setup(props) {
     const { $tr } = useTranslationsProvider();
 
-    const selectedEntities = computed((): { id: SelectedEntities; label: string }[] => {
+    const entityTypes = computed((): { id: EntityType; label: string }[] => {
       const items = [
-        { id: SelectedEntities.Models, label: $tr("ui.selected-entities.models", "Models") },
-        { id: SelectedEntities.Devices, label: $tr("ui.selected-entities.devices", "Devices") },
-        { id: SelectedEntities.Groups, label: $tr("ui.selected-entities.groups", "Groups") },
-        { id: SelectedEntities.Locations, label: $tr("ui.selected-entities.locations", "Locations") }
+        { id: EntityType.Model, label: $tr("ui.entity-type.models", "Models") },
+        { id: EntityType.Device, label: $tr("ui.entity-type.devices", "Devices") },
+        { id: EntityType.Group, label: $tr("ui.entity-type.groups", "Groups") },
+        { id: EntityType.Location, label: $tr("ui.entity-type.locations", "Locations") }
       ];
       if (props.useNone) {
-        items.unshift({ id: SelectedEntities.None, label: $tr("ui.selected-entities.none", "None") });
+        items.unshift({ id: EntityType.None, label: $tr("ui.entity-type.none", "None") });
       }
       return items;
     });
 
     return {
-      selectedEntities
+      entityTypes
     };
   }
 });

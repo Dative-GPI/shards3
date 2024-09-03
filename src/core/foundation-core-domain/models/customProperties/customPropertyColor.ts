@@ -1,4 +1,4 @@
-import type { FilterType } from "../enums/sharedEnums";
+import type { FilterType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class CustomPropertyColor {
     priority: number;
