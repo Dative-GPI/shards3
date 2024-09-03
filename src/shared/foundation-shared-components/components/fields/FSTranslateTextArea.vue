@@ -1,37 +1,42 @@
 <template>
-  <FSTextField
-    :editable="$props.editable"
-    :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
-    v-bind="$attrs"
-  >
-    <template
-      v-for="(_, name) in slots"
-      v-slot:[name]="slotData"
+  <FSCol>
+    <FSTextArea
+      :editable="$props.editable"
+      :modelValue="$props.modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
+      v-bind="$attrs"
     >
-      <slot
-        :name="name"
-        v-bind="slotData"
-      />
-    </template>
-    <template
-      #append
+      <template
+        v-for="(_, name) in slots"
+        v-slot:[name]="slotData"
+      >
+        <slot
+          :name="name"
+          v-bind="slotData"
+        />
+      </template>
+    </FSTextArea>
+    <FSButton
+      width="100%"
+      :prependIcon="$props.buttonPrependIcon"
+      :appendIcon="$props.buttonAppendIcon"
+      :variant="$props.buttonVariant"
+      :color="$props.buttonColor"
+      :label="$props.buttonLabel ?? $tr('ui.translateTextArea.translateButton.label', 'Manage translations')"
+      @click="dialog = true"
+    />
+    <slot
+      name="description"
     >
-      <FSButton
-        :prependIcon="$props.buttonPrependIcon"
-        :appendIcon="$props.buttonAppendIcon"
-        :variant="$props.buttonVariant"
-        :color="$props.buttonColor"
-        :label="$props.buttonLabel"
-        @click="dialog = true"
-      />
-      <slot
-        name="append"
-      />
-    </template>
-  </FSTextField>
+      <FSSpan
+        font="text-overline"
+      >
+        {{ $props.description }}
+      </FSSpan>
+    </slot>
+  </FSCol>
   <FSDialogSubmit
-    :title="$tr('ui.translate-field.title', 'Handle translations')"
+    :title="$tr('ui.translate-text-area.title', 'Handle translations')"
     :submitButtonColor="$props.buttonColor"
     @click:submitButton="onSubmit"
     v-model="dialog"
@@ -42,19 +47,21 @@
       <FSCol
         gap="32px"
       >
-        <FSTextField
-          :label="$tr('ui.translate-field.default-value', 'Default value')"
+        <FSTextArea
+          :label="$tr('ui.translate-text-area.default-value', 'Default value')"
           :editable="false"
+          :rows="($attrs.rows as number)"
           :modelValue="$props.modelValue"
         />
         <FSCol
-          gap="16px"
+          gap="20px"
         >
-          <FSTextField
+          <FSTextArea
             v-for="(language, index) in languages"
             :editable="$props.editable"
             :key="index"
             :modelValue="getTranslation(language.code)"
+            :rows="($attrs.rows as number)"
             @update:modelValue="setTranslation(language.code, $event)"
           >
             <template
@@ -65,7 +72,6 @@
                 align="center-left"
               >
                 <FSSpan
-                  class="fs-translate-field-label"
                   font="text-overline"
                   :style="style"
                 >
@@ -74,9 +80,9 @@
                 <FSIcon>
                   {{ language.icon }}
                 </FSIcon>
-              </FSRow>
+              </FSRow> 
             </template>
-          </FSTextField>
+          </FSTextArea>
         </FSCol>
       </FSCol>
     </template>
@@ -92,23 +98,28 @@ import { useAppLanguages } from "@dative-gpi/foundation-shared-services/composab
 import { useColors, useSlots } from "../../composables";
 
 import FSDialogSubmit from "../FSDialogSubmit.vue";
-import FSTextField from "./FSTextField.vue";
+import FSTextArea from "./FSTextArea.vue";
 import FSButton from "../FSButton.vue";
 import FSIcon from "../FSIcon.vue";
 import FSSpan from "../FSSpan.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSTranslateField",
+  name: "FSTranslateTextArea",
   components: {
     FSDialogSubmit,
-    FSTextField,
+    FSTextArea,
     FSButton,
     FSIcon,
     FSSpan,
     FSRow
   },
   props: {
+    description : {
+      type : String as PropType<string | null>,
+      required : false,
+      default: null
+    },
     buttonPrependIcon: {
       type: String as PropType<string | null>,
       required: false,
@@ -161,7 +172,7 @@ export default defineComponent({
     const { getColors } = useColors();
     const { slots } = useSlots();
 
-    delete slots.append;
+    delete slots.description;
     
     const dialog = ref(false);
 

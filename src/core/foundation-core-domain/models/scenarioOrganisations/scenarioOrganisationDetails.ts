@@ -4,7 +4,7 @@ import type { ScenarioOrganisationInfosDTO } from "./scenarioOrganisationInfos";
 import { ScenarioOrganisationInfos } from "./scenarioOrganisationInfos";
 import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
 import { TimeRange } from "../shared/timeRange";
-import { ScenarioParameter, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
+import { ScenarioParameter, type CreateScenarioChartDTO, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
 import { ScenarioTranslation } from "../scenarios";
 
 export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
@@ -107,6 +107,8 @@ export interface CreateScenarioOrganisationDTO {
   alertCode: string;
   alertIcon: string;
   alertTags: string[];
+  startDate: string;
+  endDate: string;
   timeRanges: CreateTimeRangeDTO[];
   triggerOn: number;
   triggerCondition: string;
@@ -117,6 +119,7 @@ export interface CreateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  charts: CreateScenarioChartDTO[];
   parameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
@@ -133,6 +136,8 @@ export interface UpdateScenarioOrganisationDTO {
   code: string;
   icon: string;
   tags: string[];
+  startDate: string;
+  endDate: string;
   alertLabelDefault: string;
   alertDescriptionDefault: string;
   alertCode: string;
@@ -148,6 +153,7 @@ export interface UpdateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  charts: CreateScenarioChartDTO[];
   parameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
