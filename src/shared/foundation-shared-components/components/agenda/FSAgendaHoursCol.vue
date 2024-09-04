@@ -46,16 +46,14 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import { useColors } from '../../composables';
-
-import { ColorEnum } from '../../models';
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSText from '../FSText.vue';
 import FSRow from '../FSRow.vue';
 import FSCard from '../FSCard.vue';
 import FSSpan from '../FSSpan.vue';
 import FSCol from '../FSCol.vue';
-
 
 export default defineComponent({
   name: 'FSAgendaHoursCol',

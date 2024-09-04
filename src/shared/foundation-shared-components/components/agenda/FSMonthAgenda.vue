@@ -136,10 +136,8 @@
 <script lang="ts">
 import { defineComponent, computed, type PropType, type StyleValue } from 'vue';
 
-import { useColors } from '../../composables';
-
-import { ColorEnum } from '../../models';
-import type { AgendaEvent } from '../../models/agendaEvent';
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum, type FSAgendaEvent } from "@dative-gpi/foundation-shared-components/models";
 
 import FSAgendaHorizontalEvent from './FSAgendaHorizontalEvent.vue';
 import FSAgendaHoursRow from './FSAgendaHoursRow.vue';
@@ -149,7 +147,6 @@ import FSLoader from '../FSLoader.vue';
 import FSIcon from '../FSIcon.vue';
 import FSSpan from '../FSSpan.vue';
 import FSCard from '../FSCard.vue';
-
 
 export default defineComponent({
   name: 'FSMonthAgenda',
@@ -185,7 +182,7 @@ export default defineComponent({
       default: false
     },
     events: {
-      type: Array as PropType<AgendaEvent[]>,
+      type: Array as PropType<FSAgendaEvent[]>,
       default: () => []
     }
   },

@@ -116,12 +116,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, computed } from 'vue';
+import { defineComponent, type PropType, computed, type StyleValue } from 'vue';
 
-import { useColors } from '../../composables';
-
-import type { AgendaEvent } from '../../models/agendaEvent';
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum, type FSAgendaEvent } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
@@ -160,7 +158,7 @@ export default defineComponent({
       default: false
     },
     events: {
-      type: Array as PropType<AgendaEvent[]>,
+      type: Array as PropType<FSAgendaEvent[]>,
       default: () => []
     },
     nowIsInSelectedRange: {

@@ -31,6 +31,10 @@ export const useDateFormat = () => {
       === subDays(now, 1).toLocaleString(languageCode.value, { ...OPTIONS.shortDate, timeZone: timeZone.value });
   }
 
+  const dayToMillisecond = (value: number): number => {
+    return value * 24 * 60 * 60 * 1000
+  }
+
   const epochToDayMonthLongOnly = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -143,6 +147,10 @@ export const useDateFormat = () => {
     return { d: date.getDate(), m: date.getMonth(), y: date.getFullYear() };
   };
 
+  const millisecondToDay = (value: number): number => {
+    return value / 1000 / 60 / 60 / 24;
+  }
+
   const todayToPicker = (): string => {
     const date = addMilliseconds(new Date(), -getMachineOffset());
     date.setSeconds(0, 0);
@@ -173,6 +181,7 @@ export const useDateFormat = () => {
   return {
     todayToEpoch,
     pickerToEpoch,
+    dayToMillisecond,
     epochToDayMonthLongOnly,
     epochToPicker,
     epochToPickerHeader,
@@ -184,6 +193,7 @@ export const useDateFormat = () => {
     epochToShortTimeOnlyFormat,
     epochToTimeOnlyFormat,
     epochToWeekNumber,
+    millisecondToDay,
     parseForPicker,
     todayToPicker,
     yesterdayToPicker,

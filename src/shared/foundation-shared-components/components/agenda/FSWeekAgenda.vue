@@ -182,11 +182,10 @@
 import { defineComponent, computed, type PropType, type StyleValue } from 'vue';
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
-import { useColors } from '../../composables';
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
-import type { AgendaEvent } from '../../models/agendaEvent';
-import { ColorEnum } from '../../models';
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum, type FSAgendaEvent } from "@dative-gpi/foundation-shared-components/models";
 
 import FSAgendaHorizontalEvent from './FSAgendaHorizontalEvent.vue';
 import FSAgendaHoursRow from './FSAgendaHoursRow.vue';
@@ -233,7 +232,7 @@ export default defineComponent({
       default: false
     },
     events: {
-      type: Array as PropType<AgendaEvent[]>,
+      type: Array as PropType<FSAgendaEvent[]>,
       default: () => []
     }
   },

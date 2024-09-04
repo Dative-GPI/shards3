@@ -107,9 +107,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { epochToShortTimeOnlyFormat } = useDateFormat();
+    const { dayToMillisecond, epochToShortTimeOnlyFormat, millisecondToDay } = useDateFormat();
 
-    const dayEnd = props.dayBegin + 1000 * 60 * 60 * 24;
+    const dayEnd = props.dayBegin + dayToMillisecond(1);
 
     const timeStart = computed(() => {
       return epochToShortTimeOnlyFormat(props.start);
@@ -123,7 +123,7 @@ export default defineComponent({
       if (props.start < props.dayBegin) {
         return 0;
       }
-      return (props.start - props.dayBegin) / 1000 / 60 / 60 / 24 * 100;
+      return millisecondToDay(props.start - props.dayBegin) * 100;
     });
 
     const width = computed(() => {
@@ -138,8 +138,8 @@ export default defineComponent({
         start = props.dayBegin;
       }
       
-      const duration = (end - start) / 1000 / 60 / 60 / 24 * 100;
-      return duration > 0 ? duration : 0;
+      const duration = millisecondToDay(end - start);
+      return duration > 0 ? (duration * 100) : 0;
     });
 
     const style = computed((): StyleValue => {

@@ -1,4 +1,4 @@
-export interface AgendaEvent {
+export interface FSAgendaEvent {
   id: string;
   label: string;
   icon?: string;

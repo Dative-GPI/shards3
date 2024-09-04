@@ -49,7 +49,6 @@
         align="center-center"
       >
         <span 
-          
           class="fs-agenda-hours-row-marker"
         />
       </FSRow>
@@ -60,14 +59,14 @@
 <script lang="ts">
 import { defineComponent, computed, type StyleValue } from 'vue';
 
-import { useColors } from '../../composables';
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSText from '../FSText.vue';
 import FSRow from '../FSRow.vue';
 import FSCard from '../FSCard.vue';
 import FSSpan from '../FSSpan.vue';
 import FSCol from '../FSCol.vue';
-import { ColorEnum } from '../../models';
 
 export default defineComponent({
   name: 'FSAgendaHoursRow',

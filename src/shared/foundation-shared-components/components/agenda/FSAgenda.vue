@@ -7,30 +7,51 @@
     <FSRow
       align="center-center"
     >
-      <FSRow
+      <template
         v-if="$props.mode !== 'day'"
-        align="center-left"
-        :wrap="false"
-        width="hug"
       >
-        <FSButton
-          variant="icon"
-          icon="mdi-chevron-left"
-          @click="onPrevious"
-        />
-        <FSButton
-          width="180px"
-          :color="buttonColor"
-          :label="selectedDateMonthYear"
-          variant="full"
-          @click="showCalendarDialog = true"
-        />
-        <FSButton
-          variant="icon"
-          icon="mdi-chevron-right"
-          @click="onNext"
-        />
-      </FSRow>
+        <FSRow
+          align="center-left"
+          :wrap="false"
+          width="hug"
+        >
+          <FSButton
+            variant="icon"
+            icon="mdi-chevron-left"
+            @click="onPrevious"
+          />
+          <FSButton
+            width="180px"
+            :color="buttonColor"
+            :label="selectedDateMonthYear"
+            variant="full"
+            @click="showCalendarDialog = true"
+          />
+          <FSButton
+            variant="icon"
+            icon="mdi-chevron-right"
+            @click="onNext"
+          />
+        </FSRow>
+        <FSRow
+          align="center-right"
+        >
+          <FSRow
+            width="hug"
+          >
+            <FSSelectAgendaMode
+              :modelValue="$props.mode"
+              :hideHeader="true"
+              @update:modelValue="$emit('update:mode', $event)"
+            />
+            <FSButton
+              prependIcon="mdi-calendar-today-outline"
+              :label="$tr('ui.agenda.today', 'Today')"
+              @click="onToday"
+            />
+          </FSRow>
+        </FSRow>
+      </template>
       <FSCol
         v-else
       >
@@ -64,25 +85,6 @@
           />
         </FSRow>
       </FSCol>
-      <FSRow
-        v-if="$props.mode !== 'day'"
-        align="center-right"
-      >
-        <FSRow
-          width="hug"
-        >
-          <FSSelectAgendaMode
-            :modelValue="$props.mode"
-            :hideHeader="true"
-            @update:modelValue="$emit('update:mode', $event)"
-          />
-          <FSButton
-            prependIcon="mdi-calendar-today-outline"
-            :label="$tr('ui.agenda.today', 'Today')"
-            @click="onToday"
-          />
-        </FSRow>
-      </FSRow>
     </FSRow>
     <FSCol
       class="fs-agenda-view"
@@ -149,28 +151,10 @@
       </FSWindow>
     </FSCol>
   </FSCol>
-  <FSDialog
-    v-model="showCalendarDialog"
-  >
-    <FSCard
-      :elevation="true"
-    >
-      <FSCol
-        gap="12px"
-        padding="16px"
-      >
-        <FSCalendar
-          v-model="selectedDialogDate"
-        />
-        <FSButton
-          color="primary"
-          width="100%"
-          :label="$tr('ui.agenda.calendar.dialog.submit', 'Validate')"
-          @click="onSubmitCalendarDialog"
-        />
-      </FSCol>
-    </FSCard>
-  </FSDialog>
+  <FSAgendaDialogCalendar
+    v-model:dialog="showCalendarDialog"
+    v-model="selectedDate"
+  />
 </template>
 
 <script lang="ts">
@@ -179,36 +163,33 @@ import { defineComponent, type PropType, computed, ref, onUnmounted, watch } fro
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 
-import type { AgendaEvent } from '../../models/agendaEvent';
+import type { FSAgendaEvent } from "@dative-gpi/foundation-shared-components/models";
 
+import FSAgendaVerticalTimeLineMarker from './FSAgendaVerticalTimeLineMarker.vue';
+import FSAgendaDialogCalendar from './FSAgendaDialogCalendar.vue';
 import FSMonthAgenda from './FSMonthAgenda.vue';
 import FSWeekAgenda from './FSWeekAgenda.vue';
 import FSDayAgenda from './FSDayAgenda.vue';
 import FSSelectAgendaMode from './FSSelectAgendaMode.vue';
+import FSAgendaHorizontalTimeLineMarker from './FSAgendaHorizontalTimeLineMarker.vue';
+
 import FSWindow from '../FSWindow.vue';
 import FSCol from '../FSCol.vue';
 import FSButton from '../FSButton.vue';
 import FSRow from '../FSRow.vue';
-import FSAgendaHorizontalTimeLineMarker from './FSAgendaHorizontalTimeLineMarker.vue';
-import FSDialog from '../FSDialog.vue';
-import FSCard from '../FSCard.vue';
-import FSCalendar from '../FSCalendar.vue';
-import FSAgendaVerticalTimeLineMarker from './FSAgendaVerticalTimeLineMarker.vue';
 
 export default defineComponent({
   name: 'FSAgenda',
   components: {
+    FSAgendaDialogCalendar,
+    FSAgendaHorizontalTimeLineMarker,
+    FSAgendaVerticalTimeLineMarker,
     FSButton,
-    FSCalendar,
-    FSCard,
     FSCol,
     FSDayAgenda,
     FSMonthAgenda,
     FSRow,
-    FSSelectAgendaMode,
-    FSDialog,
-    FSAgendaHorizontalTimeLineMarker,
-    FSAgendaVerticalTimeLineMarker,
+    FSSelectAgendaMode,    
     FSWeekAgenda,
     FSWindow
   },
@@ -232,7 +213,7 @@ export default defineComponent({
       default: false
     },
     events: {
-      type: Array as PropType<AgendaEvent[]>,
+      type: Array as PropType<FSAgendaEvent[]>,
       default: () => []
     }
   },
@@ -252,7 +233,6 @@ export default defineComponent({
     const endWeekRangeDate = ref<Date>();
     const now = ref(todayToEpoch());
     const selectedDate = ref(now.value);
-    const selectedDialogDate = ref(selectedDate.value);
     const showCalendarDialog = ref(false);
     const defaultMode = ref(props.mode);
 
@@ -272,7 +252,6 @@ export default defineComponent({
       } else if (props.mode === 'day' && beginDayRangeDate.value) {
         return beginDayRangeDate.value;
       }
-      return new Date(0);
     });
 
     const endRangeDate = computed(() => {
@@ -283,7 +262,6 @@ export default defineComponent({
       } else if (props.mode === 'day' && endDayRangeDate.value) {
         return endDayRangeDate.value;
       }
-      return new Date(0);
     });
 
     const selectedDateMonthYear = computed(() => {
@@ -325,11 +303,6 @@ export default defineComponent({
       selectedDate.value = now.value;
     }
 
-    const onSubmitCalendarDialog = () => {
-      selectedDate.value = selectedDialogDate.value;
-      showCalendarDialog.value = false;
-    }
-
     const nowInterval = setInterval(() => {
       now.value = todayToEpoch();
     }, 10000);
@@ -358,14 +331,12 @@ export default defineComponent({
       selectedDate,
       selectedDateDayMonthYear,
       selectedDateMonthYear,
-      selectedDialogDate,
       showCalendarDialog,
       modeValues,
       now,
       nowIsInSelectedRange,
       onNext,
       onPrevious,
-      onSubmitCalendarDialog,
       onToday
     };
   }
