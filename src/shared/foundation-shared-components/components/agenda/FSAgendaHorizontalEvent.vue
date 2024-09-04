@@ -35,6 +35,7 @@
     :style="style"
     :color="$props.color"
     :width="`${width}%`"
+    height="calc(100% - 4px)"
     :border="false"
     @click="$emit('click', $props.id)"
   >

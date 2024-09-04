@@ -23,13 +23,18 @@
           class="fs-agenda-hours-col-now"
           color="primary"
           variant="full"
+          width="100%"
           v-if="displayNow && hour === modelValue"
         >
-          <FSSpan
-            class="fs-agenda-hours-col-text fs-agenda-hours-col-text-now"
+          <FSCol
+            align="center-center"
           >
-            {{ `${to2Digits(hour)}${$tr('ui.agenda-hour-line.hour.letter', 'h')}` }}
-          </FSSpan>
+            <FSSpan
+              class="fs-agenda-hours-col-text fs-agenda-hours-col-text-now"
+            >
+              {{ `${to2Digits(hour)}${$tr('ui.agenda-hour-line.hour.letter', 'h')}` }}
+            </FSSpan>
+          </FSCol>
         </FSCard>
         <FSText
           v-else
