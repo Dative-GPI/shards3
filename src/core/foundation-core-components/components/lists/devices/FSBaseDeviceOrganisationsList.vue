@@ -3,6 +3,7 @@
     :items="deviceOrganisations"
     :customSorts="customSorts"
     :itemTo="$props.itemTo"
+    :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -80,16 +81,16 @@
       #item.worstAlert="{ item }"
     >
       <FSWorstAlert
-        :alerts="item.alerts"
-        :worstAlert="item.worstAlert"
+        :deviceAlerts="item.alerts"
+        :deviceAlert="item.worstAlert"
       />
     </template>
     <template
       #item.alerts="{ item }"
     >
       <FSWorstAlert
-        :alerts="item.alerts"
-        :worstAlert="item.worstAlert"
+        :deviceAlerts="item.alerts"
+        :deviceAlert="item.worstAlert"
       />
     </template>
     <template
@@ -150,9 +151,31 @@ import { ConnectivityStatus, PropertyEntity } from "@dative-gpi/foundation-share
 import { useCustomProperties, useDeviceOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import type { DeviceConnectivityDetails, DeviceOrganisationFilters, DeviceOrganisationInfos} from "@dative-gpi/foundation-core-domain/models";
 
+import FSDataTable from "../FSDataTable.vue";
+import FSMetaValue from "../../customProperties/FSMetaValue.vue";
+
+import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
+import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
+import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
+import FSWorstAlert from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSWorstAlert.vue";
+import FSConnectivity from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSConnectivity.vue";
+import FSStatusesCarousel from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSStatusesCarousel.vue";
+import FSDeviceOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue";
+
   
 export default defineComponent({
-  name: "BaseDeviceOrganisationsList",
+  name: "FSBaseDeviceOrganisationsList",
+  components: {
+    FSConnectivity,
+    FSDataTable,    
+    FSDeviceOrganisationTileUI,
+    FSIconCheck,
+    FSImage,
+    FSMetaValue,
+    FSStatusesCarousel,
+    FSTagGroup,
+    FSWorstAlert
+  },
   props: {
     modelValue: {
       type: Array as PropType<string[]>,
@@ -177,6 +200,10 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    tableCode: {
+      type: String,
+      required: true
     }
   },
   emits: ["update:modelValue"],

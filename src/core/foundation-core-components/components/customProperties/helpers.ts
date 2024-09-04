@@ -1,6 +1,7 @@
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
+import { FilterType, PropertyDataType } from "@dative-gpi/foundation-shared-domain/enums";
 
-import { type CustomPropertyInfos, FilterType, PropertyDataType } from "../../../foundation-core-domain/models";
+import { type CustomPropertyInfos,  } from "../../../foundation-core-domain/models";
 
 const { getOffsetDifference } = useAppTimeZone();
 

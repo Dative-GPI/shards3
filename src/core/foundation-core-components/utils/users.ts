@@ -1,5 +1,5 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { UserType, UserValidityState } from "@dative-gpi/foundation-core-domain/models"
+import { UserType, UserValidityState } from "@dative-gpi/foundation-shared-domain/enums";
 
 const { $tr } = useTranslationsProvider();
 
