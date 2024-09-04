@@ -16,6 +16,7 @@
           :modelValue="$props.entityType"
           @update:modelValue="$emit('update:entityType', $event)"
           :items="actualEntityTypes"
+          :clearable="false"
         />
         <template
           v-if="itemsCount > 0"
@@ -23,6 +24,7 @@
           <FSButton
             :label="$tr('ui.entity-field.edit', 'Edit')"
             icon="mdi-pencil"
+            @click="$emit('click:select')"
           />
         </template>
         <template
@@ -31,6 +33,7 @@
           <FSButton
             :label="$tr('ui.entity-field.select', 'Select')"
             icon="mdi-plus-circle-multiple-outline"
+            @click="$emit('click:select')"
           />
         </template>
       </FSRow>
@@ -180,6 +183,7 @@ export default defineComponent({
       default: true
     }
   },
+  emits: ["update:entityType", "click:select"],
   setup(props) {
     const { $tr } = useTranslations();
 

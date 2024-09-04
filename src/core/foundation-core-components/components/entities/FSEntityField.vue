@@ -11,24 +11,47 @@
     :itemsCount="($props.modelValue || []).length"
     @update:entityType="$emit('update:entityType', $event)"
     :showEntities="$props.showEntities"
+    @click:select="dialog = true"
   >
-    <template #items>
-      Hello
+    <template
+      #items
+    >
+      <FSSimpleEntitiesList
+        :entity-type="$props.entityType"
+        :filters="listComponentFilters"
+        :showEdit="false"
+        @click:remove="onRemove"
+      />
     </template>
   </FSEntityFieldUI>
+  <FSDialogSelectEntities
+    :entity-type="$props.entityType"
+    :filters="$props.filters"
+    v-model="dialog"
+    :selecteds="$props.modelValue"
+    @update:selecteds="$emit('update:modelValue', $event)"
+  />
 </template>
 
 
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { defineComponent, ref, type PropType, computed } from "vue";
 
-import type { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
+import { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
+
+import type { DeviceOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
+
 import FSEntityFieldUI from "@dative-gpi/foundation-shared-components/components/fields/FSEntityFieldUI.vue";
+
+import FSSimpleEntitiesList from "./FSSimpleEntitiesList.vue";
+import FSDialogSelectEntities from "./FSDialogSelectEntities.vue";
 
 export default defineComponent({
   name: "FSEntityField",
   components: {
     FSEntityFieldUI,
+    FSSimpleEntitiesList,
+    FSDialogSelectEntities
   },
   props: {
     label: {
@@ -55,6 +78,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    filters: {
+      type: Object,
+      required: false,
+      default: () => null
     },
     rules: {
       type: Array as PropType<any[]>,
@@ -86,7 +114,30 @@ export default defineComponent({
       default: true
     }
   },
-  setup() {
+  emits: ["update:modelValue", "update:entityType"],
+  setup(props, { emit }) {
+    const dialog = ref(false);
+
+    const listComponentFilters = computed(() => {
+      switch(props.entityType) {
+        case EntityType.Device:
+          return { 
+            deviceOrganisationsIds: props.modelValue
+          } satisfies DeviceOrganisationFilters;
+        default:
+          return {};
+      };
+    });
+
+    const onRemove = (id: string) => {
+      emit("update:modelValue", props.modelValue.filter((i) => i !== id));
+    }
+
+    return {
+      dialog,
+      listComponentFilters,
+      onRemove
+    }
   }
 });
 </script>

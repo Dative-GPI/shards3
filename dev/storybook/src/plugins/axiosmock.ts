@@ -35,6 +35,7 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisation-types/1", DASHBOARDORGANISATIONTYPES[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisation-types/2", DASHBOARDORGANISATIONTYPES[1]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/dashboard-organisation-types/3", DASHBOARDORGANISATIONTYPES[2]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/device-organisations", DEVICEORGANISATIONS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/device-organisations/1", DEVICEORGANISATIONS[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/device-organisations/2", DEVICEORGANISATIONS[1]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/device-organisations/3", DEVICEORGANISATIONS[2]);

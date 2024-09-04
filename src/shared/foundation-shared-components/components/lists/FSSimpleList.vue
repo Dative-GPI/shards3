@@ -1,10 +1,13 @@
 <template>
-  <FSCol>
+  <component
+    :is="$props.direction == 'row' ? FSRow : FSCol"
+    v-bind="$attrs"
+  >
     <FSTile
       v-for="item in items"
       :key="item.id"
       v-bind="tileProps(item)"
-      width="100%"
+      :width="$props.direction == 'row' ? 'fit-content' : '100%'"
       height="fit-content"
     >
       <slot
@@ -40,17 +43,17 @@
           >
             <FSButtonEditIcon
               v-if="showEdit"
-              @click="$emit('click:edit', item)"
+              @click="$emit('click:edit', item.id)"
             />
             <FSButtonRemoveIcon
               v-if="showRemove"
-              @click="$emit('click:remove', item)"
+              @click="$emit('click:remove', item.id)"
             />
           </FSRow>
         </FSRow>
       </slot>
     </FSTile>
-  </FSCol>
+  </component>
 </template>
 
 
@@ -84,7 +87,7 @@ export default defineComponent({
   },
   props: {
     items: {
-      type: Array,
+      type: Array as PropType<{id: string, label?: string, icon?: string, imageId?: string}[]>,
       required: true
     },
     tileProps: {
@@ -106,11 +109,18 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    direction: {
+      type: String as PropType<"row" | "column">,
+      required: false,
+      default: "column"
+    },
   },
   setup(){
     return {
-      ColorEnum
+      ColorEnum,
+      FSRow,
+      FSCol
     }
   }
 });
