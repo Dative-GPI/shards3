@@ -49,6 +49,9 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/groups1", USERORGANISATIONTABLES[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/locations1", USERORGANISATIONTABLES[1]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/devices1", USERORGANISATIONTABLES[2]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/users1", USERORGANISATIONTABLES[3]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/users2", USERORGANISATIONTABLES[4]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/dashboards1", USERORGANISATIONTABLES[5]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/custom-property-values/1/1/code", CUSTOMPROPERTYVALUES);
 
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/role-organisation-types", ROLEORGANISATIONTYPES);

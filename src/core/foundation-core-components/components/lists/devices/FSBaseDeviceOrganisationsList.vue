@@ -89,7 +89,7 @@
       #item.alerts="{ item }"
     >
       <FSWorstAlert
-        :deviceAlerts="item.alerts"
+        :deviceAlerts="item.alerts.length"
         :deviceAlert="item.worstAlert"
       />
     </template>
