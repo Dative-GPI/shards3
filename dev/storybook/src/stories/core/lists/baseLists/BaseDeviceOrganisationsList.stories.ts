@@ -3,14 +3,16 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import FSBaseDeviceOrganisationsList from "@dative-gpi/foundation-core-components/components/lists/devices/FSBaseDeviceOrganisationsList.vue";
 import FSDataTable from '@dative-gpi/foundation-core-components/components/lists/FSDataTable.vue';
 
-import { TABLES } from '@dative-gpi/foundation-core-components/utils';
-
 const meta: Meta<typeof FSBaseDeviceOrganisationsList> = {
-  title: 'Foundation/Core/Lists/Devices/BaseDeviceOrganisationsList',
+  title: 'Foundation/Core/Lists/Base Lists/BaseDeviceOrganisationsList',
   component: FSBaseDeviceOrganisationsList,
   subcomponents: { FSDataTable },
   tags: ['autodocs'],
   argTypes: {
+    tableCode: {
+      type: 'select',
+      options: ['device1', 'device2'],
+    },
   },
 };
 
@@ -34,7 +36,7 @@ export const Default: Story = {
   }),
   args: {
     modelValue: [],
-    tableCode: TABLES.DEVICES_SELECT,
+    tableCode: 'devices1',
     connectedOnly: false,
     singleSelect: false,
   },
