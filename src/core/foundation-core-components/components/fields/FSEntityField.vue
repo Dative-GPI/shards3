@@ -12,7 +12,9 @@
     @update:entityType="$emit('update:entityType', $event)"
     :showEntities="$props.showEntities"
   >
-    <template #items>
+    <template
+      #items
+    >
       Hello
     </template>
   </FSEntityFieldUI>
