@@ -36,7 +36,7 @@
               v-else-if="item.icon"
               :icon="item.icon"
             />
-            <FSSpan>{{ item.label }}</FSSpan>
+            <FSSpan>{{ item[itemLabel] }}</FSSpan>
           </slot>
           <FSRow
             align="center-right"
@@ -87,7 +87,7 @@ export default defineComponent({
   },
   props: {
     items: {
-      type: Array as PropType<{id: string, label?: string, icon?: string, imageId?: string}[]>,
+      type: Array as PropType<{id: string, label?: string, icon?: string, imageId?: string, [index: string]: any}[]>,
       required: true
     },
     tileProps: {
@@ -115,7 +115,13 @@ export default defineComponent({
       required: false,
       default: "column"
     },
+    itemLabel: {
+      type: String,
+      required: false,
+      default: "label"
+    }
   },
+  emits: ["click:edit", "click:remove"],
   setup(){
     return {
       ColorEnum,

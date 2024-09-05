@@ -52,6 +52,7 @@ export interface DashboardOrganisationInfosDTO {
 }
 
 export interface DashboardOrganisationFilters {
+  dashboardOrganisationIds?: string[] | null;
   root?: boolean | null;
   folderId?: string | null;
   search?: string | null;

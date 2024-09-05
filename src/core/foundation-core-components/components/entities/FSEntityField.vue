@@ -9,7 +9,7 @@
     :entityType="$props.entityType"
     :allowedEntityTypes="$props.allowedEntityTypes || []"
     :itemsCount="($props.modelValue || []).length"
-    @update:entityType="$emit('update:entityType', $event)"
+    @update:entityType="$emit('update:entityType', $event); $emit('update:modelValue', [])"
     :showEntities="$props.showEntities"
     @click:select="dialog = true"
   >
@@ -28,7 +28,7 @@
     :entity-type="$props.entityType"
     :filters="$props.filters"
     v-model="dialog"
-    :selecteds="$props.modelValue"
+    :selecteds="$props.modelValue || []"
     @update:selecteds="$emit('update:modelValue', $event)"
   />
 </template>
