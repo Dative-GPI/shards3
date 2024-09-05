@@ -22,7 +22,7 @@ import { computed, defineComponent } from "vue";
 import type { PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { Position } from "@dative-gpi/foundation-shared-domain/models";
+import { Position } from "@dative-gpi/foundation-shared-domain/enums";
 
 export default defineComponent({
   name: "FSToggleSetPosition",
