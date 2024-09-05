@@ -110,7 +110,15 @@ export default defineComponent({
     const { dayToMillisecond, epochToShortTimeOnlyFormat, millisecondToDay } = useDateFormat();
 
     const dayEnd = computed(() => {
-      return props.dayBegin + dayToMillisecond(1);
+      return new Date(props.dayBegin).setHours(23, 59, 59, 999);
+    });
+
+    const dayDuration = computed(() => {
+      return dayEnd.value - props.dayBegin;
+    });
+
+    const dayDurationOffset = computed(() => {
+      return dayDuration.value - dayToMillisecond(1);
     });
 
     const timeStart = computed(() => {
@@ -125,16 +133,16 @@ export default defineComponent({
       if (props.start < props.dayBegin) {
         return 0;
       }
-      return millisecondToDay(props.start - props.dayBegin) * 100;
+      return millisecondToDay(props.start - props.dayBegin - dayDurationOffset.value) * 100;
     });
 
     const height = computed(() => {
-      let start = props.start;
-      let end = props.end;
+      let start = props.start - dayDurationOffset.value;
+      let end = props.end - dayDurationOffset.value;
       if (props.variant === 'current') {
         end = props.now;
       } else if (props.end > dayEnd.value) {
-        end = dayEnd.value;
+        end = dayEnd.value - dayDurationOffset.value;
       }
       if (props.start < props.dayBegin) {
         start = props.dayBegin;
