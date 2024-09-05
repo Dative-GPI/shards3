@@ -3,7 +3,7 @@ import type { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
 export class DashboardShallowEntityPresetInfos {
   hiddenCode: string;
   singleEntity: boolean;
-  EntityType: EntityType;
+  entityType: EntityType;
   entitiesFilters: string;
   entitiesIds: string[];
 
@@ -19,7 +19,7 @@ export class DashboardShallowEntityPresetInfos {
 export interface DashboardShallowEntityPresetInfosDTO {
   hiddenCode: string;
   singleEntity: boolean;
-  EntityType: EntityType;
+  entityType: EntityType;
   entitiesFilters: string;
   entitiesIds: string[];
 }

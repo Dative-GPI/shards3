@@ -116,7 +116,7 @@ export interface AlertFilters {
   acknowledged?: boolean | null;
   startDate?: string | null;
   endDate?: string | null;
-  EntityType?: EntityType | null;
+  entityType?: EntityType | null;
   entitiesIds?: string[] | null;
   dateVariables?: DateVariable[] | null;
 }
