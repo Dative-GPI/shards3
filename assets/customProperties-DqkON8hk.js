@@ -1,0 +1,1 @@
+var n=(i=>(i[i.Device=0]="Device",i[i.DeviceOrganisation=1]="DeviceOrganisation",i))(n||{}),c=(i=>(i[i.Number=0]="Number",i[i.Boolean=1]="Boolean",i[i.String=2]="String",i[i.DateTime=3]="DateTime",i[i.Icon=4]="Icon",i))(c||{});export{c as P,n as a};
