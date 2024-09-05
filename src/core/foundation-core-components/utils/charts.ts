@@ -1,8 +1,9 @@
-import { AggregationType, AxisType, ChartOrigin, DisplayAs, FilterType, HeatmapRule, OperationOn, PlanningType, PlotPer, SerieType } from "@dative-gpi/foundation-core-domain/models";
+import { AggregationType, AxisType, ChartOrigin, DisplayAs, FilterType, HeatmapRule, OperationOn, PlanningType, PlotPer, SerieType } from "@dative-gpi/foundation-shared-domain/enums";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 const { $tr } = useTranslationsProvider();
+
 
 export const chartOriginLabel = (type: ChartOrigin): string => {
   switch (type) {

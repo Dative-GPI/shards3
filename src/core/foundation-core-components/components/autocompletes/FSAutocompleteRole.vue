@@ -56,10 +56,11 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { type RoleOrganisationFilters, type RoleOrganisationTypeFilters, RoleType } from "@dative-gpi/foundation-core-domain/models";
+import { type RoleOrganisationFilters, type RoleOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useRoleOrganisations, useRoleOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
+import { RoleType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { roleTypeColor, roleTypeLabel } from "../../utils";
 

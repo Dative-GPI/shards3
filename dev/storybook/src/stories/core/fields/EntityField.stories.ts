@@ -2,7 +2,7 @@ import { ref, watch } from 'vue';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { EntityType } from '@dative-gpi/foundation-shared-domain/enums';
-import FSEntityField from "@dative-gpi/foundation-core-components/components/fields/FSEntityField.vue";
+import FSEntityField from "@dative-gpi/foundation-core-components/components/entities/FSEntityField.vue";
 
 const meta = {
   title: 'Foundation/Core/EntityField',

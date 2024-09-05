@@ -463,7 +463,6 @@ export default defineComponent({
   name: "FSSelectField",
   components: {
     FSDialogMenu,
-    FSDialogMenu,
     FSSlideGroup,
     FSBaseField,
     FSTextField,

@@ -13,7 +13,7 @@
 import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";
+import { DateSetting } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSSelectField from "../fields/FSSelectField.vue";
 

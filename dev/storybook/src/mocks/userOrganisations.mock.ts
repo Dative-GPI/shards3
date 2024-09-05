@@ -47,7 +47,7 @@ export const USERORGANISATIONS: UserOrganisationInfosDTO[] = [{
   id: "3",
   admin: false,
   allowNotifications: true,
-  allowSms: true,
+  allowSms: false,
   allowEmails: true,
   email: "jjeffersion@scep.com",
   firstName: "Jack",

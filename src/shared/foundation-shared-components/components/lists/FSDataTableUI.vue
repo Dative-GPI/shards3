@@ -832,7 +832,7 @@ export default defineComponent({
     mode: {
       type: String as PropType<"table" | "iterator">,
       required: false,
-      default: "table"
+      default: "iterator"
     },
     disableTable: {
       type: Boolean,

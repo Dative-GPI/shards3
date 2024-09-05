@@ -32,7 +32,8 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
-import { type CustomPropertyInfos, PropertyDataType } from "../../../foundation-core-domain/models";
+import { PropertyDataType } from "@dative-gpi/foundation-shared-domain/enums";
+import { type CustomPropertyInfos } from "../../../foundation-core-domain/models";
 import { getColor } from "./helpers";
 
 import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";

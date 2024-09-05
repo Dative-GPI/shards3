@@ -11,7 +11,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import {HeatmapRule} from "@dative-gpi/foundation-core-domain/models";
+import {HeatmapRule} from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
