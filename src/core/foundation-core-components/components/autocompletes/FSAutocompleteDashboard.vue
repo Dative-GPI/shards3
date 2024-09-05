@@ -60,8 +60,8 @@ import { type DashboardOrganisationFilters, type DashboardOrganisationTypeFilter
 import { useDashboardOrganisations, useDashboardOrganisationTypes, useDashboardShallows } from "@dative-gpi/foundation-core-services/composables";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
-import { DashboardType } from "@dative-gpi/foundation-shared-domain/models";
 
+import { DashboardType } from "@dative-gpi/foundation-shared-domain/enums";
 import { dashboardTypeColor, dashboardTypeLabel } from "../../utils";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";

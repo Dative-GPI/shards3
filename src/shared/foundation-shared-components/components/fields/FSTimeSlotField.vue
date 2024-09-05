@@ -65,7 +65,7 @@ import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { Days } from "@dative-gpi/foundation-shared-domain/models";
+import { Days } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSSelectField from "./FSSelectField.vue";
 import FSBaseField from "./FSBaseField.vue";

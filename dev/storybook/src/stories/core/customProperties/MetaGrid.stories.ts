@@ -2,8 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSMetaGrid from "@dative-gpi/foundation-core-components/components/customProperties/FSMetaGrid.vue";
 import FSIcon from '@dative-gpi/foundation-shared-components/components/FSIcon.vue';
-import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
-import { FilterType, PropertyDataType } from '@dative-gpi/foundation-core-domain/models';
+import { FilterType, PropertyDataType } from '@dative-gpi/foundation-shared-domain/enums';
 
 const meta = {
   title: 'Foundation/Core/CustomProperties/MetaGrid',

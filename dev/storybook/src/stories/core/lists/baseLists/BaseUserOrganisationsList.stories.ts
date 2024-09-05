@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSBaseUserOrganisationsList from "@dative-gpi/foundation-core-components/components/lists/users/FSBaseUserOrganisationsList.vue";
+import FSBaseUserOrganisationsList from "@dative-gpi/foundation-core-components/components/lists/userOrganisations/FSBaseUserOrganisationsList.vue";
 import FSDataTable from '@dative-gpi/foundation-core-components/components/lists/FSDataTable.vue';
 
 const meta: Meta<typeof FSBaseUserOrganisationsList> = {

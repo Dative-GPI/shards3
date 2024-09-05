@@ -83,7 +83,7 @@ import _ from "lodash";
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useRules } from "@dative-gpi/foundation-shared-components/composables";
-import { DateSetting } from "@dative-gpi/foundation-shared-domain/models";
+import { DateSetting } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSSelectDateSetting from "../selects/FSSelectDateSetting.vue";
 import FSDateTimeRangeField from "./FSDateTimeRangeField.vue";
