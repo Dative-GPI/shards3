@@ -165,12 +165,16 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    nowIsInSelectedRange: {
-      type: Boolean,
+    begin: {
+      type: Number,
       required: true
     },
-    selectedDate: {
+    end: {
       type: Number,
+      required: true
+    },
+    nowIsInSelectedRange: {
+      type: Boolean,
       required: true
     },
     firstColumnWidth: {
@@ -187,7 +191,7 @@ export default defineComponent({
     }
   },
   emits: ['update:begin', 'update:end', 'click:eventId'],
-  setup(props, { emit }) {
+  setup(props) {
     const { getColors } = useColors();
 
     const primaryColors = getColors(ColorEnum.Primary);
@@ -197,27 +201,20 @@ export default defineComponent({
 
     const monthDays = computed(() => {
       const monthDaysArray = [];
-      const selectedDate = new Date(props.selectedDate);
+      const nowDate = new Date(props.now);
 
-      const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-      const lastDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+      let currentDay = new Date(props.begin); 
+      const endDate = new Date(props.end);
 
-      for (let day = firstDayOfMonth.getDate(); day <= lastDayOfMonth.getDate(); day++) {
-        const currentDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day);
-        currentDay.setHours(0, 0, 0, 0);
-
+      while (currentDay <= endDate) {
         monthDaysArray.push({
           dayNumber: currentDay.getDate(),
           dayBeginEpoch: currentDay.getTime(),
-          isNowDay: currentDay.getDate() === new Date(props.now).getDate() &&
-            currentDay.getMonth() === new Date(props.now).getMonth() &&
-            currentDay.getFullYear() === new Date(props.now).getFullYear(),
+          isNowDay: currentDay.toDateString() === nowDate.toDateString(),
         });
-      }
 
-      emit('update:begin', firstDayOfMonth);
-      lastDayOfMonth.setHours(23, 59, 59, 999);
-      emit('update:end', lastDayOfMonth);
+        currentDay.setDate(currentDay.getDate() + 1);
+      }
 
       return monthDaysArray;
     });

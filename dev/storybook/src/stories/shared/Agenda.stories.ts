@@ -110,7 +110,11 @@ const Template: Story = {
         <FSAgenda 
           v-bind="args"
           v-model:mode="args.mode"
+          v-model:begin="args.begin"
+          v-model:end="args.end"
           @update:mode="args['update:mode']"
+          @update:begin="args['update:begin']"
+          @update:end="args['update:end']"
           @click:eventId="args['click:eventId']"
         />
       </FSCol>
@@ -128,6 +132,8 @@ export const Default: Story = {
     loading: false,
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
+    'update:begin': action('update:begin'),
+    'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
   parameters: {
@@ -138,8 +144,8 @@ export const Default: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    @update:mode="args['update:mode']"
-    @click:eventId="args['click:eventId']"
+    v-model:begin="args.begin"
+    v-model:end="args.end"
   />
 </FSCol>`,
       },
@@ -155,6 +161,8 @@ export const DayView: Story = {
     height: '100%',
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
+    'update:begin': action('update:begin'),
+    'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
   parameters: {
@@ -165,8 +173,8 @@ export const DayView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    @update:mode="args['update:mode']"
-    @click:eventId="args['click:eventId']"
+    v-model:begin="args.begin"
+    v-model:end="args.end"
   />
 </FSCol>`,
       },
@@ -182,6 +190,8 @@ export const WeekView: Story = {
     height: '100%',
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
+    'update:begin': action('update:begin'),
+    'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
   parameters: {
@@ -192,8 +202,8 @@ export const WeekView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    @update:mode="args['update:mode']"
-    @click:eventId="args['click:eventId']"
+    v-model:begin="args.begin"
+    v-model:end="args.end"
   />
 </FSCol>`,
       },
@@ -201,14 +211,18 @@ export const WeekView: Story = {
   },
 };
 
-export const MonthView: Story = {
+export const DoubleWeekView: Story = {
   ...Template,
   args: {
-    mode: 'month',
+    mode: 'week',
     width: '100%',
     height: '100%',
+    begin: todayStart - 86400000 * 7,
+    end: todayStart + 86400000 * 7,
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
+    'update:begin': action('update:begin'),
+    'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
   parameters: {
@@ -219,8 +233,71 @@ export const MonthView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    @update:mode="args['update:mode']"
-    @click:eventId="args['click:eventId']"
+    v-model:begin="args.begin"
+    v-model:end="args.end"
+  />
+</FSCol>`,
+      },
+    },
+  },
+};
+
+
+export const MonthView: Story = {
+  ...Template,
+  args: {
+    mode: 'month',
+    width: '100%',
+    height: '100%',
+    begin: null,
+    end: null,
+    events: [...generatedEvents],
+    'update:mode': action('update:mode'),
+    'update:begin': action('update:begin'),
+    'update:end': action('update:end'),
+    'click:eventId': action('click:eventId'),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<FSCol>
+  <FSAgenda 
+    v-bind="args"
+    v-model:mode="args.mode"
+    v-model:begin="args.begin"
+    v-model:end="args.end"
+  />
+</FSCol>`,
+      },
+    },
+  },
+};
+
+export const DoubleMonthView: Story = {
+  ...Template,
+  args: {
+    mode: 'month',
+    width: '100%',
+    height: '100%',
+    begin: todayStart - 86400000 * 31,
+    end: todayStart + 86400000 * 31,
+    events: [...generatedEvents],
+    'update:mode': action('update:mode'),
+    'update:begin': action('update:begin'),
+    'update:end': action('update:end'),
+    'click:eventId': action('click:eventId'),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<FSCol>
+  <FSAgenda 
+    v-bind="args"
+    v-model:mode="args.mode"
+    v-model:begin="args.begin"
+    v-model:end="args.end"
   />
 </FSCol>`,
       },

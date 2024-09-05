@@ -74,6 +74,22 @@ export const useDateFormat = () => {
     return date.toLocaleString(languageCode.value, { ...OPTIONS.shortTime, timeZone: timeZone.value });
   };
 
+  const epochToLocalDayBegin = (value: number | null | undefined): number => {
+    if (value == null || !isFinite(value)) {
+      return 0;
+    }
+    const date = new Date(value);
+    return date.setHours(0, 0, 0, 0);
+  }
+
+  const epochToLocalDayEnd = (value: number | null | undefined): number => {
+    if (value == null || !isFinite(value)) {
+      return 0;
+    }
+    const date = new Date(value);
+    return date.setHours(23, 59, 59, 999);
+  }
+
   const epochToLongTimeFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -185,6 +201,8 @@ export const useDateFormat = () => {
     epochToDayMonthLongOnly,
     epochToPicker,
     epochToPickerHeader,
+    epochToLocalDayBegin,
+    epochToLocalDayEnd,
     epochToLongDateFormat,
     epochToLongTimeFormat,
     epochToMonthYearOnlyFormat,

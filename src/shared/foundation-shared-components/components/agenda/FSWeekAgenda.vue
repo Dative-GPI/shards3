@@ -75,7 +75,7 @@
                 class="fs-agenda-week-number-label"
                 :color="weekTextColor"
               >
-                {{ weekNumber }}
+                {{ $tr('ui.common.agenda.week-short', 'W{0}',day.weekNumber) }}
               </FSText>
             </FSCol>
           </FSCard>
@@ -215,12 +215,16 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    nowIsInSelectedRange: {
-      type: Boolean,
+    begin: {
+      type: Number,
       required: true
     },
-    selectedDate: {
+    end: {
       type: Number,
+      required: true
+    },
+    nowIsInSelectedRange: {
+      type: Boolean,
       required: true
     },
     firstColumnWidth: {
@@ -236,7 +240,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  emits: ['update:begin', 'update:end', 'click:eventId'],
+  emits: ['click:eventId'],
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();
@@ -249,43 +253,33 @@ export default defineComponent({
 
     const nowHour = computed(() => new Date(props.now).getHours());
 
-    const weekNumber = computed(() => {
-      return `${$tr('ui.agenda.week.letter', 'W')}${to2Digits(epochToWeekNumber(props.selectedDate))}`;
-    });
-
     const weekDays = computed(() => {
       const daysOfWeek = [
-        $tr('ui.agenda.day.monday.short', 'MON'),
-        $tr('ui.agenda.day.tuesday.short', 'TUE'),
-        $tr('ui.agenda.day.wednesday.short', 'WED'),
-        $tr('ui.agenda.day.thursday.short', 'THU'),
-        $tr('ui.agenda.day.friday.short', 'FRI'),
-        $tr('ui.agenda.day.saturday.short', 'SAT'),
-        $tr('ui.agenda.day.sunday.short', 'SUN')
+        $tr('ui.common.agenda-day.sunday-short', 'SUN'),
+        $tr('ui.common.agenda-day.monday-short', 'MON'),
+        $tr('ui.common.agenda-day.tuesday-short', 'TUE'),
+        $tr('ui.common.agenda-day.wednesday-short', 'WED'),
+        $tr('uui.common.agenda-day.thursday-short', 'THU'),
+        $tr('ui.common.agenda-day.friday-short', 'FRI'),
+        $tr('ui.common.agenda-day.saturday-short', 'SAT')
       ];
       const weekDaysArray = [];
-      const currentDate = new Date(props.selectedDate);
-      const currentDayIndex = currentDate.getDay();
-      const monday = new Date(currentDate);
-      monday.setDate(currentDate.getDate() - (currentDayIndex === 0 ? 6 : currentDayIndex - 1));
+      const nowDate = new Date(props.now);
 
-      for (let i = 0; i < 7; i++) {
-        const day = new Date(monday);
-        day.setDate(monday.getDate() + i);
-        day.setHours(0, 0, 0, 0);
+      let currentDay = new Date(props.begin); 
+      const endDate = new Date(props.end);
+
+      while (currentDay <= endDate) {
         weekDaysArray.push({
-          dayNumber: day.getDate(),
-          dayName: daysOfWeek[i],
-          dayBeginEpoch: day.getTime(),
-          isNowDay: day.getDate() === new Date(props.now).getDate() && day.getMonth() === new Date(props.now).getMonth() && day.getFullYear() === new Date(props.now).getFullYear(),
+          dayNumber: currentDay.getDate(),
+          dayName: daysOfWeek[currentDay.getDay()],
+          dayBeginEpoch: currentDay.getTime(),
+          weekNumber: epochToWeekNumber(currentDay.getTime()),
+          isNowDay: currentDay.toDateString() === nowDate.toDateString(),
         });
-      }
 
-      emit('update:begin', monday);
-      const sundayEnd = new Date(monday);
-      sundayEnd.setDate(monday.getDate() + 6);
-      sundayEnd.setHours(23, 59, 59, 999);
-      emit('update:end', sundayEnd);
+        currentDay.setDate(currentDay.getDate() + 1);
+      }
 
       return weekDaysArray;
     });
@@ -325,7 +319,6 @@ export default defineComponent({
       style,
       nowHour,
       weekDays,
-      weekNumber,
       weekTextColor,
       getDayEvents,
       getDayLabelStyle,

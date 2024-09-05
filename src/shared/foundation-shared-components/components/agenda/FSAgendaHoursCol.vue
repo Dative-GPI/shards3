@@ -32,7 +32,7 @@
             <FSSpan
               class="fs-agenda-hours-col-text fs-agenda-hours-col-text-now"
             >
-              {{ `${to2Digits(hour)}${$tr('ui.agenda-hour-line.hour.letter', 'h')}` }}
+              {{ $tr('ui.common.hours-only', '{0}h', to2Digits(hour)) }}
             </FSSpan>
           </FSCol>
         </FSCard>
@@ -41,7 +41,7 @@
           class="fs-agenda-hours-col-text"
           :color="fontColor"
         >
-          {{ `${to2Digits(hour)}${$tr('ui.agenda-hour-line.hour.letter', 'h')}` }}
+          {{ $tr('ui.common.hours-only', '{0}h', to2Digits(hour)) }}
         </FSText>
       </FSRow>
     </FSCol>

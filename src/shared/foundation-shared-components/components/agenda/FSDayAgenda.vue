@@ -49,7 +49,7 @@
               :key="event.id"
               :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
               :now="now"
-              :dayBegin="dayBegin"
+              :dayBegin="$props.begin"
               :label="event.label"
               :start="event.start"
               :end="event.end"
@@ -145,7 +145,11 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    selectedDate: {
+    begin: {
+      type: Number,
+      required: true
+    },
+    end: {
       type: Number,
       required: true
     },
@@ -166,31 +170,17 @@ export default defineComponent({
       required: true
     },
   },
-  emits: ['update:begin', 'update:end', 'click:eventId'],
-  setup(props, { emit }) {
+  emits: ['click:eventId'],
+  setup(props) {
     const { getColors } = useColors();
 
     const lightColors = getColors(ColorEnum.Light);
 
     const nowHour = computed(() => new Date(props.now).getHours());
 
-    const dayBegin = computed(() => {
-      const dayBeginDate = new Date(props.selectedDate);
-      dayBeginDate.setHours(0, 0, 0, 0);
-      emit('update:begin', dayBeginDate);
-      return dayBeginDate.getTime();
-    });
-
-    const dayEnd = computed(() => {
-      const dayEndDate = new Date(props.selectedDate);
-      dayEndDate.setHours(23, 59, 59, 999);
-      emit('update:end', dayEndDate);
-      return dayEndDate.getTime();
-    });
-
     const dayEvents = computed(() => {
       return props.events.filter((event) => {
-        return (event.start <= dayEnd.value && event.start >= dayBegin.value) || (event.end <= dayEnd.value && event.end >= dayBegin.value);
+        return (event.start <= props.end && event.start >= props.begin) || (event.end <= props.end && event.end >= props.begin);
       });
     });
 
@@ -201,7 +191,6 @@ export default defineComponent({
     });
 
     return {
-      dayBegin,
       dayEvents,
       nowHour,
       style
