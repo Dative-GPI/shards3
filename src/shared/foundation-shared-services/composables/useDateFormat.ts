@@ -74,7 +74,7 @@ export const useDateFormat = () => {
     return date.toLocaleString(languageCode.value, { ...OPTIONS.shortTime, timeZone: timeZone.value });
   };
 
-  const epochToLocalDayBegin = (value: number | null | undefined): number => {
+  const epochToLocalDayStart = (value: number | null | undefined): number => {
     if (value == null || !isFinite(value)) {
       return 0;
     }
@@ -201,7 +201,7 @@ export const useDateFormat = () => {
     epochToDayMonthLongOnly,
     epochToPicker,
     epochToPickerHeader,
-    epochToLocalDayBegin,
+    epochToLocalDayStart,
     epochToLocalDayEnd,
     epochToLongDateFormat,
     epochToLongTimeFormat,

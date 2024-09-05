@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { action } from '@storybook/addon-actions';
 
+import { AgendaMode } from '@dative-gpi/foundation-shared-domain/enums';
 import { useDateFormat } from '@dative-gpi/foundation-shared-services/composables';
 import type { FSAgendaEvent } from '@dative-gpi/foundation-shared-components/models';
 
@@ -29,7 +30,7 @@ const meta: Meta<typeof FSAgenda> = {
   argTypes: {
     mode: {
       control: { type: 'select' },
-      options: ['day', 'week', 'month'],
+      options: [AgendaMode.Day, AgendaMode.Week, AgendaMode.Month],
       description: 'Mode of the agenda view',
     },
     events: {
@@ -49,7 +50,7 @@ const todayStart = new Date(useDateFormat().todayToEpoch()).setHours(0, 0, 0, 0)
 
 const generatedEvents: Array<FSAgendaEvent> = [];
 
-const beginHour = 8;
+const startHour = 8;
 const endHour = 16.5;
 const endMaintenance = 21;
 
@@ -60,7 +61,7 @@ for (let i = 0; i < 200; i++) {
     icon: 'mdi-home-outline',
     iconBis: 'mdi-sync',
     color: 'success',
-    start: todayStart + beginHour * 3600000 + (i - 100) * 86400000,
+    start: todayStart + startHour * 3600000 + (i - 100) * 86400000,
     end: todayStart + endHour * 3600000 + (i - 100) * 86400000
   });
 
@@ -72,7 +73,7 @@ for (let i = 0; i < 200; i++) {
       iconBis: 'mdi-sync',
       color: 'error',
       start: todayStart + endMaintenance * 3600000 + (i - 100) * 86400000,
-      end: todayStart + beginHour * 3600000 + (i - 100 + 1) * 86400000
+      end: todayStart + startHour * 3600000 + (i - 100 + 1) * 86400000
     });
     generatedEvents.push({
       id: `maintenance${i}`,
@@ -91,7 +92,7 @@ for (let i = 0; i < 200; i++) {
       iconBis: 'mdi-sync',
       color: 'error',
       start: todayStart + endHour * 3600000 + (i - 100) * 86400000,
-      end: todayStart + beginHour * 3600000 + (i - 100 + 1) * 86400000
+      end: todayStart + startHour * 3600000 + (i - 100 + 1) * 86400000
     });
   }
 }
@@ -110,10 +111,10 @@ const Template: Story = {
         <FSAgenda 
           v-bind="args"
           v-model:mode="args.mode"
-          v-model:begin="args.begin"
+          v-model:start="args.start"
           v-model:end="args.end"
           @update:mode="args['update:mode']"
-          @update:begin="args['update:begin']"
+          @update:start="args['update:start']"
           @update:end="args['update:end']"
           @click:eventId="args['click:eventId']"
         />
@@ -126,13 +127,13 @@ const Template: Story = {
 export const Default: Story = {
   ...Template,
   args: {
-    mode: 'week',
+    mode: AgendaMode.Week,
     height: '800px',
     width: '100%',
     loading: false,
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
-    'update:begin': action('update:begin'),
+    'update:start': action('update:start'),
     'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
@@ -144,7 +145,7 @@ export const Default: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    v-model:begin="args.begin"
+    v-model:start="args.start"
     v-model:end="args.end"
   />
 </FSCol>`,
@@ -156,12 +157,12 @@ export const Default: Story = {
 export const DayView: Story = {
   ...Template,
   args: {
-    mode: 'day',
+    mode: AgendaMode.Day,
     width: '100%',
     height: '100%',
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
-    'update:begin': action('update:begin'),
+    'update:start': action('update:start'),
     'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
@@ -173,7 +174,7 @@ export const DayView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    v-model:begin="args.begin"
+    v-model:start="args.start"
     v-model:end="args.end"
   />
 </FSCol>`,
@@ -185,12 +186,12 @@ export const DayView: Story = {
 export const WeekView: Story = {
   ...Template,
   args: {
-    mode: 'week',
+    mode: AgendaMode.Week,
     width: '100%',
     height: '100%',
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
-    'update:begin': action('update:begin'),
+    'update:start': action('update:start'),
     'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
@@ -202,7 +203,7 @@ export const WeekView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    v-model:begin="args.begin"
+    v-model:start="args.start"
     v-model:end="args.end"
   />
 </FSCol>`,
@@ -214,14 +215,14 @@ export const WeekView: Story = {
 export const DoubleWeekView: Story = {
   ...Template,
   args: {
-    mode: 'week',
+    mode: AgendaMode.Week,
     width: '100%',
     height: '100%',
-    begin: todayStart - 86400000 * 7,
+    start: todayStart - 86400000 * 7,
     end: todayStart + 86400000 * 7,
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
-    'update:begin': action('update:begin'),
+    'update:start': action('update:start'),
     'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
@@ -233,7 +234,7 @@ export const DoubleWeekView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    v-model:begin="args.begin"
+    v-model:start="args.start"
     v-model:end="args.end"
   />
 </FSCol>`,
@@ -246,14 +247,14 @@ export const DoubleWeekView: Story = {
 export const MonthView: Story = {
   ...Template,
   args: {
-    mode: 'month',
+    mode: AgendaMode.Month,
     width: '100%',
     height: '100%',
-    begin: null,
+    start: null,
     end: null,
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
-    'update:begin': action('update:begin'),
+    'update:start': action('update:start'),
     'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
@@ -265,7 +266,7 @@ export const MonthView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    v-model:begin="args.begin"
+    v-model:start="args.start"
     v-model:end="args.end"
   />
 </FSCol>`,
@@ -277,14 +278,14 @@ export const MonthView: Story = {
 export const DoubleMonthView: Story = {
   ...Template,
   args: {
-    mode: 'month',
+    mode: AgendaMode.Month,
     width: '100%',
     height: '100%',
-    begin: todayStart - 86400000 * 31,
+    start: todayStart - 86400000 * 31,
     end: todayStart + 86400000 * 31,
     events: [...generatedEvents],
     'update:mode': action('update:mode'),
-    'update:begin': action('update:begin'),
+    'update:start': action('update:start'),
     'update:end': action('update:end'),
     'click:eventId': action('click:eventId'),
   },
@@ -296,7 +297,7 @@ export const DoubleMonthView: Story = {
   <FSAgenda 
     v-bind="args"
     v-model:mode="args.mode"
-    v-model:begin="args.begin"
+    v-model:start="args.start"
     v-model:end="args.end"
   />
 </FSCol>`,

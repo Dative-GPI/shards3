@@ -5,11 +5,11 @@
     gap="24px"
   >
     <FSAgendaHeader
-      :mode="$props.mode"
-      :begin="begin"
+      :mode="$props.mode!"
+      :start="start"
       :end="end"
       :now="now"
-      @update:begin="($event) => $emit('update:begin', $event)"
+      @update:start="($event) => $emit('update:start', $event)"
       @update:end="($event) => $emit('update:end', $event)"
       @update:mode="($event) => $emit('update:mode', $event)"
     />
@@ -20,15 +20,15 @@
     >
       <FSWindow
         v-if="$props.mode"
-        :modelValue="modeValues[$props.mode]"
+        :modelValue="$props.mode"
         width="100%"
         height="100%"
       >
         <FSDayAgenda
-          :value="modeValues.day"
+          :value="AgendaMode.Day"
           :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
-          :begin="begin"
+          :start="start"
           :end="end"
           :now="now"
           :nowIsInSelectedRange="nowIsInSelectedRange"
@@ -41,10 +41,10 @@
           />
         </FSDayAgenda>
         <FSWeekAgenda
-          :value="modeValues.week"
+          :value="AgendaMode.Week"
           :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
-          :begin="begin"
+          :start="start"
           :end="end"
           :now="now"
           :nowIsInSelectedRange="nowIsInSelectedRange"
@@ -57,10 +57,10 @@
           />
         </FSWeekAgenda>
         <FSMonthAgenda
-          :value="modeValues.month"
+          :value="AgendaMode.Month"
           :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
-          :begin="begin"
+          :start="start"
           :end="end"
           :now="now"
           :nowIsInSelectedRange="nowIsInSelectedRange"
@@ -84,41 +84,34 @@ import { useDateFormat } from "@dative-gpi/foundation-shared-services/composable
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
 import type { FSAgendaEvent } from "@dative-gpi/foundation-shared-components/models";
+import { AgendaMode } from '@dative-gpi/foundation-shared-domain/enums/agendas';
 
 import FSAgendaVerticalTimeLineMarker from './FSAgendaVerticalTimeLineMarker.vue';
-import FSAgendaDialogCalendar from './FSAgendaDialogCalendar.vue';
 import FSMonthAgenda from './FSMonthAgenda.vue';
 import FSWeekAgenda from './FSWeekAgenda.vue';
 import FSDayAgenda from './FSDayAgenda.vue';
-import FSSelectAgendaMode from './FSSelectAgendaMode.vue';
 import FSAgendaHorizontalTimeLineMarker from './FSAgendaHorizontalTimeLineMarker.vue';
 import FSAgendaHeader from './FSAgendaHeader.vue';
-
 import FSWindow from '../FSWindow.vue';
 import FSCol from '../FSCol.vue';
-import FSButton from '../FSButton.vue';
-import FSRow from '../FSRow.vue';
+
 
 export default defineComponent({
   name: 'FSAgenda',
   components: {
-    FSAgendaDialogCalendar,
     FSAgendaHeader,
     FSAgendaHorizontalTimeLineMarker,
     FSAgendaVerticalTimeLineMarker,
-    FSButton,
     FSCol,
     FSDayAgenda,
-    FSMonthAgenda,
-    FSRow,
-    FSSelectAgendaMode,    
+    FSMonthAgenda,  
     FSWeekAgenda,
     FSWindow
   },
   props: {
     mode: {
-      type: String as PropType<'day' | 'week' | 'month'>,
-      default: 'week',
+      type: Number as PropType<AgendaMode>,
+      default: AgendaMode.Week
     },
     height: {
       type: [Array, String, Number] as PropType<"hug" | "fill" | string[] | number[] | string | number | null>,
@@ -138,7 +131,7 @@ export default defineComponent({
       type: Array as PropType<FSAgendaEvent[]>,
       default: () => []
     },
-    begin: {
+    start: {
       type: Number as PropType<number | null>,
       required: false
     },
@@ -147,9 +140,9 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ['update:mode', 'click:eventId', 'update:begin', 'update:end'],
+  emits: ['update:mode', 'click:eventId', 'update:start', 'update:end'],
   setup(props, { emit }) {
-    const { todayToEpoch, epochToLocalDayBegin, epochToLocalDayEnd } = useDateFormat();
+    const { todayToEpoch, epochToLocalDayStart, epochToLocalDayEnd } = useDateFormat();
     const { isExtraSmall } = useBreakpoints();
 
     const dayColumnWidth = '46px';
@@ -157,30 +150,24 @@ export default defineComponent({
     const now = ref(todayToEpoch());
     const defaultMode = ref(props.mode);
 
-    const modeValues = {
-      'day': 1,
-      'week': 2,
-      'month': 3,
-    }
-
-    const begin = computed<number>(() => {
-      if (props.begin) {
-        return props.begin;
-      }else if (props.mode === 'week') {
-        return epochToLocalDayBegin(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000);
-      } else if (props.mode === 'month') {
-        return epochToLocalDayBegin(new Date(now.value).setDate(1));
+    const start = computed<number>(() => {
+      if (props.start) {
+        return props.start;
+      }else if (props.mode === AgendaMode.Week) {
+        return epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000);
+      } else if (props.mode === AgendaMode.Month) {
+        return epochToLocalDayStart(new Date(now.value).setDate(1));
       } else {
-        return epochToLocalDayBegin(now.value);
+        return epochToLocalDayStart(now.value);
       }
     });
 
     const end = computed<number>(() => {
       if (props.end) {
         return props.end;
-      } else if (props.mode === 'week') {
+      } else if (props.mode === AgendaMode.Week) {
         return epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000);
-      } else if (props.mode === 'month') {
+      } else if (props.mode === AgendaMode.Month) {
         const lastDayOfMonth = new Date(new Date(now.value).getFullYear(), new Date(now.value).getMonth() + 1, 0);
         return epochToLocalDayEnd(lastDayOfMonth.getTime());
       } else {
@@ -189,7 +176,7 @@ export default defineComponent({
     });
 
     const nowIsInSelectedRange = computed(() => {
-      return now.value >= begin.value && now.value <= end.value;
+      return now.value >= start.value && now.value <= end.value;
     });
 
     const nowInterval = setInterval(() => {
@@ -201,18 +188,18 @@ export default defineComponent({
     });
 
     watch(isExtraSmall, (value) => {
-      if (value && props.mode !== 'day') {
-        emit('update:mode', 'day');
-      } else if (!value && defaultMode.value !== 'day') {
+      if (value && props.mode !== AgendaMode.Day) {
+        emit('update:mode', AgendaMode.Day);
+      } else if (!value && defaultMode.value !== AgendaMode.Day) {
         emit('update:mode', defaultMode.value);
       }
     }, {immediate: true});
 
     return {
-      begin,
+      AgendaMode,
+      start,
       dayColumnWidth,
       end,
-      modeValues,
       now,
       nowIsInSelectedRange
     };

@@ -110,11 +110,11 @@
             align="center-left"
           >
             <FSAgendaHorizontalEvent
-              v-for="event in getDayEvents(day.dayBeginEpoch)"
+              v-for="event in getDayEvents(day.dayStartEpoch)"
               :key="event.id"
               :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
               :now="now"
-              :dayBegin="day.dayBeginEpoch"
+              :dayStart="day.dayStartEpoch"
               :label="event.label"
               :start="event.start"
               :end="event.end"
@@ -215,7 +215,7 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    begin: {
+    start: {
       type: Number,
       required: true
     },
@@ -241,7 +241,7 @@ export default defineComponent({
     }
   },
   emits: ['click:eventId'],
-  setup(props, { emit }) {
+  setup(props) {
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();
     const { epochToWeekNumber } = useDateFormat();
@@ -266,14 +266,14 @@ export default defineComponent({
       const weekDaysArray = [];
       const nowDate = new Date(props.now);
 
-      let currentDay = new Date(props.begin); 
+      let currentDay = new Date(props.start); 
       const endDate = new Date(props.end);
 
       while (currentDay <= endDate) {
         weekDaysArray.push({
           dayNumber: currentDay.getDate(),
           dayName: daysOfWeek[currentDay.getDay()],
-          dayBeginEpoch: currentDay.getTime(),
+          dayStartEpoch: currentDay.getTime(),
           weekNumber: epochToWeekNumber(currentDay.getTime()),
           isNowDay: currentDay.toDateString() === nowDate.toDateString(),
         });
@@ -307,10 +307,10 @@ export default defineComponent({
       };
     };
 
-    const getDayEvents = (dayBeginEpoch: number) => {
+    const getDayEvents = (dayStartEpoch: number) => {
       return props.events.filter((event) => {
-        const isStartingInDay = event.start >= dayBeginEpoch && event.start < (dayBeginEpoch + 1000 * 60 * 60 * 24);
-        const isEndingInDay = event.end >= dayBeginEpoch && event.end < (dayBeginEpoch + 1000 * 60 * 60 * 24);
+        const isStartingInDay = event.start >= dayStartEpoch && event.start < (dayStartEpoch + 1000 * 60 * 60 * 24);
+        const isEndingInDay = event.end >= dayStartEpoch && event.end < (dayStartEpoch + 1000 * 60 * 60 * 24);
         return isStartingInDay || isEndingInDay;
       });
     };

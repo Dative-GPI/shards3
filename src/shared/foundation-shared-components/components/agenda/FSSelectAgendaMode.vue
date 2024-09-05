@@ -20,6 +20,7 @@
 import { defineComponent, type PropType } from 'vue';
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
+import { AgendaMode } from '@dative-gpi/foundation-shared-domain/enums/agendas';
 
 import FSSelectField from '../fields/FSSelectField.vue';
 import FSIcon from '../FSIcon.vue';
@@ -32,8 +33,8 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: String as PropType<'week' | 'month'>,
-      default: 'week',
+      type: Number as PropType<AgendaMode>,
+      default: AgendaMode.Week,
     },
   },
   emits: ['update:modelValue'],
@@ -41,8 +42,8 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const items = [
-      { id: 'week', label: $tr('ui.agenda.week', 'Week'), icon: 'mdi-calendar-week' },
-      { id: 'month', label: $tr('ui.agenda.month', 'Month'), icon: 'mdi-calendar-month' },
+      { id: AgendaMode.Week, label: $tr('ui.agenda.week', 'Week'), icon: 'mdi-calendar-week' },
+      { id: AgendaMode.Month, label: $tr('ui.agenda.month', 'Month'), icon: 'mdi-calendar-month' },
     ];
 
     return {

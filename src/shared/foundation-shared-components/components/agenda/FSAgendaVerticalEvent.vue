@@ -4,7 +4,7 @@
     :key="$props.id"
     variant="future"
     :now="$props.now"
-    :dayBegin="$props.dayBegin"
+    :dayStart="$props.dayStart"
     :label="$props.label"
     :start="$props.start"
     :end="$props.end"
@@ -29,7 +29,7 @@
     </template>
   </FSAgendaVerticalEvent>
   <FSClickable
-    v-if="$props.variant !== 'current' || $props.dayBegin < $props.now"
+    v-if="$props.variant !== 'current' || $props.dayStart < $props.now"
     :class="`fs-agenda-event fs-agenda-vertical-event fs-agenda-event-${$props.variant}`"
     :variant="$props.variant === 'current' ? 'full' : 'standard'"
     :style="style"
@@ -44,8 +44,8 @@
       :label="label"
       :icon="icon"
       :iconBis="iconBis"
-      :timeStart="timeStart"
-      :timeEnd="timeEnd"
+      :timeStart="epochToShortTimeOnlyFormat($props.start)"
+      :timeEnd="epochToShortTimeOnlyFormat($props.end)"
       :variant="$props.variant"
     />
   </FSClickable>
@@ -97,7 +97,7 @@ export default defineComponent({
       type: String,
       required: true
     },
-    dayBegin: {
+    dayStart: {
       type: Number,
       required: true
     },
@@ -110,30 +110,22 @@ export default defineComponent({
     const { dayToMillisecond, epochToShortTimeOnlyFormat, millisecondToDay } = useDateFormat();
 
     const dayEnd = computed(() => {
-      return new Date(props.dayBegin).setHours(23, 59, 59, 999);
+      return new Date(props.dayStart).setHours(23, 59, 59, 999);
     });
 
     const dayDuration = computed(() => {
-      return dayEnd.value - props.dayBegin;
+      return dayEnd.value - props.dayStart;
     });
 
     const dayDurationOffset = computed(() => {
       return dayDuration.value - dayToMillisecond(1);
     });
 
-    const timeStart = computed(() => {
-      return epochToShortTimeOnlyFormat(props.start);
-    });
-
-    const timeEnd = computed(() => {
-      return epochToShortTimeOnlyFormat(props.end);
-    });
-
     const topPosition = computed(() => {
-      if (props.start < props.dayBegin) {
+      if (props.start < props.dayStart) {
         return 0;
       }
-      return millisecondToDay(props.start - props.dayBegin - dayDurationOffset.value) * 100;
+      return millisecondToDay(props.start - props.dayStart - dayDurationOffset.value) * 100;
     });
 
     const height = computed(() => {
@@ -144,8 +136,8 @@ export default defineComponent({
       } else if (props.end > dayEnd.value) {
         end = dayEnd.value - dayDurationOffset.value;
       }
-      if (props.start < props.dayBegin) {
-        start = props.dayBegin;
+      if (props.start < props.dayStart) {
+        start = props.dayStart;
       }
       
       const duration = millisecondToDay(end - start);
@@ -160,9 +152,8 @@ export default defineComponent({
 
     return {
       style,
-      timeEnd,
-      timeStart,
-      height
+      height,
+      epochToShortTimeOnlyFormat
     };
   }
 });

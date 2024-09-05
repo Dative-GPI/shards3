@@ -3,7 +3,7 @@
     align="center-center"
   >
     <template 
-      v-if="$props.mode !== 'day'"
+      v-if="$props.mode !== AgendaMode.Day"
     >
       <FSRow
         align="center-left"
@@ -19,7 +19,7 @@
           width="180px"
           color="primary"
           :border="false"
-          :label="beginMonthYear"
+          :label="epochToMonthYearOnlyFormat($props.start)"
           @click="showCalendarDialog = true"
         />
         <FSButton
@@ -28,8 +28,12 @@
           @click="onNext"
         />
       </FSRow>
-      <FSRow align="center-right">
-        <FSRow width="hug">
+      <FSRow
+        align="center-right"
+      >
+        <FSRow
+          width="hug"
+        >
           <FSSelectAgendaMode
             :modelValue="$props.mode"
             :hideHeader="true"
@@ -43,7 +47,9 @@
         </FSRow>
       </FSRow>
     </template>
-    <FSCol v-else>
+    <FSCol
+      v-else
+    >
       <FSButton
         prependIcon="mdi-calendar-today-outline"
         :label="$tr('ui.agenda.today', 'Today')"
@@ -64,7 +70,7 @@
           width="100%"
           color="primary"
           :border="false"
-          :label="beginDayMonthYear"
+          :label="epochToDayMonthLongOnly($props.start)"
           @click="showCalendarDialog = true"
         />
         <FSButton
@@ -77,15 +83,17 @@
   </FSRow>
   <FSAgendaDialogCalendar
     v-model:dialog="showCalendarDialog"
-    :modelValue="$props.begin"
+    :modelValue="$props.start"
     @update:modelValue="updateDateRange($event)"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, computed, ref } from 'vue';
+import { defineComponent, type PropType, ref } from 'vue';
 
 import { useDateFormat } from '@dative-gpi/foundation-shared-services/composables';
+
+import { AgendaMode } from '@dative-gpi/foundation-shared-domain/enums/agendas';
 
 import FSCol from '../FSCol.vue';
 import FSRow from '../FSRow.vue';
@@ -104,10 +112,10 @@ export default defineComponent({
   },
   props: {
     mode: {
-      type: String as PropType<'day' | 'week' | 'month'>,
-      default: 'week',
+      type: Number as PropType<AgendaMode>,
+      required: true
     },
-    begin: {
+    start: {
       type: Number,
       required: true
     },
@@ -120,35 +128,24 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['update:begin', 'update:end', 'update:mode'],
+  emits: ['update:start', 'update:end', 'update:mode'],
   setup(props, { emit }) {
-    const { epochToMonthYearOnlyFormat, epochToDayMonthLongOnly, epochToLocalDayBegin, epochToLocalDayEnd } = useDateFormat();
-
+    const { epochToMonthYearOnlyFormat, epochToDayMonthLongOnly, epochToLocalDayStart, epochToLocalDayEnd } = useDateFormat();
 
     const showCalendarDialog = ref(false);
 
-    const beginMonthYear = computed(() => {
-      if (!props.begin) { return ''; }
-      return epochToMonthYearOnlyFormat(props.begin);
-    });
-
-    const beginDayMonthYear = computed(() => {
-      if (!props.begin) { return ''; }
-      return epochToDayMonthLongOnly(props.begin);
-    });
-
-    const updateDateRange = (dayBegin: number) => {
-      const newBegin = epochToLocalDayBegin(dayBegin);
-      if (props.mode === 'week') {
-        emit('update:begin', newBegin);
-        emit('update:end', epochToLocalDayEnd(newBegin + (7 - new Date(newBegin).getDay()) * 24 * 60 * 60 * 1000));
-      } else if (props.mode === 'month') {
-        emit('update:begin', newBegin);
-        const lastDayOfMonth = new Date(new Date(newBegin).getFullYear(), new Date(newBegin).getMonth() + 1, 0);
+    const updateDateRange = (dayStart: number) => {
+      const newStart = epochToLocalDayStart(dayStart);
+      if (props.mode === AgendaMode.Week) {
+        emit('update:start', newStart);
+        emit('update:end', epochToLocalDayEnd(newStart + (7 - new Date(newStart).getDay()) * 24 * 60 * 60 * 1000));
+      } else if (props.mode === AgendaMode.Month) {
+        emit('update:start', newStart);
+        const lastDayOfMonth = new Date(new Date(newStart).getFullYear(), new Date(newStart).getMonth() + 1, 0);
         emit('update:end', epochToLocalDayEnd(lastDayOfMonth.getTime()));
-      } else if (props.mode === 'day') {
-        emit('update:begin', newBegin);
-        emit('update:end', epochToLocalDayEnd(newBegin));
+      } else if (props.mode === AgendaMode.Day) {
+        emit('update:start', newStart);
+        emit('update:end', epochToLocalDayEnd(newStart));
       }
     }
 
@@ -157,29 +154,30 @@ export default defineComponent({
     }
 
     const onPrevious = () => {
-      if (props.mode === 'week') {
-        updateDateRange(props.begin - 7 * 24 * 60 * 60 * 1000);
-      } else if (props.mode === 'month') {
-        updateDateRange(new Date(props.begin).setMonth(new Date(props.begin).getMonth() - 1));
-      } else if (props.mode === 'day') {
-        updateDateRange(props.begin - 24 * 60 * 60 * 1000);
+      if (props.mode === AgendaMode.Week) {
+        updateDateRange(props.start - 7 * 24 * 60 * 60 * 1000);
+      } else if (props.mode === AgendaMode.Month) {
+        updateDateRange(new Date(props.start).setMonth(new Date(props.start).getMonth() - 1));
+      } else if (props.mode === AgendaMode.Day) {
+        updateDateRange(props.start - 24 * 60 * 60 * 1000);
       }
     }
 
     const onToday = () => {
-      if (props.mode === 'week') {
+      if (props.mode === AgendaMode.Week) {
         updateDateRange(props.now - (new Date(props.now).getDay() - 1) * 24 * 60 * 60 * 1000);
-      } else if (props.mode === 'month') {
+      } else if (props.mode === AgendaMode.Month) {
         updateDateRange(new Date(props.now).setDate(1));
-      } else if (props.mode === 'day') {
+      } else if (props.mode === AgendaMode.Day) {
         updateDateRange(props.now);
       }
     }
 
     return {
-      beginDayMonthYear,
-      beginMonthYear,
+      AgendaMode,
       showCalendarDialog,
+      epochToDayMonthLongOnly,
+      epochToMonthYearOnlyFormat,
       onNext,
       onPrevious,
       onToday,

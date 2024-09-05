@@ -49,7 +49,7 @@
               :key="event.id"
               :variant="event.end < now ? 'past' : event.start > now ? 'future' : 'current'"
               :now="now"
-              :dayBegin="$props.begin"
+              :dayStart="$props.start"
               :label="event.label"
               :start="event.start"
               :end="event.end"
@@ -145,7 +145,7 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    begin: {
+    start: {
       type: Number,
       required: true
     },
@@ -180,7 +180,7 @@ export default defineComponent({
 
     const dayEvents = computed(() => {
       return props.events.filter((event) => {
-        return (event.start <= props.end && event.start >= props.begin) || (event.end <= props.end && event.end >= props.begin);
+        return (event.start <= props.end && event.start >= props.start) || (event.end <= props.end && event.end >= props.start);
       });
     });
 
