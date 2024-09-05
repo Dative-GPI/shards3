@@ -240,7 +240,40 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     },
     {
         id: "6",
-        code: "dashboards2",
+        code: "dashboards1",
+        mode: "table",
+        rowsPerPage: 10,
+        columns: [{
+            columnId: "1",
+            text: "Label",
+            value: "label",
+            index: 0,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "2",
+            text: "Icon",
+            value: "icon",
+            index: 1,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "3",
+            text: "Main dashboard",
+            value: "main",
+            index: 2,
+            hidden: false,
+            sortable: false,
+            filterable: true
+        }],
+        sortByKey: null,
+        sortByOrder: null
+    },
+    {
+        id: "7",
+        code: "folders1",
         mode: "table",
         rowsPerPage: 10,
         columns: [{
