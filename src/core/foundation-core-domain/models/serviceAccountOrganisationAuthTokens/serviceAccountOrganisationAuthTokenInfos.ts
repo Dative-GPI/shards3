@@ -1,4 +1,4 @@
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class ServiceAccountOrganisationAuthTokenInfos {
   id: string;
@@ -12,8 +12,8 @@ export class ServiceAccountOrganisationAuthTokenInfos {
     this.id = params.id;
     this.serviceAccountOrganisationId = params.serviceAccountOrganisationId;
     this.label = params.label;
-    this.creationDate = utcToEpoch(params.creationDate);
-    this.dateMax = utcToEpoch(params.dateMax);
+    this.creationDate = isoToEpoch(params.creationDate);
+    this.dateMax = isoToEpoch(params.dateMax);
     this.token = params.token;
   }
 }

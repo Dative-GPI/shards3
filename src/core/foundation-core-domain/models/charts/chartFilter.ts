@@ -2,7 +2,7 @@ import type { ChartFilterValueDTO, CreateChartFilterValueDTO } from "./chartFilt
 import { ChartFilterValue } from "./chartFilterValue";
 import type { ChartFilterTranslationDTO } from "./chartFilterTranslation";
 import { ChartFilterTranslation } from "./chartFilterTranslation";
-import type { FilterType } from "../enums/sharedEnums";
+import type { FilterType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ChartFilter {
   id: string;

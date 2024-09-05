@@ -1,10 +1,10 @@
-import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/models";
+import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/enums";
 
 import type { ScenarioOrganisationInfosDTO } from "./scenarioOrganisationInfos";
 import { ScenarioOrganisationInfos } from "./scenarioOrganisationInfos";
 import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
 import { TimeRange } from "../shared/timeRange";
-import { ScenarioParameter, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
+import { ScenarioParameter, type CreateScenarioChartDTO, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
 import { ScenarioTranslation } from "../scenarios";
 
 export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
@@ -107,6 +107,8 @@ export interface CreateScenarioOrganisationDTO {
   alertCode: string;
   alertIcon: string;
   alertTags: string[];
+  chartStartDate: string;
+  chartEndDate: string;
   timeRanges: CreateTimeRangeDTO[];
   triggerOn: number;
   triggerCondition: string;
@@ -117,6 +119,7 @@ export interface CreateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  charts: CreateScenarioChartDTO[];
   parameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }
@@ -133,6 +136,8 @@ export interface UpdateScenarioOrganisationDTO {
   code: string;
   icon: string;
   tags: string[];
+  chartStartDate: string;
+  chartEndDate: string;
   alertLabelDefault: string;
   alertDescriptionDefault: string;
   alertCode: string;
@@ -148,6 +153,7 @@ export interface UpdateScenarioOrganisationDTO {
   timeout: number | null;
   lock: number | null;
   waitResolved: boolean;
+  charts: CreateScenarioChartDTO[];
   parameters: CreateScenarioParameterDTO[];
   translations: ScenarioTranslationDTO[];
 }

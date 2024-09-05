@@ -1,3 +1,5 @@
+import type { AutoRefresh } from "@dative-gpi/foundation-shared-domain/enums";
+
 import type { DashboardDatePresetTranslationDTO } from "./dashboardDatePresetTranslation";
 
 export interface CreateDashboardDatePresetDTO {
@@ -6,6 +8,6 @@ export interface CreateDashboardDatePresetDTO {
   startDate: string;
   endDate: string;
   useAutoRefresh: boolean;
-  autoRefresh: number;
+  autoRefresh: AutoRefresh;
   translations: DashboardDatePresetTranslationDTO[];
 }

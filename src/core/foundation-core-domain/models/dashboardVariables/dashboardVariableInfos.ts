@@ -1,4 +1,4 @@
-import type { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/models";
+import type { DashboardVariableType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { DashboardVariableTranslation, type DashboardVariableTranslationDTO } from "./dashboardVariableTranslation";
 import { DashboardVariableValue, type DashboardVariableValueDTO } from "../dashboardVariableValues";

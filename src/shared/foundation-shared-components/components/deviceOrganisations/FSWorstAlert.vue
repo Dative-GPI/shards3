@@ -31,7 +31,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, ref } from "vue";
 
-import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
+import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/enums";
 import type { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 

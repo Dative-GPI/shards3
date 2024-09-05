@@ -1,6 +1,6 @@
 import type { DataDefinitionMappingInfosDTO } from "../dataDefinitionMappings/dataDefinitionMappingInfos";
 import { DataDefinitionMappingInfos } from "../dataDefinitionMappings/dataDefinitionMappingInfos";
-import type { DataTable } from "../enums/sharedEnums";
+import type { DataTable } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class DataDefinitionInfos {
   id: string;

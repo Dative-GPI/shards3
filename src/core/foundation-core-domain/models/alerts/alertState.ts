@@ -1,5 +1,5 @@
-import { type AlertStatus } from "@dative-gpi/foundation-shared-domain/models";
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { type AlertStatus } from "@dative-gpi/foundation-shared-domain/enums";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { AlertDataDefinition, type AlertDataDefinitionDTO } from "./alertDataDefinition";
 
@@ -14,9 +14,9 @@ export class AlertState {
   constructor(params: AlertStateDTO) {
     this.id = params.id;
     this.status = params.status;
-    this.sourceTimestamp = utcToEpoch(params.sourceTimestamp);
-    this.enqueuedTimestamp = utcToEpoch(params.enqueuedTimestamp);
-    this.processedTimestamp = utcToEpoch(params.processedTimestamp);
+    this.sourceTimestamp = isoToEpoch(params.sourceTimestamp);
+    this.enqueuedTimestamp = isoToEpoch(params.enqueuedTimestamp);
+    this.processedTimestamp = isoToEpoch(params.processedTimestamp);
     this.metadataValues = params.metadataValues?.map(dto => new AlertDataDefinition(dto));
   }
 }

@@ -117,7 +117,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch, onUnmounted } from "vue";
+import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch, onUnmounted, markRaw } from "vue";
 
 import type {} from "leaflet.markercluster";
 import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, LatLngBounds, type FitBoundsOptions } from "leaflet";
@@ -361,7 +361,7 @@ export default defineComponent({
         maxBoundsViscosity: 1.0
       };
 
-      map.value = createMap(leafletContainer.value, mapOptions);
+      map.value = markRaw(createMap(leafletContainer.value, mapOptions));
       setView(props.center[0], props.center[1], defaultZoom);
       
       map.value.on('click', (e: L.LeafletMouseEvent) => {

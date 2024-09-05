@@ -50,7 +50,7 @@ export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
   }
 };
 
-export const utcToEpoch = (value: string): number => {
+export const isoToEpoch = (value: string): number => {
   return parse(value.substring(0, 19) + "Z", ISO_FORMAT + "X", new Date()).getTime();
 };
 

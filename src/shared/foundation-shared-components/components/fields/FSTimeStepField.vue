@@ -55,7 +55,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import type { TimeUnit } from "@dative-gpi/foundation-shared-domain/models";
+import type { TimeUnit } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { timeSteps } from "@dative-gpi/foundation-shared-components/utils";
@@ -131,14 +131,14 @@ export default defineComponent({
       return Object.keys(slots).filter(k => k.startsWith("number-")).reduce((acc, key) => {
         acc[key.substring("number-".length)] = slots[key];
         return acc;
-      }, {});
+      }, {} as {[index: string]: any});
     });
 
     const selectSlots = computed((): any => {
       return Object.keys(slots).filter(k => k.startsWith("select-")).reduce((acc, key) => {
         acc[key.substring("select-".length)] = slots[key];
         return acc;
-      }, {});
+      }, {} as {[index: string]: any});
     });
 
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));

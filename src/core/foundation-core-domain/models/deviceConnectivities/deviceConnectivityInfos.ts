@@ -1,5 +1,5 @@
-import type { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/models";
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import type { ConnectivityStatus } from "@dative-gpi/foundation-shared-domain/enums";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class DeviceConnectivityInfos {
   id: string;
@@ -13,11 +13,11 @@ export class DeviceConnectivityInfos {
   constructor(params: DeviceConnectivityInfosDTO) {
     this.id = params.id;
     this.sourceTimestamp = params.sourceTimestamp ?
-      utcToEpoch(params.sourceTimestamp) : null;
+      isoToEpoch(params.sourceTimestamp) : null;
     this.enqueuedTimestamp = params.enqueuedTimestamp ?
-      utcToEpoch(params.enqueuedTimestamp) : null;
+      isoToEpoch(params.enqueuedTimestamp) : null;
     this.processedTimestamp = params.processedTimestamp ?
-      utcToEpoch(params.processedTimestamp) : null;
+      isoToEpoch(params.processedTimestamp) : null;
     this.status = params.status;
     this.icon = params.icon;
     this.color = params.color;

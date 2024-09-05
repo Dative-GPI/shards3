@@ -60,7 +60,7 @@ import { computed, defineComponent, type PropType } from "vue";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import type { FSDeviceAlert} from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/models";
+import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/enums";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSButton from "../FSButton.vue";

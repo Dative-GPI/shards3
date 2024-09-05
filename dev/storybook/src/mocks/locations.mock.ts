@@ -6,6 +6,7 @@ export const LOCATIONS: LocationInfosDTO[] = [{
     code: "location.1",
     icon: "mdi-numeric-1-circle-outline",
     label: "Location 1",
+    color: "#FF0000",
     tags: [],
     address: {
         placeId: "1",
@@ -26,6 +27,7 @@ export const LOCATIONS: LocationInfosDTO[] = [{
     code: "location.2",
     icon: "mdi-numeric-2-circle-outline",
     label: "Location 2",
+    color: "#00FF00",
     tags: [],
     address: {
         placeId: "2",
@@ -46,6 +48,7 @@ export const LOCATIONS: LocationInfosDTO[] = [{
     code: "location.3",
     icon: "mdi-numeric-3-circle-outline",
     label: "Location 3",
+    color: "#0000FF",
     tags: [],
     address: {
         placeId: "3",

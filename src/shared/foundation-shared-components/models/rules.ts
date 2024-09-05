@@ -3,7 +3,7 @@ import { useDateFormat } from "@dative-gpi/foundation-shared-services/composable
 import { validateExpression } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { getTimeBestString } from "../utils";
-import type { TimeUnit } from "@/shared/foundation-shared-domain";
+import type { TimeUnit } from "@/shared/foundation-shared-domain/enums";
 
 const { epochToLongDateFormat } = useDateFormat()!;
 const { $tr } = useTranslationsProvider();

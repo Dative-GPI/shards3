@@ -37,6 +37,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    align: {
+      type: String as PropType<"left" | "center" | "right">,
+      required: false,
+      default: "left"
     }
   },
   setup(props) {

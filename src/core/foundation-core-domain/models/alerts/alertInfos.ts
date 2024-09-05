@@ -1,9 +1,9 @@
-import { type AlertStatus, type Criticity } from "@dative-gpi/foundation-shared-domain/models";
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { type AlertStatus, type Criticity } from "@dative-gpi/foundation-shared-domain/enums";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { AlertDataDefinition, type AlertDataDefinitionDTO } from "./alertDataDefinition";
 import { AlertState, type AlertStateDTO } from "./alertState";
-import { type SelectedEntities } from "../enums/sharedEnums";
+import { type EntityType } from "@dative-gpi/foundation-shared-domain/enums";
 import { type DateVariable } from "../shared/dateVariable";
 
 export class AlertInfos {
@@ -55,21 +55,21 @@ export class AlertInfos {
     this.acknowledgingUserName = params.acknowledgingUserName;
     this.acknowledgingUserImageId = params.acknowledgingUserImageId;
     this.acknowledgingTimestamp = params.acknowledgingTimestamp ?
-      utcToEpoch(params.acknowledgingTimestamp) : null;
+      isoToEpoch(params.acknowledgingTimestamp) : null;
     this.initialState = new AlertState(params.initialState);
     this.triggerSourceTimestamp = params.triggerSourceTimestamp ?
-      utcToEpoch(params.triggerSourceTimestamp) : null;
+      isoToEpoch(params.triggerSourceTimestamp) : null;
     this.triggerEnqueuedTimestamp = params.triggerEnqueuedTimestamp ?
-      utcToEpoch(params.triggerEnqueuedTimestamp) : null;
+      isoToEpoch(params.triggerEnqueuedTimestamp) : null;
     this.triggerProcessedTimestamp = params.triggerProcessedTimestamp ?
-      utcToEpoch(params.triggerProcessedTimestamp) : null;
+      isoToEpoch(params.triggerProcessedTimestamp) : null;
     this.lastState = new AlertState(params.lastState);
     this.currentSourceTimestamp = params.currentSourceTimestamp ?
-      utcToEpoch(params.currentSourceTimestamp) : null;
+      isoToEpoch(params.currentSourceTimestamp) : null;
     this.currentEnqueuedTimestamp = params.currentEnqueuedTimestamp ?
-      utcToEpoch(params.currentEnqueuedTimestamp) : null;
+      isoToEpoch(params.currentEnqueuedTimestamp) : null;
     this.currentProcessedTimestamp = params.currentProcessedTimestamp ?
-      utcToEpoch(params.currentProcessedTimestamp) : null;
+      isoToEpoch(params.currentProcessedTimestamp) : null;
     this.status = params.status;
     this.tags = params.tags;
     this.history = params.history.map(dto => new AlertState(dto));
@@ -116,7 +116,7 @@ export interface AlertFilters {
   acknowledged?: boolean | null;
   startDate?: string | null;
   endDate?: string | null;
-  selectedEntities?: SelectedEntities | null;
+  EntityType?: EntityType | null;
   entitiesIds?: string[] | null;
   dateVariables?: DateVariable[] | null;
 }

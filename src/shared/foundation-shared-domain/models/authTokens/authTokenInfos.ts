@@ -1,4 +1,4 @@
-import { utcToEpoch } from "../../tools";
+import { isoToEpoch } from "../../tools";
 
 export class AuthTokenInfos {
   id: string;
@@ -9,8 +9,8 @@ export class AuthTokenInfos {
   constructor(params: AuthTokenInfosDTO) {
     this.id = params.id;
     this.label = params.label;
-    this.creationDate = utcToEpoch(params.creationDate);
-    this.dateMax = utcToEpoch(params.dateMax);
+    this.creationDate = isoToEpoch(params.creationDate);
+    this.dateMax = isoToEpoch(params.dateMax);
   }
 }
 

@@ -1,7 +1,7 @@
 import type { ChartModelLabelDTO } from "./chartModelLabel";
 import { ChartModelLabel } from "./chartModelLabel";
-import type { ApplicationScope } from "../enums/applicationEnums";
-import type { ChartType } from "../enums/chartEnums";
+import type { ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
+import type { ChartType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ChartInfos {
   id: string;

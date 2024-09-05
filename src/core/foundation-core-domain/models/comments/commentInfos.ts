@@ -1,4 +1,4 @@
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 export class CommentInfos {
   id: string;
@@ -17,11 +17,11 @@ export class CommentInfos {
     this.userId = params.userId;
     this.userName = params.userName;
     this.userImageId = params.userImageId;
-    this.timestamp = utcToEpoch(params.timestamp)!;
+    this.timestamp = isoToEpoch(params.timestamp)!;
     this.comment = params.comment;
     this.edited = params.edited;
     this.editTimestamp = params.editTimestamp ?
-      utcToEpoch(params.editTimestamp) : null;
+      isoToEpoch(params.editTimestamp) : null;
   }
 }
 

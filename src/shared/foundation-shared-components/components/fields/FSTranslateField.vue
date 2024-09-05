@@ -62,6 +62,7 @@
             >
               <FSRow
                 :wrap="false"
+                align="center-left"
               >
                 <FSSpan
                   class="fs-translate-field-label"

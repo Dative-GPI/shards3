@@ -1,7 +1,7 @@
 import type { ChartModelLabelDTO } from "../charts/chartModelLabel";
 import { ChartModelLabel } from "../charts/chartModelLabel";
-import type { ApplicationScope } from "../enums/applicationEnums";
-import type { ChartType, PlotPer } from "../enums/chartEnums";
+import type { ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
+import type { ChartType, PlotPer } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ChartOrganisationInfos {
   id: string;

@@ -20,7 +20,7 @@ import { ChartOperand } from "../charts/chartOperand";
 import type { ChartOperandDTO,CreateChartOperandDTO } from "../charts/chartOperand";
 import { ChartSerie } from "../charts/chartSerie";
 import type { ChartSerieDTO,CreateChartSerieDTO } from "../charts/chartSerie";
-import type { ColorSets } from "../enums/chartEnums";
+import type { ColorSets } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   labelDefault: string;

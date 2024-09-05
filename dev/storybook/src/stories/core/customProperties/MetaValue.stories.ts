@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { FilterType, PropertyDataType } from '@dative-gpi/foundation-core-domain/models';
+import { FilterType, PropertyDataType } from '@dative-gpi/foundation-shared-domain/enums';
 
 import FSMetaValue from "@dative-gpi/foundation-core-components/components/customProperties/FSMetaValue.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";

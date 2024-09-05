@@ -1,4 +1,4 @@
-import type { AutoRefresh } from "@/shared/foundation-shared-domain/models";
+import type { AutoRefresh } from "@/shared/foundation-shared-domain/enums";
 
 export interface CreateDashboardShallowDatePresetDTO {
   hiddenCode: string;

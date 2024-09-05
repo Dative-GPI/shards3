@@ -1,4 +1,4 @@
-import type { ActionType } from "../enums/actionEnums";
+import type { ActionType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export class ActionInfos {
     extensionId: string | null;

@@ -69,8 +69,7 @@ export default defineComponent({
         case "text-h4"       : return isMobileSized.value ? "16px" : "20px";
         case "text-body"     :
         case "text-button"   : return isMobileSized.value ? "14px" : "16px";
-        case "text-overline" :
-        case "text-overline": return "16px";
+        case "text-overline" : return "16px";
       }
     });
 

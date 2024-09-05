@@ -1,9 +1,9 @@
-import type { SelectedEntities } from "../enums/sharedEnums";
+import type { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
 
 export interface CreateDashboardShallowEntityPresetDTO {
   hiddenCode: string;
   singleEntity: boolean;
-  selectedEntities: SelectedEntities;
+  EntityType: EntityType;
   entitiesFilters: string;
   entitiesIds: string[];
 }

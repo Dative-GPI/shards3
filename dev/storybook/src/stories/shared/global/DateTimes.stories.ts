@@ -6,7 +6,7 @@ import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 import { useAppTimeZone, useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
-import { utcToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 const meta = {
   title: 'Foundation/Shared/Global/DateTimes',
@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 export const DefaultTheme: Story = {  args: {
     args: {
-        utcToEpoch,
+        isoToEpoch,
         timeZone: useAppTimeZone().timeZone,
         setTimeZone: useAppTimeZone().setAppTimeZone,
         epochToShortDateFormat: useDateFormat().epochToShortDateFormat,
@@ -75,7 +75,7 @@ export const DefaultTheme: Story = {  args: {
             <FSText> TimeZone: {{ args.timeZone }} </FSText>
             <FSText> todayToEpoch: {{ args.todayToEpoch() }} </FSText>
             <FSCol gap="16px">
-                <FSText> domain/tools/utcToEpoch (ignores time zone) </FSText>
+                <FSText> domain/tools/isoToEpoch (ignores time zone) </FSText>
                 <FSRow :wrap="false">
                     <FSCol width="300px">
                         <FSText> • 2022-01-01T00:00:00Z </FSText>
@@ -84,10 +84,10 @@ export const DefaultTheme: Story = {  args: {
                         <FSText> • 2022-01-01T00:00:00.999-12:00 </FSText>
                     </FSCol>
                     <FSCol width="300px">
-                        <FSText> {{ args.utcToEpoch('2022-01-01T00:00:00Z') }} </FSText>
-                        <FSText> {{ args.utcToEpoch('2022-01-01T00:00:00+01:00') }} </FSText>
-                        <FSText> {{ args.utcToEpoch('2022-01-01T00:00:00.500+01:00') }} </FSText>
-                        <FSText> {{ args.utcToEpoch('2022-01-01T00:00:00.999-12:00') }} </FSText>
+                        <FSText> {{ args.isoToEpoch('2022-01-01T00:00:00Z') }} </FSText>
+                        <FSText> {{ args.isoToEpoch('2022-01-01T00:00:00+01:00') }} </FSText>
+                        <FSText> {{ args.isoToEpoch('2022-01-01T00:00:00.500+01:00') }} </FSText>
+                        <FSText> {{ args.isoToEpoch('2022-01-01T00:00:00.999-12:00') }} </FSText>
                     </FSCol>
                 </FSRow>
             </FSCol>

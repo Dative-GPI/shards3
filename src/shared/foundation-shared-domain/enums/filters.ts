@@ -1,11 +1,3 @@
-export enum SelectedEntities {
-  None = 0,
-  Models = 1,
-  Groups = 2,
-  Locations = 3,
-  Devices = 5
-}
-
 export enum FilterType {
   None        = 0,
   Equal       = 1,
@@ -17,11 +9,4 @@ export enum FilterType {
   Contains    = 7,
   StartsWith  = 8,
   EndsWith    = 9
-}
-
-export enum DataTable {
-  None     = 0,
-  Number   = 1,
-  String   = 2,
-  DateTime = 3
 }

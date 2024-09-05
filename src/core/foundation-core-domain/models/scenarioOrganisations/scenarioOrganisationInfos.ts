@@ -1,7 +1,6 @@
-import type { Criticity } from "@dative-gpi/foundation-shared-domain/models";
+import type { Criticity, ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
 
-import type { ApplicationScope } from "../enums/applicationEnums";
-import { ScenarioParameter, type ScenarioParameterDTO } from "../scenarios";
+import { ScenarioParameter, type ScenarioChartDTO, type ScenarioParameterDTO, ScenarioChart } from "../scenarios";
 
 export class ScenarioOrganisationInfos {
   id: string;
@@ -19,6 +18,9 @@ export class ScenarioOrganisationInfos {
   code: string;
   icon: string;
   tags: string[];
+  chartStartDate: string;
+  chartEndDate: string;
+  charts: ScenarioChart[];
   parameters: ScenarioParameter[];
 
   constructor(params: ScenarioOrganisationInfosDTO) {
@@ -36,7 +38,10 @@ export class ScenarioOrganisationInfos {
     this.label = params.label;
     this.code = params.code;
     this.icon = params.icon;
+    this.chartStartDate = params.chartStartDate;
+    this.chartEndDate = params.chartEndDate;
     this.tags = params.tags.slice();
+    this.charts = params.charts.map(p => new ScenarioChart(p))
     this.parameters = params.parameters.map(p => new ScenarioParameter(p));
   }
 }
@@ -57,6 +62,9 @@ export interface ScenarioOrganisationInfosDTO {
   code: string;
   icon: string;
   tags: string[];
+  chartStartDate: string;
+  chartEndDate: string;
+  charts: ScenarioChartDTO[];
   parameters: ScenarioParameterDTO[];
 }
 
