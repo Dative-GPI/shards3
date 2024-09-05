@@ -58,7 +58,8 @@ export default defineComponent({
         case EntityType.Dashboard:
           return {
             ...attrs,
-            dashboardFilters : props.filters
+            dashboardOrganisationFilters : props.filters,
+            dashboardOrganisationTypeFilters : props.filters
           };
         case EntityType.Folder:
           return {

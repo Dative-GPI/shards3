@@ -1,6 +1,6 @@
 <template>
   <FSSimpleList
-    :items="dashboardOrganisations"
+    :items="dashboards"
     :loading="fetching"
     v-bind="$attrs"
   />
@@ -16,7 +16,7 @@ import { useDashboardOrganisationTypes } from "@dative-gpi/foundation-core-servi
 import FSSimpleList from "@dative-gpi/foundation-shared-components/components/lists/FSSimpleList.vue";
 
 export default defineComponent({
-  name: "FSSimpleDashboardOrganisationsList",
+  name: "FSSimpleDashboardsList",
   components: {
     FSSimpleList,
   },

@@ -1,6 +1,7 @@
 <template>
   <FSSimpleList
     :items="userOrganisations"
+    itemLabel="name"
     :loading="fetching"
     v-bind="$attrs"
   />
