@@ -20,7 +20,7 @@ export default defineComponent({
     FSSimpleList,
   },
   props: {
-    filters: {
+    deviceOrganisationFilters: {
       type: Object as PropType<DeviceOrganisationFilters>,
       required: false,
       default: () => ({})
@@ -30,10 +30,10 @@ export default defineComponent({
     const { entities: deviceOrganisations, getMany, fetching } = useDeviceOrganisations();
 
     const fetch = () => {
-      getMany(props.filters);
+      getMany(props.deviceOrganisationFilters);
     }
 
-    watch(() => props.filters, fetch, { immediate: true });
+    watch(() => props.deviceOrganisationFilters, fetch, { immediate: true });
 
     return {
       deviceOrganisations,

@@ -28,7 +28,12 @@ export class HubFactory {
                     })
                 }
                 if (connection.state !== signalR.HubConnectionState.Connected) {
-                    await connection.start();
+                    try {
+                        await connection.start();
+                    }
+                    catch {
+                        return;
+                    }
                 }
                 if (!subscribed) {
                     await init(connection);

@@ -114,8 +114,9 @@ export default defineComponent({
       type: String as PropType<"row" | "column">,
       required: false,
       default: "column"
-    },
+    }
   },
+  emits: ["click:edit", "click:remove"],
   setup(){
     return {
       ColorEnum,
