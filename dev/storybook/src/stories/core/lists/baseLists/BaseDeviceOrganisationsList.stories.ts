@@ -10,9 +10,9 @@ const meta: Meta<typeof FSBaseDeviceOrganisationsList> = {
   tags: ['autodocs'],
   argTypes: {
     tableCode: {
-      type: 'select',
-      options: ['device1', 'device2'],
-    },
+      control: 'select',
+      options: ['devices1', 'devices2'],
+    }
   },
 };
 

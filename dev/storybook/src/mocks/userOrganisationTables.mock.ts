@@ -147,5 +147,161 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
         }, ],
         sortByKey: null,
         sortByOrder: null
+    },
+    {
+        id: "4",
+        code: "users1",
+        mode: "table",
+        rowsPerPage: 10,
+        columns: [{
+            columnId: "1",
+            text: "Name",
+            value: "name",
+            index: 0,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "2",
+            text: "Email",
+            value: "email",
+            index: 1,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "3",
+            text: "Image",
+            value: "imageId",
+            index: 2,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }, {
+            columnId: "3",
+            text: "Email authorized",
+            value: "allowEmails",
+            index: 3,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }, {
+            columnId: "4",
+            text: "SMS Authorized",
+            value: "allowSms",
+            index: 3,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }],
+        sortByKey: null,
+        sortByOrder: null
+    },
+    {
+        id: "5",
+        code: "users2",
+        mode: "table",
+        rowsPerPage: 10,
+        columns: [{
+            columnId: "1",
+            text: "Name",
+            value: "name",
+            index: 0,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "2",
+            text: "Email",
+            value: "email",
+            index: 1,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "3",
+            text: "Validity",
+            value: "validity",
+            index: 2,
+            hidden: false,
+            sortable: false,
+            filterable: true
+        }, {
+            columnId: "3",
+            text: "Phone",
+            value: "phoneNumber",
+            index: 3,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        },],
+        sortByKey: null,
+        sortByOrder: null
+    },
+    {
+        id: "6",
+        code: "dashboards1",
+        mode: "table",
+        rowsPerPage: 10,
+        columns: [{
+            columnId: "1",
+            text: "Label",
+            value: "label",
+            index: 0,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "2",
+            text: "Icon",
+            value: "icon",
+            index: 1,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "3",
+            text: "Main dashboard",
+            value: "main",
+            index: 2,
+            hidden: false,
+            sortable: false,
+            filterable: true
+        }],
+        sortByKey: null,
+        sortByOrder: null
+    },
+    {
+        id: "7",
+        code: "folders1",
+        mode: "table",
+        rowsPerPage: 10,
+        columns: [{
+            columnId: "1",
+            text: "Label",
+            value: "label",
+            index: 0,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "2",
+            text: "Icon",
+            value: "icon",
+            index: 1,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "3",
+            text: "Main dashboard",
+            value: "main",
+            index: 2,
+            hidden: false,
+            sortable: false,
+            filterable: true
+        }],
+        sortByKey: null,
+        sortByOrder: null
     }
 ];
