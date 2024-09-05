@@ -5,7 +5,7 @@ export interface CreateDashboardEntityPresetDTO {
   hiddenCode: string;
   labelDefault: string;
   singleEntity: boolean;
-  EntityType: EntityType;
+  entityType: EntityType;
   entitiesFilters: string;
   entitiesIds: string[];
   translations: DashboardEntityPresetTranslationDTO[];

@@ -64,4 +64,5 @@ export interface ChartOrganisationTypeFilters {
   modelsIds?: string[] | null;
   plotPer?: PlotPer | null;
   search?: string | null;
+  deprecatedChartId?: string | null;
 }
