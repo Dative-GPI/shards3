@@ -44,6 +44,7 @@ export * from "./scenarioDeviceOrganisations";
 export * from "./scenarioDiffusions";
 export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
+export * from "./scenarioParameterDeviceOrganisations";
 export * from "./scenarios";                        // No service
 export * from "./shared";                           // No service
 export * from "./serviceAccountOrganisationAuthTokens";
