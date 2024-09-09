@@ -26,6 +26,17 @@ export interface CreateScenarioDeviceOrganisationDTO {
   parameters: CreateScenarioParameterDeviceOrganisationDTO[];
 }
 
+export interface CreateManyScenarioDeviceOrganisationDTO {
+  scenarioId: string;
+  deviceOrganisationsIds: string[];
+  overrideTimeRanges: boolean;
+  timeRanges: CreateTimeRangeDTO[] | null;
+  delay: number | null;
+  warnDeviceManager: boolean;
+  userOrganisationsIds: string[];
+  parameters: CreateScenarioParameterDeviceOrganisationDTO[];
+}
+
 export interface UpdateScenarioDeviceOrganisationDTO {
   overrideTimeRanges: boolean;
   timeRanges: CreateTimeRangeDTO[] | null;
