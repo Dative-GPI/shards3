@@ -8,6 +8,7 @@ export const userTypeLabel = (type: UserType): string => {
     case UserType.User:           return $tr("ui.user-type.user", "User");
     case UserType.ServiceAccount: return $tr("ui.user-type.service-account", "Service account");
     case UserType.Extension:      return $tr("ui.user-type.extension", "Extension");
+    default:                      return "";
   }
 };
 
@@ -16,6 +17,7 @@ export const userTypeIcon = (type: UserType): string => {
     case UserType.User:           return "mdi-account-multiple-outline";
     case UserType.ServiceAccount: return "mdi-puzzle-outline";
     case UserType.Extension:      return "mdi-cog-outline";
+    default:                      return "";
   }
 };
 
@@ -25,5 +27,6 @@ export const userValidityLabel = (validity: UserValidityState): string => {
     case UserValidityState.InvitationSent:    return $tr("ui.user-validity.invitation-sent", "Invitation sent");
     case UserValidityState.AccountCreated:    return $tr("ui.user-validity.account-created", "Not validated");
     case UserValidityState.AccountValidated:  return $tr("ui.user-validity.account-validated", "Validated");
+    default:                                  return "";
   }
 }
