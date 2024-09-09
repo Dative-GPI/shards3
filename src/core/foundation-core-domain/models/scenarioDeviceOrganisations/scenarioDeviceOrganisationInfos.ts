@@ -19,6 +19,7 @@ export class ScenarioDeviceOrganisationInfos {
   scenarioIcon: string;
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
+  modelId: string;
   parameters: ScenarioParameterDeviceOrganisation[];
   scenarioParameters: ScenarioParameter[];
 
@@ -37,6 +38,7 @@ export class ScenarioDeviceOrganisationInfos {
     this.delay = params.delay;
     this.scenarioIcon = params.scenarioIcon;
     this.userOrganisationsIds = params.userOrganisationsIds;
+    this.modelId = params.modelId;
     this.parameters = params.parameters.map(dto => new ScenarioParameterDeviceOrganisation(dto));
     this.scenarioParameters = params.scenarioParameters.map(dto => new ScenarioParameter(dto));
   }
@@ -54,6 +56,7 @@ export interface ScenarioDeviceOrganisationInfosDTO {
   timeRanges: TimeRangeDTO[] | null;
   delay: number | null;
   scenarioIcon: string;
+  modelId: string;
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
   parameters: ScenarioParameterDeviceOrganisationDTO[];
@@ -63,4 +66,5 @@ export interface ScenarioDeviceOrganisationInfosDTO {
 export interface ScenarioDeviceOrganisationFilters {
   scenarioId?: string | null;
   deviceOrganisationId?: string | null;
+  deviceOrganisationsIds?: string[] | null;
 }
