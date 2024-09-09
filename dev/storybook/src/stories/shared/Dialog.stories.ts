@@ -27,110 +27,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Variations: Story = {
-  args: {
-    args: {
-      buttons1: [...Array(4).keys()].map(i => ({
-        id: i.toString(),
-        label: `Choice number ${i + 1}`
-      })),
-      selected1: [],
-      value1: false,
-      value2: false
-    }
-  },
-  render: (args, { argTypes }) => ({
-    components: { FSDialog, FSButton, FSCard, FSToggleSet, FSSpan, FSCol, FSRow },
-    props: Object.keys(argTypes),
-    setup() {
-      return { ...args };
-    },
-    template: `
-    <div style="display: flex; gap: 10px;">
-      <FSButton
-        color="primary"
-        label="Dialog - primary color - header, body"
-        @click="() => args.value1 = true"
-      />
-      <FSDialog
-        title="Dialog - primary color - header, body"
-        width="800px"
-        color="primary"
-        v-model="args.value1"
-      >
-        <template #body>
-          <FSRow
-            padding="0 16px 0 0"
-          >
-            <FSToggleSet
-              variant="wrap"
-              buttonVariant="standard"
-              activeVariant="standard"
-              buttonColor="light"
-              activeColor="primary"
-              :multiple="false"
-              :required="false"
-              :values="args.buttons1"
-              v-model="args.selected1"
-            />
-          </FSRow>
-        </template>
-      </FSDialog>
-      <FSButton
-        color="primary"
-        label="Dialog - header, body, footer"
-        @click="() => args.value2 = true"
-      />
-      <FSDialog
-        title="Dialog - footer"
-        v-model="args.value2"
-      >
-        <template #footer>
-          <FSRow
-            padding="0 16px 0 0"
-            align="center-right"
-          >
-            <FSButton
-              color="primary"
-              label="Close"
-              @click="() => args.value2 = false"
-            />
-          </FSRow>
-        </template>
-      </FSDialog>
-    </div>`
-  })
-}
-
-export const Submit: Story = {
-  args: {
-    args: {
-      value1: false
-    }
-  },
-  render: (args, { argTypes }) => ({
-    components: { FSDialogSubmit, FSButton, FSCard, FSSpan, FSCol, FSRow },
-    props: Object.keys(argTypes),
-    setup() {
-      return { ...args };
-    },
-    template: `
-    <div style="display: flex; gap: 10px;">
-      <FSButton
-        color="primary"
-        label="Dialog - primary color - title, subtitle"
-        @click="() => args.value1 = true"
-      />
-      <FSDialogSubmit
-        color="primary"
-        title="Star wars 1"
-        subtitle="The phantom menace"
-        v-model="args.value1"
-      />
-    </div>`
-  })
-}
-
 export const Form: Story = {
   args: {
     args: {
@@ -138,24 +34,7 @@ export const Form: Story = {
       value2: false,
       validation2: false,
       label1: "",
-      label2: "",
-      label3: "",
-      label4: "",
-      label5: "",
-      label6: "",
-      label7: "",
-      label8: "",
-      label9: "",
-      label10: "",
-      submitButton1: () => {
-        console.log("submit");
-      },
-      submitButton2: () => {
-        console.log("submit");
-      },
-      validateButton2: () => {
-        console.log("validate");
-      }
+      label2: ""
     }
   },
   render: (args, { argTypes }) => ({
@@ -175,65 +54,20 @@ export const Form: Story = {
       />
       <FSDialogForm
         width="500px"
-        color="primary"
-        title="Star wars 1"
-        subtitle="The phantom menace"
-        @click:submitButton="args.submitButton1"
+        title="Form 1"
+        subtitle="Fill the form"
+        @click:submitButton="() => {
+          args.value1 = false;
+        }"
         v-model="args.value1"
       >
         <template #body>
-          <FSCol>
-            <FSTextField
-              label="Label 1"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label1"
-            />
-            <FSTextField
-              label="Label 2"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label2"
-            />
-            <FSTextField
-              label="Label 3"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label3"
-            />
-            <FSTextField
-              label="Label 4"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label4"
-            />
-            <FSTextField
-              label="Label 5"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label5"
-            />
-            <FSTextField
-              label="Label 6"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label6"
-            />
-            <FSTextField
-              label="Label 7"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label7"
-            />
-            <FSTextField
-              label="Label 8"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label8"
-            />
-            <FSTextField
-              label="Label 9"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label9"
-            />
-            <FSTextField
-              label="Label 10"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label10"
-            />
-          </FSCol>
+          <FSTextField
+            label="Label 1"
+            :required="true"
+            :rules="[v => !!v || 'Label is required']"
+            v-model="args.label1"
+          />
         </template>
       </FSDialogForm>
       <FSButton
@@ -243,22 +77,25 @@ export const Form: Story = {
       />
       <FSDialogForm
         width="500px"
-        color="primary"
-        title="Star wars 2"
-        subtitle="Attack of the clones"
+        title="Form 2"
+        subtitle="Fill the form"
         :validation="args.validation2"
-        @click:submitButton="args.submitButton2"
-        @click:validateButton="args.validateButton2"
+        @click:submitButton="() => {
+          args.validation2 = true;
+        }"
+        @click:validateButton="() => {
+          args.validation2 = false;
+          args.value2 = false;
+        }"
         v-model="args.value2"
       >
         <template #body>
-          <FSCol>
-            <FSTextField
-              label="Label 1"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label1"
-            />
-          </FSCol>
+          <FSTextField
+            label="Label 2"
+            :required="true"
+            :rules="[v => !!v || 'Label is required']"
+            v-model="args.label2"
+          />
         </template>
         <template #validation>
           <FSSpan
@@ -276,17 +113,8 @@ export const MultipleForm: Story = {
   args: {
     args: {
       value1: false,
-      label1: "",
-      label2: "",
-      label3: "",
-      label4: "",
-      label5: "",
-      label6: "",
-      label7: "",
-      label8: "",
-      submitButton: () => {
-        console.log("Form is valid");
-      }
+      label11: "",
+      label12: ""
     }
   },
   render: (args, { argTypes }) => ({
@@ -299,68 +127,39 @@ export const MultipleForm: Story = {
     <div style="display: flex; gap: 10px;">
       <FSButton
         color="primary"
-        label="Dialog - primary color - title, subtitle"
+        label="Dialog multiform"
         @click="() => args.value1 = true"
       />
       <FSDialogMultiForm
         width="500px"
-        color="primary"
-        title="Star wars 1"
-        subtitle="The phantom menace"
+        title="Form 1"
+        subtitle="3 pages form"
         :steps="3"
-        @click:submitButton="args.submitButton"
+        @click:submitButton="() => {
+          args.value1 = false;
+        }"
         v-model="args.value1"
       >
         <template #step-1>
-          <FSCol>
-            <FSTextField
+          <FSTextField
             label="Label 1"
-                :rules="[v => !!v || 'Label is required']"
-                v-model="args.label1"
-              />
-              <FSTextField
-                label="Label 2"
-                :rules="[v => !!v || 'Label is required']"
-                v-model="args.label2"
-              />
-              <FSTextField
-                label="Label 3"
-                :rules="[v => !!v || 'Label is required']"
-                v-model="args.label3"
-              />
-              <FSTextField
-                label="Label 4"
-                :rules="[v => !!v || 'Label is required']"
-                v-model="args.label4"
-              />
-          </FSCol>
+            :required="true"
+            :rules="[v => !!v || 'Label is required']"
+            v-model="args.label11"
+          />
         </template>
         <template #step-2>
-          EMPTY STEP
+          <FSSpan>
+            Click next to continue
+          </FSSpan>
         </template>
         <template #step-3>
-          <FSCol>
-            <FSTextField
-              label="Label 5"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label5"
-            />
-            <FSTextField
-              label="Label 6"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label6"
-            />
-            <FSTextField
-              label="Label 7"
-              :rules="[v => !!v || 'Label is required']"
-              v-model="args.label7"
-            />
-            <FSTextField
-            label="Label 8"
+          <FSTextField
+            label="Label 2"
+            :required="true"
             :rules="[v => !!v || 'Label is required']"
-            v-model="args.label8"
-            />
-          </FSCol>
+            v-model="args.label12"
+          />
         </template>
       </FSDialogMultiForm>
     </div>`
@@ -416,59 +215,6 @@ export const Remove: Story = {
         @click:submitButton="() => args.removing3 = true"
         v-model="args.value3"
       />
-    </div>`
-  })
-}
-
-export const ChainedDialogs: Story = {
-  args: {
-    args: {
-      value1: false,
-      date1: null,
-      date2: null
-    }
-  },
-  render: (args, { argTypes }) => ({
-    components: { FSDialogSubmit, FSButton, FSDateField, FSDateRangeField, FSSpan, FSCard, FSCol, FSRow },
-    props: Object.keys(argTypes),
-    setup() {
-      return { ...args };
-    },
-    template: `
-    <div style="display: flex; gap: 10px;">
-      <FSButton
-        color="primary"
-        label="Dialog - slots"
-        @click="() => args.value1 = true"
-      />
-      <FSDialogSubmit
-        title="Form"
-        v-model="args.value1"
-      >
-        <template #body>
-          <FSCol
-            padding="0 16px 0 0"
-          >
-            <FSDateField
-              label="Date"
-              v-model="args.date1"
-            />
-            <FSDateRangeField
-              label="Date range"
-              v-model="args.date2"
-            />
-          </FSCol>
-        </template>
-        <template #footer>
-          <FSRow align="center-right">
-            <FSButton
-              color="primary"
-              label="Submit"
-              @click="() => args.value1 = false"
-            />
-          </FSRow>
-        </template>
-      </FSDialogSubmit>
     </div>`
   })
 }
