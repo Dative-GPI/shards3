@@ -153,26 +153,28 @@ export default defineComponent({
     const start = computed<number>(() => {
       if (props.start) {
         return props.start;
-      }else if (props.mode === AgendaMode.Week) {
-        return epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000);
-      } else if (props.mode === AgendaMode.Month) {
-        return epochToLocalDayStart(new Date(now.value).setDate(1));
-      } else {
-        return epochToLocalDayStart(now.value);
       }
+      if (props.mode === AgendaMode.Week) {
+        return epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000);
+      }
+      if (props.mode === AgendaMode.Month) {
+        return epochToLocalDayStart(new Date(now.value).setDate(1));
+      }
+      return epochToLocalDayStart(now.value);
     });
 
     const end = computed<number>(() => {
       if (props.end) {
         return props.end;
-      } else if (props.mode === AgendaMode.Week) {
+      }
+      if (props.mode === AgendaMode.Week) {
         return epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000);
-      } else if (props.mode === AgendaMode.Month) {
+      }
+      if (props.mode === AgendaMode.Month) {
         const lastDayOfMonth = new Date(new Date(now.value).getFullYear(), new Date(now.value).getMonth() + 1, 0);
         return epochToLocalDayEnd(lastDayOfMonth.getTime());
-      } else {
-        return epochToLocalDayEnd(now.value);
       }
+      return epochToLocalDayEnd(now.value);
     });
 
     const nowIsInSelectedRange = computed(() => {

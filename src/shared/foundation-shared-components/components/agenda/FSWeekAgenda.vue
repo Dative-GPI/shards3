@@ -255,13 +255,13 @@ export default defineComponent({
 
     const weekDays = computed(() => {
       const daysOfWeek = [
-        $tr('ui.common.agenda-day.sunday-short', 'SUN'),
-        $tr('ui.common.agenda-day.monday-short', 'MON'),
-        $tr('ui.common.agenda-day.tuesday-short', 'TUE'),
-        $tr('ui.common.agenda-day.wednesday-short', 'WED'),
-        $tr('uui.common.agenda-day.thursday-short', 'THU'),
-        $tr('ui.common.agenda-day.friday-short', 'FRI'),
-        $tr('ui.common.agenda-day.saturday-short', 'SAT')
+        $tr('ui.common.sunday-short', 'SUN'),
+        $tr('ui.common.monday-short', 'MON'),
+        $tr('ui.common.tuesday-short', 'TUE'),
+        $tr('ui.common.wednesday-short', 'WED'),
+        $tr('uui.common.thursday-short', 'THU'),
+        $tr('ui.common.friday-short', 'FRI'),
+        $tr('ui.common.saturday-short', 'SAT')
       ];
       const weekDaysArray = [];
       const nowDate = new Date(props.now);

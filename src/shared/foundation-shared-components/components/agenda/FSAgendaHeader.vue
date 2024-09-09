@@ -139,14 +139,16 @@ export default defineComponent({
       if (props.mode === AgendaMode.Week) {
         emit('update:start', newStart);
         emit('update:end', epochToLocalDayEnd(newStart + (7 - new Date(newStart).getDay()) * 24 * 60 * 60 * 1000));
-      } else if (props.mode === AgendaMode.Month) {
+        return;
+      }
+      if (props.mode === AgendaMode.Month) {
         emit('update:start', newStart);
         const lastDayOfMonth = new Date(new Date(newStart).getFullYear(), new Date(newStart).getMonth() + 1, 0);
         emit('update:end', epochToLocalDayEnd(lastDayOfMonth.getTime()));
-      } else if (props.mode === AgendaMode.Day) {
-        emit('update:start', newStart);
-        emit('update:end', epochToLocalDayEnd(newStart));
+        return;
       }
+      emit('update:start', newStart);
+      emit('update:end', epochToLocalDayEnd(newStart));
     }
 
     const onNext = () => {
