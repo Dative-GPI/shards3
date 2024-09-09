@@ -165,12 +165,16 @@ export default defineComponent({
     });
 
     const classes = computed((): string[] => {
-      const classNames = ["fs-card", "fs-background"];
+      const classNames = ["fs-card"];
       switch(props.variant) {
         case "gradient": 
           classNames.push("fs-card-gradient"); 
           break;
-        default: 
+        case "background":
+          classNames.push("fs-card-background");
+          classNames.push("fs-card-clickable");
+          break;
+        default:
           classNames.push("fs-card-background");
           break;
       }
