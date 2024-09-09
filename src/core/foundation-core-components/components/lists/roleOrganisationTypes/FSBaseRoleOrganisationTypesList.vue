@@ -2,6 +2,7 @@
   <FSDataTable
     :items="roleOrganisationTypes"
     :itemTo="$props.itemTo"
+    :loading="fetchingRoleOrganisations"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -96,7 +97,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { getMany: getManyRoleOrganisationTypes, entities: roleOrganisationTypes } = useRoleOrganisationTypes();
+    const { getMany: getManyRoleOrganisationTypes, entities: roleOrganisationTypes, fetching: fetchingRoleOrganisations } = useRoleOrganisationTypes();
 
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
@@ -109,6 +110,7 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
+      fetchingRoleOrganisations,
       roleOrganisationTypes,
       userTypeLabel,
       userTypeIcon,

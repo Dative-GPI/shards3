@@ -2,6 +2,7 @@
   <FSDataTable
     :items="scenarioOrganisationTypes"
     :itemTo="$props.itemTo"
+    :loading="fetchingScenarioOrganisationTypes"
     :modelValue="$props.modelValue"
     :tableCode="$props.tableCode"
     @update:modelValue="$emit('update:modelValue', $event)"

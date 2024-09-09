@@ -2,6 +2,7 @@
   <FSDataTable
     :items="chartOrganisations"
     :itemTo="$props.itemTo"
+    :loading="fetchingChartOrganisations"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

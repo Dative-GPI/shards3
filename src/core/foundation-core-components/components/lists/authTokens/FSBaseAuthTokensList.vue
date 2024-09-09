@@ -1,6 +1,7 @@
 <template>
   <FSDataTable
     :items="authTokens"
+    :loading="fetchingAuthTokens"
     :tableCode="$props.tableCode"
     v-bind="$attrs"
   >
@@ -58,7 +59,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getMany: fetchAuthTokens, entities: authTokens } = useAuthTokens();
+    const { getMany: fetchAuthTokens, entities: authTokens, fetching: fetchingAuthTokens } = useAuthTokens();
     const { epochToLongTimeFormat } = useDateFormat();
 
     watch(() => props.authTokensFilters, (next, previous) => {
@@ -69,6 +70,7 @@ export default defineComponent({
 
     return {
       authTokens,
+      fetchingAuthTokens,
       epochToLongTimeFormat
     };
   }

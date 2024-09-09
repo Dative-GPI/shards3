@@ -2,6 +2,7 @@
   <FSDataTable
     :items="userOrganisations"
     :itemTo="$props.itemTo"
+    :loading="fetchingUserOrganisations"
     :modelValue="$props.modelValue"
     :tableCode="$props.tableCode"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -135,7 +136,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { getMany: fetchUserOrganisations, entities: userOrganisations } = useUserOrganisations();
+    const { getMany: fetchUserOrganisations, entities: userOrganisations, fetching: fetchingUserOrganisations } = useUserOrganisations();
 
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
@@ -148,6 +149,7 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
+      fetchingUserOrganisations,
       userOrganisations,
       userValidityLabel,
       userTypeLabel,

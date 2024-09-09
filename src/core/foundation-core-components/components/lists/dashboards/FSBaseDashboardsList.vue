@@ -1,11 +1,8 @@
 <template>
-  <FSLoadDataTable
-    v-if="fetchingDashboardOrganisationTypes || fetchingDashboardOrganisations || fetchingDashboardShallows"
-  />
   <FSDataTable
-    v-else
     :items="items"
     :itemTo="$props.itemTo"
+    :loading="fetchingDashboardOrganisationTypes || fetchingDashboardOrganisations || fetchingDashboardShallows"
     :tableCode="$props.tableCode"
     :modelValue="selecteds"
     @update:modelValue="onSelect"
@@ -90,7 +87,6 @@ import { DashboardType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSDataTable from "../FSDataTable.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
 import FSDashboardShallowTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardShallowTileUI.vue";
 import FSDashboardOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTileUI.vue";
 import FSDashboardOrganisationTypeTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTypeTileUI.vue";
@@ -99,7 +95,6 @@ export default defineComponent({
   name: "FSBaseDashboardsList",
   components: {
     FSDataTable,
-    FSLoadDataTable,
     FSIcon,
     FSDashboardOrganisationTileUI,
     FSDashboardOrganisationTypeTileUI,
