@@ -17,7 +17,8 @@
         border-color: var(--fs-clickable-hover-border-color) !important;
         color: var(--fs-clickable-hover-color) !important;
 
-        & .fs-background {
+        & .fs-card-clickable {
+            transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             background-color: var(--fs-clickable-hover-background-color);
         }
     }
@@ -27,7 +28,8 @@
         border-color: var(--fs-clickable-active-border-color) !important;
         color: var(--fs-clickable-active-color) !important;
 
-        & .fs-background {
+        & .fs-card-clickable {
+            transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             background-color: var(--fs-clickable-active-background-color);
         }
     }
