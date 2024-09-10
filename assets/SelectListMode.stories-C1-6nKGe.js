@@ -1,0 +1,21 @@
+import{d as u,y as c,z as S,A as f,B as m,m as V,L as v,E as F,G as g,b,w as _}from"./vue.esm-bundler-Vj2X7okO.js";import{F as h}from"./FSSelectField-CEKk7j9f.js";import{u as w}from"./useTranslations-DyPMaPr_.js";import{_ as M}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{V as $}from"./VIcon-DptP6m9n.js";import"./FSDialogMenu-CgBlLVIv.js";import"./FSCard-CsyvoMST.js";import"./FSCol-Bk577joi.js";import"./css-CbCR1nbl.js";import"./FSRow-BuYwVvwM.js";import"./useColors-s1xYWcRF.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-3zl-tJp_.js";import"./theme-D8Xq3tpQ.js";import"./VDialog-1j0g9zHx.js";import"./VOverlay-BT06S-GU.js";import"./forwardRefs-DWGaNmQL.js";import"./color-CxiNukW_.js";import"./proxiedModel-BE9FlVMJ.js";import"./anchor-DHDhudvL.js";import"./dimensions-CzmId2tp.js";import"./display-Cx0CWWL8.js";import"./lazy-CqgcpKMK.js";import"./locale-CMOn_BOp.js";import"./router-CbAEScZe.js";import"./transition-CQDsmRPd.js";import"./VDefaultsProvider-CztrVRTm.js";import"./FSSlideGroup-SgKZc0Dn.js";import"./uuid-DTaye2KM.js";import"./FSButton-6xwgcgkA.js";import"./FSClickable-Bf0xM50-.js";import"./VProgressCircular-DnrgPZB3.js";import"./tag-DxanhlL3.js";import"./FSSpan-etgUZXmX.js";import"./useSlots-DXmhvOIb.js";import"./FSIcon-DhgV6LdF.js";import"./index-joExpvzU.js";import"./group-DgCbl5w-.js";import"./FSToggleSet-CUrOC1IX.js";import"./FSWrapGroup-AYmlnqiR.js";import"./VInput-Dln06fOF.js";import"./density-BM1QLeh4.js";import"./form-CgybbRT3.js";import"./FSBaseField-CGde08E6.js";import"./VSpacer-YT0o3rZT.js";import"./FSTextField-BrYnbjAt.js";import"./useRules-DpnTqc7T.js";import"./VField-DaMwaaXY.js";import"./VLabel-BPqk0hPA.js";import"./loader-CbF0edCX.js";import"./rounded-BWAMdTmW.js";import"./index-jvVque46.js";import"./FSCheckbox-2nJSFmbZ.js";import"./VSelectionControl-DcHbqw-H.js";import"./index-DjMs4W1j.js";import"./FSFadeOut-DFZnJQQe.js";import"./VImg-BsFS2wEb.js";import"./elevation-BH8AnXAq.js";import"./FSRadio-DKr_ONVF.js";import"./VList-DonjtRcz.js";import"./ssrBoot-D42UTWSS.js";import"./border-CgF0busY.js";import"./VSelect-BzPZwDdx.js";import"./VMenu-DOKVMVxb.js";var i=(e=>(e.Table="table",e.Iterator="iterator",e))(i||{});const s=u({name:"FSSelectViewMode",components:{FSSelectField:h},props:{modelValue:{type:String,required:!0}},emits:["update:modelValue"],setup(){const{$tr:e}=w();return{items:[{id:i.Table,label:e("ui.common.table-mode","Table"),icon:"mdi-format-list-bulleted"},{id:i.Iterator,label:e("ui.common.tile-mode","Tuile"),icon:"mdi-view-grid-outline"}]}}});function L(e,o,T,y,I,N){const d=c("FSSelectField");return S(),f(d,V({clearable:!1,items:e.items,modelValue:e.$props.modelValue,"onUpdate:modelValue":o[0]||(o[0]=r=>e.$emit("update:modelValue",r))},e.$attrs),{"item-prepend":m(({item:r})=>[v($,null,{default:m(()=>[F(g(r.icon),1)]),_:2},1024)]),_:1},16,["items","modelValue"])}const l=M(s,[["render",L]]);s.__docgenInfo={displayName:"FSSelectViewMode",exportName:"default",description:"",tags:{},props:[{name:"modelValue",type:{name:"ListModes"},required:!0}],events:[{name:"update:modelValue"}],sourceFiles:["/home/runner/work/foundation-shared-ui/foundation-shared-ui/src/shared/foundation-shared-components/components/selects/FSSelectListMode.vue"]};const Oe={title:"Foundation/Shared/Selects/SelectListMode",component:l,tags:["autodocs"]},t={render:e=>({components:{FSSelectListMode:l},setup(){const o=b("iterator");return console.log(e),_(()=>e.modelValue,()=>{e.modelValue&&(o.value=e.modelValue)}),{args:e,value:o}},template:'<FSSelectListMode v-bind="args" v-model="value" />'})};var a,p,n;t.parameters={...t.parameters,docs:{...(a=t.parameters)==null?void 0:a.docs,source:{originalSource:`{
+  render: args => ({
+    components: {
+      FSSelectListMode
+    },
+    setup() {
+      const value = ref("iterator");
+      console.log(args);
+      watch(() => args.modelValue, () => {
+        if (args.modelValue) {
+          value.value = args.modelValue;
+        }
+      });
+      return {
+        args,
+        value
+      };
+    },
+    template: \`<FSSelectListMode v-bind="args" v-model="value" />\`
+  })
+}`,...(n=(p=t.parameters)==null?void 0:p.docs)==null?void 0:n.source}}};const Pe=["Variations"];export{t as Variations,Pe as __namedExportsOrder,Oe as default};
