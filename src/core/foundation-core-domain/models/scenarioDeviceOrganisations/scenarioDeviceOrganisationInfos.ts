@@ -1,5 +1,5 @@
-import type { ScenarioParameterDeviceOrganisationDTO } from "./scenarioParameterDeviceOrganisation";
-import { ScenarioParameterDeviceOrganisation } from "./scenarioParameterDeviceOrganisation";
+import type { ScenarioParameterOverrideDTO } from "../scenarios/scenarioParameterOverride";
+import { ScenarioParameterOverride } from "../scenarios/scenarioParameterOverride";
 import { ScenarioParameter } from "../scenarios/scenarioParameter";
 import type { ScenarioParameterDTO } from "../scenarios/scenarioParameter";
 import type { TimeRangeDTO } from "../shared/timeRange";
@@ -19,8 +19,9 @@ export class ScenarioDeviceOrganisationInfos {
   scenarioIcon: string;
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
-  parameters: ScenarioParameterDeviceOrganisation[];
-  scenarioParameters: ScenarioParameter[];
+  modelId: string;
+  overrideParameters: ScenarioParameterOverride[];
+  defaultParameters: ScenarioParameter[];
 
   constructor(params: ScenarioDeviceOrganisationInfosDTO) {
     this.id = params.id;
@@ -37,8 +38,9 @@ export class ScenarioDeviceOrganisationInfos {
     this.delay = params.delay;
     this.scenarioIcon = params.scenarioIcon;
     this.userOrganisationsIds = params.userOrganisationsIds;
-    this.parameters = params.parameters.map(dto => new ScenarioParameterDeviceOrganisation(dto));
-    this.scenarioParameters = params.scenarioParameters.map(dto => new ScenarioParameter(dto));
+    this.modelId = params.modelId;
+    this.overrideParameters = params.overrideParameters.map(dto => new ScenarioParameterOverride(dto));
+    this.defaultParameters = params.defaultParameters.map(dto => new ScenarioParameter(dto));
   }
 }
 
@@ -54,13 +56,15 @@ export interface ScenarioDeviceOrganisationInfosDTO {
   timeRanges: TimeRangeDTO[] | null;
   delay: number | null;
   scenarioIcon: string;
+  modelId: string;
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
-  parameters: ScenarioParameterDeviceOrganisationDTO[];
-  scenarioParameters: ScenarioParameterDTO[];
+  overrideParameters: ScenarioParameterOverrideDTO[];
+  defaultParameters: ScenarioParameterDTO[];
 }
 
 export interface ScenarioDeviceOrganisationFilters {
   scenarioId?: string | null;
   deviceOrganisationId?: string | null;
+  deviceOrganisationsIds?: string[] | null;
 }

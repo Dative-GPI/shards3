@@ -3,6 +3,10 @@ import { parse } from "date-fns";
 export const ISO_FORMAT: string = "yyyy-MM-dd'T'HH:mm:ss";
 
 export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
+  dayMonthLongOnly: {
+    day: "2-digit",
+    month: "long"
+  },
   shortDate: {
     day: "2-digit",
     month: "2-digit",
@@ -31,10 +35,18 @@ export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
     minute: "2-digit",
     second: "2-digit"
   },
+  monthYearOnly: {
+    month: "long",
+    year: "numeric"
+  },
   time: {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit"
+  },
+  shortTimeOnly: {
+    hour: "2-digit",
+    minute: "2-digit"
   }
 };
 

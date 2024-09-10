@@ -41,7 +41,6 @@ export * from "./roleOrganisations";
 export * from "./roleOrganisationTypes";
 export * from "./routes";
 export * from "./scenarioDeviceOrganisations";
-export * from "./scenarioDiffusions";
 export * from "./scenarioOrganisations";
 export * from "./scenarioOrganisationTypes";
 export * from "./scenarioParameterDeviceOrganisations";

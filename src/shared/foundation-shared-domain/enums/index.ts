@@ -1,4 +1,5 @@
 export * from "./actions";
+export * from "./agendas";
 export * from "./alerts";
 export * from "./applications";
 export * from "./charts";
