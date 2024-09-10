@@ -1,5 +1,6 @@
 <template>
   <FSDialogSubmit
+    width="460px"
     :title="title"
     :submitButtonLabel="$tr('ui.button.remove', 'Remove')"
     :submitButtonColor="ColorEnum.Error"
