@@ -1,10 +1,10 @@
 <template>
   <FSDataTable
-    :items="userOrganisations"
+    :items="serviceAccountOrganisations"
     :itemTo="$props.itemTo"
-    :loading="fetchingUserOrganisations"
-    :modelValue="$props.modelValue"
+    :loading="fetchingServiceAccountOrganisations"
     :tableCode="$props.tableCode"
+    :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
@@ -25,20 +25,6 @@
         height="32px"
         width="32px"
         :imageId="item.imageId"
-      />
-    </template>
-    <template
-      #item.allowEmails="{ item }"
-    >
-      <FSIconCheck
-        :value="item.allowEmails"
-      />
-    </template>
-    <template
-      #item.allowSms="{ item }"
-    >
-      <FSIconCheck
-        :value="item.allowSms"
       />
     </template>
     <template
@@ -72,12 +58,12 @@
       #item.tile="{ item, toggleSelect }"
     >
       <FSUserOrganisationTileUI
-        :roleLabel="item.roleLabel"
-        :roleIcon="item.roleIcon"
-        :userType="item.userType"
         :imageId="item.imageId"
+        :label="item.label"
+        :userType="item.userType"
+        :roleIcon="item.roleIcon"
+        :roleLabel="item.roleLabel"
         :admin="item.admin"
-        :name="item.name"
         :to="$props.itemTo && $props.itemTo(item)"
         :modelValue="isSelected(item.id)"
         @update:modelValue="toggleSelect(item)"
@@ -85,38 +71,34 @@
     </template>
   </FSDataTable>
 </template>
-
-<script lang="ts">
+  
+  <script lang="ts">
 import type { PropType} from "vue";
 import { defineComponent, watch } from "vue";
 import type { RouteLocation } from "vue-router";
 import _ from "lodash";
-
-import type { UserOrganisationFilters, UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
+  
+import type { ServiceAccountOrganisationFilters, ServiceAccountOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { userTypeLabel, userValidityLabel } from "@dative-gpi/foundation-core-components/utils";
-import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
-
+import { useServiceAccountOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import FSDataTable from "../FSDataTable.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
-import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
 import FSUserOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSUserOrganisationTileUI.vue";
 
 export default defineComponent({
-  name: "FSBaseUserOrganisationsList",
+  name: "FSBaseServiceAccountOrganisationsList",
   components: {
     FSDataTable,
     FSImage,
-    FSUserOrganisationTileUI,
-    FSSpan,
     FSTagGroup,
-    FSIconCheck
-
+    FSSpan,
+    FSUserOrganisationTileUI
   },
   props: {
-    userOrganisationsFilters: {
-      type: Object as PropType<UserOrganisationFilters | null>,
+    serviceAccountOrganisationsFilters: {
+      type: Object as PropType<ServiceAccountOrganisationFilters | null>,
       required: false,
       default: null
     },
@@ -125,36 +107,36 @@ export default defineComponent({
       required: false,
       default: () => []
     },
-    itemTo: {
-      type: Function as PropType<(item: UserOrganisationInfos) => Partial<RouteLocation>>,
-      required: false
-    },
     tableCode: {
       type: String,
       required: true
+    },
+    itemTo: {
+      type: Function as PropType<(item: ServiceAccountOrganisationInfos) => Partial<RouteLocation>>,
+      required: false
     }
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { getMany: fetchUserOrganisations, entities: userOrganisations, fetching: fetchingUserOrganisations } = useUserOrganisations();
-
+    const { getMany: getManyServiceAccountOrganisations, entities: serviceAccountOrganisations, fetching: fetchingServiceAccountOrganisations } = useServiceAccountOrganisations();
+  
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
     };
-
-    watch(() => props.userOrganisationsFilters, (next, previous) => {
+  
+    watch(() => props.serviceAccountOrganisationsFilters, (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
-        fetchUserOrganisations(props.userOrganisationsFilters ?? undefined);
+        getManyServiceAccountOrganisations(props.serviceAccountOrganisationsFilters ?? undefined);
       }
     }, { immediate: true });
-
+  
     return {
-      fetchingUserOrganisations,
-      userOrganisations,
+      fetchingServiceAccountOrganisations,
+      serviceAccountOrganisations,
       userValidityLabel,
       userTypeLabel,
       isSelected
     };
   }
 });
-</script>
+  </script>

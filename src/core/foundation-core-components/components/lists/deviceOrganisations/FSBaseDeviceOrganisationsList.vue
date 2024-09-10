@@ -3,6 +3,7 @@
     :items="deviceOrganisations"
     :customSorts="customSorts"
     :itemTo="$props.itemTo"
+    :loading="fetchingDeviceOrganisations"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

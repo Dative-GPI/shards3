@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
-import { CUSTOMPROPERTYVALUES, DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS, ROLEORGANISATIONS, ROLEORGANISATIONTYPES, LOCATIONS, MANUFACTURERS, USERORGANISATIONS, ORGANISATIONTYPES, MODELS, DATACATEGORIES, DATADEFINITIONS } from '@/mocks';
+import { AUTHTOKENS, SCENARIOORGANISATIONS, SCENARIOORGANISATIONTYPES, CUSTOMPROPERTYVALUES, DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS, ROLEORGANISATIONS, ROLEORGANISATIONTYPES, LOCATIONS, MANUFACTURERS, USERORGANISATIONS, ORGANISATIONTYPES, MODELS, DATACATEGORIES, DATADEFINITIONS, ALERTS, COMMENTS, CHARTORGANISATIONS, CHARTORGANISATIONTYPES, SERVICEACCOUNTORGANISATIONS } from '@/mocks';
 
 const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
 
@@ -46,28 +46,52 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups", GROUPS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups/1", GROUPS[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups/2", GROUPS[1]);
+
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/alerts1", USERORGANISATIONTABLES[8]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/authTokens1", USERORGANISATIONTABLES[7]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/chartOrganisations1", USERORGANISATIONTABLES[9]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/chartOrganisationTypes1", USERORGANISATIONTABLES[9]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/charts1", USERORGANISATIONTABLES[9]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/dashboards1", USERORGANISATIONTABLES[5]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/dataCategories1", USERORGANISATIONTABLES[10]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/dataDefinitions1", USERORGANISATIONTABLES[11]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/devices1", USERORGANISATIONTABLES[2]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/folders1", USERORGANISATIONTABLES[6]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/groups1", USERORGANISATIONTABLES[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/locations1", USERORGANISATIONTABLES[1]);
-    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/devices1", USERORGANISATIONTABLES[2]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/models1", USERORGANISATIONTABLES[12]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/roleOrganisations1", USERORGANISATIONTABLES[13]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/roleOrganisationTypes1", USERORGANISATIONTABLES[13]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/serviceAccountOrganisations1", USERORGANISATIONTABLES[15]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/scenarioOrganisations1", USERORGANISATIONTABLES[14]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/scenarioOrganisationTypes1", USERORGANISATIONTABLES[14]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/users1", USERORGANISATIONTABLES[3]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/users2", USERORGANISATIONTABLES[4]);
-    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/dashboards1", USERORGANISATIONTABLES[5]);
-    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/folders1", USERORGANISATIONTABLES[6]);
+    
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/custom-property-values/1/1/code", CUSTOMPROPERTYVALUES);
 
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/chart-organisation-types", CHARTORGANISATIONTYPES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/role-organisation-types", ROLEORGANISATIONTYPES);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/chart-organisations", CHARTORGANISATIONS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/role-organisations", ROLEORGANISATIONS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisations", USERORGANISATIONS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/organisation-types", ORGANISATIONTYPES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/data-categories", DATACATEGORIES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/data-definitions", DATADEFINITIONS);
-    onGetWithRegex("/api/foundation/core/v1/organisations/dative/organisation-types", ORGANISATIONTYPES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/manufacturers", MANUFACTURERS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/locations", LOCATIONS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/languages", LANGUAGES);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/comments", COMMENTS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/alerts", ALERTS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/models", MODELS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups", GROUPS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/service-account-organisations", SERVICEACCOUNTORGANISATIONS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/scenario-organisations", SCENARIOORGANISATIONS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/scenario-organisation-types", SCENARIOORGANISATIONTYPES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/service-account-role-organisations", ROLEORGANISATIONS);
 
     // onGetWithRegex("/api/shared/v1/images/1/raw", IMAGES[0].raw);
     onGetWithRegex("/api/foundation/shared/v1/images/1", IMAGES[0]);
+
+    onGetWithRegex("/api/foundation/shared/v1/pats", AUTHTOKENS);
 }

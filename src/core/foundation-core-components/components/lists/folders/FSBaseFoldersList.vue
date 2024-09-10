@@ -1,11 +1,8 @@
 <template>
-  <FSLoadDataTable
-    v-if="fetchingFolders || fetchingDashboardOrganisations || fetchingDashboardShallows"
-  />
   <FSDataTable
-    v-else
     :items="items"
     :item-to="$props.itemTo"
+    :loading="fetchingFolders || fetchingDashboardOrganisations || fetchingDashboardShallows"
     :tableCode="$props.tableCode"
     :modelValue="selecteds"
     @update:modelValue="onSelect"
@@ -89,7 +86,6 @@ import { FoldersListType, type FoldersListItem } from "@dative-gpi/foundation-co
 import type { FolderFilters, DashboardOrganisationFilters, DashboardShallowFilters, DashboardInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import FSDataTable from "../FSDataTable.vue";
-import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
 import FSDashboardOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTileUI.vue";
@@ -100,7 +96,6 @@ export default defineComponent({
   name: "FSBaseFoldersList",
   components: {
     FSDataTable,
-    FSLoadDataTable,
     FSIcon,
     FSFolderTileUI,
     FSDashboardOrganisationTileUI,
