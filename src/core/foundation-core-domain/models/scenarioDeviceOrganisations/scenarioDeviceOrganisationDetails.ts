@@ -1,7 +1,7 @@
 import type { CreateTimeRangeDTO } from "../shared/timeRange";
 import type { ScenarioDeviceOrganisationInfosDTO } from "./scenarioDeviceOrganisationInfos";
 import { ScenarioDeviceOrganisationInfos } from "./scenarioDeviceOrganisationInfos";
-import type { CreateScenarioParameterDeviceOrganisationDTO } from "./scenarioParameterDeviceOrganisation";
+import type { CreateScenarioParameterOverrideDTO } from "../scenarios/scenarioParameterOverride";
 
 
 export class ScenarioDeviceOrganisationDetails extends ScenarioDeviceOrganisationInfos {
@@ -23,7 +23,7 @@ export interface CreateScenarioDeviceOrganisationDTO {
   delay: number | null;
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
-  parameters: CreateScenarioParameterDeviceOrganisationDTO[];
+  overrideParameters: CreateScenarioParameterOverrideDTO[];
 }
 
 export interface CreateManyScenarioDeviceOrganisationDTO {
@@ -34,7 +34,7 @@ export interface CreateManyScenarioDeviceOrganisationDTO {
   delay: number | null;
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
-  parameters: CreateScenarioParameterDeviceOrganisationDTO[];
+  overrideParameters: CreateScenarioParameterOverrideDTO[];
 }
 
 export interface UpdateScenarioDeviceOrganisationDTO {
@@ -43,5 +43,5 @@ export interface UpdateScenarioDeviceOrganisationDTO {
   warnDeviceManager: boolean;
   delay: number | null;
   userOrganisationsIds: string[];
-  parameters: CreateScenarioParameterDeviceOrganisationDTO[];
+  overrideParameters: CreateScenarioParameterOverrideDTO[];
 }
