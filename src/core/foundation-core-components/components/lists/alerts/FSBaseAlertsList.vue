@@ -2,7 +2,7 @@
   <FSDataTable
     rowGap="6px"
     :rowColor="criticityColor"
-    :itemTo="routerLink"
+    :itemTo="$props.itemTo"
     :items="alertsOrdered"
     :loading="fetchingAlerts"
     :tableCode="$props.tableCode"
@@ -208,10 +208,9 @@
 
 <script lang="ts">
 import type { PropType} from "vue";
+import type { RouteLocation } from "vue-router";
 import { computed, defineComponent, ref, watch } from "vue";
 import _ from "lodash";
-
-import { useRouter } from "vue-router";
 
 import type { AlertFilters, AlertInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
@@ -271,13 +270,16 @@ export default defineComponent({
     tableCode: {
       type: String,
       required: true
+    },
+    itemTo: {
+      type: Function as PropType<(item: AlertInfos) => Partial<RouteLocation>>,
+      required: false
     }
   },
   emits: ["update:modelValue"],
   setup(props) {
     const { getMany: getManyAlerts, entities: alerts, fetching : fetchingAlerts } = useAlerts();
     const { epochToShortTimeFormat } = useDateFormat();
-    const router = useRouter();
 
     const innerNotTreatedOnly = ref<boolean | undefined>(props.notAcknowledged);
     const innerHidePending = ref<boolean | undefined>(props.hidePending);
@@ -287,10 +289,6 @@ export default defineComponent({
 
     const criticityColor = (row: any) => {
       return AlertTools.criticityColor(row.criticity);
-    };
-
-    const routerLink = (item: any) => {
-      router.push({ name: "alert", params: { entityId: item.id } });
     };
 
     const alertsOrdered = computed(() => {
@@ -334,8 +332,7 @@ export default defineComponent({
       endDate,
       innerHidePending,
       epochToShortTimeFormat,
-      criticityColor,
-      routerLink
+      criticityColor
     };
   }
 });
