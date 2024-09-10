@@ -12,7 +12,7 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
 
-import { useImage } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppAuthToken, useImage } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSImageUI from "./FSImageUI.vue";
 
@@ -30,9 +30,15 @@ export default defineComponent({
   },
   setup(props) {
     const { get: getImage, entity: image } = useImage();
+    const { authToken } = useAppAuthToken();
 
     const source = computed(() => {
-      return props.imageId ? IMAGE_RAW_URL(props.imageId) : null;
+      const raw = props.imageId ? IMAGE_RAW_URL(props.imageId) : null;
+      if(raw && authToken){
+        return `${raw}?access_token=${authToken}`;
+      } else {
+        return raw;
+      }
     });
 
     const onError = (): void => {

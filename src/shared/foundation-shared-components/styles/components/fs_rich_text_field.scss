@@ -25,7 +25,9 @@
     &:focus-within {
         border-color: var(--fs-rich-text-field-active-border-color) !important;
     }
+}
 
+.fs-rich-text-field-padding {
     @include web {
         padding: 10px 12px !important;
     }
@@ -33,7 +35,6 @@
     @include mobile {
         padding: 6px 16px !important;
     }
-
 }
 
 .fs-rich-text-field-undo {
