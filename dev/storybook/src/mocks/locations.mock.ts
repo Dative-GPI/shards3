@@ -19,7 +19,7 @@ export const LOCATIONS: LocationInfosDTO[] = [{
     },
     modelsIds: [],
     deviceOrganisationsIds: [],
-    deviceOrganisationsCount: 0
+    deviceOrganisationsCount: 10
 },
 {
     id: "2",
@@ -61,5 +61,5 @@ export const LOCATIONS: LocationInfosDTO[] = [{
     },
     modelsIds: [],
     deviceOrganisationsIds: [],
-    deviceOrganisationsCount: 0
+    deviceOrganisationsCount: 3
 }];
