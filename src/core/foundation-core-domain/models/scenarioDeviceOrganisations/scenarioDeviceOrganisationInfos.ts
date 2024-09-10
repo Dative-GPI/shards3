@@ -1,5 +1,5 @@
-import type { ScenarioParameterDeviceOrganisationDTO } from "./scenarioParameterDeviceOrganisation";
-import { ScenarioParameterDeviceOrganisation } from "./scenarioParameterDeviceOrganisation";
+import type { ScenarioParameterOverrideDTO } from "../scenarios/scenarioParameterOverride";
+import { ScenarioParameterOverride } from "../scenarios/scenarioParameterOverride";
 import { ScenarioParameter } from "../scenarios/scenarioParameter";
 import type { ScenarioParameterDTO } from "../scenarios/scenarioParameter";
 import type { TimeRangeDTO } from "../shared/timeRange";
@@ -20,8 +20,8 @@ export class ScenarioDeviceOrganisationInfos {
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
   modelId: string;
-  parameters: ScenarioParameterDeviceOrganisation[];
-  scenarioParameters: ScenarioParameter[];
+  overrideParameters: ScenarioParameterOverride[];
+  defaultParameters: ScenarioParameter[];
 
   constructor(params: ScenarioDeviceOrganisationInfosDTO) {
     this.id = params.id;
@@ -39,8 +39,8 @@ export class ScenarioDeviceOrganisationInfos {
     this.scenarioIcon = params.scenarioIcon;
     this.userOrganisationsIds = params.userOrganisationsIds;
     this.modelId = params.modelId;
-    this.parameters = params.parameters.map(dto => new ScenarioParameterDeviceOrganisation(dto));
-    this.scenarioParameters = params.scenarioParameters.map(dto => new ScenarioParameter(dto));
+    this.overrideParameters = params.overrideParameters.map(dto => new ScenarioParameterOverride(dto));
+    this.defaultParameters = params.defaultParameters.map(dto => new ScenarioParameter(dto));
   }
 }
 
@@ -59,8 +59,8 @@ export interface ScenarioDeviceOrganisationInfosDTO {
   modelId: string;
   warnDeviceManager: boolean;
   userOrganisationsIds: string[];
-  parameters: ScenarioParameterDeviceOrganisationDTO[];
-  scenarioParameters: ScenarioParameterDTO[];
+  overrideParameters: ScenarioParameterOverrideDTO[];
+  defaultParameters: ScenarioParameterDTO[];
 }
 
 export interface ScenarioDeviceOrganisationFilters {
