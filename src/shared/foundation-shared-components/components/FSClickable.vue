@@ -10,13 +10,12 @@
     @mouseup="active = false"
   >
     <FSCard
+      height="100%"
+      width="100%"
       :borderRadius="$props.borderRadius"
       :borderStyle="$props.borderStyle"
       :padding="$props.padding"
-      :height="$props.height"
-      :width="$props.width"
       :class="classes"
-      :style="style"
       v-bind="$attrs"
     >
       <template
@@ -52,13 +51,12 @@
     @mouseup="active = false"
   >
     <FSCard
+      height="100%"
+      width="100%"
       :borderRadius="$props.borderRadius"
       :borderStyle="$props.borderStyle"
       :padding="$props.padding"
-      :height="$props.height"
-      :width="$props.width"
       :class="classes"
-      :style="style"
       v-bind="$attrs"
     >
       <template
@@ -95,13 +93,12 @@
     @mouseup="active = false"
   >
     <FSCard
+      height="100%"
+      width="100%"
       :borderRadius="$props.borderRadius"
       :borderStyle="$props.borderStyle"
       :padding="$props.padding"
-      :height="$props.height"
-      :width="$props.width"
       :class="classes"
-      :style="style"
       v-bind="$attrs"
     >
       <template

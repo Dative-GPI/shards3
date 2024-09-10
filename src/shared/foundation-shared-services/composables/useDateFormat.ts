@@ -31,6 +31,18 @@ export const useDateFormat = () => {
       === subDays(now, 1).toLocaleString(languageCode.value, { ...OPTIONS.shortDate, timeZone: timeZone.value });
   }
 
+  const dayToMillisecond = (value: number): number => {
+    return value * 24 * 60 * 60 * 1000
+  }
+
+  const epochToDayMonthLongOnly = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.dayMonthLongOnly, timeZone: timeZone.value });
+  }
+
   const epochToShortDateFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -62,6 +74,22 @@ export const useDateFormat = () => {
     return date.toLocaleString(languageCode.value, { ...OPTIONS.shortTime, timeZone: timeZone.value });
   };
 
+  const epochToLocalDayStart = (value: number | null | undefined): number => {
+    if (value == null || !isFinite(value)) {
+      return 0;
+    }
+    const date = new Date(value);
+    return date.setHours(0, 0, 0, 0);
+  }
+
+  const epochToLocalDayEnd = (value: number | null | undefined): number => {
+    if (value == null || !isFinite(value)) {
+      return 0;
+    }
+    const date = new Date(value);
+    return date.setHours(23, 59, 59, 999);
+  }
+
   const epochToLongTimeFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -77,6 +105,14 @@ export const useDateFormat = () => {
     return dateString[0].toLocaleUpperCase() + dateString.slice(1);
   };
 
+  const epochToMonthYearOnlyFormat = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.monthYearOnly, timeZone: timeZone.value });
+  }
+
   const epochToTimeOnlyFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -84,6 +120,25 @@ export const useDateFormat = () => {
     const date = new Date(value);
     return date.toLocaleString(languageCode.value, { ...OPTIONS.time, timeZone: timeZone.value });
   };
+
+  const epochToShortTimeOnlyFormat = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.shortTimeOnly, timeZone: timeZone.value });
+  }
+
+  const epochToWeekNumber = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    const week1 = new Date(date.getFullYear(), 0, 4);
+    return `${1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7)}`;
+  }
 
   const todayToEpoch = (): number => {
     return new Date().getTime() + getOffsetDifference();
@@ -107,6 +162,10 @@ export const useDateFormat = () => {
     const date = epochToPicker(value);
     return { d: date.getDate(), m: date.getMonth(), y: date.getFullYear() };
   };
+
+  const millisecondToDay = (value: number): number => {
+    return value / 1000 / 60 / 60 / 24;
+  }
 
   const todayToPicker = (): string => {
     const date = addMilliseconds(new Date(), -getMachineOffset());
@@ -138,13 +197,21 @@ export const useDateFormat = () => {
   return {
     todayToEpoch,
     pickerToEpoch,
+    dayToMillisecond,
+    epochToDayMonthLongOnly,
     epochToPicker,
     epochToPickerHeader,
+    epochToLocalDayStart,
+    epochToLocalDayEnd,
     epochToLongDateFormat,
     epochToLongTimeFormat,
+    epochToMonthYearOnlyFormat,
     epochToShortDateFormat,
     epochToShortTimeFormat,
+    epochToShortTimeOnlyFormat,
     epochToTimeOnlyFormat,
+    epochToWeekNumber,
+    millisecondToDay,
     parseForPicker,
     todayToPicker,
     yesterdayToPicker,

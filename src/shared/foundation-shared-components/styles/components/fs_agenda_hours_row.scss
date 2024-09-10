@@ -1,0 +1,13 @@
+.fs-agenda-hours-row {
+  transform: translateX(calc(-2.4% + 2px));
+}
+
+.fs-agenda-hours-row-text {
+  padding: 0 2px;
+}
+
+.fs-agenda-hours-row-marker {
+  height: 4px;
+  border-right: solid 1px var(--fs-agenda-hours-row-marker-color);
+  transform: translateY(-4px);
+}
