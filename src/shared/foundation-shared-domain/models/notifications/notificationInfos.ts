@@ -1,15 +1,18 @@
-import { type Criticity } from "@dative-gpi/foundation-shared-domain/enums";
+import { type Criticity, type MessageType, type Scope } from "@dative-gpi/foundation-shared-domain/enums";
 import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
-import { type NotificationType } from "@dative-gpi/foundation-shared-domain/enums";
+import { type NotificationAudience } from "./notificationAudience";
 
 export class NotificationInfos {
   id: string;
   title: string;
   body: string;
   pageUrl: string;
-  timestamp: number;
+  entityId?: string;
+  scope: Scope;
+  type: MessageType;
   criticity: Criticity;
+  timestamp: number;
   acknowledged: boolean | null;
   acknowledgingTimestamp: number | null;
 
@@ -18,8 +21,11 @@ export class NotificationInfos {
     this.title = params.title;
     this.body = params.body;
     this.pageUrl = params.pageUrl;
-    this.timestamp = isoToEpoch(params.timestamp);
+    this.entityId = params.entityId;
+    this.scope = params.scope as Scope;
+    this.type = params.type as MessageType;
     this.criticity = params.criticity as Criticity;
+    this.timestamp = isoToEpoch(params.timestamp);
     this.acknowledged = params.acknowledged;
     this.acknowledgingTimestamp = params.acknowledgingTimestamp ?
       isoToEpoch(params.acknowledgingTimestamp) : null;
@@ -31,13 +37,17 @@ export interface NotificationInfosDTO {
   title: string;
   body: string;
   pageUrl: string;
-  timestamp: string;
+  entityId?: string;
+  scope: number;
+  type: number;
   criticity: number;
+  timestamp: string;
   acknowledged: boolean | null;
   acknowledgingTimestamp: string | null;
 }
 
 export interface NotificationFilters {
-  type?: NotificationType | null;
-  acknowledged?: boolean | null;
+  audiences: NotificationAudience[];
+  type?: MessageType | null;
+  criticity?: Criticity | null;
 }

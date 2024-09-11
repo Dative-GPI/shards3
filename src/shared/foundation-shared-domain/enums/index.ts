@@ -11,7 +11,7 @@ export * from "./dates";
 export * from "./filters";
 export * from "./index";
 export * from "./lists";
-export * from "./notifications";
+export * from "./messages";
 export * from "./roles";
 export * from "./times";
 export * from "./users";

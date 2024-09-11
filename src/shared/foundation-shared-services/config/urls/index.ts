@@ -2,6 +2,7 @@ export * from "./authTokens";
 export * from "./files";
 export * from "./images";
 export * from "./languages";
+export * from "./notifications";
 export * from "./organisations";
 export * from "./terminals";
 export * from "./timeZones";

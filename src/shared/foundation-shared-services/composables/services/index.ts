@@ -1,6 +1,7 @@
 export * from "./useAuthTokens";
 export * from "./useImages";
 export * from "./useLanguages";
+export * from "./useNotifications";
 export * from "./useOrganisations";
 export * from "./useTerminals";
 export * from "./useTimeZones";
