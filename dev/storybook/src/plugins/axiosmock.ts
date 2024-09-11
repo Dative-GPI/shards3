@@ -46,6 +46,9 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups", GROUPS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups/1", GROUPS[0]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/groups/2", GROUPS[1]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/locations/1", LOCATIONS[0]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/locations/2", LOCATIONS[1]);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/locations/3", LOCATIONS[2]);
 
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/alerts1", USERORGANISATIONTABLES[8]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/authTokens1", USERORGANISATIONTABLES[7]);
