@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, watch } from "vue";
+import { defineComponent, watch } from "vue";
 
 import { useLocation } from "@dative-gpi/foundation-core-services/composables";
 
@@ -52,13 +52,9 @@ export default defineComponent({
   setup(props) {
     const { get, getting, entity } = useLocation();
 
-    onMounted(() => {
-      get(props.locationId);
-    });
-
     watch(() => props.locationId, () => {
       get(props.locationId);
-    });
+    }, { immediate: true });
 
     return {
       getting,
