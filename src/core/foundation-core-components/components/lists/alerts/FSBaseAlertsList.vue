@@ -11,17 +11,17 @@
     v-bind="$attrs"
   >
     <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
+    >
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
+    </template>
+    <template
       #toolbar
     >
-      <template
-        v-for="(_, name) in $slots"
-        v-slot:[name]="slotData"
-      >
-        <slot
-          :name="name"
-          v-bind="slotData"
-        />
-      </template>
       <FSButtonCheckbox
         :label="$tr('page.alerts.not-acknowledged-only', 'Not acknowledged only')"
         :color="ColorEnum.Warning"
