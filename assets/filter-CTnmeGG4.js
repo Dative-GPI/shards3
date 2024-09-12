@@ -1,0 +1,1 @@
+const s=(e,r)=>typeof e!="object"||e===null?String(e).toLowerCase().includes(r):Array.isArray(e)?e.some(t=>s(t,r)):Object.values(e).some(t=>s(t,r)),a=(e,r)=>{const t=r.toLowerCase();return e.filter(n=>s(n,t))};export{s as c,a as f};
