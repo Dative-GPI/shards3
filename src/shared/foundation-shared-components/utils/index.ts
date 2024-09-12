@@ -2,6 +2,7 @@ export * from "./badge";
 export * from "./color";
 export * from "./css";
 export * from "./error";
+export * from "./filter";
 export * from "./gradient";
 export * from "./icons";
 export * from "./leafletMarkers"
