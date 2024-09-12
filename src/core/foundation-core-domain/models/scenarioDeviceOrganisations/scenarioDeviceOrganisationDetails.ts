@@ -16,7 +16,7 @@ export interface ScenarioDeviceOrganisationDetailsDTO extends ScenarioDeviceOrga
 }
 
 export interface CreateScenarioDeviceOrganisationDTO {
-  scenarioId: string;
+  deprecatedScenarioId: string;
   deviceOrganisationId: string;
   overrideTimeRanges: boolean;
   timeRanges: CreateTimeRangeDTO[] | null;
@@ -27,7 +27,7 @@ export interface CreateScenarioDeviceOrganisationDTO {
 }
 
 export interface CreateManyScenarioDeviceOrganisationDTO {
-  scenarioId: string;
+  deprecatedScenarioId: string;
   deviceOrganisationsIds: string[];
   overrideTimeRanges: boolean;
   timeRanges: CreateTimeRangeDTO[] | null;

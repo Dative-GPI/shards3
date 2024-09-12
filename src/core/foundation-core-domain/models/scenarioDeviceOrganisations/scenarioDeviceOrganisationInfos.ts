@@ -4,10 +4,11 @@ import { ScenarioParameter } from "../scenarios/scenarioParameter";
 import type { ScenarioParameterDTO } from "../scenarios/scenarioParameter";
 import type { TimeRangeDTO } from "../shared/timeRange";
 import { TimeRange } from "../shared/timeRange";
+import type { ApplicationScope } from "@/shared/foundation-shared-domain/enums";
 
 export class ScenarioDeviceOrganisationInfos {
   id: string;
-  scenarioId: string;
+  deprecatedScenarioId: string;
   scenarioLabel: string;
   deviceOrganisationId: string;
   deviceOrganisationImageId: string | null;
@@ -22,10 +23,12 @@ export class ScenarioDeviceOrganisationInfos {
   modelId: string;
   overrideParameters: ScenarioParameterOverride[];
   defaultParameters: ScenarioParameter[];
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
 
   constructor(params: ScenarioDeviceOrganisationInfosDTO) {
     this.id = params.id;
-    this.scenarioId = params.scenarioId;
+    this.deprecatedScenarioId = params.deprecatedScenarioId;
     this.scenarioLabel = params.scenarioLabel;
     this.deviceOrganisationId = params.deviceOrganisationId;
     this.deviceOrganisationImageId = params.deviceOrganisationImageId;
@@ -41,12 +44,14 @@ export class ScenarioDeviceOrganisationInfos {
     this.modelId = params.modelId;
     this.overrideParameters = params.overrideParameters.map(dto => new ScenarioParameterOverride(dto));
     this.defaultParameters = params.defaultParameters.map(dto => new ScenarioParameter(dto));
+    this.scenarioId = params.scenarioId;
+    this.scenarioScope = params.scenarioScope;
   }
 }
 
 export interface ScenarioDeviceOrganisationInfosDTO {
   id: string;
-  scenarioId: string;
+  deprecatedScenarioId: string;
   scenarioLabel: string;
   deviceOrganisationId: string;
   deviceOrganisationImageId: string | null;
@@ -61,10 +66,12 @@ export interface ScenarioDeviceOrganisationInfosDTO {
   userOrganisationsIds: string[];
   overrideParameters: ScenarioParameterOverrideDTO[];
   defaultParameters: ScenarioParameterDTO[];
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
 }
 
 export interface ScenarioDeviceOrganisationFilters {
-  scenarioId?: string | null;
+  deprecatedScenarioId?: string | null;
   deviceOrganisationId?: string | null;
   deviceOrganisationsIds?: string[] | null;
 }
