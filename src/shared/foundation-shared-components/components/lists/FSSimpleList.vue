@@ -29,7 +29,6 @@
           v-if="$props.loading"
         >
           <FSLoader
-            
             v-for="i in 4"
             :key="i"
             :width="$props.direction == 'row' ? '220px' : '100%'"
@@ -101,9 +100,11 @@
 
 
 <script lang="ts">
+import { computed } from "vue";
 import { defineComponent, type PropType, ref, watch } from "vue";
 
 import { ColorEnum } from "../../models"
+import { filterItems } from "../../utils";
 
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
@@ -118,7 +119,6 @@ import FSSearchField from "../fields/FSSearchField.vue";
 import FSButtonEditIcon from "../buttons/FSButtonEditIcon.vue";
 import FSButtonDragIcon from "../buttons/FSButtonDragIcon.vue";
 import FSButtonRemoveIcon from "../buttons/FSButtonRemoveIcon.vue";
-import { computed } from "vue";
 
 export default defineComponent({
   name: "FSSimpleList",
@@ -211,15 +211,10 @@ export default defineComponent({
   setup(props, { emit }) {
     const actualSearch = ref<string | null>(props.search);
     const filteredItems = computed(() => {
-      if(!props.noFilter && actualSearch.value) {
-        const formattedSearch = actualSearch.value.toLowerCase();
-        return props.items.filter((item) => {
-          if (!JSON.stringify(item).toLowerCase().includes(formattedSearch)) {
-            return false;
-          }
-        });
+      if(!actualSearch.value) {
+        return props.items;
       }
-      return props.items;
+      return filterItems(props.items, actualSearch.value);
     });
 
     const onSearch = (value: string) => {
