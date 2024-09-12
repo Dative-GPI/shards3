@@ -8,7 +8,7 @@ import { type DateVariable } from "../shared/dateVariable";
 
 export class AlertInfos {
   id: string;
-  scenarioId: string;
+  deprecatedScenarioId: string;
   scenarioLabel: string;
   organisationId: string;
   deviceOrganisationId: string;
@@ -39,7 +39,7 @@ export class AlertInfos {
 
   constructor(params: AlertInfosDTO) {
     this.id = params.id;
-    this.scenarioId = params.scenarioId;
+    this.deprecatedScenarioId = params.deprecatedScenarioId;
     this.scenarioLabel = params.scenarioLabel;
     this.organisationId = params.organisationId;
     this.deviceOrganisationId = params.deviceOrganisationId;
@@ -79,7 +79,7 @@ export class AlertInfos {
 
 export interface AlertInfosDTO {
   id: string;
-  scenarioId: string;
+  deprecatedScenarioId: string;
   scenarioLabel: string;
   organisationId: string;
   deviceOrganisationId: string;
@@ -110,7 +110,7 @@ export interface AlertInfosDTO {
 }
 
 export interface AlertFilters {
-  scenarioId?: string | null;
+  deprecatedScenarioId?: string | null;
   deviceOrganisationId?: string | null;
   statuses?: AlertStatus[] | null;
   acknowledged?: boolean | null;

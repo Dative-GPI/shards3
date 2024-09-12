@@ -4,21 +4,21 @@ import { AlertInfos, type AlertInfosDTO } from "./alertInfos";
 export class AlertDetails extends AlertInfos {
   description: string;
   comments: string;
-  deprecatedScenarioId: string;
-  scope: ApplicationScope;
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
 
   constructor(params: AlertDetailsDTO) {
     super(params);
     this.comments = params.comments;
     this.description = params.description;
-    this.deprecatedScenarioId = params.deprecatedScenarioId;
-    this.scope = params.scope;
+    this.scenarioId = params.scenarioId;
+    this.scenarioScope = params.scenarioScope;
   }
 }
 
 export interface AlertDetailsDTO extends AlertInfosDTO {
   description: string;
   comments: string;
-  deprecatedScenarioId: string;
-  scope: ApplicationScope;
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
 }
