@@ -240,9 +240,8 @@ export default defineComponent({
 
     const getDayEvents = (dayStartEpoch: number) => {
       return props.events.filter((event) => {
-        const isStartingInDay = event.start >= dayStartEpoch && event.start < (dayStartEpoch + 1000 * 60 * 60 * 24);
-        const isEndingInDay = event.end >= dayStartEpoch && event.end < (dayStartEpoch + 1000 * 60 * 60 * 24);
-        return isStartingInDay || isEndingInDay;
+        const dayEndEpoch = dayStartEpoch + 1000 * 60 * 60 * 24;
+        return event.start < dayEndEpoch && event.end > dayStartEpoch;
       });
     };
 

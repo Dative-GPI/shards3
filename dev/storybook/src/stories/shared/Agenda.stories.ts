@@ -33,13 +33,10 @@ const meta: Meta<typeof FSAgenda> = {
       options: [AgendaMode.Day, AgendaMode.Week, AgendaMode.Month],
       description: 'Mode of the agenda view',
     },
-    events: {
-      description: 'Array of events to be displayed in the agenda',
-      table: {
-        type: {
-          summary: 'Array<FSAgendaEvent>',
-        },
-      },
+    eventsSet: {
+      control: { type: 'select' },
+      options: ['mountainChalet1', 'mountainChalet2'],
+      description: 'Set of events to display',
     },
     'update:mode': { action: 'update:mode' },
     'click:eventId': { action: 'click:eventId' },
@@ -48,14 +45,14 @@ const meta: Meta<typeof FSAgenda> = {
 
 const todayStart = new Date(useDateFormat().todayToEpoch()).setHours(0, 0, 0, 0);
 
-const generatedEvents: Array<FSAgendaEvent> = [];
+//#region Generate mountainChalet1
 
+const generatedEventsMountainChalet1: Array<FSAgendaEvent> = [];
 const startHour = 8;
 const endHour = 16.5;
 const endMaintenance = 21;
-
 for (let i = 0; i < 200; i++) {
-  generatedEvents.push({
+  generatedEventsMountainChalet1.push({
     id: `open${i}`,
     label: `Chalet ouvert`,
     icon: 'mdi-home-outline',
@@ -66,7 +63,7 @@ for (let i = 0; i < 200; i++) {
   });
 
   if (i % 7 === 4) {
-    generatedEvents.push({
+    generatedEventsMountainChalet1.push({
       id: `closed${i}`,
       label: `Chalet fermé`,
       icon: 'mdi-home-remove-outline',
@@ -75,7 +72,7 @@ for (let i = 0; i < 200; i++) {
       start: todayStart + endMaintenance * 3600000 + (i - 100) * 86400000,
       end: todayStart + startHour * 3600000 + (i - 100 + 1) * 86400000
     });
-    generatedEvents.push({
+    generatedEventsMountainChalet1.push({
       id: `maintenance${i}`,
       label: `Maintenance`,
       icon: 'mdi-account-hard-hat-outline',
@@ -85,7 +82,7 @@ for (let i = 0; i < 200; i++) {
       end: todayStart + endMaintenance * 3600000 + (i - 100) * 86400000
     });
   } else {
-    generatedEvents.push({
+    generatedEventsMountainChalet1.push({
       id: `closedX${i}`,
       label: `Chalet fermé`,
       icon: 'mdi-home-remove-outline',
@@ -97,6 +94,46 @@ for (let i = 0; i < 200; i++) {
   }
 }
 
+//#endregion
+
+//#region Generate mountainChalet2
+const generatedEventsMountainChalet2: Array<FSAgendaEvent> = [];
+const nowYear = new Date().getFullYear();
+
+for (let year = -10; year < 10; year++) {
+  const previousYearEndWinter = new Date(nowYear + year, 3, 1).getTime();
+  const startWinter = new Date(nowYear + year, 12, 1).getTime();
+  const endWinter = new Date(nowYear + year + 1, 3, 1).getTime();
+  
+  generatedEventsMountainChalet2.push({
+    id: `closedX${year}`,
+    label: `Chalet fermé`,
+    icon: 'mdi-home-remove-outline',
+    iconBis: 'mdi-sync',
+    color: 'error',
+    start: previousYearEndWinter,
+    end: startWinter
+  });
+
+  generatedEventsMountainChalet2.push({
+    id: `opendX${year}`,
+    label: `Chalet en marche`,
+    icon: 'mdi-snowflake',
+    iconBis: 'mdi-sync',
+    color: 'primary',
+    start: startWinter,
+    end: endWinter
+  });
+}
+console.log(generatedEventsMountainChalet2);
+//#endregion
+
+
+const events = {
+  mountainChalet1: [...generatedEventsMountainChalet1],
+  mountainChalet2: [...generatedEventsMountainChalet2],
+}
+
 export default meta;
 type Story = StoryObj<typeof meta>;
 
@@ -104,7 +141,7 @@ const Template: Story = {
   render: (args) => ({
     components: { FSAgenda, FSCard, FSCol },
     setup() {
-      return { args };
+      return { events, args };
     },
     template: `
       <FSCol>
@@ -113,6 +150,7 @@ const Template: Story = {
           v-model:mode="args.mode"
           v-model:start="args.start"
           v-model:end="args.end"
+          :events="events[args.eventsSet]"
           @update:mode="args['update:mode']"
           @update:start="args['update:start']"
           @update:end="args['update:end']"
@@ -131,7 +169,7 @@ export const Default: Story = {
     height: '800px',
     width: '100%',
     loading: false,
-    events: [...generatedEvents],
+    eventsSet: 'mountainChalet1',
     'update:mode': action('update:mode'),
     'update:start': action('update:start'),
     'update:end': action('update:end'),
@@ -160,7 +198,7 @@ export const DayView: Story = {
     mode: AgendaMode.Day,
     width: '100%',
     height: '100%',
-    events: [...generatedEvents],
+    eventsSet: 'mountainChalet2',
     'update:mode': action('update:mode'),
     'update:start': action('update:start'),
     'update:end': action('update:end'),
@@ -189,7 +227,7 @@ export const WeekView: Story = {
     mode: AgendaMode.Week,
     width: '100%',
     height: '100%',
-    events: [...generatedEvents],
+    eventsSet: 'mountainChalet1',
     'update:mode': action('update:mode'),
     'update:start': action('update:start'),
     'update:end': action('update:end'),
@@ -220,7 +258,7 @@ export const DoubleWeekView: Story = {
     height: '100%',
     start: todayStart - 86400000 * 7,
     end: todayStart + 86400000 * 7,
-    events: [...generatedEvents],
+    eventsSet: 'mountainChalet1',
     'update:mode': action('update:mode'),
     'update:start': action('update:start'),
     'update:end': action('update:end'),
@@ -252,7 +290,7 @@ export const MonthView: Story = {
     height: '100%',
     start: null,
     end: null,
-    events: [...generatedEvents],
+    eventsSet: 'mountainChalet1',
     'update:mode': action('update:mode'),
     'update:start': action('update:start'),
     'update:end': action('update:end'),
@@ -283,7 +321,7 @@ export const DoubleMonthView: Story = {
     height: '100%',
     start: todayStart - 86400000 * 31,
     end: todayStart + 86400000 * 31,
-    events: [...generatedEvents],
+    eventsSet: 'mountainChalet2',
     'update:mode': action('update:mode'),
     'update:start': action('update:start'),
     'update:end': action('update:end'),
