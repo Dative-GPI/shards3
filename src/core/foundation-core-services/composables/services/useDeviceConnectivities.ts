@@ -1,9 +1,9 @@
 import { DeviceConnectivityDetails, type DeviceConnectivityDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
+import { HUBS } from "@dative-gpi/foundation-shared-services/config";
 
 import { DEVICE_CONNECTIVITIES_HUB_URL, DEVICE_CONNECTIVITY_URL } from "../../config/urls";
-import { HUBS } from "../../config/literals";
 
 const DeviceConnectivityServiceFactory = new ServiceFactory<DeviceConnectivityDetailsDTO, DeviceConnectivityDetails>("deviceConnectivity", DeviceConnectivityDetails).create(factory => factory.build(
   factory.addGet(DEVICE_CONNECTIVITY_URL),
