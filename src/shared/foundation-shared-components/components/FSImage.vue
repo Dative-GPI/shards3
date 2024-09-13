@@ -33,12 +33,7 @@ export default defineComponent({
     const { authToken } = useAppAuthToken();
 
     const source = computed(() => {
-      const raw = props.imageId ? IMAGE_RAW_URL(props.imageId) : null;
-      if(raw && authToken){
-        return `${raw}?access_token=${authToken}`;
-      } else {
-        return raw;
-      }
+      return props.imageId ? IMAGE_RAW_URL(props.imageId, authToken.value) : null;
     });
 
     const onError = (): void => {

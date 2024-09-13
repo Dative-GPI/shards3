@@ -443,7 +443,7 @@ export default defineComponent({
     const classes = computed((): string[] => {
       const innerClasses = ["fs-rich-text-field"];
       if (!readonly.value) {
-        innerClasses.push("fs-rich-text-field-padding");
+        innerClasses.push("fs-rich-text-field-readonly");
       }
       return innerClasses;
     });
