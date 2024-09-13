@@ -1,8 +1,9 @@
 <template>
   <FSRow
-    class="fs-tag"
-    width="hug"
     align="center-left"
+    class="fs-tag"
+    :height="$props.height"
+    :width="$props.width"
     :style="style"
     :wrap="false"
     v-bind="$attrs"
@@ -55,6 +56,16 @@ export default defineComponent({
     FSRow
   },
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "hug"
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "hug"
+    },
     label: {
       type: String as PropType<string | null>,
       required: false,
