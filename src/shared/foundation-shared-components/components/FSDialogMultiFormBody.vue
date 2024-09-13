@@ -1,60 +1,69 @@
 <template>
-  <FSWindow
-    width="100%"
-    :modelValue="currentStep - 1"
+  <FSCol
+    gap="24px"
   >
-    <FSForm
-      v-for="(step, index) in $props.steps"
-      :variant="$props.variant"
-      :key="index"
-      @submit="onSubmit"
-      v-model="valid"
+    <FSPagination
+      width="calc(100% - 16px)"
+      :pages="$props.steps"
+      :modelValue="currentStep - 1"
+    />
+    <FSWindow
+      width="100%"
+      :modelValue="currentStep - 1"
     >
-      <FSCol
-        gap="24px"
+      <FSForm
+        v-for="(step, index) in $props.steps"
+        :variant="$props.variant"
+        :key="index"
+        @submit="onSubmit"
+        v-model="valid"
       >
-        <FSFadeOut
-          padding="0 8px 0 0"
-          :maxHeight="maxHeight"
+        <FSCol
+          gap="24px"
         >
-          <slot
-            :name="`step-${step}`"
-          />
-        </FSFadeOut>
-        <FSRow
-          padding="0 16px 0 0"
-        >
-          <slot
-            name="left-footer"
-          />
-          <FSRow
-            class="fs-dialog-actions"
-            align="top-right"
-            :wrap="false"
+          <FSFadeOut
+            padding="0 8px 0 0"
+            :maxHeight="maxHeight"
           >
-            <FSButton
-              :prependIcon="$props.cancelButtonPrependIcon"
-              :appendIcon="$props.cancelButtonAppendIcon"
-              :variant="$props.cancelButtonVariant"
-              :color="$props.cancelButtonColor"
-              :label="previousButtonLabel"
-              @click="onPrevious()"
+            <slot
+              :name="`step-${step}`"
             />
-            <FSButton
-              type="submit"
-              :prependIcon="$props.submitButtonPrependIcon"
-              :appendIcon="$props.submitButtonAppendIcon"
-              :color="$props.submitButtonColor"
-              :variant="nextButtonVariant"
-              :editable="$props.editable"
-              :label="nextButtonLabel"
-              :load="$props.load"
+          </FSFadeOut>
+          <FSRow
+            padding="0 16px 0 0"
+          >
+            <slot
+              name="left-footer"
             />
+            <FSRow
+              class="fs-dialog-actions"
+              align="top-right"
+              :wrap="false"
+            >
+              <FSButton
+                :prependIcon="$props.cancelButtonPrependIcon"
+                :appendIcon="$props.cancelButtonAppendIcon"
+                :variant="$props.cancelButtonVariant"
+                :color="$props.cancelButtonColor"
+                :label="previousButtonLabel"
+                @click="onPrevious()"
+              />
+              <FSButton
+                type="submit"
+                :prependIcon="$props.submitButtonPrependIcon"
+                :appendIcon="$props.submitButtonAppendIcon"
+                :color="$props.submitButtonColor"
+                :variant="nextButtonVariant"
+                :editable="$props.editable"
+                :label="nextButtonLabel"
+                :load="$props.load"
+              />
+            </FSRow>
           </FSRow>
-        </FSRow>
-      </FSCol>
-    </FSForm>
-  </FSWindow>
+        </FSCol>
+      </FSForm>
+    </FSWindow>
+  </FSCol>
 </template>
 
 <script lang="ts">
@@ -64,17 +73,21 @@ import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
+import FSPagination from "./FSPagination.vue";
 import FSFadeOut from "./FSFadeOut.vue";
 import FSButton from "./FSButton.vue";
 import FSForm from "./FSForm.vue";
+import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
 export default defineComponent({
   name: "FSDialogMultiFormBody",
   components: {
+    FSPagination,
     FSFadeOut,
     FSButton,
     FSForm,
+    FSCol,
     FSRow
   },
   props: {
