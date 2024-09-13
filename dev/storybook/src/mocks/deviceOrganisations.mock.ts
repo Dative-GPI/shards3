@@ -246,7 +246,7 @@ export const DEVICEORGANISATIONS: DeviceOrganisationDetailsDTO[] = [{
     groupId: null,
     groupLabel: null,
     groupIcon: null,
-    label: "Device 2",
+    label: "Device 2 with a very very very very long name",
     code: "980002",
     imageId: "1",
     tags: [],

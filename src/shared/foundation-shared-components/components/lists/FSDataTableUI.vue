@@ -697,7 +697,7 @@ import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shar
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid"
 
-import { alphanumericSort, sizeToVar } from "../../utils";
+import { alphanumericSort, containsSearchTerm, sizeToVar } from "../../utils";
 
 import FSDataIteratorItem from "./FSDataIteratorItem.vue";
 import FSSearchField from "../fields/FSSearchField.vue";
@@ -1024,14 +1024,13 @@ export default defineComponent({
         return acc.concat(filters.value[key].filter((filter) => filter.hidden).map((filter) => ({ key, filter })));
       }, [] as { key: string, filter: FSDataTableFilter }[]);
       if (props.items && props.items.length) {
+        const innerSearchFormatted = innerSearch.value ? innerSearch.value.toLowerCase() : null;
         return props.items.filter((item) => {
           if (props.selectedOnly && !props.modelValue.includes(item[props.itemValue])) {
             return false;
           }
-          if (innerSearch.value) {
-            if (!JSON.stringify(item).toLowerCase().includes(innerSearch.value.toString().toLowerCase())) {
-              return false;
-            }
+          if (innerSearchFormatted) {
+            return containsSearchTerm(item, innerSearchFormatted);
           }
           if (activeFilters.some(af => af.filter.filter && af.filter.filter(af.filter.value, item[af.key], item))) {
             return false;

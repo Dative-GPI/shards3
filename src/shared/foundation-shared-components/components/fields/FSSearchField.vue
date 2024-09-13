@@ -1,5 +1,6 @@
 <template>
   <FSTextField
+    class="fs-search-field"
     :editable="$props.editable"
     :placeholder="placeholder"
     @keydown.enter="onSearch"

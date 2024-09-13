@@ -123,7 +123,12 @@ export default defineComponent({
     tableCode: {
       type: String,
       required: true
-    }
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+      required: false
+    },
   },
   emits: ["update:modelValue", "update:type"],
   setup(props, { emit }) {
@@ -134,7 +139,7 @@ export default defineComponent({
     const { entity: organisation, get: getOrganisation } = useOrganisation();
     const { organisationId } = useAppOrganisationId();
 
-    const selecteds = ref<string[]>([]);
+    const selecteds = ref<string[]>(props.modelValue);
 
     const items = computed((): DashboardsListItem[] => {
       return _.sortBy([
