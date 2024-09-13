@@ -180,7 +180,7 @@ export default defineComponent({
 
     const dayEvents = computed(() => {
       return props.events.filter((event) => {
-        return (event.start <= props.end && event.start >= props.start) || (event.end <= props.end && event.end >= props.start);
+        return event.start < props.end && event.end > props.start;
       });
     });
 
