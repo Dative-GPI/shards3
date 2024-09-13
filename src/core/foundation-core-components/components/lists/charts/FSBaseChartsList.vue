@@ -4,7 +4,7 @@
     :items="charts"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:modelValue="onSelect"
     v-bind="$attrs"
   >
     <template
@@ -117,7 +117,7 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "update:scope"],
   setup(props, { emit }) {
 
     const { entities: chartOrganisations, fetching: fetchingChartOrganisations, getMany: getManyChartOrganisations } = useChartOrganisations();
@@ -176,12 +176,23 @@ export default defineComponent({
       const item = isSelected(value);
 
       if(item){
-        emit("update:modelValue", props.modelValue.filter(m => m != value))
+        onSelect(props.modelValue.filter(m => m != value))
       }
       else{
-        emit("update:modelValue", [...props.modelValue, value])
+        onSelect([...props.modelValue, value])
       }
     }
+
+    const onSelect = (values: string[] | null) => {
+      if(!values){
+        emit("update:modelValue", [])
+        emit("update:scope", [])
+        return;
+      }
+      const selectedItems = charts.value.filter(i => values.includes(i.id));
+      emit("update:modelValue", selectedItems.map(i => i.id));
+      emit("update:scope", selectedItems.map(i => i.scope));
+    };
  
     watch(() => [props.chartOrganisationFilters,props.chartOrganisationTypeFilters], (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
@@ -197,6 +208,7 @@ export default defineComponent({
       ColorEnum,
       charts,
       isSelected,
+      onSelect,
       update
     };
   }
