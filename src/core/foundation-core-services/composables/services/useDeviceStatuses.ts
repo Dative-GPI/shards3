@@ -1,9 +1,9 @@
 import { DeviceStatusDetails, type DeviceStatusDetailsDTO } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
+import { HUBS } from "@dative-gpi/foundation-shared-services/config";
 
 import { DEVICE_STATUSES_HUB_URL, DEVICE_STATUS_URL } from "../../config/urls";
-import { HUBS } from "../../config/literals";
 
 const DeviceStatusServiceFactory = new ServiceFactory<DeviceStatusDetailsDTO, DeviceStatusDetails>("deviceStatus", DeviceStatusDetails).create(factory => factory.build(
   factory.addGet(DEVICE_STATUS_URL),

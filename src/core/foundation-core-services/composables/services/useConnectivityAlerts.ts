@@ -1,9 +1,9 @@
 import { ConnectivityAlertDetails, type ConnectivityAlertDetailsDTO, type ConnectivityAlertFilters, ConnectivityAlertInfos, type ConnectivityAlertInfosDTO } from "@dative-gpi/foundation-core-domain/models";
 import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
+import { HUBS } from "@dative-gpi/foundation-shared-services/config";
 
 import { CONNECTIVITY_ALERTS_HUB_URL, CONNECTIVITY_ALERTS_URL, CONNECTIVITY_ALERT_URL } from "../../config/urls";
-import { HUBS } from "../../config/literals";
 
 const ConnectivityAlertServiceFactory = new ServiceFactory<ConnectivityAlertDetailsDTO, ConnectivityAlertDetails>("connectivityAlert", ConnectivityAlertDetails).create(factory => factory.build(
   factory.addGet(CONNECTIVITY_ALERT_URL),

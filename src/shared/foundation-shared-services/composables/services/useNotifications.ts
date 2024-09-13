@@ -1,11 +1,11 @@
-import { NotificationDetails, type NotificationDetailsDTO, NotificationInfos, type NotificationInfosDTO, type NotificationFilters } from "@dative-gpi/foundation-core-domain/models";
-import { HubFactory } from "@dative-gpi/foundation-shared-services/tools/hubFactory";
+import { type NotificationDetailsDTO, type NotificationFilters, type NotificationInfosDTO } from "@dative-gpi/foundation-shared-domain/models";
+import { NotificationDetails, NotificationInfos } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
 
-import { NOTIFICATIONS_HUB_URL, NOTIFICATIONS_URL, NOTIFICATION_URL } from "../../config";
-import { HUBS } from "../../config/literals";
+import { HUBS, NOTIFICATION_URL, NOTIFICATIONS_HUB_URL, NOTIFICATIONS_URL } from "../../config";
+import { HubFactory } from "../../tools";
 
-const NotificationServiceFactory = new ServiceFactory<NotificationDetailsDTO, NotificationDetails>("notifications", NotificationDetails).create(factory => factory.build( 
+const NotificationServiceFactory = new ServiceFactory<NotificationDetailsDTO, NotificationDetails>("notification", NotificationDetails).create(factory => factory.build(
   factory.addGet(NOTIFICATION_URL),
   factory.addGetMany<NotificationInfosDTO, NotificationInfos, NotificationFilters>(NOTIFICATIONS_URL, NotificationInfos),
   factory.addNotify(notifyService => ({
@@ -19,24 +19,18 @@ const NotificationServiceFactory = new ServiceFactory<NotificationDetailsDTO, No
 ));
 
 const useNotificationsHub = HubFactory.create(NOTIFICATIONS_HUB_URL,
-    (connection, { hasWatchers }) => {
-      connection.on(HUBS.CREATE_NOTIFICATION, (notificationId: string) => hasWatchers()
-        ? NotificationServiceFactory.get(notificationId).then(NotificationServiceFactory.notifyCreate)
-        : null);
-    },
-    async (connection) => {
-      await connection.invoke(HUBS.SUBSCRIBE);
-    }
+  (connection, { hasWatchers }) => {
+    connection.on(HUBS.CREATE_NOTIFICATION, (notificationId: string) => hasWatchers()
+      ? NotificationServiceFactory.get(notificationId).then(NotificationServiceFactory.notifyCreate)
+      : null);
+  },
+  async (connection) => {
+    await connection.invoke(HUBS.SUBSCRIBE);
+  }
 );
 
 const useWatchNotifications = HubFactory.createWatcher(useNotificationsHub);
 
-export const useNotification = ComposableFactory.get(NotificationServiceFactory, () => {
-  const { watchOne } = useWatchNotifications();
-  return (notification) => {
-    watchOne(notification.value.id);
-  }
-});
 
 export const useNotifications = ComposableFactory.getMany(NotificationServiceFactory, () => {
   const { watchMany } = useWatchNotifications();
@@ -44,5 +38,4 @@ export const useNotifications = ComposableFactory.getMany(NotificationServiceFac
     watchMany();
   }
 });
-
 export const useAcknowledgeNotification = ComposableFactory.custom(NotificationServiceFactory.acknowledge);
