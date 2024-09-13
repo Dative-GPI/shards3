@@ -64,6 +64,13 @@ export const Variations: Story = {
         variant="readonly"
         v-model="args.value3"
       />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSRichTextField
+        label="Readonly rich text"
+        emptyLabel="Empty label (modelValue linked with the Rich text, 2 rows modelValue)"
+        variant="readonly"
+        v-model="args.value2"
+      />
     </FSCol>`
   })
 }

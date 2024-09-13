@@ -179,8 +179,14 @@
         </FSIcon>
       </template>
     </FSRow>
+    <FSText
+      v-if="readonly && !$props.modelValue && $props.emptyLabel"
+      variant="soft"
+    >
+      {{ $props.emptyLabel }}
+    </FSText>
     <div
-      class="fs-rich-text-field"
+      :class="classes"
       :style="style"
     >
       <div
@@ -237,6 +243,7 @@ import FSAutoCompleteField from "./FSAutocompleteField.vue";
 import FSTextField from "./FSTextField.vue";
 import FSIcon from "../FSIcon.vue";
 import FSCard from "../FSCard.vue";
+import FSText from "../FSText.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
@@ -245,6 +252,7 @@ export default defineComponent({
   components: {
     FSAutoCompleteField,
     FSTextField,
+    FSText,
     FSIcon,
     FSCard,
     FSCol,
@@ -257,6 +265,11 @@ export default defineComponent({
       default: null
     },
     description: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
+    emptyLabel: {
       type: String as PropType<string | null>,
       required: false,
       default: null
@@ -350,6 +363,10 @@ export default defineComponent({
       onError: console.error
     }
 
+    const isEmpty = computed((): boolean => {
+      return editor.getEditorState().isEmpty();
+    });
+
     const editor = createEditor(config);
 
     onMounted((): void => {
@@ -421,6 +438,14 @@ export default defineComponent({
           "--fs-rich-text-field-min-height": minHeight
         }
       }
+    });
+
+    const classes = computed((): string[] => {
+      const innerClasses = ["fs-rich-text-field"];
+      if (!readonly.value) {
+        innerClasses.push("fs-rich-text-field-readonly");
+      }
+      return innerClasses;
     });
 
     const toolbarColors = computed((): { [code: string]: string } => {
@@ -655,8 +680,11 @@ export default defineComponent({
       toolbarColors,
       menuVariable,
       UNDO_COMMAND,
+      ColorEnum,
       readonly,
       linkUrl,
+      classes,
+      isEmpty,
       editor,
       isLink,
       style,
