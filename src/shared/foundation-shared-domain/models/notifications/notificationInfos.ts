@@ -1,8 +1,6 @@
 import { type Criticity, type MessageType, type Scope } from "@dative-gpi/foundation-shared-domain/enums";
 import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
-import { type NotificationAudience } from "./notificationAudience";
-
 export class NotificationInfos {
   id: string;
   title: string;
@@ -47,7 +45,6 @@ export interface NotificationInfosDTO {
 }
 
 export interface NotificationFilters {
-  audiences: NotificationAudience[];
   type?: MessageType | null;
   criticity?: Criticity | null;
 }
