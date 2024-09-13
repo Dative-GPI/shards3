@@ -135,7 +135,7 @@ export default defineComponent({
     const charts = computed(() => {
       return chartOrganisations.value.map(c => {
         return {
-          id: `${c.id}_${c.scope}`,
+          id: c.id,
           imageId: c.imageId,
           chartId: c.chartId,
           chartCategoryId: c.chartCategoryId,
@@ -153,7 +153,7 @@ export default defineComponent({
       })
         .concat(chartOrganisationTypes.value.map(c => {
           return {
-            id: `${c.id}_${c.scope}`,
+            id: c.id,
             imageId: c.imageId,
             chartId: c.chartId,
             chartCategoryId: c.chartCategoryId,
