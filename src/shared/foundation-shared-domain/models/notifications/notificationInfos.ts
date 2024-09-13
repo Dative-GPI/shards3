@@ -6,8 +6,10 @@ export class NotificationInfos {
   title: string;
   body: string;
   pageUrl: string;
+  audienceId: string;
+  audienceScope: Scope;
+  organisationId?: string;
   entityId?: string;
-  scope: Scope;
   type: MessageType;
   criticity: Criticity;
   timestamp: number;
@@ -19,8 +21,10 @@ export class NotificationInfos {
     this.title = params.title;
     this.body = params.body;
     this.pageUrl = params.pageUrl;
+    this.audienceId = params.audienceId;
+    this.audienceScope = params.audienceScope as Scope;
+    this.organisationId = params.organisationId;
     this.entityId = params.entityId;
-    this.scope = params.scope as Scope;
     this.type = params.type as MessageType;
     this.criticity = params.criticity as Criticity;
     this.timestamp = isoToEpoch(params.timestamp);
@@ -35,8 +39,10 @@ export interface NotificationInfosDTO {
   title: string;
   body: string;
   pageUrl: string;
+  audienceId: string;
+  audienceScope: number;
+  organisationId?: string;
   entityId?: string;
-  scope: number;
   type: number;
   criticity: number;
   timestamp: string;
