@@ -1,6 +1,6 @@
 <template>
   <FSRow
-    align="center-left"
+    align="center-center"
     class="fs-tag"
     :height="$props.height"
     :width="$props.width"
