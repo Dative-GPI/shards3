@@ -42,9 +42,8 @@
 import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 import { decode, isBlurhashValid } from "blurhash";
 
-import type { ImageDetails } from "@dative-gpi/foundation-shared-domain/models";
-
 import { sizeToVar, varToSize } from "@dative-gpi/foundation-shared-components/utils";
+import { type ImageDetails } from "@dative-gpi/foundation-shared-domain/models";
 
 import FSLoader from "./FSLoader.vue";
 
@@ -64,6 +63,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    aspectRatio: {
+      type: Number as PropType<number | null>,
+      required: false,
+      default: 1
+    },
     imageB64: {
       type: String as PropType<string | null>,
       required: false,
@@ -76,11 +80,6 @@ export default defineComponent({
     },
     blurHash: {
       type: Object as PropType<ImageDetails | null>,
-      required: false,
-      default: null
-    },
-    aspectRatio: {
-      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -127,10 +126,7 @@ export default defineComponent({
           return undefined;
         }
         if (props.aspectRatio) {
-          const split = props.aspectRatio.split('/');
-          if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return sizeToVar(varToSize(props.width) * (parseFloat(split[1]) / parseFloat(split[0])));
-          }
+          return sizeToVar(varToSize(props.width) / props.aspectRatio);
         }
         return sizeToVar(props.width);
       }
@@ -146,10 +142,7 @@ export default defineComponent({
           return undefined;
         }
         if (props.aspectRatio) {
-          const split = props.aspectRatio.split('/');
-          if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return sizeToVar(varToSize(props.height) * (parseFloat(split[0]) / parseFloat(split[1])));
-          }
+          return sizeToVar(varToSize(props.height) * props.aspectRatio);
         }
         return sizeToVar(props.height);
       }

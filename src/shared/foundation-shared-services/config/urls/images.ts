@@ -10,5 +10,10 @@ export const IMAGE_RAW_URL = (imageId: string, authToken?: string) => {
   }
   return url;
 };
-
-export const IMAGE_THUMBNAIL_URL = (imageId: string) => `${IMAGE_URL(imageId)}/thumbnail`;
+export const IMAGE_THUMBNAIL_URL = (imageId: string, authToken?: string) => {
+  let url = `${IMAGE_URL(imageId)}/thumbnail`;
+  if (authToken) {
+    url += `?authToken=${encodeURIComponent(authToken)}`;
+  }
+  return url;
+};

@@ -10,8 +10,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
-
+import { IMAGE_THUMBNAIL_URL, IMAGE_RAW_URL } from "@dative-gpi/foundation-shared-services/config/urls";
 import { useAppAuthToken, useImage } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSImageUI from "./FSImageUI.vue";
@@ -26,6 +25,11 @@ export default defineComponent({
       type: String as PropType<string | null>,
       required: false,
       default: null
+    },
+    thumbnail: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false
     }
   },
   setup(props) {
@@ -33,6 +37,9 @@ export default defineComponent({
     const { authToken } = useAppAuthToken();
 
     const source = computed(() => {
+      if (props.thumbnail) {
+        return props.imageId ? IMAGE_THUMBNAIL_URL(props.imageId, authToken.value) : null;
+      }
       return props.imageId ? IMAGE_RAW_URL(props.imageId, authToken.value) : null;
     });
 
