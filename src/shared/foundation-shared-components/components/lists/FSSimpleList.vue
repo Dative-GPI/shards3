@@ -3,12 +3,6 @@
     v-bind="$props"
     gap="12px"
   >
-    <FSText
-      v-if="$props.label"
-      font="text-button"
-    >
-      {{ $props.label }}
-    </FSText>
     <FSSearchField
       v-if="$props.searchable"
       padding="0 12px 0 0"
@@ -45,8 +39,6 @@
             :width="$props.direction == 'row' ? 'fit-content' : '100%'"
             height="fit-content"
             :editable="false"
-            :singleSelect="$props.clickable"
-            @update:modelValue="$emit('click:item', item.id)"
           >
             <slot
               name="item"
@@ -108,7 +100,6 @@ import { filterItems } from "../../utils";
 
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
-import FSText from "../FSText.vue";
 import FSIcon from "../FSIcon.vue";
 import FSSpan from "../FSSpan.vue";
 import FSImage from "../FSImage.vue";
@@ -125,7 +116,6 @@ export default defineComponent({
   components: {
     FSRow,
     FSCol,
-    FSText,
     FSTile,
     FSIcon,
     FSSpan,
@@ -138,10 +128,6 @@ export default defineComponent({
     FSButtonRemoveIcon,
   },
   props: {
-    label: {
-      type: String,
-      required: false
-    },
     items: {
       type: Array as PropType<{id: string, label?: string, icon?: string, imageId?: string, [index: string]: any}[]>,
       required: true
@@ -162,11 +148,6 @@ export default defineComponent({
       default: true
     },
     showDraggable: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    clickable: {
       type: Boolean,
       required: false,
       default: false
@@ -207,7 +188,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ["click:edit", "click:remove", "click:item", "update:search"],
+  emits: ["click:edit", "click:remove", "update:search"],
   setup(props, { emit }) {
     const actualSearch = ref<string | null>(props.search);
     const filteredItems = computed(() => {

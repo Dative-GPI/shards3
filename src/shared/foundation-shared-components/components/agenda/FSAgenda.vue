@@ -1,13 +1,14 @@
 <template>
   <FSCol
+    v-if="$props.start && $props.end"
     :height="$props.height"
     :width="$props.width"
     gap="24px"
   >
     <FSAgendaHeader
       :mode="$props.mode!"
-      :start="start"
-      :end="end"
+      :start="$props.start"
+      :end="$props.end"
       :now="now"
       @update:start="($event) => $emit('update:start', $event)"
       @update:end="($event) => $emit('update:end', $event)"
@@ -28,8 +29,8 @@
           :value="AgendaMode.Day"
           :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
-          :start="start"
-          :end="end"
+          :start="$props.start"
+          :end="$props.end"
           :now="now"
           :nowIsInSelectedRange="nowIsInSelectedRange"
           :loading="$props.loading"
@@ -44,8 +45,8 @@
           :value="AgendaMode.Week"
           :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
-          :start="start"
-          :end="end"
+          :start="$props.start"
+          :end="$props.end"
           :now="now"
           :nowIsInSelectedRange="nowIsInSelectedRange"
           :loading="$props.loading"
@@ -60,8 +61,8 @@
           :value="AgendaMode.Month"
           :events="$props.events"
           :firstColumnWidth="dayColumnWidth"
-          :start="start"
-          :end="end"
+          :start="$props.start"
+          :end="$props.end"
           :now="now"
           :nowIsInSelectedRange="nowIsInSelectedRange"
           :loading="$props.loading"
@@ -78,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, computed, ref, onUnmounted, watch } from 'vue';
+import { defineComponent, type PropType, computed, ref, onUnmounted, watch, onMounted } from 'vue';
 
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
@@ -150,40 +151,35 @@ export default defineComponent({
     const now = ref(todayToEpoch());
     const defaultMode = ref(props.mode);
 
-    const start = computed<number>(() => {
-      if (props.start) {
-        return props.start;
-      }
-      if (props.mode === AgendaMode.Week) {
-        return epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000);
-      }
-      if (props.mode === AgendaMode.Month) {
-        return epochToLocalDayStart(new Date(now.value).setDate(1));
-      }
-      return epochToLocalDayStart(now.value);
-    });
-
-    const end = computed<number>(() => {
-      if (props.end) {
-        return props.end;
-      }
-      if (props.mode === AgendaMode.Week) {
-        return epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000);
-      }
-      if (props.mode === AgendaMode.Month) {
-        const lastDayOfMonth = new Date(new Date(now.value).getFullYear(), new Date(now.value).getMonth() + 1, 0);
-        return epochToLocalDayEnd(lastDayOfMonth.getTime());
-      }
-      return epochToLocalDayEnd(now.value);
-    });
-
     const nowIsInSelectedRange = computed(() => {
-      return now.value >= start.value && now.value <= end.value;
+      if (!props.start || !props.end) {
+        return false;
+      }
+      return now.value >= props.start && now.value <= props.end;
     });
 
     const nowInterval = setInterval(() => {
       now.value = todayToEpoch();
     }, 10000);
+
+    onMounted(() => {
+      if(props.end && props.start) {
+        return;
+      }
+      if (props.mode === AgendaMode.Week) {
+        emit("update:start", epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000));
+        emit("update:end", epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000));
+        return;
+      }
+      if (props.mode === AgendaMode.Month) {
+        const lastDayOfMonth = new Date(new Date(now.value).getFullYear(), new Date(now.value).getMonth() + 1, 0);
+        emit("update:start", epochToLocalDayStart(new Date(now.value).setDate(1)));
+        emit("update:end", lastDayOfMonth.getTime());
+        return;
+      }
+      emit("update:start", epochToLocalDayStart(now.value));
+      emit("update:end", epochToLocalDayEnd(now.value));
+    });
 
     onUnmounted(() => {
       clearInterval(nowInterval);
@@ -195,13 +191,11 @@ export default defineComponent({
       } else if (!value && defaultMode.value !== AgendaMode.Day) {
         emit('update:mode', defaultMode.value);
       }
-    }, {immediate: true});
+    });
 
     return {
       AgendaMode,
-      start,
       dayColumnWidth,
-      end,
       now,
       nowIsInSelectedRange
     };

@@ -16,8 +16,7 @@ const meta: Meta<typeof FSSimpleDeviceOrganisationsList> = {
       options: ["column", "row"],
     },
     "click:edit": { action: "click:edit" },
-    "click:remove": { action: "click:remove" },
-    "click:item": { action: "click:item" },
+    "click:remove": { action: "click:remove" }
   },
 };
 
@@ -32,47 +31,42 @@ export const Default: Story = {
     },
     template: `
       <FSSimpleDeviceOrganisationsList
-        :label="args.label"
         :maxHeight="args.maxHeight"
         :showEdit="args.showEdit"
         :showRemove="args.showRemove"
         :showDraggable="args.showDraggable"
         :direction="args.direction"
         :itemLabel="args.itemLabel"
-        :clickable="args.clickable"
         :searchable="args.searchable"
         @click:edit="args['click:edit']"
         @click:remove="args['click:remove']"
-        @click:item="args['click:item']"
       />
     `,
   }),
   args: {
-    label: "Liste des équipements",
     maxHeight: 100,
     showEdit: false,
     showRemove: false,
     showDraggable: false,
     direction: "column",
     itemLabel: "label",
-    clickable: true,
     searchable: true,
+    tileProps: (item) => ({
+      onClick: () => action("onClick:item")(item),
+    }),
     "click:edit": action("click:edit"),
     "click:remove": action("click:remove"),
-    "click:item": action("click:item"),
   },
 };
 
 export const ListWithoutSearch: Story = {
   args: {
-    label: "",
     maxHeight: 0,
     showEdit: true,
     showRemove: true,
     showDraggable: false,
     direction: "column",
     itemLabel: "label",
-    clickable: false,
     searchable: false,
   },
 
@@ -89,18 +83,15 @@ export const ListWithoutSearch: Story = {
 
     template: `
       <FSSimpleDeviceOrganisationsList
-        :label="args.label"
         :maxHeight="args.maxHeight"
         :showEdit="args.showEdit"
         :showRemove="args.showRemove"
         :showDraggable="args.showDraggable"
         :direction="args.direction"
         :itemLabel="args.itemLabel"
-        :clickable="args.clickable"
         :searchable="args.searchable"
         @click:edit="args['click:edit']"
         @click:remove="args['click:remove']"
-        @click:item="args['click:item']"
       />
     `,
   }),
