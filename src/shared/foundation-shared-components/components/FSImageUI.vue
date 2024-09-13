@@ -2,8 +2,8 @@
   <v-img
     class="fs-image"
     ref="imageRef"
-    :height="computedHeight"
-    :width="computedWidth"
+    :height="$props.height"
+    :width="$props.width"
     :cover="$props.cover"
     :src="realSource"
     :style="style"
@@ -42,9 +42,8 @@
 import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 import { decode, isBlurhashValid } from "blurhash";
 
-import type { ImageDetails } from "@dative-gpi/foundation-shared-domain/models";
-
-import { sizeToVar, varToSize } from "@dative-gpi/foundation-shared-components/utils";
+import { type ImageDetails } from "@dative-gpi/foundation-shared-domain/models";
+import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import FSLoader from "./FSLoader.vue";
 
@@ -76,11 +75,6 @@ export default defineComponent({
     },
     blurHash: {
       type: Object as PropType<ImageDetails | null>,
-      required: false,
-      default: null
-    },
-    aspectRatio: {
-      type: String as PropType<string | null>,
       required: false,
       default: null
     },
@@ -118,45 +112,8 @@ export default defineComponent({
       "--fs-image-blurhash-opacity": props.blurHash ? "1" : "0"
     }));
 
-    const computedHeight = computed((): string | undefined => {
-      if (props.height) {
-        return sizeToVar(props.height);
-      }
-      if (props.width) {
-        if (typeof (props.width) === "string") {
-          return undefined;
-        }
-        if (props.aspectRatio) {
-          const split = props.aspectRatio.split('/');
-          if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return sizeToVar(varToSize(props.width) * (parseFloat(split[1]) / parseFloat(split[0])));
-          }
-        }
-        return sizeToVar(props.width);
-      }
-      return undefined;
-    });
-
-    const computedWidth = computed((): string | undefined => {
-      if (props.width) {
-        return sizeToVar(props.width);
-      }
-      if (props.height) {
-        if (typeof (props.height) === "string") {
-          return undefined;
-        }
-        if (props.aspectRatio) {
-          const split = props.aspectRatio.split('/');
-          if (split.length === 2 && !isNaN(parseFloat(split[0])) && !isNaN(parseFloat(split[1]))) {
-            return sizeToVar(varToSize(props.height) * (parseFloat(split[0]) / parseFloat(split[1])));
-          }
-        }
-        return sizeToVar(props.height);
-      }
-      return undefined;
-    });
-
     const realSource = computed((): string | undefined => {
+      console.log(props.width, props.height);
       if (props.imageB64) {
         if (imageType.value && imageData.value) {
           return `${imageType.value},${imageData.value}`;
@@ -207,8 +164,6 @@ export default defineComponent({
     });
 
     return {
-      computedHeight,
-      computedWidth,
       realSource,
       canvasRef,
       imageRef,
