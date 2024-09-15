@@ -72,5 +72,6 @@ export interface UserOrganisationInfosDTO {
 
 export interface UserOrganisationFilters {
   userId?: string | null;
+  userOrganisationsIds?: string[] | null;
   search?: string | null;
 }

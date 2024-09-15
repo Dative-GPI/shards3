@@ -896,7 +896,7 @@ export default defineComponent({
     const innerSortBy = ref(props.sortBy);
     const innerMode = ref(props.mode);
     const innerPage = ref(props.page);
-    const showFilters = ref(true);
+    const showFilters = ref(false);
     const resetable = ref(false);
 
     const intersectionObserver = ref<IntersectionObserver | null>(null);

@@ -35,8 +35,8 @@ export default defineComponent({
           return defineAsyncComponent(() => import("../lists/groups/FSBaseGroupsList.vue"));
         case EntityType.Location:
           return defineAsyncComponent(() => import("../lists/locations/FSBaseLocationsList.vue"));
-        // case EntityType.Model:
-        //   return defineAsyncComponent(() => import("../lists/models/FSBaseModelsList.vue"));
+        case EntityType.Model:
+          return defineAsyncComponent(() => import("../lists/models/FSBaseModelsList.vue"));
         default:
           return null;
       };

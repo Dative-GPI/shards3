@@ -63,7 +63,7 @@
 import { defineComponent, type PropType, computed, ref, watch } from "vue";
 
 import { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
-import type { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DeviceOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
+import type { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DeviceOrganisationFilters, FolderFilters, GroupFilters, LocationFilters, ModelFilters, UserOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import { TABLES as T } from "../../utils";
 
@@ -121,9 +121,29 @@ export default defineComponent({
           } satisfies DeviceOrganisationFilters;
         case EntityType.Dashboard:
           return {
-            dashboardOrganisationIds: actualSelecteds.value,
-            dashboardOrganisationTypeIds: actualSelecteds.value
+            dashboardOrganisationsIds: actualSelecteds.value,
+            dashboardOrganisationTypesIds: actualSelecteds.value
           } satisfies DashboardOrganisationFilters & DashboardOrganisationTypeFilters;
+        case EntityType.Group:
+          return {
+            groupsIds: actualSelecteds.value
+          } satisfies GroupFilters;
+        case EntityType.Folder:
+          return {
+            foldersIds: actualSelecteds.value
+          } satisfies FolderFilters;
+        case EntityType.Location:
+          return {
+            locationsIds: actualSelecteds.value
+          } satisfies LocationFilters;
+        case EntityType.User:
+          return {
+            userOrganisationsIds: actualSelecteds.value
+          } satisfies UserOrganisationFilters;
+        case EntityType.Model:
+          return {
+            modelsIds: actualSelecteds.value
+          } satisfies ModelFilters;
         default:
           return undefined;
       };
@@ -143,6 +163,38 @@ export default defineComponent({
         case EntityType.Device:
           return { 
             deviceOrganisationFilters: props.filters,
+            ...attrs
+          };
+        case EntityType.Dashboard:
+          return {
+            dashboardShallowsFilters: props.filters,
+            dashboardOrganisationsFilters: props.filters,
+            dashboardOrganisationTypeFetchFilter: props.filters,
+            ...attrs
+          };
+        case EntityType.Group:
+          return {
+            groupsFilters: props.filters,
+            ...attrs
+          };
+        case EntityType.Folder:
+          return {
+            foldersFilters: props.filters,
+            ...attrs
+          };
+        case EntityType.Location:
+          return {
+            locationsFilters: props.filters,
+            ...attrs
+          };
+        case EntityType.User:
+          return {
+            userOrganisationsFilters: props.filters,
+            ...attrs
+          };
+        case EntityType.Model:
+          return {
+            modelsFilters: props.filters,
             ...attrs
           };
         default:

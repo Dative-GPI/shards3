@@ -8,7 +8,7 @@ export const useDataTables = () => {
 
   const table = ref<FSDataTable>({
     headers: [],
-    mode: "table",
+    mode: "iterator",
     sortBy: null,
     rowsPerPage: 10,
     filters: {},

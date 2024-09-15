@@ -69,6 +69,8 @@ export default defineComponent({
 
     const computedTable = computed(() => computeTable(props.customSorts, props.customSortRaws));
 
+    console.log(JSON.stringify(computedTable.value));
+
     onUnmounted(() => {
       cancel();
       update();
@@ -88,6 +90,7 @@ export default defineComponent({
         getTable,
         props.tableCode
       );
+      console.log(JSON.stringify(computedTable.value));
     }, { immediate: true });
 
     watch(() => table.value, () => {
