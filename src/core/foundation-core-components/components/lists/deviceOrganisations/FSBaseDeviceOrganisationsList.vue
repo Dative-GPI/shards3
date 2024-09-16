@@ -82,7 +82,8 @@
       #item.worstAlert="{ item }"
     >
       <FSWorstAlert
-        :deviceAlerts="item.alerts"
+        v-if="item.worstAlert"
+        :deviceAlerts="item.alerts.length"
         :deviceAlert="item.worstAlert"
         @view:alert="$emit('view:alert', $event)"
       />
@@ -91,6 +92,7 @@
       #item.alerts="{ item }"
     >
       <FSWorstAlert
+        v-if="item.worstAlert"
         :deviceAlerts="item.alerts.length"
         :deviceAlert="item.worstAlert"
         @view:alert="$emit('view:alert', $event)"
