@@ -2,6 +2,7 @@
   <v-menu
     :closeOnContentClick="false"
     v-model="menu"
+    location="bottom center"
   >
     <template
       #activator="{ props }"

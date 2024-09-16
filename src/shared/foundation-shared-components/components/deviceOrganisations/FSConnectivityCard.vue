@@ -1,55 +1,33 @@
 <template>
   <FSCard
-    padding="2px 2px 8px 2px"
+    padding="12px 24px"
     :elevation="true"
-    :border="false"
   >
     <FSCol
       align="center-center"
+      gap="12px"
     >
+      <FSChip
+        :prependIcon="$props.deviceConnectivity.icon"
+        :color="$props.deviceConnectivity.color"
+        :label="connectivityLabel($props.deviceConnectivity.status)"
+      />
       <FSCol
         align="center-center"
         gap="0px"
       >
-        <FSRow
-          align="center-right"
-        >
-          <FSButton
-            icon="mdi-close"
-            variant="icon"
-            @click="$emit('close')"
-          />
-        </FSRow>
-        <FSCol
-          align="center-center"
-          padding="0px 24px"
-          gap="12px"
-        >
-          <FSChip
-            :prependIcon="$props.deviceConnectivity.icon"
-            :color="$props.deviceConnectivity.color"
-            :label="connectivityLabel($props.deviceConnectivity.status)"
-          />
-          <FSRow
-            width="hug"
-          >
-            <FSText>
-              {{ $tr("ui.shared.device-connectivity.last-message", "Last message") }}
-            </FSText>
-          </FSRow>
-        </FSCol>
-      </FSCol>
-      <FSRow
-        v-if="deviceTimestamp"
-        padding="0px 24px"
-        width="hug"
-      >
-        <FSSpan
-          font="text-overline"
+        <FSText>
+          {{ $tr("ui.device.last-message-received", "Last message received") }}
+        </FSText>
+        <FSText
+          v-if="deviceTimestamp"
+          font="text-button"
+          :color="$props.deviceConnectivity.color"
+          variant="soft"
         >
           {{ deviceTimestamp }}
-        </FSSpan>
-      </FSRow>
+        </FSText>
+      </FSCol>
     </FSCol>
   </FSCard>
 </template>
@@ -62,24 +40,18 @@ import { useDateFormat } from "@dative-gpi/foundation-shared-services/composable
 
 import { connectivityLabel } from "../../utils";
 
-import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
-import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSConnectivityCard",
   components: {
-    FSButton,
     FSCard,
     FSChip,
     FSText,
-    FSSpan,
     FSCol,
-    FSRow
   },
   props: {
     deviceConnectivity: {

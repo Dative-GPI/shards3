@@ -1,68 +1,41 @@
 <template>
   <FSCard
-    padding="2px 2px 8px 2px"
+    padding="12px 24px"
     :elevation="true"
-    :border="false"
   >
     <FSCol
       align="center-center"
+      gap="12px"
     >
+      <FSChip
+        :prependIcon="$props.statusGroup.icon"
+        :color="$props.statusGroup.color"
+        :label="statusLabel"
+      />
       <FSCol
         align="center-center"
         gap="0px"
       >
-        <FSRow
-          v-if="$props.closable"
-          align="center-right"
+        <FSText
+          v-if="$props.statusGroup.value && $props.modelStatus.groupById && $props.statusGroup.groupByValue"
         >
-          <FSButton
-            icon="mdi-close"
-            variant="icon"
-            @click="$emit('close')"
-          />
-        </FSRow>
-        <FSCol
-          align="center-center"
-          padding="0px 24px"
-          gap="12px"
+          {{ $props.modelStatus.groupByLabel }} {{ $props.statusGroup.groupByValue }}
+        </FSText>
+        <FSText
+          v-if="$props.statusGroup.value"
+          font="text-button"
+          :color="$props.statusGroup.color"
         >
-          <FSChip
-            :prependIcon="$props.statusGroup.icon"
-            :color="$props.statusGroup.color"
-            :label="statusLabel"
-          />
-          <FSRow
-            v-if="$props.statusGroup.value"
-            width="hug"
-          >
-            <FSText
-              font="text-button"
-              :color="$props.statusGroup.color"
-            >
-              {{ statusValue }} {{ $props.statusGroup.unit }}
-            </FSText>
-          </FSRow>
-          <FSRow
-            v-if="$props.statusGroup.value && $props.modelStatus.groupById && $props.statusGroup.groupByValue"
-            width="hug"
-          >
-            <FSSpan>
-              {{ $props.modelStatus.groupByLabel }} {{ $props.statusGroup.groupByValue }}
-            </FSSpan>
-          </FSRow>
-        </FSCol>
+          {{ statusValue }} {{ $props.statusGroup.unit }}
+        </FSText>
       </FSCol>
-      <FSRow
+      <FSText
         v-if="deviceTimestamp"
-        padding="0px 24px"
-        width="hug"
+        font="text-overline"
+        variant="soft"
       >
-        <FSSpan
-          font="text-overline"
-        >
-          {{ deviceTimestamp }}
-        </FSSpan>
-      </FSRow>
+        {{ deviceTimestamp }}
+      </FSText>
     </FSCol>
   </FSCard>
 </template>
