@@ -2,6 +2,14 @@
     color: var(--fs-edit-image-overline-text-color) !important;
 }
 
+.fs-edit-image-standard-row {
+    min-width: 0;
+}
+
+.fs-edit-image-standard-label-wrapper {
+    min-width: 0;
+}
+
 .fs-edit-image-hidden-button {
     display: none;
 }

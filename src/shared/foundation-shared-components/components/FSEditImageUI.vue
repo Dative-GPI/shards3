@@ -39,6 +39,7 @@
         :wrap="false"
       >
         <FSRow
+          class="fs-edit-image-standard-row"
           gap="24px"
           :wrap="false"
         >
@@ -59,6 +60,7 @@
             :width="$props.width"
           />
           <FSCol
+            class="fs-edit-image-standard-label-wrapper"
             align="center-left"
             height="fill"
             width="hug"
@@ -91,9 +93,9 @@
             </FSCol>
           </FSCol>
         </FSRow>
-        <v-spacer />
         <FSRow
-          width="hug"
+          align="center-right"
+          :width="isExtraSmall ? '40px' : 'hug'"
         >
           <FSButtonFileMini
             accept=".jpg,.jpeg,.png"
