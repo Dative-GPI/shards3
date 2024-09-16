@@ -91,7 +91,7 @@ export default defineComponent({
     tagColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorEnum.Primary
+      default: ColorEnum.Light
     },
     hideHeader: {
       type: Boolean,

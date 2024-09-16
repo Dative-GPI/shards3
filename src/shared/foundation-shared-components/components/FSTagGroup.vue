@@ -64,7 +64,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorEnum.Primary
+      default: ColorEnum.Light
     },
     editable: {
       type: Boolean,
