@@ -29,18 +29,13 @@
             />
           </slot>
         </template>
-        <FSIcon
-          v-else-if="$props.icon && $props.color"
-          :color="$props.color"
-          :icon="$props.icon"
-          :size="imageSize"
-        />
         <FSIconCard
-          v-else-if="$props.icon && $props.iconBackgroundColor && $props.iconBackgroundColor.length > 0"
+          v-else-if="$props.icon"
           :backgroundVariant="$props.iconBackgroundVariant"
-          :backgroundColor="$props.iconBackgroundColor"
+          :backgroundColor="$props.iconBackgroundColors"
           :border="$props.iconBorder"
           :icon="$props.icon"
+          :iconColor="$props.color"
           :size="imageSize"
         />
         <FSCol
@@ -59,11 +54,13 @@
               align="center-left"
               gap="4px"
             >
-              <FSText>
+              <FSText
+                font="text-button"
+              >
                 {{ $props.subtitle }}
               </FSText>
               <FSText
-                font="text-overline"
+                font="text-body"
               >
                 {{ $props.description }}
               </FSText>
@@ -78,7 +75,9 @@
             >
               {{ $props.title }}
             </FSText>
-            <FSText>
+            <FSText
+              font="text-button"
+            >
               {{ $props.subtitle }}
             </FSText>
           </template>
@@ -92,7 +91,7 @@
               {{ $props.title }}
             </FSText>
             <FSText
-              font="text-overline"
+              font="text-body"
               :lineClamp="2"
             >
               {{ $props.description }}
@@ -161,17 +160,12 @@
           </slot>
         </template>
         <FSIconCard
-          v-else-if="$props.icon && $props.iconBackgroundColor && $props.iconBackgroundColor.length > 0"
+          v-else-if="$props.icon"
           iconSize="70px"
           :backgroundVariant="$props.iconBackgroundVariant"
-          :backgroundColor="$props.iconBackgroundColor"
+          :backgroundColor="$props.iconBackgroundColors"
           :border="$props.iconBorder"
-          :icon="$props.icon"
-          :size="imageSize"
-        />
-        <FSIcon
-          v-else-if="$props.icon"
-          :color="$props.color"
+          :iconColor="$props.color"
           :icon="$props.icon"
           :size="imageSize"
         />
@@ -189,12 +183,13 @@
           >
             <FSText
               v-if="$props.subtitle"
+              font="text-button"
             >
               {{ $props.subtitle }}
             </FSText>
             <FSText
               v-if="$props.description"
-              font="text-overline"
+              font="text-body"
               :lineClamp="2"
             >
               {{ $props.description }}
@@ -276,10 +271,10 @@ export default defineComponent({
       required: false,
       default: "background"
     },
-    iconBackgroundColor: {
-      type: [Array, String] as PropType<ColorBase | ColorBase[]>,
+    iconBackgroundColors: {
+      type: Array as PropType<string[]>,
       required: false,
-      default: ColorEnum.Background
+      default: () => []
     },
     iconBorder: {
       type: Boolean as PropType<boolean>,
