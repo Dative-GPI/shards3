@@ -10,7 +10,7 @@ export class DashboardShallowEntityPresetInfos {
   constructor(params: DashboardShallowEntityPresetInfosDTO) {
     this.hiddenCode = params.hiddenCode;
     this.singleEntity = params.singleEntity;
-    this.EntityType = params.EntityType;
+    this.entityType = params.entityType;
     this.entitiesFilters = params.entitiesFilters;
     this.entitiesIds = params.entitiesIds.slice();
   }

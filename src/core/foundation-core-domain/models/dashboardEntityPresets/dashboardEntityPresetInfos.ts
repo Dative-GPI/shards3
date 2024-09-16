@@ -21,7 +21,7 @@ export class DashboardEntityPresetInfos {
     this.hiddenCode = params.hiddenCode;
     this.labelDefault = params.labelDefault;
     this.singleEntity = params.singleEntity;
-    this.EntityType = params.EntityType;
+    this.entityType = params.entityType;
     this.entitiesFilters = params.entitiesFilters;
     this.entitiesIds = params.entitiesIds.slice();
     this.translations = params.translations.map(t => new DashboardEntityPresetTranslation(t));
