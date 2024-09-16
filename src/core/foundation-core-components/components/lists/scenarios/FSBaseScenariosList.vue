@@ -3,6 +3,7 @@
     :loading="fetchingScenarioOrganisationTypes || fetchingScenarioOrganisations"
     :headers="headers"
     :items="scenarios"
+    :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -62,10 +63,9 @@ export default defineComponent({
     FSTagGroup
   },
   props: {
-    modelValue: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-      required: false
+    tableCode: {
+      type: String,
+      required: true
     },
     scenarioOrganisationFilters: {
       type: Object as PropType<ScenarioOrganisationFilters>,
@@ -77,9 +77,15 @@ export default defineComponent({
       required: false,
       default: null
     },
-    tableCode: {
-      type: String,
-      required: true
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+      required: false
     }
   },
   emits: ["update:modelValue"],

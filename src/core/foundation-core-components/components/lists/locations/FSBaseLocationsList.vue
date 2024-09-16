@@ -2,6 +2,7 @@
   <FSDataTable
     :loading="fetchingLocations"
     :items="locations"
+    :showSelect="$props.editable"
     :tableCode="tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -65,6 +66,11 @@ export default defineComponent({
       type: Object as PropType<LocationFilters>,
       required: false,
       default: null
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     modelValue: {
       type: Array as PropType<string[]>,

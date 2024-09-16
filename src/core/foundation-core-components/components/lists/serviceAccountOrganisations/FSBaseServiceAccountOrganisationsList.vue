@@ -3,6 +3,7 @@
     :items="serviceAccountOrganisations"
     :itemTo="$props.itemTo"
     :loading="fetchingServiceAccountOrganisations"
+    :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -57,16 +58,12 @@
     <template
       #item.tile="{ item, toggleSelect }"
     >
-      <FSUserOrganisationTileUI
-        :imageId="item.imageId"
-        :label="item.label"
-        :userType="item.userType"
-        :roleIcon="item.roleIcon"
-        :roleLabel="item.roleLabel"
-        :admin="item.admin"
+      <FSServiceAccountOrganisationTileUI
         :to="$props.itemTo && $props.itemTo(item)"
+        :editable="$props.editable"
         :modelValue="isSelected(item.id)"
         @update:modelValue="toggleSelect(item)"
+        v-bind="item"
       />
     </template>
   </FSDataTable>
@@ -81,11 +78,13 @@ import _ from "lodash";
 import type { ServiceAccountOrganisationFilters, ServiceAccountOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { userTypeLabel, userValidityLabel } from "@dative-gpi/foundation-core-components/utils";
 import { useServiceAccountOrganisations } from "@dative-gpi/foundation-core-services/composables";
+
 import FSDataTable from "../FSDataTable.vue";
+
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
-import FSUserOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSUserOrganisationTileUI.vue";
+import FSServiceAccountOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSServiceAccountOrganisationTileUI.vue";
 
 export default defineComponent({
   name: "FSBaseServiceAccountOrganisationsList",
@@ -94,26 +93,31 @@ export default defineComponent({
     FSImage,
     FSTagGroup,
     FSSpan,
-    FSUserOrganisationTileUI
+    FSServiceAccountOrganisationTileUI
   },
   props: {
+    tableCode: {
+      type: String,
+      required: true
+    },
     serviceAccountOrganisationsFilters: {
       type: Object as PropType<ServiceAccountOrganisationFilters | null>,
       required: false,
       default: null
     },
+    itemTo: {
+      type: Function as PropType<(item: ServiceAccountOrganisationInfos) => Partial<RouteLocation>>,
+      required: false
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     modelValue: {
       type: Array as PropType<string[]>,
       required: false,
       default: () => []
-    },
-    tableCode: {
-      type: String,
-      required: true
-    },
-    itemTo: {
-      type: Function as PropType<(item: ServiceAccountOrganisationInfos) => Partial<RouteLocation>>,
-      required: false
     }
   },
   emits: ["update:modelValue"],

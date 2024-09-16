@@ -12,7 +12,7 @@ export const timeSteps = [
   { id: TimeUnit.Week,        label: $tr("ui.time-step.week.singular", "Week"),     plural: $tr("ui.time-step.week.plural", "Weeks") },
   { id: TimeUnit.Month,       label: $tr("ui.time-step.month.singular", "Month"),   plural: $tr("ui.time-step.month.plural", "Months") },
   { id: TimeUnit.Year,        label: $tr("ui.time-step.year.singular", "Year"),     plural: $tr("ui.time-step.year.plural", "Years") },
-]
+];
 
 export const timeStepToString = (value: { value: number, unit: TimeUnit } | null): string => {
   if (!value) {
@@ -25,7 +25,7 @@ export const timeStepToString = (value: { value: number, unit: TimeUnit } | null
   }
   
   return `${value.value} ${value.value === 1 ? unit.label.toLowerCase() : unit.plural.toLowerCase()}`;
-}
+};
 
 // TODO : remove everything below this line
 export const timeScale: any[] = [
@@ -52,4 +52,4 @@ export const getTimeBestString = (value: number): string => {
   const unit = getTimeScaleIndex(value);
   const figure = value / timeScale[unit].id;
   return `${figure} ${figure === 1 ? timeScale[unit].label.toLowerCase() : timeScale[unit].plural.toLowerCase()}`;
-}
+};
