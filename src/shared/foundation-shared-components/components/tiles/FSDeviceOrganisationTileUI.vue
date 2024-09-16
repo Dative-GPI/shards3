@@ -43,6 +43,7 @@
             :deviceStatuses="singleDeviceStatuses"
             :modelStatuses="singleModelStatuses"
             :deviceAlerts="$props.deviceAlerts"
+            @view:alert="$emit('view:alert', $event)"
           />
         </FSCol>
         <FSImage
@@ -148,6 +149,7 @@ export default defineComponent({
       default: true
     }
   },
+  emits: ["view:alert"],
   setup(props) {
     const { isMobileSized } = useBreakpoints();
 

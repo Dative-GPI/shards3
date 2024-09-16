@@ -24,6 +24,7 @@
     <FSWorstAlertCard
       :deviceAlert="deviceAlert"
       @close="menu = false"
+      @view:alert="$emit('view:alert', $event)"
     />
   </v-menu>
 </template>
@@ -31,8 +32,8 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, ref } from "vue";
 
+import { type FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/enums";
-import type { FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSWorstAlertCard from "./FSWorstAlertCard.vue";
@@ -57,6 +58,7 @@ export default defineComponent({
       default: 0
     }
   },
+  emits: ["view:alert"],
   setup(props) {
     const menu = ref(false);
 

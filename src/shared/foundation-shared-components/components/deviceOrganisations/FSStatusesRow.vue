@@ -12,6 +12,7 @@
       v-if="$props.deviceWorstAlert"
       :deviceAlerts="$props.deviceAlerts.length"
       :deviceAlert="$props.deviceWorstAlert"
+      @view:alert="$emit('view:alert', $event)"
     />
     <template
       v-for="(modelStatus, index) in $props.modelStatuses"
@@ -70,6 +71,7 @@ export default defineComponent({
       required: true
     }
   },
+  emits: ["view:alert"],
   setup(props) {
     const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup | null => {
       const deviceStatus = props.deviceStatuses

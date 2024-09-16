@@ -84,6 +84,7 @@
       <FSWorstAlert
         :deviceAlerts="item.alerts"
         :deviceAlert="item.worstAlert"
+        @view:alert="$emit('view:alert', $event)"
       />
     </template>
     <template
@@ -92,6 +93,7 @@
       <FSWorstAlert
         :deviceAlerts="item.alerts.length"
         :deviceAlert="item.worstAlert"
+        @view:alert="$emit('view:alert', $event)"
       />
     </template>
     <template
@@ -135,6 +137,7 @@
         :deviceAlerts="item.alerts"
         :to="$props.itemTo && $props.itemTo(item)"
         @update:modelValue="toggleSelect(item)"
+        @view:alert="$emit('view:alert', $event)"
       />
     </template>
   </FSDataTable>
@@ -207,7 +210,7 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "view:alert"],
   setup(props) {
     const { fetching: fecthingCustomProperties, entities: customProperties, getMany: getManyCustomProperties } = useCustomProperties();
     const { entities, fetching: fetchingDeviceOrganisations, getMany: getManyDeviceOrganisations } = useDeviceOrganisations();
