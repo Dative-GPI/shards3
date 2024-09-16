@@ -58,6 +58,6 @@ export const Default: Story = {
         :required="args.required"
         v-model="args.modelValue"
         @update:modelValue="args['onUpdate:modelValue']"
-      >`
+      />`
   })
 }
