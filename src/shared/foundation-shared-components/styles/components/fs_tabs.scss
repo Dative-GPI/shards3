@@ -59,6 +59,7 @@
     color: var(--fs-tab-tag-color);
     display: flex;
     align-items: center;
+    justify-content: center;
 
     @include web {
         min-width: 28px;
