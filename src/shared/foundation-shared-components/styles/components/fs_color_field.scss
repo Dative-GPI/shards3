@@ -1,5 +1,6 @@
 .fs-color-field .fs-card {
   cursor: var(--fs-color-field-cursor) !important;
+  min-width: var(--fs-base-field-min-width);
   border-color: var(--fs-color-field-border-color) !important;
   .fs-text {
     color: var(--fs-color-field-color) !important;

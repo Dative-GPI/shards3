@@ -14,6 +14,7 @@
         :wrap="false"
       >
         <FSSelectDateSetting
+          minWidth="180px"
           :lastPeriod="$props.lastPeriod"
           :editable="$props.editable"
           :variant="$props.variant"
@@ -22,10 +23,12 @@
           @update:modelValue="innerDateSettingChange"
         />
         <FSNumberField
+          minWidth="60px"
           v-if="pastSettings.includes(innerDateSetting)"
           :rules="[NumberRules.required(), NumberRules.min(0)]"
           :editable="$props.editable"
           :hideHeader="true"
+          :clearable="false"
           :modelValue="innerDateValue"
           @update:modelValue="innerDateValueChange"
         />

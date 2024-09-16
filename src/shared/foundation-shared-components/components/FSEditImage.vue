@@ -39,7 +39,7 @@ export default defineComponent({
 
     const onError = (): void => {
       if (props.imageId) {
-        console.log("onError");
+        console.error("Error loading image", props.imageId);
         getImage(props.imageId);
       }
     };

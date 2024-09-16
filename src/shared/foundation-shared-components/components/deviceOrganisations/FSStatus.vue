@@ -8,7 +8,7 @@
     >
       <FSColorIcon
         class="fs-stopclick"
-        size="m"
+        :size="$props.size"
         :color="$props.statusGroup.color"
         @click.prevent.stop
         v-bind="props"
@@ -47,6 +47,10 @@ export default defineComponent({
     statusGroup: {
       type: Object as PropType<FSDeviceStatusGroup>,
       required: true
+    },
+    size: {
+      type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
+      default: "m"
     }
   },
   setup() {

@@ -125,7 +125,6 @@ for (let year = -10; year < 10; year++) {
     end: endWinter
   });
 }
-console.log(generatedEventsMountainChalet2);
 //#endregion
 
 
