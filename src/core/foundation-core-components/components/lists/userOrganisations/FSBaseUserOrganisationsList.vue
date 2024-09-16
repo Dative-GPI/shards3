@@ -3,8 +3,9 @@
     :items="userOrganisations"
     :itemTo="$props.itemTo"
     :loading="fetchingUserOrganisations"
-    :modelValue="$props.modelValue"
+    :showSelect="$props.editable"
     :tableCode="$props.tableCode"
+    :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
@@ -72,15 +73,11 @@
       #item.tile="{ item, toggleSelect }"
     >
       <FSUserOrganisationTileUI
-        :roleLabel="item.roleLabel"
-        :roleIcon="item.roleIcon"
-        :userType="item.userType"
-        :imageId="item.imageId"
-        :admin="item.admin"
-        :name="item.name"
         :to="$props.itemTo && $props.itemTo(item)"
+        :editable="$props.editable"
         :modelValue="isSelected(item.id)"
         @update:modelValue="toggleSelect(item)"
+        v-bind="item"
       />
     </template>
   </FSDataTable>
@@ -97,6 +94,7 @@ import { userTypeLabel, userValidityLabel } from "@dative-gpi/foundation-core-co
 import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
 
 import FSDataTable from "../FSDataTable.vue";
+
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
@@ -115,23 +113,28 @@ export default defineComponent({
 
   },
   props: {
+    tableCode: {
+      type: String,
+      required: true
+    },
     userOrganisationsFilters: {
       type: Object as PropType<UserOrganisationFilters | null>,
       required: false,
       default: null
     },
-    modelValue: {
-      type: Array as PropType<string[]>,
-      required: false,
-      default: () => []
-    },
     itemTo: {
       type: Function as PropType<(item: UserOrganisationInfos) => Partial<RouteLocation>>,
       required: false
     },
-    tableCode: {
-      type: String,
-      required: true
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      required: false,
+      default: () => []
     }
   },
   emits: ["update:modelValue"],
