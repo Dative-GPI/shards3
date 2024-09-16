@@ -226,14 +226,13 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { ColorEnum, type ColorBase, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSBreadcrumbs from "../FSBreadcrumbs.vue";
 import FSSlideGroup from "../FSSlideGroup.vue";
 import FSIconCard from "../FSIconCard.vue";
 import FSImage from "../FSImage.vue";
-import FSIcon from "../FSIcon.vue";
 import FSText from "../FSText.vue";
 import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
@@ -245,7 +244,6 @@ export default defineComponent({
     FSSlideGroup,
     FSIconCard,
     FSImage,
-    FSIcon,
     FSText,
     FSCol,
     FSRow
