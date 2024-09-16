@@ -20,8 +20,7 @@ export const Variations: Story = {
     args: {
       value1: null,
       value2: null,
-      value3: null,
-      value4: null
+      value3: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -40,6 +39,12 @@ export const Variations: Story = {
       <FSTreeViewFolder
         label="Folder with multiple selection"
         :multiple="true"
+        v-model="args.value2"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSTreeViewFolder
+        label="Folder with sawn branch"
+        exclude="1"
         v-model="args.value3"
       />
     </FSCol>`
