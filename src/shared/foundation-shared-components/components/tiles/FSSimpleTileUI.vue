@@ -12,7 +12,7 @@
       width="fill"
     >
       <FSRow
-        align="center-center"
+        align="center-left"
         gap="24px"
         :height="imageSize"
         :wrap="false"
@@ -41,7 +41,7 @@
           :width="imageSize"
         />
         <FSIconCard
-          v-else
+          v-else-if="$props.icon"
           :backgroundVariant="$props.iconBackgroundVariant"
           :backgroundColor="$props.iconBackgroundColor"
           :border="$props.iconBorder"
@@ -95,7 +95,6 @@ export default defineComponent({
     icon: {
       type: String as PropType<string>,
       required: false,
-      default: "mdi-ab-testing"
     },
     iconBackgroundVariant: {
       type: String as PropType<"background" | "standard" | "full" | "gradient">,

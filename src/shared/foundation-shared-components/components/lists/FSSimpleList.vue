@@ -46,6 +46,7 @@
             >
               <FSRow
                 align="center-left"
+                height="24px"
                 :wrap="false"
               >
                 <FSButtonDragIcon

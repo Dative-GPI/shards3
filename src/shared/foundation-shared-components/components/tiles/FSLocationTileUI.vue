@@ -3,6 +3,7 @@
     :activeColor="$props.color"
     :bottomColor="$props.color"
     :modelValue="$props.modelValue"
+    :width="$props.width"
     v-bind="$attrs"
   >
     <FSRow
@@ -26,6 +27,7 @@
             {{ $props.label }}
           </FSSpan>
           <FSSpan
+            v-if="$props.code"
             font="text-overline"
             variant="soft"
           >
@@ -55,7 +57,7 @@
           <FSSpan
             font="text-overline"
           >
-            {{ $tr("ui.location-tile.device(s)", "Device(s) in this location.") }}
+            {{ $tr("ui.common.devices", "Devices") }}
           </FSSpan>
         </FSRow>
       </FSCol>
@@ -88,7 +90,7 @@ import FSCol from "../FSCol.vue";
 import FSRow from "../FSRow.vue";
 
 export default defineComponent({
-  name: "FSGroupTileUI",
+  name: "FSLocationTileUI",
   components: {
     FSIconCard,
     FSColor,
@@ -127,6 +129,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: () => [352, 336]
     },
   },
   setup() {

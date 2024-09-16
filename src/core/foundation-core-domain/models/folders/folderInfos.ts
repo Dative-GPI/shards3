@@ -50,4 +50,5 @@ export interface FolderFilters {
   parentId?: string | null;
   root?: boolean | null;
   search?: string | null;
+  foldersIds?: string[] | null;
 }

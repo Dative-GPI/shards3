@@ -4,7 +4,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "1",
         code: "groups1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -61,7 +61,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "2",
         code: "locations1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -94,7 +94,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "3",
         code: "devices1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -151,7 +151,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "4",
         code: "users1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -200,7 +200,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "5",
         code: "users2",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -241,7 +241,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "6",
         code: "dashboards1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -274,7 +274,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "7",
         code: "folders1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -307,7 +307,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "8",
         code: "authTokens1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -340,7 +340,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "9",
         code: "alerts1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -429,7 +429,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "10",
         code: "charts1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -463,7 +463,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "12",
         code: "dataDefinitions1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -488,7 +488,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "13",
         code: "models1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -521,7 +521,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "14",
         code: "roleOrganisations1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -562,7 +562,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "15",
         code: "scenarios1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -603,7 +603,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "16",
         code: "serviceAccountOrganisations1",
-        mode: "table",
+        mode: "iterator",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",

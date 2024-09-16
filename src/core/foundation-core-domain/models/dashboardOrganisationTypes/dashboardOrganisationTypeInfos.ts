@@ -46,6 +46,6 @@ export interface DashboardOrganisationTypeInfosDTO {
 }
 
 export interface DashboardOrganisationTypeFilters {
-  dashboardOrganisationTypeIds?: string[] | null;
+  dashboardOrganisationTypesIds?: string[] | null;
   search?: string | null;
 }

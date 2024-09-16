@@ -48,27 +48,29 @@
       />
     </template>
     <template
-      #item.tile="{ item }"
+      #item.tile="{ item, toggleSelect }"
     >
       <FSModelTileUI
+        v-bind="item"
         :imageId="item.imageId"
         :label="item.label"
-        :color="isSelected(item.id) ? ColorEnum.Primary : ColorEnum.Background"
-        @click="$emit('update:modelValue', [item.id])"
-        v-bind="$attrs"
+        :modelValue="isSelected(item.id)"
+        :to="$props.itemTo && $props.itemTo(item)"
+        @update:modelValue="toggleSelect(item)"
       />
     </template>
   </FSDataTable>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, watch } from "vue";
 import _ from "lodash";
+import type { RouteLocation } from "vue-router";
+import { defineComponent, type PropType, watch } from "vue";
 
 import {ColorEnum} from "@dative-gpi/foundation-shared-components/models";
 
 import { useModels } from "@dative-gpi/foundation-core-services/composables";
-import type { ModelFilters } from "@dative-gpi/foundation-core-domain/models";
+import type { ModelFilters, ModelInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import FSDataTable from "../FSDataTable.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
@@ -86,7 +88,7 @@ export default defineComponent({
     FSIcon,
   },
   props: {
-    modelFilters: {
+    modelsFilters: {
       type: Object as PropType<ModelFilters>,
       required: false,
       default: null
@@ -94,6 +96,10 @@ export default defineComponent({
     modelValue: {
       type: Array as PropType<string[]>,
       default: () => [],
+      required: false
+    },
+    itemTo: {
+      type: Function as PropType<(item: ModelInfos) => Partial<RouteLocation>>,
       required: false
     },
     tableCode: {
@@ -109,9 +115,9 @@ export default defineComponent({
       return props.modelValue.includes(id);
     };
 
-    watch(() => props.modelFilters, (next, previous) => {
+    watch(() => props.modelsFilters, (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
-        fetchModels(props.modelFilters);
+        fetchModels(props.modelsFilters);
       }
     }, { immediate: true });
 

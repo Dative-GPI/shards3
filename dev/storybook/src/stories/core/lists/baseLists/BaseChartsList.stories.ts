@@ -12,6 +12,9 @@ const meta: Meta<typeof FSBaseChartsList> = {
     tableCode: {
       control: 'select',
       options: ['charts1'],
+    },
+    args: {
+      selecteds: []
     }
   },
 };
@@ -28,6 +31,7 @@ export const Default: Story = {
     template: `
       <FSBaseChartsList
         :tableCode="args.tableCode"
+        v-model="args.selecteds"
       />
     `,
   }),
