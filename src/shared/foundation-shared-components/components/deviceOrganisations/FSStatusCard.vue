@@ -47,24 +47,18 @@ import { computed, defineComponent, type PropType } from "vue";
 import type { FSDeviceStatusGroup, FSModelStatus } from "@dative-gpi/foundation-shared-components/models";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 
-import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
-import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSStatusCard",
   components: {
-    FSButton,
     FSCard,
     FSChip,
     FSText,
-    FSSpan,
-    FSCol,
-    FSRow
+    FSCol
   },
   props: {
     closable: {
