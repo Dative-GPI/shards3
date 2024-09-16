@@ -1,5 +1,7 @@
 <template>
-  <FSCol>
+  <FSCol
+    :style="style"
+  >
     <slot
       v-if="!$props.hideHeader"
       name="label"
@@ -10,7 +12,6 @@
         <FSSpan
           class="fs-base-field-label"
           font="text-overline"
-          :style="style"
         >
           {{ $props.label }}
         </FSSpan>
@@ -49,7 +50,6 @@
         v-if="$props.description"
         class="fs-base-field-description"
         font="text-overline"
-        :style="style"
       >
         {{ $props.description }}
       </FSSpan>
@@ -104,6 +104,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    minWidth: {
+      type: String,
+      required: false,
+      default: "120px"
     }
   },
   setup(props) {
@@ -120,12 +125,14 @@ export default defineComponent({
     const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
-          "--fs-base-field-color": lights.dark
+          "--fs-base-field-color"    : lights.dark,
+          "--fs-base-field-min-width": props.minWidth
         };
       }
       return {
         "--fs-base-field-color"      : darks.base,
-        "--fs-base-field-error-color": errors.base
+        "--fs-base-field-error-color": errors.base,
+        "--fs-base-field-min-width"  : props.minWidth
       };
     });
 
