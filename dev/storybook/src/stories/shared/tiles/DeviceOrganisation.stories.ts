@@ -219,7 +219,7 @@ const deviceStatuses = [{
   modelStatusId: "7",
   statusGroups: [{
     label: "Energies",
-    value: "100",
+    value: "100.005985757579",
     groupByValue: "1",
     unit: "kWh",
     icon: "mdi-flash",
@@ -227,7 +227,7 @@ const deviceStatuses = [{
     sourceTimestamp: 1623345600000
   }, {
     label: "Energies",
-    value: "50",
+    value: "50.4841561816168",
     groupByValue: "2",
     unit: "kWh",
     icon: "mdi-flash",

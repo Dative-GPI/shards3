@@ -39,7 +39,7 @@
               font="text-button"
               :color="$props.statusGroup.color"
             >
-              {{ $props.statusGroup.value }} {{ $props.statusGroup.unit }}
+              {{ statusValue }} {{ $props.statusGroup.unit }}
             </FSText>
           </FSRow>
           <FSRow
@@ -114,6 +114,13 @@ export default defineComponent({
       return props.statusGroup.label || props.modelStatus.label;
     });
 
+    const statusValue = computed((): string => {
+      if (props.statusGroup.value && !isNaN(parseFloat(props.statusGroup.value))) {
+        return parseFloat(props.statusGroup.value).toLocaleString("fullwide", { maximumFractionDigits: 2 });
+      }
+      return props.statusGroup.value || "";
+    });
+
     const deviceTimestamp = computed((): string => {
       if (props.statusGroup.sourceTimestamp) {
         return epochToLongTimeFormat(props.statusGroup.sourceTimestamp);
@@ -123,7 +130,8 @@ export default defineComponent({
 
     return {
       deviceTimestamp,
-      statusLabel
+      statusLabel,
+      statusValue
     };
   }
 });
