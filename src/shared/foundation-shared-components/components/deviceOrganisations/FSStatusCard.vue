@@ -13,6 +13,7 @@
         :label="statusLabel"
       />
       <FSCol
+        v-if="$props.statusGroup.value"
         align="center-center"
         gap="0px"
       >
