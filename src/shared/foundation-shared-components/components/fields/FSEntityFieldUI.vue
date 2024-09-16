@@ -10,7 +10,9 @@
     <FSCol
       gap="12px"
     >
-      <FSRow>
+      <FSRow
+        :wrap="false"
+      >
         <FSSelectField
           :hideHeader="true"
           :modelValue="$props.entityType"
@@ -37,7 +39,9 @@
           />
         </template>
       </FSRow>
-      <FSRow>
+      <FSRow
+        v-if="$props.showCount"
+      >
         <template
           v-if="itemsCount > 0"
         >
@@ -89,7 +93,7 @@
 
       <FSFadeOut
         v-if="$props.showEntities && itemsCount > 0"
-        maxHeight="220px"
+        :maxHeight="$props.listMaxHeight"
         width="100%"
       >
         <slot
@@ -181,6 +185,16 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    showCount: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    listMaxHeight: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: "220px"
     }
   },
   emits: ["update:entityType", "click:select"],

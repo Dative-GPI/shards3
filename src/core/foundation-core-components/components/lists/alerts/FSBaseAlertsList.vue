@@ -33,12 +33,20 @@
         variant="full"
         v-model="innerHidePending"
       />
-      <FSTermField
-        variant="default"
-        :editable="!innerNotTreatedOnly"
-        v-model:startDate="startDate"
-        v-model:endDate="endDate"
-      />
+      <FSRow
+        align="center-right"
+      >
+        <FSRow
+          width="hug"
+        >
+          <FSTermField
+            variant="default"
+            :editable="!innerNotTreatedOnly"
+            v-model:startDate="startDate"
+            v-model:endDate="endDate"
+          />
+        </FSRow>
+      </FSRow>
     </template>
     <template
       #item.criticity="{ item }"
@@ -226,6 +234,7 @@ import { useDateFormat } from "@dative-gpi/foundation-shared-services/composable
 import { useAlerts } from "@dative-gpi/foundation-core-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { AlertStatus } from "@dative-gpi/foundation-shared-domain/enums";
+import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { AlertTools } from "@dative-gpi/foundation-shared-components/tools";
 
@@ -324,7 +333,8 @@ export default defineComponent({
               [AlertStatus.Unresolved, AlertStatus.Resolved, AlertStatus.Triggered] : undefined,
             startDate: startDate.value,
             endDate: endDate.value 
-          });
+          }); // TODO, gérer les conditions pour que les alertes s'affichent ici notamment lorsqu'elles sont acquittées
+          // la FilterFactory gère pas ces conditions correctement
         }
         
       }
