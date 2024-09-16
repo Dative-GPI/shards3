@@ -96,7 +96,7 @@
           width="hug"
         >
           <FSButtonFileMini
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             :readFile="false"
             @update:metadata="onUpload"
           />
@@ -124,7 +124,7 @@
         padding="4px"
       >
         <FSButtonFileMini
-          accept="image/*"
+          accept=".jpg,.jpeg,.png"
           :readFile="false"
           @update:metadata="onUpload"
         />
@@ -157,7 +157,7 @@
         <FSButtonFileMini
           class="fs-edit-image-hidden-button"
           ref="invisibleButtonRef"
-          accept="image/*"
+          accept=".jpg,.jpeg,.png"
           :readFile="false"
           @update:metadata="onUpload"
         />
