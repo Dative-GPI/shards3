@@ -10,9 +10,9 @@
     />
     <FSWorstAlert
       v-if="$props.deviceWorstAlert"
-      :deviceAlerts="$props.deviceAlerts.length"
-      :deviceAlert="$props.deviceWorstAlert"
-      @view:alert="$emit('view:alert', $event)"
+      :deviceWorstAlert="$props.deviceWorstAlert"
+      :deviceAlerts="$props.deviceAlerts"
+      :alertTo="$props.alertTo"
     />
     <template
       v-for="(modelStatus, index) in $props.modelStatuses"
@@ -69,9 +69,13 @@ export default defineComponent({
     deviceStatuses: {
       type: Array as PropType<FSDeviceStatus[]>,
       required: true
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     }
   },
-  emits: ["view:alert"],
   setup(props) {
     const deviceStatus = (modelStatus: FSModelStatus): FSDeviceStatusGroup | null => {
       const deviceStatus = props.deviceStatuses

@@ -51,9 +51,10 @@
         </FSSpan>
       </FSRow>
       <FSButton
+        v-if="$props.alertTo"
         icon="mdi-information-outline"
         :label="$tr('ui.shared.device-alert.view-alert', 'View alert')"
-        @click="$emit('view:alert', $props.deviceAlert.id)"
+        :to="$props.alertTo($props.deviceAlert.id)"
       />
     </FSCol>
   </FSCard>
@@ -91,9 +92,14 @@ export default defineComponent({
     deviceAlert: {
       type: Object as PropType<FSDeviceAlert>,
       required: true
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     }
   },
-  emits: ["close", "view:alert"],
+  emits: ["close"],
   setup(props) {
     const { epochToLongTimeFormat } = useDateFormat();
     const { $tr } = useTranslationsProvider();

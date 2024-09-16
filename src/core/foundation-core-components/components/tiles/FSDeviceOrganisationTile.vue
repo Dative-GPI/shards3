@@ -16,9 +16,9 @@
     :modelStatuses="entity.modelStatuses"
     :deviceStatuses="entity.status?.statuses"
     :editable="$props.editable"
+    :alertTo="$props.alertTo"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
-    @view:alert="$emit('view:alert', $event)"
     v-bind="$attrs"
   />
 </template>
@@ -51,9 +51,14 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     }
   },
-  emits: ["update:modelValue", "view:alert"],
+  emits: ["update:modelValue"],
   setup(props) {
     const { get, getting, entity } = useDeviceOrganisation();
 

@@ -22,9 +22,9 @@
       </FSBadge>
     </template>
     <FSWorstAlertCard
-      :deviceAlert="deviceAlert"
+      :deviceAlert="deviceWorstAlert"
+      :alertTo="$props.alertTo"
       @close="menu = false"
-      @view:alert="$emit('view:alert', $event)"
     />
   </v-menu>
 </template>
@@ -48,22 +48,26 @@ export default defineComponent({
     FSBadge
   },
   props: {
-    deviceAlert: {
+    deviceWorstAlert: {
       type: Object as PropType<FSDeviceAlert>,
       required: true
     },
     deviceAlerts: {
-      type: Number,
+      type: Array as PropType<FSDeviceAlert[]>,
       required: false,
-      default: 0
+      default: () => []
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     }
   },
-  emits: ["view:alert"],
   setup(props) {
     const menu = ref(false);
 
     const criticityColor = computed(() => {
-      switch (props.deviceAlert?.criticity) {
+      switch (props.deviceWorstAlert?.criticity) {
         case Criticity.Error: return ColorEnum.Error;
         case Criticity.Warning: return ColorEnum.Warning;
         default: return ColorEnum.Primary;
@@ -71,7 +75,7 @@ export default defineComponent({
     });
 
     const statusIcon = computed(() => {
-      switch (props.deviceAlert?.status) {
+      switch (props.deviceWorstAlert?.status) {
         case AlertStatus.Pending:     return "mdi-timer-outline";
         case AlertStatus.Untriggered: return "mdi-timer-off-outline";
         case AlertStatus.Unresolved:  return "mdi-alert-circle-outline";
@@ -84,13 +88,13 @@ export default defineComponent({
     });
 
     const badgeLabel = computed((): string | null => {
-      if (props.deviceAlerts < 1) {
+      if (!props.deviceAlerts || props.deviceAlerts.length < 1) {
         return null;
       }
-      if (props.deviceAlerts > 9) {
+      if (props.deviceAlerts.length > 9) {
         return "9+";
       }
-      return (props.deviceAlerts).toString();
+      return props.deviceAlerts.length.toString();
     });
 
     return {
