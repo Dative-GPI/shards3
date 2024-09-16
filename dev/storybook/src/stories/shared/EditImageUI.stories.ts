@@ -54,7 +54,7 @@ export const Default: Story = {
         v-model="args.modelValue"
         @update:modelValue="args['onUpdate:modelValue']"
         @update:source="args['onUpdate:source']"
-      >`
+      />`
   })
 }
 
