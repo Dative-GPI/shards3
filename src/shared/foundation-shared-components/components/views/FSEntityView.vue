@@ -11,6 +11,7 @@
         :title="$props.title"
         :light="lightHeader"
         :imageId="imageId"
+        :iconBackgroundVariant="$props.iconBackgroundVariant"
         :icon="$props.icon"
         :color="$props.color"
         :iconBackgroundColors="$props.iconBackgroundColors"
@@ -120,6 +121,11 @@ export default defineComponent({
       type: Array as PropType<FSBreadcrumbItem[]>,
       required: false,
       default: () => []
+    },
+    iconBackgroundVariant: {
+      type: String as PropType<"background" | "standard" | "full" | "gradient">,
+      required: false,
+      default: "background"
     }
   },
   setup() {

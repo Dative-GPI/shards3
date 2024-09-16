@@ -1,6 +1,7 @@
 <template>
   <FSTextField
     class="fs-number-field"
+    minWidth="80px"
     :editable="$props.editable"
     :modelValue="$props.modelValue?.toString()"
     @update:modelValue="onUpdate"

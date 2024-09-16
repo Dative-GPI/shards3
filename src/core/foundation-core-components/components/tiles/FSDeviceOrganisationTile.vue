@@ -3,7 +3,7 @@
     v-if="getting"
     :editable="$props.editable"
     :modelValue="$props.modelValue"
-    @update:modelValue="(value) => $emit('update:modelValue', value)"
+    @update:modelValue="$emit('update:modelValue', $event)"
   />
   <FSDeviceOrganisationTileUI
     v-else-if="entity"
@@ -16,8 +16,9 @@
     :modelStatuses="entity.modelStatuses"
     :deviceStatuses="entity.status?.statuses"
     :editable="$props.editable"
+    :alertTo="$props.alertTo"
     :modelValue="$props.modelValue"
-    @update:modelValue="(value) => $emit('update:modelValue', value)"
+    @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   />
 </template>
@@ -50,8 +51,14 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     }
   },
+  emits: ["update:modelValue"],
   setup(props) {
     const { get, getting, entity } = useDeviceOrganisation();
 

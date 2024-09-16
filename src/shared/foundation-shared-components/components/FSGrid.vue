@@ -27,6 +27,7 @@
         >
           <FSText
             :font="item.hideDefault ? 'text-body' : 'text-overline'"
+            variant="soft"
           >
             {{ item.label }}
           </FSText>

@@ -37,12 +37,12 @@ export const Variations: Story = {
     template: `
     <FSCol>
       <FSTagField
-        label="Tag, full, primary color"
+        label="Tag, full, light color"
         v-model="args.value1"
       />
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTagField
-        label="Tag, standard, primary color"
+        label="Tag, standard, light color"
         tagVariant="standard"
         v-model="args.value2"
       />

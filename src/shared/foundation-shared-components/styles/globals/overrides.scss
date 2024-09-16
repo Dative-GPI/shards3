@@ -40,13 +40,8 @@
         flex: 0 0 auto;
     }
 
-    &:not(.v-checkbox):not(.v-slider):not(.fs-small-input):not(.fs-number-field) {
-        min-width: 120px;
-        width: 100%;
-    }
-
-    &.fs-number-field {
-        min-width: 80px;
+    &:not(.v-checkbox):not(.v-slider):not(.fs-small-input) {
+        min-width: var(--fs-base-field-min-width);
         width: 100%;
     }
 

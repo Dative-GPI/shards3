@@ -2,6 +2,7 @@
   <FSDataTable
     :loading="fetchingGroups"
     :items="groups"
+    :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -46,6 +47,7 @@
       #item.tile="{ item, toggleSelect }"
     >
       <FSGroupTileUI
+        :editable="$props.editable"
         :modelValue="isSelected(item.id)"
         @update:modelValue="toggleSelect(item)"
         v-bind="item"
@@ -80,19 +82,24 @@ export default defineComponent({
     FSTagGroup
   },
   props: {
+    tableCode: {
+      type: String,
+      required: true
+    },
     groupsFilters: {
       type: Object as PropType<GroupFilters>,
       required: false,
       default: null
     },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     modelValue: {
       type: Array as PropType<string[]>,
       required: false,
       default: () => []
-    },
-    tableCode: {
-      type: String,
-      required: true
     }
   },
   emits: ["update:modelValue"],

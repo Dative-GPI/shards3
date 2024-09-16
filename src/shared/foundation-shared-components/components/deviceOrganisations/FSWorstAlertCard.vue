@@ -50,6 +50,12 @@
           {{ deviceTimestamp }}
         </FSSpan>
       </FSRow>
+      <FSButton
+        v-if="$props.alertTo"
+        icon="mdi-information-outline"
+        :label="$tr('ui.shared.device-alert.view-alert', 'View alert')"
+        :to="$props.alertTo($props.deviceAlert.id)"
+      />
     </FSCol>
   </FSCard>
 </template>
@@ -58,10 +64,10 @@
 import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import type { FSDeviceAlert} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type FSDeviceAlert} from "@dative-gpi/foundation-shared-components/models";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/enums";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
@@ -86,6 +92,11 @@ export default defineComponent({
     deviceAlert: {
       type: Object as PropType<FSDeviceAlert>,
       required: true
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     }
   },
   emits: ["close"],

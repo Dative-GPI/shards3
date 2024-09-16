@@ -234,7 +234,6 @@ import { useDateFormat } from "@dative-gpi/foundation-shared-services/composable
 import { useAlerts } from "@dative-gpi/foundation-core-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { AlertStatus } from "@dative-gpi/foundation-shared-domain/enums";
-import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { AlertTools } from "@dative-gpi/foundation-shared-components/tools";
 
