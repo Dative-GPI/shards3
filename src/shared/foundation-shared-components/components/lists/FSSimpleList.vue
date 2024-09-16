@@ -37,7 +37,7 @@
             :key="item.id"
             v-bind="tileProps(item)"
             :width="$props.direction == 'row' ? 'fit-content' : '100%'"
-            :height="tileHeight ? tileHeight : 'fit-content'"
+            height="fit-content"
             :editable="false"
           >
             <slot
@@ -46,7 +46,7 @@
             >
               <FSRow
                 align="center-left"
-                height="100%"
+                height="24px"
                 :wrap="false"
               >
                 <FSButtonDragIcon
@@ -71,7 +71,6 @@
                   <FSSpan>{{ item[itemLabel] }}</FSSpan>
                 </slot>
                 <FSRow
-                  v-if="showEdit || showRemove"
                   align="center-right"
                 >
                   <FSButtonEditIcon
@@ -188,11 +187,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    },
-    tileHeight:{
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null | undefined>,
-      required: false,
-      default: undefined
     }
   },
   emits: ["click:edit", "click:remove", "update:search"],
