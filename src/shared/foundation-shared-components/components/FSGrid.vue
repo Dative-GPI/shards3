@@ -27,7 +27,7 @@
         >
           <FSText
             :font="item.hideDefault ? 'text-body' : 'text-overline'"
-            :color="darks.soft"
+            variant="soft"
           >
             {{ item.label }}
           </FSText>
@@ -95,7 +95,6 @@ export default defineComponent({
     const { slots } = useSlots();
 
     const lights = getColors(ColorEnum.Light);
-    const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): StyleValue => ({
       "--fs-grid-border-color": lights.dark
@@ -132,7 +131,6 @@ export default defineComponent({
     };
 
     return {
-      darks,
       style,
       itemEndSlot,
       headerSlot,
