@@ -1,16 +1,17 @@
 .fs-tabs {
     display: flex !important;
     width: 100% !important;
-    flex-shrink: 0;
 
     @include web {
         height: 48px !important;
         max-height: 48px;
+        min-height: 48px;
     }
 
     @include mobile {
         height: 40px !important;
         max-height: 40px;
+        min-height: 40px;
     }
 }
 
@@ -34,11 +35,13 @@
     @include web {
         height: 48px !important;
         max-height: 48px;
+        min-height: 48px;
     }
 
     @include mobile {
         height: 40px !important;
         max-height: 40px;
+        min-height: 40px;
     }
 }
 
