@@ -11,7 +11,7 @@
     >
       <FSIcon
         :color="$props.color"
-        :size="$props.size"
+        :size="iconSize"
       >
         <slot />
       </FSIcon>
@@ -24,6 +24,8 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
+
+import { sizeToVar } from "../utils";
 
 import FSColor from "./FSColor.vue";
 import FSIcon from "./FSIcon.vue";
@@ -46,6 +48,11 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Dark
+    },
+    padding: {
+      type: [String, Number] as PropType<string | number>,
+      required: false,
+      default: "0px"
     }
   },
   setup(props) {
@@ -60,7 +67,15 @@ export default defineComponent({
       }
     });
 
+    const iconSize = computed(() => {
+      if (!props.padding) {
+        return size.value;
+      }
+      return `calc(${sizeToVar(size.value)} - ${sizeToVar(props.padding)})`;
+    });
+
     return {
+      iconSize,
       size
     };
   }

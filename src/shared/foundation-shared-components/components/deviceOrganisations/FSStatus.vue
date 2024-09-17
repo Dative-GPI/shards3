@@ -11,6 +11,7 @@
         class="fs-stopclick"
         :size="$props.size"
         :color="$props.statusGroup.color"
+        :padding="$props.padding"
         @click.prevent.stop
         v-bind="props"
       >
@@ -52,6 +53,10 @@ export default defineComponent({
     size: {
       type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
       default: "m"
+    },
+    padding: {
+      type: [String, Number] as PropType<string | number>,
+      default: "8px"
     }
   },
   setup() {
