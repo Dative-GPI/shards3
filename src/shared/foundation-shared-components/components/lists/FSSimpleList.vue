@@ -68,7 +68,11 @@
                     v-else-if="item.icon"
                     :icon="item.icon"
                   />
-                  <FSSpan>{{ item[itemLabel] }}</FSSpan>
+                  <FSSpan
+                    font="text-overline"
+                  >
+                    {{ item[itemLabel] }}
+                  </FSSpan>
                 </slot>
                 <FSRow
                   align="center-right"
