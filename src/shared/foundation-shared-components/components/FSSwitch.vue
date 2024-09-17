@@ -4,6 +4,7 @@
     align="top-left"
     gap="16px"
     padding="8px 0px"
+    :wrap="false"
   >
     <v-switch
       v-if="variant == 'left'"
