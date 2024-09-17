@@ -1,7 +1,7 @@
 import { ref, type Ref } from "vue";
 
 import { type UpdateUserOrganisationTableDTO, type UserOrganisationTableDetails } from "@dative-gpi/foundation-core-domain/models";
-import { type FSDataTable } from "@dative-gpi/foundation-shared-components/models";
+import { type FSDataTable, type FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 
 export const useDataTables = () => {
   const initialized = ref(false);
@@ -15,12 +15,15 @@ export const useDataTables = () => {
     page: 1
   });
 
-  const computeTable = ((customSorts: { [key: string]: any }, customSortRaws: { [key: string]: any }) => ({
+  const computeTable = ((partialCustomHeaders: { [key: string]: Partial<FSDataTableColumn> }) => ({
     ...table.value,
     headers: table.value.headers.map(header => ({
       ...header,
-      sort: header.value && customSorts[header.value] || null,
-      sortRaw: header.value && customSortRaws[header.value] || null 
+      fixedFilters: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].fixedFilters) || null,
+      methodFilter: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].methodFilter) || null,
+      sort: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].sort) || null,
+      sortRaw: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].sortRaw) || null ,
+      innerValue: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].innerValue) || null 
     }))
   }));
 

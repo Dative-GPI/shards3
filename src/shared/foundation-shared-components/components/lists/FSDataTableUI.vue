@@ -1224,6 +1224,7 @@ export default defineComponent({
               return Array.isArray(property) ? property.includes(value) || (!value && property.length == 0) : (!value && !property) || value == property;
             })
           }));
+          filterDictionary[key] = value;
         }
         else {
           if (props.items && props.items.length) {
@@ -1241,10 +1242,10 @@ export default defineComponent({
               })
             }));
           }
+          filterDictionary[key] = value.sort((v1, v2) => {
+            return v1.text.localeCompare(v2.text, undefined, { numeric: true });
+          });
         }
-        filterDictionary[key] = value.sort((v1, v2) => {
-          return v1.text.localeCompare(v2.text, undefined, { numeric: true });
-        });
       }
       for (const [key, filters] of Object.entries(props.filters)) {
         for (const filter of filters) {

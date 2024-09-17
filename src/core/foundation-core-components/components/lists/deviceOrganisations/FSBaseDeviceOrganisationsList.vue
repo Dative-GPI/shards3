@@ -1,10 +1,10 @@
 <template>
   <FSDataTable
-    :items="deviceOrganisations"
-    :customSorts="customSorts"
-    :itemTo="$props.itemTo"
+    :partialCustomHeaders="partialCustomHeaders"
     :loading="fetchingDeviceOrganisations"
     :tableCode="$props.tableCode"
+    :items="deviceOrganisations"
+    :itemTo="$props.itemTo"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -87,6 +87,9 @@
         :deviceAlerts="item.alerts"
         :alertTo="$props.alertTo"
       />
+      <div
+        v-else
+      />
     </template>
     <template
       #item.alerts="{ item }"
@@ -96,6 +99,9 @@
         :deviceWorstAlert="item.worstAlert"
         :deviceAlerts="item.alerts"
         :alertTo="$props.alertTo"
+      />
+      <div
+        v-else
       />
     </template>
     <template
@@ -146,16 +152,15 @@
 </template>
   
 <script lang="ts">
-import type { PropType} from "vue";
-import type { RouteLocation } from "vue-router";
-import { computed, defineComponent, onMounted, watch } from "vue";
+import { computed, defineComponent, onMounted, type PropType, watch } from "vue";
+import { type RouteLocation } from "vue-router";
 import _ from "lodash";
   
-import { alphanumericSort } from "@dative-gpi/foundation-shared-components/utils";
+import { alphanumericSort, connectivityLabel } from "@dative-gpi/foundation-shared-components/utils";
 import { ConnectivityStatus, PropertyEntity } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { useCustomProperties, useDeviceOrganisations } from "@dative-gpi/foundation-core-services/composables";
-import type { DeviceConnectivityDetails, DeviceOrganisationFilters, DeviceOrganisationInfos} from "@dative-gpi/foundation-core-domain/models";
+import type { DeviceConnectivityDetails, DeviceOrganisationAlert, DeviceOrganisationFilters, DeviceOrganisationInfos} from "@dative-gpi/foundation-core-domain/models";
 
 import FSDataTable from "../FSDataTable.vue";
 import FSMetaValue from "../../customProperties/FSMetaValue.vue";
@@ -228,17 +233,61 @@ export default defineComponent({
       }
       return entities.value;
     });
-  
-    const customSorts = computed(() => {
-      return {
-        connectable: (a:DeviceConnectivityDetails, b:DeviceConnectivityDetails) => {
-          return alphanumericSort(a?.status, b?.status);
-        },
-        connectivity: (a:DeviceConnectivityDetails, b:DeviceConnectivityDetails) => {
-          return alphanumericSort(a?.status, b?.status);
-        }
-      }
-    });
+
+    const partialCustomHeaders = computed(() => ({
+      connectable: {
+        fixedFilters: [{
+          value: ConnectivityStatus.None,
+          text: "—"
+        }, {
+          value: ConnectivityStatus.Offline,
+          text: connectivityLabel(ConnectivityStatus.Offline)
+        }, {
+          value: ConnectivityStatus.AlmostOffline,
+          text: connectivityLabel(ConnectivityStatus.AlmostOffline)
+        }, {
+          value: ConnectivityStatus.PartiallyConnected,
+          text: connectivityLabel(ConnectivityStatus.PartiallyConnected)
+        }, {
+          value: ConnectivityStatus.Connected,
+          text: connectivityLabel(ConnectivityStatus.Connected)
+        }],
+        methodFilter: (value: ConnectivityStatus, item: DeviceConnectivityDetails) => !item.status && !value || item.status == value,
+        sort: (a: DeviceConnectivityDetails, b: DeviceConnectivityDetails) => alphanumericSort(a?.status, b?.status)
+      },
+      connectivity: {
+        fixedFilters: [{
+          value: ConnectivityStatus.None,
+          text: "—"
+        }, {
+          value: ConnectivityStatus.Offline,
+          text: connectivityLabel(ConnectivityStatus.Offline)
+        }, {
+          value: ConnectivityStatus.AlmostOffline,
+          text: connectivityLabel(ConnectivityStatus.AlmostOffline)
+        }, {
+          value: ConnectivityStatus.PartiallyConnected,
+          text: connectivityLabel(ConnectivityStatus.PartiallyConnected)
+        }, {
+          value: ConnectivityStatus.Connected,
+          text: connectivityLabel(ConnectivityStatus.Connected)
+        }],
+        methodFilter: (value: ConnectivityStatus, item: DeviceConnectivityDetails) => !item.status && !value || item.status == value,
+        sort: (a: DeviceConnectivityDetails, b: DeviceConnectivityDetails) => alphanumericSort(a?.status, b?.status)
+      },
+      worstAlert: {
+        sort: (a: DeviceOrganisationAlert, b: DeviceOrganisationAlert) => alphanumericSort(a?.criticity, b?.criticity)
+      },
+      // ...customProperties.value.reduce((acc, cp) => ({
+      //   ...acc,
+      //   [`meta.${cp.code}`]: {
+      //     innerValue: (item: DeviceOrganisationInfos) => {
+      //       return item
+      //     },
+      //     sort: (a: string, b: string) => alphanumericSort(a, b)
+      //   }
+      // }), {})
+    }));
   
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
@@ -259,10 +308,10 @@ export default defineComponent({
     return {
       fetchingDeviceOrganisations,
       fecthingCustomProperties,
+      partialCustomHeaders,
       deviceOrganisations,
       ConnectivityStatus,
       customProperties,
-      customSorts,
       isSelected
     };
   }
