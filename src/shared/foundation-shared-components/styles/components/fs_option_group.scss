@@ -1,8 +1,18 @@
 .fs-option-group {
-    border-radius: var(--fs-option-group-border-radius) !important;
-    border: var(--fs-option-group-border-size) solid !important;
-    background-color: var(--fs-option-group-background-color) !important;
-    width: fit-content;
+  border-radius: var(--fs-option-group-border-radius) !important;
+  border: var(--fs-option-group-border-size) solid !important;
+  background-color: var(--fs-option-group-background-color) !important;
+  border-color: var(--fs-option-group-border-color) !important;
+  width: fit-content;
+}
 
-    border-color: var(--fs-option-group-border-color) !important;
+.fs-option-group-full-width {
+  border-radius: var(--fs-option-group-border-radius) !important;
+  border: var(--fs-option-group-border-size) solid !important;
+  background-color: var(--fs-option-group-background-color) !important;
+  border-color: var(--fs-option-group-border-color) !important;
+
+  & > * {
+    width: 100% !important;
+  }
 }

@@ -1,6 +1,6 @@
 <template>
   <FSWrapGroup
-    v-if="['wrap'].includes(props.variant)"
+    v-if="props.variant === 'wrap'"
     class="fs-option-group"
     :padding="props.padding"
     :gap="props.gap"
@@ -46,7 +46,7 @@
     />
   </FSWrapGroup>
   <FSSlideGroup
-    v-else
+    v-else-if="props.variant === 'slide'"
     class="fs-option-group"
     :padding="props.padding"
     :gap="props.gap"
@@ -91,6 +91,54 @@
       v-bind="{ toggle, getVariant, getColor, getClass }"
     />
   </FSSlideGroup>
+  <FSRow
+    v-else
+    class="fs-option-group-full-width"
+    width="100%"
+    :padding="props.padding"
+    :gap="props.gap"
+    :style="style"
+    :wrap="false"
+  >
+    <template
+      v-if="props.values.length"
+    >
+      <template
+        v-if="!$slots.item"
+      >
+        <FSOptionItem
+          v-for="(item, index) in props.values"
+          :padding="props.optionPadding"
+          :editable="props.editable"
+          :prependIcon="item.prependIcon"
+          :appendIcon="item.appendIcon"
+          :variant="getVariant(item)"
+          :color="getColor(item)"
+          :class="getClass(item)"
+          :label="item.label"
+          :icon="item.icon"
+          :key="index"
+          @click="toggle(item)"
+        />
+      </template>
+      <template
+        v-else
+      >
+        <template
+          v-for="item in props.values"
+        >
+          <slot
+            name="item"
+            v-bind="{ item, toggle, getVariant, getColor, getClass }"
+          />
+        </template>
+      </template>
+    </template>
+    <slot
+      v-else
+      v-bind="{ toggle, getVariant, getColor, getClass }"
+    />
+  </FSRow>
 </template>
 
 <script lang="ts">
@@ -128,7 +176,7 @@ export default defineComponent({
       default: "4px"
     },
     variant: {
-      type: String as PropType<"wrap" | "slide">,
+      type: String as PropType<"wrap" | "slide" | "fullwidth">,
       required: false,
       default: "wrap"
     },
