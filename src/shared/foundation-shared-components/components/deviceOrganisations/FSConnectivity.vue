@@ -9,7 +9,8 @@
     >
       <FSColorIcon
         class="fs-stopclick"
-        size="m"
+        :size="$props.size"
+        :padding="$props.padding"
         :color="$props.deviceConnectivity.color"
         @click.prevent.stop
         v-bind="props"
@@ -43,6 +44,14 @@ export default defineComponent({
     deviceConnectivity: {
       type: Object as PropType<FSDeviceConnectivity>,
       required: true
+    },
+    size: {
+      type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
+      default: "m"
+    },
+    padding: {
+      type: [String, Number] as PropType<string | number>,
+      default: "8px"
     }
   },
   setup() {
