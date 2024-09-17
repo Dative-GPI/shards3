@@ -29,6 +29,7 @@ import { computed, defineComponent, onUnmounted, type PropType, watch } from "vu
 
 import { useUserOrganisationTable, useUpdateUserOrganisationTable, useDataTables } from "@dative-gpi/foundation-core-services/composables";
 import { useDebounce, useTables } from "@dative-gpi/foundation-shared-components/composables";
+import { type FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
 
 import FSLoadDataTable from "@dative-gpi/foundation-shared-components/components/lists/FSLoadDataTable.vue";
 import FSDataTableUI from "@dative-gpi/foundation-shared-components/components/lists/FSDataTableUI.vue";
@@ -49,13 +50,8 @@ export default defineComponent({
       required: false,
       default: 1000
     },
-    customSorts: {
-      type: Object as PropType<{ [key: string]: any }>,
-      required: false,
-      default: () => ({})
-    },
-    customSortRaws: {
-      type: Object as PropType<{ [key: string]: any }>,
+    headersOptions: {
+      type: Object as PropType<{ [key: string]: Partial<FSDataTableColumn> }>,
       required: false,
       default: () => ({})
     }
@@ -67,7 +63,7 @@ export default defineComponent({
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
 
-    const computedTable = computed(() => computeTable(props.customSorts, props.customSortRaws));
+    const computedTable = computed(() => computeTable(props.headersOptions));
 
     onUnmounted(() => {
       cancel();

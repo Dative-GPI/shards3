@@ -4,6 +4,7 @@ export * from "./authTokens.mock";
 export * from "./chartOrganisations.mock";
 export * from "./chartOrganisationTypes.mock";
 export * from "./comments.mock";
+export * from "./customProperties.mock";
 export * from "./customPropertyValues.mock";
 export * from "./dataCategories.mock";
 export * from "./dataDefinitions.mock";

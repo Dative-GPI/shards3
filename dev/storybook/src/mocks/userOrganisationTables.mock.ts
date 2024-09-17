@@ -97,14 +97,6 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
         mode: "iterator",
         rowsPerPage: 10,
         columns: [{
-            columnId: "1",
-            text: "Label",
-            value: "label",
-            index: 0,
-            hidden: false,
-            sortable: true,
-            filterable: true
-        }, {
             columnId: "2",
             text: "Code",
             value: "code",
@@ -114,37 +106,69 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
             filterable: true
         }, {
             columnId: "3",
-            text: "Image",
-            value: "imageId",
-            index: 2,
-            hidden: false,
-            sortable: false,
-            filterable: false
-        }, {
-            columnId: "3",
             text: "Connectivity",
             value: "connectivity",
             index: 3,
             hidden: false,
-            sortable: false,
-            filterable: false
+            sortable: true,
+            filterable: true
         }, {
-            columnId: "4",
-            text: "Alerts",
-            value: "alerts",
-            index: 3,
+            columnId: "6",
+            text: "WorstAlert",
+            value: "worstAlert",
+            index: 6,
             hidden: false,
-            sortable: false,
-            filterable: false
+            sortable: true,
+            filterable: true
         }, {
-            columnId: "5",
+            columnId: "7",
             text: "Status",
             value: "status",
-            index: 3,
+            index: 7,
             hidden: false,
-            sortable: false,
-            filterable: false
-        },],
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "8",
+            text: "Code 1",
+            value: "meta.code1",
+            index: 8,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "9",
+            text: "Code 2",
+            value: "meta.code2",
+            index: 9,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "10",
+            text: "Code 3",
+            value: "meta.code3",
+            index: 10,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "11",
+            text: "Code 4",
+            value: "meta.code4",
+            index: 11,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "12",
+            text: "Code 5",
+            value: "meta.code5",
+            index: 12,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }],
         sortByKey: null,
         sortByOrder: null
     },
