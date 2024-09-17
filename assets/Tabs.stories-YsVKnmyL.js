@@ -1,4 +1,4 @@
-import{F as r}from"./FSSlideGroup-BogZOmN_.js";import{F as d}from"./FSFadeOut-D96pvLZm.js";import{F as b}from"./FSButton-CyN0itWL.js";import{F}from"./FSWindow-BMzav7Sc.js";import{F as u}from"./FSText-DyldgdXP.js";import{F as l,a as S}from"./FSTab-D1Msg7xU.js";import{F as c}from"./FSCol-DZA6pxA1.js";import"./vue.esm-bundler-BSyvBTC9.js";import"./uuid-DTaye2KM.js";import"./useColors-DlnF7i6T.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-DfSX31J9.js";import"./theme-D4rXHj3O.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./useSlots-P12pG1X5.js";import"./css-DLfrm0pR.js";import"./index-CHbvZ5Sj.js";import"./color-BygXFKwQ.js";import"./display-BMkR1-zV.js";import"./group-CBCTR8u6.js";import"./proxiedModel-Bq4wip6p.js";import"./VIcon-BIpY_noq.js";import"./tag-DB5D_XjQ.js";import"./locale-C-s_GJlL.js";import"./VProgressCircular-Dh9H7lZx.js";import"./FSClickable-CS9kdIxp.js";import"./FSCard-Dakm4bPu.js";import"./FSRow-CA1vgNXx.js";import"./FSSpan-CCGpb4KF.js";import"./FSIcon-DwJNOKvG.js";import"./VBtn-CC1p3R0h.js";import"./border-njGtMOdT.js";import"./density-CDPzHPmZ.js";import"./elevation-Ben4zuE4.js";import"./rounded-Dg8mz8II.js";import"./dimensions-DyYT4L19.js";import"./loader-pPiux2KM.js";import"./anchor-D9N-895C.js";import"./router-D2IrSaAD.js";import"./index-DPxysH4G.js";import"./VDefaultsProvider-YWdCRIjF.js";import"./lazy-CAOrKziU.js";import"./ssrBoot-SGvAq9J5.js";import"./transition-CNA6wh-m.js";import"./forwardRefs-DWGaNmQL.js";import"./VSpacer-C4plVoTE.js";const ie={title:"Foundation/Shared/Tabs",component:l,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},e={args:{args:{tab1:0,tab2:1,tab3:2,tab4:3,tab5:0}},render:(o,{argTypes:i})=>({components:{FSTabs:l,FSTab:S,FSText:u,FSWindow:F,FSCol:c,FSFadeOut:d,FSSlideGroup:r,FSButton:b},props:Object.keys(i),setup(){return{...o}},template:`
+import{F as b}from"./FSSlideGroup-BogZOmN_.js";import{F}from"./FSFadeOut-D96pvLZm.js";import{F as r}from"./FSButton-CyN0itWL.js";import{F as d}from"./FSWindow-BMzav7Sc.js";import{F as S}from"./FSText-DyldgdXP.js";import{F as l,a as u}from"./FSTab-D1Msg7xU.js";import{F as T}from"./FSCol-DZA6pxA1.js";import{F as s}from"./FSRow-CA1vgNXx.js";import"./vue.esm-bundler-BSyvBTC9.js";import"./uuid-DTaye2KM.js";import"./useColors-DlnF7i6T.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-DfSX31J9.js";import"./theme-D4rXHj3O.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./useSlots-P12pG1X5.js";import"./css-DLfrm0pR.js";import"./index-CHbvZ5Sj.js";import"./color-BygXFKwQ.js";import"./display-BMkR1-zV.js";import"./group-CBCTR8u6.js";import"./proxiedModel-Bq4wip6p.js";import"./VIcon-BIpY_noq.js";import"./tag-DB5D_XjQ.js";import"./locale-C-s_GJlL.js";import"./VProgressCircular-Dh9H7lZx.js";import"./FSClickable-CS9kdIxp.js";import"./FSCard-Dakm4bPu.js";import"./FSSpan-CCGpb4KF.js";import"./FSIcon-DwJNOKvG.js";import"./VBtn-CC1p3R0h.js";import"./border-njGtMOdT.js";import"./density-CDPzHPmZ.js";import"./elevation-Ben4zuE4.js";import"./rounded-Dg8mz8II.js";import"./dimensions-DyYT4L19.js";import"./loader-pPiux2KM.js";import"./anchor-D9N-895C.js";import"./router-D2IrSaAD.js";import"./index-DPxysH4G.js";import"./VDefaultsProvider-YWdCRIjF.js";import"./lazy-CAOrKziU.js";import"./ssrBoot-SGvAq9J5.js";import"./transition-CNA6wh-m.js";import"./forwardRefs-DWGaNmQL.js";import"./VSpacer-C4plVoTE.js";const be={title:"Foundation/Shared/Tabs",component:l,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},e={args:{args:{tab1:0,tab2:1,tab3:2,tab4:3,tab5:0,tab6:0}},render:(o,{argTypes:i})=>({components:{FSTabs:l,FSTab:u,FSText:S,FSWindow:d,FSCol:T,FSRow:s,FSFadeOut:F,FSSlideGroup:b,FSButton:r},props:Object.keys(i),setup(){return{...o}},template:`
       <div style="display: flex; flex-direction: column; gap: 30px;">
         <FSText> Tabs in FadeOut </FSText>
         <FSFadeOut height="200px">
@@ -157,15 +157,54 @@ import{F as r}from"./FSSlideGroup-BogZOmN_.js";import{F as d}from"./FSFadeOut-D9
             Tab {{ index }}
           </FSText>
         </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Buttons after tabs </FSText>
+        <FSTabs v-model:tab="args.tab5">
+          <FSTab :value="0" label="Tab 1" />
+          <FSTab :value="1" label="Tab 2" />
+          <FSTab :value="2" label="Tab 3" />
+          <FSTab :value="3" label="Tab 4, this one has a really long name. Like it is really long you know." />
+          <FSTab :value="4" label="Tab 5. Actually, this one is too, come to think of it" />
+          <FSRow padding="0 8px" :wrap="false">
+            <FSButton label="Button 1" />
+            <FSButton label="Button 2" />
+            <FSButton label="Button 3" />
+          </FSRow>
+        </FSTabs>
+        <FSWindow v-model="args.tab5">
+          <FSText v-for="(arg, index) in 5">
+            Tab {{ index }}
+          </FSText>
+        </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Buttons outside tabs </FSText>
+        <FSRow padding="0 8px" :wrap="false">
+          <FSTabs v-model:tab="args.tab5">
+            <FSTab :value="0" label="Tab 1" />
+            <FSTab :value="1" label="Tab 2" />
+            <FSTab :value="2" label="Tab 3" />
+            <FSTab :value="3" label="Tab 4, this one has a really long name. Like it is really long you know." />
+            <FSTab :value="4" label="Tab 5. Actually, this one is too, come to think of it" />
+          </FSTabs>
+          <FSButton label="Button 1" />
+          <FSButton label="Button 2" />
+          <FSButton label="Button 3" />
+        </FSRow>
+        <FSWindow v-model="args.tab5">
+          <FSText v-for="(arg, index) in 5">
+            Tab {{ index }}
+          </FSText>
+        </FSWindow>
       </div>
-    `})};var t,n,a;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`{
+    `})};var t,a,n;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`{
   args: {
     args: {
       tab1: 0,
       tab2: 1,
       tab3: 2,
       tab4: 3,
-      tab5: 0
+      tab5: 0,
+      tab6: 0
     }
   },
   render: (args, {
@@ -177,6 +216,7 @@ import{F as r}from"./FSSlideGroup-BogZOmN_.js";import{F as d}from"./FSFadeOut-D9
       FSText,
       FSWindow,
       FSCol,
+      FSRow,
       FSFadeOut,
       FSSlideGroup,
       FSButton
@@ -346,7 +386,45 @@ import{F as r}from"./FSSlideGroup-BogZOmN_.js";import{F as d}from"./FSFadeOut-D9
             Tab {{ index }}
           </FSText>
         </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Buttons after tabs </FSText>
+        <FSTabs v-model:tab="args.tab5">
+          <FSTab :value="0" label="Tab 1" />
+          <FSTab :value="1" label="Tab 2" />
+          <FSTab :value="2" label="Tab 3" />
+          <FSTab :value="3" label="Tab 4, this one has a really long name. Like it is really long you know." />
+          <FSTab :value="4" label="Tab 5. Actually, this one is too, come to think of it" />
+          <FSRow padding="0 8px" :wrap="false">
+            <FSButton label="Button 1" />
+            <FSButton label="Button 2" />
+            <FSButton label="Button 3" />
+          </FSRow>
+        </FSTabs>
+        <FSWindow v-model="args.tab5">
+          <FSText v-for="(arg, index) in 5">
+            Tab {{ index }}
+          </FSText>
+        </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Buttons outside tabs </FSText>
+        <FSRow padding="0 8px" :wrap="false">
+          <FSTabs v-model:tab="args.tab5">
+            <FSTab :value="0" label="Tab 1" />
+            <FSTab :value="1" label="Tab 2" />
+            <FSTab :value="2" label="Tab 3" />
+            <FSTab :value="3" label="Tab 4, this one has a really long name. Like it is really long you know." />
+            <FSTab :value="4" label="Tab 5. Actually, this one is too, come to think of it" />
+          </FSTabs>
+          <FSButton label="Button 1" />
+          <FSButton label="Button 2" />
+          <FSButton label="Button 3" />
+        </FSRow>
+        <FSWindow v-model="args.tab5">
+          <FSText v-for="(arg, index) in 5">
+            Tab {{ index }}
+          </FSText>
+        </FSWindow>
       </div>
     \`
   })
-}`,...(a=(n=e.parameters)==null?void 0:n.docs)==null?void 0:a.source}}};const re=["Variations"];export{e as Variations,re as __namedExportsOrder,ie as default};
+}`,...(n=(a=e.parameters)==null?void 0:a.docs)==null?void 0:n.source}}};const Fe=["Variations"];export{e as Variations,Fe as __namedExportsOrder,be as default};
