@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, type PropType, ref, watch } from "vue";
 
-import { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
+import type { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSDialogSubmit from "@dative-gpi/foundation-shared-components/components/FSDialogSubmit.vue";
 import FSSelectEntitiesList from "./FSSelectEntitiesList.vue";
