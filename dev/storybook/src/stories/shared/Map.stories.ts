@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
+import { defineComponent } from 'vue';
 
 import FSMap from "@dative-gpi/foundation-shared-components/components/map/FSMap.vue";
 import type { FSLocation } from '@dative-gpi/foundation-shared-components/models';
@@ -108,37 +109,40 @@ export const SingleLocationMap: Story = {
     grayscale: false,
     showMyLocation: true,
     showZoomButtons: true,
-    enableScrollWheelZoom: true
+    enableScrollWheelZoom: true,
   },
-  render: (args) => ({
-    components: { FSMap, FSRow },
-    setup() {
-      return { args };
-    },
-    template: `
-      <FSMap
-        width="100%"
-        height="100%"
-        v-model:overlayMode="args.overlayMode"
-        v-model:currentLayer="args.currentLayer"
-        v-model:selectedLocationId="args.selectedLocationId"
-        :locations="args.locations"
-        :grayscale="args.grayscale"
-        :showMyLocation="args.showMyLocation"
-        :showZoomButtons="args.showZoomButtons"
-        :enableScrollWheelZoom="args.enableScrollWheelZoom"
-      >
-        <template v-slot:overlay>
-          <FSRow>
-            <span>Fixed header for the overlay</span>
-          </FSRow>
-        </template>
-      </FSMap>
-    `,
-  }),
+  render: (args) =>
+    defineComponent({
+      components: { FSMap, FSRow },
+      inheritAttrs: false,
+      setup() {
+        return { args };
+      },
+      template: `
+        <FSRow height="500px">
+          <FSMap
+            :width="args.width"
+            :height="args.height"
+            v-model:overlayMode="args.overlayMode"
+            v-model:currentLayer="args.currentLayer"
+            v-model:selectedLocationId="args.selectedLocationId"
+            :locations="args.locations"
+            :grayscale="args.grayscale"
+            :showMyLocation="args.showMyLocation"
+            :showZoomButtons="args.showZoomButtons"
+            :enableScrollWheelZoom="args.enableScrollWheelZoom"
+          >
+            <template v-slot:overlay>
+              <FSRow>
+                <span>Fixed header for the overlay</span>
+              </FSRow>
+            </template>
+          </FSMap>
+        </FSRow>
+      `,
+    }),
 };
 
-// Story 2 : Carte avec plusieurs locations et slot pour overlay custom
 export const MultiLocationMap: Story = {
   args: {
     locations: [location1, location2, location3, location4],
