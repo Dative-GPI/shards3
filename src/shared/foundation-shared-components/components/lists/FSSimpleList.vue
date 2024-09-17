@@ -71,11 +71,12 @@
                   <FSSpan
                     font="text-overline"
                   >
-                    {{ item[itemLabel] }}
+                    {{ item[$props.itemLabel || 'label'] }}
                   </FSSpan>
                 </slot>
                 <FSRow
                   align="center-right"
+                  :wrap="false"
                 >
                   <FSButtonEditIcon
                     v-if="showEdit"

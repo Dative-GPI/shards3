@@ -51,7 +51,7 @@ export const Default: Story = {
     showRemove: false,
     showDraggable: false,
     direction: "row",
-    itemLabel: "label",
+    itemLabel: "name",
     searchable: true,
     tileHeight: '60px',
     tileProps: (item) => ({
@@ -69,7 +69,7 @@ export const ListWithoutSearch: Story = {
     showRemove: true,
     showDraggable: false,
     direction: "row",
-    itemLabel: "label",
+    itemLabel: "name",
     searchable: false,
     tileHeight: '60px',
   },
