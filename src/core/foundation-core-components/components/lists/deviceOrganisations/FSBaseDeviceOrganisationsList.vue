@@ -82,16 +82,20 @@
       #item.worstAlert="{ item }"
     >
       <FSWorstAlert
+        v-if="item.worstAlert"
+        :deviceWorstAlert="item.worstAlert"
         :deviceAlerts="item.alerts"
-        :deviceAlert="item.worstAlert"
+        :alertTo="$props.alertTo"
       />
     </template>
     <template
       #item.alerts="{ item }"
     >
       <FSWorstAlert
-        :deviceAlerts="item.alerts.length"
-        :deviceAlert="item.worstAlert"
+        v-if="item.worstAlert"
+        :deviceWorstAlert="item.worstAlert"
+        :deviceAlerts="item.alerts"
+        :alertTo="$props.alertTo"
       />
     </template>
     <template
@@ -134,6 +138,7 @@
         :deviceWorstAlert="item.worstAlert"
         :deviceAlerts="item.alerts"
         :to="$props.itemTo && $props.itemTo(item)"
+        :alertTo="$props.alertTo"
         @update:modelValue="toggleSelect(item)"
       />
     </template>
@@ -196,6 +201,11 @@ export default defineComponent({
     itemTo: {
       type: Function as PropType<(item: DeviceOrganisationInfos) => Partial<RouteLocation>>,
       required: false
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     },
     singleSelect: {
       type: Boolean,

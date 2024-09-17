@@ -33,12 +33,20 @@
         variant="full"
         v-model="innerHidePending"
       />
-      <FSTermField
-        variant="default"
-        :editable="!innerNotTreatedOnly"
-        v-model:startDate="startDate"
-        v-model:endDate="endDate"
-      />
+      <FSRow
+        align="center-right"
+      >
+        <FSRow
+          width="hug"
+        >
+          <FSTermField
+            variant="default"
+            :editable="!innerNotTreatedOnly"
+            v-model:startDate="startDate"
+            v-model:endDate="endDate"
+          />
+        </FSRow>
+      </FSRow>
     </template>
     <template
       #item.criticity="{ item }"
@@ -324,7 +332,8 @@ export default defineComponent({
               [AlertStatus.Unresolved, AlertStatus.Resolved, AlertStatus.Triggered] : undefined,
             startDate: startDate.value,
             endDate: endDate.value 
-          });
+          }); // TODO, gérer les conditions pour que les alertes s'affichent ici notamment lorsqu'elles sont acquittées
+          // la FilterFactory gère pas ces conditions correctement
         }
         
       }

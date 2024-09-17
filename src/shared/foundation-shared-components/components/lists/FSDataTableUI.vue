@@ -3,7 +3,7 @@
     gap="16px"
   >
     <FSRow
-      align="bottom-center"
+      align="bottom-left"
       :wrap="isExtraSmall ? false : true"
       width="fill"
     >

@@ -20,10 +20,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
+import { type FolderFilters, type FolderInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useTreeView } from "@dative-gpi/foundation-shared-components/composables";
-import { type FolderFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useFolders } from "@dative-gpi/foundation-core-services/composables";
 
 import FSTreeViewField from "@dative-gpi/foundation-shared-components/components/fields/FSTreeViewField.vue";
@@ -41,6 +41,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    exclude: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     modelValue: {
       type: [Array, String] as PropType<string[] | string | null>,
       required: false,
@@ -54,7 +59,14 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { getMany: getManyFolders, fetching: fetchingFolders, entities: folders } = useFolders();
+    const { getMany: getManyFolders, fetching: fetchingFolders, entities } = useFolders();
+
+    const folders = computed((): FolderInfos[] => {
+      if (!props.exclude) {
+        return entities.value;
+      }
+      return entities.value.filter(g => g.id !== props.exclude && !g.path.some(p => p.id === props.exclude));
+    });
 
     const fetch = () => {
       return getManyFolders({ ...props.folderFilters });

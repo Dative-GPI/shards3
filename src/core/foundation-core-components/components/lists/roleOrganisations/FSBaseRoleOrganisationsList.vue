@@ -3,6 +3,7 @@
     :items="roleOrganisations"
     :itemTo="$props.itemTo"
     :loading="fetchingRoleOrganisations"
+    :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -76,24 +77,29 @@ export default defineComponent({
     FSTagGroup
   },
   props: {
+    tableCode: {
+      type: String,
+      required: true
+    },
     roleOrganisationsFilters: {
       type: Object as PropType<RoleOrganisationFilters | null>,
       required: false,
       default: null
     },
-    modelValue: {
-      type: Array as PropType<string[]>,
-      required: false,
-      default: () => []
-    },
-    tableCode: {
-      type: String,
-      required: true
-    },
     itemTo: {
       type: Function as PropType<(item: RoleOrganisationInfos) => Partial<RouteLocation>>,
       required: false
     },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      required: false,
+      default: () => []
+    }
   },
   emits: ["update:modelValue"],
   setup(props) {

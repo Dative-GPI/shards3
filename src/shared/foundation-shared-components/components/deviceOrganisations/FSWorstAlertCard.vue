@@ -1,55 +1,44 @@
 <template>
   <FSCard
-    padding="2px 2px 8px 2px"
+    padding="12px 24px"
     :elevation="true"
-    :border="false"
   >
     <FSCol
       align="center-center"
+      gap="12px"
     >
+      <FSChip
+        :label="$tr('ui.common.alert', 'Alert')"
+        :prependIcon="statusIcon"
+        :color="criticityColor"
+      />
       <FSCol
         align="center-center"
         gap="0px"
       >
-        <FSRow
-          align="center-right"
+        <FSText>
+          {{ $tr('ui.alert.status', 'Status') }} : {{ statusLabel }}
+        </FSText>
+        <FSText
+          font="text-button"
+          :color="criticityColor"
         >
-          <FSButton
-            icon="mdi-close"
-            variant="icon"
-            @click="$emit('close')"
-          />
-        </FSRow>
-        <FSCol
-          align="center-center"
-          padding="0px 24px"
-          gap="12px"
-        >
-          <FSChip
-            :label="$props.deviceAlert.label"
-            :prependIcon="statusIcon"
-            :color="criticityColor"
-          />
-          <FSRow
-            width="hug"
-          >
-            <FSText>
-              {{ statusLabel }}
-            </FSText>
-          </FSRow>
-        </FSCol>
+          {{ $props.deviceAlert.label }}
+        </FSText>
       </FSCol>
-      <FSRow
+      <FSText
         v-if="deviceTimestamp"
-        padding="0px 24px"
-        width="hug"
+        font="text-overline"
+        variant="dark"
       >
-        <FSSpan
-          font="text-overline"
-        >
-          {{ deviceTimestamp }}
-        </FSSpan>
-      </FSRow>
+        {{ deviceTimestamp }}
+      </FSText>
+      <FSButton
+        v-if="$props.alertTo"
+        icon="mdi-information-outline"
+        :label="$tr('ui.alert.details', 'Alert details')"
+        :to="$props.alertTo($props.deviceAlert.id)"
+      />
     </FSCol>
   </FSCard>
 </template>
@@ -58,18 +47,16 @@
 import { computed, defineComponent, type PropType } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import type { FSDeviceAlert} from "@dative-gpi/foundation-shared-components/models";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type FSDeviceAlert} from "@dative-gpi/foundation-shared-components/models";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/enums";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSText from "../FSText.vue";
-import FSSpan from "../FSSpan.vue";
 import FSCol from "../FSCol.vue";
-import FSRow from "../FSRow.vue";
 
 export default defineComponent({
   name: "FSWorstAlertCard",
@@ -78,14 +65,17 @@ export default defineComponent({
     FSCard,
     FSChip,
     FSText,
-    FSSpan,
     FSCol,
-    FSRow
   },
   props: {
     deviceAlert: {
       type: Object as PropType<FSDeviceAlert>,
       required: true
+    },
+    alertTo: {
+      type: Function,
+      required: false,
+      default: null
     }
   },
   emits: ["close"],
