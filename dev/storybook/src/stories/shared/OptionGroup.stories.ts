@@ -35,7 +35,14 @@ export const Variations: Story = {
         icon: `mdi-hexagon-slice-${i + 1}`,
       })),
       value3: [0],
-      value4: "0"
+      value4: "0",
+      values5: [
+        { id: 0, label: "All notifications" },
+        { id: 1, icon: "mdi-alert-circle-outline" },
+        { id: 2, icon: "mdi-alert-outline" },
+        { id: 3, icon: "mdi-information-outline" }
+      ],
+      value5: null
     }
   },
   render: (args, { argTypes }) => ({
@@ -124,6 +131,13 @@ export const Variations: Story = {
           @click="() => args.value4 === '7' ? args.value4 = null : args.value4 = '7'"
         />
       </FSOptionGroup>
+      <FSText> Props only, full width </FSText>
+      <FSOptionGroup
+        variant="fullwidth"
+        :required="false"
+        :values="args.values5"
+        v-model="args.value5"
+      />
     </div>`
   })
 }
