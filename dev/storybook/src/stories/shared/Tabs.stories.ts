@@ -8,6 +8,7 @@ import FSText from "@dative-gpi/foundation-shared-components/components/FSText.v
 import FSTabs from "@dative-gpi/foundation-shared-components/components/FSTabs.vue";
 import FSTab from "@dative-gpi/foundation-shared-components/components/FSTab.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 const meta = {
   title: 'Foundation/Shared/Tabs',
@@ -28,11 +29,12 @@ export const Variations: Story = {
       tab2: 1,
       tab3: 2,
       tab4: 3,
-      tab5: 0
+      tab5: 0,
+      tab6: 0
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSFadeOut, FSSlideGroup, FSButton },
+    components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSRow, FSFadeOut, FSSlideGroup, FSButton },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
@@ -192,6 +194,44 @@ export const Variations: Story = {
           <FSTab :value="4" label="Tab 5" prependIcon="mdi-numeric-5-circle-outline" appendIcon="mdi-dice-5-outline" tag="5" />
         </FSTabs>
         <FSWindow v-model="args.tab4">
+          <FSText v-for="(arg, index) in 5">
+            Tab {{ index }}
+          </FSText>
+        </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Buttons after tabs </FSText>
+        <FSTabs v-model:tab="args.tab5">
+          <FSTab :value="0" label="Tab 1" />
+          <FSTab :value="1" label="Tab 2" />
+          <FSTab :value="2" label="Tab 3" />
+          <FSTab :value="3" label="Tab 4, this one has a really long name. Like it is really long you know." />
+          <FSTab :value="4" label="Tab 5. Actually, this one is too, come to think of it" />
+          <FSRow padding="0 8px" :wrap="false">
+            <FSButton label="Button 1" />
+            <FSButton label="Button 2" />
+            <FSButton label="Button 3" />
+          </FSRow>
+        </FSTabs>
+        <FSWindow v-model="args.tab5">
+          <FSText v-for="(arg, index) in 5">
+            Tab {{ index }}
+          </FSText>
+        </FSWindow>
+        <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+        <FSText> Buttons outside tabs </FSText>
+        <FSRow padding="0 8px" :wrap="false">
+          <FSTabs v-model:tab="args.tab5">
+            <FSTab :value="0" label="Tab 1" />
+            <FSTab :value="1" label="Tab 2" />
+            <FSTab :value="2" label="Tab 3" />
+            <FSTab :value="3" label="Tab 4, this one has a really long name. Like it is really long you know." />
+            <FSTab :value="4" label="Tab 5. Actually, this one is too, come to think of it" />
+          </FSTabs>
+          <FSButton label="Button 1" />
+          <FSButton label="Button 2" />
+          <FSButton label="Button 3" />
+        </FSRow>
+        <FSWindow v-model="args.tab5">
           <FSText v-for="(arg, index) in 5">
             Tab {{ index }}
           </FSText>

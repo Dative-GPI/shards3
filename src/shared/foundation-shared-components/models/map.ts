@@ -12,7 +12,7 @@ export interface MapLayer {
 export interface FSLocation {
   id: string;
   label: string;
-  icon: string;
+  icon: string | null;
   address: Address;
-  color: string;
+  color: string | null;
 }

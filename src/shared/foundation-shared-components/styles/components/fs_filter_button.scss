@@ -1,10 +1,5 @@
 .fs-filter-button-menu {
-    @include web {
-        min-width: 200px !important;
-    }
-    @include mobile {
-        min-width: 180px !important;
-    }
+    min-width: 300px !important;
 }
 
 .fs-filter-button-chip {
