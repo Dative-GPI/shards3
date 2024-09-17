@@ -1,10 +1,57 @@
 <template>
-  <FSCol
+  <FSRow
     width="hug"
+    align="top-left"
+    gap="16px"
+    padding="8px 0px"
   >
+    <v-switch
+      v-if="variant == 'left'"
+      class="fs-switch"
+      hide-details
+      inset
+      :validateOn="validateOn"
+      :rules="$props.rules"
+      :ripple="false"
+      :style="style"
+      :modelValue="$props.modelValue"
+      @update:modelValue="onToggle"
+      v-bind="$attrs"
+    />
+    <slot>
+      <FSCol
+        width="hug"
+        v-if="$props.label || $props.description || $slots.description"
+      >
+        <FSSpan
+          v-if="$props.label"
+          class="fs-switch-label"
+          :style="style"
+          :font="font"
+          @click.stop="onToggle"
+        >
+          {{ $props.label }}
+        </FSSpan>
+        <slot
+          name="description"
+        >
+          <FSSpan
+            v-if="$props.description"
+            class="fs-switch-description"
+            font="text-overline"
+            :style="style"
+          >
+            {{ $props.description }}
+          </FSSpan>
+        </slot>
+        <slot
+          name="footer"
+        />
+      </FSCol>
+    </slot>
     <FSRow
-      width="hug"
-      align="center-left"
+      v-if="variant == 'right'"
+      align="center-right"
     >
       <v-switch
         class="fs-switch"
@@ -18,31 +65,8 @@
         @update:modelValue="onToggle"
         v-bind="$attrs"
       />
-      <slot>
-        <FSSpan
-          v-if="$props.label"
-          class="fs-switch-label"
-          :style="style"
-          :font="font"
-          @click.stop="onToggle"
-        >
-          {{ $props.label }}
-        </FSSpan>
-      </slot>
     </FSRow>
-    <slot
-      name="description"
-    >
-      <FSSpan
-        v-if="$props.description"
-        class="fs-switch-description"
-        font="text-overline"
-        :style="style"
-      >
-        {{ $props.description }}
-      </FSSpan>
-    </slot>
-  </FSCol>
+  </FSRow>
 </template>
 
 <script lang="ts">
@@ -77,6 +101,11 @@ export default defineComponent({
       type: Boolean as PropType<boolean | null>,
       required: false,
       default: false
+    },
+    variant: {
+      type: String as PropType<"left" | "right">,
+      required: false,
+      default: "left"
     },
     color: {
       type: String as PropType<ColorBase>,

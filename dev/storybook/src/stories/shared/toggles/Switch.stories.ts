@@ -34,21 +34,26 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
-      <FSText> Primary color </FSText>
+      <FSText font="text-h3"> Primary color </FSText>
       <div style="display: flex; flex-direction: column; gap: 8px;">
         <FSSwitch v-model="args.value1" />
         <FSSwitch v-model="args.value2" label="Second switch" />
         <FSSwitch v-model="args.value3" label="Third switch"  description="Description of the third switch" />
       </div>
+      <FSText font="text-h3"> Variant right </FSText>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <FSSwitch variant="right" v-model="args.value2" label="Second switch" />
+        <FSSwitch variant="right" v-model="args.value3" label="Third switch"  description="Description of the third switch" />
+      </div>
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSText> Success color </FSText>
+      <FSText font="text-h3"> Success color </FSText>
       <div style="display: flex; flex-direction: column; gap: 8px;">
         <FSSwitch v-model="args.value4" color="success" />
         <FSSwitch v-model="args.value5" color="success" label="Second switch" />
         <FSSwitch v-model="args.value6" color="success" label="Third switch"  description="Description of the third switch" />
       </div>
       <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-      <FSText> Primary color, uneditable </FSText>
+      <FSText font="text-h3"> Primary color, uneditable </FSText>
       <div style="display: flex; flex-direction: column; gap: 8px;">
         <FSSwitch :modelValue="false" :editable="false" />
         <FSSwitch :modelValue="true"  :editable="false" label="Second switch (disabled)" />
