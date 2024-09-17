@@ -3,8 +3,8 @@
     class="fs-color-icon"
     :color="$props.color"
     :border="false"
-    :height="size"
-    :width="size"
+    :height="actualSize"
+    :width="actualSize"
   >
     <FSRow
       align="center-center"
@@ -52,13 +52,13 @@ export default defineComponent({
     padding: {
       type: [String, Number] as PropType<string | number>,
       required: false,
-      default: "0px"
+      default: "8px"
     }
   },
   setup(props) {
     const { isMobileSized } = useBreakpoints();
 
-    const size = computed((): string[] | number[] | string | number | null => {
+    const actualSize = computed((): string[] | number[] | string | number | null => {
       switch(props.size) {
         case "s": return isMobileSized.value ? "18px" : "20px";
         case "m": return isMobileSized.value ? "20px" : "26px";
@@ -67,16 +67,19 @@ export default defineComponent({
       }
     });
 
-    const iconSize = computed(() => {
-      if (!props.padding) {
-        return size.value;
+    const iconSize = computed((): string => {
+      switch(props.size) {
+        case "s": 
+        case "m": 
+        case "l":
+          return props.size;
+        default: return `calc(${sizeToVar(props.size)} - ${sizeToVar(props.padding)})`;
       }
-      return `calc(${sizeToVar(size.value)} - ${sizeToVar(props.padding)})`;
     });
 
     return {
-      iconSize,
-      size
+      actualSize,
+      iconSize
     };
   }
 });

@@ -1,6 +1,7 @@
 <template>
   <FSRow
     :wrap="false"
+    align="center-center"
   >
     <FSButton
       v-if="$props.modelStatuses.length > 1"
