@@ -15,15 +15,15 @@ export const useDataTables = () => {
     page: 1
   });
 
-  const computeTable = ((partialCustomHeaders: { [key: string]: Partial<FSDataTableColumn> }) => ({
+  const computeTable = ((headersOptions: { [key: string]: Partial<FSDataTableColumn> }) => ({
     ...table.value,
     headers: table.value.headers.map(header => ({
       ...header,
-      fixedFilters: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].fixedFilters) || null,
-      methodFilter: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].methodFilter) || null,
-      sort: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].sort) || null,
-      sortRaw: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].sortRaw) || null ,
-      innerValue: (header.value && partialCustomHeaders[header.value] && partialCustomHeaders[header.value].innerValue) || null 
+      fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
+      methodFilter: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilter) || null,
+      sort: (header.value && headersOptions[header.value] && headersOptions[header.value].sort) || null,
+      sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null ,
+      innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null 
     }))
   }));
 

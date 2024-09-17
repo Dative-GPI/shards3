@@ -50,7 +50,7 @@ export default defineComponent({
       required: false,
       default: 1000
     },
-    partialCustomHeaders: {
+    headersOptions: {
       type: Object as PropType<{ [key: string]: Partial<FSDataTableColumn> }>,
       required: false,
       default: () => ({})
@@ -63,7 +63,7 @@ export default defineComponent({
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
 
-    const computedTable = computed(() => computeTable(props.partialCustomHeaders));
+    const computedTable = computed(() => computeTable(props.headersOptions));
 
     onUnmounted(() => {
       cancel();

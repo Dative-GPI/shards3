@@ -1,7 +1,7 @@
 <template>
   <FSDataTable
-    :partialCustomHeaders="partialCustomHeaders"
     :loading="fetchingDeviceOrganisations"
+    :headersOptions="headersOptions"
     :tableCode="$props.tableCode"
     :items="deviceOrganisations"
     :itemTo="$props.itemTo"
@@ -234,7 +234,7 @@ export default defineComponent({
       return entities.value;
     });
 
-    const partialCustomHeaders = computed(() => ({
+    const headersOptions = computed(() => ({
       connectable: {
         fixedFilters: [{
           value: ConnectivityStatus.None,
@@ -308,10 +308,10 @@ export default defineComponent({
     return {
       fetchingDeviceOrganisations,
       fecthingCustomProperties,
-      partialCustomHeaders,
       deviceOrganisations,
       ConnectivityStatus,
       customProperties,
+      headersOptions,
       isSelected
     };
   }
