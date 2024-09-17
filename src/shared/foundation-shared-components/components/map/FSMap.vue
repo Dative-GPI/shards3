@@ -47,8 +47,8 @@
             v-for="location in $props.locations"
             :selected="location.id === $props.selectedLocationId"
             :key="location.id"
-            :color="location.color"
-            :icon="location.icon"
+            :color="location.color ?? ColorEnum.Primary"
+            :icon="location.icon ?? 'mdi-map-marker'"
             :latlng="{lat: location.address.latitude, lng: location.address.longitude}"
             @click="$emit('update:selectedLocationId', location.id)"
           />
