@@ -21,8 +21,6 @@ type Story = StoryObj<typeof meta>;
 const location1: FSLocation = {
   "id": "3fb7ebf0-3227-4767-bb96-001384efdd57",
   "label": "Le Mans GERAL",
-  "icon": "mdi-factory",
-  "color": "primary",
   "address": {
     "formattedAddress": "Bd Marie et Alexandre Oyon, 72100 Le Mans, France",
     "locality": "Le Mans",
@@ -99,72 +97,75 @@ const area1: FSArea = {
   ]
 }
 
-export const Variations: Story = {
+export const SingleLocationMap: Story = {
   args: {
-    args: {
-      locations1: [
-        { ...location1 }
-      ],
-      locations2: [
-        { ...location1 }
-      ],
-      locations3: [
-        { ...location3 },
-        { ...location2 },
-        { ...location4 }
-      ],
-      selectedLocationId1: location1.id,
-      selectedLocationId2: null,
-      selectedLocationId3: null,
-      selectedAreaId1: null,
-      selectedAreaId2: null,
-      overlayMode1: 'collapse',
-      overlayMode2: 'half',
-      currentLayer1: 'map',
-      currentLayer2: 'imagery',
-      areas1: [area1],
-      showDialog: false
-    }
+    locations: [location1],
+    selectedLocationId: location1.id,
+    overlayMode: 'collapse',
+    currentLayer: 'map',
+    height: '100%',
+    width: '100%',
+    grayscale: false,
+    showMyLocation: true,
+    showZoomButtons: true,
+    enableScrollWheelZoom: true
   },
-  render: (args, { argTypes }) => ({
-    components: { FSMap, FSRow, FSCol, FSFadeOut, FSButton, FSDialogMultiForm },
-    props: Object.keys(argTypes),
+  render: (args) => ({
+    components: { FSMap, FSRow },
     setup() {
-      return { ...args };
+      return { args };
     },
     template: `
-    <div style="display: flex; flex-direction: column; gap: 30px;">
       <FSMap
-        v-model:overlayMode="args.overlayMode1"
-        v-model:currentLayer="args.currentLayer1"
-        v-model:selectedLocationId="args.selectedLocationId1"
-        v-model:selectedAreaId="args.selectedAreaId1"
-        :locations="args.locations3"
-      >
-        <template v-slot:overlay >
-          <FSRow>
-            <span>I am a fixed header of the left overlay</span>
-          </FSRow>
-        </template>
-      </FSMap>
-      <FSMap
-        :editable="false"
-        :locations="args.locations3"
-        :enableScrollWheelZoom="true"
-        v-model:overlayMode="args.overlayMode2"
-        v-model:currentLayer="args.currentLayer2"
-        height="600px"
-        v-model:selectedLocationId="args.selectedLocationId3"
-        v-model:selectedAreaId="args.selectedAreaId2"
-        :areas="args.areas1"
+        width="100%"
+        height="100%"
+        v-model:overlayMode="args.overlayMode"
+        v-model:currentLayer="args.currentLayer"
+        v-model:selectedLocationId="args.selectedLocationId"
+        :locations="args.locations"
+        :grayscale="args.grayscale"
+        :showMyLocation="args.showMyLocation"
+        :showZoomButtons="args.showZoomButtons"
+        :enableScrollWheelZoom="args.enableScrollWheelZoom"
       >
         <template v-slot:overlay>
           <FSRow>
-            <span>I am a fixed header of the left overlay</span>
+            <span>Fixed header for the overlay</span>
+          </FSRow>
+        </template>
+      </FSMap>
+    `,
+  }),
+};
+
+// Story 2 : Carte avec plusieurs locations et slot pour overlay custom
+export const MultiLocationMap: Story = {
+  args: {
+    locations: [location1, location2, location3, location4],
+    selectedLocationId: null,
+    overlayMode: 'half',
+    currentLayer: 'imagery',
+  },
+  render: (args) => ({
+    components: { FSMap, FSFadeOut, FSRow, FSCol },
+    setup() {
+      return { args };
+    },
+    template: `
+      <FSMap
+        v-model:overlayMode="args.overlayMode"
+        v-model:currentLayer="args.currentLayer"
+        v-model:selectedLocationId="args.selectedLocationId"
+        :locations="args.locations"
+      >
+        <template v-slot:overlay>
+          <FSRow>
+            <span>Custom overlay with fade out</span>
           </FSRow>
           <FSCol height="hug" style="min-height: 0;">
             <FSFadeOut height="100%">
-                <div style="padding:8px;boredr-radius:4px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="padding:8px; border-radius:4px; display: flex; flex-direction: column; gap: 10px;">
+                <span>Left overlay</span>
                   <span>Left overlay</span>
                   <span>Left overlay</span>
                   <span>Left overlay</span>
@@ -182,48 +183,71 @@ export const Variations: Story = {
                   <span>Left overlay</span>
                   <span>Left overlay</span>
                   <span>Left overlay</span>
-                  <span>Left overlay</span>
-                </div>
+              </div>
             </FSFadeOut>
           </FSCol>
         </template>
       </FSMap>
-      <FSMap
-        :editable="true"
-        :locations="args.locations1"
-        height="600px"
-        :border="false"
-        v-model:selectedLocationId="args.selectedLocationId1"
-      />
-      
-      <FSMap
-        :editable="false"
-        :locations="args.locations2"
-        height="300px"
-        width="300px"
-        :selectableLayers="['osm']"
-        :grayscale="true"
-        :showMyLocation="false"
-        :showZoomButtons="false"
-        :selectedLocationId="args.selectedLocationId2"
-      />
+    `,
+  }),
+};
 
-      <FSDialogMultiForm
-        width="800px"
-        :steps="2"
-        :title="$tr('ui.location.edit', 'Edit location')"
-        v-model="args.showDialog"
+export const AreaMap: Story = {
+  args: {
+    locations: [location1, location2],
+    areas: [area1],
+    selectedLocationId: null,
+    selectedAreaId: null,
+    overlayMode: 'collapse',
+    currentLayer: 'map',
+  },
+  render: (args) => ({
+    components: { FSMap, FSRow },
+    setup() {
+      return { args };
+    },
+    template: `
+      <FSMap
+        v-model:overlayMode="args.overlayMode"
+        v-model:currentLayer="args.currentLayer"
+        v-model:selectedLocationId="args.selectedLocationId"
+        v-model:selectedAreaId="args.selectedAreaId"
+        :locations="args.locations"
+        :areas="args.areas"
       >
-        <template
-          #step-2
-        >
-          <FSMap />
+        <template v-slot:overlay>
+          <FSRow>
+            <span>Overlay for area selection</span>
+          </FSRow>
         </template>
-      </FSDialogMultiForm>
-      <FSButton
-        label="Open dialog with map"
-        @click="() => args.showDialog = true"
-      />
-    </div>`,
-  })
-}
+      </FSMap>
+    `,
+  }),
+};
+
+export const MapInDialog: Story = {
+  args: {
+    showDialog: false,
+  },
+  render: (args) => ({
+    components: { FSMap, FSDialogMultiForm, FSButton },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div>
+        <FSButton label="Open dialog with map" @click="args.showDialog = true" />
+        <FSDialogMultiForm
+          v-model="args.showDialog"
+          width="800px"
+          :steps="2"
+          title="Edit location"
+        >
+          <template #step-2>
+            <FSMap />
+          </template>
+        </FSDialogMultiForm>
+      </div>
+    `,
+  }),
+};
