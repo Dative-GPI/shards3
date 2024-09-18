@@ -1,47 +1,47 @@
 <template>
+
+  <FSBaseField
+    class="fs-color-field"
+    :description="$props.description"
+    :hideHeader="$props.hideHeader"
+    :editable="$props.editable"
+    :required="$props.required"
+    :label="$props.label"
+    :width="$props.width"
+    :style="style"
+    :modelValue="innerColor"
+    v-bind="$attrs"
+  >
+    <FSCard
+      :id="activatorId"
+      padding="8px"
+      width="100%"
+      :class="{ 'fs-color-field-disabled': !$props.editable }"
+    >
+      <FSRow
+        align="center-center"
+      >
+        <FSIcon
+          icon="mdi-circle-half"
+          size="20px"
+          :color="innerColor"
+        />
+        <FSText
+          font="text-overline"
+        >
+          {{ innerColor }}
+        </FSText>
+      </FSRow>
+    </FSCard>
+  </FSBaseField>
   <v-menu
+    origin="top left"
+    min-width="300px"
+    :activator="`#${activatorId}`"
     :closeOnContentClick="false"
     :modelValue="menu && $props.editable"
     @update:modelValue="menu = $event"
   >
-    <template
-      #activator="{ props }"
-    >
-      <FSBaseField
-        class="fs-color-field"
-        :description="$props.description"
-        :hideHeader="$props.hideHeader"
-        :editable="$props.editable"
-        :required="$props.required"
-        :label="$props.label"
-        :width="$props.width"
-        :style="style"
-        :modelValue="innerColor"
-        v-bind="$attrs"
-      >
-        <FSCard
-          padding="8px"
-          width="100%"
-          :class="{ 'fs-color-field-disabled': !$props.editable }"
-          v-bind="props"
-        >
-          <FSRow
-            align="center-center"
-          >
-            <FSIcon
-              icon="mdi-circle-half"
-              size="20px"
-              :color="innerColor"
-            />
-            <FSText
-              font="text-overline"
-            >
-              {{ innerColor }}
-            </FSText>
-          </FSRow>
-        </FSCard>
-      </FSBaseField>
-    </template>
     <FSCard
       :elevation="true"
       :border="false"
@@ -156,6 +156,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { getColors, getBasePaletteColors } = useColors();
     const { slots } = useSlots();
+    const activatorId = `activator-${Math.random().toString(36).substring(7)}`;
 
     delete slots.description;
 
@@ -214,6 +215,7 @@ export default defineComponent({
       getPercentageFromHex,
       getBasePaletteColors,
       innerOpacity,
+      activatorId,
       innerColor,
       fullColor,
       ColorEnum,
