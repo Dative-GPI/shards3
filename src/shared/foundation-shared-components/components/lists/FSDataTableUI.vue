@@ -904,8 +904,6 @@ export default defineComponent({
 
     const elementId = `id${uuidv4()}`;
 
-    console.log(props.singleSelect);
-
     const modeOptions: FSToggle[] = [
       { id: "iterator", prependIcon: "mdi-view-grid-outline" },
       { id: "table", prependIcon: "mdi-format-list-bulleted" }
