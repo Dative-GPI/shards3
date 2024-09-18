@@ -90,4 +90,32 @@ export const CUSTOMPROPERTIES: CustomPropertyInfosDTO[] = [{
   colorMap: [],
   useOnlyAllowedValues: false,
   allowedValues: {}
+}, {
+  id: "6",
+  code: "code6",
+  label: "Code 6",
+  categoryLabel: "Custom",
+  index: 0,
+  entity: 0,
+  dataType: 4,
+  addInInfos: true,
+  readOnlyCore: false,
+  readOnlyAdmin: false,
+  defaultValue: "mdi-home",
+  history: false,
+  historySize: 10,
+  colorful: true,
+  colorMap: [{
+    priority: 0,
+    filterType: 1,
+    filterValues: ["mdi-home"],
+    color: "#FF0000"
+  }, {
+    priority: 0,
+    filterType: 1,
+    filterValues: ["mdi-city"],
+    color: "#0000FF"
+  }],
+  useOnlyAllowedValues: true,
+  allowedValues: { "mdi-home": "Bonjour", "mdi-city": "Bonne soirée" }
 }];

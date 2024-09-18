@@ -76,6 +76,6 @@ export const ToggleRules = {
 
 export const TreeViewRules = {
     required: (message: string | undefined = undefined) => (value: string) => !!value || (message ?? $tr("ui.rules.required", "Required")),
-    min: (min: number, message: string | undefined = undefined) => (value: string[]) => { console.log(value); return (Array.isArray(value) && value.length >= min) || (message ?? $tr("ui.rules.tree-view-min", "Must select at least {0} elements", min.toString())); },
+    min: (min: number, message: string | undefined = undefined) => (value: string[]) => (Array.isArray(value) && value.length >= min) || (message ?? $tr("ui.rules.tree-view-min", "Must select at least {0} elements", min.toString())),
     max: (max: number, message: string | undefined = undefined) => (value: string[]) => (Array.isArray(value) && value.length <= max) || (message ?? $tr("ui.rules.tree-view-max", "Must select at most {0} elements", max.toString()))
 };

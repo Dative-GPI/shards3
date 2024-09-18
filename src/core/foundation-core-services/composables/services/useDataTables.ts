@@ -21,6 +21,7 @@ export const useDataTables = () => {
       ...header,
       fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
       methodFilter: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilter) || null,
+      methodFilterRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilterRaw) || null,
       sort: (header.value && headersOptions[header.value] && headersOptions[header.value].sort) || null,
       sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null ,
       innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null 

@@ -19,6 +19,13 @@
       />
     </template>
     <template
+      #header.imageId-title
+    >
+      <FSIcon>
+        mdi-panorama-variant-outline
+      </FSIcon>
+    </template>
+    <template
       #item.imageId="{ item }"
     >
       <FSImage
@@ -84,9 +91,8 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { defineComponent, watch } from "vue";
-import type { RouteLocation } from "vue-router";
+import { defineComponent, type PropType, watch } from "vue";
+import { type RouteLocation } from "vue-router";
 import _ from "lodash";
 
 import type { UserOrganisationFilters, UserOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";

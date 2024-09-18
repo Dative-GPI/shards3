@@ -20,6 +20,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  args: {
+    modelValue: [],
+    tableCode: 'devices1',
+    connectedOnly: false
+  },
   render: (args) => ({
     components: { FSBaseDeviceOrganisationsList },
     setup() {
@@ -27,17 +32,31 @@ export const Default: Story = {
     },
     template: `
       <FSBaseDeviceOrganisationsList
-        v-model:modelValue="args.modelValue"
-        :tableCode="args.tableCode"
         :connectedOnly="args.connectedOnly"
-        :singleSelect="args.singleSelect"
+        :tableCode="args.tableCode"
+        v-model:modelValue="args.modelValue"
       />
     `,
-  }),
+  })
+};
+
+export const CustomProperties: Story = {
   args: {
     modelValue: [],
-    tableCode: 'devices1',
-    connectedOnly: false,
-    singleSelect: false,
+    tableCode: 'devices2',
+    connectedOnly: false
   },
+  render: (args) => ({
+    components: { FSBaseDeviceOrganisationsList },
+    setup() {
+      return { args };
+    },
+    template: `
+      <FSBaseDeviceOrganisationsList
+        :connectedOnly="args.connectedOnly"
+        :tableCode="args.tableCode"
+        v-model:modelValue="args.modelValue"
+      />
+    `,
+  })
 };

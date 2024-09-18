@@ -428,7 +428,6 @@ export default defineComponent({
         }
       }
       else {
-        console.log(value[0], value[1]);
         if (value && value[0] != null && epochToISO(value[0]) !== innerStartDate.value) {
           innerStartDate.value = epochToISO(value[0]);
           if (valid.value) {

@@ -97,6 +97,14 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
         mode: "iterator",
         rowsPerPage: 10,
         columns: [{
+            columnId: "1",
+            text: "Label",
+            value: "label",
+            index: 0,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
             columnId: "2",
             text: "Code",
             value: "code",
@@ -106,6 +114,14 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
             filterable: true
         }, {
             columnId: "3",
+            text: "Image",
+            value: "imageId",
+            index: 2,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }, {
+            columnId: "3",
             text: "Connectivity",
             value: "connectivity",
             index: 3,
@@ -113,58 +129,75 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
             sortable: true,
             filterable: true
         }, {
-            columnId: "6",
-            text: "WorstAlert",
-            value: "worstAlert",
-            index: 6,
+            columnId: "4",
+            text: "Alerts",
+            value: "alerts",
+            index: 3,
             hidden: false,
-            sortable: true,
-            filterable: true
+            sortable: false,
+            filterable: false
         }, {
-            columnId: "7",
+            columnId: "5",
             text: "Status",
             value: "status",
-            index: 7,
+            index: 3,
             hidden: false,
-            sortable: true,
-            filterable: true
-        }, {
-            columnId: "8",
+            sortable: false,
+            filterable: false
+        }],
+        sortByKey: null,
+        sortByOrder: null
+    },
+    {
+        id: "31",
+        code: "devices2",
+        mode: "iterator",
+        rowsPerPage: 10,
+        columns: [{
+            columnId: "1",
             text: "Code 1",
             value: "meta.code1",
-            index: 8,
+            index: 0,
             hidden: false,
             sortable: true,
             filterable: true
         }, {
-            columnId: "9",
+            columnId: "2",
             text: "Code 2",
             value: "meta.code2",
-            index: 9,
+            index: 1,
             hidden: false,
             sortable: true,
             filterable: true
         }, {
-            columnId: "10",
+            columnId: "3",
             text: "Code 3",
             value: "meta.code3",
-            index: 10,
+            index: 2,
             hidden: false,
             sortable: true,
             filterable: true
         }, {
-            columnId: "11",
+            columnId: "4",
             text: "Code 4",
             value: "meta.code4",
-            index: 11,
+            index: 3,
             hidden: false,
             sortable: true,
             filterable: true
         }, {
-            columnId: "12",
+            columnId: "5",
             text: "Code 5",
             value: "meta.code5",
-            index: 12,
+            index: 4,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "6",
+            text: "Code 6",
+            value: "meta.code6",
+            index: 5,
             hidden: false,
             sortable: true,
             filterable: true

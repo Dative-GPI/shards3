@@ -230,7 +230,7 @@ export default defineComponent({
     iconSize: {
       type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
       required: false,
-      default: () => ["24", "20"]
+      default: () => ["24px", "20px"]
     },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,
@@ -310,7 +310,7 @@ export default defineComponent({
     });
 
     const padding = computed(() => {
-      if(props.padding !== DEFAULT_PADDING){
+      if (props.padding !== DEFAULT_PADDING) {
         return props.padding;
       }
 
@@ -319,16 +319,14 @@ export default defineComponent({
       
       const hasLabel = props.label || !!slots.default;
 
-      if(!hasLabel && hasIcon){
+      if (!hasLabel && hasIcon) {
         return PADDING_ICON_ONLY;
       }
-      else if(hasLabel && !hasIcon)
-      {
+      else if (hasLabel && !hasIcon) {
         return PADDING_LABEL_ONLY;
       }
-
       return DEFAULT_PADDING;
-    })
+    });
 
     const onClick = (event: MouseEvent) => {
       if (!props.to && !props.href && props.editable && !props.load) {

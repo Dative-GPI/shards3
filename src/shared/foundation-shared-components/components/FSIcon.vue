@@ -15,6 +15,8 @@ import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase } from "@dative-gpi/foundation-shared-components/models";
 
+import { sizeToVar } from "../utils";
+
 export default defineComponent({
   name: "FSIcon",
   props: {
@@ -56,7 +58,7 @@ export default defineComponent({
           "--fs-icon-font-size": isMobileSized.value ? "20px" : "24px"
         };
         default: return {
-          "--fs-icon-font-size": props.size as string
+          "--fs-icon-font-size": sizeToVar(props.size)
         };
       }
     });

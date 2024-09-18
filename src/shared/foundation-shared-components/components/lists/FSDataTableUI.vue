@@ -1212,6 +1212,8 @@ export default defineComponent({
         const key = header.value!;
         const currentFilters = filters.value[key];
 
+        const getPath = (object: any, keys: string[]) => keys.reduce((acc, key) => acc[key] ?? null, object);
+
         let value: FSDataTableFilter[] = [];
 
         if (header.fixedFilters) {
@@ -1219,9 +1221,12 @@ export default defineComponent({
             hidden: currentFilters?.find((cf) => cf.value == (ff.value || null))?.hidden ?? false,
             text: ff.text?.toString() ?? "—",
             value: ff.value || null,
-            filter: header.methodFilter ?? ((value, property) => {
-              property = [property].flat();
-              return Array.isArray(property) ? property.includes(value) || (!value && property.length == 0) : (!value && !property) || value == property;
+            filter: header.methodFilter ?? ((_, property, item) => {
+              if (header.methodFilterRaw) {
+                return header.methodFilterRaw(ff.value, item);
+              }
+              const flat = property = [property].flat();
+              return Array.isArray(flat) ? flat.includes(ff.value) || (!ff.value && flat.length == 0) : (!ff.value && !flat) || ff.value == flat;
             })
           }));
           filterDictionary[key] = value;
@@ -1229,18 +1234,25 @@ export default defineComponent({
         else {
           if (props.items && props.items.length) {
             const mapToInnerValue = header.innerValue ? header.innerValue : (i: any) => i;
-            const itemValues = props.items.flatMap((item) => Array.isArray(item[key]) && item[key].length == 0 ? undefined : item[key]).map(mapToInnerValue);
+            const itemValues = props.items.flatMap((item) => {
+              return Array.isArray(getPath(item, key.split("."))) && getPath(item, key.split(".")).length == 0 ? undefined : getPath(item, key.split("."))
+            }).map(mapToInnerValue);
             const distinctValues = [...new Set(itemValues)];
 
-            value = distinctValues.map((dv): FSDataTableFilter => ({
-              hidden: currentFilters?.find((cf) => cf.value == (dv || null))?.hidden ?? false,
-              text: dv?.toString() ?? "—",
-              value: dv || null,
-              filter: header.methodFilter ?? ((_, property) => {
-                property = [property].flat().map(mapToInnerValue);
-                return Array.isArray(property) ? property.includes(dv) || (!dv && property.length == 0) : (!dv && !property) || dv == property;
-              })
-            }));
+            value = distinctValues.map((dv): FSDataTableFilter => {
+              return {
+                hidden: currentFilters?.find((cf) => cf.value == (dv || null))?.hidden ?? false,
+                text: dv?.toString() ?? "—",
+                value: dv || null,
+                filter: header.methodFilter ?? ((_, property, item) => {
+                  if (header.methodFilterRaw) {
+                    return header.methodFilterRaw(dv, item);
+                  }
+                  const flat = [property].flat().map(mapToInnerValue);
+                  return Array.isArray(flat) ? flat.includes(dv) || (!dv && flat.length == 0) : (!dv && !flat) || dv == flat;
+                })
+              }
+            });
           }
           filterDictionary[key] = value.sort((v1, v2) => {
             return v1.text.localeCompare(v2.text, undefined, { numeric: true });
