@@ -24,7 +24,7 @@ export const Variations: Story = {
       <div style="display: flex; gap: 10px;">
         <FSButton color="primary">
           <template #prepend>
-            <FSIcon size="24"> mdi-plus-circle-outline </FSIcon>
+            <FSIcon size="l"> mdi-plus-circle-outline </FSIcon>
           </template>
           <FSSpan> Create </FSSpan>
         </FSButton>
@@ -34,12 +34,12 @@ export const Variations: Story = {
         <FSButton color="error">
           <FSSpan> Remove </FSSpan>
           <template #append>
-            <FSIcon size="24"> mdi-minus-circle-outline </FSIcon>
+            <FSIcon size="l"> mdi-minus-circle-outline </FSIcon>
           </template>
         </FSButton>
         <FSButton color="success">
           <template #prepend>
-            <FSIcon size="24"> mdi-pencil </FSIcon>
+            <FSIcon size="l"> mdi-pencil </FSIcon>
           </template>
         </FSButton>
         <FSButton :editable="false">

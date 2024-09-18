@@ -176,9 +176,9 @@ import FSIcon from "./FSIcon.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
-const PADDING_ICON_ONLY = "9px";
+const PADDING_ICON_ONLY = "7px";
 const PADDING_LABEL_ONLY = ["9px 16px", "9px 12px"];
-const PADDING_ICON_LABEL = ["9px 16px", "9px 12px"];
+const PADDING_ICON_LABEL = ["7px 16px", "7px 12px"];
 
 const DEFAULT_PADDING = PADDING_ICON_LABEL;
 
@@ -230,7 +230,7 @@ export default defineComponent({
     iconSize: {
       type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
       required: false,
-      default: "m"
+      default: () => ["24px", "20px"]
     },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,
@@ -316,7 +316,7 @@ export default defineComponent({
 
       const hasIcon = props.prependIcon || props.appendIcon || props.icon
         || !!slots.prepend || !!slots.append;
-
+      
       const hasLabel = props.label || !!slots.default;
 
       if (!hasLabel && hasIcon) {
