@@ -22,7 +22,6 @@
       />
     </template>
   </FSDataTableUI>
-  {{ $attrs }}
 </template>
 
 <script lang="ts">
