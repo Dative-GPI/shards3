@@ -11,6 +11,7 @@
     :itemsCount="($props.modelValue || []).length"
     @update:entityType="$emit('update:entityType', $event); $emit('update:modelValue', [])"
     :showEntities="$props.showEntities"
+    :showCount="$props.showCount"
     @click:select="dialog = true"
   >
     <template
@@ -109,6 +110,11 @@ export default defineComponent({
       default: () => []
     },
     showEntities: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    showCount: {
       type: Boolean,
       required: false,
       default: true
