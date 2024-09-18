@@ -1,4 +1,7 @@
 export const containsSearchTerm = (obj: any, searchTerm: string): boolean => {
+  if (obj == null) {
+    return false;
+  }
   if (typeof obj === 'object') {
     return Object.values(obj).some(value => containsSearchTerm(value, searchTerm));
   }
