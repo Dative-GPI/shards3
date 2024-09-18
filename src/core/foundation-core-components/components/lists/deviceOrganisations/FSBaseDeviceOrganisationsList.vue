@@ -1,7 +1,9 @@
 <template>
   <FSDataTable
     :loading="fetchingDeviceOrganisations"
+    :singleSelect="$props.singleSelect"
     :headersOptions="headersOptions"
+    :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :items="deviceOrganisations"
     :itemTo="$props.itemTo"
@@ -17,6 +19,13 @@
         :name="name"
         v-bind="slotData"
       />
+    </template>
+    <template
+      #header.imageId-title
+    >
+      <FSIcon>
+        mdi-panorama-variant-outline
+      </FSIcon>
     </template>
     <template
       #header.connectable-title
@@ -131,21 +140,32 @@
         :meta="item.meta"
       />
     </template>
-  
+    <template
+      v-for="(property, index) in customProperties"
+      #[`filter.meta.${property.code}`]="{ filter }"
+      :key="index"
+    >
+      <FSMetaValue
+        v-if="filter.text !== '—'"
+        variant="colorless"
+        :customProperty="property"
+        :meta="{ [property.code]: filter.text }"
+      />
+    </template>
     <template
       #item.tile="{ item, toggleSelect }"
     >
       <FSDeviceOrganisationTileUI
-        v-bind="item"
-        :modelValue="isSelected(item.id)"
-        :singleSelect="singleSelect"
-        :deviceStatuses="item.status.statuses"
-        :deviceConnectivity="item.connectivity"
-        :deviceWorstAlert="item.worstAlert"
-        :deviceAlerts="item.alerts"
         :to="$props.itemTo && $props.itemTo(item)"
+        :deviceConnectivity="item.connectivity"
+        :deviceStatuses="item.status.statuses"
+        :deviceWorstAlert="item.worstAlert"
+        :singleSelect="$props.singleSelect"
+        :deviceAlerts="item.alerts"
         :alertTo="$props.alertTo"
+        :modelValue="isSelected(item.id)"
         @update:modelValue="toggleSelect(item)"
+        v-bind="item"
       />
     </template>
   </FSDataTable>
@@ -159,39 +179,37 @@ import _ from "lodash";
 import { alphanumericSort, connectivityLabel } from "@dative-gpi/foundation-shared-components/utils";
 import { ConnectivityStatus, PropertyEntity } from "@dative-gpi/foundation-shared-domain/enums";
 
-import { useCustomProperties, useDeviceOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import type { DeviceConnectivityDetails, DeviceOrganisationAlert, DeviceOrganisationFilters, DeviceOrganisationInfos} from "@dative-gpi/foundation-core-domain/models";
+import { useCustomProperties, useDeviceOrganisations } from "@dative-gpi/foundation-core-services/composables";
 
-import FSDataTable from "../FSDataTable.vue";
 import FSMetaValue from "../../customProperties/FSMetaValue.vue";
+import FSDataTable from "../FSDataTable.vue";
 
-import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
-import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
-import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
-import FSWorstAlert from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSWorstAlert.vue";
-import FSConnectivity from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSConnectivity.vue";
-import FSStatusesCarousel from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSStatusesCarousel.vue";
 import FSDeviceOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue";
+import FSStatusesCarousel from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSStatusesCarousel.vue";
+import FSConnectivity from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSConnectivity.vue";
+import FSWorstAlert from "@dative-gpi/foundation-shared-components/components/deviceOrganisations/FSWorstAlert.vue";
+import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
+import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
+import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 
-  
 export default defineComponent({
   name: "FSBaseDeviceOrganisationsList",
   components: {
-    FSConnectivity,
-    FSDataTable,    
     FSDeviceOrganisationTileUI,
-    FSIconCheck,
-    FSImage,
-    FSMetaValue,
     FSStatusesCarousel,
+    FSConnectivity,
+    FSWorstAlert,
+    FSDataTable,
+    FSIconCheck,
+    FSMetaValue,
     FSTagGroup,
-    FSWorstAlert
+    FSImage
   },
   props: {
-    modelValue: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-      required: false
+    tableCode: {
+      type: String,
+      required: true
     },
     deviceOrganisationFilters: {
       type: Object as PropType<DeviceOrganisationFilters>,
@@ -212,14 +230,20 @@ export default defineComponent({
       required: false,
       default: null
     },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     singleSelect: {
       type: Boolean,
       required: false,
       default: false
     },
-    tableCode: {
-      type: String,
-      required: true
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+      required: false
     }
   },
   emits: ["update:modelValue"],
@@ -278,15 +302,25 @@ export default defineComponent({
       worstAlert: {
         sort: (a: DeviceOrganisationAlert, b: DeviceOrganisationAlert) => alphanumericSort(a?.criticity, b?.criticity)
       },
-      // ...customProperties.value.reduce((acc, cp) => ({
-      //   ...acc,
-      //   [`meta.${cp.code}`]: {
-      //     innerValue: (item: DeviceOrganisationInfos) => {
-      //       return item
-      //     },
-      //     sort: (a: string, b: string) => alphanumericSort(a, b)
-      //   }
-      // }), {})
+      ...customProperties.value.reduce((acc, cp) => ({
+        ...acc,
+        [`meta.${cp.code}`]: {
+          fixedFilters: cp.useOnlyAllowedValues ? [{
+            value: (null as string | null),
+            text: "—"
+          }].concat(Object.keys(cp.allowedValues).map(av => ({
+            value: av,
+            text: av
+          }))): undefined,
+          methodFilterRaw: (value: any, item: DeviceOrganisationInfos) => {
+            if (cp.useOnlyAllowedValues) {
+              return (!Object.keys(cp.allowedValues).includes(item.meta[cp.code])) && !value || item.meta[cp.code] === value;
+            }
+            return !item.meta[cp.code] && !value || item.meta[cp.code] === value;
+          },
+          sort: (a: string, b: string) => alphanumericSort(a, b)
+        }
+      }), {})
     }));
   
     const isSelected = (id: string): boolean => {

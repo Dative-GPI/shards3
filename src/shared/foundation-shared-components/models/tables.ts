@@ -8,10 +8,12 @@ export interface FSDataTableColumn {
 
   sortable?: boolean | null;
   sort?: ((a: any, b: any) => number) | null;
+  sortRaw?: ((a: any, b: any) => number) | null;
 
   filterable?: boolean | null;
   fixedFilters?: { value: any, text: string }[] | null;
-  methodFilter?: ((value: any, item: any) => boolean) | null;
+  methodFilter?: ((value: any, property: any) => boolean) | null;
+  methodFilterRaw?: ((value: any, item: any) => boolean) | null;
   filter?: ((value: any, search: string, item: any) => boolean) | null;
 
   innerValue?: ((value: any) => any) | null;

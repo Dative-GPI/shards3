@@ -176,9 +176,9 @@ import FSIcon from "./FSIcon.vue";
 import FSCol from "./FSCol.vue";
 import FSRow from "./FSRow.vue";
 
-const PADDING_ICON_ONLY = "7px";
+const PADDING_ICON_ONLY = "9px";
 const PADDING_LABEL_ONLY = ["9px 16px", "9px 12px"];
-const PADDING_ICON_LABEL = ["7px 16px", "7px 12px"];
+const PADDING_ICON_LABEL = ["9px 16px", "9px 12px"];
 
 const DEFAULT_PADDING = PADDING_ICON_LABEL;
 
@@ -230,7 +230,7 @@ export default defineComponent({
     iconSize: {
       type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
       required: false,
-      default: () => ["24", "20"]
+      default: "m"
     },
     variant: {
       type: String as PropType<"standard" | "full" | "icon">,
@@ -310,25 +310,23 @@ export default defineComponent({
     });
 
     const padding = computed(() => {
-      if(props.padding !== DEFAULT_PADDING){
+      if (props.padding !== DEFAULT_PADDING) {
         return props.padding;
       }
 
       const hasIcon = props.prependIcon || props.appendIcon || props.icon
         || !!slots.prepend || !!slots.append;
-      
+
       const hasLabel = props.label || !!slots.default;
 
-      if(!hasLabel && hasIcon){
+      if (!hasLabel && hasIcon) {
         return PADDING_ICON_ONLY;
       }
-      else if(hasLabel && !hasIcon)
-      {
+      else if (hasLabel && !hasIcon) {
         return PADDING_LABEL_ONLY;
       }
-
       return DEFAULT_PADDING;
-    })
+    });
 
     const onClick = (event: MouseEvent) => {
       if (!props.to && !props.href && props.editable && !props.load) {

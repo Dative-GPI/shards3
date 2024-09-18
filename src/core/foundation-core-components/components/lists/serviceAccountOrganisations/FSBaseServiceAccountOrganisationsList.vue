@@ -19,6 +19,13 @@
       />
     </template>
     <template
+      #header.imageId-title
+    >
+      <FSIcon>
+        mdi-panorama-variant-outline
+      </FSIcon>
+    </template>
+    <template
       #item.imageId="{ item }"
     >
       <FSImage

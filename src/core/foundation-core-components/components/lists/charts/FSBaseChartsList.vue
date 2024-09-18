@@ -16,7 +16,13 @@
         v-bind="slotData"
       />
     </template>
-
+    <template
+      #header.imageId-title
+    >
+      <FSIcon>
+        mdi-panorama-variant-outline
+      </FSIcon>
+    </template>
     <template
       #item.icon="{ item }"
     >
@@ -24,7 +30,6 @@
         {{ item.icon }}
       </FSIcon>
     </template>
-
     <template
       #item.imageId="{ item }"
     >
@@ -35,7 +40,6 @@
         :imageId="item.imageId"
       />
     </template>
-
     <template
       #item.tags="{ item }"
     >
@@ -45,7 +49,6 @@
         :tags="item.tags"
       />
     </template>
-
     <template
       #item.modelsLabels="{ item }"
     >
@@ -54,7 +57,6 @@
         :tags="item.modelsLabels.map((d: any) => d.label)"
       />
     </template>
-
     <template
       #item.tile="{ item }"
     >

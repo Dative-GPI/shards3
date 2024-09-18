@@ -12,8 +12,10 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase } from "@dative-gpi/foundation-shared-components/models";
+import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+
+import { sizeToVar } from "../utils";
 
 export default defineComponent({
   name: "FSIcon",
@@ -35,7 +37,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
     const color = computed((): string | undefined => {
@@ -44,22 +45,9 @@ export default defineComponent({
       }
     });
 
-    const style = computed((): StyleValue => {
-      switch(props.size) {
-        case "s": return {
-          "--fs-icon-font-size": isMobileSized.value ? "14px" : "16px"
-        };
-        case "m": return {
-          "--fs-icon-font-size": isMobileSized.value ? "16px" : "20px"
-        };
-        case "l": return {
-          "--fs-icon-font-size": isMobileSized.value ? "20px" : "24px"
-        };
-        default: return {
-          "--fs-icon-font-size": props.size as string
-        };
-      }
-    });
+    const style = computed((): StyleValue => ({
+      "--fs-icon-font-size": sizeToVar(props.size)
+    }));
 
     return {
       color,
