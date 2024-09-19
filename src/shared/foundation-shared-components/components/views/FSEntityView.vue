@@ -41,6 +41,13 @@
             name="toolbar"
           />
         </template>
+        <template
+          #header-append
+        >
+          <slot
+            name="header-append"
+          />
+        </template>
       </FSEntityHeader>
     </template>
     <template

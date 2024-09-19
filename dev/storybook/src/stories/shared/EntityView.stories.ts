@@ -4,6 +4,10 @@ import { VDivider } from 'vuetify/lib/components/index.mjs';
 
 import FSEntityView from "@dative-gpi/foundation-shared-components/components/views/FSEntityView.vue";
 import { ColorEnum } from '@dative-gpi/foundation-shared-components/models';
+import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
+import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
+import FSChip from '@dative-gpi/foundation-shared-components/components/FSChip.vue';
+import FSRow from '@dative-gpi/foundation-shared-components/components/FSRow.vue';
 
 const meta = {
   title: 'Foundation/Shared/views/EntityView',
@@ -99,7 +103,7 @@ export const Variation2: Story = {
     iconBackgroundVariant: 'gradient',
   },
   render: (args, { argTypes }) => ({
-    components: { VDivider, FSEntityView },
+    components: { VDivider, FSEntityView, FSCol, FSText, FSRow, FSChip },
     props: Object.keys(argTypes),
     setup() { 
       return { args };
@@ -117,7 +121,29 @@ export const Variation2: Story = {
           :color="args.color"
           :iconBackgroundColors="args.iconBackgroundColors"
           :iconBackgroundVariant="args.iconBackgroundVariant"
-        />
+        >
+          <template #title-append>
+            Slot Header Append
+          </template>
+          <template #header-append>
+            <FSCol
+              gap="4px"
+            >
+              <FSText
+                font="text-"
+              >
+                ORION EVO
+              </FSText>
+              <FSRow>
+                <FSChip
+                  v-for="i in 3"
+                  :key="i"
+                  :label="'Chip ' + i"
+                />
+              </FSRow>
+            </FSCol>
+          </template>
+        </FSEntityView>
       </div>
     </div>`
   })

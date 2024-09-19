@@ -195,6 +195,9 @@
               {{ $props.description }}
             </FSText>
           </FSCol>
+          <slot
+            name="header-append"
+          />
         </FSCol>
         <FSRow
           v-if="!$props.light"
