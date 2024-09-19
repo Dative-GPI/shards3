@@ -4,7 +4,7 @@
   >
     <FSCol
       padding="16px 4px 16px 12px"
-      height="100vh"
+      height="100%"
       gap="16px"
     >
       <slot

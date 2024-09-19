@@ -9,6 +9,7 @@
     v-model="dialog"
     width="500px"
     :title="$tr('ui.map.select-layer', 'Select layer')"
+    :contained="true"
   >
     <template
       v-slot:body
