@@ -182,16 +182,6 @@ $nthOverlay: 25;
   }
 }
 
-/***** Applies to all slide groups (FSTabs, FSSlideGroup, FSWrapGroup) *****/
-.fs-slide-group {
-    max-width: 100%;
-    
-    // To avoid borders clipping
-    & > .v-slide-group__container > .v-slide-group__content {
-        margin: 0 2px 1px 0 !important;
-    }
-}
-
 // On touchscreen, hide arrows
 // Otherwise show small ones with base text color
 .v-slide-group__prev,
