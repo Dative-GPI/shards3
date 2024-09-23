@@ -34,6 +34,22 @@ export const Default: Story = {
           </FSRow>
         </FSWrapGroup>
       </div>
+      <div style="margin:40px" />
+      <div style="display: flex; flex-direction: column; border: 1px dotted black; width: 50%">
+        <FSWrapGroup
+          :width="args.width"
+          :height="args.height"
+        >
+          <FSRow :width="args.height" style="background-color: palegreen; padding: 4px; flex-wrap: wrap;">
+            <div 
+              v-for="(item, index) in 26" :key="index" style="display: flex; width: 62px; height: 32px; padding: 4px; background-color: blanchedalmond;"
+              style="flex: 1 0 120px;"
+            >
+              item {{ index + 1 }}
+            </div>
+          </FSRow>
+        </FSWrapGroup>
+      </div>
     `,
   }),
   args: {

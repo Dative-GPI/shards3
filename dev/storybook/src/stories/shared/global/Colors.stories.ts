@@ -91,8 +91,6 @@ export const ColorContainer: Story = {
     components: { FSColor, FSRow, FSSpan },
     template: `
       <div style="display: flex; gap: 20px;">
-        <
-
         <FSColor color="primary" style="padding: 4px;">
           <template #default="{ color, colors }">
             <FSRow>
