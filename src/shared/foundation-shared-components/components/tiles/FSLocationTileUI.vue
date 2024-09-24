@@ -6,81 +6,81 @@
     :width="$props.width"
     v-bind="$attrs"
   >
-    <FSRow
+    <FSCol
       align="center-center"
-      width="100%"
-      gap="24px"
-      :wrap="false"
+      width="fill"
     >
-      <FSCol 
-        gap="12px"
-        width="100%"
-        class="fs-location-tile-text-container"
+      <FSRow
+        align="center-left"
+        gap="24px"
+        :height="imageSize"
+        :wrap="false"
       >
-        <FSCol
-          gap="6px"
+        <FSCol 
+          gap="12px"
+          :width="infoWidth"
         >
-          <FSSpan
-            font="text-button"
-            :lineClamp="1"
+          <FSCol
+            gap="6px"
           >
-            {{ $props.label }}
-          </FSSpan>
-          <FSSpan
-            v-if="$props.code"
-            font="text-overline"
-            variant="soft"
-          >
-            {{ $props.code }}
-          </FSSpan>
-        </FSCol>
-        <FSRow
-          :wrap="false"
-          align="center-left"
-        >
-          <FSColor
-            padding="0 8px"
-            height="24px"
-            :color="ColorEnum.Light"
-            :border="false"
-          >
-            <FSRow
-              align="center-center"
+            <FSSpan
+              font="text-button"
+              :lineClamp="1"
             >
-              <FSSpan
-                font="text-overline"
-              >
-                {{ $props.deviceCount }}
-              </FSSpan>
-            </FSRow>
-          </FSColor>
-          <FSSpan
-            font="text-overline"
+              {{ $props.label }}
+            </FSSpan>
+            <FSSpan
+              v-if="$props.code"
+              font="text-overline"
+              variant="soft"
+            >
+              {{ $props.code }}
+            </FSSpan>
+          </FSCol>
+          <FSRow
+            :wrap="false"
+            align="center-left"
           >
-            {{ $tr("ui.common.devices", "Devices") }}
-          </FSSpan>
-        </FSRow>
-      </FSCol>
-      <FSCol
-        width="hug"
-      >
+            <FSColor
+              padding="0 8px"
+              height="24px"
+              :color="ColorEnum.Light"
+              :border="false"
+            >
+              <FSRow
+                align="center-center"
+              >
+                <FSSpan
+                  font="text-overline"
+                >
+                  {{ $props.deviceCount }}
+                </FSSpan>
+              </FSRow>
+            </FSColor>
+            <FSSpan
+              font="text-overline"
+            >
+              {{ $tr("entity.location.devices", "Devices") }}
+            </FSSpan>
+          </FSRow>
+        </FSCol>
         <FSIconCard
-          :icon="$props.icon"
+          backgroundVariant="standard"
+          :backgroundColor="ColorEnum.Background"
           :iconColor="$props.color"
-          size="100px"
-          iconSize="38px"
-          variant="background"
-          :border="true"
+          :icon="$props.icon"
+          :size="imageSize"
         />
-      </FSCol>
-    </FSRow>
+      </FSRow>
+    </FSCol>
   </FSTile>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSIconCard from "../FSIconCard.vue";
 import FSColor from "../FSColor.vue";
@@ -110,11 +110,6 @@ export default defineComponent({
       required: false,
       default: null
     },
-    color: {
-      type: String,
-      required: false,
-      default: () => ColorEnum.Primary
-    },
     icon: {
       type: String,
       required: false,
@@ -125,20 +120,37 @@ export default defineComponent({
       required: false,
       default: 0
     },
-    modelValue: {
-      type: Boolean,
+    color: {
+      type: String as PropType<ColorBase>,
       required: false,
-      default: false
+      default: ColorEnum.Primary
     },
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: () => [352, 336]
     },
+    modelValue: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   setup() {
+    const { isMobileSized } = useBreakpoints();
+
+    const imageSize = computed((): number => {
+      return isMobileSized.value ? 90 : 100;
+    });
+
+    const infoWidth = computed((): string => {
+      return `calc(100% - ${imageSize.value}px - 24px)`;
+    });
+
     return {
-      ColorEnum
+      ColorEnum,
+      imageSize,
+      infoWidth
     };
   }
 });

@@ -44,6 +44,7 @@
           v-else-if="$props.icon"
           :backgroundVariant="$props.iconBackgroundVariant"
           :backgroundColor="$props.iconBackgroundColor"
+          :iconColor="$props.activeColor"
           :border="$props.iconBorder"
           :icon="$props.icon"
           :size="imageSize"
@@ -99,7 +100,7 @@ export default defineComponent({
     iconBackgroundVariant: {
       type: String as PropType<"background" | "standard" | "full" | "gradient">,
       required: false,
-      default: "background"
+      default: "standard"
     },
     iconBackgroundColor: {
       type: [Array, String] as PropType<ColorBase | ColorBase[]>,
