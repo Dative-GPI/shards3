@@ -25,7 +25,7 @@ export default defineComponent({
   name: "FSTabs",
   props: {
     tab: {
-      type: [String, Number] as PropType<string | number>,
+      type: [String, Number, Object] as PropType<any>,
       required: false,
       default: 0
     },
