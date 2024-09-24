@@ -1350,11 +1350,9 @@ export default defineComponent({
     };
 
     const changeIndex = (oldIndex: number, newIndex: number) => {
-      console.log(oldIndex, newIndex);
       if (oldIndex === newIndex) {
         return;
       }
-      console.log(innerItems.value);
       const items = innerItems.value.slice();
       const itemToMove = items.splice(oldIndex, 1)[0];
       items.splice(newIndex, 0, itemToMove);
