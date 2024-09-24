@@ -187,9 +187,9 @@ $nthOverlay: 25;
     max-width: 100%;
     
     // To avoid borders clipping
-    & > .v-slide-group__container > .v-slide-group__content {
-        margin: 0 2px 1px 0 !important;
-    }
+    // & > .v-slide-group__container > .v-slide-group__content {
+    //     margin: 0 2px 1px 0 !important;
+    // }
 }
 
 // On touchscreen, hide arrows

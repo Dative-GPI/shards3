@@ -1,7 +1,7 @@
 <template>
   <FSBaseView
-    variant="entity"
     v-bind="$attrs"
+    variant="default"
   >
     <template
       v-for="(_, name) in $slots"
@@ -24,6 +24,6 @@ export default defineComponent({
   name: "FSEntityView",
   components: {
     FSBaseView
-  }
+  },
 });
 </script>

@@ -4,7 +4,7 @@
     ref="fadeOutRef"
     :id="elementId"
     :style="style"
-    @scroll="debounceMasks"
+    @scroll="$emit('scroll', $event); debounceMasks()"
   >
     <slot />
   </div>
@@ -45,6 +45,11 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "64px"
+    },
+    scrollOutside: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   emits: ["scroll"],
@@ -69,6 +74,8 @@ export default defineComponent({
       "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : undefined,
       "--fs-fade-out-width"             : sizeToVar(props.width),
       "--fs-fade-out-padding"           : sizeToVar(props.padding),
+      "--fs-fade-out-with-offset"       : props.scrollOutside ? '12px' : '0px',
+      "--fs-fade-out-padding-offset"    : props.scrollOutside ? '4px' : '0px',
       "--fs-fade-out-mask-color"        : backgrounds.base,
       "--fs-fade-out-top-mask-height"   : topMaskHeight.value,
       "--fs-fade-out-bottom-mask-height": bottomMaskHeight.value
@@ -94,19 +101,19 @@ export default defineComponent({
           topMaskHeight.value = sizeToVar(props.maskHeight);
         }
 
-        const event = {
-          target: fadeOutRef.value,
-          onTop: topMaskHeight.value === "0px",
-          onBottom: bottomMaskHeight.value === "0px",
-          goingUp: (fadeOutRef.value as any).scrollTop < lastScroll.value,
-        };
+        // const event = {
+        //   target: fadeOutRef.value,
+        //   onTop: topMaskHeight.value === "0px",
+        //   onBottom: bottomMaskHeight.value === "0px",
+        //   goingUp: (fadeOutRef.value as any).scrollTop < lastScroll.value,
+        // };
 
-        emit("scroll", event);
+        // emit("scroll", event);
         lastScroll.value = (fadeOutRef.value as any).scrollTop;
       }
     };
 
-    const debounceMasks = (): void => debounce(handleMasks, 50);
+    const debounceMasks = (): void => debounce(handleMasks, 1);
 
     onMounted((): void => {
       debounceMasks();

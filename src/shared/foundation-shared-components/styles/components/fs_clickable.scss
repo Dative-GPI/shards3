@@ -7,6 +7,7 @@
     background-color: var(--fs-clickable-background-color) !important;
     border-color: var(--fs-clickable-border-color) !important;
     color: var(--fs-clickable-color) !important;
+    box-sizing: border-box;
 
     &.fs-clickable-disabled {
         cursor: default;

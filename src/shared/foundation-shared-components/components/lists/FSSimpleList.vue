@@ -5,14 +5,12 @@
   >
     <FSSearchField
       v-if="$props.searchable"
-      padding="0 12px 0 0"
       :hideHeader="true"
       :modelValue="actualSearch"
       placeholder="Search"
       @update:modelValue="onSearch"
     />
     <FSFadeOut
-      padding="0 4px 0 0"
       :maxHeight="$props.maxHeight"
       :maskHeight="0"
     >

@@ -4,8 +4,12 @@
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     max-height: var(--fs-fade-out-max-height);
     padding: var(--fs-fade-out-padding);
+
+    // Petit hack pour que la barre de scroll elle soit à droite du container
+    padding-right: calc(var(--fs-fade-out-padding) + var(--fs-fade-out-padding-offset));
+    width: calc(var(--fs-fade-out-width) + var(--fs-fade-out-width-offset));
+
     height: var(--fs-fade-out-height);
-    width: var(--fs-fade-out-width);
     flex-direction: column;
     position: relative;
     display: flex;

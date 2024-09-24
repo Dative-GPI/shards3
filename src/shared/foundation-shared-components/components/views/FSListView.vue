@@ -1,5 +1,5 @@
 <template>
-  <FSSkeletonView>
+  <FSBaseView>
     <template
       #header
     >
@@ -7,7 +7,6 @@
         ref="headerRef"
         :breadcrumbs="$props.breadcrumbs"
         :title="$props.title"
-        padding="0 14px 0 0"
       >
         <template
           #toolbar
@@ -22,7 +21,6 @@
       #default
     >
       <FSFadeOut
-        padding="0 8px 0 0"
         :height="height"
       >
         <slot
@@ -30,7 +28,7 @@
         />
       </FSFadeOut>
     </template>
-  </FSSkeletonView>
+  </FSBaseView>
 </template>
 
 <script lang="ts">
@@ -39,14 +37,14 @@ import { computed, defineComponent, type PropType, ref } from "vue";
 import { type FSBreadcrumbItem } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
 
-import FSSkeletonView from "./FSSkeletonView.vue";
+import FSBaseView from "./FSBaseView.vue";
 import FSListHeader from "./FSListHeader.vue";
 import FSFadeOut from "../FSFadeOut.vue";
 
 export default defineComponent({
   name: "FSListView",
   components: {
-    FSSkeletonView,
+    FSBaseView,
     FSListHeader,
     FSFadeOut
   },

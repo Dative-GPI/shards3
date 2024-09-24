@@ -23,11 +23,10 @@
       :border="false"
     >
       <FSCol
-        padding="16px 0 24px 16px"
+        padding="20px"
         gap="12px"
       >
         <FSCol
-          padding="0 16px 0 0"
           gap="12px"
         >
           <FSSpan
@@ -44,17 +43,15 @@
             :editable="true"
             @click="onToggleAll"
           />
-          <FSDivider
-            padding="0 8px 0 0"
-          />
+          <FSDivider />
           <FSSearchField
+            :hideHeader="true"
             class="fs-filter-button-search"
             prependInnerIcon="mdi-magnify"
             v-model="search"
           />
         </FSCol>
         <FSFadeOut
-          padding="0 8px 0 0"
           maxHeight="360px"
         >
           <FSCol

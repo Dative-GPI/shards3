@@ -11,7 +11,6 @@
       #body
     >
       <FSFadeOut
-        padding="0 8px 0 0"
         :maxHeight="maxHeight"
       >
         <slot
@@ -26,7 +25,6 @@
         name="footer"
       >
         <FSRow
-          padding="0 16px 0 0"
         >
           <slot
             name="left-footer"
