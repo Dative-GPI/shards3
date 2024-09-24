@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, type StyleValue } from "vue";
+import { computed, defineComponent, onMounted, type PropType, type StyleValue } from "vue";
 import { useRouter } from "vue-router";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -65,6 +65,12 @@ export default defineComponent({
       }
       emit("update:tab", tab);
     }
+
+    onMounted((): void => {
+      if (router.currentRoute.value.query.tab && !isNaN(parseInt(router.currentRoute.value.query.tab as string))) {
+        emit("update:tab", parseInt(router.currentRoute.value.query.tab as string));
+      }
+    });
 
     return {
       style,
