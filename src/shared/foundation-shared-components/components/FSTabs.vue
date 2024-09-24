@@ -25,7 +25,7 @@ export default defineComponent({
   name: "FSTabs",
   props: {
     tab: {
-      type: Number,
+      type: [String, Number] as PropType<string | number>,
       required: false,
       default: 0
     },
@@ -67,8 +67,8 @@ export default defineComponent({
     }
 
     onMounted((): void => {
-      if (router.currentRoute.value.query.tab && !isNaN(parseInt(router.currentRoute.value.query.tab as string))) {
-        emit("update:tab", parseInt(router.currentRoute.value.query.tab as string));
+      if (props.recordNavigation && router.currentRoute.value.query.tab) {
+        emit("update:tab", router.currentRoute.value.query.tab);
       }
     });
 
