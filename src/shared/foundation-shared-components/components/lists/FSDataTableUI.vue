@@ -446,7 +446,7 @@
               v-for="(item, index) in items"
               elementSelector=".fs-draggable-item"
               :disabled="draggableDisabled"
-              :item="item"
+              :item="{ ...item, index }"
               :key="index"
               @update:dragend="(event, dragged) => onDragEnd(event, dragged, '.fs-data-iterator-container')"
               @dragover="(event) => onDragOver(event, '.fs-draggable-item', '.fs-data-iterator-container')"
@@ -617,7 +617,7 @@
               v-for="(item, index) in items.filter((item) => item.type === 'item')"
               elementSelector=".fs-draggable-item"
               :disabled="draggableDisabled"
-              :item="item"
+              :item="{ ...item, index }"
               :key="index"
               @update:dragend="(event, dragged) => onDragEnd(event, dragged, '.fs-data-iterator-container')"
               @dragover="(event) => onDragOver(event, '.fs-draggable-item', '.fs-data-iterator-container')"
@@ -1350,9 +1350,11 @@ export default defineComponent({
     };
 
     const changeIndex = (oldIndex: number, newIndex: number) => {
+      console.log(oldIndex, newIndex);
       if (oldIndex === newIndex) {
         return;
       }
+      console.log(innerItems.value);
       const items = innerItems.value.slice();
       const itemToMove = items.splice(oldIndex, 1)[0];
       items.splice(newIndex, 0, itemToMove);
@@ -1360,10 +1362,10 @@ export default defineComponent({
     };
 
     const resetRowIndex = (initialIndex: number, currentIndex: number, draggedElement: HTMLElement, tbodyElement: HTMLElement) => {
-      if (initialIndex > currentIndex) {
+      if (initialIndex > currentIndex && tbodyElement.children[initialIndex]) {
         tbodyElement.children[initialIndex].insertAdjacentElement("afterend", draggedElement);
       }
-      else {
+      else if(tbodyElement.children[initialIndex]) {
         tbodyElement.children[initialIndex].insertAdjacentElement("beforebegin", draggedElement);
       }
     };

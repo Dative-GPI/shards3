@@ -74,7 +74,7 @@ export default defineComponent({
           const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
           dragged.classList.add("fs-draggable-dragging");
           dragged.classList.add("fs-draggable-dragging-grabbegin");
-          dragged.dataset.initialIndex = props.item?.index ?? props.item?.value;
+          dragged.dataset.initialIndex = props.item.index;
           event.preventDefault();
         }
       }, mobileGrabThreshold);
@@ -171,7 +171,7 @@ export default defineComponent({
         return;
       }
       const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
-      dragged.dataset.initialIndex = props.item?.index ?? props.item?.value;
+      dragged.dataset.initialIndex = props.item.index;
       event.dataTransfer?.setDragImage(dragged, 25, 25);
       
       if (event.dataTransfer) {
