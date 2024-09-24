@@ -1,9 +1,9 @@
 <template>
   <FSDataTable
-    :loading="fetchingRoleOrganisations"
+    :loading="fetchingServiceAccountRoleOrganisations"
+    :items="serviceAccountRoleOrganisations"
     :showSelect="$props.editable"
     :tableCode="$props.tableCode"
-    :items="roleOrganisations"
     :itemTo="$props.itemTo"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -56,9 +56,9 @@ import { defineComponent, type PropType, watch } from "vue";
 import { type RouteLocation } from "vue-router";
 import _ from "lodash";
 
-import { type RoleOrganisationFilters, type RoleOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
+import { type ServiceAccountRoleOrganisationFilters, type ServiceAccountRoleOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
+import { useServiceAccountRoleOrganisations } from "@dative-gpi/foundation-core-services/composables";
 import { userTypeIcon, userTypeLabel } from "@dative-gpi/foundation-core-components/utils";
-import { useRoleOrganisations } from "@dative-gpi/foundation-core-services/composables";
 
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
@@ -68,7 +68,7 @@ import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue
 import FSDataTable from "../FSDataTable.vue";
 
 export default defineComponent({
-  name: "FSBaseRoleOrganisationsList",
+  name: "FSBaseServiceAccountRoleOrganisationsList",
   components: {
     FSDataTable,
     FSTagGroup,
@@ -81,13 +81,13 @@ export default defineComponent({
       type: String,
       required: true
     },
-    roleOrganisationsFilters: {
-      type: Object as PropType<RoleOrganisationFilters | null>,
+    serviceAccountRoleOrganisationsFilters: {
+      type: Object as PropType<ServiceAccountRoleOrganisationFilters | null>,
       required: false,
       default: null
     },
     itemTo: {
-      type: Function as PropType<(item: RoleOrganisationInfos) => Partial<RouteLocation>>,
+      type: Function as PropType<(item: ServiceAccountRoleOrganisationInfos) => Partial<RouteLocation>>,
       required: false
     },
     editable: {
@@ -103,21 +103,21 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-    const { getMany: getManyRoleOrganisations, entities: roleOrganisations, fetching: fetchingRoleOrganisations } = useRoleOrganisations();
+    const { getMany: getManyServiceAccountRoleOrganisations, fetching: fetchingServiceAccountRoleOrganisations, entities: serviceAccountRoleOrganisations } = useServiceAccountRoleOrganisations();
 
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
     };
 
-    watch(() => props.roleOrganisationsFilters, (next, previous) => {
+    watch(() => props.serviceAccountRoleOrganisationsFilters, (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
-        getManyRoleOrganisations(props.roleOrganisationsFilters ?? undefined);
+        getManyServiceAccountRoleOrganisations(props.serviceAccountRoleOrganisationsFilters ?? undefined);
       }
     }, { immediate: true });
 
     return {
-      fetchingRoleOrganisations,
-      roleOrganisations,
+      fetchingServiceAccountRoleOrganisations,
+      serviceAccountRoleOrganisations,
       userTypeLabel,
       userTypeIcon,
       isSelected

@@ -7,7 +7,7 @@
     :style="style"
     :grow="true"
     :modelValue="$props.tab"
-    @update:modelValue="$emit('update:tab', $event)"
+    @update:modelValue="onUpdateTab($event)"
     v-bind="$attrs"
   >
     <slot/>
@@ -15,7 +15,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, type StyleValue } from "vue";
+import { computed, defineComponent, onMounted, type PropType, type StyleValue } from "vue";
+import { useRouter } from "vue-router";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
@@ -24,7 +25,7 @@ export default defineComponent({
   name: "FSTabs",
   props: {
     tab: {
-      type: Number,
+      type: [String, Number, Object] as PropType<any>,
       required: false,
       default: 0
     },
@@ -32,10 +33,17 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Primary
+    },
+    recordNavigation: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
-  setup(props) {
+  emits: ["update:tab"],
+  setup(props, { emit }) {
     const { getColors } = useColors();
+    const router = useRouter();
 
     const colors = computed(() => getColors(props.color));
     const lights = getColors(ColorEnum.Light);
@@ -51,8 +59,22 @@ export default defineComponent({
       "--fs-tab-tag-color"              : colors.value.baseContrast!
     }));
 
+    const onUpdateTab = (tab: number): void => {
+      if (props.recordNavigation) {
+        router.replace({ query: { tab: tab.toString() } });
+      }
+      emit("update:tab", tab);
+    }
+
+    onMounted((): void => {
+      if (props.recordNavigation && router.currentRoute.value.query.tab) {
+        emit("update:tab", router.currentRoute.value.query.tab);
+      }
+    });
+
     return {
-      style
+      style,
+      onUpdateTab
     };
   }
 });
