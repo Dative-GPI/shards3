@@ -16,28 +16,53 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => ({
-    components: { FSLocationTileUI },
-    setup() {
-      return { args };
-    },
-    template: `
-      <FSLocationTileUI
-        :label="args.label"
-        :code="args.code"
-        :color="args.color"
-        :icon="args.icon"
-        :deviceCount="args.deviceCount"
-      />
-    `,
-  }),
   args: {
-    label: 'Location test',
-    code: 'location-test',
-    color: 'primary',
-    icon: 'mdi-home',
-    deviceCount: 5,
+    args: {
+      values: [{
+        id: "1",
+        label: 'Location test',
+        code: 'location-test',
+        color: 'primary',
+        icon: 'mdi-home',
+        deviceCount: 5
+      }, {
+        id: "2",
+        label: 'Location test',
+        code: 'location-test',
+        color: 'primary',
+        icon: 'mdi-home',
+        singleSelect: true
+      }, {
+        id: "3",
+        label: 'Location test',
+        color: 'primary',
+        icon: 'mdi-home',
+        deviceCount: 5
+      }
+    ],
+      selected: [
+        false,
+        false,
+        false
+      ]
+    }
   },
+  render: (args, { argTypes }) => ({
+  components: { FSLocationTileUI },
+  props: Object.keys(argTypes),
+  setup() {
+    return { ...args };
+  },
+  template: `
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
+    <FSLocationTileUI
+      v-for="(entity, index) in args.values"
+      :key="index"
+      v-model="args.selected[index]"
+      v-bind="entity"
+    />
+  </div>`
+})
 };
 
 export const Variation1: Story = {

@@ -1,8 +1,10 @@
 <template>
   <FSDataTable
+    :singleSelect="$props.singleSelect"
+    :showSelect="$props.editable"
+    :tableCode="$props.tableCode"
     :loading="fetchingModels"
     :items="models"
-    :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -58,12 +60,13 @@
       #item.tile="{ item, toggleSelect }"
     >
       <FSModelTileUI
-        v-bind="item"
+        :to="$props.itemTo && $props.itemTo(item)"
+        :singleSelect="$props.singleSelect"
         :imageId="item.imageId"
         :label="item.label"
         :modelValue="isSelected(item.id)"
-        :to="$props.itemTo && $props.itemTo(item)"
         @update:modelValue="toggleSelect(item)"
+        v-bind="item"
       />
     </template>
   </FSDataTable>
@@ -95,23 +98,33 @@ export default defineComponent({
     FSIcon,
   },
   props: {
+    tableCode: {
+      type: String,
+      required: true
+    },
     modelsFilters: {
       type: Object as PropType<ModelFilters>,
       required: false,
       default: null
     },
-    modelValue: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-      required: false
-    },
     itemTo: {
       type: Function as PropType<(item: ModelInfos) => Partial<RouteLocation>>,
       required: false
     },
-    tableCode: {
-      type: String,
-      required: true
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    singleSelect: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+      required: false
     }
   },
   emits: ["update:modelValue"],
@@ -130,8 +143,8 @@ export default defineComponent({
 
     return {
       fetchingModels,
-      models,
       ColorEnum,
+      models,
       isSelected
     };
   }
