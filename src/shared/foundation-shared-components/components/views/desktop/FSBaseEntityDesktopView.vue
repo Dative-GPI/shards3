@@ -1,6 +1,6 @@
 <template>
   <FSBaseDefaultDesktopView
-    :toolbarTopOffset="164 - topOffset + 'px'"
+    :toolbarTopOffset="topOffset + 'px'"
     :stickyTitleTopOffset="topOffset + 'px'"
     @scroll="onScroll"
   >
@@ -9,9 +9,11 @@
     >
       <FSRow
         gap="24px"
+        :wrap="false"
       >
         <FSImage 
           v-if="$props.imageId"
+          :imageId="$props.imageId"
           :cover="$props.imageCover"
           :height="actualImageSize"
           :width="actualImageSize"
@@ -25,7 +27,7 @@
           :iconColor="$props.color"
           :size="actualImageSize"
         />
-        <FSRow
+        <FSCol
           align="center-left"
           height="fill"
         >
@@ -37,8 +39,33 @@
             >
               {{ $props.title }}
             </FSText>
+            <slot
+              name="title-extra"
+              v-bind="{ topOffset }"
+            >
+              <slot
+                name="subtitle"
+              >
+                <FSText
+                  v-if="$props.subtitle && topOffset < 60"
+                  font="text-button"
+                >
+                  {{ $props.subtitle }}
+                </FSText>
+              </slot>
+              <slot
+                name="description"
+              >
+                <FSText
+                  v-if="$props.description && topOffset < 20"
+                  font="text-body"
+                >
+                  {{ $props.description }}
+                </FSText>
+              </slot>
+            </slot>
           </slot>
-        </FSRow>
+        </FSCol>
       </FSRow>
     </template>
 
@@ -56,13 +83,11 @@
 
 <script lang="ts">
 import _ from "lodash";
-import { defineComponent, useSlots, type PropType, computed, ref, nextTick } from "vue";
+import { defineComponent, useSlots, type PropType, computed, ref } from "vue";
 
 import { type ColorBase } from "@dative-gpi/foundation-shared-components/models";
 
 import { sizeToVar } from "../../../utils"
-
-import { useColors } from "../../../composables"
  
 import FSCol from "../../FSCol.vue";
 import FSRow from "../../FSRow.vue"
@@ -84,6 +109,14 @@ export default defineComponent({
   },
   props: {
     title: {
+      type: String,
+      required: false
+    },
+    subtitle: {
+      type: String,
+      required: false
+    },
+    description: {
       type: String,
       required: false
     },
@@ -127,6 +160,11 @@ export default defineComponent({
       required: false,
       default: true
     },
+    minImageSize: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: () => ["48px", "48px", "48px"]
+    }
   },
   setup(props){
     const slots = { ...useSlots() };
@@ -135,13 +173,17 @@ export default defineComponent({
 
     const actualImageSize = computed(() => {
       const size = sizeToVar(props.imageSize);
-      return `max(calc(${size} - ${topOffset.value}px), 48px)`;
+      const minSize = sizeToVar(props.minImageSize);
+      return `max(calc(${size} - ${topOffset.value}px), ${minSize})`;
     });
 
     const onScroll = (event: Event) => {
       const actualScrollTop = (event.target as HTMLElement).scrollTop;
 
-      topOffset.value = Math.max(0, Math.min(actualScrollTop, 76));
+      const minSize = sizeToVar(props.minImageSize);
+      const actualMinSize = parseInt(minSize);
+
+      topOffset.value = Math.max(0, Math.min(actualScrollTop, actualMinSize + 16 + 24));
     }
 
 

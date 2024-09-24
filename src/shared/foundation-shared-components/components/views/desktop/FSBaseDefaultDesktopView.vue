@@ -3,6 +3,7 @@
     height="100%"
     maxHeight="100%"
     :scrollOutside="false"
+    :disableTopMask="true"
   >
     <FSCol
       height="fill"
@@ -13,7 +14,7 @@
       >
 
         <FSRow
-          padding="24px 24px 16px 24px"
+          padding="24px 16px 16px 24px"
           style="position: sticky; top: 0px; z-index: 1;"
           :style="{ backgroundColor, marginTop: $props.stickyTitleTopOffset }"
         >
@@ -44,7 +45,7 @@
         </FSCol>
         <FSRow
           v-if="$slots.toolbar"
-          padding="0px 24px 0px 24px"
+          padding="0px 16px 8px 24px"
           :style="stickyToolbar ? `position: sticky; top: ${$props.toolbarTopOffset}; z-index: 1; background-color: ${backgroundColor}` : undefined"
         >
           <FSSlideGroup>
@@ -57,7 +58,7 @@
 
       <FSCol
         height="fill"
-        padding="16px 24px 24px 24px"
+        :padding="$slots.toolbar ? '8px 16px 24px 24px' : '16px 16px 24px 24px'"
         gap="0px"
       >
         <slot />

@@ -50,10 +50,20 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    disableTopMask: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    disableBottomMask: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["scroll"],
-  setup(props, { emit }) {
+  setup(props) {
     const { windowHeight, windowWidth } = useBreakpoints();
     const { debounce } = useDebounce();
     const { getColors } = useColors();
@@ -77,8 +87,8 @@ export default defineComponent({
       "--fs-fade-out-with-offset"       : props.scrollOutside ? '12px' : '0px',
       "--fs-fade-out-padding-offset"    : props.scrollOutside ? '4px' : '0px',
       "--fs-fade-out-mask-color"        : backgrounds.base,
-      "--fs-fade-out-top-mask-height"   : topMaskHeight.value,
-      "--fs-fade-out-bottom-mask-height": bottomMaskHeight.value
+      "--fs-fade-out-top-mask-height"   : props.disableTopMask ? '0px' : topMaskHeight.value,
+      "--fs-fade-out-bottom-mask-height": props.disableBottomMask ? '0px' : bottomMaskHeight.value
     }));
 
     const handleMasks = () => {

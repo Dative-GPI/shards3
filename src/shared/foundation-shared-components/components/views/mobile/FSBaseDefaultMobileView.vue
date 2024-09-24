@@ -3,18 +3,20 @@
     height="100%"
     maxHeight="100%"
     :scrollOutside="false"
+    :disableTopMask="true"
   >
     <FSCol
-      height="100%"
+      height="fill"
       gap="0px"
     >
       <slot
         name="header"
       >
+
         <FSRow
-          padding="24px 24px 16px 24px"
+          padding="24px 16px 16px 24px"
           style="position: sticky; top: 0px; z-index: 1;"
-          :style="{ backgroundColor }"
+          :style="{ backgroundColor, marginTop: $props.stickyTitleTopOffset }"
         >
           <slot
             name="title"
@@ -27,7 +29,8 @@
           </slot>
         </FSRow>
         <FSCol
-          padding="0px 24px 8px 24px"
+          v-if="$props.breadcrumbs && $props.breadcrumbs.length > 0"
+          :padding="$slots.toolbar ? '0px 24px 8px 24px' : '0px 24px'"
           gap="16px"
         >
           <FSCol>
@@ -35,7 +38,6 @@
               name="breadcrumbs"
             >
               <FSBreadcrumbs
-                v-if="$props.breadcrumbs && $props.breadcrumbs.length > 0"
                 :items="$props.breadcrumbs"
               />
             </slot>
@@ -43,9 +45,8 @@
         </FSCol>
         <FSRow
           v-if="$slots.toolbar"
-          padding="0px 24px 0px 24px"
-          style="position: sticky; top: 72px; z-index: 1;"
-          :style="stickyToolbar ? `position: sticky; top: 72px; z-index: 1; background-color: ${backgroundColor}` : undefined"
+          padding="0px 16px 8px 24px"
+          :style="stickyToolbar ? `position: sticky; top: ${$props.toolbarTopOffset}; z-index: 1; background-color: ${backgroundColor}` : undefined"
         >
           <FSSlideGroup>
             <slot
@@ -57,7 +58,7 @@
 
       <FSCol
         height="fill"
-        padding="16px 24px 24px 24px"
+        :padding="$slots.toolbar ? '8px 16px 24px 24px' : '16px 16px 24px 24px'"
         gap="0px"
       >
         <slot />
@@ -81,7 +82,7 @@ import FSSlideGroup from "../../FSSlideGroup.vue";
 import FSFadeOut from "../../FSFadeOut.vue"
 
 export default defineComponent({
-  name: "FSBaseDefaultMobileView",
+  name: "FSBaseDefaultDesktopView",
   components: {
     FSCol,
     FSRow,
@@ -93,7 +94,7 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true
+      required: false
     },
     breadcrumbs: {
       type: Array as PropType<FSBreadcrumbItem[]>,
@@ -103,7 +104,17 @@ export default defineComponent({
     stickyToolbar: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
+    },
+    toolbarTopOffset: {
+      type: String,
+      required: false,
+      default: "72px" 
+    },
+    stickyTitleTopOffset: {
+      type: String,
+      required: false,
+      default: "0px"
     }
   },
   setup(){
