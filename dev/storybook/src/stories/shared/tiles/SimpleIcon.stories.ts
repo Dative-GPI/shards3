@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSSimpleTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSSimpleTileUI.vue";
+import { icon } from 'leaflet';
 
 const meta = {
   title: 'Foundation/Shared/Tiles/SimpleIcon',
@@ -23,11 +24,13 @@ export const Variations: Story = {
           code: "code"
         }, {
           id: "2",
-          label: "Simple Icon tile 2"
+          label: "Simple Icon tile 2",
+          icon: "mdi-account",
+          singleSelect: true
         }, {
           id: "3",
           label: "Simple Icon tile with color",
-          colors: ["#0000FF", "#FFFFFF"]
+          bottomColor: ["#0000FF", "#FFFFFF"]
         }
       ],
         selected: [
@@ -48,10 +51,8 @@ export const Variations: Story = {
       <FSSimpleTileUI
         v-for="(entity, index) in args.values"
         :key="index"
-        :label="entity.label"
-        :code="entity.code"
-        :color="entity.colors"
         v-model="args.selected[index]"
+        v-bind="entity"
       />
     </div>`
   })

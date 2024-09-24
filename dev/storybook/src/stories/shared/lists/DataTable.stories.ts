@@ -9,7 +9,6 @@ const meta = {
   component: FSDataTableUI,
   tags: ['autodocs'],
   argTypes: {
-    onClick: { action: 'clicked' }
   },
 } satisfies Meta<typeof FSDataTableUI>;
 
@@ -183,6 +182,56 @@ export const Variations: Story = {
             <FSButton>Toolbar button 6</FSButton>
           </template> 
         </FSDataTableUI>
+    </div>`
+  })
+}
+
+export const DragAndDrop: Story = {
+  args: {
+    showSearch: false,
+    showSelect: true,
+    singleSelect: false,
+    disableIterator: false,
+    disableTable: false,
+    includeDraggable: false,
+    sortDraggable: true,
+    headers: [{
+      text: "Label",
+      value: "column1",
+      index: 0,
+      hidden: false,
+      sortable: true,
+      filterable: true,
+      loading: false
+    }],
+    items: Array.from(Array(20).keys()).map((i) => ({
+      id: i.toString(),
+      column1: `Element ${i}`,
+    })),
+    modelValue: []
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSDataTableUI, FSStatusesCarousel },
+    props: Object.keys(argTypes),
+    setup() {
+      return { args };
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <FSDataTableUI
+        :showSelect="args.showSelect"
+        :showSearch="args.showSearch"
+        :disableIterator="args.disableIterator"
+        :disableTable="args.disableTable"
+        :includeDraggable="args.includeDraggable"
+        :sortDraggable="args.sortDraggable"
+        :loading="args.loading"
+        v-model:items="args.items"
+        @click:row="args.clickRow"
+        @update:items="(items) => console.log(items)"
+        v-model:headers="args.headers"
+        v-model="args.modelValue"
+      />
     </div>`
   })
 }

@@ -17,7 +17,30 @@
         v-bind="slotData"
       />
     </template>
-
+    <template
+      #header.imageId-title
+    >
+      <FSIcon>
+        mdi-panorama-variant-outline
+      </FSIcon>
+    </template>
+    <template
+      #item.imageId="{ item }"
+    >
+      <FSImage
+        v-if="item.imageId"
+        height="38px"
+        width="38px"
+        :imageId="item.imageId"
+      />
+    </template>
+    <template
+      #item.icon="{ item }"
+    >
+      <FSIcon>
+        {{ item.icon }}
+      </FSIcon>
+    </template>
     <template
       #item.main="{ item }"
     >
@@ -32,15 +55,13 @@
         mdi-home
       </FSIcon>
     </template>
-
     <template
-      #item.icon="{ item }"
+      #item.locked="{ item }"
     >
-      <FSIcon>
-        {{ item.icon }}
-      </FSIcon>
+      <FSIconCheck
+        :value="item.locked"
+      />
     </template>
-
     <template
       #item.tile="{ item, toggleSelect }"
     >
@@ -90,6 +111,7 @@ import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.v
 import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
 import FSDashboardOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTileUI.vue";
 import FSDashboardShallowTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardShallowTileUI.vue";
+import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
 
 export default defineComponent({
   name: "FSBaseFoldersExplorer",
@@ -98,7 +120,8 @@ export default defineComponent({
     FSIcon,
     FSFolderTileUI,
     FSDashboardOrganisationTileUI,
-    FSDashboardShallowTileUI
+    FSDashboardShallowTileUI,
+    FSIconCheck
   },
   props: {
     foldersFilters: {

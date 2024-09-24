@@ -58,7 +58,7 @@ export default defineComponent({
     iconColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorEnum.Dark
+      default: ColorEnum.Primary
     },
     iconVariant: {
       type: String as PropType<"base" | "baseContrast" | "soft" | "softContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
@@ -68,7 +68,7 @@ export default defineComponent({
     iconSize: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "56px"
+      default: "42px"
     },
     border: {
       type: Boolean,

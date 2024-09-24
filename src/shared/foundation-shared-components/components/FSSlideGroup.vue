@@ -59,6 +59,16 @@ export default defineComponent({
     FSButton
   },
   props: {
+    height: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "fit-content"
+    },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "fit-content"
+    },
     padding: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
@@ -92,7 +102,9 @@ export default defineComponent({
       "--fs-group-padding"     : sizeToVar(props.padding),
       "--fs-group-gap"         : sizeToVar(props.gap),
       "--fs-group-color"       : darks.soft,
-      "--fs-group-hover-color" : darks.dark
+      "--fs-group-hover-color" : darks.dark,
+      "--fs-group-width"       : sizeToVar(props.width),
+      "--fs-group-height"      : sizeToVar(props.height)
     }));
 
     const nextClasses = computed((): string[] => {
