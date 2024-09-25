@@ -8,6 +8,7 @@ export class ChartPreset {
   label: string;
   labelDefault: string;
   icon: string;
+  index: number;
   translations: ChartPresetTranslation[];
 
   constructor(params: ChartPresetDTO) {
@@ -17,6 +18,7 @@ export class ChartPreset {
     this.label = params.label;
     this.labelDefault = params.labelDefault;
     this.icon = params.icon;
+    this.index = params.index;
     this.translations = params.translations.map(t => new ChartPresetTranslation(t));
   }
 }
@@ -28,6 +30,7 @@ export interface ChartPresetDTO {
   label: string;
   labelDefault: string;
   icon: string;
+  index: number;
   translations: ChartPresetTranslationDTO[];
 }
 
@@ -36,5 +39,6 @@ export interface CreateChartPresetDTO {
   hiddenCode: string;
   labelDefault: string;
   icon: string;
+  index: number;
   translations: ChartPresetTranslationDTO[];
 }
