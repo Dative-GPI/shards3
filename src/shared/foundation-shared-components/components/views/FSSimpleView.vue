@@ -1,7 +1,7 @@
 <template>
   <FSBaseView
-    v-bind="$attrs"
     variant="default"
+    v-bind="$attrs"
   >
     <template
       v-for="(_, name) in $slots"
