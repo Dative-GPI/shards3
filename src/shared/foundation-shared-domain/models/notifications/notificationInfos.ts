@@ -5,7 +5,8 @@ export class NotificationInfos {
   id: string;
   title: string;
   body: string;
-  pageUrl: string;
+  acknowledgeUrl: string;
+  redirectUrl: string;
   audienceId: string;
   audienceScope: Scope;
   organisationId?: string;
@@ -20,7 +21,8 @@ export class NotificationInfos {
     this.id = params.id;
     this.title = params.title;
     this.body = params.body;
-    this.pageUrl = params.pageUrl;
+    this.acknowledgeUrl = params.acknowledgeUrl;
+    this.redirectUrl = params.redirectUrl;
     this.audienceId = params.audienceId;
     this.audienceScope = params.audienceScope as Scope;
     this.organisationId = params.organisationId;
@@ -38,7 +40,8 @@ export interface NotificationInfosDTO {
   id: string;
   title: string;
   body: string;
-  pageUrl: string;
+  acknowledgeUrl: string;
+  redirectUrl: string;
   audienceId: string;
   audienceScope: number;
   organisationId?: string;
