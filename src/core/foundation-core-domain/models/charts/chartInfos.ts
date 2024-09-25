@@ -13,6 +13,7 @@ export class ChartInfos {
   title: string;
   icon: string;
   code: string;
+  draft: boolean;
   tags: string[];
   multiple: boolean;
   chartType: ChartType;
@@ -28,6 +29,7 @@ export class ChartInfos {
     this.title = params.title;
     this.icon = params.icon;
     this.code = params.code;
+    this.draft = params.draft;
     this.tags = params.tags.slice();
     this.multiple = params.multiple;
     this.chartType = params.chartType;
@@ -45,6 +47,7 @@ export interface ChartInfosDTO {
   title: string;
   icon: string;
   code: string;
+  draft: boolean;
   tags: string[];
   multiple: boolean;
   chartType: ChartType;
