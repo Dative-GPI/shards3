@@ -16,7 +16,7 @@ export class ChartOrganisationTypeInfos {
   title: string;
   code: string;
   icon: string;
-  ready: boolean;
+  draft: boolean;
   tags: string[];
   multiple: boolean;
   chartType: ChartType;
@@ -35,7 +35,7 @@ export class ChartOrganisationTypeInfos {
     this.title = params.title;
     this.code = params.code;
     this.icon = params.icon;
-    this.ready = params.ready;
+    this.draft = params.draft;
     this.tags = params.tags.slice();
     this.multiple = params.multiple;
     this.chartType = params.chartType;
@@ -55,7 +55,7 @@ export interface ChartOrganisationTypeInfosDTO {
   title: string;
   code: string;
   icon: string;
-  ready: boolean;
+  draft: boolean;
   imageId: string | null;
   tags: string[];
   multiple: boolean;
@@ -67,6 +67,6 @@ export interface ChartOrganisationTypeFilters {
   modelsIds?: string[] | null;
   plotPer?: PlotPer | null;
   search?: string | null;
-  ready?: boolean | null;
+  draft?: boolean | null;
   deprecatedChartId?: string | null;
 }
