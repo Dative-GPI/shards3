@@ -21,11 +21,10 @@
       :border="false"
     >
       <FSCol
-        padding="16px 0px 24px 16px"
+        padding="24px"
         gap="12px"
       >
         <FSCol
-          padding="0 16px 0 0"
           gap="12px"
         >
           <FSSpan
@@ -35,7 +34,6 @@
           </FSSpan>
         </FSCol>
         <FSFadeOut
-          padding="0 8px 0 0"
           maxHeight="360px"
         >
           <FSCol

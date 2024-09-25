@@ -1,6 +1,6 @@
 <template>
   <FSBaseView
-    variant="entity"
+    variant="default"
     v-bind="$attrs"
   >
     <template
@@ -24,6 +24,6 @@ export default defineComponent({
   name: "FSEntityView",
   components: {
     FSBaseView
-  }
+  },
 });
 </script>

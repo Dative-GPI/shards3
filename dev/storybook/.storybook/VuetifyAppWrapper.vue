@@ -4,6 +4,7 @@
   >
     <v-main
       v-if="ready"
+      style="height:100%"
     >
       <slot
         name="story"
@@ -62,6 +63,7 @@ export default defineComponent({
 
 <style>
 .v-application__wrap {
-  min-height: fit-content;
+  min-height: unset!important;
+  height: calc(100vh - 32px)!important;
 }
 </style>

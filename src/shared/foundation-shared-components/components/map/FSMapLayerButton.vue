@@ -16,7 +16,6 @@
     >
       <FSRow
         align="center-center"
-        padding="0 16px 0 0"
       >
         <FSImageCard
           v-for="layer in layers"
