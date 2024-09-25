@@ -24,8 +24,7 @@
       <slot
         name="footer"
       >
-        <FSRow
-        >
+        <FSRow>
           <slot
             name="left-footer"
           />

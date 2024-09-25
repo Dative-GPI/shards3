@@ -82,7 +82,6 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { defineComponent, useSlots, type PropType, computed, ref } from "vue";
 
 import { type ColorBase } from "@dative-gpi/foundation-shared-components/models";

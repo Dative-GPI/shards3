@@ -63,8 +63,7 @@
           name="validation"
         />
       </FSFadeOut>
-      <FSRow
-      >
+      <FSRow>
         <slot
           name="left-footer"
         />
