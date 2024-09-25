@@ -127,6 +127,7 @@
         #body
       >
         <FSSearchField
+          :clearable="$props.clearable"
           :hideHeader="true"
           v-model="search"
         />
