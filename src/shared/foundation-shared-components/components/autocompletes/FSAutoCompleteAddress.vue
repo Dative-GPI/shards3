@@ -43,10 +43,8 @@ export default defineComponent({
       if(props.modelValue) {
         const currentPlace = addressToPlace(props.modelValue);
         const searchedPlaces = places.value.filter((place) => place.id !== currentPlace.id);
-        console.log([currentPlace, ...searchedPlaces]);
         return [currentPlace, ...searchedPlaces];
       }
-      console.log(places.value);
       return places.value;
     });
 
@@ -55,7 +53,6 @@ export default defineComponent({
         return Promise.resolve([]);
       }
       places.value = await searchAddress(search);
-      console.log("I find places", places.value);
       return Promise.resolve([]);
     };
 
