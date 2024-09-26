@@ -9,19 +9,19 @@
     >
       <FSChip
         :label="$tr('ui.common.alert', 'Alert')"
-        :prependIcon="statusIcon"
-        :color="criticityColor"
+        :prependIcon="AlertTools.statusIcon($props.deviceAlert?.status)"
+        :color="AlertTools.criticityColor($props.deviceAlert?.criticity)"
       />
       <FSCol
         align="center-center"
         gap="0px"
       >
         <FSText>
-          {{ $tr('ui.alert.status', 'Status') }} : {{ statusLabel }}
+          {{ $tr('ui.alert.status', 'Status') }} : {{ AlertTools.statusLabel($props.deviceAlert?.status) }}
         </FSText>
         <FSText
           font="text-button"
-          :color="criticityColor"
+          :color="AlertTools.criticityColor($props.deviceAlert?.criticity)"
         >
           {{ $props.deviceAlert.label }}
         </FSText>
@@ -46,11 +46,9 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { type FSDeviceAlert} from "@dative-gpi/foundation-shared-components/models";
-import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/enums";
+import { type FSDeviceAlert } from "@dative-gpi/foundation-shared-components/models";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { AlertTools } from "@dative-gpi/foundation-shared-components/tools";
 
 import FSButton from "../FSButton.vue";
 import FSCard from "../FSCard.vue";
@@ -81,41 +79,6 @@ export default defineComponent({
   emits: ["close"],
   setup(props) {
     const { epochToLongTimeFormat } = useDateFormat();
-    const { $tr } = useTranslationsProvider();
-
-    const criticityColor = computed(() => {
-      switch (props.deviceAlert?.criticity) {
-        case Criticity.Error: return ColorEnum.Error;
-        case Criticity.Warning: return ColorEnum.Warning;
-        default: return ColorEnum.Primary;
-      }
-    });
-
-    const statusIcon = computed(() => {
-      switch (props.deviceAlert?.status) {
-        case AlertStatus.Pending:     return "mdi-timer-outline";
-        case AlertStatus.Untriggered: return "mdi-timer-off-outline";
-        case AlertStatus.Unresolved:  return "mdi-alert-circle-outline";
-        case AlertStatus.Resolved:    return "mdi-check-circle-outline";
-        case AlertStatus.Expired:     return "mdi-clock-outline";
-        case AlertStatus.Triggered:   return "mdi-alert-circle-outline";
-        case AlertStatus.Abandoned:   return "mdi-cancel"
-        default:                      return "";
-      }
-    });
-
-    const statusLabel = computed(() => {
-      switch (props.deviceAlert?.status) {
-        case AlertStatus.Pending:     return $tr("ui.alert-status.pending", "Pending");
-        case AlertStatus.Untriggered: return $tr("ui.alert-status.untriggered", "Untriggered");
-        case AlertStatus.Unresolved:  return $tr("ui.alert-status.unresolved", "Unresolved");
-        case AlertStatus.Resolved:    return $tr("ui.alert-status.resolved", "Resolved");
-        case AlertStatus.Expired:     return $tr("ui.alert-status.expired", "Expired");
-        case AlertStatus.Triggered:   return $tr("ui.alert-status.triggered", "Triggered");
-        case AlertStatus.Abandoned:   return $tr("ui.alert-status.abandoned", "Abandoned");
-        default:                      return "";
-      }
-    });
 
     const deviceTimestamp = computed((): string => {
       if (props.deviceAlert.sourceTimestamp) {
@@ -126,9 +89,7 @@ export default defineComponent({
 
     return {
       deviceTimestamp,
-      criticityColor,
-      statusLabel,
-      statusIcon
+      AlertTools
     };
   }
 });
