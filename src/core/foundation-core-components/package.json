@@ -17,7 +17,7 @@
     "@dative-gpi/foundation-shared-services": "1.0.0"
   },
   "peerDependencies": {
-    "@dative-gpi/bones-ui": "^0.0.75",
+    "@dative-gpi/bones-ui": "^1.0.0",
     "color": "^4.2.3",
     "vue": "^3.4.29"
   },

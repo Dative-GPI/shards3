@@ -1,5 +1,6 @@
 <template>
   <v-breadcrumbs
+    class="fs-breadcrumbs"
     :items="$props.items"
     :style="style"
     v-bind="$attrs"

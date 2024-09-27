@@ -12,16 +12,13 @@
         gap="24px"
       >
         <FSFadeOut
-          padding="0 8px 0 0"
           :maxHeight="maxHeight"
         >
           <slot
             name="body"
           />
         </FSFadeOut>
-        <FSRow
-          padding="0 16px 0 0"
-        >
+        <FSRow>
           <slot
             name="left-footer"
           />
@@ -60,16 +57,13 @@
       gap="24px"
     >
       <FSFadeOut
-        padding="0 8px 0 0"
         :maxHeight="maxHeight"
       >
         <slot
           name="validation"
         />
       </FSFadeOut>
-      <FSRow
-        padding="0 16px 0 0"
-      >
+      <FSRow>
         <slot
           name="left-footer"
         />

@@ -9,41 +9,56 @@ const meta = {
   component: FSAutocompleteAddress,
   tags: ['autodocs'],
   argTypes: {
-    onClick: { action: 'clicked' }
+    "onUpdate:modelValue": { action: "update:modelValue" }
   },
 } satisfies Meta<typeof FSAutocompleteAddress>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Variations: Story = {
+export const Default: Story = {
   args: {
-    args: {
-      value1: null,
-      value2: new Address({
-        placeId: "ChIJg7vu-43P9EcRRNrbyDxFMDY",
-        placeLabel: 'Dative, Rue de Norvège, Colombier-Saugnieu, France',
-        formattedAddress: ' 100 Rue de Norvège, 69125 Colombier-Saugnieu',
-        locality: 'Colombier-Saugnieu',
-        country: 'France',
-        latitude: 45.711741,
-        longitude: 5.071675
-      })
-    }
+    modelValue: new Address({
+      placeId: "ChIJg7vu-43P9EcRRNrbyDxFMDY",
+      placeLabel: 'Dative, Rue de Norvège, Colombier-Saugnieu, France',
+      formattedAddress: ' 100 Rue de Norvège, 69125 Colombier-Saugnieu',
+      locality: 'Colombier-Saugnieu',
+      country: 'France',
+      latitude: 45.711741,
+      longitude: 5.071675
+    })
   },
   render: (args, { argTypes }) => ({
     components: { FSAutocompleteAddress, FSCol },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      return { args };
     },
     template: `
     <FSCol>
       <FSAutocompleteAddress
-        v-model="args.value1"
+        v-model="args.modelValue"
+        @update:modelValue="args['onUpdate:modelValue']"
       />
+    </FSCol>`
+  })
+}
+
+export const VariationEmpty: Story = {
+  args: {
+    modelValue: null
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSAutocompleteAddress, FSCol },
+    props: Object.keys(argTypes),
+    setup() {
+      return { args };
+    },
+    template: `
+    <FSCol>
       <FSAutocompleteAddress
-        v-model="args.value2"
+        v-model="args.modelValue"
+        @update:modelValue="args['onUpdate:modelValue']"
       />
     </FSCol>`
   })

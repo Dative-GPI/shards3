@@ -16,21 +16,15 @@
     }
 }
 
-.fs-breadcrumbs-divider {
-    margin-bottom: 2px !important;
-}
+// .fs-breadcrumbs-divider {
+//     margin-bottom: 2px !important;
+// }
 
-.v-breadcrumbs {
+.fs-breadcrumbs.v-breadcrumbs {
+    line-height: normal!important;
     padding: 0 !important;
     gap: 8px !important;
-
-    @include web {
-        height: 24px;
-    }
-
-    @include mobile {
-        height: 20px;
-    }
+    height: 20px;
 }
 
 .v-breadcrumbs-item {

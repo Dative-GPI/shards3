@@ -1,6 +1,6 @@
 <template>
   <FSCard
-    padding="24px 8px 24px 24px"
+    padding="24px"
     gap="24px"
     :class="$props.cardClasses"
     :color="$props.color"
@@ -9,9 +9,7 @@
     <template
       #header
     >
-      <FSCol
-        padding="0 16px 0 0"
-      >
+      <FSCol>
         <FSRow
           align="center-left"
           :wrap="false"

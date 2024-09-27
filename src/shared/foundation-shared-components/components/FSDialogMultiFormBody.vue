@@ -22,16 +22,13 @@
           gap="24px"
         >
           <FSFadeOut
-            padding="0 8px 0 0"
             :maxHeight="maxHeight"
           >
             <slot
               :name="`step-${step}`"
             />
           </FSFadeOut>
-          <FSRow
-            padding="0 16px 0 0"
-          >
+          <FSRow>
             <slot
               name="left-footer"
             />

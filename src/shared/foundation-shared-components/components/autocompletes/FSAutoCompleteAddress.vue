@@ -3,8 +3,8 @@
     :clearable="false"
     :toggleSet="false"
     :multiple="false"
-    :items="places"
-    :modelValue="modelValuePlace"
+    :items="items"
+    :modelValue="$props.modelValue?.placeId"
     @update:modelValue="onUpdate"
     v-model:search="search"
     v-bind="$attrs"
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 import { type Address, type Place } from "@dative-gpi/foundation-shared-domain/models";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
@@ -38,7 +38,15 @@ export default defineComponent({
     const { search: searchAddress, get: getAddress  } = useAddress();
 
     const places = ref<Place[]>([]);
-    const modelValuePlace = ref<Place | null>(null);
+
+    const items = computed(() => {
+      if(props.modelValue) {
+        const currentPlace = addressToPlace(props.modelValue);
+        const searchedPlaces = places.value.filter((place) => place.id !== currentPlace.id);
+        return [currentPlace, ...searchedPlaces];
+      }
+      return places.value;
+    });
 
     const fetch = async (search: string | null) => {
       if (search === null) {
@@ -69,7 +77,9 @@ export default defineComponent({
       (item) => (item).id,
       (item) => (item).label,
       true,
-      false
+      false,
+      0,
+      500
     );
 
     const addressToPlace = (address: Address): Place => {
@@ -79,23 +89,9 @@ export default defineComponent({
       };
     };
 
-    onMounted(() => {
-      if(!props.modelValue) {
-        return;
-      }
-      modelValuePlace.value = addressToPlace(props.modelValue);
-    });
-
-    watch(() => props.modelValue, (newValue) => {
-      if(!newValue) {
-        return;
-      }
-      modelValuePlace.value = addressToPlace(newValue);
-    });
-
     return {
-      modelValuePlace,
       places,
+      items,
       search,
       onUpdate
     };

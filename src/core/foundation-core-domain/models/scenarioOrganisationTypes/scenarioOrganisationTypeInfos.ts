@@ -18,6 +18,7 @@ export class ScenarioOrganisationTypeInfos {
   label: string;
   code: string;
   icon: string;
+  draft: boolean;
   tags: string[];
   chartStartDate: string;
   chartEndDate: string;
@@ -40,6 +41,7 @@ export class ScenarioOrganisationTypeInfos {
     this.label = params.label;
     this.code = params.code;
     this.icon = params.icon;
+    this.draft = params.draft;
     this.chartStartDate = params.chartStartDate;
     this.chartEndDate = params.chartEndDate;
     this.tags = params.tags.slice();
@@ -64,6 +66,7 @@ export interface ScenarioOrganisationTypeInfosDTO {
   label: string;
   code: string;
   icon: string;
+  draft: boolean;
   tags: string[];
   chartStartDate: string;
   chartEndDate: string;
@@ -73,4 +76,5 @@ export interface ScenarioOrganisationTypeInfosDTO {
 
 export interface ScenarioOrganisationTypeFilters {
   modelId?: string | null;
+  draft?: boolean | null;
 }
