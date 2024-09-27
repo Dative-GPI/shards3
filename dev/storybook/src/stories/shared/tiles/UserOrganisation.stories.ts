@@ -19,17 +19,20 @@ export const Variations: Story = {
     args: {
       values: [{
         id: "1",
+        imageId: "1",
         name: "Jean-Michel Quelqu'un",
         admin: true
       }, {
         id: "2",
+        imageId: "1",
         name: "Jean-Michel Personne",
         roleLabel: "Red shirt",
         roleIcon: "mdi-cog",
         admin: false
       }, {
         id: "3",
-        name: "Juano Alphonso Santos de la Cruz de la Balina",
+        imageId: "1",
+        name: "Maxence-Louis Charles-Edouard Lancelot Meniolles d'Hautuille de la Bintinaye de Saint Hugues de Montparnasse",
         roleLabel: "User",
         roleIcon: "mdi-account-outline",
         admin: false
@@ -78,7 +81,7 @@ export const Imageless: Story = {
         admin: false
       }, {
         id: "3",
-        name: "Juano Alphonso Santos de la Cruz de la Balina",
+        name: "Maxence-Louis Charles-Edouard Lancelot Meniolles d'Hautuille de la Bintinaye de Saint Hugues de Montparnasse",
         roleLabel: "User",
         roleIcon: "mdi-account-outline",
         admin: false

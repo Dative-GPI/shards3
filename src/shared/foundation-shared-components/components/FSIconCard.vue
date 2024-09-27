@@ -58,7 +58,7 @@ export default defineComponent({
     iconColor: {
       type: String as PropType<ColorBase>,
       required: false,
-      default: ColorEnum.Primary
+      default: ColorEnum.Dark
     },
     iconVariant: {
       type: String as PropType<"base" | "baseContrast" | "soft" | "softContrast" | "light" | "lightContrast" | "dark" | "darkContrast">,
