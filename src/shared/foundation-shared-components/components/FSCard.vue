@@ -105,7 +105,7 @@ export default defineComponent({
     const { getColors, getGradients } = useColors();
 
     const colors = computed(() => {
-      if(Array.isArray(props.color)) {
+      if (Array.isArray(props.color)) {
         return getColors(props.color[0]);
       }
       return getColors(props.color);
@@ -114,6 +114,23 @@ export default defineComponent({
     const backgrounds = getColors(ColorEnum.Background);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
+
+    const borderColor = computed((): ColorBase => {
+      switch (props.variant) {
+        case "background":
+          return lights.dark;
+        case "standard"  :
+          if (Array.isArray(props.color)) {
+            return colors.value.lightContrast!;
+          }
+          if (([ColorEnum.Background, ColorEnum.Light, ColorEnum.Dark] as ColorBase[]).includes(props.color)) {
+            return lights.dark;
+          }
+          return colors.value.lightContrast!;
+        case "full"      : return colors.value.base;
+        case "gradient"  : return colors.value.lightContrast!;
+      }
+    });
 
     const style = computed((): StyleValue => {
       switch (props.variant) {
@@ -125,7 +142,7 @@ export default defineComponent({
           "--fs-card-height"          : sizeToVar(props.height),
           "--fs-card-width"           : sizeToVar(props.width),
           "--fs-card-background-color": backgrounds.base,
-          "--fs-card-border-color"    : lights.dark,
+          "--fs-card-border-color"    : borderColor.value,
           "--fs-card-color"           : darks.base
         }
         case "standard": return {
@@ -136,7 +153,7 @@ export default defineComponent({
           "--fs-card-height"          : sizeToVar(props.height),
           "--fs-card-width"           : sizeToVar(props.width),
           "--fs-card-background-color": colors.value.light,
-          "--fs-card-border-color"    : colors.value.lightContrast!,
+          "--fs-card-border-color"    : borderColor.value,
           "--fs-card-color"           : colors.value.lightContrast!
         }
         case "full": return {
@@ -147,7 +164,7 @@ export default defineComponent({
           "--fs-card-height"          : sizeToVar(props.height),
           "--fs-card-width"           : sizeToVar(props.width),
           "--fs-card-background-color": colors.value.base,
-          "--fs-card-border-color"    : colors.value.base,
+          "--fs-card-border-color"    : borderColor.value,
           "--fs-card-color"           : colors.value.baseContrast!
         }
         case "gradient": return {
@@ -158,7 +175,7 @@ export default defineComponent({
           "--fs-card-height"          : sizeToVar(props.height),
           "--fs-card-width"           : sizeToVar(props.width),
           "--fs-card-background-color": gradients.value.base,
-          "--fs-card-border-color"    : colors.value.lightContrast!,
+          "--fs-card-border-color"    : borderColor.value,
           "--fs-card-color"           : colors.value.lightContrast!
         }
       }

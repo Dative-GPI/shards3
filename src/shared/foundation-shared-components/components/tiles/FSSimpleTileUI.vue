@@ -44,7 +44,7 @@
           v-else-if="$props.icon"
           :backgroundVariant="$props.iconBackgroundVariant"
           :backgroundColor="$props.iconBackgroundColor"
-          :iconColor="$props.activeColor"
+          :iconColor="$props.iconColor"
           :border="$props.iconBorder"
           :icon="$props.icon"
           :size="imageSize"
@@ -111,6 +111,11 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       required: false,
       default: true
+    },
+    iconColor: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: ColorEnum.Dark
     },
     activeColor: {
       type: String as PropType<ColorBase>,
