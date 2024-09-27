@@ -84,7 +84,7 @@ export default defineComponent({
       "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : undefined,
       "--fs-fade-out-width"             : sizeToVar(props.width),
       "--fs-fade-out-padding"           : sizeToVar(props.padding),
-      "--fs-fade-out-with-offset"       : props.scrollOutside ? '12px' : '0px',
+      "--fs-fade-out-width-offset"       : props.scrollOutside ? '12px' : '0px',
       "--fs-fade-out-padding-offset"    : props.scrollOutside ? '4px' : '0px',
       "--fs-fade-out-mask-color"        : backgrounds.base,
       "--fs-fade-out-top-mask-height"   : props.disableTopMask ? '0px' : topMaskHeight.value,
