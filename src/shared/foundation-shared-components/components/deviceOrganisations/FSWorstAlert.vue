@@ -9,17 +9,17 @@
     >
       <FSBadge
         :content="badgeLabel"
-        :color="AlertTools.criticityColor($props.deviceWorstAlert.criticity)"
+        :color="AlertTools.criticityColor($props.deviceWorstAlert?.criticity)"
       >
         <FSColorIcon
           class="fs-stopclick"
           :padding="$props.padding"
-          :color="AlertTools.criticityColor($props.deviceWorstAlert.criticity)"
+          :color="AlertTools.criticityColor($props.deviceWorstAlert?.criticity)"
           :size="$props.size"
           @click.prevent.stop
           v-bind="props"
         >
-          {{ AlertTools.statusIcon($props.deviceWorstAlert.status) }}
+          {{ AlertTools.statusIcon($props.deviceWorstAlert?.status) }}
         </FSColorIcon>
       </FSBadge>
     </template>
