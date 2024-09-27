@@ -9,16 +9,17 @@
     >
       <FSBadge
         :content="badgeLabel"
-        :color="AlertTools.criticityColor($props.deviceWorstAlert?.criticity)"
+        :color="AlertTools.criticityColor($props.deviceWorstAlert.criticity)"
       >
         <FSColorIcon
           class="fs-stopclick"
-          size="m"
-          :color="AlertTools.criticityColor($props.deviceWorstAlert?.criticity)"
+          :padding="$props.padding"
+          :color="AlertTools.criticityColor($props.deviceWorstAlert.criticity)"
+          :size="$props.size"
           @click.prevent.stop
           v-bind="props"
         >
-          {{ AlertTools.statusIcon($props.deviceWorstAlert?.status) }}
+          {{ AlertTools.statusIcon($props.deviceWorstAlert.status) }}
         </FSColorIcon>
       </FSBadge>
     </template>
@@ -61,6 +62,14 @@ export default defineComponent({
       type: Function,
       required: false,
       default: null
+    },
+    size: {
+      type: [Array, String, Number] as PropType<"s" | "m" | "l" | string[] | number[] | string | number | null>,
+      default: "m"
+    },
+    padding: {
+      type: [String, Number] as PropType<string | number>,
+      default: "8px"
     }
   },
   setup(props) {
