@@ -9,7 +9,7 @@
     :entityType="$props.entityType"
     :allowedEntityTypes="$props.allowedEntityTypes || []"
     :itemsCount="($props.modelValue || []).length"
-    @update:entityType="$emit('update:entityType', $event); $emit('update:modelValue', [])"
+    @update:entityType="onEntityTypeChanged"
     :showEntities="$props.showEntities"
     :showCount="$props.showCount"
     @click:select="dialog = true"
@@ -19,7 +19,7 @@
     >
       <FSSimpleEntitiesList
         :entity-type="$props.entityType"
-        :filters="listComponentFilters"
+        :filters="simpleListFilters"
         :showEdit="false"
         @click:remove="onRemove"
       />
@@ -40,7 +40,7 @@ import { defineComponent, ref, type PropType, computed } from "vue";
 
 import { EntityType } from "@dative-gpi/foundation-shared-domain/enums";
 
-import type { DeviceOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
+import type { DashboardOrganisationFilters, DashboardOrganisationTypeFilters, DeviceOrganisationFilters, FolderFilters, GroupFilters, LocationFilters, ModelFilters, UserOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import FSEntityFieldUI from "@dative-gpi/foundation-shared-components/components/fields/FSEntityFieldUI.vue";
 
@@ -120,29 +120,64 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:modelValue", "update:entityType"],
+  emits: ["update","update:modelValue", "update:entityType"],
   setup(props, { emit }) {
     const dialog = ref(false);
 
-    const listComponentFilters = computed(() => {
+    const simpleListFilters = computed(() => {
       switch(props.entityType) {
         case EntityType.Device:
           return { 
             deviceOrganisationsIds: props.modelValue
           } satisfies DeviceOrganisationFilters;
+        case EntityType.Dashboard:
+          return {
+            dashboardOrganisationsIds: props.modelValue,
+            dashboardOrganisationTypesIds: props.modelValue
+          } satisfies DashboardOrganisationFilters & DashboardOrganisationTypeFilters;
+        case EntityType.Group:
+          return {
+            groupsIds: props.modelValue
+          } satisfies GroupFilters;
+        case EntityType.Folder:
+          return {
+            foldersIds: props.modelValue
+          } satisfies FolderFilters;
+        case EntityType.Location:
+          return {
+            locationsIds: props.modelValue
+          } satisfies LocationFilters;
+        case EntityType.User:
+          return {
+            userOrganisationsIds: props.modelValue
+          } satisfies UserOrganisationFilters;
+        case EntityType.Model:
+          return {
+            modelsIds: props.modelValue
+          } satisfies ModelFilters;
         default:
-          return {};
+          return undefined;
       };
-    });
+    })
 
     const onRemove = (id: string) => {
       emit("update:modelValue", props.modelValue.filter((i) => i !== id));
     }
 
+    const onEntityTypeChanged = (entityType: EntityType) => {
+      emit('update:entityType', entityType); 
+      emit('update:modelValue', []);
+      emit("update", {
+        entityType,
+        modelValue: []
+      })
+    }
+
     return {
       dialog,
-      listComponentFilters,
-      onRemove
+      simpleListFilters,
+      onRemove,
+      onEntityTypeChanged
     }
   }
 });
