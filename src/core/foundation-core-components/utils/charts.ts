@@ -25,7 +25,7 @@ export const aggregationTypeLabel = (aggregationType : AggregationType): string 
   switch (aggregationType) {
     case AggregationType.Sum:        return $tr("ui.common.sum", "Sum");
     case AggregationType.Cardinal:   return $tr("ui.common.cardinal", "Cardinal");
-    case AggregationType.Mean:       return $tr("ui.common.cean", "Mean");
+    case AggregationType.Mean:       return $tr("ui.common.mean", "Mean");
     case AggregationType.Median:     return $tr("ui.common.median", "Median");
     case AggregationType.First:      return $tr("ui.common.first", "First");
     case AggregationType.Last:       return $tr("ui.common.last", "Last");

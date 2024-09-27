@@ -259,7 +259,7 @@ export default defineComponent({
         $tr('ui.common.monday-short', 'MON'),
         $tr('ui.common.tuesday-short', 'TUE'),
         $tr('ui.common.wednesday-short', 'WED'),
-        $tr('uui.common.thursday-short', 'THU'),
+        $tr('ui.common.thursday-short', 'THU'),
         $tr('ui.common.friday-short', 'FRI'),
         $tr('ui.common.saturday-short', 'SAT')
       ];
