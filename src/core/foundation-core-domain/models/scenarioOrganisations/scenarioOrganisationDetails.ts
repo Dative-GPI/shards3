@@ -91,8 +91,8 @@ export interface ScenarioOrganisationDetailsDTO extends ScenarioOrganisationInfo
 }
 
 export interface CreateScenarioOrganisationDTO {
-  modelId: string;
-  dataCategoryId: string;
+  modelId: string | null;
+  dataCategoryId: string | null;
   dataDefinitionId: string | null;
   groupByIds: string[];
   metadataIds: string[];
