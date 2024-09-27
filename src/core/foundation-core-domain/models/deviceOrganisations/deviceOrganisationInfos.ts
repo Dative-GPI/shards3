@@ -29,6 +29,7 @@ export class DeviceOrganisationInfos {
   groupIcon: string | null;
   label: string;
   code: string;
+  description: string;
   imageId: string | null;
   tags: string[];
   unrestricted: boolean;
@@ -66,6 +67,7 @@ export class DeviceOrganisationInfos {
     this.groupIcon = params.groupIcon;
     this.label = params.label;
     this.code = params.code;
+    this.description = params.description;
     this.imageId = params.imageId;
     this.tags = params.tags.slice();
     this.unrestricted = params.unrestricted;
@@ -102,6 +104,7 @@ export interface DeviceOrganisationInfosDTO {
   groupIcon: string | null;
   label: string;
   code: string;
+  description: string;
   imageId: string | null;
   tags: string[];
   unrestricted: boolean;

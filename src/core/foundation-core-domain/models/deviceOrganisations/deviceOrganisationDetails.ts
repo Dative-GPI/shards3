@@ -9,7 +9,6 @@ export class DeviceOrganisationDetails extends DeviceOrganisationInfos {
     articleCode: string;
     familyId: string;
     familyLabel: string;
-    description: string;
     options: DeviceOrganisationOption[];
     path: PathCrumb[];
 
@@ -19,7 +18,6 @@ export class DeviceOrganisationDetails extends DeviceOrganisationInfos {
         this.articleCode = params.articleCode;
         this.familyId = params.familyId;
         this.familyLabel = params.familyLabel;
-        this.description = params.description;
         this.options = params.options.map(dto => new DeviceOrganisationOption({ ...dto }));
         this.path = params.path.map(dto => new PathCrumb({ ...dto })).sort((a, b) => b.index - a.index);
     }
@@ -29,7 +27,6 @@ export interface DeviceOrganisationDetailsDTO extends DeviceOrganisationInfosDTO
     articleCode: string;
     familyId: string;
     familyLabel: string;
-    description: string;
     options: DeviceOrganisationOptionDTO[];
     path: PathCrumbDTO[];
 }
