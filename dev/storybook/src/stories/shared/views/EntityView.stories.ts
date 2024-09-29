@@ -6,6 +6,7 @@ import FSEntityView from "@dative-gpi/foundation-shared-components/components/vi
 import FSButtonEdit from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonEdit.vue";
 import FSButtonRemove from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRemove.vue";
 import FSLoader from '@dative-gpi/foundation-shared-components/components/FSLoader.vue';
+import FSImage from '@dative-gpi/foundation-shared-components/components/FSImage.vue';
 import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
 
 import { ColorEnum } from '@dative-gpi/foundation-shared-components/models';
@@ -133,5 +134,58 @@ export const Variation2: Story = {
         />
       </div>
     </div>`
+  })
+}
+export const ExtensionMock: Story = {
+  args: {
+    title: 'Extension',
+    subtitle: 'subtitle extttttttttt',
+    description: 'Description d\'une extension Lorem Ipsum en maquettes.',
+    imageId: '1',
+    imageCover: true,
+    icon: 'mdi-chemical-weapon',
+    color: ColorEnum.Primary,
+    iconBackgroundColors: undefined,
+    breadcrumbs: [
+      { title: 'Lorem', to: '/' },
+      { title: 'MIZAR CDC', disabled: true }
+    ],
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSEntityView, FSButtonEdit, FSButtonRemove, FSLoader, FSCol, FSImage },
+    props: Object.keys(argTypes),
+    setup() { 
+      return { args };
+    },
+    template: `
+        <FSEntityView v-bind="args">
+          <template #toolbar>
+            <FSButtonEdit />
+            <FSButtonRemove />
+          </template>
+
+          <template 
+            #image="{ actualImageSize }"
+          >
+            <FSImage
+              :imageId="args.imageId"
+              :cover="args.imageCover"
+              :height="actualImageSize"
+              :width="actualImageSize"
+            />
+          </template>
+
+          <FSCol gap="32px">
+            <template v-for="n in 5" :key="n">
+              <FSCol gap="16px">
+                <FSLoader variant="text-h3" />
+                <FSCol>
+                  <FSLoader v-for="j in 4" variant="text-body" />
+                </FSCol>
+              </FSCol>
+            </template>
+          </FSCol>
+        </FSEntityView>
+      `
   })
 }

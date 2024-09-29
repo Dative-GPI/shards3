@@ -11,13 +11,21 @@
         gap="24px"
         :wrap="false"
       >
-        <FSImage 
+        <template 
           v-if="$props.imageId"
-          :imageId="$props.imageId"
-          :cover="$props.imageCover"
-          :height="actualImageSize"
-          :width="actualImageSize"
-        />
+        >
+          <slot
+            name="image"
+            v-bind="{ actualImageSize }"
+          >
+            <FSImage
+              :imageId="$props.imageId"
+              :cover="$props.imageCover"
+              :height="actualImageSize"
+              :width="actualImageSize"
+            />
+          </slot>
+        </template>
         <FSIconCard
           v-else-if="$props.icon"
           :backgroundVariant="$props.iconBackgroundVariant"
