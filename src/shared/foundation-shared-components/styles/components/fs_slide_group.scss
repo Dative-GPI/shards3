@@ -2,6 +2,8 @@
     height: var(--fs-group-height);
     width: var(--fs-group-width);
     max-width: 100%;
+    margin: -1px;
+    padding: 1px;
 
     & > .v-slide-group__container > .v-slide-group__content {
         // margin: 0 2px 1px 0 !important;
