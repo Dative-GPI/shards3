@@ -54,3 +54,43 @@ const BaseStory: Story = {
 }
 
 export const Default = BaseStory;
+
+export const DragAndDrop: Story = {
+  args: {
+    items: [
+      {
+        id: "1",
+        imageId: "1",
+        label: "Test 1"
+      },
+      {
+        id: "2",
+        imageId: "2",
+        label: "Test 2"
+      },
+      {
+        id: "3",
+        icon: "mdi-account",
+        label: "Test 3"
+      },
+      {
+        id: "4",
+        label: "Test 4"
+      },
+    ],
+    showDraggable: true,
+  },
+  render: (args) => ({
+    components: { FSSimpleList },
+    setup() {
+
+      return { args };
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
+        <FSSimpleList
+          v-bind="args"
+        />
+    </div>`
+  })
+}

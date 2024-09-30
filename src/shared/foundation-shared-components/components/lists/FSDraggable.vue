@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, type PropType } from "vue";
 
 import FSRow from "../FSRow.vue";
 
@@ -24,11 +24,11 @@ export default defineComponent({
   props: {
     elementSelector: {
       type: String,
-      default: null
+      required: true
     },
     item: {
-      type: Object,
-      default: null
+      type: Object as PropType<{index: number}>,
+      required: true
     },
     disabled: {
       type: Boolean,
@@ -74,7 +74,7 @@ export default defineComponent({
           const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
           dragged.classList.add("fs-draggable-dragging");
           dragged.classList.add("fs-draggable-dragging-grabbegin");
-          dragged.dataset.initialIndex = props.item.index;
+          dragged.dataset.initialIndex = `${props.item.index}`;
           event.preventDefault();
         }
       }, mobileGrabThreshold);
@@ -171,7 +171,7 @@ export default defineComponent({
         return;
       }
       const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
-      dragged.dataset.initialIndex = props.item.index;
+      dragged.dataset.initialIndex = `${props.item.index}`;
       event.dataTransfer?.setDragImage(dragged, 25, 25);
       
       if (event.dataTransfer) {

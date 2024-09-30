@@ -31,12 +31,17 @@
           v-else
         >
           <FSTile
-            v-for="item in filteredItems"
+            v-for="(item, index) in filteredItems"
             :key="item.id"
+            class="fs-simple-list-tile"
             v-bind="tileProps(item)"
             :width="$props.direction == 'row' ? 'fit-content' : '100%'"
             height="fit-content"
             :editable="false"
+            @dragover="(event) => onDragOver(event, '.fs-draggable-item', '.fs-data-iterator-container')"
+            @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
+            @dragleave="onDragLeave"
+            @dragover.prevent
           >
             <slot
               name="item"
@@ -47,9 +52,14 @@
                 height="24px"
                 :wrap="false"
               >
-                <FSButtonDragIcon
+                <FSDraggable
                   v-if="showDraggable"
-                />
+                  elementSelector=".fs-simple-list-tile"
+                  :disabled="actualSearch !== null && actualSearch !== ''"
+                  :item="{ ...item,  index }"
+                >
+                  <FSButtonDragIcon/>
+                </FSDraggable>
                 <slot
                   name="itemContent"
                   :item="item"
@@ -110,6 +120,7 @@ import FSImage from "../FSImage.vue";
 import FSLoader from "../FSLoader.vue";
 import FSTile from "../tiles/FSTile.vue";
 import FSFadeOut from "../FSFadeOut.vue";
+import FSDraggable from './FSDraggable.vue';
 import FSSearchField from "../fields/FSSearchField.vue";
 import FSButtonEditIcon from "../buttons/FSButtonEditIcon.vue";
 import FSButtonDragIcon from "../buttons/FSButtonDragIcon.vue";
@@ -126,6 +137,7 @@ export default defineComponent({
     FSImage,
     FSLoader,
     FSFadeOut,
+    FSDraggable,
     FSSearchField,
     FSButtonEditIcon,
     FSButtonDragIcon,
@@ -210,6 +222,18 @@ export default defineComponent({
       }
     }
 
+    const onDragEnd = (event: DragEvent) => {
+      console.log('drag end', event);
+    }
+
+    const onDragOver = (event: DragEvent, draggableSelector: string, containerSelector: string) => {
+      console.log('drag over', event);
+    }
+
+    const onDrop = (event: DragEvent, item: any, draggableSelector: string) => {
+      console.log('drop', event, item);
+    }
+
     watch(() => props.search, (value) => {
       actualSearch.value = value;
     });
@@ -218,6 +242,9 @@ export default defineComponent({
       actualSearch,
       filteredItems,
       ColorEnum,
+      onDragEnd,
+      onDragOver,
+      onDrop,
       onSearch,
       FSRow,
       FSCol,
