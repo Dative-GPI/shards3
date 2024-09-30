@@ -1,14 +1,17 @@
 <template>
   <FSRow>
-    <FSMonthSelector 
+    <FSSimpleMonthSelector 
+      width="hug"
       :year="$props.year"
       :month="$props.month"
       @update:year="$emit('update:year', $event)"
       @update:month="$emit('update:month', $event)"
+      @update="$emit('update', $event)"
     />
     <FSButton
       :label="$tr('ui.common.today', 'Today')"
       icon="mdi-calendar-today"
+      @click="onToday"
     />
   </FSRow>
 </template>
@@ -19,14 +22,14 @@ import { defineComponent } from "vue";
 import FSRow from "../FSRow.vue";
 import FSButton from "../FSButton.vue";
 
-import FSMonthSelector from "./FSMonthSelector.vue";
+import FSSimpleMonthSelector from "./FSSimpleMonthSelector.vue";
 
 export default defineComponent({
   name: "FSCalendarHeader",
   components: {
     FSRow,
     FSButton,
-    FSMonthSelector
+    FSSimpleMonthSelector
   },
   props: {
     year: {
@@ -38,8 +41,20 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    
+  setup(_props, { emit }) {
+    const onToday = () => {
+      const now = new Date();
+      emit("update:year", now.getFullYear());
+      emit("update:month", now.getMonth() + 1);
+      emit("update", {
+        year: now.getFullYear(),
+        month: now.getMonth() + 1
+      });
+    };
+
+    return {
+      onToday
+    };
   }
 });
 </script>
