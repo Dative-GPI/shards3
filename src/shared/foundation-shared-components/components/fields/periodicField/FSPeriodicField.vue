@@ -85,10 +85,10 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const availablePeriod = [
-      { label: $tr("ui.periodicField.daily", "Daily")    , value: "daily"  , item: { default : "0 12 */1 * *"} },
-      { label: $tr("ui.periodicField.weekly", "Weekly")  , value: "weekly" , item: { default : "0 12 * * 1"} },
-      { label: $tr("ui.periodicField.monthly", "Monthly"), value: "monthly", item: { default : "0 12 1 * *"} },
-      { label: $tr("ui.periodicField.yearly", "Yearly")  , value: "yearly" , item: { default : "0 12 1 1 *"} }
+      { label: $tr("ui.periodicfield.daily", "Daily")    , value: "daily"  , item: { default : "0 12 */1 * *"} },
+      { label: $tr("ui.periodicfield.weekly", "Weekly")  , value: "weekly" , item: { default : "0 12 * * 1"} },
+      { label: $tr("ui.periodicfield.monthly", "Monthly"), value: "monthly", item: { default : "0 12 1 * *"} },
+      { label: $tr("ui.periodicfield.yearly", "Yearly")  , value: "yearly" , item: { default : "0 12 1 1 *"} }
     ];
     
     const selectedPeriod = ref("daily");

@@ -414,7 +414,7 @@
           >
             <FSButton
               variant="icon"
-              :label="$tr('ui.autocomplete.add-item', 'Add new item')"
+              :label="$tr('ui.autocomplete-field.add-item', 'Add new item')"
               :color="ColorEnum.Primary"
               @click="$emit('add:item', search)"
             />
