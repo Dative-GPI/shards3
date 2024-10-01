@@ -21,7 +21,7 @@ import { defineComponent } from "vue";
 import FSBaseView from "./FSBaseView.vue";
 
 export default defineComponent({
-  name: "FSEntityView",
+  name: "FSSimpleView",
   components: {
     FSBaseView
   },
