@@ -19,13 +19,13 @@ export const AlertTools = {
   },
   statusLabel(value: AlertStatus): string {
     switch (value) {
-      case AlertStatus.Pending: return $tr("ui.alert.pending", "Pending");
-      case AlertStatus.Untriggered: return $tr("ui.alert.untriggered", "Untriggered");
-      case AlertStatus.Unresolved: return $tr("ui.alert.unresolved", "Unresolved");
-      case AlertStatus.Resolved: return $tr("ui.alert.resolved", "Resolved");
-      case AlertStatus.Expired: return $tr("ui.alert.expired", "Expired");
-      case AlertStatus.Triggered: return $tr("ui.alert.triggered", "Triggered");
-      case AlertStatus.Abandoned: return $tr("ui.alert.abandoned", "Abandoned");
+      case AlertStatus.Pending: return $tr("ui.alert-status.pending", "Pending");
+      case AlertStatus.Untriggered: return $tr("ui.alert-status.untriggered", "Untriggered");
+      case AlertStatus.Unresolved: return $tr("ui.alert-status.unresolved", "Unresolved");
+      case AlertStatus.Resolved: return $tr("ui.alert-status.resolved", "Resolved");
+      case AlertStatus.Expired: return $tr("ui.alert-status.expired", "Expired");
+      case AlertStatus.Triggered: return $tr("ui.alert-status.triggered", "Triggered");
+      case AlertStatus.Abandoned: return $tr("ui.alert-status.abandoned", "Abandoned");
       default: return "";
     }
   },

@@ -59,7 +59,7 @@ export const filterTypeLabel = (filterType: FilterType | number): string => {
   switch (filterType) {
     case FilterType.Contains:    return $tr("ui.common.contains", "contains");
     case FilterType.Different:   return "≠";
-    case FilterType.EndsWith:    return $tr("ui.common.end-width", "end with") ;
+    case FilterType.EndsWith:    return $tr("ui.common.ends-with", "ends with") ;
     case FilterType.Equal:       return "=";
     case FilterType.Less:        return "<";
     case FilterType.LessOrEqual: return "≤";
