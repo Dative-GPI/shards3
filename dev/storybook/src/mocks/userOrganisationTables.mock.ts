@@ -397,7 +397,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "9",
         code: "alerts1",
-        mode: "iterator",
+        mode: null,
         rowsPerPage: 10,
         columns: [{
             columnId: "1",

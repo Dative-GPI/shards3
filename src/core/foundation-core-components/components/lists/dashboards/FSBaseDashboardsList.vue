@@ -102,6 +102,11 @@ export default defineComponent({
     FSDashboardShallowTileUI
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     dashboardOrganisationTypeFetchFilter: {
       type: Object as PropType<DashboardOrganisationTypeFilters>,
       default: undefined,
@@ -121,15 +126,11 @@ export default defineComponent({
       type: Function as PropType<(item: DashboardInfos) => Partial<RouteLocation>>,
       required: false
     },
-    tableCode: {
-      type: String,
-      required: true
-    },
     modelValue: {
       type: Array as PropType<string[]>,
       default: () => [],
       required: false
-    },
+    }
   },
   emits: ["update:modelValue", "update:type"],
   setup(props, { emit }) {

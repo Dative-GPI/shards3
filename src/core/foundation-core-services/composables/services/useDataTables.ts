@@ -33,7 +33,7 @@ export const useDataTables = () => {
     setTable: (tableCode: string, value: FSDataTable) => void,
     tableCode: string
   ): void => {
-    if (table.value) {
+    if (tableCode && table.value) {
       setTable(tableCode, table.value);
       updateUserOrganisationTable(tableCode, {
         columns: table.value.headers.map(column => ({
@@ -70,18 +70,15 @@ export const useDataTables = () => {
                 key: userOrganisationTable.value.sortByKey,
                 order: userOrganisationTable.value.sortByOrder
               },
-              mode: userOrganisationTable.value.mode,
+              mode: userOrganisationTable.value.mode ?? defaultMode,
               rowsPerPage: userOrganisationTable.value.rowsPerPage,
               filters: {},
               page: 1
             }
           }
-          else {
-            table.value.mode = defaultMode;
-          }
         }
         catch {
-          table.value.mode = defaultMode;
+          // Do nothing
         }
       }
     }

@@ -261,6 +261,11 @@ export default defineComponent({
     FSTermField,
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     alertFilters: {
       type: Object as PropType<AlertFilters>,
       required: false,
@@ -283,10 +288,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    },
-    tableCode: {
-      type: String,
-      required: true
     },
     itemTo: {
       type: Function as PropType<(item: AlertInfos) => Partial<RouteLocation>>,

@@ -96,6 +96,11 @@ export default defineComponent({
     FSDashboardOrganisationTypeTileUI
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     dashboardOrganisationTypeFilters: {
       type: Object as PropType<DashboardOrganisationTypeFilters>,
       default: undefined,
@@ -109,11 +114,7 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: false,
       default: () => []
-    },
-    tableCode: {
-      type: String,
-      required: true
-    },
+    }
   },
   setup(props) {
     const { getMany: getDashboardOrganisationTypes, fetching: fetchingDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
