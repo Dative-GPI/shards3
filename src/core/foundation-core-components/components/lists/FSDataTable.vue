@@ -41,6 +41,11 @@ export default defineComponent({
     FSDataTableUI
   },
   props: {
+    defaultMode: {
+      type: String as PropType<"table" | "iterator">,
+      required: false,
+      default: "table"
+    },
     tableCode: {
       type: String,
       required: true
@@ -82,7 +87,8 @@ export default defineComponent({
       onTableCodeChange(
         getUserOrganisationTable,
         getTable,
-        props.tableCode
+        props.tableCode,
+        props.defaultMode
       );
     }, { immediate: true });
 

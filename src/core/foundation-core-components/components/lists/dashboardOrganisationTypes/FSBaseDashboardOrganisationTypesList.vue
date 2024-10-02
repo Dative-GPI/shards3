@@ -1,5 +1,7 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
+    :loading="fetchingDashboardOrganisationTypes"
     :items="dashboardOrganisationTypes"
     :itemTo="$props.itemTo"
     :tableCode="$props.tableCode"
@@ -114,7 +116,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { getMany: getDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
+    const { getMany: getDashboardOrganisationTypes, fetching: fetchingDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
     const { fetch: fetchUserOrganisation, entity: userOrganisation } = useCurrentUserOrganisation();
     const { get: fetchOrganisation, entity: organisation } = useOrganisation();
     const { organisationId } = useAppOrganisationId();
@@ -154,6 +156,7 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
+      fetchingDashboardOrganisationTypes,
       userOrganisationMainDashboardId,
       organisationMainDashboardId,
       dashboardOrganisationTypes,

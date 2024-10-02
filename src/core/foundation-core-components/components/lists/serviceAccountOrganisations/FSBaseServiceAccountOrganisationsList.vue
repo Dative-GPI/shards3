@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :items="serviceAccountOrganisations"
     :itemTo="$props.itemTo"
     :loading="fetchingServiceAccountOrganisations"

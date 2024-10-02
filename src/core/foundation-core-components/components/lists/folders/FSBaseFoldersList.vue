@@ -1,7 +1,8 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :items="folders"
-    :item-to="$props.itemTo"
+    :itemTo="$props.itemTo"
     :loading="fetchingFolders"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
@@ -86,7 +87,6 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-
     const { entities: folders, fetching: fetchingFolders, getMany: getManyFolders } = useFolders();
 
     const onSelect = (values: string[]) => {

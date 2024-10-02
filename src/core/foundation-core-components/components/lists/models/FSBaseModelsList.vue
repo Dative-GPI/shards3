@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :singleSelect="$props.singleSelect"
     :showSelect="$props.editable"
     :tableCode="$props.tableCode"

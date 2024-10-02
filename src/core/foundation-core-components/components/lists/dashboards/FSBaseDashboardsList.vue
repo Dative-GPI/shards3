@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :items="items"
     :itemTo="$props.itemTo"
     :loading="fetchingDashboardOrganisationTypes || fetchingDashboardOrganisations || fetchingDashboardShallows"
