@@ -209,8 +209,9 @@ export default defineComponent({
   },
   props: {
     tableCode: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     deviceOrganisationFilters: {
       type: Object as PropType<DeviceOrganisationFilters>,

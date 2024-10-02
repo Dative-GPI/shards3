@@ -88,6 +88,11 @@ export default defineComponent({
     FSRow,
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     dataDefinitionFilters: {
       type: Object as PropType<DataDefinitionFilters>,
       required: false,
@@ -97,10 +102,6 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
       required: false
-    },
-    tableCode: {
-      type: String,
-      required: true
     }
   },
   emits: ["update:modelValue"],

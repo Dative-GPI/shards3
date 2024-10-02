@@ -63,6 +63,11 @@ export default defineComponent({
     FSIcon
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     locationsFilters: {
       type: Object as PropType<LocationFilters>,
       required: false,
@@ -73,11 +78,6 @@ export default defineComponent({
       required: false,
       default: true
     },
-    modelValue: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-      required: false
-    },
     itemTo: {
       type: Function as PropType<(item: LocationInfos) => Partial<RouteLocation>>,
       required: false
@@ -87,9 +87,10 @@ export default defineComponent({
       required: false,
       default: false
     },
-    tableCode: {
-      type: String,
-      required: true
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+      required: false
     }
   },
   emits: ["update:modelValue"],

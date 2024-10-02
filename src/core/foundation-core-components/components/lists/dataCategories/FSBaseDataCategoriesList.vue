@@ -109,6 +109,11 @@ export default defineComponent({
     FSIcon
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     dataCategoryFilters: {
       type: Object as PropType<DataCategoryFilters>,
       required: false,
@@ -118,10 +123,6 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
       required: false
-    },
-    tableCode: {
-      type: String,
-      required: true
     }
   },
   emits: ["update:modelValue"],

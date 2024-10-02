@@ -48,14 +48,15 @@ export default defineComponent({
     FSText
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     authTokensFilters: {
       type: Object as PropType<AuthTokenFilters | null>,
       required: false,
       default: null
-    },
-    tableCode: {
-      type: String,
-      required: true
     }
   },
   setup(props) {

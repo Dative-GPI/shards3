@@ -100,10 +100,10 @@ export default defineComponent({
     FSIcon
   },
   props: {
-    modelValue: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-      required: false
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     chartOrganisationFilters: {
       type: Object as PropType<ChartOrganisationFilters>,
@@ -115,9 +115,10 @@ export default defineComponent({
       required: false,
       default: null
     },
-    tableCode: {
-      type: String,
-      required: true
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+      required: false
     }
   },
   emits: ["update:modelValue", "update:scope"],

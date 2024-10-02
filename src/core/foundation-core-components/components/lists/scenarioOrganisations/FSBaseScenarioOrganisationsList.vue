@@ -60,8 +60,9 @@ export default defineComponent({
   },
   props: {
     tableCode: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     scenarioOrganisationFilters: {
       type: Object as PropType<ScenarioOrganisationFilters>,

@@ -7,7 +7,7 @@ export class UserOrganisationTableInfos {
     columns: UserOrganisationColumnInfos[];
 
     // Depends on [OrganisationType, UserOrganisation]
-    mode: "table" | "iterator";
+    mode: "table" | "iterator" | null;
     rowsPerPage: -1 | 10 | 30;
     sortByKey: string | null;
     sortByOrder: "asc" | "desc" | null;
@@ -26,7 +26,7 @@ export class UserOrganisationTableInfos {
 export interface UserOrganisationTableInfosDTO {
     id: string;
     code: string;
-    mode: "table" | "iterator";
+    mode: "table" | "iterator" | null;
     rowsPerPage: -1 | 10 | 30;
     sortByKey: string | null;
     sortByOrder: "asc" | "desc" | null;
