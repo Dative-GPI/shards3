@@ -52,7 +52,8 @@ export const useDataTables = () => {
   const onTableCodeChange = async (
     getUserOrganisationTable: (id: string) => Promise<Ref<UserOrganisationTableDetails | null>>,
     getTable: (tableCode: string) => FSDataTable | null,
-    tableCode: string
+    tableCode: string,
+    defaultMode: "table" | "iterator" = "table"
   ): Promise<void> => {
     if (tableCode) {
       const composableTable = getTable(tableCode);
@@ -75,9 +76,12 @@ export const useDataTables = () => {
               page: 1
             }
           }
+          else {
+            table.value.mode = defaultMode;
+          }
         }
         catch {
-          // Do nothing
+          table.value.mode = defaultMode;
         }
       }
     }

@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :loading="fetchingChartOrganisationTypes || fetchingChartOrganisations"
     :items="charts"
     :tableCode="$props.tableCode"
@@ -77,7 +78,7 @@
 import { defineComponent, type PropType, watch, computed } from "vue";
 import _ from "lodash";
 
-import {ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import type { ChartOrganisationFilters, ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 

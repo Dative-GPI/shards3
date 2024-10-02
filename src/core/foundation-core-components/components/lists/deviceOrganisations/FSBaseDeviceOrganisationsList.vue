@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :loading="fetchingDeviceOrganisations"
     :singleSelect="$props.singleSelect"
     :headersOptions="headersOptions"

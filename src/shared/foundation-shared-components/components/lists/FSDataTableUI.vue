@@ -832,7 +832,7 @@ export default defineComponent({
     mode: {
       type: String as PropType<"table" | "iterator">,
       required: false,
-      default: "iterator"
+      default: "table"
     },
     disableTable: {
       type: Boolean,
@@ -894,7 +894,7 @@ export default defineComponent({
     const innerSearch: Ref<string | null> = ref(null);
     const innerRowsPerPage = ref(props.rowsPerPage);
     const innerSortBy = ref(props.sortBy);
-    const innerMode = ref(props.mode);
+    const innerMode = ref(props.disableTable ? "iterator" : props.disableIterator ? "table" : props.mode);
     const innerPage = ref(props.page);
     const showFilters = ref(false);
     const resetable = ref(false);

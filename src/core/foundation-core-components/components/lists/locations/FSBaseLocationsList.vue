@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :loading="fetchingLocations"
     :items="locations"
     :showSelect="$props.editable"
