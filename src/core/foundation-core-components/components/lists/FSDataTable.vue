@@ -69,7 +69,7 @@ export default defineComponent({
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
 
-    const computedTable = computed(() => computeTable(props.headersOptions));
+    const computedTable = computed(() => computeTable(props.headersOptions, props.defaultMode));
 
     onUnmounted(() => {
       cancel();
@@ -78,7 +78,7 @@ export default defineComponent({
 
     const update = () => {
       if (props.tableCode) {
-        updateTable(updateUserOrganisationTable, setTable, props.tableCode);
+        updateTable(updateUserOrganisationTable, setTable, props.tableCode, props.defaultMode);
       }
     }
 

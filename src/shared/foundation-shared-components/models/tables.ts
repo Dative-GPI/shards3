@@ -37,7 +37,7 @@ export interface FSDataTableOrder {
 export interface FSDataTable {
   headers: FSDataTableColumn[];
   sortBy: FSDataTableOrder | null;
-  mode: "table" | "iterator";
+  mode: "table" | "iterator" | null;
   rowsPerPage: -1 | 10 | 30;
   filters: { [key: string]: FSDataTableFilter[] };
   page: number;

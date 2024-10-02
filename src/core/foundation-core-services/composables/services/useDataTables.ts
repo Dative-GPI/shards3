@@ -8,15 +8,19 @@ export const useDataTables = () => {
 
   const table = ref<FSDataTable>({
     headers: [],
-    mode: "iterator",
+    mode: null,
     sortBy: null,
     rowsPerPage: 10,
     filters: {},
     page: 1
   });
 
-  const computeTable = ((headersOptions: { [key: string]: Partial<FSDataTableColumn> }) => ({
+  const computeTable = (
+    headersOptions: { [key: string]: Partial<FSDataTableColumn> },
+    defaultMode: "table" | "iterator" = "table"
+  ) => ({
     ...table.value,
+    mode: table.value.mode ?? defaultMode,
     headers: table.value.headers.map(header => ({
       ...header,
       fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
@@ -26,12 +30,13 @@ export const useDataTables = () => {
       sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null ,
       innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null 
     }))
-  }));
+  });
 
   const updateTable = (
     updateUserOrganisationTable: (id: string, payload: UpdateUserOrganisationTableDTO) => Promise<Ref<UserOrganisationTableDetails>>,
     setTable: (tableCode: string, value: FSDataTable) => void,
-    tableCode: string
+    tableCode: string,
+    defaultMode: "table" | "iterator" = "table"
   ): void => {
     if (tableCode && table.value) {
       setTable(tableCode, table.value);
@@ -44,7 +49,7 @@ export const useDataTables = () => {
         rowsPerPage: table.value.rowsPerPage,
         sortByKey: table.value.sortBy?.key ?? null,
         sortByOrder: table.value.sortBy?.order ?? null,
-        mode: table.value.mode
+        mode: table.value.mode ?? defaultMode
       });
     }
   };
