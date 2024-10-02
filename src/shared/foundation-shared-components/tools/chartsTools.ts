@@ -10,7 +10,7 @@ export const chartTypeLabel = (value: ChartType): string => {
     case ChartType.Gauge: return $tr("ui.common.gauge", "Gauge");
     case ChartType.Heatmap: return $tr("ui.common.heatmap", "Heatmap");
     case ChartType.Pie: return $tr("ui.common.pie", "Pie");
-    case ChartType.ScoreCard: return $tr("ui.common.scorecard", "Scorecard");
+    case ChartType.ScoreCard: return $tr("ui.common.score-card", "Score card");
     case ChartType.Slider: return $tr("ui.common.slider", "Slider");
     case ChartType.Table: return $tr("ui.common.table", "Table");
     case ChartType.XY: return $tr("ui.common.xy", "XY");
