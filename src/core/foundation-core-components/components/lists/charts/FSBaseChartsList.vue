@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :loading="fetchingChartOrganisationTypes || fetchingChartOrganisations"
     :items="charts"
     :tableCode="$props.tableCode"
@@ -77,7 +78,7 @@
 import { defineComponent, type PropType, watch, computed } from "vue";
 import _ from "lodash";
 
-import {ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import type { ChartOrganisationFilters, ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 
@@ -99,10 +100,10 @@ export default defineComponent({
     FSIcon
   },
   props: {
-    modelValue: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-      required: false
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     chartOrganisationFilters: {
       type: Object as PropType<ChartOrganisationFilters>,
@@ -114,9 +115,10 @@ export default defineComponent({
       required: false,
       default: null
     },
-    tableCode: {
-      type: String,
-      required: true
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+      required: false
     }
   },
   emits: ["update:modelValue", "update:scope"],

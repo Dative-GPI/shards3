@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :singleSelect="$props.singleSelect"
     :showSelect="$props.editable"
     :tableCode="$props.tableCode"
@@ -99,8 +100,9 @@ export default defineComponent({
   },
   props: {
     tableCode: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     modelsFilters: {
       type: Object as PropType<ModelFilters>,

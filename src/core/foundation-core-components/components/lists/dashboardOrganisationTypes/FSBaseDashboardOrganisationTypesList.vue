@@ -1,5 +1,7 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
+    :loading="fetchingDashboardOrganisationTypes"
     :items="dashboardOrganisationTypes"
     :itemTo="$props.itemTo"
     :tableCode="$props.tableCode"
@@ -94,6 +96,11 @@ export default defineComponent({
     FSDashboardOrganisationTypeTileUI
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     dashboardOrganisationTypeFilters: {
       type: Object as PropType<DashboardOrganisationTypeFilters>,
       default: undefined,
@@ -107,14 +114,10 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: false,
       default: () => []
-    },
-    tableCode: {
-      type: String,
-      required: true
-    },
+    }
   },
   setup(props) {
-    const { getMany: getDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
+    const { getMany: getDashboardOrganisationTypes, fetching: fetchingDashboardOrganisationTypes, entities: dashboardOrganisationTypes } = useDashboardOrganisationTypes();
     const { fetch: fetchUserOrganisation, entity: userOrganisation } = useCurrentUserOrganisation();
     const { get: fetchOrganisation, entity: organisation } = useOrganisation();
     const { organisationId } = useAppOrganisationId();
@@ -154,6 +157,7 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
+      fetchingDashboardOrganisationTypes,
       userOrganisationMainDashboardId,
       organisationMainDashboardId,
       dashboardOrganisationTypes,

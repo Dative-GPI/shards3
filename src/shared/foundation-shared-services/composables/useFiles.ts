@@ -1,8 +1,12 @@
 import { FILE_URL } from "../config/urls";
 
+import { useAppAuthToken } from "@dative-gpi/foundation-shared-services/composables";
+
 export const useFiles = () => {
+  const { authToken } = useAppAuthToken();
+
   const downloadFile = (id: string): void => {
-    window.open(FILE_URL(id), "_blank");
+    window.open(FILE_URL(id, authToken.value), "_blank");
   };
 
   const readFile = (file: File): Promise<string | ArrayBuffer | null> => {

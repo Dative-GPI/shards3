@@ -45,7 +45,7 @@ import _ from "lodash";
 
 import { useTranslations } from "@dative-gpi/bones-ui";
 
-import {ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import type { ScenarioOrganisationFilters, ScenarioOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 
@@ -64,8 +64,9 @@ export default defineComponent({
   },
   props: {
     tableCode: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     scenarioOrganisationFilters: {
       type: Object as PropType<ScenarioOrganisationFilters>,

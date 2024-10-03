@@ -8,15 +8,19 @@ export const useDataTables = () => {
 
   const table = ref<FSDataTable>({
     headers: [],
-    mode: "iterator",
+    mode: null,
     sortBy: null,
     rowsPerPage: 10,
     filters: {},
     page: 1
   });
 
-  const computeTable = ((headersOptions: { [key: string]: Partial<FSDataTableColumn> }) => ({
+  const computeTable = (
+    headersOptions: { [key: string]: Partial<FSDataTableColumn> },
+    defaultMode: "table" | "iterator" = "table"
+  ) => ({
     ...table.value,
+    mode: table.value.mode ?? defaultMode,
     headers: table.value.headers.map(header => ({
       ...header,
       fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
@@ -26,14 +30,15 @@ export const useDataTables = () => {
       sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null ,
       innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null 
     }))
-  }));
+  });
 
   const updateTable = (
     updateUserOrganisationTable: (id: string, payload: UpdateUserOrganisationTableDTO) => Promise<Ref<UserOrganisationTableDetails>>,
     setTable: (tableCode: string, value: FSDataTable) => void,
-    tableCode: string
+    tableCode: string,
+    defaultMode: "table" | "iterator" = "table"
   ): void => {
-    if (table.value) {
+    if (tableCode && table.value) {
       setTable(tableCode, table.value);
       updateUserOrganisationTable(tableCode, {
         columns: table.value.headers.map(column => ({
@@ -44,7 +49,7 @@ export const useDataTables = () => {
         rowsPerPage: table.value.rowsPerPage,
         sortByKey: table.value.sortBy?.key ?? null,
         sortByOrder: table.value.sortBy?.order ?? null,
-        mode: table.value.mode
+        mode: table.value.mode ?? defaultMode
       });
     }
   };
@@ -52,7 +57,8 @@ export const useDataTables = () => {
   const onTableCodeChange = async (
     getUserOrganisationTable: (id: string) => Promise<Ref<UserOrganisationTableDetails | null>>,
     getTable: (tableCode: string) => FSDataTable | null,
-    tableCode: string
+    tableCode: string,
+    defaultMode: "table" | "iterator" = "table"
   ): Promise<void> => {
     if (tableCode) {
       const composableTable = getTable(tableCode);
@@ -69,7 +75,7 @@ export const useDataTables = () => {
                 key: userOrganisationTable.value.sortByKey,
                 order: userOrganisationTable.value.sortByOrder
               },
-              mode: userOrganisationTable.value.mode,
+              mode: userOrganisationTable.value.mode ?? defaultMode,
               rowsPerPage: userOrganisationTable.value.rowsPerPage,
               filters: {},
               page: 1

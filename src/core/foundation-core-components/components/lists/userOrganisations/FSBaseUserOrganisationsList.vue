@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :items="userOrganisations"
     :itemTo="$props.itemTo"
     :loading="fetchingUserOrganisations"
@@ -120,8 +121,9 @@ export default defineComponent({
   },
   props: {
     tableCode: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     userOrganisationsFilters: {
       type: Object as PropType<UserOrganisationFilters | null>,

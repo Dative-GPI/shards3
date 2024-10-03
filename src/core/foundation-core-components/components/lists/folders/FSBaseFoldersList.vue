@@ -1,7 +1,8 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :items="folders"
-    :item-to="$props.itemTo"
+    :itemTo="$props.itemTo"
     :loading="fetchingFolders"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
@@ -65,28 +66,28 @@ export default defineComponent({
     FSFolderTileUI
   },
   props: {
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    },
     foldersFilters: {
       type: Object as PropType<FolderFilters>,
       default: undefined,
+      required: false
+    },
+    itemTo: {
+      type: Function as PropType<(item: DashboardInfos) => Partial<RouteLocation>>,
       required: false
     },
     modelValue: {
       type: Array as PropType<string[]>,
       required: false,
       default: () => []
-    },
-    itemTo: {
-      type: Function as PropType<(item: DashboardInfos) => Partial<RouteLocation>>,
-      required: false
-    },
-    tableCode: {
-      type: String,
-      required: true
     }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-
     const { entities: folders, fetching: fetchingFolders, getMany: getManyFolders } = useFolders();
 
     const onSelect = (values: string[]) => {

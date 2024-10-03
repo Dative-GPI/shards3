@@ -1,6 +1,6 @@
 <template>
   <FSLoadDataTable
-    v-if="!initialized || gettingUserOrganisationTable"
+    v-if="($props.tableCode && !initialized) || gettingUserOrganisationTable"
   />
   <FSDataTableUI
     v-else
@@ -41,9 +41,15 @@ export default defineComponent({
     FSDataTableUI
   },
   props: {
+    defaultMode: {
+      type: String as PropType<"table" | "iterator">,
+      required: false,
+      default: "table"
+    },
     tableCode: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     debounceTime: {
       type: Number,
@@ -63,7 +69,7 @@ export default defineComponent({
     const { getTable, setTable } = useTables();
     const { debounce, cancel } = useDebounce();
 
-    const computedTable = computed(() => computeTable(props.headersOptions));
+    const computedTable = computed(() => computeTable(props.headersOptions, props.defaultMode));
 
     onUnmounted(() => {
       cancel();
@@ -71,19 +77,15 @@ export default defineComponent({
     });
 
     const update = () => {
-      updateTable(
-        updateUserOrganisationTable,
-        setTable,
-        props.tableCode
-      );
+      if (props.tableCode) {
+        updateTable(updateUserOrganisationTable, setTable, props.tableCode, props.defaultMode);
+      }
     }
 
     watch(() => props.tableCode, async (): Promise<void> => {
-      onTableCodeChange(
-        getUserOrganisationTable,
-        getTable,
-        props.tableCode
-      );
+      if (props.tableCode) {
+        onTableCodeChange(getUserOrganisationTable, getTable, props.tableCode, props.defaultMode);
+      }
     }, { immediate: true });
 
     watch(() => table.value, () => {

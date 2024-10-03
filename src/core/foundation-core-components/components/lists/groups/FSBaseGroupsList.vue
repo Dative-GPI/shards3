@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :loading="fetchingGroups"
     :items="groups"
     :showSelect="$props.editable"
@@ -90,8 +91,9 @@ export default defineComponent({
   },
   props: {
     tableCode: {
-      type: String,
-      required: true
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     groupsFilters: {
       type: Object as PropType<GroupFilters>,

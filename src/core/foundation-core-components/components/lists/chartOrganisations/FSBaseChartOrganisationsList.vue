@@ -100,10 +100,10 @@ export default defineComponent({
     FSChartTileUI
   },
   props: {
-    modelValue: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-      required: false
+    tableCode: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     },
     chartOrganisationFilters: {
       type: Object as PropType<ChartOrganisationFilters>,
@@ -115,12 +115,13 @@ export default defineComponent({
       required: false,
       default: PlotPer.None
     },
-    tableCode: {
-      type: String,
-      required: true
-    },
     itemTo: {
       type: Function as PropType<(item: ChartOrganisationInfos) => Partial<RouteLocation>>,
+      required: false
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      default: () => [],
       required: false
     }
   },
