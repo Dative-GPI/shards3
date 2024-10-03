@@ -15,7 +15,7 @@
       :maskHeight="0"
     >
       <component
-        :is="$props.direction == 'row' ? FSRow : $props.direction == 'wrap' ? FSSlideGroup :  FSCol"
+        :is="$props.direction == 'row' ? FSRow : $props.direction == 'slided' ? FSSlideGroup :  FSCol"
       >
         <template
           v-if="$props.loading"
@@ -23,7 +23,7 @@
           <FSLoader
             v-for="i in 4"
             :key="i"
-            :width="$props.direction == 'row' || $props.direction == 'wrap'? '220px' : '100%'"
+            :width="$props.direction == 'row' || $props.direction == 'slided'? '220px' : '100%'"
             height="50px"
           />
         </template>
@@ -34,7 +34,7 @@
             v-for="item in filteredItems"
             :key="item.id"
             v-bind="tileProps(item)"
-            :width="$props.direction == 'row' || $props.direction == 'wrap' ? 'fit-content' : '100%'"
+            :width="$props.direction == 'row' || $props.direction == 'slided' ? 'fit-content' : '100%'"
             height="fit-content"
             :editable="false"
           >
@@ -179,7 +179,7 @@ export default defineComponent({
       default: undefined
     },
     direction: {
-      type: String as PropType<"row" | "column" | "wrap">,
+      type: String as PropType<"row" | "column" | "slided">,
       required: false,
       default: "column"
     },
