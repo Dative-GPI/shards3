@@ -1,8 +1,8 @@
 <template>
   <FSClickable
     padding="16px"
-    height="124px"
-    width="275px"
+    :width="['275px','336px']"
+    :height="['124px','156px']"
     v-bind="$attrs"
   >
     <template

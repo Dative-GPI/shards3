@@ -20,7 +20,6 @@
     >
       <FSDataTable
         :loading="fetchingDataCategories"
-        :disableIterator="true"
         :items="dataCategories"
         :modelValue="$props.modelValue"
         :showSearch="false"
