@@ -68,6 +68,7 @@
         </template>
         <FSDateTimeRangeField
           v-else-if="innerDateSetting === DateSetting.Pick"
+          minWidth="180px"
           :rules="[DateRules.required()]"
           :editable="$props.editable"
           :hideHeader="true"

@@ -15,7 +15,7 @@
       :maskHeight="0"
     >
       <component
-        :is="$props.direction == 'row' ? FSRow : FSCol"
+        :is="$props.direction == 'row' ? FSRow : $props.direction == 'wrap' ? FSSlideGroup :  FSCol"
       >
         <template
           v-if="$props.loading"
@@ -23,7 +23,7 @@
           <FSLoader
             v-for="i in 4"
             :key="i"
-            :width="$props.direction == 'row' ? '220px' : '100%'"
+            :width="$props.direction == 'row' || $props.direction == 'wrap'? '220px' : '100%'"
             height="50px"
           />
         </template>
@@ -34,7 +34,7 @@
             v-for="item in filteredItems"
             :key="item.id"
             v-bind="tileProps(item)"
-            :width="$props.direction == 'row' ? 'fit-content' : '100%'"
+            :width="$props.direction == 'row' || $props.direction == 'wrap' ? 'fit-content' : '100%'"
             height="fit-content"
             :editable="false"
           >
@@ -110,6 +110,7 @@ import FSImage from "../FSImage.vue";
 import FSLoader from "../FSLoader.vue";
 import FSTile from "../tiles/FSTile.vue";
 import FSFadeOut from "../FSFadeOut.vue";
+import FSSlideGroup from "../FSSlideGroup.vue"
 import FSSearchField from "../fields/FSSearchField.vue";
 import FSButtonEditIcon from "../buttons/FSButtonEditIcon.vue";
 import FSButtonDragIcon from "../buttons/FSButtonDragIcon.vue";
@@ -126,6 +127,7 @@ export default defineComponent({
     FSImage,
     FSLoader,
     FSFadeOut,
+    FSSlideGroup,
     FSSearchField,
     FSButtonEditIcon,
     FSButtonDragIcon,
@@ -177,7 +179,7 @@ export default defineComponent({
       default: undefined
     },
     direction: {
-      type: String as PropType<"row" | "column">,
+      type: String as PropType<"row" | "column" | "wrap">,
       required: false,
       default: "column"
     },
@@ -219,6 +221,7 @@ export default defineComponent({
       filteredItems,
       ColorEnum,
       onSearch,
+      FSSlideGroup,
       FSRow,
       FSCol,
     }
