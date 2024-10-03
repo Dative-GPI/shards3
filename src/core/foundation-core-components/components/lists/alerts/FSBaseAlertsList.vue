@@ -35,15 +35,18 @@
       />
       <FSRow
         align="center-right"
-        width="hug"
       >
-        <FSTermField
-          variant="default"
-          :editable="!innerNotTreatedOnly"
-          :hideHeader="true"
-          v-model:startDate="startDate"
-          v-model:endDate="endDate"
-        />
+        <FSRow
+          width="hug"
+        >
+          <FSTermField
+            variant="default"
+            :editable="!innerNotTreatedOnly"
+            :hideHeader="true"
+            v-model:startDate="startDate"
+            v-model:endDate="endDate"
+          />
+        </FSRow>
       </FSRow>
     </template>
     <template
