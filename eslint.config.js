@@ -1,5 +1,6 @@
 import tseslint from "typescript-eslint";
 import pluginVue from "eslint-plugin-vue";
+import trKebabCaseRule from './eslint/rules/eslint-plugin-tr-kebab-case.js';
 
 export default tseslint.config(
   // eslint.configs.recommended,
@@ -8,6 +9,7 @@ export default tseslint.config(
   {
     plugins: {
       'typescript-eslint': tseslint.plugin,
+      'tr-kebab-case': trKebabCaseRule,
     },
     languageOptions: {
       parserOptions: {
@@ -78,7 +80,8 @@ export default tseslint.config(
           "singleline": "never",
           "multiline": "always"
         }
-      }]
+      }],
+      'tr-kebab-case/tr-kebab-case-tr': 'error',
     },
   }
 );
