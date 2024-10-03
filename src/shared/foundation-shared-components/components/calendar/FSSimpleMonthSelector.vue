@@ -43,7 +43,7 @@
 import { defineComponent, type PropType } from "vue";
 
 import { useTranslations } from "@dative-gpi/bones-ui";
-import { Months } from '@/shared/foundation-shared-domain/enums';
+import { Months } from '@dative-gpi/foundation-shared-domain/enums';
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSRow from "../FSRow.vue";
