@@ -40,9 +40,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 
 import { useTranslations } from "@dative-gpi/bones-ui";
+import { Months } from '@/shared/foundation-shared-domain/enums';
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSRow from "../FSRow.vue";
@@ -68,7 +69,7 @@ export default defineComponent({
       default: ColorEnum.Primary
     },
     month: {
-      type: Number,
+      type: Number as PropType<Months>,
       required: true
     },
     year: {
@@ -82,30 +83,30 @@ export default defineComponent({
 
     const monthToString = (month: number) => {
       switch(month) {
-        case 1:
-          return $tr("ui.common.january", "January");
-        case 2:
-          return $tr("ui.common.february", "February");
-        case 3:
-          return $tr("ui.common.march", "March");
-        case 4:
-          return $tr("ui.common.april", "April");
-        case 5:
-          return $tr("ui.common.may", "May");
-        case 6:
-          return $tr("ui.common.june", "June");
-        case 7:
-          return $tr("ui.common.july", "July");
-        case 8:
-          return $tr("ui.common.august", "August");
-        case 9:
-          return $tr("ui.common.september", "September");
-        case 10:
-          return $tr("ui.common.october", "October");
-        case 11:
-          return $tr("ui.common.november", "November");
-        case 12:
-          return $tr("ui.common.december", "December");
+        case Months.January:
+          return $tr("ui.months.january", "January");
+        case Months.February:
+          return $tr("ui.months.february", "February");
+        case Months.March:
+          return $tr("ui.months.march", "March");
+        case Months.April:
+          return $tr("ui.months.april", "April");
+        case Months.May:
+          return $tr("ui.months.may", "May");
+        case Months.June:
+          return $tr("ui.months.june", "June");
+        case Months.July:
+          return $tr("ui.months.july", "July");
+        case Months.August:
+          return $tr("ui.months.august", "August");
+        case Months.September:
+          return $tr("ui.months.september", "September");
+        case Months.October:
+          return $tr("ui.months.october", "October");
+        case Months.November:
+          return $tr("ui.months.november", "November");
+        case Months.December:
+          return $tr("ui.months.december", "December");
       }
     }
 
