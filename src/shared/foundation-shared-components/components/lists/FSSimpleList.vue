@@ -11,86 +11,45 @@
       @update:modelValue="onSearch"
     />
     <FSFadeOut
+      v-if="$props.direction == 'column'"
       :maxHeight="$props.maxHeight"
       :maskHeight="0"
     >
-      <component
-        :is="$props.direction == 'row' ? FSRow : $props.direction == 'slided' ? FSSlideGroup :  FSCol"
-      >
-        <template
-          v-if="$props.loading"
-        >
-          <FSLoader
-            v-for="i in 4"
-            :key="i"
-            :width="$props.direction == 'row' || $props.direction == 'slided'? '220px' : '100%'"
-            height="50px"
-          />
-        </template>
-        <template
-          v-else
-        >
-          <FSTile
-            v-for="item in filteredItems"
-            :key="item.id"
-            v-bind="tileProps(item)"
-            :width="$props.direction == 'row' || $props.direction == 'slided' ? 'fit-content' : '100%'"
-            height="fit-content"
-            :editable="false"
-          >
-            <slot
-              name="item"
-              :item="item"
-            >
-              <FSRow
-                align="center-left"
-                height="24px"
-                :wrap="false"
-              >
-                <FSButtonDragIcon
-                  v-if="showDraggable"
-                />
-                <slot
-                  name="itemContent"
-                  :item="item"
-                >
-                  <!-- TODO : add draggable option -->
-                  <FSImage
-                    v-if="item.imageId"
-                    :imageId="item.imageId"
-                    width="24px"
-                    height="24px"
-                  />
-                  <FSIcon
-                    size="24px"
-                    v-else-if="item.icon"
-                    :icon="item.icon"
-                  />
-                  <FSSpan
-                    font="text-overline"
-                  >
-                    {{ item[$props.itemLabel || 'label'] }}
-                  </FSSpan>
-                </slot>
-                <FSRow
-                  align="center-right"
-                  :wrap="false"
-                >
-                  <FSButtonEditIcon
-                    v-if="showEdit"
-                    @click="$emit('click:edit', item.id)"
-                  />
-                  <FSButtonRemoveIcon
-                    v-if="showRemove"
-                    @click="$emit('click:remove', item.id)"
-                  />
-                </FSRow>
-              </FSRow>
-            </slot>
-          </FSTile>
-        </template>
-      </component>
+      <FSCol>
+        <FSSimpleListItem 
+          loaderWidth="100%"
+          tileWidth="100%"
+          :filteredItems="filteredItems"
+          @click:edit="$emit('click:edit', $event)"
+          @click:remove="$emit('click:remove', $event)"
+          v-bind="$props"
+        />
+      </FSCol>
     </FSFadeOut>
+    <FSRow
+      v-else-if="$props.direction == 'row'"
+    >
+      <FSSimpleListItem 
+        loaderWidth="220px"
+        tileWidth="fit-content"
+        :filteredItems="filteredItems"
+        @click:edit="$emit('click:edit', $event)"
+        @click:remove="$emit('click:remove', $event)"
+        v-bind="$props"
+      />
+    </FSRow>
+    <FSSlideGroup
+      v-else
+    >
+      <FSSimpleListItem 
+        loaderWidth="220px"
+        tileWidth="fit-content"
+        :filteredItems="filteredItems"
+        @click:edit="$emit('click:edit', $event)"
+        @click:remove="$emit('click:remove', $event)"
+        v-bind="$props"
+      />
+    </FSSlideGroup>
   </FSCol>
 </template>
 
@@ -104,34 +63,20 @@ import { filterItems } from "../../utils";
 
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
-import FSIcon from "../FSIcon.vue";
-import FSSpan from "../FSSpan.vue";
-import FSImage from "../FSImage.vue";
-import FSLoader from "../FSLoader.vue";
-import FSTile from "../tiles/FSTile.vue";
 import FSFadeOut from "../FSFadeOut.vue";
 import FSSlideGroup from "../FSSlideGroup.vue"
 import FSSearchField from "../fields/FSSearchField.vue";
-import FSButtonEditIcon from "../buttons/FSButtonEditIcon.vue";
-import FSButtonDragIcon from "../buttons/FSButtonDragIcon.vue";
-import FSButtonRemoveIcon from "../buttons/FSButtonRemoveIcon.vue";
+import FSSimpleListItem from "./FSSimpleListItem.vue";
 
 export default defineComponent({
   name: "FSSimpleList",
   components: {
     FSRow,
     FSCol,
-    FSTile,
-    FSIcon,
-    FSSpan,
-    FSImage,
-    FSLoader,
     FSFadeOut,
     FSSlideGroup,
     FSSearchField,
-    FSButtonEditIcon,
-    FSButtonDragIcon,
-    FSButtonRemoveIcon,
+    FSSimpleListItem
   },
   props: {
     items: {
@@ -221,9 +166,6 @@ export default defineComponent({
       filteredItems,
       ColorEnum,
       onSearch,
-      FSSlideGroup,
-      FSRow,
-      FSCol,
     }
   }
 });
