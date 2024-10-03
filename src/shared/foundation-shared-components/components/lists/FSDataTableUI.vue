@@ -33,7 +33,6 @@
       <template
         v-if="!$props.disableTable && !$props.disableIterator"
       >
-        <v-spacer />
         <FSRow
           align="center-right"
         >
@@ -41,6 +40,7 @@
             :values="modeOptions"
             :singleColor="true"
             :required="true"
+            variant="slide"
             v-model="innerMode"
           />
         </FSRow>

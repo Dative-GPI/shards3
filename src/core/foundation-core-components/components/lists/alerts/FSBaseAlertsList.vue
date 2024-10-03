@@ -35,6 +35,7 @@
       />
       <FSRow
         align="center-right"
+        width="hug"
       >
         <FSTermField
           variant="default"
