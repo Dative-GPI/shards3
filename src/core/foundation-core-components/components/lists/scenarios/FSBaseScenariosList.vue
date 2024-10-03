@@ -112,12 +112,12 @@ export default defineComponent({
           sortable: true
         },
         {
-          text: $tr("entity.scenario.modelLabel", "Model label"),
+          text: $tr("entity.scenario.model-label", "Model label"),
           value: "modelLabel",
           sortable: true
         },
         {
-          text: $tr("entity.scenario.dataCategoryLabel", "Data category label"),
+          text: $tr("entity.scenario.data-category-label", "Data category label"),
           value: "dataCategoryLabel",
           sortable: true
         },

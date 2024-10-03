@@ -7,7 +7,7 @@
     >
       <FSRichTextField
         :editable="false"
-        :label="$tr('ui.translateRichTextField.defaultValue', 'Default value')"
+        :label="$tr('ui.translate-rich-text-field.default-value', 'Default value')"
         :modelValue="$props.modelValue"
         v-bind="$attrs"
       />
@@ -30,7 +30,7 @@
               class="fs-translate-field-label"
               font="text-overline"
             >
-              {{ $tr('ui.translateRichTextField.translateIn', 'Translate in {0}', language.label) }}
+              {{ $tr('ui.translate-rich-text-field.translate-in', 'Translate in {0}', language.label) }}
             </FSSpan>
             <FSIcon>{{ language.icon }}</FSIcon>
           </FSRow>
@@ -40,10 +40,9 @@
     <FSRow
       :wrap="false"
     >
-      <FSButton
+      <FSButtonCancelLabel
         prependIcon="mdi-cancel"
         width="100%"
-        :label="$tr('ui.translateRichTextField.cancelButton.label', 'Cancel')"
         @click="onCancelTranslations"
       />
       <FSButton
@@ -51,7 +50,7 @@
         prependIcon="mdi-check"
         color="primary"
         width="100%"
-        :label="$tr('ui.translateRichTextField.validateButton.label', 'Validate translations')"
+        :label="$tr('ui.translate-rich-text-field.validate-button.label', 'Validate translations')"
         @click="onSubmitTranslations"
       />
     </FSRow>
@@ -70,7 +69,7 @@
         prependIcon="mdi-translate"
         color="primary"
         width="100%"
-        :label="$tr('ui.translateRichTextField.translateButton.label', 'Manage translations')"
+        :label="$tr('ui.translate-rich-text-field.translate-button.label', 'Manage translations')"
         @click="() => $emit('update:translationsExpanded', true)"
       />
     </template>
@@ -84,6 +83,7 @@ import { useAppLanguages } from "@dative-gpi/foundation-shared-services/composab
 
 import { emptyLexicalState } from '../../utils';
 
+import FSButtonCancelLabel from '../buttons/FSButtonCancelLabel.vue';
 import FSRichTextField from './FSRichTextField.vue';
 import FSButton from '../FSButton.vue';
 import FSIcon from '../FSIcon.vue';
@@ -94,6 +94,7 @@ import FSRow from '../FSRow.vue';
 export default defineComponent({
   name: 'FSTranslateRichTextField',
   components: {
+    FSButtonCancelLabel,
     FSRichTextField,
     FSButton,
     FSIcon,
