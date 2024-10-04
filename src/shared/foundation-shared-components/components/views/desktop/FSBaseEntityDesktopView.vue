@@ -53,9 +53,10 @@
             >
               <slot
                 name="subtitle"
+                v-if="topOffset < 60"
               >
                 <FSText
-                  v-if="$props.subtitle && topOffset < 60"
+                  v-if="$props.subtitle"
                   font="text-button"
                 >
                   {{ $props.subtitle }}
@@ -63,9 +64,10 @@
               </slot>
               <slot
                 name="description"
+                v-if="topOffset < 20"
               >
                 <FSText
-                  v-if="$props.description && topOffset < 20"
+                  v-if="$props.description"
                   font="text-body"
                 >
                   {{ $props.description }}
