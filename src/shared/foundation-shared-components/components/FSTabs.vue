@@ -18,8 +18,8 @@
 import { computed, defineComponent, onMounted, type PropType, type StyleValue } from "vue";
 import { useRouter } from "vue-router";
 
+import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSTabs",
@@ -42,6 +42,7 @@ export default defineComponent({
   },
   emits: ["update:tab"],
   setup(props, { emit }) {
+    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
     const router = useRouter();
 
@@ -56,7 +57,9 @@ export default defineComponent({
       "--fs-tab-hover-border-color"     : darks.dark,
       "--fs-tab-active-background-color": colors.value.light,
       "--fs-tab-tag-background-color"   : colors.value.base,
-      "--fs-tab-tag-color"              : colors.value.baseContrast!
+      "--fs-tab-tag-color"              : colors.value.baseContrast!,
+      "--fs-tab-height"                 : isMobileSized.value ? "40px" : "48px",
+      "--fs-tab-tag-size"               : isMobileSized.value ? "24px" : "28px"
     }));
 
     const onUpdateTab = (tab: number): void => {

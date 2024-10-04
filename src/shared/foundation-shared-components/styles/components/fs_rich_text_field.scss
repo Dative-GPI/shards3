@@ -1,6 +1,7 @@
 .fs-rich-text-field {
     width: 100%;
     min-width: 120px;
+    padding: var(--fs-rich-text-field-padding) !important;
     border: 1px solid var(--fs-rich-text-field-border-color) !important;
     border-radius: 4px !important;
 
@@ -24,16 +25,6 @@
 
     &:focus-within {
         border-color: var(--fs-rich-text-field-active-border-color) !important;
-    }
-}
-
-.fs-rich-text-field-readonly {
-    @include web {
-        padding: 10px 12px !important;
-    }
-
-    @include mobile {
-        padding: 6px 16px !important;
     }
 }
 

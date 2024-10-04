@@ -1,6 +1,7 @@
 .fs-text-area:not(.fs-text-area-auto-grow) {
     & > .v-input__control > .v-field {
         border: 1px solid var(--fs-text-area-border-color) !important;
+        padding: var(--fs-text-area-padding) !important;
 
         &--error {
             border-color: var(--fs-text-area-error-border-color) !important;
@@ -24,18 +25,6 @@
             color: var(--fs-text-area-color);
             padding: 0;
         }
-
-        & > .v-field__clearable {
-            align-items: flex-start;
-        }
-        
-        @include web {
-            padding: 11px 16px !important;
-        }
-    
-        @include mobile {
-            padding: 10px 16px !important;
-        }
     } 
 
     & > .v-input__append  {
@@ -46,7 +35,7 @@
 .fs-text-area-auto-grow {
     & > .v-input__control > .v-field {
         border: 1px solid var(--fs-text-area-border-color) !important;
-        padding: 0 !important;
+        padding: var(--fs-text-area-padding) !important;
 
         &--error {
             border-color: var(--fs-text-area-error-border-color) !important;
@@ -71,14 +60,6 @@
 
         & > .v-field__clearable {
             align-items: flex-start;
-        }
-        
-        @include web {
-            padding: 11px 16px !important;
-        }
-    
-        @include mobile {
-            padding: 10px 16px !important;
         }
     }
 

@@ -52,20 +52,11 @@ button:has(.fs-clickable) {
 .fs-clickable-load {
     cursor: default;
     position: absolute !important;
+    height: 100% !important;
     width: 100% !important;
     left: 0;
     top: 0;
-
-    @include web {
-        height: 40px !important;
-        padding: 8px 0;
-    }
-
-    @include mobile {
-        height: 36px !important;
-        padding: 6px 0;
-    }
-
+    
     & > svg {
         height: 24px !important;
     }

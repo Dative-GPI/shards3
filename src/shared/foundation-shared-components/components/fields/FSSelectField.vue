@@ -560,8 +560,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { fontStyles, isExtraSmall, isMobileSized } = useBreakpoints();
     const { validateOn, getMessages } = useRules();
-    const { isExtraSmall } = useBreakpoints();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -581,7 +581,9 @@ export default defineComponent({
           "--fs-select-field-cursor"             : "default",
           "--fs-select-field-border-color"       : lights.base,
           "--fs-select-field-color"              : lights.dark,
-          "--fs-select-field-active-border-color": lights.base
+          "--fs-select-field-active-border-color": lights.base,
+          "--fs-base-field-input-height"         : isMobileSized.value ? "34px" : "38px",
+          ...fontStyles.value
         };
       }
       return {
@@ -590,7 +592,9 @@ export default defineComponent({
         "--fs-select-field-border-color"       : lights.dark,
         "--fs-select-field-color"              : darks.base,
         "--fs-select-field-active-border-color": darks.dark,
-        "--fs-select-field-error-border-color" : errors.base
+        "--fs-select-field-error-border-color" : errors.base,
+        "--fs-base-field-input-height"         : isMobileSized.value ? "34px" : "38px",
+        ...fontStyles.value
       };
     });
 

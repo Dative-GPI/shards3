@@ -602,7 +602,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:search", "add:item"],
   setup: (props, { emit }) => {
-    const { isExtraSmall, isMobileSized } = useBreakpoints();
+    const { fontStyles, isExtraSmall, isMobileSized } = useBreakpoints();
     const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
     const { slots } = useSlots();
@@ -622,21 +622,25 @@ export default defineComponent({
     const style = computed((): StyleValue => {
       if (!props.editable) {
         return {
-          "--fs-autocomplete-field-cursor":              "default",
-          "--fs-autocomplete-field-border-color":        lights.base,
-          "--fs-autocomplete-field-color":               lights.dark,
-          "--fs-autocomplete-field-active-border-color": lights.base
+          "--fs-autocomplete-field-cursor"             : "default",
+          "--fs-autocomplete-field-border-color"       : lights.base,
+          "--fs-autocomplete-field-color"              : lights.dark,
+          "--fs-autocomplete-field-active-border-color": lights.base,
+          "--fs-base-field-input-height"               : isMobileSized.value ? "34px" : "38px",
+          ...fontStyles.value
         };
       }
       return {
-        "--fs-autocomplete-field-cursor":                   "text",
-        "--fs-autocomplete-field-background-color":         backgrounds.base,
+        "--fs-autocomplete-field-cursor"                  : "text",
+        "--fs-autocomplete-field-background-color"        : backgrounds.base,
         "--fs-autocomplete-field-no-data-background-color": lights.light,
-        "--fs-autocomplete-field-border-color":             lights.dark,
-        "--fs-autocomplete-field-color":                    darks.base,
-        "--fs-autocomplete-field-active-border-color":      darks.dark,
-        "--fs-autocomplete-field-error-color":              errors.base,
-        "--fs-autocomplete-field-error-border-color":       errors.base
+        "--fs-autocomplete-field-border-color"            : lights.dark,
+        "--fs-autocomplete-field-color"                   : darks.base,
+        "--fs-autocomplete-field-active-border-color"     : darks.dark,
+        "--fs-autocomplete-field-error-color"             : errors.base,
+        "--fs-autocomplete-field-error-border-color"      : errors.base,
+        "--fs-base-field-input-height"                    : isMobileSized.value ? "34px" : "38px",
+        ...fontStyles.value
       };
     });
 
@@ -699,8 +703,8 @@ export default defineComponent({
     });
 
     const maxHeight = computed(() => {
-      const other = 8 + 8                // Paddings
-        + (isMobileSized ? 36 : 40) + 8; // Header
+      const other = 8 + 8                      // Paddings
+        + (isMobileSized.value ? 36 : 40) + 8; // Header
       return `calc(100vh - 40px - ${other}px)`;
     });
 

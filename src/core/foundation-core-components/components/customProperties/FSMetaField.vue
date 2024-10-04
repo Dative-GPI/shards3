@@ -1,49 +1,27 @@
 <template>
   <FSSelectField
     v-if="$props.customProperty.useOnlyAllowedValues"
-    class="fs-meta-field"
     :editable="$props.editable"
+    :itemTitle="itemTitle"
     :label="$props.label"
+    :class="classes"
     :items="items"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
   >
     <template
-      #selection="{ item }"
+      v-if="$props.customProperty.dataType === PropertyDataType.Icon"
+      #item-prepend="{ item }"
     >
       <FSIcon
-        v-if="item.raw.icon"
+        v-if="item.icon"
       >
-        {{ item.raw.icon }}
-      </FSIcon>
-      <FSText
-        v-else
-      >
-        {{ item.raw.label }}
-      </FSText>
-    </template>
-    <template
-      #selection-mobile="{ item }"
-    >
-      <FSIcon
-        v-if="item.raw.icon"
-      >
-        {{ item.raw.icon }}
-      </FSIcon>
-    </template>
-    <template
-      #item-label="{ item, font }"
-    >
-      <FSIcon
-        v-if="item.raw.icon"
-      >
-        {{ item.raw.icon }}
+        {{ item.icon }}
       </FSIcon>
       <FSSpan
         v-else
-        :font="font"
       >
-        {{ item.raw.label }}
+        {{ item.label }}
       </FSSpan>
     </template>
   </FSSelectField>
@@ -103,7 +81,6 @@ import FSIconField from "@dative-gpi/foundation-shared-components/components/fie
 import FSSwitch from "@dative-gpi/foundation-shared-components/components/FSSwitch.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 
 export default defineComponent({
   name: "FSMetaField",
@@ -114,8 +91,7 @@ export default defineComponent({
     FSIconField,
     FSSwitch,
     FSIcon,
-    FSSpan,
-    FSText
+    FSSpan
   },
   props: {
     label: {
@@ -180,6 +156,23 @@ export default defineComponent({
       });
     });
 
+    const itemTitle = computed((): string => {
+      switch (props.customProperty.dataType) {
+        case PropertyDataType.Icon: return "";
+        default                   : return "label";
+      };
+    });
+
+    const classes = computed((): string[] => {
+      const classNames = ["fs-meta-field"];
+      switch(props.customProperty.dataType) {
+        case PropertyDataType.Icon: 
+          classNames.push("fs-meta-icon-field"); 
+          break;
+      }
+      return classNames;
+    });
+
     const asNumber = (): number | null => {
       if (!props.modelValue) {
         return null;
@@ -216,6 +209,8 @@ export default defineComponent({
 
     return {
       PropertyDataType,
+      itemTitle,
+      classes,
       items,
       asBoolean,
       asNumber,

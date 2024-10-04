@@ -59,7 +59,7 @@ export default defineComponent({
     height: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "hug"
+      default: () => ["28px", "24px"]
     },
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,

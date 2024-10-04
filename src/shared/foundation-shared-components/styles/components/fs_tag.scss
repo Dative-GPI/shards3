@@ -3,14 +3,6 @@
     border-radius: 2px !important;
     background-color: var(--fs-tag-background-color) !important;
     color: var(--fs-tag-color) !important;
-
-    @include web {
-        height: 28px !important;
-    }
-
-    @include mobile {
-        height: 24px !important;
-    }
 }
 
 .fs-tag-button {
@@ -31,15 +23,7 @@
         color: var(--fs-tag-active-color) !important;
     }
 
-    @include web {
-        min-width: 20px !important;
-        width: 20px !important;
-        height: 20px !important;
-    }
-
-    @include mobile {
-        min-width: 20px !important;
-        width: 20px !important;
-        height: 16px !important;
-    }
+    min-width: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
 }

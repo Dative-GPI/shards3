@@ -1,12 +1,7 @@
 .fs-hidden-button-menu {
-    @include web {
-        min-width: 200px !important;
-    }
-    @include mobile {
-        min-width: 180px !important;
-    }
+    width: 300px;
 }
 
 .fs-hidden-button-chip {
-    width: calc(100% - 16px) !important;
+    width: 100%;
 }

@@ -13,7 +13,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSSpan",
@@ -45,10 +45,12 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { fontStyles } = useBreakpoints();
     const { slots } = useSlots();
 
     const style = computed((): StyleValue => ({
-      "--fs-span-line-clamp": props.lineClamp.toString()
+      "--fs-span-line-clamp": props.lineClamp.toString(),
+      ...fontStyles.value
     }));
 
     const classes = computed((): string[] => {

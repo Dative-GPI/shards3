@@ -13,8 +13,8 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
+import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSText",
@@ -51,6 +51,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { fontStyles } = useBreakpoints();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -58,7 +59,8 @@ export default defineComponent({
 
     const style = computed((): StyleValue => ({
       "--fs-span-line-clamp": props.lineClamp.toString(),
-      "--fs-text-color"     : colors.value[props.variant]!
+      "--fs-text-color"     : colors.value[props.variant]!,
+      ...fontStyles.value
     }));
 
     const classes = computed((): string[] => {

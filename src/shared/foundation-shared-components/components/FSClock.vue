@@ -54,9 +54,9 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue";
 
+import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSSlider from "./FSSlider.vue";
 import FSCol from "./FSCol.vue";
@@ -99,6 +99,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { epochToLongDateFormat } = useDateFormat();
+    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
     const colors = computed(() => getColors(props.color));
@@ -116,7 +117,11 @@ export default defineComponent({
           "--fs-clock-field-background-color"   : backgrounds.base,
           "--fs-clock-field-border-color"       : lights.base,
           "--fs-clock-field-color"              : lights.dark,
-          "--fs-clock-field-active-border-color": lights.base
+          "--fs-clock-field-active-border-color": lights.base,
+          "--fs-font-font-size"                 : isMobileSized.value ? "12px" : "14px",
+          "--fs-font-line-height"               : isMobileSized.value ? "16px" : "20px",
+          "--fs-font-letter-spacing"            : isMobileSized.value ? "-0.36px" : "-0.42px",
+          "--fs-base-field-input-height"        : isMobileSized.value ? "34px" : "38px"
         };
       }
       return {
@@ -124,7 +129,11 @@ export default defineComponent({
         "--fs-clock-field-background-color"   : colors.value.light,
         "--fs-clock-field-border-color"       : colors.value.base,
         "--fs-clock-field-color"              : darks.base,
-        "--fs-clock-field-active-border-color": colors.value.dark
+        "--fs-clock-field-active-border-color": colors.value.dark,
+        "--fs-font-font-size"                 : isMobileSized.value ? "12px" : "14px",
+        "--fs-font-line-height"               : isMobileSized.value ? "16px" : "20px",
+        "--fs-font-letter-spacing"            : isMobileSized.value ? "-0.36px" : "-0.42px",
+        "--fs-base-field-input-height"        : isMobileSized.value ? "34px" : "38px"
       };
     });
 
