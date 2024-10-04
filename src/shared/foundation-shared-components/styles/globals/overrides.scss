@@ -45,16 +45,6 @@
         width: 100%;
     }
 
-    &.v-checkbox {
-        @include web {
-            min-width: 24px;
-        }
-
-        @include mobile {
-            min-width: 20px;
-        }
-    }
-
     &:has(.v-input__control):has(.v-input__append) > .v-input__append {
         margin-inline-start: 8px !important;
     }
@@ -90,28 +80,26 @@
         }
     }
 
-    &:not(.fs-text-area) > .v-input__control > .v-field {
-        padding: 0 12px 0 16px !important;
+    &:not(.fs-text-area) > .v-input__control > .v-field > .v-field__field {
+        min-height: var(--fs-base-field-input-height) !important;
+        height: var(--fs-base-field-input-height) !important;
 
-        & > .v-field__field > .v-field__input {
-            @extend .text-body;
+        & > .v-field__input {
+            min-height: var(--fs-base-field-input-height) !important;
+            height: var(--fs-base-field-input-height) !important;
             
             padding-bottom: 0px !important;
             padding-inline: 0px !important;
             padding-top: 0px !important;
             flex-wrap: nowrap;
             overflow: hidden;
-        
-            @include web {
-                min-height: 38px !important;
-                height: 38px !important;
-            }
-        
-            @include mobile {
-                min-height: 34px !important;
-                height: 34px !important;
-            }
+
+            @extend .text-body;
         }
+    }
+
+    &:not(.fs-text-area):not(.fs-clock-field) > .v-input__control > .v-field {
+        padding: 0 12px 0 16px !important;
     }
 }
 
@@ -141,15 +129,8 @@
 .v-text-field__suffix {
     padding: 0 8px 0 0 !important;
 
-    @include web {
-        min-height: 38px !important;
-        height: 38px !important;
-    }
-
-    @include mobile {
-        min-height: 34px !important;
-        height: 34px !important;
-    }
+    min-height: var(--fs-base-field-input-height) !important;
+    height: var(--fs-base-field-input-height) !important;
 
     & > .v-text-field__suffix__text {
         @extend .text-body;
@@ -196,13 +177,7 @@ $nthOverlay: 25;
     }
     
     & > .v-icon {
-        @include web {
-            font-size: 24px !important;
-        }
-    
-        @include mobile {
-            font-size: 20px !important;
-        }
+        font-size: var(--fs-group-icon-size) !important;
     }
 }
 

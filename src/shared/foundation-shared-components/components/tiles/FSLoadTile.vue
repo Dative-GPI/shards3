@@ -42,6 +42,8 @@
     <FSCard
       v-if="$props.editable"
       class="fs-tile-checkbox"
+      :height="['40px', '32px']"
+      :width="['40px', '32px']"
       :border="false"
     >
       <FSCheckbox

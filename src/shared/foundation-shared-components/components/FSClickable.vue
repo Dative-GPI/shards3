@@ -115,7 +115,6 @@
       v-if="$props.load"
     >
       <v-progress-circular
-        :class="$props.class"
         class="fs-clickable-load"
         width="2"
         size="24"

@@ -33,16 +33,6 @@
             text-align: center;
             cursor: var(--fs-clock-field-cursor) !important;
             color: var(--fs-clock-field-color);
-        
-            @include web {
-                min-height: 38px !important;
-                height: 38px !important;
-            }
-        
-            @include mobile {
-                min-height: 34px !important;
-                height: 34px !important;
-            }
         }
     }
 }

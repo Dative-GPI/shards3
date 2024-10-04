@@ -76,8 +76,8 @@ export default defineComponent({
     const getWidth = computed((): string | number => {
       switch (props.variant) {
         case "standard": return sizeToVar(props.width);
-        case "button"  : return isMobileSized ? "36px" : "40px";
-        case "input"   : return isMobileSized ? "calc(50% - 124px)" : "calc(50% - 132px)";
+        case "button"  : return isMobileSized.value ? "36px" : "40px";
+        case "input"   : return isMobileSized.value ? "calc(50% - 124px)" : "calc(50% - 132px)";
         case "field"   : return "100%";
         case "chip"    : return "8vw";
         case "text-h1" : return "calc(50% - 32px)";

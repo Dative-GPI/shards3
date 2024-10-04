@@ -71,7 +71,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
-import { useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useRules, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSBaseField from "./FSBaseField.vue";
@@ -137,6 +137,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
+    const { fontStyles, isMobileSized } = useBreakpoints();
     const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
     const { slots } = useSlots();
@@ -154,7 +155,9 @@ export default defineComponent({
           "--fs-text-field-cursor"             : "default",
           "--fs-text-field-border-color"       : lights.base,
           "--fs-text-field-color"              : lights.dark,
-          "--fs-text-field-active-border-color": lights.base
+          "--fs-text-field-active-border-color": lights.base,
+          "--fs-base-field-input-height"       : isMobileSized.value ? "34px" : "38px",
+          ...fontStyles.value
         };
       }
       return {
@@ -162,7 +165,9 @@ export default defineComponent({
         "--fs-text-field-border-color"       : lights.dark,
         "--fs-text-field-color"              : darks.base,
         "--fs-text-field-active-border-color": darks.dark,
-        "--fs-text-field-error-border-color" : errors.base
+        "--fs-text-field-error-border-color" : errors.base,
+        "--fs-base-field-input-height"       : isMobileSized.value ? "34px" : "38px",
+        ...fontStyles.value
       };
     });
 

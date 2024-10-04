@@ -35,7 +35,8 @@
         v-if="$props.editable"
         class="fs-tile-checkbox"
         variant="background"
-        :color="ColorEnum.Background"
+        :height="['40px', '32px']"
+        :width="['40px', '32px']"
         :border="false"
         v-bind="$attrs"
       >
@@ -61,6 +62,8 @@
         v-if="$props.editable"
         class="fs-tile-checkbox"
         variant="background"
+        :height="['40px', '32px']"
+        :width="['40px', '32px']"
         :border="false"
         v-bind="$attrs"
       >

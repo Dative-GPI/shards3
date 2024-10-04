@@ -136,8 +136,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
+    const { fontStyles, isMobileSized } = useBreakpoints();
     const { validateOn, getMessages } = useRules();
-    const { isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -152,7 +152,7 @@ export default defineComponent({
       let fieldHeight: string | undefined = undefined;
       if (!props.autoGrow) {
         const base = isMobileSized.value ? 34 : 38;
-        const row = isMobileSized.value ? 14 : 16;
+        const row = isMobileSized.value ? 18 : 20;
         if (props.rows > 1) {
           height = `${base + (props.rows - 1) * row}px`;
         }
@@ -168,7 +168,10 @@ export default defineComponent({
           "--fs-text-area-color"              : lights.dark,
           "--fs-text-area-active-border-color": lights.base,
           "--fs-text-area-height"             : height,
-          "--fs-text-area-field-height"       : fieldHeight
+          "--fs-text-area-field-height"       : fieldHeight,
+          "--fs-text-area-padding"            : isMobileSized.value ? "10px 16px" : "11px 16px",
+          "--fs-base-field-input-height"      : isMobileSized.value ? "34px" : "38px",
+          ...fontStyles.value
         };
       }
       return {
@@ -178,7 +181,10 @@ export default defineComponent({
         "--fs-text-area-active-border-color": darks.dark,
         "--fs-text-area-error-border-color" : errors.base,
         "--fs-text-area-height"             : height,
-        "--fs-text-area-field-height"       : fieldHeight
+        "--fs-text-area-field-height"       : fieldHeight,
+        "--fs-text-area-padding"            : isMobileSized.value ? "10px 16px" : "11px 16px",
+        "--fs-base-field-input-height"      : isMobileSized.value ? "34px" : "38px",
+        ...fontStyles.value
       };
     });
 

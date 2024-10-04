@@ -1,5 +1,4 @@
 .fs-span {
-    // padding-inline-end: 2px;
     max-width: 100%;
     text-align: left;
 }
@@ -7,6 +6,7 @@
 .fs-span-line-clamp {
     overflow: hidden;
     display: -webkit-box;
+    line-clamp: var(--fs-span-line-clamp);
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--fs-span-line-clamp);
 }

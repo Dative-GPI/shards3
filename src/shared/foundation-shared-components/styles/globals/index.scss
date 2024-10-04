@@ -1,9 +1,5 @@
 // Warning: Imports are loaded in order. If you need to use a variable / property / mixin, import it after the file that defines it
-@import 'breakpoints.scss';
 @import 'text_fonts.scss';
 @import 'touchscreen.scss';
 @import 'scrollbars.scss';
 @import 'overrides.scss';
-
-// Find a better way to fix this
-@import 'fixes.scss';

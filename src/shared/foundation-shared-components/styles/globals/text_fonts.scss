@@ -7,17 +7,9 @@
     font-style: normal !important;
     font-weight: 700 !important;
 
-    @include web {
-        font-size: 36px !important;
-        line-height: 40px !important;
-        letter-spacing: -0.72px !important;
-    }
-
-    @include mobile {
-        font-size: 28px !important;
-        line-height: 32px !important;
-        letter-spacing: -1.4px !important;
-    }
+    font-size: var(--fs-font-h1-font-size) !important;
+    line-height: var(--fs-font-h1-line-height) !important;
+    letter-spacing: var(--fs-font-h1-letter-spacing) !important;
 }
 
 .text-h2 {
@@ -25,17 +17,9 @@
     font-style: normal !important;
     font-weight: 600 !important;
 
-    @include web {
-        font-size: 26px !important;
-        line-height: 32px !important;
-        letter-spacing: -0.78px !important;
-    }
-
-    @include mobile {
-        font-size: 22px !important;
-        line-height: 24px !important;
-        letter-spacing: -0.88px !important;
-    }
+    font-size: var(--fs-font-h2-font-size) !important;
+    line-height: var(--fs-font-h2-line-height) !important;
+    letter-spacing: var(--fs-font-h2-letter-spacing) !important;
 }
 
 .text-h3 {
@@ -43,17 +27,9 @@
     font-style: normal !important;
     font-weight: 600 !important;
 
-    @include web {
-        font-size: 20px !important;
-        line-height: 24px !important;
-        letter-spacing: -0.6px !important;
-    }
-
-    @include mobile {
-        font-size: 16px !important;
-        line-height: 20px !important;
-        letter-spacing: -0.48px !important;
-    }
+    font-size: var(--fs-font-h3-font-size) !important;
+    line-height: var(--fs-font-h3-line-height) !important;
+    letter-spacing: var(--fs-font-h3-letter-spacing) !important;
 }
 
 .text-body {
@@ -62,17 +38,9 @@
     font-weight: 500 !important;
     text-transform: none !important;
 
-    @include web {
-        font-size: 14px !important;
-        line-height: 20px !important;
-        letter-spacing: -0.42px !important;
-    }
-
-    @include mobile {
-        font-size: 12px !important;
-        line-height: 16px !important;
-        letter-spacing: -0.36px !important;
-    }
+    font-size: var(--fs-font-body-font-size) !important;
+    line-height: var(--fs-font-body-line-height) !important;
+    letter-spacing: var(--fs-font-body-letter-spacing) !important;
 }
 
 .text-button {
@@ -81,17 +49,9 @@
     font-weight: 700 !important;
     text-transform: none !important;
 
-    @include web {
-        font-size: 14px !important;
-        line-height: 20px !important;
-        letter-spacing: -0.42px !important;
-    }
-
-    @include mobile {
-        font-size: 12px !important;
-        line-height: 16px !important;
-        letter-spacing: -0.36px !important;
-    }
+    font-size: var(--fs-font-button-font-size) !important;
+    line-height: var(--fs-font-button-line-height) !important;
+    letter-spacing: var(--fs-font-button-letter-spacing) !important;
 }
 
 .text-overline {
@@ -100,15 +60,7 @@
     text-transform: none !important;
     font-weight: 600 !important;
 
-    @include web {
-        font-size: 12px !important;
-        line-height: 16px !important;
-        letter-spacing: 0 !important;
-    }
-
-    @include mobile {
-        font-size: 10px !important;
-        line-height: 16px !important;
-        letter-spacing: 0 !important;
-    }
+    font-size: var(--fs-font-overline-font-size) !important;
+    line-height: var(--fs-font-overline-line-height) !important;
+    letter-spacing: var(--fs-font-overline-letter-spacing) !important;
 }

@@ -2,17 +2,9 @@
     display: flex !important;
     width: 100% !important;
 
-    @include web {
-        height: 48px !important;
-        max-height: 48px;
-        min-height: 48px;
-    }
-
-    @include mobile {
-        height: 40px !important;
-        max-height: 40px;
-        min-height: 40px;
-    }
+    height: var(--fs-tab-height) !important;
+    max-height: var(--fs-tab-height);
+    min-height: var(--fs-tab-height);
 }
 
 .fs-tab {
@@ -23,6 +15,10 @@
     align-items: center !important;
     display: flex;
 
+    height: var(--fs-tab-height) !important;
+    max-height: var(--fs-tab-height);
+    min-height: var(--fs-tab-height);
+
     & .fs-tab-label {
         @extend .text-button;
     }
@@ -30,18 +26,6 @@
     &:hover {
         border-bottom: 1px solid var(--fs-tab-hover-border-color) !important;
         color: var(--fs-group-hover-color) !important;
-    }
-
-    @include web {
-        height: 48px !important;
-        max-height: 48px;
-        min-height: 48px;
-    }
-
-    @include mobile {
-        height: 40px !important;
-        max-height: 40px;
-        min-height: 40px;
     }
 }
 
@@ -64,13 +48,6 @@
     align-items: center;
     justify-content: center;
 
-    @include web {
-        min-width: 28px;
-        height: 28px;
-    }
-
-    @include mobile {
-        min-width: 24px;
-        height: 24px;
-    }
+    min-width: var(--fs-tab-tag-size);
+    height: var(--fs-tab-tag-size);
 }

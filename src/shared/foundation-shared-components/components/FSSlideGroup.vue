@@ -42,7 +42,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, type StyleValue } from "vue";
 
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid";
@@ -86,6 +86,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { isMobileSized } = useBreakpoints();
     const { getChildren } = useSlots();
     const { getColors } = useColors();
 
@@ -99,12 +100,13 @@ export default defineComponent({
     const elementId = `id${uuidv4()}`;
 
     const style = computed((): StyleValue => ({
-      "--fs-group-padding"     : sizeToVar(props.padding),
-      "--fs-group-gap"         : sizeToVar(props.gap),
-      "--fs-group-color"       : darks.soft,
-      "--fs-group-hover-color" : darks.dark,
-      "--fs-group-width"       : sizeToVar(props.width),
-      "--fs-group-height"      : sizeToVar(props.height)
+      "--fs-group-padding"    : sizeToVar(props.padding),
+      "--fs-group-gap"        : sizeToVar(props.gap),
+      "--fs-group-color"      : darks.soft,
+      "--fs-group-hover-color": darks.dark,
+      "--fs-group-width"      : sizeToVar(props.width),
+      "--fs-group-height"     : sizeToVar(props.height),
+      "--fs-group-icon-size"  : isMobileSized.value ? "20px" : "24px",
     }));
 
     const nextClasses = computed((): string[] => {

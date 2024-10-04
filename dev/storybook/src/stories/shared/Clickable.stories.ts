@@ -19,10 +19,16 @@ export const Variations: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px;">
-        <FSClickable v-bind="args">
-            <FSText font="text-button">Obiwan kenobi</FSText>
-            <FSText> - Hello there!</FSText>
-        </FSClickable>
+      <FSClickable
+        label="Click me"
+        width="fit-content"
+        :height="['40px', '36px']"
+      />
+      <FSClickable
+        width="100px"
+        height="80px"
+        :load="true"
+      />
     </div>`
   })
 }

@@ -41,6 +41,7 @@
   
   th {
     box-shadow: none !important;
+    min-width: 40px;
 
     &:hover .fs-header-button {
       opacity: 1;
@@ -120,13 +121,7 @@
 }
 
 .fs-data-table-pagination {
-  @include web {
-    max-width: 280px;
-  }
-
-  @include mobile {
-    max-width: 274px;
-  }
+  max-width: 280px;
 }
 
 .fs-data-table-intersection {

@@ -316,7 +316,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { isMobileSized } = useBreakpoints();
+    const { fontStyles, isMobileSized } = useBreakpoints();
     const { getColors } = useColors();
 
     const linkColors = computed(() => getColors(props.linkColor));
@@ -407,35 +407,41 @@ export default defineComponent({
         case "standard": {
           if (!props.editable) {
             return {
-              "--fs-rich-text-field-undo-cursor": "default",
-              "--fs-rich-text-field-icon-cursor": "default",
-              "--fs-rich-text-field-border-color": lights.base,
-              "--fs-rich-text-field-color": lights.dark,
+              "--fs-rich-text-field-undo-cursor"        : "default",
+              "--fs-rich-text-field-icon-cursor"        : "default",
+              "--fs-rich-text-field-border-color"       : lights.base,
+              "--fs-rich-text-field-color"              : lights.dark,
               "--fs-rich-text-field-active-border-color": lights.base,
-              "--fs-rich-text-field-link-color": linkColors.value.light,
-              "--fs-rich-text-field-min-height": minHeight
+              "--fs-rich-text-field-link-color"         : linkColors.value.light,
+              "--fs-rich-text-field-min-height"         : minHeight,
+              "--fs-rich-text-field-padding"            : isMobileSized.value ? "6px 16px" : "10px 12px",
+              ...fontStyles.value
             };
           }
           else {
             return {
-              "--fs-rich-text-field-undo-cursor": canUndo.value ? "pointer" : "default",
-              "--fs-rich-text-field-icon-cursor": "pointer",
-              "--fs-rich-text-field-border-color": lights.dark,
-              "--fs-rich-text-field-color": darks.base,
-              "--fs-rich-text-field-active-border-color": darks.dark,
-              "--fs-rich-text-field-link-color": linkColors.value.dark,
-              "--fs-rich-text-field-min-height": minHeight,
+              "--fs-rich-text-field-undo-cursor"             : canUndo.value ? "pointer" : "default",
+              "--fs-rich-text-field-icon-cursor"             : "pointer",
+              "--fs-rich-text-field-border-color"            : lights.dark,
+              "--fs-rich-text-field-color"                   : darks.base,
+              "--fs-rich-text-field-active-border-color"     : darks.dark,
+              "--fs-rich-text-field-link-color"              : linkColors.value.dark,
+              "--fs-rich-text-field-min-height"              : minHeight,
               "--fs-rich-text-field-variable-backgroundcolor": getColors(ColorEnum.Primary).light,
-              "--fs-rich-text-field-variable-color": getColors(ColorEnum.Primary).lightContrast!
+              "--fs-rich-text-field-variable-color"          : getColors(ColorEnum.Primary).lightContrast!,
+              "--fs-rich-text-field-padding"                 : isMobileSized.value ? "6px 16px" : "10px 12px",
+              ...fontStyles.value
             };
           }
         }
         case "readonly": return {
-          "--fs-rich-text-field-border-color": "transparent",
-          "--fs-rich-text-field-color": darks.base,
+          "--fs-rich-text-field-border-color"       : "transparent",
+          "--fs-rich-text-field-color"              : darks.base,
           "--fs-rich-text-field-active-border-color": "transparent",
-          "--fs-rich-text-field-link-color": linkColors.value.dark,
-          "--fs-rich-text-field-min-height": minHeight
+          "--fs-rich-text-field-link-color"         : linkColors.value.dark,
+          "--fs-rich-text-field-min-height"         : minHeight,
+          "--fs-rich-text-field-padding"            : "0",
+          ...fontStyles.value
         }
       }
     });
