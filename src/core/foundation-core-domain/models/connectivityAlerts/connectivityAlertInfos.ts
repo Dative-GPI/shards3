@@ -13,6 +13,8 @@ export class ConnectivityAlertInfos {
   deviceOrganisationLabel: string;
   deviceOrganisationImageId: string | null;
   deviceOrganisationConnectivity: DeviceConnectivityInfos | null;
+  time: number;
+  lastMessageProcessedTimestamp: number;
   triggerProcessedTimestamp: number;
   resolveProcessedTimestamp: number | null;
   status: AlertStatus;
@@ -27,6 +29,8 @@ export class ConnectivityAlertInfos {
     this.deviceOrganisationImageId = params.deviceOrganisationImageId;
     this.deviceOrganisationConnectivity = params.deviceOrganisationConnectivity ?
       new DeviceConnectivityInfos({ ...params.deviceOrganisationConnectivity, id: params.deviceOrganisationId }) : null;
+    this.time = params.time;
+    this.lastMessageProcessedTimestamp = isoToEpoch(params.lastMessageProcessedTimestamp);
     this.triggerProcessedTimestamp = isoToEpoch(params.triggerProcessedTimestamp);
     this.resolveProcessedTimestamp = params.resolveProcessedTimestamp ?
       isoToEpoch(params.resolveProcessedTimestamp) : null;
@@ -43,6 +47,8 @@ export interface ConnectivityAlertInfosDTO {
   deviceOrganisationLabel: string;
   deviceOrganisationImageId: string | null;
   deviceOrganisationConnectivity: DeviceConnectivityInfosDTO | null;
+  time: number;
+  lastMessageProcessedTimestamp: string;
   triggerProcessedTimestamp: string;
   resolveProcessedTimestamp: string | null;
   status: AlertStatus;
