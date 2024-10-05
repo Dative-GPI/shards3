@@ -9,6 +9,8 @@ namespace Foundation.Shared.Translations.Generator
             BaseGenerator.Generate();
 
             TranslationsGenerator.Generate();
+
+            MetaTranslationsGenerator.Generate();
         }
     }
 }

@@ -11,11 +11,7 @@ namespace Foundation.Shared.Translations.Corrector
 
         public CorrectorContext(DbContextOptions<CorrectorContext> options) : base(options)
         {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=corrector.db");
+            
         }
     }
 }

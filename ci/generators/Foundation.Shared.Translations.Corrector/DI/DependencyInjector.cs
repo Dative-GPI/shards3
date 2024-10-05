@@ -18,6 +18,7 @@ namespace Foundation.Shared.Translations.Corrector
             services.AddScoped<Analyzer>();
             services.AddScoped<Cleaner>();
             services.AddScoped<Reader>();
+            services.AddScoped<Reporter>();
 
             services.AddDbContext<CorrectorContext>(options =>
             {

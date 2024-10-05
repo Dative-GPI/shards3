@@ -7,8 +7,12 @@
 
   <ItemGroup>
     <Compile Remove="base\**" />
-    <Content Remove="base\**"/>
+    <Content Remove="base\**" />
     <EmbeddedResource Remove="base\**" />
     <None Remove="base\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.Shared.Translations.Corrector\Foundation.Shared.Translations.Corrector.csproj" />
   </ItemGroup>
 </Project>

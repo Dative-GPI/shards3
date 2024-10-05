@@ -29,6 +29,7 @@ namespace Foundation.Shared.Translations.Corrector
 
             var reader = rootScope.ServiceProvider.GetRequiredService<Reader>();
             var cleaner = rootScope.ServiceProvider.GetRequiredService<Cleaner>();
+            var reporter = rootScope.ServiceProvider.GetRequiredService<Reporter>();
 
             _logger.LogInformation("Reading project files");
 
@@ -46,6 +47,8 @@ namespace Foundation.Shared.Translations.Corrector
             }
 
             await cleaner.Clean(project);
+
+            await reporter.Report();
         }
 
         private async Task Init()
