@@ -5,6 +5,7 @@
   <FSDataTableUI
     v-else
     @update:rowsPerPage="table.rowsPerPage = $event"
+    @update:showFilters="table.showFilters = $event"
     @update:filters="table.filters = $event"
     @update:headers="table.headers = $event"
     @update:sortBy="table.sortBy = $event"
