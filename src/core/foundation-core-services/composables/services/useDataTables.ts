@@ -11,6 +11,7 @@ export const useDataTables = () => {
     mode: null,
     sortBy: null,
     rowsPerPage: 10,
+    showFilters: false,
     filters: {},
     page: 1
   });
@@ -77,6 +78,7 @@ export const useDataTables = () => {
               },
               mode: userOrganisationTable.value.mode ?? defaultMode,
               rowsPerPage: userOrganisationTable.value.rowsPerPage,
+              showFilters: false,
               filters: {},
               page: 1
             }

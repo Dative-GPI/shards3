@@ -39,6 +39,7 @@ export interface FSDataTable {
   sortBy: FSDataTableOrder | null;
   mode: "table" | "iterator" | null;
   rowsPerPage: -1 | 10 | 30;
+  showFilters: boolean;
   filters: { [key: string]: FSDataTableFilter[] };
   page: number;
 }

@@ -22,8 +22,8 @@
         <FSButton
           v-if="filterableHeaders.length > 0"
           prependIcon="mdi-filter-variant"
-          :variant="showFilters ? 'full' : 'standard'"
-          @click="showFilters = !showFilters"
+          :variant="innerShowFilters ? 'full' : 'standard'"
+          @click="innerShowFilters = !innerShowFilters"
         />
       </template>
       <slot
@@ -60,7 +60,7 @@
       gap="16px"
     >
       <FSCol
-        v-if="showFilters && hasVisibleFilters"
+        v-if="innerShowFilters && hasVisibleFilters"
         width="hug"
       >
         <FSRow
@@ -94,7 +94,7 @@
           gap="8px"
         >
           <FSChip
-            v-if="showFilters && resetable"
+            v-if="innerShowFilters && resetable"
             variant="standard"
             :label="$tr('ui.data-table.reset-filters', 'Reset')"
             :height="['30px', '24px']"
@@ -745,6 +745,11 @@ export default defineComponent({
       type: Array as PropType<FSDataTableColumn[]>,
       required: true
     },
+    showFilters: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     filters: {
       type: Object as PropType<{ [key: string]: FSDataTableFilter[] }>,
       required: false,
@@ -880,7 +885,7 @@ export default defineComponent({
       default: "12px"
     },
   },
-  emits: ["update:modelValue", "update:headers", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
+  emits: ["update:modelValue", "update:headers", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
@@ -896,7 +901,7 @@ export default defineComponent({
     const innerSortBy = ref(props.sortBy);
     const innerMode = ref(props.disableTable ? "iterator" : props.disableIterator ? "table" : props.mode);
     const innerPage = ref(props.page);
-    const showFilters = ref(false);
+    const innerShowFilters = ref(props.showFilters);
     const resetable = ref(false);
 
     const intersectionObserver = ref<IntersectionObserver | null>(null);
@@ -917,7 +922,14 @@ export default defineComponent({
     ];
 
     const showFiltersRow = computed((): boolean => {
-      return (props.showSearch && showFilters.value && filterableHeaders.value.length > 0) || hiddenHeaders.value.length > 0;
+      switch (innerMode.value) {
+        case "iterator": {
+          return (props.showSearch && innerShowFilters.value && filterableHeaders.value.length > 0);
+        }
+        case "table": {
+          return (props.showSearch && innerShowFilters.value && filterableHeaders.value.length > 0) || hiddenHeaders.value.length > 0;
+        }
+      }
     });
 
     const hasVisibleFilters = computed((): boolean => {
@@ -925,7 +937,15 @@ export default defineComponent({
     });
 
     const showFiltersDivider = computed((): boolean => {
-      return resetable.value || (hiddenHeaders.value.length > 0 && hasVisibleFilters.value);
+      switch (innerMode.value) {
+        case "iterator": {
+          return resetable.value;
+        }
+        case "table": {
+          return resetable.value || (hiddenHeaders.value.length > 0 && hasVisibleFilters.value);
+        }
+      }
+      
     });
 
     const hasToolbar = computed((): boolean => {
@@ -1029,11 +1049,11 @@ export default defineComponent({
           if (props.selectedOnly && !props.modelValue.includes(item[props.itemValue])) {
             return false;
           }
-          if (innerSearchFormatted) {
-            return containsSearchTerm(item, innerSearchFormatted);
-          }
           if (activeFilters.some(af => af.filter.filter && af.filter.filter(af.filter.value, item[af.key], item))) {
             return false;
+          }
+          if (innerSearchFormatted) {
+            return containsSearchTerm(item, innerSearchFormatted);
           }
           return true;
         });
@@ -1479,8 +1499,16 @@ export default defineComponent({
       }
     });
 
+    watch(() => props.showFilters, () => {
+      innerShowFilters.value = props.showFilters;
+    });
+
     watch(innerSearch, () => {
       innerPage.value = 1;
+    });
+
+    watch(innerShowFilters, () => {
+      emit("update:showFilters", innerShowFilters.value);
     });
 
     watch(filters, () => {
@@ -1531,7 +1559,7 @@ export default defineComponent({
       innerPage,
       hasToolbar,
       pageOptions,
-      showFilters,
+      innerShowFilters,
       showFiltersRow,
       showFiltersDivider,
       hasVisibleFilters,
