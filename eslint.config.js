@@ -1,6 +1,6 @@
 import tseslint from "typescript-eslint";
 import pluginVue from "eslint-plugin-vue";
-import trKebabCaseRule from './eslint/rules/eslint-plugin-tr-kebab-case.js';
+import trKebabCaseRule from './dev/eslint/rules/eslint-plugin-tr-kebab-case.js';
 
 export default tseslint.config(
   // eslint.configs.recommended,

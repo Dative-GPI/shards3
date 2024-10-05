@@ -2,13 +2,13 @@
 
 namespace Foundation.Shared.Translations.Generator
 {
-  internal partial class Program
-  {
-    private static void Main(string[] args)
+    internal partial class Program
     {
-      BaseGenerator.Generate();
+        private static void Main(string[] args)
+        {
+            BaseGenerator.Generate();
 
-      TranslationsGenerator.Generate();
+            TranslationsGenerator.Generate();
+        }
     }
-  }
 }
