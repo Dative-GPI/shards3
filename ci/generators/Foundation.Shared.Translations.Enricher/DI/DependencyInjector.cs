@@ -7,11 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Azure.AI.OpenAI;
 using LibGit2Sharp;
 
-namespace Foundation.Shared.Translations.Corrector
+namespace Foundation.Shared.Translations.Enricher
 {
     public static class DepedencyInjector
     {
-        public static IServiceCollection AddCorrector(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddEnricher(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<Engine>();
 
@@ -20,7 +20,7 @@ namespace Foundation.Shared.Translations.Corrector
             services.AddScoped<Reader>();
             services.AddScoped<Reporter>();
 
-            services.AddDbContext<CorrectorContext>(options =>
+            services.AddDbContext<EnricherContext>(options =>
             {
                 options.UseSqlite(configuration.GetConnectionString("SQLITE"));
             });

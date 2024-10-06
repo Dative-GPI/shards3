@@ -11,10 +11,10 @@ using Microsoft.Extensions.Logging;
 using OpenAI.Chat;
 using LibGit2Sharp;
 
-using Foundation.Shared.Translations.Corrector.DTOs;
-using Foundation.Shared.Translations.Corrector.Messages;
+using Foundation.Shared.Translations.Enricher.DTOs;
+using Foundation.Shared.Translations.Enricher.Messages;
 
-namespace Foundation.Shared.Translations.Corrector
+namespace Foundation.Shared.Translations.Enricher
 {
     public class Analyzer
     {
@@ -43,12 +43,12 @@ namespace Foundation.Shared.Translations.Corrector
         """;
         private ILogger<Analyzer> _logger;
         private ChatClient _chatClient;
-        private CorrectorContext _context;
+        private EnricherContext _context;
         private Repository _repository;
 
         public Analyzer(ILogger<Analyzer> logger,
             ChatClient chatClient,
-            CorrectorContext context,
+            EnricherContext context,
             Repository repository)
         {
             _logger = logger;
@@ -61,8 +61,8 @@ namespace Foundation.Shared.Translations.Corrector
         public async Task Analyze(ProjectFile file)
         {
             var treatedFile = await _context.Files.SingleOrDefaultAsync(f => f.Path == file.ProjectPath);
-            var lastModified = _repository.Commits.QueryBy(file.ProjectPath).FirstOrDefault()?.Commit.Committer.When;
-
+            var lastModified = await _repository.LatestCommitDate(file.ProjectPath);
+            
             if (treatedFile != null && lastModified.HasValue && lastModified.Value <= treatedFile.LastSeen)
             {
                 _logger.LogInformation("File {0} has not been modified since last analysis", file);

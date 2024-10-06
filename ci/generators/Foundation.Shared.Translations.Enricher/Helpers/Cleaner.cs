@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Foundation.Shared.Translations.Corrector
+namespace Foundation.Shared.Translations.Enricher
 {
     public class Cleaner
     {
-        private CorrectorContext _context;
+        private EnricherContext _context;
 
-        public Cleaner(CorrectorContext context)
+        public Cleaner(EnricherContext context)
         {
             _context = context;
         }

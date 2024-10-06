@@ -1,6 +1,6 @@
 # Generators
 
-### Corrector
+### Enricher
 
 ```sh
 dotnet run -- --openai:apikey="...."

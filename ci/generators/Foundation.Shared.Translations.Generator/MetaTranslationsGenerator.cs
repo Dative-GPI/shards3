@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 
 using static Foundation.Shared.Translations.Generator.Consts;
-using Foundation.Shared.Translations.Corrector;
+using Foundation.Shared.Translations.Enricher;
 using Microsoft.EntityFrameworkCore;
 
 namespace Foundation.Shared.Translations.Generator
@@ -18,9 +18,9 @@ namespace Foundation.Shared.Translations.Generator
     {
         public static void Generate()
         {
-            var context = new CorrectorContext(
-                new DbContextOptionsBuilder<CorrectorContext>()
-                    .UseSqlite("Data Source=../Foundation.Shared.Translations.Corrector/app.db")
+            var context = new EnricherContext(
+                new DbContextOptionsBuilder<EnricherContext>()
+                    .UseSqlite("Data Source=../Foundation.Shared.Translations.Enricher/app.db")
                     .Options
             );
 

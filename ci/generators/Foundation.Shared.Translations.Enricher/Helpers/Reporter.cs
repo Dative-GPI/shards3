@@ -3,16 +3,16 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Foundation.Shared.Translations.Corrector.DTOs;
+using Foundation.Shared.Translations.Enricher.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-namespace Foundation.Shared.Translations.Corrector
+namespace Foundation.Shared.Translations.Enricher
 {
     public class Reporter
     {
-        private CorrectorContext _context;
+        private EnricherContext _context;
 
-        public Reporter(CorrectorContext context)
+        public Reporter(EnricherContext context)
         {
             _context = context;
         }

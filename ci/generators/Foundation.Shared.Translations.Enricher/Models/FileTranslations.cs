@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Foundation.Shared.Translations.Corrector.Messages
+namespace Foundation.Shared.Translations.Enricher.Messages
 {
     public class FileTranslations
     {

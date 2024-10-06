@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace Foundation.Shared.Translations.Corrector
+namespace Foundation.Shared.Translations.Enricher
 {
     public class Reader
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Foundation.Shared.Translations.Corrector.DTOs
+namespace Foundation.Shared.Translations.Enricher.DTOs
 {
     public class FileDTO
     {

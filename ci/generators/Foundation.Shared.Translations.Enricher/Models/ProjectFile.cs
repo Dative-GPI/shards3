@@ -1,4 +1,4 @@
-namespace Foundation.Shared.Translations.Corrector
+namespace Foundation.Shared.Translations.Enricher
 {
     public class ProjectFile
     {

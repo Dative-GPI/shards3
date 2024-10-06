@@ -1,7 +1,7 @@
 using System;
 using System.Xml.Serialization;
 
-namespace Foundation.Shared.Translations.Corrector.DTOs
+namespace Foundation.Shared.Translations.Enricher.DTOs
 {
     public class TranslationOccurenceDTO
     {

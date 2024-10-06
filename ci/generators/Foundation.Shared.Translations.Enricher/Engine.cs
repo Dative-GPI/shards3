@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Foundation.Shared.Translations.Corrector
+namespace Foundation.Shared.Translations.Enricher
 {
     public class Engine
     {
@@ -55,7 +54,7 @@ namespace Foundation.Shared.Translations.Corrector
         {
             using var rootScope = _serviceProvider.CreateScope();
 
-            var context = rootScope.ServiceProvider.GetRequiredService<CorrectorContext>();
+            var context = rootScope.ServiceProvider.GetRequiredService<EnricherContext>();
 
             _logger.LogInformation("Ensuring database is created");
 
