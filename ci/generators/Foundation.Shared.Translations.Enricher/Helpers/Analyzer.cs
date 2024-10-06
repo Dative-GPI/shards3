@@ -22,7 +22,7 @@ namespace Foundation.Shared.Translations.Enricher
             You are an AI assistant capable of analyzing Vue.js and typescript code that contains translation functions ($tr). 
             Your task is to extract information from the translation functions and return a JSON object for each $tr call with the following details:
 
-            1. The translation code (first argument of $tr have to start with "ui", if not, do not consider it)
+            1. The translation code (first argument of $tr should not start with "entity", if so, do not consider it)
             2. The default translation (second argument of $tr)
             3. A description or context for each translation which includes the component type (input, dialog, list, info-cards, ...) and the situation the translation appears in
             4. A suggestion for a better and more precise default translation, only if the current one is not ideal
