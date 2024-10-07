@@ -32,6 +32,7 @@
       <FSLocationTileUI
         v-bind="item"
         :bottomColor="item.colors"
+        :address="item.address.placeLabel"
         :editable="true"
         :singleSelect="singleSelect"
         :modelValue="isSelected(item.id)"

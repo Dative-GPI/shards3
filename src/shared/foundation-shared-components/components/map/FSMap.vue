@@ -47,6 +47,7 @@
             v-for="location in $props.locations"
             :selected="location.id === $props.selectedLocationId"
             :key="location.id"
+            :label="location.label"
             :color="location.color ?? ColorEnum.Primary"
             :icon="location.icon ?? 'mdi-map-marker'"
             :latlng="{lat: location.address.latitude, lng: location.address.longitude}"
@@ -120,7 +121,7 @@
 import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch, onUnmounted, markRaw } from "vue";
 
 import type {} from "leaflet.markercluster";
-import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, LatLngBounds, type FitBoundsOptions } from "leaflet";
+import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, type FitBoundsOptions, type ZoomPanOptions, type LatLngBounds } from "leaflet";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type FSArea } from '@dative-gpi/foundation-shared-domain/models';
@@ -322,11 +323,11 @@ export default defineComponent({
       return map.value.unproject(targetPoint, zoom);
     }
 
-    const flyTo = (lat: number, lng: number, zoom: number = defaultZoom) => {
+    const flyTo = (lat: number, lng: number, zoom: number = defaultZoom, options?: ZoomPanOptions) => {
       if(!map.value) {
         return;
       }
-      map.value.flyTo(calculateTargetPosition(latLng(lat, lng), zoom), zoom);
+      map.value.flyTo(calculateTargetPosition(latLng(lat, lng), zoom), zoom, options);
     }
 
     const setView = (lat: number, lng: number, zoom: number) => {
@@ -337,15 +338,24 @@ export default defineComponent({
     }
 
     const fitBounds = (bounds: LatLngBounds, options?: FitBoundsOptions) => {
-      if(!map.value) {
+      if (!map.value) {
         return;
       }
-      const calculatedBounds = new LatLngBounds(
-        calculateTargetPosition(bounds.getSouthWest()),
-        calculateTargetPosition(bounds.getNorthEast())
-      );
-      map.value.fitBounds(calculatedBounds, options);
-    }
+
+      let paddingRatio = 1
+      if(leftOffset.value) {
+        paddingRatio = leftOffset.value / map.value.getSize().x
+      }
+      else if(bottomOffset.value) {
+        paddingRatio = bottomOffset.value / map.value.getSize().y
+      }
+      if(paddingRatio > 0.5) {
+        paddingRatio = 0.5;
+      }
+      const paddedBounds = bounds.pad(paddingRatio);
+
+      map.value.fitBounds(paddedBounds, options);
+    };
 
     onMounted(() => {
       if(!leafletContainer.value) {
@@ -369,7 +379,6 @@ export default defineComponent({
       });
 
       map.value.attributionControl.remove();
-      // to display google attribution in bottom left corner
       control.attribution({ position: 'bottomleft' }).addTo(map.value);
 
       map.value.on('locationfound', (e: L.LocationEvent) => {
@@ -408,7 +417,7 @@ export default defineComponent({
       if(!selectedLocation) {
         return;
       }
-      flyTo(selectedLocation?.address.latitude, selectedLocation?.address.longitude);
+      flyTo(selectedLocation?.address.latitude, selectedLocation?.address.longitude, defaultZoom, { animate: false });
     }, { immediate: true });
 
     watch(() => props.selectedAreaId, (selectedAreaId) => {
