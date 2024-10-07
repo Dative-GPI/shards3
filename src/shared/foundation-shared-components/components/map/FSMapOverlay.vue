@@ -110,10 +110,12 @@ export default defineComponent({
 
       if (mobileOverlayWrapper.value) {
         mobileResizeObserver.value.observe(mobileOverlayWrapper.value);
+        emit("update:height", mobileOverlayWrapper.value.offsetHeight);
       }
 
       if (desktopOverlay.value) {
         desktopResizeObserver.value.observe(desktopOverlay.value.$el);
+        emit("update:width", desktopOverlay.value.$el.offsetWidth);
       }
     });
 

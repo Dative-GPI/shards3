@@ -30,8 +30,9 @@ const location1: FSLocation = {
     "longitude": 0.1907672,
     "placeId": "EjJCb3VsZXZhcmQgTWFyaWUgZXQgQWxleGFuZHJlIE95b24sIExlIE1hbnMsIEZyYW5jZSIuKiwKFAoSCZdY4sE2j-JHEfQHbY7RQXwpEhQKEgkxqvMU0ojiRxF_4H1qTF0CaQ",
     "placeLabel": "Boulevard Marie et Alexandre Oyon, Le Mans, France"
-
-  }
+  },
+  icon: null,
+  color: null
 }
 
 const location2: FSLocation = {
@@ -82,6 +83,20 @@ const location4: FSLocation = {
     "placeId": "",
     "placeLabel": "Seirel, France"
 
+  }
+}
+
+const location5: FSLocation = {
+  "id": "0598187c-3c63-413c-bc82-86c279027955",
+  "label": "D.E.S. FRIUL DI MIEC",
+  "address": {
+      "formattedAddress": "Via Ermes di Colloredo, 33040 Salt UD, Italie",
+      "locality": "Salt",
+      "country": "Italie",
+      "latitude": 46.1158765,
+      "longitude": 13.2881119,
+      "placeId": "EjBWaWEgRXJtZXMgZGkgQ29sbG9yZWRvLCBQb3ZvbGV0dG8sIFVkaW5lLCBJdGFsaWUiLiosChQKEgl_rhjEJEp6RxGWfpMrWhzPkBIUChIJn70qOztKekcRlT3jhsw1_cY",
+      "placeLabel": "Via Ermes di Colloredo, Povoletto, Udine, Italie"
   }
 }
 
@@ -145,7 +160,7 @@ export const SingleLocationMap: Story = {
 
 export const MultiLocationMap: Story = {
   args: {
-    locations: [location1, location2, location3, location4],
+    locations: [location2, location3, location4, location5],
     selectedLocationId: null,
     overlayMode: 'half',
     currentLayer: 'imagery',
@@ -163,7 +178,9 @@ export const MultiLocationMap: Story = {
         :locations="args.locations"
       >
         <template v-slot:overlay>
-          <FSRow>
+          <FSRow
+            padding="8px"
+          >
             <span>Custom overlay with fade out</span>
           </FSRow>
           <FSCol height="hug" style="min-height: 0;">

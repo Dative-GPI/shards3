@@ -47,9 +47,9 @@ export default {
 
       if(lastPolygon.value) {
         if(featureGroup && featureGroup.value) {
-          featureGroup.value.removeLayer(lastPolygon.value);
+          featureGroup.value.removeLayer(lastPolygon.value as Polygon);
         } else {
-          map.value.removeLayer(lastPolygon.value);
+          map.value.removeLayer(lastPolygon.value as Polygon);
         }
       }
 

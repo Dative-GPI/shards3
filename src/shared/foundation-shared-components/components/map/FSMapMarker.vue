@@ -5,7 +5,7 @@
 <script lang="ts">
 import { inject, type PropType, onMounted, type Ref, watch, ref } from 'vue';
 
-import { type Map, type DivIcon, divIcon, type LatLng, marker, type Marker, type MarkerClusterGroup, type Layer } from 'leaflet';
+import { type Map, type DivIcon, divIcon, type LatLng, marker, type Marker, type MarkerClusterGroup } from 'leaflet';
 
 import { useColors } from "../../composables";
 
@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       default: false,
       required: false
+    },
+    label: {
+      type: String,
+      required: false
     }
   },
   emits: ['click'],
@@ -63,9 +67,9 @@ export default {
 
       if(lastMarker.value) {
         if(markerClusterGroup && markerClusterGroup.value) {
-          markerClusterGroup.value.removeLayer(lastMarker.value);
+          markerClusterGroup.value.removeLayer(lastMarker.value as Marker);
         } else {
-          map.value.removeLayer(lastMarker.value as Layer);
+          map.value.removeLayer(lastMarker.value as Marker);
         }
       }
 
@@ -81,7 +85,7 @@ export default {
       } else if(props.variant === 'location' && props.icon) {
         const size = 36;
         icon = divIcon({
-          html: locationMarkerHtml(props.icon, getColors(props.color).base),
+          html: locationMarkerHtml(props.icon, getColors(props.color).base, props.label),
           iconSize: [size, size],
           className: props.selected ? 'fs-map-location fs-map-location-selected' : 'fs-map-location',
           iconAnchor: [size / 2, size / 2],
