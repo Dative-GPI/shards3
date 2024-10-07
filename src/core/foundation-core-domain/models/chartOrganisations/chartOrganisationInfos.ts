@@ -62,7 +62,7 @@ export interface ChartOrganisationInfosDTO {
 
 export interface ChartOrganisationFilters {
   modelsIds?: string[] | null;
-  plotPer?: PlotPer | null;
+  plotPers?: PlotPer[] | null;
   search?: string | null;
   draft?: boolean | null;
   deprecatedChartId?: string | null;

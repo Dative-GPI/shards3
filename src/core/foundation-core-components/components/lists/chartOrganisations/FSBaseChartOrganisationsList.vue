@@ -79,7 +79,6 @@ import type { RouteLocation } from "vue-router";
 import _ from "lodash";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { PlotPer } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { type ChartOrganisationFilters, type ChartOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useChartOrganisations } from "@dative-gpi/foundation-core-services/composables";
@@ -110,11 +109,6 @@ export default defineComponent({
       required: false,
       default: null
     },
-    plotPer: {
-      type: Number as PropType<PlotPer>,
-      required: false,
-      default: PlotPer.None
-    },
     itemTo: {
       type: Function as PropType<(item: ChartOrganisationInfos) => Partial<RouteLocation>>,
       required: false
@@ -135,19 +129,14 @@ export default defineComponent({
     };
 
     const fetch = () =>{
-      if(props.plotPer === PlotPer.None) {
-        getManyChartOrganisations(props.chartOrganisationFilters);
-      } else {
-        getManyChartOrganisations({...props.chartOrganisationFilters, plotPer: props.plotPer});
-      }
+      getManyChartOrganisations(props.chartOrganisationFilters);
     }
  
-    watch(() => [props.chartOrganisationFilters, props.plotPer], (next, previous) => {
+    watch(() => [props.chartOrganisationFilters], (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
         fetch();
       }
     }, { immediate: true });
-    
 
     return {
       ColorEnum,

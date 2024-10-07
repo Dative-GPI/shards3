@@ -1,5 +1,6 @@
 <template>
-  <FSClickable
+  <component
+    :is="$attrs.onClick ? FSClickable : FSCard"
     borderStyle="dashed"
     padding="24px"
     :height="$props.height"
@@ -26,7 +27,7 @@
         {{ $props.label }}
       </FSText>
     </FSRow>
-  </FSClickable>
+  </component>
 </template>
 
 <script lang="ts">
@@ -35,6 +36,7 @@ import { defineComponent, type PropType } from "vue";
 import { ColorEnum } from "../models";
 
 import FSClickable from "./FSClickable.vue";
+import FSCard from "./FSCard.vue";
 import FSIcon from "./FSIcon.vue";
 import FSText from "./FSText.vue";
 import FSRow from "./FSRow.vue";
@@ -43,6 +45,7 @@ export default defineComponent({
   name: "FSCardPlaceholder",
   components: {
     FSClickable,
+    FSCard,
     FSIcon,
     FSText,
     FSRow
@@ -69,10 +72,11 @@ export default defineComponent({
       default: null
     }
   },
-  emits: ["click"],
   setup() {
     return {
-      ColorEnum
+      ColorEnum,
+      FSClickable,
+      FSCard,
     };
   }
 });
