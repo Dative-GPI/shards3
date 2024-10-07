@@ -22,6 +22,7 @@ export const Variations: Story = {
         <FSCardPlaceholder
             icon="mdi-plus-circle-outline"
             label="Click here to start"
+            @click="console.log('clicked')"
         />
     </div>`
   })

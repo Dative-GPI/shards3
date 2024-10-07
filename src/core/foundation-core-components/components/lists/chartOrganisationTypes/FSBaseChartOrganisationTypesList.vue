@@ -80,8 +80,7 @@ import type { RouteLocation } from "vue-router";
 
 import {ColorEnum} from "@dative-gpi/foundation-shared-components/models";
 
-import type { ChartOrganisationFilters, ChartOrganisationTypeInfos } from "@dative-gpi/foundation-core-domain/models";
-import { PlotPer } from "@dative-gpi/foundation-shared-domain/enums";
+import type { ChartOrganisationTypeFilters, ChartOrganisationTypeInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import { useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 
@@ -106,15 +105,10 @@ export default defineComponent({
       required: false,
       default: null
     },
-    chartOrganisationFilters: {
-      type: Object as PropType<ChartOrganisationFilters>,
+    chartOrganisationTypeFilters: {
+      type: Object as PropType<ChartOrganisationTypeFilters>,
       required: false,
       default: null
-    },
-    plotPer: {
-      type: Number as PropType<PlotPer>,
-      required: false,
-      default: PlotPer.None
     },
     itemTo: {
       type: Function as PropType<(item: ChartOrganisationTypeInfos) => Partial<RouteLocation>>,
@@ -136,14 +130,10 @@ export default defineComponent({
     };
 
     const fetch = () =>{
-      if(props.plotPer === PlotPer.None) {
-        getManyChartOrganisationTypes(props.chartOrganisationFilters);
-      } else {
-        getManyChartOrganisationTypes({ ...props.chartOrganisationFilters, plotPer: props.plotPer });
-      }
+      getManyChartOrganisationTypes(props.chartOrganisationTypeFilters);
     };
 
-    watch(() => [props.chartOrganisationFilters, props.plotPer], (next, previous) => {
+    watch(() => [props.chartOrganisationTypeFilters], (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
         fetch();
       }
