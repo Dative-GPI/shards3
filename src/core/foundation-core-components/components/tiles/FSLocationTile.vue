@@ -11,6 +11,7 @@
     :label="entity.label"
     :code="entity.code"
     :color="entity.color"
+    :address="entity.address.placeLabel"
     :deviceCount="entity.deviceOrganisationsCount"
     :editable="$props.editable"
     :modelValue="modelValue"

@@ -38,11 +38,12 @@
             </FSSpan>
           </FSCol>
           <FSRow
+            v-if="$props.deviceCount"
             :wrap="false"
             align="center-left"
           >
             <FSColor
-              padding="0 8px"
+              width="24px"
               height="24px"
               :color="ColorEnum.Light"
               :border="false"
@@ -53,7 +54,7 @@
                 <FSSpan
                   font="text-overline"
                 >
-                  {{ $props.deviceCount }}
+                  {{ $props.deviceCount <= 99 ? $props.deviceCount : "99+" }}
                 </FSSpan>
               </FSRow>
             </FSColor>
@@ -61,6 +62,32 @@
               font="text-overline"
             >
               {{ $tr("entity.location.devices", "Devices") }}
+            </FSSpan>
+          </FSRow>
+          <FSRow
+            v-if="$props.address"
+            :wrap="false"
+            align="center-left"
+          >
+            <FSColor
+              width="24px"
+              height="24px"
+              :color="ColorEnum.Light"
+              :border="false"
+            >
+              <FSRow
+                align="center-center"
+              >
+                <FSIcon
+                  icon="mdi-map-marker"
+                  size="16px"
+                />
+              </FSRow>
+            </FSColor>
+            <FSSpan
+              font="text-overline"
+            >
+              {{ $props.address }}
             </FSSpan>
           </FSRow>
         </FSCol>
@@ -114,6 +141,10 @@ export default defineComponent({
       type: String,
       required: false,
       default: "mdi-map-marker"
+    },
+    address: {
+      type: String,
+      required: false
     },
     deviceCount: {
       type: Number,

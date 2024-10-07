@@ -9,6 +9,9 @@ const meta: Meta<typeof FSLocationTileUI> = {
   subcomponents: { FSTile },
   tags: ['autodocs'],
   argTypes: {
+    color: { control: 'color' },
+    height: { control: 'number' },
+    width: { control: 'number' },
   },
 };
 
@@ -16,56 +19,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    args: {
-      values: [{
-        id: "1",
-        label: 'Location test',
-        code: 'location-test',
-        color: 'primary',
-        icon: 'mdi-home',
-        deviceCount: 5
-      }, {
-        id: "2",
-        label: 'Location test',
-        code: 'location-test',
-        color: 'primary',
-        icon: 'mdi-home',
-        singleSelect: true
-      }, {
-        id: "3",
-        label: 'Location test',
-        color: 'primary',
-        icon: 'mdi-home',
-        deviceCount: 5
-      }
-    ],
-      selected: [
-        false,
-        false,
-        false
-      ]
-    }
-  },
-  render: (args, { argTypes }) => ({
-  components: { FSLocationTileUI },
-  props: Object.keys(argTypes),
-  setup() {
-    return { ...args };
-  },
-  template: `
-  <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100vw;">
-    <FSLocationTileUI
-      v-for="(entity, index) in args.values"
-      :key="index"
-      v-model="args.selected[index]"
-      v-bind="entity"
-    />
-  </div>`
-})
-};
-
-export const Variation1: Story = {
   render: (args) => ({
     components: { FSLocationTileUI },
     setup() {
@@ -75,38 +28,15 @@ export const Variation1: Story = {
       <FSLocationTileUI
         :label="args.label"
         :code="args.code"
+        :address="args.address"
         :color="args.color"
         :icon="args.icon"
         :deviceCount="args.deviceCount"
-        width="320px"
-        height="220px"
-      />
-      <div style="margin-top: 20px;"></div>
-      <FSLocationTileUI
-        :label="args.label"
-        :code="args.code"
-        :color="args.color"
-        :icon="args.icon"
-        :deviceCount="args.deviceCount"
-        width="520px"
-        height="220px"
-      />
-      <div style="margin-top: 20px;"></div>
-      <FSLocationTileUI
-        :label="args.label"
-        :code="args.code"
-        :color="args.color"
-        :icon="args.icon"
-        width="100%"
-        :deviceCount="args.deviceCount"
-      />
-      <div style="margin-top: 20px;"></div>
-      <FSLocationTileUI
-        :label="args.label"
-        :code="args.code"
-        :color="args.color"
-        :icon="args.icon"
-        :deviceCount="args.deviceCount"
+        :width="args.width"
+        :height="args.height"
+        :singleSelect="args.singleSelect"
+        :selected="args.selected"
+        :modelValue="args.modelValue"
       />
     `,
   }),
@@ -116,6 +46,11 @@ export const Variation1: Story = {
     color: '#9F2424',
     icon: 'mdi-cog',
     deviceCount: 1,
+    address: '50 rue des Vignes, 75000 Paris',
+    width: 418,
+    height: 140,
+    singleSelect: false,
+    modelValue: false,
   },
 };
 
