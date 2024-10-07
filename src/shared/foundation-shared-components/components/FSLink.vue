@@ -28,8 +28,8 @@
 import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 import { type RouteLocation } from "vue-router";
 
+import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 
 export default defineComponent({
   name: "FSLink",
@@ -76,6 +76,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { fontStyles } = useBreakpoints();
     const { getColors } = useColors();
     const { slots } = useSlots();
 
@@ -85,15 +86,18 @@ export default defineComponent({
       switch (props.variant) {
         case "base": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
-          "--fs-link-color"     : colors.value.base
+          "--fs-link-color"     : colors.value.base,
+          ...fontStyles.value
         };
         case "light": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
-          "--fs-link-color"     : colors.value.light
+          "--fs-link-color"     : colors.value.light,
+          ...fontStyles.value
         };
         case "dark": return {
           "--fs-span-line-clamp": props.lineClamp.toString(),
-          "--fs-link-color"     : colors.value.dark
+          "--fs-link-color"     : colors.value.dark,
+          ...fontStyles.value
         };
       }
     });
