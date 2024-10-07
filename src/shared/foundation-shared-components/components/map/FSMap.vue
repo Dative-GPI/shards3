@@ -121,7 +121,7 @@
 import { computed, defineComponent, onMounted, type Ref, provide, type PropType, ref, type StyleValue, watch, onUnmounted, markRaw } from "vue";
 
 import type {} from "leaflet.markercluster";
-import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, LatLngBounds, type FitBoundsOptions, type ZoomPanOptions } from "leaflet";
+import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng, type FitBoundsOptions, type ZoomPanOptions, type LatLngBounds } from "leaflet";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type FSArea } from '@dative-gpi/foundation-shared-domain/models';
