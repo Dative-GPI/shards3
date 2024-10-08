@@ -11,8 +11,8 @@ export class ConnectivityScenarioDetails extends ConnectivityScenarioInfos {
 export interface ConnectivityScenarioDetailsDTO extends ConnectivityScenarioInfosDTO {
 }
 
-export interface CreateConnectivityScenarioDTO {
-    deviceOrganisationId: string;
+export interface UpsertConnectivityScenarioDTO {
+    deviceOrganisationsIds: string[];
     time: number;
     warnDeviceManager: boolean;
     warnOnReconnection: boolean;
