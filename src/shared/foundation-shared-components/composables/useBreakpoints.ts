@@ -2,13 +2,17 @@ import { computed, ref } from "vue";
 
 let initialized = false;
 
-const windowHeight = ref(window.outerHeight);
-const windowWidth = ref(window.outerWidth);
+const windowHeight = ref(window.innerHeight);
+const windowWidth = ref(window.innerWidth);
+
+const windowOuterWidth = ref(window.outerWidth);
 
 export const useBreakpoints = () => {
     const onSizeChange = (): void => {
-        windowHeight.value = window.outerHeight;
-        windowWidth.value = window.outerWidth;
+        windowHeight.value = window.innerHeight;
+        windowWidth.value = window.innerWidth;
+
+        windowOuterWidth.value = window.outerWidth;
     };
 
     const isTouchScreenEnabled = computed((): boolean => {
@@ -16,11 +20,11 @@ export const useBreakpoints = () => {
     });
 
     const isMobileSized = computed((): boolean => {
-        return windowWidth.value < 1264;
+        return windowOuterWidth.value < 1264;
     });
 
     const isExtraSmall = computed((): boolean => {
-        return windowWidth.value < 600;
+        return windowOuterWidth.value < 600;
     });
 
     if (!initialized) {
