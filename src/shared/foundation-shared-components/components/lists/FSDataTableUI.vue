@@ -905,6 +905,7 @@ export default defineComponent({
     const resetable = ref(false);
 
     const intersectionObserver = ref<IntersectionObserver | null>(null);
+    const observerEntries = ref<IntersectionObserverEntry[]>([]);
     const size = ref(props.sizeIterator);
 
     const elementId = `id${uuidv4()}`;
@@ -1334,13 +1335,8 @@ export default defineComponent({
         case "iterator":
           if (!intersectionObserver.value) {
             intersectionObserver.value = new IntersectionObserver(entries => {
-              entries.forEach((entry) => {
-                if (entry.boundingClientRect.bottom < window.innerHeight * 1.25) {
-                  if (innerItems.value.length > size.value) {
-                    size.value = Math.min(size.value + props.sizeIterator, innerItems.value.length);
-                  }
-                }
-              });
+              observerEntries.value = entries.slice();
+              onObserve();
             }, { threshold: [0.9] });
           }
           if (document.querySelector(`#${elementId}`)) {
@@ -1488,6 +1484,16 @@ export default defineComponent({
       }
     };
 
+    const onObserve = () => {
+      observerEntries.value.forEach((entry) => {
+        if (entry.boundingClientRect.bottom < window.innerHeight * 1.25) {
+          if (innerItems.value.length > size.value) {
+            size.value = Math.min(size.value + props.sizeIterator, innerItems.value.length);
+          }
+        }
+      });
+    }
+
     onMounted(() => {
       computeFilters();
       observeIntersection();
@@ -1538,13 +1544,16 @@ export default defineComponent({
       computeFilters();
     });
 
-    watch(() => props.items, async () => {
+    watch(() => props.items, async (value, former) => {
       computeFilters();
       if (innerPage.value !== 1) {
         const formerPage = innerPage.value;
         innerPage.value = 1;
         await nextTick();
         innerPage.value = formerPage;
+      }
+      if (intersectionObserver.value && value.length > former.length) {
+        onObserve();
       }
     });
 
