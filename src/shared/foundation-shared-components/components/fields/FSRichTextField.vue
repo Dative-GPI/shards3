@@ -191,7 +191,7 @@
     >
       <div
         class="fs-rich-text-field-content"
-        :data-variable-values="JSON.stringify($props.variableValues)"
+        :data-variable-values="variableValues"
         :contenteditable="!readonly && $props.editable && !loading"
         :data-readonly="$props.variant === 'readonly'"
         :id="id"
@@ -376,21 +376,7 @@ export default defineComponent({
       registerRichText(editor);
       registerHistory(editor, createEmptyHistoryState(), 250);
 
-      if (props.modelValue != null) {
-        editor.update((): void => {
-          if(typeof props.modelValue === "string") {
-            editor.setEditorState(editor.parseEditorState(props.modelValue!));
-          }
-          else {
-            editor.setEditorState(editor.parseEditorState(JSON.stringify(props.modelValue)));
-          }
-        });
-      }
-      else {
-        editor.update((): void => {
-          editor.setEditorState(editor.parseEditorState(emptyLexicalState));
-        });
-      }
+      updateEditorState();
       loading.value = false;
     });
 
@@ -483,6 +469,10 @@ export default defineComponent({
           link: lights.base
         };
       }
+    });
+
+    const variableValues = computed(() => {
+      return JSON.stringify(props.variableValues)
     });
 
     const updateToolbar = (): void => {
@@ -677,29 +667,34 @@ export default defineComponent({
       isLink.value = false;
     }
 
-    watch(() => props.modelValue, () => {
-      if (JSON.stringify(editor.getEditorState().toJSON()) != props.modelValue) {
-        if (props.modelValue != null) {
-          editor.update(() => {
-            if(typeof props.modelValue === "string") {
-              editor.setEditorState(editor.parseEditorState(props.modelValue!));
-            }
-            else {
-              editor.setEditorState(editor.parseEditorState(JSON.stringify(props.modelValue)));
-            }
-          });
-        }
-        else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyLexicalState) {
-          editor.update(() => {
-            editor.setEditorState(editor.parseEditorState(emptyLexicalState));
-          });
-        }
+    const updateEditorState = () => {     
+      if (JSON.stringify(editor.getEditorState().toJSON()) === props.modelValue) {
+        return;
       }
+      if (props.modelValue != null) {
+        editor.update(() => {
+          if(typeof props.modelValue === "string") {
+            editor.setEditorState(editor.parseEditorState(props.modelValue!));
+          }
+          else {
+            editor.setEditorState(editor.parseEditorState(JSON.stringify(props.modelValue)));
+          }
+        });
+        return;
+      }
+      editor.update(() => {
+        editor.setEditorState(editor.parseEditorState(emptyLexicalState));
+      });
+    }
+
+    watch(() => props.modelValue, () => {
+      updateEditorState();
     });
 
     return {
       FORMAT_ELEMENT_COMMAND,
       FORMAT_TEXT_COMMAND,
+      variableValues,
       toolbarColors,
       menuVariable,
       UNDO_COMMAND,

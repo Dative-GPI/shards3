@@ -2,20 +2,22 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSRichTextField from "@dative-gpi/foundation-shared-components/components/fields/FSRichTextField.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
+import FSTextField from '@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue';
+import FSRow from '@dative-gpi/foundation-shared-components/components/FSRow.vue';
 
 const meta = {
   title: 'Foundation/Shared/Input fields/RichTextField',
   component: FSRichTextField,
   tags: ['autodocs'],
   argTypes: {
-    onClick: { action: 'clicked' }
   },
 } satisfies Meta<typeof FSRichTextField>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Variations: Story = {
+export const Default: Story = {
   args: {
     args: {
       value1: "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Hello I am \",\"type\":\"text\",\"version\":1},{\"type\":\"variable\",\"version\":1,\"code\":\"name\",\"defaultValue\":\"defaultName\"}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"heading\",\"version\":1,\"tag\":\"h1\"},{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"I come from \",\"type\":\"text\",\"version\":1},{\"type\":\"variable\",\"version\":1,\"code\":\"country\",\"defaultValue\":\"World\"},{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\" and I am \",\"type\":\"text\",\"version\":1},{\"type\":\"variable\",\"version\":1,\"code\":\"age\",\"defaultValue\":\"defaultAge\"},{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\".\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1},{\"children\":[],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
@@ -72,6 +74,58 @@ export const Variations: Story = {
         variant="readonly"
         v-model="args.value2"
       />
+    </FSCol>`
+  })
+}
+
+
+export const Variables: Story = {
+  args: {
+    modelValue: "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Hello I am \",\"type\":\"text\",\"version\":1},{\"type\":\"variable\",\"version\":1,\"code\":\"name\",\"defaultValue\":\"defaultName\"}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"heading\",\"version\":1,\"tag\":\"h1\"},{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"I come from \",\"type\":\"text\",\"version\":1},{\"type\":\"variable\",\"version\":1,\"code\":\"country\",\"defaultValue\":\"World\"},{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\" and I am \",\"type\":\"text\",\"version\":1},{\"type\":\"variable\",\"version\":1,\"code\":\"age\",\"defaultValue\":\"defaultAge\"},{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\".\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1},{\"children\":[],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
+    variableReferences: [{ code: "name", defaultValue: "DefaultName", label: "Name" }, { code: "age", defaultValue: "18", label: "Age" }, { code: "country", defaultValue: "World", label: "Country" }, { code: "city", defaultValue: "Capital", label: "City" }],
+    variableValues: { name: "John", age: "25" },
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSRichTextField, FSCol, FSText, FSTextField, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return { args };
+    },
+    template: `
+    <FSCol
+      gap="24px"
+    >
+      <FSCol>
+        <FSRichTextField
+          :variableReferences="args.variableReferences"
+          v-model="args.modelValue"
+        />
+      </FSCol>
+      <FSCol>
+        <FSText
+          font="text-button">
+          Variables
+        </FSText>
+        <FSRow>
+          <FSTextField
+            v-for="variable in args.variableReferences"
+            :key="variable.code"
+            :label="variable.label"
+            v-model="args.variableValues[variable.code]"
+          />
+        </FSRow>
+      </FSCol>
+      <FSCol>
+        <FSText
+          font="text-button">
+          Result
+        </FSText>
+        <FSRichTextField
+          variant="readonly"
+          :variableValues="args.variableValues"
+          :modelValue="args.modelValue"
+        />
+      </FSCol>
     </FSCol>`
   })
 }
