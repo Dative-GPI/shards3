@@ -192,7 +192,7 @@
       <div
         class="fs-rich-text-field-content"
         :data-variable-values="JSON.stringify($props.variableValues)"
-        :contenteditable="!readonly && $props.editable"
+        :contenteditable="!readonly && $props.editable && !loading"
         :data-readonly="$props.variant === 'readonly'"
         :id="id"
       />
@@ -275,7 +275,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: String as PropType<string | null>,
+      type: [Object, String] as PropType<{ [key: string]: any } | string | null>,
       required: false,
       default: null
     },
@@ -323,6 +323,7 @@ export default defineComponent({
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
+    const loading = ref(true);
     const canUndo = ref(false);
     const isLink = ref(false);
     const isBold = ref(false);
@@ -377,7 +378,12 @@ export default defineComponent({
 
       if (props.modelValue != null) {
         editor.update((): void => {
-          editor.setEditorState(editor.parseEditorState(props.modelValue!));
+          if(typeof props.modelValue === "string") {
+            editor.setEditorState(editor.parseEditorState(props.modelValue!));
+          }
+          else {
+            editor.setEditorState(editor.parseEditorState(JSON.stringify(props.modelValue)));
+          }
         });
       }
       else {
@@ -385,6 +391,7 @@ export default defineComponent({
           editor.setEditorState(editor.parseEditorState(emptyLexicalState));
         });
       }
+      loading.value = false;
     });
 
     const readonly = computed((): boolean => {
@@ -498,11 +505,16 @@ export default defineComponent({
     editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         updateToolbar();
-        if (JSON.stringify(editorState.toJSON()) !== emptyLexicalState) {
-          emit("update:modelValue", JSON.stringify(editorState.toJSON()));
+        if(loading.value) {
+          return;
         }
-        else {
+        const editorModelValue = JSON.stringify(editorState.toJSON());
+        if(editorModelValue === emptyLexicalState) {
           emit("update:modelValue", null);
+          return;
+        }
+        if(editorModelValue !== props.modelValue) {
+          emit("update:modelValue", editorModelValue);
         }
       });
     });
@@ -669,7 +681,12 @@ export default defineComponent({
       if (JSON.stringify(editor.getEditorState().toJSON()) != props.modelValue) {
         if (props.modelValue != null) {
           editor.update(() => {
-            editor.setEditorState(editor.parseEditorState(props.modelValue!));
+            if(typeof props.modelValue === "string") {
+              editor.setEditorState(editor.parseEditorState(props.modelValue!));
+            }
+            else {
+              editor.setEditorState(editor.parseEditorState(JSON.stringify(props.modelValue)));
+            }
           });
         }
         else if (JSON.stringify(editor.getEditorState().toJSON()) !== emptyLexicalState) {
@@ -690,6 +707,7 @@ export default defineComponent({
       readonly,
       linkUrl,
       classes,
+      loading,
       isEmpty,
       editor,
       isLink,

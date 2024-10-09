@@ -112,12 +112,15 @@ export default defineComponent({
       default: true,
     },
     modelValue: {
-      type: String as PropType<string | null>,
+      type: [Object, String] as PropType<{ [key: string]: any } | string | null>,
       required: false,
       default: null
     },
     translations: {
-      type: Array as PropType<{ languageCode: string; [key: string]: string }[]>,
+      type: Array as PropType<{
+        languageCode: string;
+        [key: string]: string | object | null;
+      }[]>,
       required: false,
       default: () => []
     },
@@ -133,15 +136,15 @@ export default defineComponent({
 
     const innerTranslations = ref(props.translations);
 
-    const getTranslation = (languageCode: string): string => {
+    const getTranslation = (languageCode: string): string | object => {
       if (!innerTranslations.value) {
         return emptyLexicalState;
       }
       const translation = innerTranslations.value.find((t) => t.languageCode === languageCode);
-      if (!translation || !translation[props.property]) {
+      if (!translation || !translation[props.property] || translation[props.property] === "") {
         return emptyLexicalState;
       }
-      return translation[props.property].toString();
+      return translation[props.property]!;
     };
 
     const setTranslation = (languageCode: string, value: string): void => {
