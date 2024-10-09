@@ -1,4 +1,4 @@
-import type { Days } from "@dative-gpi/foundation-shared-domain/enums";
+import type { DateType, Days } from "@dative-gpi/foundation-shared-domain/enums";
 
 import type { ChartTimeRangeTranslationDTO, CreateChartTimeRangeTranslationDTO } from "./chartTimeRangeTranslation";
 import { ChartTimeRangeTranslation } from "./chartTimeRangeTranslation";
@@ -29,6 +29,7 @@ export interface ChartTimeRangeDTO {
   endDay: number;
   endHour: number;
   endMinute: number;
+  variant: DateType;
   color: string;
   opacity: number;
   label: string;
@@ -43,6 +44,7 @@ export interface CreateChartTimeRangeDTO {
   endDay: Days;
   endHour: number;
   endMinute: number;
+  variant: DateType;
   color: string;
   opacity: number;
   labelDefault: string;

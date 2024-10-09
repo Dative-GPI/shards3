@@ -56,6 +56,17 @@
           @update:modelValue="onChangeHourEnd"
         />
       </FSRow>
+      <FSSelectField
+        v-if="$props.showVariant"
+        width="hug"
+        :label="$tr('ui.common.type', 'Type')"
+        :items="dateTypeItems"
+        :hideHeader="true"
+        :clearable="false"
+        :modelValue="modelValue?.variant ?? DateType.Local"
+        @update:modelValue="onUpdateVariant"
+      />
+      {{ modelValue }}
     </FSRow>
   </FSBaseField>
 </template>
@@ -63,9 +74,10 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType, type StyleValue } from "vue";
 
+import { useTranslations as useTranslationProvider } from "@dative-gpi/bones-ui/composables";
 import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { Days } from "@dative-gpi/foundation-shared-domain/enums";
+import { DateType, Days } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSSelectField from "./FSSelectField.vue";
 import FSBaseField from "./FSBaseField.vue";
@@ -122,16 +134,32 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    showVariant: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { $tr } = useTranslationProvider();
     const { validateOn, getMessages } = useRules();
     const { getColors } = useColors();
 
     const errors = getColors(ColorEnum.Error);
     const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
+    const dateTypeItems = [
+      {
+        id: DateType.Local,
+        label: $tr('ui.common.local', 'Local')
+      },
+      {
+        id: DateType.UTC,
+        label: $tr('ui.common.utc', 'UTC')
+      }
+    ];
     
     const daysObject: { id: number; label: string }[]  = Object.keys(Days).reduce((acc, key) => {
       if (isNaN(Number(key))) {
@@ -195,7 +223,8 @@ export default defineComponent({
                  startMinute: props.modelValue.startMinute,
                  endDay: 7,
                  endHour: props.modelValue.endHour,
-                 endMinute: props.modelValue.endMinute
+                 endMinute: props.modelValue.endMinute,
+                 variant: props.modelValue.variant
                }
           );
           return;
@@ -207,7 +236,8 @@ export default defineComponent({
                startMinute: 0,
                endDay: 7,
                endHour: 0,
-               endMinute: 0
+               endMinute: 0,
+               variant: DateType.Local
              }
         );
         return;
@@ -221,7 +251,8 @@ export default defineComponent({
                  startMinute: props.modelValue.startMinute,
                  endDay: value,
                  endHour: props.modelValue.endHour,
-                 endMinute: props.modelValue.endMinute
+                 endMinute: props.modelValue.endMinute,
+                 variant: props.modelValue.variant
                }
           );
           return;
@@ -232,7 +263,8 @@ export default defineComponent({
           startMinute: props.modelValue.startMinute,
           endDay: props.modelValue.endDay,
           endHour: props.modelValue.endHour,
-          endMinute: props.modelValue.endMinute
+          endMinute: props.modelValue.endMinute,
+          variant: props.modelValue.variant
         }, true);
         emit("update:modelValue", t);
         return;
@@ -243,7 +275,8 @@ export default defineComponent({
         startMinute: 0,
         endDay: value,
         endHour: 0,
-        endMinute: 0
+        endMinute: 0,
+        variant: DateType.Local
       });
     };
 
@@ -258,7 +291,8 @@ export default defineComponent({
           startMinute: innerMinutes,
           endDay: realTime.value.endDay,
           endHour: realTime.value.endHour,
-          endMinute: realTime.value.endMinute
+          endMinute: realTime.value.endMinute,
+          variant: realTime.value.variant
         };
         const newTime = applyOffset(t, true);
         emit("update:modelValue", newTime);
@@ -270,7 +304,8 @@ export default defineComponent({
         startMinute: innerMinutes,
         endDay: 0,
         endHour: 0,
-        endMinute: 0
+        endMinute: 0,
+        variant: props.modelValue?.variant ?? DateType.Local
       });
     }
 
@@ -296,7 +331,8 @@ export default defineComponent({
                startMinute: 0,
                endDay: 7,
                endHour: 0,
-               endMinute: 0
+               endMinute: 0,
+                variant: DateType.Local
              }
         );
         return;
@@ -309,7 +345,8 @@ export default defineComponent({
             startMinute: props.modelValue.startMinute,
             endDay: value,
             endHour: props.modelValue.endHour,
-            endMinute: props.modelValue.endMinute
+            endMinute: props.modelValue.endMinute,
+            variant: props.modelValue.variant
           });
           return;
         }
@@ -319,7 +356,8 @@ export default defineComponent({
           startMinute: props.modelValue.startMinute,
           endDay: value,
           endHour: props.modelValue.endHour,
-          endMinute: props.modelValue.endMinute
+          endMinute: props.modelValue.endMinute,
+          variant: props.modelValue.variant
         }, true);
         emit("update:modelValue", t);
         return;
@@ -330,7 +368,8 @@ export default defineComponent({
         startMinute: 0,
         endDay: value,
         endHour: 0,
-        endMinute: 0
+        endMinute: 0,
+        variant: DateType.Local
       });
     };
 
@@ -344,7 +383,8 @@ export default defineComponent({
           startMinute: realTime.value.startMinute,
           endDay: realTime.value.endDay,
           endHour: innerHours,
-          endMinute: innerMinutes
+          endMinute: innerMinutes,
+          variant: realTime.value.variant
         };
         const newTime = applyOffset(t, true);
         
@@ -357,22 +397,51 @@ export default defineComponent({
         startMinute: 0,
         endDay: 0,
         endHour: innerHours,
-        endMinute: innerMinutes
+        endMinute: innerMinutes,
+        variant: props.modelValue?.variant ?? DateType.Local
       });
     }
 
+    const onUpdateVariant = (value: DateType) => {
+      if (realTime.value) {
+        const t = applyOffset({
+          startDay: realTime.value.startDay,
+          startHour: realTime.value.startHour,
+          startMinute: realTime.value.startMinute,
+          endDay: realTime.value.endDay,
+          endHour: realTime.value.endHour,
+          endMinute: realTime.value.endMinute,
+          variant: value
+        }, true);
+        emit("update:modelValue", {...props.modelValue, variant: value});
+        return
+      }
+      emit("update:modelValue",{
+        startDay: 0,
+        startHour: 0,
+        startMinute: 0,
+        endDay: 0,
+        endHour: 0,
+        endMinute: 0,
+        variant: value
+      });
+    };
+
     return {
+      dateTypeItems,
       daysObject,
       validateOn,
       ColorEnum,
       startTime,
       realTime,
       messages,
+      DateType,
       endTime,
       style,
       onChangeHourStart,
       onChangeDayStart,
       onChangeHourEnd,
+      onUpdateVariant,
       onChangeDayEnd
     };
   }
