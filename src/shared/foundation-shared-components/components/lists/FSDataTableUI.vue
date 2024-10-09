@@ -1344,6 +1344,7 @@ export default defineComponent({
             }, { threshold: [0.9] });
           }
           if (document.querySelector(`#${elementId}`)) {
+            intersectionObserver.value.unobserve(document.querySelector(`#${elementId}`)!);
             intersectionObserver.value.observe(document.querySelector(`#${elementId}`)!);
           }
           return;
@@ -1516,6 +1517,10 @@ export default defineComponent({
         .some((key) => filters.value[key].some((filter) => filter.hidden));
     }, { deep: true });
 
+    watch(size, () => {
+      observeIntersection();
+    });
+
     watch(innerMode, () => {
       emit("update:mode", innerMode.value);
       size.value = props.sizeIterator;
@@ -1545,10 +1550,6 @@ export default defineComponent({
         innerPage.value = 1;
         await nextTick();
         innerPage.value = formerPage;
-      }
-      if (intersectionObserver.value && document.querySelector(`#${elementId}`)) {
-        intersectionObserver.value.unobserve(document.querySelector(`#${elementId}`)!);
-        intersectionObserver.value.observe(document.querySelector(`#${elementId}`)!);
       }
     });
 
