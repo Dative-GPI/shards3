@@ -7,7 +7,6 @@
       v-if="$props.searchable"
       :hideHeader="true"
       :modelValue="actualSearch"
-      placeholder="Search"
       @update:modelValue="onSearch"
     />
     <FSFadeOut

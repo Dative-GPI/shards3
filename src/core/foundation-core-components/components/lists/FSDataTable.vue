@@ -1,6 +1,6 @@
 <template>
   <FSLoadDataTable
-    v-if="($props.tableCode && !initialized) || gettingUserOrganisationTable"
+    v-if="($props.tableCode && !initialized) || gettingUserOrganisationTable || !table"
   />
   <FSDataTableUI
     v-else
@@ -89,8 +89,8 @@ export default defineComponent({
       }
     }, { immediate: true });
 
-    watch(() => table.value, () => {
-      if (table.value && initialized.value) {
+    watch(() => (table.value ? { ...table.value } : null), (_, former) => {
+      if (table.value && former && initialized.value) {
         debounce(update, props.debounceTime);
       }
     }, { deep: true });

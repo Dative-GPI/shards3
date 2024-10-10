@@ -47,7 +47,6 @@
           <FSSearchField
             :hideHeader="true"
             class="fs-filter-button-search"
-            prependInnerIcon="mdi-magnify"
             v-model="search"
           />
         </FSCol>

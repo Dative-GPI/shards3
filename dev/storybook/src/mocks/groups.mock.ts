@@ -56,10 +56,10 @@ const getParentId = (id: string) => {
     }
 }
 
-export const GROUPS: GroupInfosDTO[] = Array.from(Array(15).keys()).map(i => ({
+export const GROUPS: GroupInfosDTO[] = Array.from(Array(80).keys()).map(i => ({
     id: (i + 1).toString(),
     organisationId: ORGANISATIONS[0].id,
-    imageId: "1",
+    imageId: null,
     icon: `mdi-numeric-${(i + 1)}-circle`,
     code: `number.${(i + 1)}`,
     label: `Group ${(i + 1)}`,
