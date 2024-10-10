@@ -30,6 +30,7 @@
       :canEditRemove="currentUser?.id === comment.userId"
       :comment="comment.comment"
       :edited="comment.edited"
+      :removing="removing"
       :id="comment.id"
       @edit="updateComment"
       @remove="removeComment(comment.id)"
@@ -39,7 +40,7 @@
 
 <script lang="ts">
 import type { PropType} from "vue";
-import { computed, defineComponent, onMounted, watch } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import _ from "lodash";
 
 import { useDateFormat, useCurrentUser } from "@dative-gpi/foundation-shared-services/composables";
@@ -77,8 +78,10 @@ export default defineComponent({
     const { create: createComment, creating : creatingComment } = useCreateComment();
     const { getMany: fetchComments, entities: comments } = useComments();
     const {update  } = useUpdateComment();
-    const {remove  } = useRemoveComment();
+    const {remove, removing  } = useRemoveComment();
     const { epochToLongTimeFormat } = useDateFormat();
+
+    const error = ref<string | null>(null);
 
     const orderedComments = computed(()  => {
       return _.orderBy(comments.value, ['timestamp'], ['desc']);
@@ -101,8 +104,14 @@ export default defineComponent({
       update(payload.commentId, {comment : payload.comment})
     }
 
-    const removeComment = (commentId : string) => {
-      remove(commentId)
+    const removeComment = async (commentId : string) => {
+      try {
+        error.value = null;
+        await remove(commentId);
+      }
+      catch (exception: any) {
+        error.value = exception.response.data;
+      }
     }
 
     watch(() => props.commentFilters, (next, previous) => {
@@ -112,15 +121,18 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
-      comments,
-      ColorEnum,
       creatingComment,
-      currentUser,
       orderedComments,
+      currentUser,
+      ColorEnum,
+      comments,
+      removing,
+      error,
+      epochToLongTimeFormat,
       createNewComment,
       updateComment,
       removeComment,
-      epochToLongTimeFormat
+      
     };
   }
 });

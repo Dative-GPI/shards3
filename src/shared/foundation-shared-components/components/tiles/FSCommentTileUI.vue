@@ -33,7 +33,7 @@
           />
           <FSButtonRemoveIcon
             v-if="canEditRemove"
-            @click="$emit('remove')"
+            @click="removeDialog = true"
           />
         </FSRow>
       </template>
@@ -63,18 +63,25 @@
         @submit="updateComment"
       />
     </FSCol>
+    <FSDialogRemove 
+      v-model="removeDialog"
+      :removeTotal="1"
+      :removing="removing"
+      @click:submitButton="$emit('remove')"
+    />
   </FSCol>
 </template>
 
 <script lang="ts">
 import type { PropType} from "vue";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButtonRemoveIcon from "../buttons/FSButtonRemoveIcon.vue";
-import FSCommentField from "../fields/FSCommentField.vue";
 import FSButtonEditIcon from "../buttons/FSButtonEditIcon.vue";
+import FSDialogRemove from "../FSDialogRemove.vue";
+import FSCommentField from "../fields/FSCommentField.vue";
 import FSImage from "../FSImage.vue";
 import FSCard from "../FSCard.vue";
 import FSText from "../FSText.vue";
@@ -85,8 +92,9 @@ export default defineComponent({
   name: "FSCommentTileUI",
   components: {
     FSButtonRemoveIcon,
-    FSCommentField,
     FSButtonEditIcon,
+    FSCommentField,
+    FSDialogRemove,
     FSImage,
     FSCard,
     FSText,
@@ -128,20 +136,33 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    removing: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["edit", "remove"],
   setup(props, { emit }) {
     const showEditComment = ref(false);
+    const removeDialog = ref(false);
 
     const updateComment = (comment: string) => {      
       emit('edit',{commentId : props.id, comment : comment})
       showEditComment.value = false;
     };
 
+    watch(() => props.removing, () => {
+      if (!props.removing) {
+        removeDialog.value = false;
+      }
+    });
+
     return {
-      ColorEnum,
       showEditComment,
+      removeDialog,
+      ColorEnum,
       updateComment
     };
   }
