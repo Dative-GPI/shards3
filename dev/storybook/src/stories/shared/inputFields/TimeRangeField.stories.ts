@@ -61,7 +61,7 @@ export const Variations: Story = {
         :showVariant="true"
         v-model="args.value0"
       />
-      <!-- <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeRangeField
         label="Required time Range, with description"
         description="Description for this field"
@@ -74,7 +74,7 @@ export const Variations: Story = {
         description="Uneditable description"
         :editable="false"
         v-model="args.value2"
-      /> -->
+      />
     </FSCol>`
   })
 }
