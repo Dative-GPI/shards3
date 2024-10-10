@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, ref } from 'vue';
+import { defineComponent, type PropType, ref, watch } from 'vue';
 
 import { useDateFormat } from '@dative-gpi/foundation-shared-services/composables';
 
@@ -174,6 +174,17 @@ export default defineComponent({
         updateDateRange(props.now);
       }
     }
+
+    watch(() => props.mode, (newMode) => {
+      const dayBtwStartAndEnd = props.start + (props.end - props.start) / 2;
+      if (newMode === AgendaMode.Week) {
+        updateDateRange(dayBtwStartAndEnd - (new Date(dayBtwStartAndEnd).getDay() - 1) * 24 * 60 * 60 * 1000);
+      } else if (newMode === AgendaMode.Month) {
+        updateDateRange(new Date(dayBtwStartAndEnd).setDate(1));
+      } else if (newMode === AgendaMode.Day) {
+        updateDateRange(dayBtwStartAndEnd);
+      }
+    });
 
     return {
       AgendaMode,

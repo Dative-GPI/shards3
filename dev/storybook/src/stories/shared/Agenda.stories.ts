@@ -254,7 +254,7 @@ export const DoubleWeekView: Story = {
   args: {
     mode: AgendaMode.Week,
     width: '100%',
-    height: '100%',
+    height: '1300px',
     start: todayStart - 86400000 * 7,
     end: todayStart + 86400000 * 7,
     eventsSet: 'mountainChalet1',
@@ -317,7 +317,7 @@ export const DoubleMonthView: Story = {
   args: {
     mode: AgendaMode.Month,
     width: '100%',
-    height: '100%',
+    height: '1900',
     start: todayStart - 86400000 * 31,
     end: todayStart + 86400000 * 31,
     eventsSet: 'mountainChalet2',
