@@ -26,11 +26,14 @@ export const Variations: Story = {
   args: {
     args: {
       tab1: 0,
-      tab2: 1,
+      tab2: 0,
       tab3: 2,
       tab4: 3,
       tab5: 0,
-      tab6: 0
+      tab6: 0,
+      tab7: 0,
+      tab8: 0,
+      tab9: 0
     }
   },
   render: (args, { argTypes }) => ({
@@ -44,11 +47,11 @@ export const Variations: Story = {
         <FSText> Tabs in FadeOut </FSText>
         <FSFadeOut height="200px">
           <FSCol>
-            <FSTabs v-model:tab="args.tab5" color="success">
+            <FSTabs v-model:tab="args.tab1" color="success">
               <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
               <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
             </FSTabs>
-            <FSWindow :modelValue="args.tab5" width="100%">
+            <FSWindow :modelValue="args.tab1" width="100%">
               <FSCol :value="0">
                 <FSText v-for="(arg, index) in 50">
                   Line {{ index }}
@@ -63,39 +66,43 @@ export const Variations: Story = {
           </FSCol>
         </FSFadeOut>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-        <FSText> Fade outs in tabs </FSText>
-        <FSTabs v-model:tab="args.tab5" color="success">
-          <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
-          <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
-        </FSTabs>
-        <FSWindow v-model="args.tab5" width="100%" >
-          <FSCol
-            height="100%"
-            :style="{ 'min-height': 0 }"
-          >
-            <FSFadeOut :value="0" height="100%">
+        <div style="width: 60%">
+          <FSText> Fade outs in tabs </FSText>
+          <FSTabs v-model:tab="args.tab2" color="success">
+            <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
+            <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
+          </FSTabs>
+          <FSWindow v-model="args.tab2" width="100%" >
+            <FSFadeOut :value="0" height="200px">
               <FSCol>
                 <FSText v-for="(arg, index) in 50">
                   Line {{ index }}
                 </FSText>
               </FSCol>
             </FSFadeOut>
-          </FSCol>
-          <FSFadeOut :value="1" height="200px">
-            <FSCol>
-              <FSText v-for="(arg, index) in 5">
-                Line {{ index }}
-              </FSText>
-            </FSCol>
-          </FSFadeOut>
-        </FSWindow>
+            <FSFadeOut :value="1" height="400px">
+              <FSFadeOut height="200px" style="min-height: 200px" :scrollOutside="false">
+                <FSCol>
+                  <FSText v-for="(arg, index) in 80">
+                    Inside {{ index }}
+                  </FSText>
+                </FSCol>
+              </FSFadeOut>
+              <FSCol>
+                <FSText v-for="(arg, index) in 80">
+                  Outside {{ index }}
+                </FSText>
+              </FSCol>
+            </FSFadeOut>
+          </FSWindow>
+        </div>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Slide groups in tabs </FSText>
-        <FSTabs v-model:tab="args.tab5" color="success">
+        <FSTabs v-model:tab="args.tab3" color="success">
           <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
           <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
         </FSTabs>
-        <FSWindow v-model="args.tab5" width="100%">
+        <FSWindow v-model="args.tab3" width="100%">
           <FSCol :value="0">
             <FSSlideGroup :value="0">
               <FSButton label="Button 1" />
@@ -137,14 +144,14 @@ export const Variations: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
 
         <FSText> Primary color, labels only </FSText>
-        <FSTabs v-model:tab="args.tab1">
+        <FSTabs v-model:tab="args.tab4">
           <FSTab label="Tab 1" :value="0" />
           <FSTab label="Tab 2" :value="1" />
           <FSTab label="Tab 3" :value="2" />
           <FSTab label="Tab 4" :value="3" />
           <FSTab label="Tab 5" :value="4" />
         </FSTabs>
-        <FSWindow v-model="args.tab1">
+        <FSWindow v-model="args.tab4">
           <FSCol v-for="arg in 5" :key="arg">
             <FSCol>
               <FSText font="text-h1">
@@ -158,49 +165,49 @@ export const Variations: Story = {
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Warning color, labels & tags </FSText>
-        <FSTabs v-model:tab="args.tab2" color="warning">
+        <FSTabs v-model:tab="args.tab5" color="warning">
           <FSTab label="Tab 1" :value="1" tag="1" />
           <FSTab label="Tab 2" :value="2" tag="2" />
           <FSTab label="Tab 3" :value="3" tag="3" />
           <FSTab label="Tab 4" :value="4" tag="4" />
           <FSTab label="Tab 5" :value="5" tag="5" />
         </FSTabs>
-        <FSWindow v-model="args.tab2">
+        <FSWindow v-model="args.tab5">
           <FSText v-for="arg in 5" :value="arg">
             Tab {{ arg }}
           </FSText>
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Error color, prepend icons & large labels </FSText>
-        <FSTabs v-model:tab="args.tab3" color="error">
+        <FSTabs v-model:tab="args.tab6" color="error">
           <FSTab label="Tab with a really really long name (and an icon) 1" :value="0" prependIcon="mdi-numeric-1-circle-outline" />
           <FSTab label="Tab with a really really long name (and an icon) 2" :value="1" prependIcon="mdi-numeric-2-circle-outline" />
           <FSTab label="Tab with a really really long name (and an icon) 3" :value="2" prependIcon="mdi-numeric-3-circle-outline" />
           <FSTab label="Tab with a really really long name (and an icon) 4" :value="3" prependIcon="mdi-numeric-4-circle-outline" />
           <FSTab label="Tab with a really really long name (and an icon) 5" :value="4" prependIcon="mdi-numeric-5-circle-outline" />
         </FSTabs>
-        <FSWindow v-model="args.tab3">
+        <FSWindow v-model="args.tab6">
           <FSText v-for="(arg, index) in 5">
             Tab {{ index }}
           </FSText>
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Success color, prepend icons, labels, tags, append icons </FSText>
-        <FSTabs v-model:tab="args.tab4" color="success">
+        <FSTabs v-model:tab="args.tab7" color="success">
           <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
           <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
           <FSTab :value="2" label="Tab 3" prependIcon="mdi-numeric-3-circle-outline" tag="3" />
           <FSTab :value="3" label="Tab 4" prependIcon="mdi-numeric-4-circle-outline" appendIcon="mdi-dice-4-outline" />
           <FSTab :value="4" label="Tab 5" prependIcon="mdi-numeric-5-circle-outline" appendIcon="mdi-dice-5-outline" tag="5" />
         </FSTabs>
-        <FSWindow v-model="args.tab4">
+        <FSWindow v-model="args.tab7">
           <FSText v-for="(arg, index) in 5">
             Tab {{ index }}
           </FSText>
         </FSWindow>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Buttons after tabs </FSText>
-        <FSTabs v-model:tab="args.tab5">
+        <FSTabs v-model:tab="args.tab8">
           <FSTab :value="0" label="Tab 1" />
           <FSTab :value="1" label="Tab 2" />
           <FSTab :value="2" label="Tab 3" />
@@ -212,7 +219,7 @@ export const Variations: Story = {
             <FSButton label="Button 3" />
           </FSRow>
         </FSTabs>
-        <FSWindow v-model="args.tab5">
+        <FSWindow v-model="args.tab8">
           <FSText v-for="(arg, index) in 5">
             Tab {{ index }}
           </FSText>
@@ -220,7 +227,7 @@ export const Variations: Story = {
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Buttons outside tabs </FSText>
         <FSRow padding="0 8px" :wrap="false">
-          <FSTabs v-model:tab="args.tab5">
+          <FSTabs v-model:tab="args.tab9">
             <FSTab :value="0" label="Tab 1" />
             <FSTab :value="1" label="Tab 2" />
             <FSTab :value="2" label="Tab 3" />
@@ -231,7 +238,7 @@ export const Variations: Story = {
           <FSButton label="Button 2" />
           <FSButton label="Button 3" />
         </FSRow>
-        <FSWindow v-model="args.tab5">
+        <FSWindow v-model="args.tab9">
           <FSText v-for="(arg, index) in 5">
             Tab {{ index }}
           </FSText>
