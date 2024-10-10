@@ -61,7 +61,7 @@ import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/fo
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
-import { chartOriginColor, chartOriginLabel } from "../../utils";
+import { chartOriginColor, chartOriginLabel } from "@dative-gpi/foundation-shared-components/tools";
 import { ChartOrigin } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";

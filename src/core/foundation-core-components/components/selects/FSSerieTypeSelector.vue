@@ -13,9 +13,11 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {SerieType} from "@dative-gpi/foundation-shared-domain/enums";
 
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
+import { serieTypeLabel } from "@dative-gpi/foundation-shared-components/tools";
+
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
-import {serieTypeLabel, getEnumEntries} from "../../utils";
 
 export default defineComponent({
   components: {

@@ -13,7 +13,8 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { AggregationType } from "@dative-gpi/foundation-shared-domain/enums";
 
-import {aggregationTypeLabel, getEnumEntries} from "../../utils";
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
+import { aggregationTypeLabel } from "@dative-gpi/foundation-shared-components/tools";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 

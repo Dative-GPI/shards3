@@ -13,9 +13,11 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {HeatmapRule} from "@dative-gpi/foundation-shared-domain/enums";
 
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
+import { heatmapRuleLabel } from "@dative-gpi/foundation-shared-components/tools";
+
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
-import {heatmapRuleLabel, getEnumEntries} from "../../utils";
 
 export default defineComponent({
   components: {
