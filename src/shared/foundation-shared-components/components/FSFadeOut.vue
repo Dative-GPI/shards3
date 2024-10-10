@@ -51,6 +51,11 @@ export default defineComponent({
       required: false,
       default: true
     },
+    hideHorizontalOverflow: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     disableTopMask: {
       type: Boolean,
       required: false,
@@ -89,7 +94,8 @@ export default defineComponent({
       "--fs-fade-out-margin-right"      : props.scrollOutside ? '-12px' : '0px',
       "--fs-fade-out-mask-color"        : backgrounds.base,
       "--fs-fade-out-top-mask-height"   : props.disableTopMask ? '0px' : topMaskHeight.value,
-      "--fs-fade-out-bottom-mask-height": props.disableBottomMask ? '0px' : bottomMaskHeight.value
+      "--fs-fade-out-bottom-mask-height": props.disableBottomMask ? '0px' : bottomMaskHeight.value,
+      "--fs-fade-out-x-overflow"        : props.hideHorizontalOverflow ? 'hidden' : 'auto'
     }));
 
     const handleMasks = () => {
