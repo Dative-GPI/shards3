@@ -15,7 +15,6 @@
         v-if="$props.showSearch"
       >
         <FSSearchField
-          prependInnerIcon="mdi-magnify"
           :hideHeader="true"
           v-model="innerSearch"
         />
