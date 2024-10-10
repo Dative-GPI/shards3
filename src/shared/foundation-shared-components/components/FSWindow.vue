@@ -79,7 +79,7 @@ export default defineComponent({
       (windowRoot.value as any).$el.style.setProperty("overflow", "hidden", "important");
       setTimeout(() => {
         (windowRoot.value as any).$el.style.setProperty("overflow", "visible", "important");
-      }, 520);
+      }, 560);
     });
 
     return {
