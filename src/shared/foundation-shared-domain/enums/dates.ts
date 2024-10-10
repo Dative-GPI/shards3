@@ -42,10 +42,10 @@ export enum Days {
   AllDays   = 7
 }
 
-export enum DateType{
-  None = 0,
+export enum DateType {
+  None  = 0,
   Local = 1,
-  UTC = 2
+  UTC   = 2
 }
 
 export enum Months {

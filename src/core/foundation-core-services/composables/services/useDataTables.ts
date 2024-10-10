@@ -6,23 +6,15 @@ import { type FSDataTable, type FSDataTableColumn } from "@dative-gpi/foundation
 export const useDataTables = () => {
   const initialized = ref(false);
 
-  const table = ref<FSDataTable>({
-    headers: [],
-    mode: null,
-    sortBy: null,
-    rowsPerPage: 10,
-    showFilters: false,
-    filters: {},
-    page: 1
-  });
+  const table = ref<FSDataTable | null>(null);
 
   const computeTable = (
     headersOptions: { [key: string]: Partial<FSDataTableColumn> },
     defaultMode: "table" | "iterator" = "table"
   ) => ({
     ...table.value,
-    mode: table.value.mode ?? defaultMode,
-    headers: table.value.headers.map(header => ({
+    mode: table.value?.mode ?? defaultMode,
+    headers: table.value?.headers.map(header => ({
       ...header,
       fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
       methodFilter: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilter) || null,
@@ -61,10 +53,13 @@ export const useDataTables = () => {
     tableCode: string,
     defaultMode: "table" | "iterator" = "table"
   ): Promise<void> => {
+    let done = false;
     if (tableCode) {
       const composableTable = getTable(tableCode);
+
       if (composableTable) {
         table.value = composableTable;
+        done = true;
       }
       else {
         try {
@@ -82,12 +77,24 @@ export const useDataTables = () => {
               filters: {},
               page: 1
             }
+            done = true;
           }
         }
         catch {
           // Do nothing
         }
       }
+    }
+    if (!done) {
+      table.value = {
+        headers: [],
+        mode: null,
+        sortBy: null,
+        rowsPerPage: 10,
+        showFilters: false,
+        filters: {},
+        page: 1
+      };
     }
     initialized.value = true;
   };

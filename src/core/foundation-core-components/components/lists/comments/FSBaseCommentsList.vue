@@ -74,11 +74,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const {fetch : fetchCurrentUser, entity: currentUser} = useCurrentUser();
+    const { fetch : fetchCurrentUser, entity: currentUser } = useCurrentUser();
     const { create: createComment, creating : creatingComment } = useCreateComment();
     const { getMany: fetchComments, entities: comments } = useComments();
-    const {update  } = useUpdateComment();
-    const {remove, removing  } = useRemoveComment();
+    const { update } = useUpdateComment();
+    const { remove, removing } = useRemoveComment();
     const { epochToLongTimeFormat } = useDateFormat();
 
     const error = ref<string | null>(null);
