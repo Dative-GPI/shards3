@@ -66,34 +66,36 @@ export const Variations: Story = {
           </FSCol>
         </FSFadeOut>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
-        <FSText> Fade outs in tabs </FSText>
-        <FSTabs v-model:tab="args.tab2" color="success">
-          <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
-          <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
-        </FSTabs>
-        <FSWindow v-model="args.tab2" width="100%" >
-          <FSFadeOut :value="0" height="200px">
-            <FSCol>
-              <FSText v-for="(arg, index) in 50">
-                Line {{ index }}
-              </FSText>
-            </FSCol>
-          </FSFadeOut>
-          <FSFadeOut :value="1" height="400px">
-            <FSFadeOut height="200px" style="min-height: 200px" :scrollOutside="false">
+        <div style="width: 60%">
+          <FSText> Fade outs in tabs </FSText>
+          <FSTabs v-model:tab="args.tab2" color="success">
+            <FSTab :value="0" prependIcon="mdi-numeric-1-circle-outline" appendIcon="mdi-dice-1-outline" tag="1" />
+            <FSTab :value="1" label="Tab 2" appendIcon="mdi-dice-2-outline" tag="2" />
+          </FSTabs>
+          <FSWindow v-model="args.tab2" width="100%" >
+            <FSFadeOut :value="0" height="200px">
               <FSCol>
-                <FSText v-for="(arg, index) in 80">
-                  Inside {{ index }}
+                <FSText v-for="(arg, index) in 50">
+                  Line {{ index }}
                 </FSText>
               </FSCol>
             </FSFadeOut>
-            <FSCol>
-              <FSText v-for="(arg, index) in 80">
-                Outside {{ index }}
-              </FSText>
-            </FSCol>
-          </FSFadeOut>
-        </FSWindow>
+            <FSFadeOut :value="1" height="400px">
+              <FSFadeOut height="200px" style="min-height: 200px" :scrollOutside="false">
+                <FSCol>
+                  <FSText v-for="(arg, index) in 80">
+                    Inside {{ index }}
+                  </FSText>
+                </FSCol>
+              </FSFadeOut>
+              <FSCol>
+                <FSText v-for="(arg, index) in 80">
+                  Outside {{ index }}
+                </FSText>
+              </FSCol>
+            </FSFadeOut>
+          </FSWindow>
+        </div>
         <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
         <FSText> Slide groups in tabs </FSText>
         <FSTabs v-model:tab="args.tab3" color="success">
