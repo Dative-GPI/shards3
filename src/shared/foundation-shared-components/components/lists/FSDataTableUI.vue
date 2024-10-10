@@ -1343,6 +1343,7 @@ export default defineComponent({
             }, { threshold: [0.9] });
           }
           if (document.querySelector(`#${elementId}`)) {
+            intersectionObserver.value.unobserve(document.querySelector(`#${elementId}`)!);
             intersectionObserver.value.observe(document.querySelector(`#${elementId}`)!);
           }
           return;
@@ -1514,6 +1515,10 @@ export default defineComponent({
       resetable.value = Object.keys(filters.value)
         .some((key) => filters.value[key].some((filter) => filter.hidden));
     }, { deep: true });
+
+    watch(size, () => {
+      observeIntersection();
+    });
 
     watch(innerMode, () => {
       emit("update:mode", innerMode.value);
