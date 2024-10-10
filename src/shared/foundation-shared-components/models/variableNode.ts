@@ -51,14 +51,17 @@ export class VariableNode extends DecoratorNode<Element> {
       content.classList.add("fs-rich-text-field-node-variable-value");
       if (_editor._rootElement) {
         content.textContent = this.getValue(_editor._rootElement);
-      }
-      else {
+  
+        const observer = new MutationObserver(() => {
+          content.textContent = this.getValue(_editor._rootElement!);
+        });
+        observer.observe(_editor._rootElement, { attributes: true, attributeFilter: ['data-variable-values'] });
+      } else {
         content.textContent = this.__defaultValue;
       }
-    }
-    else {
+    } else {
       content.classList.add("fs-rich-text-field-node-variable-code");
-      content.textContent = `{${this.__code}}`
+      content.textContent = `{${this.__code}}`;
     }
     container.appendChild(content);
     return container;
