@@ -7,8 +7,9 @@ const ScenarioDeviceOrganisationServiceFactory = new ServiceFactory<ScenarioDevi
   .createComplete<ScenarioDeviceOrganisationInfos, ScenarioDeviceOrganisationInfosDTO, CreateScenarioDeviceOrganisationDTO, UpdateScenarioDeviceOrganisationDTO, ScenarioDeviceOrganisationFilters>(SCENARIO_DEVICE_ORGANISATIONS_URL, SCENARIO_DEVICE_ORGANISATION_URL, ScenarioDeviceOrganisationInfos);
 
 const ScenarioDeviceOrganisationServiceFactoryIncomplete = new ServiceFactory<ScenarioDeviceOrganisationInfosDTO, ScenarioDeviceOrganisationInfos>("notifications", ScenarioDeviceOrganisationDetails).create(factory => factory.build(
-  factory.addNotify(() => ({
+  factory.addNotify(notifyService => ({
     ...ServiceFactory.addCustom("createMany", (axios, payload: CreateManyScenarioDeviceOrganisationDTO) => axios.put(SCENARIO_DEVICE_ORGANISATIONS_URL(), payload), () => {
+      notifyService.notify("reset");
     })
   }))
 ));
