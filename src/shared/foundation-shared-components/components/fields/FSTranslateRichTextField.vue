@@ -141,7 +141,7 @@ export default defineComponent({
         return emptyLexicalState;
       }
       const translation = innerTranslations.value.find((t) => t.languageCode === languageCode);
-      if (!translation || !translation[props.property] || translation[props.property] === "") {
+      if (!translation || !translation[props.property]) {
         return emptyLexicalState;
       }
       return translation[props.property]!;
