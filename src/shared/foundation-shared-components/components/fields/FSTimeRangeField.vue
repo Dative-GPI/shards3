@@ -16,19 +16,16 @@
           :editable="$props.editable"
           :validateOn="validateOn"
           :rules="$props.rules"
-          :items="daysObject"
+          :items="daysItems"
           :hideHeader="true"
           :clearable="false"
-          :style="style"
           :modelValue="realTime?.startDay ?? 0"
           @update:modelValue="onChangeDayStart"
         />
         <FSClock
-          class="fs-time-slot-field-number"
           :editable="$props.editable"
           :color="ColorEnum.Light"
           :slider="false"
-          :style="style"
           :modelValue="startTime"
           @update:modelValue="onChangeHourStart"
         />
@@ -37,42 +34,50 @@
         :wrap="false"
       >
         <FSSelectField
-          class="fs-time-slot-field-select"
           :editable="$props.editable"
-          :items="daysObject"
+          :items="daysItems"
           :hideHeader="true"
           :clearable="false"
-          :style="style"
           :modelValue="realTime?.endDay ?? 0"
           @update:modelValue="onChangeDayEnd"
         />
         <FSClock
-          class="fs-time-slot-field-number"
           :editable="$props.editable"
           :color="ColorEnum.Light"
           :slider="false"
-          :style="style"
           :modelValue="endTime"
           @update:modelValue="onChangeHourEnd"
         />
       </FSRow>
+      <FSSelectField
+        v-if="$props.showVariant"
+        width="hug"
+        :label="$tr('ui.common.type', 'Type')"
+        :items="dateTypeItems"
+        :hideHeader="true"
+        :clearable="false"
+        :modelValue="modelValue?.variant ?? DateType.Local"
+        @update:modelValue="onUpdateVariant"
+      />
     </FSRow>
   </FSBaseField>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, type StyleValue } from "vue";
+import { computed, defineComponent, type PropType } from "vue";
 
-import { useColors, useRules } from "@dative-gpi/foundation-shared-components/composables";
+import { useTranslations as useTranslationProvider } from "@dative-gpi/bones-ui/composables";
+import { useRules } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { Days } from "@dative-gpi/foundation-shared-domain/enums";
+import { DateType, Days } from "@dative-gpi/foundation-shared-domain/enums";
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
 
 import FSSelectField from "./FSSelectField.vue";
 import FSBaseField from "./FSBaseField.vue";
 import FSClock from "../FSClock.vue";
 import FSRow from "../FSRow.vue";
 
-import { applyOffset, type DateTimeRange } from "../../tools";
+import { applyOffset, dayLabel, type DateTimeRange } from "../../tools";
 
 export default defineComponent({
   name: "FSTimeRangeField",
@@ -94,7 +99,7 @@ export default defineComponent({
       default: null
     },
     modelValue: {
-      type: Object as PropType<DateTimeRange | null>,
+      type: Object as PropType<DateTimeRange>,
       required: true,
       default: null
     },
@@ -122,51 +127,40 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    showVariant: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
+    const { $tr } = useTranslationProvider();
     const { validateOn, getMessages } = useRules();
-    const { getColors } = useColors();
 
-    const errors = getColors(ColorEnum.Error);
-    const lights = getColors(ColorEnum.Light);
-    const darks = getColors(ColorEnum.Dark);
-    
-    const daysObject: { id: number; label: string }[]  = Object.keys(Days).reduce((acc, key) => {
-      if (isNaN(Number(key))) {
-        acc.push({
-          id: Days[key],
-          label: key
-        });
+    const dateTypeItems = [
+      {
+        id: DateType.Local,
+        label: $tr('ui.common.local', 'Local')
+      },
+      {
+        id: DateType.UTC,
+        label: $tr('ui.common.utc', 'UTC')
       }
-      return acc;
-    }, [] as { id: number, label: string }[]);
+    ];
 
-    const style = computed((): StyleValue => {
-      if (!props.editable) {
+    const daysItems = computed(()=>{
+      return getEnumEntries(Days).map((f)=>{
         return {
-          "--fs-time-slot-field-cursor"             : "default",
-          "--fs-time-slot-field-border-color"       : lights.base,
-          "--fs-time-slot-field-color"              : lights.dark,
-          "--fs-time-slot-field-active-border-color": lights.base
-        };
-      }
-      return {
-        "--fs-time-slot-field-cursor"             : "text",
-        "--fs-time-slot-field-border-color"       : lights.dark,
-        "--fs-time-slot-field-color"              : darks.base,
-        "--fs-time-slot-field-active-border-color": darks.dark,
-        "--fs-time-slot-field-error-color"        : errors.base,
-        "--fs-time-slot-field-error-border-color" : errors.base
-      };
+          id: f.value as number,
+          label: dayLabel(f.value)
+        }
+      })
     });
 
     const realTime = computed(() => {
-      if (props.modelValue) {
-        return applyOffset(props.modelValue, false);
-      }
-      return null;
+      return applyOffset(props.modelValue, false);
     });
 
     const startTime = computed((): number => {
@@ -186,152 +180,76 @@ export default defineComponent({
     const messages = computed((): string[] => props.messages ?? getMessages(props.modelValue, props.rules));
 
     const onChangeDayStart = (value: number) => {
-      if (value === 7) {
-        if (props.modelValue) {
-          emit("update:modelValue",
-               {
-                 startDay: 7,
-                 startHour: props.modelValue.startHour,
-                 startMinute: props.modelValue.startMinute,
-                 endDay: 7,
-                 endHour: props.modelValue.endHour,
-                 endMinute: props.modelValue.endMinute
-               }
-          );
-          return;
-        }
+      if (value === Days.AllDays) {
         emit("update:modelValue",
              {
-               startDay: 7,
-               startHour: 0,
-               startMinute: 0,
-               endDay: 7,
-               endHour: 0,
-               endMinute: 0
+               startDay: value,
+               startHour: props.modelValue.startHour,
+               startMinute: props.modelValue.startMinute,
+               endDay: value,
+               endHour: props.modelValue.endHour,
+               endMinute: props.modelValue.endMinute,
+               variant: props.modelValue.variant
              }
         );
-        return;
       }
-      if (props.modelValue) {
-        if (props.modelValue.endDay === 7) {
-          emit("update:modelValue",
-               {
-                 startDay: value,
-                 startHour: props.modelValue.startHour,
-                 startMinute: props.modelValue.startMinute,
-                 endDay: value,
-                 endHour: props.modelValue.endHour,
-                 endMinute: props.modelValue.endMinute
-               }
-          );
-          return;
-        }
+      else {
         const t = applyOffset({
           startDay: value,
-          startHour: props.modelValue.startHour,
-          startMinute: props.modelValue.startMinute,
-          endDay: props.modelValue.endDay,
-          endHour: props.modelValue.endHour,
-          endMinute: props.modelValue.endMinute
-        }, true);
-        emit("update:modelValue", t);
-        return;
+          startHour: realTime.value.startHour,
+          startMinute: realTime.value.startMinute,
+          endDay: props.modelValue.endDay == Days.AllDays ? value : realTime.value.endDay,
+          endHour: realTime.value.endHour,
+          endMinute: realTime.value.endMinute,
+          variant: realTime.value.variant
+        }, true); 
+        emit("update:modelValue",t);
       }
-      emit("update:modelValue",{
-        startDay: value,
-        startHour: 0,
-        startMinute: 0,
-        endDay: value,
-        endHour: 0,
-        endMinute: 0
-      });
     };
 
 
     const onChangeHourStart = (value: number) => {
       const innerHours = value ? Math.floor(value / (60 * 60 * 1000)) : 0;
       const innerMinutes = value ? Math.floor((value % (60 * 60 * 1000)) / (60 * 1000)) : 0;
-      if (realTime.value) {
-        const t = {
-          startDay: realTime.value.startDay,
-          startHour: innerHours,
-          startMinute: innerMinutes,
-          endDay: realTime.value.endDay,
-          endHour: realTime.value.endHour,
-          endMinute: realTime.value.endMinute
-        };
-        const newTime = applyOffset(t, true);
-        emit("update:modelValue", newTime);
-        return;
-      }
-      emit("update:modelValue", {
-        startDay: 0,
+      const t = {
+        startDay: realTime.value.startDay,
         startHour: innerHours,
         startMinute: innerMinutes,
-        endDay: 0,
-        endHour: 0,
-        endMinute: 0
-      });
+        endDay: realTime.value.endDay,
+        endHour: realTime.value.endHour,
+        endMinute: realTime.value.endMinute,
+        variant: realTime.value.variant
+      };
+      const newTime = applyOffset(t, true);
+      emit("update:modelValue", newTime);
     }
 
     const onChangeDayEnd = (value: number) => {
-      if (value === 7) {
-        if (props.modelValue) {
-          emit("update:modelValue",
-               {
-                 startDay: 7,
-                 startHour: props.modelValue.startHour,
-                 startMinute: props.modelValue.startMinute,
-                 endDay: 7,
-                 endHour: props.modelValue.endHour,
-                 endMinute: props.modelValue.endMinute
-               }
-          );
-          return;
-        }
-        emit("update:modelValue",
-             {
-               startDay: 7,
-               startHour: 0,
-               startMinute: 0,
-               endDay: 7,
-               endHour: 0,
-               endMinute: 0
-             }
-        );
-        return;
-      }
-      if (props.modelValue) {
-        if (props.modelValue.startDay === 7) {
-          emit("update:modelValue",{
-            startDay: value,
-            startHour: props.modelValue.startHour,
-            startMinute: props.modelValue.startMinute,
-            endDay: value,
-            endHour: props.modelValue.endHour,
-            endMinute: props.modelValue.endMinute
-          });
-          return;
-        }
-        const t = applyOffset({
-          startDay: props.modelValue.startDay,
+
+      if (value === Days.AllDays) {
+        emit("update:modelValue",{
+          startDay: value,
           startHour: props.modelValue.startHour,
           startMinute: props.modelValue.startMinute,
           endDay: value,
           endHour: props.modelValue.endHour,
-          endMinute: props.modelValue.endMinute
-        }, true);
-        emit("update:modelValue", t);
+          endMinute: props.modelValue.endMinute,
+          variant: props.modelValue.variant
+        });
         return;
       }
-      emit("update:modelValue",{
-        startDay: value,
-        startHour: 0,
-        startMinute: 0,
-        endDay: value,
-        endHour: 0,
-        endMinute: 0
-      });
+      else {
+        const t = applyOffset({
+          startDay: props.modelValue.startDay == Days.AllDays ? value : realTime.value.startDay,
+          startHour: realTime.value.startHour,
+          startMinute: realTime.value.startMinute,
+          endDay: value,
+          endHour: realTime.value.endHour,
+          endMinute: realTime.value.endMinute,
+          variant: realTime.value.variant
+        }, true);
+        emit("update:modelValue", t);
+      }
     };
 
     const onChangeHourEnd = (value: number) => {
@@ -344,35 +262,41 @@ export default defineComponent({
           startMinute: realTime.value.startMinute,
           endDay: realTime.value.endDay,
           endHour: innerHours,
-          endMinute: innerMinutes
+          endMinute: innerMinutes,
+          variant: realTime.value.variant
         };
         const newTime = applyOffset(t, true);
-        
         emit("update:modelValue", newTime);
-        return;
       }
-      emit("update:modelValue",{
-        startDay: 0,
-        startHour: 0,
-        startMinute: 0,
-        endDay: 0,
-        endHour: innerHours,
-        endMinute: innerMinutes
-      });
     }
 
+    const onUpdateVariant = (value: DateType) => {
+      const t = applyOffset({
+        startDay: realTime.value.startDay,
+        startHour: realTime.value.startHour,
+        startMinute: realTime.value.startMinute,
+        endDay: realTime.value.endDay,
+        endHour: realTime.value.endHour,
+        endMinute: realTime.value.endMinute,
+        variant: value
+      }, true);
+      emit("update:modelValue", t );
+    };
+
     return {
-      daysObject,
+      dateTypeItems,
       validateOn,
+      daysItems,
       ColorEnum,
       startTime,
       realTime,
       messages,
+      DateType,
       endTime,
-      style,
       onChangeHourStart,
       onChangeDayStart,
       onChangeHourEnd,
+      onUpdateVariant,
       onChangeDayEnd
     };
   }

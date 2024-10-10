@@ -13,7 +13,8 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import  {AxisType} from "@dative-gpi/foundation-shared-domain/enums";
 
-import {axisTypeLabel, getEnumEntries} from "../../utils";
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
+import { axisTypeLabel } from "@dative-gpi/foundation-shared-components/tools";
 
 import FSToggleSet from "@dative-gpi/foundation-shared-components/components/FSToggleSet.vue";
 

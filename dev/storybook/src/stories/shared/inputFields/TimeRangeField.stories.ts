@@ -24,7 +24,8 @@ export const Variations: Story = {
         startMinute: 0,
         endDay: 0,
         endHour: 0,
-        endMinute: 0
+        endMinute: 0,
+        variant: 2
       },
       value1: {
         startDay: 0,
@@ -32,7 +33,8 @@ export const Variations: Story = {
         startMinute: 0,
         endDay: 0,
         endHour: 0,
-        endMinute: 0
+        endMinute: 0,
+        variant: 1
       },
       value2: {
         startDay: 1,
@@ -40,7 +42,8 @@ export const Variations: Story = {
         startMinute: 0,
         endDay: 2,
         endHour: 2,
-        endMinute: 0
+        endMinute: 0,
+        variant: 1
       }
     }
   },
@@ -54,9 +57,11 @@ export const Variations: Story = {
     <FSCol>
       <FSTimeRangeField
         label="Time Range"
+        :modelValue="args.value0"
+        :showVariant="true"
         v-model="args.value0"
       />
-      <!-- <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
       <FSTimeRangeField
         label="Required time Range, with description"
         description="Description for this field"
@@ -69,7 +74,7 @@ export const Variations: Story = {
         description="Uneditable description"
         :editable="false"
         v-model="args.value2"
-      /> -->
+      />
     </FSCol>`
   })
 }

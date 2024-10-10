@@ -55,6 +55,7 @@
             </FSSpan>
           </slot>
           <FSRow
+            v-if="showEdit || showRemove"
             align="center-right"
             :wrap="false"
           >

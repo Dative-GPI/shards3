@@ -1,6 +1,7 @@
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { AlertStatus, Criticity } from "@dative-gpi/foundation-shared-domain/enums";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models"
+import { getTimeBestString } from "../utils";
 
 const { $tr } = useTranslationsProvider();
 
@@ -52,3 +53,16 @@ export const AlertTools = {
     }
   }
 }
+
+export const prettyDuration = (n: number) => {
+  const day = Math.floor(n / 24 / 60 / 60);
+  const hours = Math.floor((n - day * 24 * 60 * 60) / 3600);
+  const minutes = Math.floor((n - day * 24 * 60 * 60 - hours * 60 * 60) / 60);
+  const seconds = Math.floor(n - day * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60);
+
+  return day > 0 ?
+    `${getTimeBestString(day * 24 * 60 * 60)} ${getTimeBestString(hours * 60 * 60)} ${getTimeBestString(minutes * 60)} ${getTimeBestString(seconds)}`
+    : hours > 0
+      ? `${getTimeBestString(hours * 60 * 60)} ${getTimeBestString(minutes * 60)} ${getTimeBestString(seconds)}`
+      : `${getTimeBestString(minutes * 60)} ${getTimeBestString(seconds)}`;
+};

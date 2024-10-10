@@ -13,9 +13,10 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import {PlotPer} from "@dative-gpi/foundation-shared-domain/enums";
 
-import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
+import { plotPerLabel } from "@dative-gpi/foundation-shared-components/tools";
 
-import {plotPerLabel, getEnumEntries} from "../../utils";
+import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
 
 export default defineComponent({
   components: {

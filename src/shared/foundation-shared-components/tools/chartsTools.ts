@@ -1,32 +1,49 @@
-import { AxisType, ColorSets, SerieType, ChartType, TimeUnit } from "@dative-gpi/foundation-shared-domain/enums";
+import { AxisType, ColorSets, SerieType, ChartType, TimeUnit, ChartOrigin, AggregationType, DisplayAs, FilterType, HeatmapRule, OperationOn, PlanningType, PlotPer } from "@dative-gpi/foundation-shared-domain/enums";
 
-import { serieTypeLabel, getEnumEntries } from "@dative-gpi/foundation-core-components/utils";
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
+import { ColorEnum, type ColorBase } from "../models";
 
 const { $tr } = useTranslationsProvider();
 
+export const chartOriginLabel = (type: ChartOrigin): string => {
+  switch (type) {
+    case ChartOrigin.None: return $tr("ui.chart-origin.none", "None");
+    case ChartOrigin.Organisation: return $tr("ui.chart-origin.organisation", "Custom");
+    case ChartOrigin.OrganisationType: return $tr("ui.chart-origin.organisation-type", "Shared");
+  }
+};
+
+export const chartOriginColor = (type: ChartOrigin): ColorBase => {
+  switch (type) {
+    case ChartOrigin.None: return ColorEnum.Error;
+    case ChartOrigin.Organisation: return ColorEnum.Primary;
+    case ChartOrigin.OrganisationType: return ColorEnum.Warning;
+  }
+};
+
 export const chartTypeLabel = (value: ChartType): string => {
   switch (value) {
-    case ChartType.Gauge: return $tr("ui.common.gauge", "Gauge");
-    case ChartType.Heatmap: return $tr("ui.common.heatmap", "Heatmap");
-    case ChartType.Pie: return $tr("ui.common.pie", "Pie");
-    case ChartType.ScoreCard: return $tr("ui.common.score-card", "Score card");
-    case ChartType.Slider: return $tr("ui.common.slider", "Slider");
-    case ChartType.Table: return $tr("ui.common.table", "Table");
-    case ChartType.XY: return $tr("ui.common.xy", "XY");
-    default: return $tr("ui.common.none", "None");
+    case ChartType.Gauge: return $tr("ui.chart-type.gauge", "Gauge");
+    case ChartType.Heatmap: return $tr("ui.chart-type.heatmap", "Heatmap");
+    case ChartType.Pie: return $tr("ui.chart-type.pie", "Pie");
+    case ChartType.ScoreCard: return $tr("ui.chart-type.score-card", "Score card");
+    case ChartType.Slider: return $tr("ui.chart-type.slider", "Slider");
+    case ChartType.Table: return $tr("ui.chart-type.table", "Table");
+    case ChartType.XY: return $tr("ui.chart-type.xy", "XY");
+    default: return $tr("ui.chart-type.none", "None");
   }
 }
 
 export const colorSetLabel = (value: ColorSets | number): string => {
   switch (value) {
-    case ColorSets.Default: return $tr("ui.common.am-charts", "Am Charts");
-    case ColorSets.Grafana: return $tr("ui.common.grafana", "Grafana");
-    case ColorSets.Armytage: return $tr("ui.common.armytage", "Armytage");
-    case ColorSets.Hash: return $tr("ui.common.hash", "Hash");
-    case ColorSets.Kelly: return $tr("ui.common.material", "Kelly");
-    case ColorSets.ZeileisHornikMurrell: return $tr("ui.common.material", "ZeileisHornikMurrell");
-    default: return $tr("ui.common.none", "None");
+    case ColorSets.Default: return $tr("ui.color-sets.am-charts", "Am Charts");
+    case ColorSets.Grafana: return $tr("ui.color-sets.grafana", "Grafana");
+    case ColorSets.Armytage: return $tr("ui.color-sets.armytage", "Armytage");
+    case ColorSets.Hash: return $tr("ui.color-sets.hash", "Hash");
+    case ColorSets.Kelly: return $tr("ui.color-sets.material", "Kelly");
+    case ColorSets.ZeileisHornikMurrell: return $tr("ui.color-sets.material", "ZeileisHornikMurrell");
+    default: return $tr("ui.color-sets.none", "None");
   }
 }
 
@@ -65,6 +82,115 @@ export const serieTypeIcon = (serieType: SerieType): string => {
     default: return "";
   }
 }
+
+export const aggregationTypeLabel = (aggregationType: AggregationType): string => {
+  switch (aggregationType) {
+    case AggregationType.Sum: return $tr("ui.aggregation-type.sum", "Sum");
+    case AggregationType.Cardinal: return $tr("ui.aggregation-type.cardinal", "Cardinal");
+    case AggregationType.Mean: return $tr("ui.aggregation-type.mean", "Mean");
+    case AggregationType.Median: return $tr("ui.aggregation-type.median", "Median");
+    case AggregationType.First: return $tr("ui.aggregation-type.first", "First");
+    case AggregationType.Last: return $tr("ui.aggregation-type.last", "Last");
+    case AggregationType.Difference: return $tr("ui.aggregation-type.difference", "Difference");
+    case AggregationType.Minimum: return $tr("ui.aggregation-type.minimum", "Minimum");
+    case AggregationType.Maximum: return $tr("ui.common.maximum", "Maximum");
+    case AggregationType.Range: return $tr("ui.aggregation-type.range", "Range");
+    default: return $tr("ui.aggregation-type.none", "None");
+  }
+};
+
+export const axisTypeLabel = (axisType: AxisType | number): string => {
+  switch (axisType) {
+    case AxisType.Date: return $tr("ui.axis-type.date", "Date");
+    case AxisType.Value: return $tr("ui.axis-type.value", "Value");
+    case AxisType.Category: return $tr("ui.axis-type.category", "Category");
+    default: return $tr("ui.axis-type.none", "None");
+  }
+};
+
+export const displayAsLabel = (display: DisplayAs | number): string => {
+  switch (display) {
+    case DisplayAs.Bars: return $tr("ui.display-as.bars", "Bars");
+    case DisplayAs.Lines: return $tr("ui.display-as.lines", "Lines");
+    case DisplayAs.Points: return $tr("ui.display-as.point", "Points");
+    default: return $tr("ui.display-as.none", "None");
+  }
+};
+
+export const filterTypeLabel = (filterType: FilterType | number): string => {
+  switch (filterType) {
+    case FilterType.Contains: return $tr("ui.filter-type.contains", "contains");
+    case FilterType.Different: return "≠";
+    case FilterType.EndsWith: return $tr("ui.filter-type.ends-with", "ends with");
+    case FilterType.Equal: return "=";
+    case FilterType.Less: return "<";
+    case FilterType.LessOrEqual: return "≤";
+    case FilterType.More: return ">";
+    case FilterType.MoreOrEqual: return "≥";
+    case FilterType.StartsWith: return $tr("ui.filter-type.starts-with", "start with");
+    default: return $tr("ui.filter-type.none", "None");
+  }
+};
+
+export const heatmapRuleLabel = (heatMap: HeatmapRule | number): string => {
+  switch (heatMap) {
+    case HeatmapRule.Gradient: return $tr("ui.heatmap-rule.gradient", "Gradient");
+    case HeatmapRule.Ranges: return $tr("ui.heatmap-rule.ranges", "Ranges");
+    case HeatmapRule.Fixed: return $tr("ui.heatmap-rule.fixed", "Fixed");
+    default: return $tr("ui.heatmap-rule.none", "None");
+  }
+};
+
+export const operationOnLabel = (operationOn: OperationOn | number): string => {
+  switch (operationOn) {
+    case OperationOn.SameEntity: return $tr("ui.operation-on.same-entity", "Same entity");
+    case OperationOn.SameGroup: return $tr("ui.operation-on.same-group", "Same group");
+    case OperationOn.SameGroupAndEntity: return $tr("ui.operation-on.same-group-entity", "Same group and entity");
+    default: return $tr("ui.operation-on.none", "None");
+  }
+};
+
+export const planningTypeLabel = (planningType: PlanningType | number): string => {
+  switch (planningType) {
+    case PlanningType.UntilNext: return $tr("ui.planning-type.until-next", "Until next");
+    case PlanningType.ElapsedTime: return $tr("ui.planning-type.elapsed-time", "Elapsed time");
+    case PlanningType.SinglePoint: return $tr("ui.planning-type.single-point", "Single point");
+    default: return $tr("ui.planning-type.none", "None");
+  }
+};
+
+export const plotPerLabel = (plotper: PlotPer | number): string => {
+  switch (plotper) {
+    case PlotPer.SinglePlot: return $tr("ui.plot-per.single-slot", "Single slot");
+    case PlotPer.Model: return $tr("ui.plot-per.model", "Model");
+    case PlotPer.Group: return $tr("ui.plot-per.group", "Group");
+    case PlotPer.Location: return $tr("ui.plot-per.location", "Location");
+    case PlotPer.Device: return $tr("ui.plot-per.device", "Device");
+    default: return $tr("ui.plot-per.none", "None");
+  }
+};
+
+export const serieTypeLabel = (serieType: SerieType): string => {
+  switch (serieType) {
+    case SerieType.Lines: return $tr("ui.serie-type.lines", "Lines");
+    case SerieType.Area: return $tr("ui.serie-type.area", "Area");
+    case SerieType.Range: return $tr("ui.serie-type.range", "Range");
+    case SerieType.Histogram: return $tr("ui.serie-type.histogram", "Histogram");
+    case SerieType.Operation: return $tr("ui.serie-type.operation", "Operation");
+    case SerieType.Planning: return $tr("ui.serie-type.planning", "Planning");
+    case SerieType.ScatterPlot: return $tr("ui.serie-type.scatter-plot", "Scatter plot");
+    case SerieType.Top: return $tr("ui.serie-type.top", "Top");
+    case SerieType.Bars: return $tr("ui.serie-type.bars", "Bars");
+    case SerieType.StackedBars: return $tr("ui.serie-type.stacked-bars", "Stacked bars");
+    case SerieType.Pie: return $tr("ui.serie-type.pie", "Pie");
+    case SerieType.Heatmap: return $tr('ui.serie-type.heatmap', 'Heatmap');
+    case SerieType.Slider: return $tr("ui.serie-type.slider", "Slider");
+    case SerieType.Gauge: return $tr("ui.serie-type.gauge", "Gauge");
+    case SerieType.ScoreCard: return $tr("ui.serie-type.score-card", "Score card");
+    case SerieType.Table: return $tr("ui.serie-type.table", "Table");
+    default: return "";
+  }
+};
 
 export const showModifiers = (serieType: SerieType) => {
   switch (serieType) {
@@ -298,3 +424,4 @@ export const timeMillisecond = (value: number | null | undefined, unit: TimeUnit
     default: return 0;
   }
 }
+
