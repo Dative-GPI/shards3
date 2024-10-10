@@ -32,7 +32,7 @@ export default defineComponent({
       default: "0"
     },
     variant: {
-      type: String as PropType<"standard" | "button" | "input" | "field" | "chip" | "text-h1" | "text-h2" | "text-h3" | "text-h4" | "text-body" | "text-button" | "text-overline">,
+      type: String as PropType<"standard" | "button" | "input" | "field" | "chip" | "text-h1" | "text-h2" | "text-h3" | "text-body" | "text-button" | "text-overline">,
       required: false,
       default: "standard"
     },
@@ -51,7 +51,7 @@ export default defineComponent({
     const style = computed((): StyleValue => ({
       "--fs-loader-background-color": backgrounds.base,
       "--fs-loader-border-radius"   : ["chip"].includes(props.variant) ? "50px" : sizeToVar(props.borderRadius),
-      "--fs-loader-padding"         : sizeToVar(props.padding),
+      "--fs-loader-padding"         : sizeToVar(getPadding.value),
       "--fs-loader-height"          : sizeToVar(getHeight.value),
       "--fs-loader-width"           : sizeToVar(getWidth.value)
     }));
@@ -63,17 +63,20 @@ export default defineComponent({
         case "input"         :
         case "field"         : return isMobileSized.value ? "36px" : "40px";
         case "chip"          : return isMobileSized.value ? "20px" : "24px";
-        case "text-h1"       : return isMobileSized.value ? "32px" : "40px";
-        case "text-h2"       : return isMobileSized.value ? "24px" : "32px";
-        case "text-h3"       : return isMobileSized.value ? "20px" : "24px";
-        case "text-h4"       : return isMobileSized.value ? "16px" : "20px";
+
+        case "text-h1"       : return isMobileSized.value ? "28px" : "36px";
+        case "text-h2"       : return isMobileSized.value ? "22px" : "26px";
+        case "text-h3"       : return isMobileSized.value ? "16px" : "20px";
         case "text-body"     :
-        case "text-button"   : return isMobileSized.value ? "14px" : "16px";
-        case "text-overline" : return "16px";
+        case "text-button"   : return isMobileSized.value ? "12px" : "14px";
+        case "text-overline" : return isMobileSized.value ? "10px" : "12px";
       }
     });
 
     const getWidth = computed((): string | number => {
+      if (props.width != null) {
+        return sizeToVar(props.width);
+      }
       switch (props.variant) {
         case "standard": return sizeToVar(props.width);
         case "button"  : return isMobileSized.value ? "36px" : "40px";
@@ -84,6 +87,21 @@ export default defineComponent({
         case "text-h2" : return "calc(60% - 32px)";
         case "text-h3" : return "calc(65% - 32px)";
         default        : return "calc(75% - 32px)";
+      }
+    });
+
+    const getPadding = computed((): string | number => {
+      if (props.padding !== "0") {
+        return sizeToVar(props.padding);
+      }
+      switch (props.variant) {
+        case "text-h1"       : return "2px 0";
+        case "text-h2"       : return isMobileSized.value ? "1px 0" : "3px 0";
+        case "text-h3"       : return "2px 0";
+        case "text-body"     :
+        case "text-button"   : return isMobileSized.value ? "2px 0" : "3px 0";;
+        case "text-overline" : return isMobileSized.value ? "3px 0" : "2px 0";
+        default              : return sizeToVar(props.padding);
       }
     });
 

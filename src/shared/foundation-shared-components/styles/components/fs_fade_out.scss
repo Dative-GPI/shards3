@@ -8,6 +8,7 @@
     // Petit hack pour que la barre de scroll elle soit à droite du container
     padding-right: calc(var(--fs-fade-out-padding) + var(--fs-fade-out-padding-offset));
     width: calc(var(--fs-fade-out-width) + var(--fs-fade-out-width-offset));
+    margin-right: var(--fs-fade-out-margin-right);
 
     height: var(--fs-fade-out-height);
     flex-direction: column;
