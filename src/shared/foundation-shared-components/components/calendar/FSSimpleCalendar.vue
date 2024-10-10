@@ -13,7 +13,7 @@
         }"
         align="center-center"
       >
-        {{ day(i - 1) }}
+        {{ dayLabel(i - 1) }}
       </FSCol>
     </FSRow>
     <FSRow>
@@ -40,7 +40,7 @@
 import { startOfWeek, endOfWeek, endOfMonth, isSameDay, isBefore, isAfter, isSameMonth, addDays } from "date-fns";
 import { defineComponent, computed } from "vue";
 
-import { useTranslations } from "@dative-gpi/bones-ui";
+import { dayLabel } from "../../tools";
 
 import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
@@ -68,23 +68,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { $tr } = useTranslations();
 
     const { getMachineOffset } = useAppTimeZone();
-
-    const day = (i: number) => {
-      switch(i)
-      {
-        case 0 : return $tr("ui.common.monday", "Monday");
-        case 1 : return $tr("ui.common.tuesday", "Tuesday");
-        case 2 : return $tr("ui.common.wednesday", "Wednesday");
-        case 3 : return $tr("ui.common.thursday", "Thursday");
-        case 4 : return $tr("ui.common.friday", "Friday");
-        case 5 : return $tr("ui.common.saturday", "Saturday");
-        case 6 : return $tr("ui.common.sunday", "Sunday");
-        default: return "";
-      }
-    };
 
     const firstDayOfMonth = computed(() => {
       const date = new Date(props.year, props.month - 1, 1);
@@ -155,7 +140,7 @@ export default defineComponent({
     });
 
     return {
-      day,
+      dayLabel,
       days
     };
     
