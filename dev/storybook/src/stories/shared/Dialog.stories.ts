@@ -29,18 +29,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Submit: Story = {
   args: {
-    args: {
-      value1: false,
-      showCancelButton1: true,
-      showSubmitButton1: true
-    }
+    value1: false,
+    showCancelButton1: true,
+    showSubmitButton1: true
   },
   render: (args, { argTypes }) => ({
     components: { FSDialogSubmit, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return {
-        ...args
+        args
       };
     },
     template: `
@@ -55,12 +53,12 @@ export const Submit: Story = {
         title="Form 1"
         :showCancelButton="args.showCancelButton1"
         :showSubmitButton="args.showSubmitButton1"
-        v-model="args.value1"
+        v-model="value1"
       >
         <template #body>
-          <FSText>
+          <FSSpan>
           This is a submit dialog
-          </FSText>
+          </FSSpan>
         </template>
       </FSDialogForm>
     </div>`
@@ -69,22 +67,20 @@ export const Submit: Story = {
 
 export const Form: Story = {
   args: {
-    args: {
-      value1: false,
-      value2: false,
-      value4: false,
-      validation2: false,
-      label1: "",
-      label2: "",
-      label4: ""
-    }
+    value1: false,
+    value2: false,
+    value4: false,
+    validation2: false,
+    label1: "",
+    label2: "",
+    label4: ""
   },
   render: (args, { argTypes }) => ({
     components: { FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return {
-        ...args
+        args
       };
     },
     template: `
@@ -176,19 +172,17 @@ export const Form: Story = {
 
 export const MultipleForm: Story = {
   args: {
-    args: {
-      value1: false,
-      showCancelButton1: true,
-      showSubmitButton1: true,
-      label11: "",
-      label12: ""
-    }
+    value1: false,
+    showCancelButton1: true,
+    showSubmitButton1: true,
+    label11: "",
+    label12: ""
   },
   render: (args, { argTypes }) => ({
     components: { FSDialogMultiForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      return { args };
     },
     template: `
     <div style="display: flex; gap: 10px;">
@@ -237,20 +231,18 @@ export const MultipleForm: Story = {
 
 export const Remove: Story = {
   args: {
-    args: {
-      value1: false,
-      removing1: false,
-      value2: false,
-      removing2: false,
-      value3: false,
-      removing3: false
-    }
+    value1: false,
+    removing1: false,
+    value2: false,
+    removing2: false,
+    value3: false,
+    removing3: false
   },
   render: (args, { argTypes }) => ({
     components: { FSDialogRemove, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      return { args };
     },
     template: `
     <div style="display: flex; gap: 10px;">
