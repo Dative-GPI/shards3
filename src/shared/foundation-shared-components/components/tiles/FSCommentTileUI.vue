@@ -80,8 +80,8 @@ import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSButtonRemoveIcon from "../buttons/FSButtonRemoveIcon.vue";
 import FSButtonEditIcon from "../buttons/FSButtonEditIcon.vue";
-import FSDialogRemove from "../FSDialogRemove.vue";
 import FSCommentField from "../fields/FSCommentField.vue";
+import FSDialogRemove from "../FSDialogRemove.vue";
 import FSImage from "../FSImage.vue";
 import FSCard from "../FSCard.vue";
 import FSText from "../FSText.vue";

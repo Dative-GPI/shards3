@@ -193,7 +193,7 @@ export default defineComponent({
              }
         );
       }
-      else{
+      else {
         const t = applyOffset({
           startDay: value,
           startHour: realTime.value.startHour,
@@ -238,7 +238,7 @@ export default defineComponent({
         });
         return;
       }
-      else{
+      else {
         const t = applyOffset({
           startDay: props.modelValue.startDay == Days.AllDays ? value : realTime.value.startDay,
           startHour: realTime.value.startHour,

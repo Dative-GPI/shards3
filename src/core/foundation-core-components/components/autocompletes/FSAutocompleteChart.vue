@@ -58,10 +58,9 @@ import { computed, defineComponent, type PropType } from "vue";
 
 import { type ChartOrganisationFilters, type ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
+import { chartOriginColor, chartOriginLabel } from "@dative-gpi/foundation-shared-components/tools";
 import { useAutocomplete } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
-
-import { chartOriginColor, chartOriginLabel } from "@dative-gpi/foundation-shared-components/tools";
 import { ChartOrigin } from "@dative-gpi/foundation-shared-domain/enums";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
