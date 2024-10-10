@@ -38,6 +38,7 @@
               :wrap="false"
             >
               <FSButton
+                v-if="$props.showCancelButton || currentStep > 1"
                 :prependIcon="$props.cancelButtonPrependIcon"
                 :appendIcon="$props.cancelButtonAppendIcon"
                 :variant="$props.cancelButtonVariant"
@@ -46,6 +47,7 @@
                 @click="onPrevious()"
               />
               <FSButton
+                v-if="$props.showSubmitButton || currentStep < $props.steps"
                 type="submit"
                 :prependIcon="$props.submitButtonPrependIcon"
                 :appendIcon="$props.submitButtonAppendIcon"
@@ -107,6 +109,11 @@ export default defineComponent({
       type: Number,
       required: true
     },
+    showCancelButton: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     cancelButtonPrependIcon: {
       type: String as PropType<string | null>,
       required: false,
@@ -131,6 +138,11 @@ export default defineComponent({
       type: String as PropType<ColorBase>,
       required: false,
       default: ColorEnum.Light
+    },
+    showSubmitButton: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     submitButtonPrependIcon: {
       type: String as PropType<string | null>,

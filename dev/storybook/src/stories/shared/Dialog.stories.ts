@@ -27,14 +27,56 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Submit: Story = {
+  args: {
+    args: {
+      value1: false,
+      showCancelButton1: true,
+      showSubmitButton1: true
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSDialogSubmit, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    props: Object.keys(argTypes),
+    setup() {
+      return {
+        ...args
+      };
+    },
+    template: `
+    <div style="display: flex; gap: 10px;">
+      <FSButton
+        color="primary"
+        label="Dialog submit"
+        @click="() => args.value1 = true"
+      />
+      <FSDialogSubmit
+        width="500px"
+        title="Form 1"
+        :showCancelButton="args.showCancelButton1"
+        :showSubmitButton="args.showSubmitButton1"
+        v-model="args.value1"
+      >
+        <template #body>
+          <FSText>
+          This is a submit dialog
+          </FSText>
+        </template>
+      </FSDialogForm>
+    </div>`
+  })
+}
+
 export const Form: Story = {
   args: {
     args: {
       value1: false,
       value2: false,
+      value4: false,
       validation2: false,
       label1: "",
-      label2: ""
+      label2: "",
+      label4: ""
     }
   },
   render: (args, { argTypes }) => ({
@@ -105,6 +147,29 @@ export const Form: Story = {
           </FSSpan>
         </template>
       </FSDialogForm>
+      
+
+      <FSButton
+        color="primary"
+        label="Disabled buttons dialog"
+        @click="() => args.value4 = true"
+      />
+      <FSDialogForm
+        width="500px"
+        title="No buttons dialog"
+        :showCancelButton="false"
+        :showSubmitButton="false"
+        v-model="args.value4"
+      >
+        <template #body>
+          <FSTextField
+            label="Label 4"
+            :required="true"
+            :rules="[v => !!v || 'Label is required']"
+            v-model="args.label4"
+          />
+        </template>
+      </FSDialogForm>      
     </div>`
   })
 }
@@ -113,6 +178,8 @@ export const MultipleForm: Story = {
   args: {
     args: {
       value1: false,
+      showCancelButton1: true,
+      showSubmitButton1: true,
       label11: "",
       label12: ""
     }
@@ -134,6 +201,8 @@ export const MultipleForm: Story = {
         width="500px"
         title="Form 1"
         subtitle="3 pages form"
+        :showCancelButton="args.showCancelButton1"
+        :showSubmitButton="args.showSubmitButton1"
         :steps="3"
         @click:submitButton="() => {
           args.value1 = false;

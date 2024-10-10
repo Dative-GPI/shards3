@@ -86,6 +86,8 @@
     :type="$props.type"
     :style="style"
     :class="$props.class"
+    :disabled="$props.load || !$props.editable"
+    
     @click.stop="onClick"
     @mouseover="hover = true"
     @mouseleave="hover = false"
