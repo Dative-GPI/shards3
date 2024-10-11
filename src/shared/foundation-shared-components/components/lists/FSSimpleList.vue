@@ -11,6 +11,7 @@
     />
     <FSFadeOut
       v-if="$props.direction == 'column'"
+      height="auto"
       :maxHeight="$props.maxHeight"
       :maskHeight="0"
     >

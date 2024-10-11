@@ -4,7 +4,7 @@
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-x: var(--fs-fade-out-x-overflow);
     max-height: var(--fs-fade-out-max-height);
-    min-height: var(--fs-fade-out-height);
+    min-height: 0;
     height: var(--fs-fade-out-height);
     padding: var(--fs-fade-out-padding);
 
