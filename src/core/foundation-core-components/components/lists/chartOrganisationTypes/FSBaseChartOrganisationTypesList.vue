@@ -3,9 +3,9 @@
     :items="chartOrganisationTypes"
     :itemTo="$props.itemTo"
     :loading="fetchingChartOrganisationTypes"
+    :headersOptions="headersOptions"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
-    :headersOptions="headersOptions"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
@@ -54,7 +54,9 @@
     <template
       #item.chartType="{ item }"
     >
-      <FSRow>
+      <FSRow
+        :wrap="false"
+      >
         <FSIcon
           :icon="chartIcon(item.chartType)"
         />
@@ -87,22 +89,21 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { computed, defineComponent, type PropType, watch } from "vue";
 import type { RouteLocation } from "vue-router";
-
-import {ColorEnum} from "@dative-gpi/foundation-shared-components/models";
-import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
+import _ from "lodash";
 
 import type { ChartModelLabel, ChartOrganisationTypeFilters, ChartOrganisationTypeInfos } from "@dative-gpi/foundation-core-domain/models";
-
 import { useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
+import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSChartTileUI.vue";
-import FSDataTable from "../FSDataTable.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+
+import FSDataTable from "../FSDataTable.vue";
 
 export default defineComponent({
   name: "FSBaseChartOrganisationTypesList",
@@ -136,27 +137,22 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-
     const { entities: chartOrganisationTypes, fetching: fetchingChartOrganisationTypes, getMany: getManyChartOrganisationTypes } = useChartOrganisationTypes();
 
     const headersOptions = computed(() => ({
       modelsLabels: {
         fixedFilters: chartOrganisationTypes.value.map(c => c.modelsLabels).reduce((acc, models) => {
-          for(const m of models){
-            if(!acc.map((m) => m.id).includes(m.id)){
+          for (const m of models) {
+            if (!acc.map((m) => m.id).includes(m.id)) {
               acc.push(m);
             }
           }
           return acc;
-        }, []).map((m) =>  {
-          return {
-            value: m.id,
-            text: m.label
-          }
-        }),
-        methodFilter: (value: string, items: ChartModelLabel[]) => {
-          return items.map(i=>i.id).includes(value)
-        }
+        }, []).map((m) =>  ({
+          value: m.id,
+          text: m.label
+        })),
+        methodFilter: (value: string, items: ChartModelLabel[]) => items.some(ml => ml.id == value)
       }}));
       
     const isSelected = (id: string): boolean => {

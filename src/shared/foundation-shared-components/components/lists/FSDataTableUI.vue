@@ -1051,7 +1051,7 @@ export default defineComponent({
             return false;
           }
           for (const property in activeFilters) {
-            if (!activeFilters[property].some((filter) => filter.filter && filter.filter(filter.value ?? undefined, item[property], item))) {
+            if (!activeFilters[property].some((filter) => filter.filter && filter.filter(filter.value, item[property], item))) {
               return false;
             }
           }

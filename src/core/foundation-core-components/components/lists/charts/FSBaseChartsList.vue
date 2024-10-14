@@ -2,10 +2,10 @@
   <FSDataTable
     defaultMode="iterator"
     :loading="fetchingChartOrganisationTypes || fetchingChartOrganisations"
+    :headersOptions="headersOptions"
     :items="charts"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
-    :headersOptions="headersOptions"
     @update:modelValue="onSelect"
     v-bind="$attrs"
   >
@@ -54,7 +54,9 @@
     <template
       #item.chartType="{ item }"
     >
-      <FSRow>
+      <FSRow
+        :wrap="false"
+      >
         <FSIcon
           :icon="chartIcon(item.chartType)"
         />
@@ -91,17 +93,16 @@
 import { defineComponent, type PropType, watch, computed } from "vue";
 import _ from "lodash";
 
-import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
-
 import type { ChartModelLabel, ChartOrganisationFilters, ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
-
 import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
+import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSChartTileUI.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+
 import FSDataTable from "../FSDataTable.vue";
 
 export default defineComponent({
@@ -137,7 +138,6 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:scope"],
   setup(props, { emit }) {
-
     const { entities: chartOrganisations, fetching: fetchingChartOrganisations, getMany: getManyChartOrganisations } = useChartOrganisations();
     const { entities: chartOrganisationTypes, fetching: fetchingChartOrganisationTypes, getMany: getManyChartOrganisationTypes } = useChartOrganisationTypes();
 
@@ -151,43 +151,38 @@ export default defineComponent({
     }
 
     const charts = computed(() => {
-      return chartOrganisations.value.map(c => {
-        return {
-          id: c.id,
-          imageId: c.imageId,
-          chartId: c.chartId,
-          chartCategoryId: c.chartCategoryId,
-          chartCategoryLabel: c.chartCategoryLabel,
-          scope: c.scope,
-          label: c.label,
-          title: c.title,
-          code: c.code,
-          icon: c.icon,
-          tags: c.tags,
-          multiple: c.multiple,
-          chartType: c.chartType,
-          modelsLabels: c.modelsLabels
-        }
-      })
-        .concat(chartOrganisationTypes.value.map(c => {
-          return {
-            id: c.id,
-            imageId: c.imageId,
-            chartId: c.chartId,
-            chartCategoryId: c.chartCategoryId,
-            chartCategoryLabel: c.chartCategoryLabel,
-            scope: c.scope,
-            label: c.label,
-            title: c.title,
-            code: c.code,
-            icon: c.icon,
-            tags: c.tags,
-            multiple: c.multiple,
-            chartType: c.chartType,
-            modelsLabels: c.modelsLabels
-          }
-        }))
-    })
+      return chartOrganisations.value.map(c => ({
+        id: c.id,
+        imageId: c.imageId,
+        chartId: c.chartId,
+        chartCategoryId: c.chartCategoryId,
+        chartCategoryLabel: c.chartCategoryLabel,
+        scope: c.scope,
+        label: c.label,
+        title: c.title,
+        code: c.code,
+        icon: c.icon,
+        tags: c.tags,
+        multiple: c.multiple,
+        chartType: c.chartType,
+        modelsLabels: c.modelsLabels
+      })).concat(chartOrganisationTypes.value.map(c => ({
+        id: c.id,
+        imageId: c.imageId,
+        chartId: c.chartId,
+        chartCategoryId: c.chartCategoryId,
+        chartCategoryLabel: c.chartCategoryLabel,
+        scope: c.scope,
+        label: c.label,
+        title: c.title,
+        code: c.code,
+        icon: c.icon,
+        tags: c.tags,
+        multiple: c.multiple,
+        chartType: c.chartType,
+        modelsLabels: c.modelsLabels
+      })));
+    });
 
     const headersOptions = computed(() => ({
       modelsLabels: {
@@ -198,33 +193,27 @@ export default defineComponent({
             }
           }
           return acc;
-        }, []).map((m) =>  {
-          return {
-            value: m.id,
-            text: m.label
-          }
-        }),
-        methodFilter: (value: string, items: ChartModelLabel[]) => {
-          return items.map(i=>i.id).includes(value)
-        }
+        }, []).map((m) =>  ({
+          value: m.id,
+          text: m.label
+        })),
+        methodFilter: (value: string, items: ChartModelLabel[]) => items.some(ml => ml.id == value)
       }}));
 
-    const update = (value : string) =>
-    {
+    const update = (value : string) => {
       const item = isSelected(value);
-
-      if(item){
-        onSelect(props.modelValue.filter(m => m != value))
+      if (item) {
+        onSelect(props.modelValue.filter(m => m != value));
       }
-      else{
-        onSelect([...props.modelValue, value])
+      else {
+        onSelect([...props.modelValue, value]);
       }
     }
 
     const onSelect = (values: string[] | null) => {
       if(!values){
-        emit("update:modelValue", [])
-        emit("update:scope", [])
+        emit("update:modelValue", []);
+        emit("update:scope", []);
         return;
       }
       const selectedItems = charts.value.filter(i => values.includes(i.id));
