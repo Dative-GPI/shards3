@@ -1,7 +1,7 @@
 .fs-window {
+    overflow: var(--fs-window-overflow) !important;
     height: var(--fs-window-height);
     width: var(--fs-window-width);
-    overflow: visible !important;
 }
 
 .fs-window-item {
