@@ -328,7 +328,12 @@ export default defineComponent({
             value: av,
             text: av
           }))): undefined,
-          methodFilterRaw: (value: any, item: DeviceOrganisationInfos) => item.meta[cp.code] == value,
+          methodFilterRaw: (value: any, item: DeviceOrganisationInfos) => {
+            if (cp.useOnlyAllowedValues) {
+              return (!Object.keys(cp.allowedValues).includes(item.meta[cp.code])) && !value || item.meta[cp.code] == value
+            }
+            return item.meta[cp.code] == value
+          },
           sort: (a: string, b: string) => alphanumericSort(a, b)
         }
       }), {})
