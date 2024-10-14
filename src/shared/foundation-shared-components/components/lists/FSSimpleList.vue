@@ -38,9 +38,7 @@
             :width="$props.direction == 'row' ? 'fit-content' : '100%'"
             height="fit-content"
             :editable="false"
-            @dragover="(event) => onDragOver(event, '.fs-draggable-item', '.fs-data-iterator-container')"
-            @drop="(event) => onDrop(event, item, '.fs-draggable-item')"
-            @dragleave="onDragLeave"
+            @drop="(event) => onDrop(event, item)"
             @dragover.prevent
           >
             <slot
@@ -222,8 +220,12 @@ export default defineComponent({
       }
     }
 
-    const onDragEnd = (event: DragEvent) => {
-      console.log('drag end', event);
+    const onDragEnd = (event: DragEvent, item: any, containerSelector: string) => {
+      const closestDropzone = event.target ? (event.target as HTMLElement).closest(containerSelector) : null;
+      if(!closestDropzone) {
+        return;
+      }
+      console.log('dropzone', closestDropzone.id);
     }
 
     const onDragOver = (event: DragEvent, draggableSelector: string, containerSelector: string) => {
@@ -231,7 +233,7 @@ export default defineComponent({
     }
 
     const onDrop = (event: DragEvent, item: any, draggableSelector: string) => {
-      console.log('drop', event, item);
+      console.log('drop', event.dataTransfer?.getData('itemIndex'), item);
     }
 
     watch(() => props.search, (value) => {

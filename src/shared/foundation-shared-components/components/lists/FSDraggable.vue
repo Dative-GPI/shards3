@@ -1,6 +1,7 @@
 <template>
   <FSRow
     width="hug"
+    ref="draggableRef"
     :draggable="!$props.disabled"
     :class="classes"
     @touchstart="onTouchStart"
@@ -26,8 +27,8 @@ export default defineComponent({
       type: String,
       required: true
     },
-    item: {
-      type: Object as PropType<{index: number}>,
+    itemId: {
+      type: String as PropType<string>,
       required: true
     },
     disabled: {
@@ -44,12 +45,16 @@ export default defineComponent({
     const mobileGrabThreshold = 150;
 
     const draggedElementCopy = ref<HTMLElement|null>(null);
+    const draggableRef = ref<typeof FSRow|null>(null);
     const touchStartX = ref(0);
     const touchStartY = ref(0);
     const touchEndX = ref(0);
     const touchEndY = ref(0);
-
     const touchStartTime = ref(0);
+
+    const dragged = computed(() => {
+      return draggableRef.value?.$el.closest(props.elementSelector) as HTMLElement;
+    });
 
     const classes = computed((): string[] => {
       const classNames = ["fs-draggable-item"];
@@ -74,7 +79,7 @@ export default defineComponent({
           const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
           dragged.classList.add("fs-draggable-dragging");
           dragged.classList.add("fs-draggable-dragging-grabbegin");
-          dragged.dataset.initialIndex = `${props.item.index}`;
+          dragged.dataset.initialIndex = `${props.itemId}`;
           event.preventDefault();
         }
       }, mobileGrabThreshold);
@@ -170,26 +175,24 @@ export default defineComponent({
         event.preventDefault();
         return;
       }
-      const dragged = (event.target as HTMLElement)?.closest(props.elementSelector) as HTMLElement;
-      dragged.dataset.initialIndex = `${props.item.index}`;
-      event.dataTransfer?.setDragImage(dragged, 25, 25);
+      event.dataTransfer?.setDragImage(dragged.value, 25, 25);
       
       if (event.dataTransfer) {
         event.dataTransfer.dropEffect = "move";
         event.dataTransfer.effectAllowed = "move";
       }
-      dragged?.classList.add("fs-draggable-dragging");
-      event.dataTransfer?.setData("text/plain", JSON.stringify(props.item));
+      dragged.value?.classList.add("fs-draggable-dragging");
+      event.dataTransfer?.setData("itemIndex", props.itemId);
       emit("update:dragstart", event);
     };
 
     const onDragEnd = (event: DragEvent) => {
-      const dragged = (event.target as HTMLElement)?.closest(props.elementSelector);
-      dragged?.classList.remove("fs-draggable-dragging");
-      emit("update:dragend", event, dragged);
+      dragged.value?.classList.remove("fs-draggable-dragging");
+      emit("update:dragend", event);
     };
 
     return {
+      draggableRef,
       classes,
       onTouchStart,
       onTouchMove,
