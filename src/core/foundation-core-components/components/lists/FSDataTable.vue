@@ -84,9 +84,7 @@ export default defineComponent({
     }
 
     watch(() => props.tableCode, async (): Promise<void> => {
-      if (props.tableCode) {
-        onTableCodeChange(getUserOrganisationTable, getTable, props.tableCode, props.defaultMode);
-      }
+      onTableCodeChange(getUserOrganisationTable, getTable, props.tableCode, props.defaultMode);
     }, { immediate: true });
 
     watch(() => (table.value ? { ...table.value } : null), (_, former) => {
