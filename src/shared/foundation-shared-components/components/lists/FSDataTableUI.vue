@@ -1544,6 +1544,7 @@ export default defineComponent({
 
     watch(() => props.items, async () => {
       computeFilters();
+      observeIntersection();
       if (innerPage.value !== 1) {
         const formerPage = innerPage.value;
         innerPage.value = 1;
