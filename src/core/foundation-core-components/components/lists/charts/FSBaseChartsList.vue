@@ -5,6 +5,7 @@
     :items="charts"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
+    :headersOptions="headersOptions"
     @update:modelValue="onSelect"
     v-bind="$attrs"
   >
@@ -51,6 +52,18 @@
       />
     </template>
     <template
+      #item.chartType="{ item }"
+    >
+      <FSRow>
+        <FSIcon
+          :icon="chartIcon(item.chartType)"
+        />
+        <FSText>
+          {{ chartTypeLabel(item.chartType) }}
+        </FSText>
+      </FSRow>
+    </template>
+    <template
       #item.modelsLabels="{ item }"
     >
       <FSTagGroup
@@ -79,8 +92,9 @@ import { defineComponent, type PropType, watch, computed } from "vue";
 import _ from "lodash";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
 
-import type { ChartOrganisationFilters, ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
+import type { ChartModelLabel, ChartOrganisationFilters, ChartOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
 
 import { useChartOrganisations, useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 
@@ -175,6 +189,26 @@ export default defineComponent({
         }))
     })
 
+    const headersOptions = computed(() => ({
+      modelsLabels: {
+        fixedFilters: chartOrganisationTypes.value.map(c => c.modelsLabels).reduce((acc, models) => {
+          for(const m of models){
+            if(!acc.map((m) => m.id).includes(m.id)){
+              acc.push(m);
+            }
+          }
+          return acc;
+        }, []).map((m) =>  {
+          return {
+            value: m.id,
+            text: m.label
+          }
+        }),
+        methodFilter: (value: string, items: ChartModelLabel[]) => {
+          return items.map(i=>i.id).includes(value)
+        }
+      }}));
+
     const update = (value : string) =>
     {
       const item = isSelected(value);
@@ -209,9 +243,12 @@ export default defineComponent({
       fetchingChartOrganisations,
       chartOrganisationTypes,
       chartOrganisations,
+      headersOptions,
       ColorEnum,
       charts,
+      chartTypeLabel,
       isSelected,
+      chartIcon,
       onSelect,
       update
     };

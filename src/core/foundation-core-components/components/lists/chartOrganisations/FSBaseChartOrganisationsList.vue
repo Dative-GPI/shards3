@@ -5,6 +5,7 @@
     :loading="fetchingChartOrganisations"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
+    :headersOptions="headersOptions"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
@@ -70,16 +71,30 @@
         :to="$props.itemTo && $props.itemTo(item)"
       />
     </template>
+    <template
+      #item.chartType="{ item }"
+    >
+      <FSRow>
+        <FSIcon
+          :icon="chartIcon(item.chartType)"
+        />
+        <FSText>
+          {{ chartTypeLabel(item.chartType) }}
+        </FSText>
+      </FSRow>
+    </template>
   </FSDataTable>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, watch } from "vue";
+import { computed, defineComponent, type PropType, watch } from "vue";
 import type { RouteLocation } from "vue-router";
 import _ from "lodash";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
 
+import type { ChartModelLabel} from "@dative-gpi/foundation-core-domain/models";
 import { type ChartOrganisationFilters, type ChartOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useChartOrganisations } from "@dative-gpi/foundation-core-services/composables";
 
@@ -124,6 +139,27 @@ export default defineComponent({
 
     const { entities: chartOrganisations, fetching: fetchingChartOrganisations, getMany: getManyChartOrganisations } = useChartOrganisations();
 
+    const headersOptions = computed(() => ({
+      modelsLabels: {
+        fixedFilters: chartOrganisations.value.map(c => c.modelsLabels).reduce((acc, models) => {
+          for(const m of models){
+            if(!acc.map((m) => m.id).includes(m.id)){
+              acc.push(m);
+            }
+          }
+          return acc;
+        }, []).map((m) =>  {
+          return {
+            value: m.id,
+            text: m.label
+          }
+        }),
+        methodFilter: (value: string, items: ChartModelLabel[]) => {
+          return items.map(i=>i.id).includes(value)
+        }
+      }}));
+
+
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
     };
@@ -139,10 +175,13 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
-      ColorEnum,
       fetchingChartOrganisations,
       chartOrganisations,
-      isSelected
+      headersOptions,
+      ColorEnum,
+      chartTypeLabel,
+      isSelected,
+      chartIcon
     };
   }
 });
