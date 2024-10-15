@@ -513,6 +513,15 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
             hidden: false,
             sortable: false,
             filterable: true
+        },
+        {
+            columnId: "5",
+            text: "Chart type",
+            value: "chartType",
+            index: 3,
+            hidden: false,
+            sortable: false,
+            filterable: true
         }],
         sortByKey: null,
         sortByOrder: null
@@ -628,7 +637,7 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
     {
         id: "15",
         code: "scenarios1",
-        mode: "iterator",
+        mode: "table",
         rowsPerPage: 10,
         columns: [{
             columnId: "1",
@@ -659,6 +668,14 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
             text: "Tags",
             value: "tags",
             index: 4,
+            hidden: false,
+            sortable: false,
+            filterable: true
+        }, {
+            columnId: "5",
+            text: "Criticity",
+            value: "criticity",
+            index: 5,
             hidden: false,
             sortable: false,
             filterable: true
@@ -713,6 +730,70 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
             sortable: false,
             filterable: true
         }
+        ],
+        sortByKey: null,
+        sortByOrder: null
+    },
+    {
+        id: "17",
+        code: "connectivityScenarios1",
+        mode: "table",
+        rowsPerPage: 10,
+        columns: [
+            {
+                columnId: "688be3a2-fba4-47cd-bea9-91972b364445",
+                text: "Device organisation image id",
+                value: "deviceOrganisationImageId",
+                sortable: false,
+                filterable: false,
+                index: 0,
+                hidden: false,
+            },
+            {
+                columnId: "8ffef926-b8b1-4ed1-a6c1-1a530e746ec0",
+                text: "Device organisation connectivity",
+                value: "deviceOrganisationConnectivity",
+                sortable: false,
+                filterable: false,
+                index: 2,
+                hidden: false,
+            },
+            {
+                columnId: "3c75de75-d3e5-4adc-a7ef-744219280efa",
+                text: "Organisation",
+                value: "deviceOrganisationLabel",
+                sortable: true,
+                filterable: true,
+                index: 1,
+                hidden: false,
+            },
+            {
+                columnId: "ebf76d69-0f91-4b29-b24c-42e95ae63886",
+                text: "Time",
+                value: "time",
+                sortable: true,
+                filterable: false,
+                index: 3,
+                hidden: false,
+            },
+            {
+                columnId: "b784b063-74b8-4ec6-b727-6cdb2849a392",
+                text: "Prévenir le manager",
+                value: "warnDeviceManager",
+                sortable: false,
+                filterable: false,
+                index: 5,
+                hidden: false,
+            },
+            {
+                columnId: "982c4e95-9d88-4c47-b3b3-3a9655394015",
+                text: "Warn on reconnection",
+                value: "warnOnReconnection",
+                sortable: false,
+                filterable: false,
+                index: 6,
+                hidden: false,
+            }
         ],
         sortByKey: null,
         sortByOrder: null
