@@ -72,6 +72,7 @@ export default defineComponent({
       default: null
     }
   },
+  emits: ["click"],
   setup() {
     return {
       ColorEnum,
