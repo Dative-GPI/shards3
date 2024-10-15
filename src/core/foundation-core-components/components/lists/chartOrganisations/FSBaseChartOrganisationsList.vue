@@ -93,10 +93,14 @@ import { computed, defineComponent, type PropType, watch } from "vue";
 import type { RouteLocation } from "vue-router";
 import _ from "lodash";
 
-import type { ChartModelLabel, ChartOrganisationFilters, ChartOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
-import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
-import { useChartOrganisations } from "@dative-gpi/foundation-core-services/composables";
+import { ChartType } from "@dative-gpi/foundation-shared-domain/enums";
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
+
+import type { ChartModelLabel, ChartOrganisationFilters, ChartOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
+import { useChartOrganisations } from "@dative-gpi/foundation-core-services/composables";
+
 
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
@@ -104,6 +108,7 @@ import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTa
 import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSChartTileUI.vue";
 
 import FSDataTable from "../FSDataTable.vue";
+
 
 export default defineComponent({
   name: "FSBaseChartOrganisationsList",
@@ -153,7 +158,15 @@ export default defineComponent({
           text: m.label
         })),
         methodFilter: (value: string, items: ChartModelLabel[]) => items.some(ml => ml.id == value)
-      }}));
+      },
+      chartType: {
+        fixedFilters: getEnumEntries(ChartType).filter(f => f.value != ChartType.None).map(e => ({
+          value: e.value,
+          text: chartTypeLabel(e.value)
+        })),
+        methodFilter: (value: ChartType, item: ChartType) => value == item
+      }
+    }));
 
 
     const isSelected = (id: string): boolean => {

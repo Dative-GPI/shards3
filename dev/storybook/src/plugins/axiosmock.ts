@@ -3,6 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
 import { AUTHTOKENS, CUSTOMPROPERTIES, SCENARIOORGANISATIONS, SCENARIOORGANISATIONTYPES, CUSTOMPROPERTYVALUES, DASHBOARDORGANISATIONS, DASHBOARDORGANISATIONTYPES, DASHBOARDSHALLOWS, DEVICEORGANISATIONS, FOLDERS, GROUPS, IMAGES, LANGUAGES, USERORGANISATIONTABLES, TIMEZONES, TRANSLATIONS, ORGANISATIONS, ROLEORGANISATIONS, ROLEORGANISATIONTYPES, LOCATIONS, MANUFACTURERS, USERORGANISATIONS, ORGANISATIONTYPES, MODELS, DATACATEGORIES, DATADEFINITIONS, ALERTS, COMMENTS, CHARTORGANISATIONS, CHARTORGANISATIONTYPES, SERVICEACCOUNTORGANISATIONS } from '@/mocks';
+import { CONNECTIVITYSCENARIOS } from '@/mocks/connectivityScenarios.mock';
 
 const mock = new MockAdapter((ServiceFactory.http as any), { delayResponse: 2000 });
 
@@ -72,7 +73,8 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/scenarioOrganisationTypes1", USERORGANISATIONTABLES[15]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/users1", USERORGANISATIONTABLES[4]);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/users2", USERORGANISATIONTABLES[5]);
-    
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/user-organisation-tables/connectivityScenarios1", USERORGANISATIONTABLES[17]);
+
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/custom-properties", CUSTOMPROPERTIES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/custom-property-values/1/1/code", CUSTOMPROPERTYVALUES);
 
@@ -95,6 +97,7 @@ export function mockApp() {
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/scenario-organisations", SCENARIOORGANISATIONS);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/scenario-organisation-types", SCENARIOORGANISATIONTYPES);
     onGetWithRegex("/api/foundation/core/v1/organisations/dative/service-account-role-organisations", ROLEORGANISATIONS);
+    onGetWithRegex("/api/foundation/core/v1/organisations/dative/connectivity-scenarios", CONNECTIVITYSCENARIOS);
 
     // onGetWithRegex("/api/shared/v1/images/1/raw", IMAGES[0].raw);
     onGetWithRegex("/api/foundation/shared/v1/images/1", IMAGES[0]);

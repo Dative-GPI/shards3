@@ -1249,7 +1249,7 @@ export default defineComponent({
                 return header.methodFilterRaw(ff.value, item);
               }
               const flat = property = [property].flat();
-              return Array.isArray(flat) ? flat.some(f => f == ff.value) : ff.value == flat;
+              return Array.isArray(flat) ? flat.includes(ff.value) || (!ff.value && flat.length == 0) : (!ff.value && !flat) || ff.value == flat;
             })
           }));
           filterDictionary[key] = value;
@@ -1272,7 +1272,7 @@ export default defineComponent({
                     return header.methodFilterRaw(dv, item);
                   }
                   const flat = [property].flat().map(mapToInnerValue);
-                  return Array.isArray(flat) ? flat.some(f => f == dv) : dv == flat;
+                  return Array.isArray(flat) ? flat.includes(dv) || (!dv && flat.length == 0) : (!dv && !flat) || dv == flat;
                 })
               }
             });

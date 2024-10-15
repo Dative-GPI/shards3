@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSBaseScenariosList from "@dative-gpi/foundation-core-components/components/lists/scenarios/FSBaseScenariosList.vue";
+import FSBaseConnectivityScenariosList from "@dative-gpi/foundation-core-components/components/lists/connectivityScenarios/FSBaseConnectivityScenariosList.vue";
 import FSDataTable from '@dative-gpi/foundation-core-components/components/lists/FSDataTable.vue';
 
-const meta: Meta<typeof FSBaseScenariosList> = {
-  title: 'Foundation/Core/Lists/Base Lists/BaseScenariosList',
-  component: FSBaseScenariosList,
+const meta: Meta<typeof FSBaseConnectivityScenariosList> = {
+  title: 'Foundation/Core/Lists/Base Lists/BaseConnectivityScenariosList',
+  component: FSBaseConnectivityScenariosList,
   subcomponents: { FSDataTable },
   tags: ['autodocs'],
   argTypes: {
     tableCode: {
       control: 'select',
-      options: ['scenarioOrganisations1'],
+      options: ['connectivityScenarios1'],
     }
   },
 };
@@ -21,21 +21,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => ({
-    components: { FSBaseScenariosList },
+    components: { FSBaseConnectivityScenariosList },
     setup() {
       return { args };
     },
     template: `
-      <FSBaseScenariosList
+      <FSBaseConnectivityScenariosList
         v-model:modelValue="args.modelValue"
-        :showAssociation="false"
         :tableCode="args.tableCode"
         :itemTo="null"
       />
     `,
   }),
   args: {
-    tableCode: 'scenarioOrganisations1',
+    tableCode: 'connectivityScenarios1',
     modelValue: [],
   },
 };
