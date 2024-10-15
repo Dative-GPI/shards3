@@ -28,7 +28,7 @@ export const Default: Story = {
     template: `
       <FSBaseScenariosList
         v-model:modelValue="args.modelValue"
-        :showAssociation="false"
+        :showAssociation="true"
         :tableCode="args.tableCode"
         :itemTo="null"
       />

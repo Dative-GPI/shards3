@@ -1,4 +1,5 @@
 import { ref, type Ref } from "vue";
+import _ from "lodash";
 
 import { type UpdateUserOrganisationTableDTO, type UserOrganisationTableDetails } from "@dative-gpi/foundation-core-domain/models";
 import { type FSDataTable, type FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
@@ -15,8 +16,9 @@ export const useDataTables = () => {
   ) => ({
     ...table.value,
     mode: table.value?.mode ?? defaultMode,
-    headers: table.value?.headers.concat(extraHeaders).map(header => ({
+    headers: _.sortBy(table.value?.headers.concat(extraHeaders.filter(e => !table.value?.headers.map(h => h.value).includes(e.value))), "index").map((header, i) => ({
       ...header,
+      index: i,
       fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
       methodFilter: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilter) || null,
       methodFilterRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilterRaw) || null,
