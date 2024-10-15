@@ -1,0 +1,1 @@
+var a=(r=>(r[r.None=0]="None",r[r.OrganisationType=1]="OrganisationType",r[r.Organisation=2]="Organisation",r))(a||{}),o=(r=>(r[r.None=0]="None",r[r.Model=1]="Model",r[r.Group=2]="Group",r[r.Location=3]="Location",r[r.Device=5]="Device",r[r.User=6]="User",r[r.Dashboard=7]="Dashboard",r[r.Folder=8]="Folder",r))(o||{});export{a as A,o as E};
