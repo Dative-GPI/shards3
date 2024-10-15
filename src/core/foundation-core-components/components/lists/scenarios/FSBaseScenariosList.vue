@@ -1,87 +1,62 @@
 <template>
-  <FSCol
-    gap="24px"
+  <FSDataTable
+    :loading="fetchingScenarioOrganisationTypes || fetchingScenarioOrganisations"
+    :headers="headers"
+    :items="scenarios"
+    :itemTo="routerLink"
+    :modelValue="$props.modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+    v-bind="$attrs"
   >
-    <FSRow>
-      <FSButton
-        prependIcon="mdi-vector-link"
-        borderRadius="999px"
-        :border="false"
-        :color="ColorEnum.Primary"
-        :label="$tr('page.scenarios.my-scenarios', 'My scenarios')"
-        :variant="scopeFilter == ApplicationScope.Organisation ? 'full' : 'standard'"
-        @click="setScope(ApplicationScope.Organisation)"
-      />
-      <FSButton
-        prepend-icon="mdi-share-variant-outline"
-        borderRadius="999px"
-        :border="false"
-        :color="ColorEnum.Primary"
-        :label="$tr('page.scenarios.shared-scenarios', 'Shared scenarios')"
-        :variant="scopeFilter == ApplicationScope.OrganisationType ? 'full' : 'standard'"
-        @click="setScope(ApplicationScope.OrganisationType)"
-      />
-    </FSRow>
-    <FSDataTable
-      :loading="fetchingScenarioOrganisationTypes || fetchingScenarioOrganisations"
-      :headers="headers"
-      :items="scenarios"
-      :itemTo="routerLink"
-      :modelValue="$props.modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
-      v-bind="$attrs"
+    <template
+      v-for="(_, name) in $slots"
+      v-slot:[name]="slotData"
     >
-      <template
-        v-for="(_, name) in $slots"
-        v-slot:[name]="slotData"
-      >
-        <slot
-          :name="name"
-          v-bind="slotData"
-        />
-      </template>
+      <slot
+        :name="name"
+        v-bind="slotData"
+      />
+    </template>
 
-      <template
-        #item.icon="{ item }"
-      >
-        <FSIcon>
-          {{ item.icon }}
-        </FSIcon>
-      </template>
+    <template
+      #item.icon="{ item }"
+    >
+      <FSIcon>
+        {{ item.icon }}
+      </FSIcon>
+    </template>
 
-      <template
-        #item.criticity="{ item }"
+    <template
+      #item.criticity="{ item }"
+    >
+      <FSRow
+        align="center-left"
       >
-        <FSRow
-          align="center-left"
+        <FSIcon
+          :color="AlertTools.criticityColor(item.criticity)"
         >
-          <FSIcon
-            :color="AlertTools.criticityColor(item.criticity)"
-          >
-            {{ AlertTools.criticityIcon(item.criticity) }}
-          </FSIcon>
-          <FSSpan>
-            {{ AlertTools.criticityLabel(item.criticity) }}
-          </FSSpan>
-        </FSRow>
-      </template>
+          {{ AlertTools.criticityIcon(item.criticity) }}
+        </FSIcon>
+        <FSSpan>
+          {{ AlertTools.criticityLabel(item.criticity) }}
+        </FSSpan>
+      </FSRow>
+    </template>
 
-      <template
-        #item.tags="{ item }"
-      >
-        <FSTagGroup
-          variant="slide"
-          :editable="false"
-          :tags="item.tags"
-        />
-      </template>
-    </FSDataTable>
-  </FSCol>
-  
+    <template
+      #item.tags="{ item }"
+    >
+      <FSTagGroup
+        variant="slide"
+        :editable="false"
+        :tags="item.tags"
+      />
+    </template>
+  </FSDataTable>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, watch, computed, onMounted, ref } from "vue";
+import { defineComponent, type PropType, watch, computed, onMounted } from "vue";
 import _ from "lodash";
 
 import { useTranslations } from "@dative-gpi/bones-ui";
@@ -96,16 +71,16 @@ import { useScenarioOrganisations, useScenarioOrganisationTypes, useRouteOrganis
 
 import FSDataTable from "../FSDataTable.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
-import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSBaseScenariosList",
   components:{
     FSDataTable,
     FSTagGroup,
-    FSButton,
-    FSIcon   
+    FSIcon,
+    FSRow   
   },
   props: {
     tableCode: {
@@ -132,6 +107,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    scope: {
+      type: Number as PropType<ApplicationScope>,
+      required: false,
+      default: ApplicationScope.None
     }
   },
   emits: ["update:modelValue"],
@@ -142,8 +122,6 @@ export default defineComponent({
     const { entities: scenarioOrganisationTypes, fetching: fetchingScenarioOrganisationTypes, getMany: getManyScenarioOrganisationTypes } = useScenarioOrganisationTypes();
 
     const { $r } = useRouteOrganisation();
-
-    const scopeFilter = ref<ApplicationScope>(ApplicationScope.None);
 
     const headers = computed(() => {
       let h = table.value?.columns as FSDataTableColumn[];
@@ -182,10 +160,10 @@ export default defineComponent({
     });
     
     const scenarios = computed(() => {
-      if(scopeFilter.value == ApplicationScope.Organisation){
+      if(props.scope == ApplicationScope.Organisation){
         return scenarioOrganisations.value
       }
-      else if(scopeFilter.value == ApplicationScope.OrganisationType){
+      else if(props.scope == ApplicationScope.OrganisationType){
         return scenarioOrganisationTypes.value
       }
       else{
@@ -236,10 +214,10 @@ export default defineComponent({
     };
 
     const fetch = () =>{
-      if(scopeFilter.value == ApplicationScope.OrganisationType){
+      if(props.scope == ApplicationScope.OrganisationType){
         getManyScenarioOrganisationTypes(props.scenarioOrganisationTypeFilters)
       }
-      else if(scopeFilter.value == ApplicationScope.Organisation){
+      else if(props.scope == ApplicationScope.Organisation){
         getManyScenarioOrganisations(props.scenarioOrganisationFilters);
       }
       else{
@@ -248,14 +226,6 @@ export default defineComponent({
       }
     }
 
-    const setScope = (scope: ApplicationScope) => {
-      if(scopeFilter.value != scope){
-        scopeFilter.value = scope;
-      }
-      else{
-        scopeFilter.value = ApplicationScope.None;
-      }
-    }
 
     onMounted(() => {
       if(props.tableCode){
@@ -264,7 +234,7 @@ export default defineComponent({
     });
 
  
-    watch(() => [props.scenarioOrganisationFilters,props.scenarioOrganisationTypeFilters, scopeFilter.value], (next, previous) => {
+    watch(() => [props.scenarioOrganisationFilters,props.scenarioOrganisationTypeFilters, props.scope], (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
         fetch();
       }
@@ -277,13 +247,11 @@ export default defineComponent({
       scenarioOrganisationTypes,
       scenarioOrganisations,
       ApplicationScope,
-      scopeFilter,
       AlertTools,
       ColorEnum,
       scenarios,
       headers,
-      routerLink,
-      setScope
+      routerLink
     };
   }
 });

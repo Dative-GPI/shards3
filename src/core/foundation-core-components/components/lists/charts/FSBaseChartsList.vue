@@ -105,6 +105,7 @@ import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/t
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 import FSDataTable from "../FSDataTable.vue";
 
@@ -115,7 +116,8 @@ export default defineComponent({
     FSDataTable,
     FSTagGroup,
     FSImage,
-    FSIcon
+    FSIcon,
+    FSRow
   },
   props: {
     tableCode: {

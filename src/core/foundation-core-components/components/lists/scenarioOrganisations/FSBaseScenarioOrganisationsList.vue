@@ -72,13 +72,15 @@ import { useScenarioOrganisations } from "@dative-gpi/foundation-core-services/c
 import FSDataTable from "../FSDataTable.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSBaseScenarioOrganisationsList",
   components: {
     FSDataTable,
+    FSTagGroup,
     FSIcon,
-    FSTagGroup
+    FSRow
   },
   props: {
     tableCode: {
