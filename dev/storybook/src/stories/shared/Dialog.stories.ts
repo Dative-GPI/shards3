@@ -206,22 +206,19 @@ export const MultipleForm: Story = {
         <template #step-1>
           <FSTextField
             label="Label 1"
-            :required="true"
-            :rules="[v => !!v || 'Label is required']"
-            v-model="args.label11"
+            v-model="args.label1"
           />
         </template>
         <template #step-2>
-          <FSSpan>
-            Click next to continue
-          </FSSpan>
+          <FSTextField
+            label="Label 2"
+            v-model="args.label2"
+          />
         </template>
         <template #step-3>
           <FSTextField
-            label="Label 2"
-            :required="true"
-            :rules="[v => !!v || 'Label is required']"
-            v-model="args.label12"
+            label="Label 3"
+            v-model="args.label3"
           />
         </template>
       </FSDialogMultiForm>
