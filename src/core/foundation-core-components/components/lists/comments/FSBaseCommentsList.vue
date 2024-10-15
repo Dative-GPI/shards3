@@ -21,20 +21,24 @@
         :userImageId="currentUser?.imageId"
       />
     </FSRow>
-    <FSCommentTileUI
-      v-for="comment in orderedComments"
-      :key="comment.id"
-      :timestamp="epochToLongTimeFormat(comment.timestamp)"
-      :userName="comment.userName"
-      :userImageId="comment.userImageId"
-      :canEditRemove="currentUser?.id === comment.userId"
-      :comment="comment.comment"
-      :edited="comment.edited"
-      :removing="removing"
-      :id="comment.id"
-      @edit="updateComment"
-      @remove="removeComment(comment.id)"
-    />
+    <FSCol
+      gap="12px"
+    >
+      <FSCommentTileUI
+        v-for="comment in orderedComments"
+        :key="comment.id"
+        :timestamp="epochToLongTimeFormat(comment.timestamp)"
+        :userName="comment.userName"
+        :userImageId="comment.userImageId"
+        :canEditRemove="currentUser?.id === comment.userId"
+        :comment="comment.comment"
+        :edited="comment.edited"
+        :removing="removing"
+        :id="comment.id"
+        @edit="updateComment"
+        @remove="removeComment(comment.id)"
+      />
+    </FSCol>
   </FSCol>
 </template>
 

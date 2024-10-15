@@ -278,7 +278,14 @@ export default defineComponent({
           value: ConnectivityStatus.Connected,
           text: connectivityLabel(ConnectivityStatus.Connected)
         }],
-        methodFilter: (value: ConnectivityStatus, item: DeviceConnectivityDetails) => !item.status && !value || item.status == value,
+        methodFilter: (value: ConnectivityStatus, item: DeviceConnectivityDetails) => {
+          switch(value) {
+            case ConnectivityStatus.None:
+              return !item.status;
+            default:
+              return item.status == value;
+          }
+        },
         sort: (a: DeviceConnectivityDetails, b: DeviceConnectivityDetails) => alphanumericSort(a?.status, b?.status)
       },
       connectivity: {
@@ -298,7 +305,14 @@ export default defineComponent({
           value: ConnectivityStatus.Connected,
           text: connectivityLabel(ConnectivityStatus.Connected)
         }],
-        methodFilter: (value: ConnectivityStatus, item: DeviceConnectivityDetails) => !item.status && !value || item.status == value,
+        methodFilter: (value: ConnectivityStatus, item: DeviceConnectivityDetails) => {
+          switch(value) {
+            case ConnectivityStatus.None:
+              return !item.status;
+            default:
+              return item.status == value;
+          }
+        },
         sort: (a: DeviceConnectivityDetails, b: DeviceConnectivityDetails) => alphanumericSort(a?.status, b?.status)
       },
       worstAlert: {
@@ -316,9 +330,9 @@ export default defineComponent({
           }))): undefined,
           methodFilterRaw: (value: any, item: DeviceOrganisationInfos) => {
             if (cp.useOnlyAllowedValues) {
-              return (!Object.keys(cp.allowedValues).includes(item.meta[cp.code])) && !value || item.meta[cp.code] === value;
+              return (!Object.keys(cp.allowedValues).includes(item.meta[cp.code])) && !value || item.meta[cp.code] == value
             }
-            return !item.meta[cp.code] && !value || item.meta[cp.code] === value;
+            return item.meta[cp.code] == value
           },
           sort: (a: string, b: string) => alphanumericSort(a, b)
         }

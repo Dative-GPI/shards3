@@ -17,18 +17,21 @@
       />
     </FSRow>
     <FSRow>
-      <v-spacer></v-spacer>
-      <FSButtonCancel
-        v-if="showCancelButton"
-        @click="$emit('cancel')"
-      />
-      <FSButton
-        :color="ColorEnum.Primary"
-        :loading="creating"
-        prependIcon="mdi-send-outline"
-        :label="buttonLabel ?? $tr('ui.common.publish','Publish')"
-        @click="() => $emit('submit', innertext)"
-      />
+      <FSRow 
+        align="center-right"
+      >
+        <FSButtonCancel
+          v-if="showCancelButton"
+          @click="$emit('cancel')"
+        />
+        <FSButton
+          prependIcon="mdi-send-outline"
+          :color="ColorEnum.Primary"
+          :loading="creating"
+          :label="buttonLabel ?? $tr('ui.common.publish','Publish')"
+          @click="onSubmit"
+        />
+      </FSRow>
     </FSRow>
   </FSCol>
 </template>
@@ -80,13 +83,21 @@ export default defineComponent({
     },
   },
   emits: ["submit","cancel"],
-  setup(props) {
+  setup(props, { emit }) {
 
     const innertext = ref<string | undefined>(props.text);
+
+    const onSubmit = () => {
+      if (innertext.value) {
+        emit('submit', innertext.value);
+        innertext.value = '';
+      }
+    };
     
     return {
       innertext,
-      ColorEnum
+      ColorEnum,
+      onSubmit,
     };
   },
 })

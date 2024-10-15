@@ -1039,17 +1039,21 @@ export default defineComponent({
     });
 
     const innerItems = computed((): any[] => {
-      const activeFilters: { key: string, filter: FSDataTableFilter }[] = Object.keys(filters.value).reduce((acc, key) => {
-        return acc.concat(filters.value[key].filter((filter) => filter.hidden).map((filter) => ({ key, filter })));
-      }, [] as { key: string, filter: FSDataTableFilter }[]);
+      const activeFilters: { [key: string]: FSDataTableFilter[] } = {};
+      for (const property in filters.value) {
+        activeFilters[property] = filters.value[property].filter((filter) => !filter.hidden);
+      }
+
       if (props.items && props.items.length) {
         const innerSearchFormatted = innerSearch.value ? innerSearch.value.toLowerCase() : null;
         return props.items.filter((item) => {
           if (props.selectedOnly && !props.modelValue.includes(item[props.itemValue])) {
             return false;
           }
-          if (activeFilters.some(af => af.filter.filter && af.filter.filter(af.filter.value, item[af.key], item))) {
-            return false;
+          for (const property in activeFilters) {
+            if (!activeFilters[property].some((filter) => filter.filter && filter.filter(filter.value, item[property], item))) {
+              return false;
+            }
           }
           if (innerSearchFormatted) {
             return containsSearchTerm(item, innerSearchFormatted);
@@ -1245,7 +1249,7 @@ export default defineComponent({
                 return header.methodFilterRaw(ff.value, item);
               }
               const flat = property = [property].flat();
-              return Array.isArray(flat) ? flat.includes(ff.value) || (!ff.value && flat.length == 0) : (!ff.value && !flat) || ff.value == flat;
+              return Array.isArray(flat) ? flat.some(f => f == ff.value) : ff.value == flat;
             })
           }));
           filterDictionary[key] = value;
@@ -1268,7 +1272,7 @@ export default defineComponent({
                     return header.methodFilterRaw(dv, item);
                   }
                   const flat = [property].flat().map(mapToInnerValue);
-                  return Array.isArray(flat) ? flat.includes(dv) || (!dv && flat.length == 0) : (!dv && !flat) || dv == flat;
+                  return Array.isArray(flat) ? flat.some(f => f == dv) : dv == flat;
                 })
               }
             });
