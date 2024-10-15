@@ -1,10 +1,12 @@
 <template>
   <FSDataTable
     :loading="fetchingScenarioOrganisationTypes || fetchingScenarioOrganisations"
-    :headers="headers"
+    :headersOptions="headersOptions"
+    :extraHeaders="headerAssociation"
     :items="scenarios"
     :itemTo="routerLink"
     :modelValue="$props.modelValue"
+    :tableCode="$props.tableCode"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
@@ -56,18 +58,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, watch, computed, onMounted } from "vue";
+import { defineComponent, type PropType, watch, computed } from "vue";
 import _ from "lodash";
 
 import { useTranslations } from "@dative-gpi/bones-ui";
 
 import { Criticity, ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
 import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
-import { ColorEnum, type FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { AlertTools } from "@dative-gpi/foundation-shared-components/tools"
 
 import type { ScenarioOrganisationFilters, ScenarioOrganisationTypeFilters } from "@dative-gpi/foundation-core-domain/models";
-import { useScenarioOrganisations, useScenarioOrganisationTypes, useRouteOrganisation, useUserOrganisationTable } from "@dative-gpi/foundation-core-services/composables";
+import { useScenarioOrganisations, useScenarioOrganisationTypes, useRouteOrganisation } from "@dative-gpi/foundation-core-services/composables";
 
 import FSDataTable from "../FSDataTable.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
@@ -117,47 +119,34 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props) {
     const { $tr } = useTranslations();
-    const {get : getTable, entity : table } = useUserOrganisationTable();
     const { entities: scenarioOrganisations, fetching: fetchingScenarioOrganisations, getMany: getManyScenarioOrganisations } = useScenarioOrganisations();
     const { entities: scenarioOrganisationTypes, fetching: fetchingScenarioOrganisationTypes, getMany: getManyScenarioOrganisationTypes } = useScenarioOrganisationTypes();
 
     const { $r } = useRouteOrganisation();
 
-    const headers = computed(() => {
-      let h = table.value?.columns as FSDataTableColumn[];
-      if (h) {
-        if(props.showAssociation){
-          h.push({
-            columnId: "action",
-            text: $tr("ui.common.action", ""),
-            value: "action",
-            sortable: false,
-            filterable: false,
-            index: -1,
-            hidden: false
-          });
-        }
-        const headerCriticty = h.find(h => h.value == "criticity");
-
-        if(!headerCriticty){
-          return h;
-        }
-
-        h = h.filter(h => h.value != "criticity");
-        h.push({
-          ...headerCriticty, 
-          fixedFilters: getEnumEntries(Criticity).filter(f => f.value != Criticity.None).map(e => ({
-            value: e.value,
-            text: AlertTools.criticityLabel(e.value)
-          })),
-          methodFilter: (value: Criticity, item: Criticity) => value == item
-        });
-        return h;
-      }
-      else{
-        return  []
+    const headerAssociation = computed(() => {
+      if(props.showAssociation){
+        return [{
+          columnId: "association",
+          text: $tr("ui.common.association", ""),
+          value: "association",
+          sortable: false,
+          filterable: false,
+          index: -1,
+          hidden: false
+        }];
       }
     });
+
+    const headersOptions = computed(() => ({
+      criticity: {
+        fixedFilters: getEnumEntries(Criticity).filter(f => f.value != Criticity.None).map(e => ({
+          value: e.value,
+          text: AlertTools.criticityLabel(e.value)
+        })),
+        methodFilter: (value: Criticity, item: Criticity) => value == item
+      }
+    }));
     
     const scenarios = computed(() => {
       if(props.scope == ApplicationScope.Organisation){
@@ -205,8 +194,9 @@ export default defineComponent({
     });
 
     const routerLink = (item: any) => {
-      if(item.scope == ApplicationScope.OrganisationType)
-      {return $r({ name: "scenario-organisation-type", params: { entityId: item.id } });}
+      if(item.scope == ApplicationScope.OrganisationType){
+        return $r({ name: "scenario-organisation-type", params: { entityId: item.id } });
+      }
       else
       {
         return $r({ name: "scenario-organisation", params: { entityId: item.id } });
@@ -226,14 +216,6 @@ export default defineComponent({
       }
     }
 
-
-    onMounted(() => {
-      if(props.tableCode){
-        getTable(props.tableCode);
-      }
-    });
-
- 
     watch(() => [props.scenarioOrganisationFilters,props.scenarioOrganisationTypeFilters, props.scope], (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
         fetch();
@@ -246,11 +228,12 @@ export default defineComponent({
       fetchingScenarioOrganisations,
       scenarioOrganisationTypes,
       scenarioOrganisations,
+      headerAssociation,
       ApplicationScope,
+      headersOptions,
       AlertTools,
       ColorEnum,
       scenarios,
-      headers,
       routerLink
     };
   }

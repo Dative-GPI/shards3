@@ -10,18 +10,19 @@ export const useDataTables = () => {
 
   const computeTable = (
     headersOptions: { [key: string]: Partial<FSDataTableColumn> },
-    defaultMode: "table" | "iterator" = "table"
+    defaultMode: "table" | "iterator" = "table",
+    extraHeaders: FSDataTableColumn[] = []
   ) => ({
     ...table.value,
     mode: table.value?.mode ?? defaultMode,
-    headers: table.value?.headers.map(header => ({
+    headers: table.value?.headers.concat(extraHeaders).map(header => ({
       ...header,
       fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
       methodFilter: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilter) || null,
       methodFilterRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilterRaw) || null,
       sort: (header.value && headersOptions[header.value] && headersOptions[header.value].sort) || null,
-      sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null ,
-      innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null 
+      sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null,
+      innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null
     }))
   });
 

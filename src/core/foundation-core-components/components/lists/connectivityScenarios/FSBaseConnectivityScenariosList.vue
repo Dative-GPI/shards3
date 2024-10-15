@@ -27,7 +27,7 @@
       #item.deviceOrganisationImageId="{ item }"
     >
       <FSImage
-        v-if="item.deviceOrganisationImageId && item.deviceOrganisationImageId != null"
+        v-if="item.deviceOrganisationImageId"
         width="34px"
         height="34px"
         :imageId="item.deviceOrganisationImageId"
