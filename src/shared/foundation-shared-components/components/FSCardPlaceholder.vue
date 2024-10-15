@@ -6,7 +6,6 @@
     :height="$props.height"
     :width="$props.width"
     :border="true"
-    @click="$emit('click')"
     v-bind="$attrs"
   >
     <FSRow
@@ -72,7 +71,6 @@ export default defineComponent({
       default: null
     }
   },
-  emits: ["click"],
   setup() {
     return {
       ColorEnum,
