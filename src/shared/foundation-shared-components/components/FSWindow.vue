@@ -1,6 +1,5 @@
 <template>
   <v-window
-    ref="windowRoot"
     class="fs-window"
     :touch="false"
     :style="style"
@@ -60,12 +59,14 @@ export default defineComponent({
     const { slots, getChildren } = useSlots();
 
     delete slots.default;
-
-    const windowRoot = ref<HTMLElement | null>(null);
+    
+    const showOverflow = ref(true);
+    const overflowTimeout = ref<NodeJS.Timeout | null>(null);
 
     const style = computed((): StyleValue => ({
-      "--fs-window-width"   : sizeToVar(props.width),
-      "--fs-window-height"  : sizeToVar(props.height)
+      "--fs-window-overflow": showOverflow.value ? "visible" : "hidden",
+      "--fs-window-height"  : sizeToVar(props.height),
+      "--fs-window-width"   : sizeToVar(props.width)
     }));
 
     const value = (component: VNode, index: number): any => {
@@ -74,17 +75,16 @@ export default defineComponent({
 
     // Hide horizontal overflow when switching windows, otherwise let it visible for the FSFadeOut scrollbar
     watch(() => props.modelValue, (): void => {
-      if (windowRoot.value == null) {
-        return;
+      showOverflow.value = false;
+      if (overflowTimeout.value) {
+        clearTimeout(overflowTimeout.value);
       }
-      (windowRoot.value as any).$el.style.setProperty("overflow", "hidden", "important");
-      setTimeout(() => {
-        (windowRoot.value as any).$el.style.setProperty("overflow", "visible", "important");
-      }, 1120);
+      overflowTimeout.value = setTimeout(() => {
+        showOverflow.value = true;
+      }, 560);
     });
 
     return {
-      windowRoot,
       slots,
       style,
       getChildren,

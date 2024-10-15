@@ -504,6 +504,15 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
             hidden: false,
             sortable: false,
             filterable: false
+        },
+        {
+            columnId: "4",
+            text: "Models",
+            value: "modelsLabels",
+            index: 2,
+            hidden: false,
+            sortable: false,
+            filterable: true
         }],
         sortByKey: null,
         sortByOrder: null

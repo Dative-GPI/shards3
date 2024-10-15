@@ -3,6 +3,7 @@
     :items="chartOrganisationTypes"
     :itemTo="$props.itemTo"
     :loading="fetchingChartOrganisationTypes"
+    :headersOptions="headersOptions"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -51,6 +52,20 @@
       />
     </template>
     <template
+      #item.chartType="{ item }"
+    >
+      <FSRow
+        :wrap="false"
+      >
+        <FSIcon
+          :icon="chartIcon(item.chartType)"
+        />
+        <FSText>
+          {{ chartTypeLabel(item.chartType) }}
+        </FSText>
+      </FSRow>
+    </template>
+    <template
       #item.modelsLabels="{ item }"
     >
       <FSTagGroup
@@ -74,21 +89,21 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
-import { defineComponent, type PropType, watch } from "vue";
+import { computed, defineComponent, type PropType, watch } from "vue";
 import type { RouteLocation } from "vue-router";
+import _ from "lodash";
 
-import {ColorEnum} from "@dative-gpi/foundation-shared-components/models";
-
-import type { ChartOrganisationTypeFilters, ChartOrganisationTypeInfos } from "@dative-gpi/foundation-core-domain/models";
-
+import type { ChartModelLabel, ChartOrganisationTypeFilters, ChartOrganisationTypeInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
+import { chartTypeLabel, chartIcon } from "@dative-gpi/foundation-shared-components/tools";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSChartTileUI.vue";
-import FSDataTable from "../FSDataTable.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+
+import FSDataTable from "../FSDataTable.vue";
 
 export default defineComponent({
   name: "FSBaseChartOrganisationTypesList",
@@ -122,9 +137,24 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props) {
-
     const { entities: chartOrganisationTypes, fetching: fetchingChartOrganisationTypes, getMany: getManyChartOrganisationTypes } = useChartOrganisationTypes();
 
+    const headersOptions = computed(() => ({
+      modelsLabels: {
+        fixedFilters: chartOrganisationTypes.value.map(c => c.modelsLabels).reduce((acc, models) => {
+          for (const m of models) {
+            if (!acc.map((m) => m.id).includes(m.id)) {
+              acc.push(m);
+            }
+          }
+          return acc;
+        }, []).map((m) =>  ({
+          value: m.id,
+          text: m.label
+        })),
+        methodFilter: (value: string, items: ChartModelLabel[]) => items.some(ml => ml.id == value)
+      }}));
+      
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
     };
@@ -140,10 +170,13 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
-      ColorEnum,
       fetchingChartOrganisationTypes,
       chartOrganisationTypes,
-      isSelected
+      headersOptions,
+      ColorEnum,
+      chartTypeLabel,
+      isSelected,
+      chartIcon
     };
   }
 });

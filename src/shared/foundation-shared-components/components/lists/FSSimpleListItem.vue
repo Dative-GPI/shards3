@@ -103,7 +103,7 @@ export default defineComponent({
   },
   props: {
     filteredItems: {
-      type: Array as PropType<{id: string, label?: string, icon?: string, imageId?: string, [index: string]: any}[]>,
+      type: Array as PropType<{id: string, label?: string, icon?: string, imageId?: string | null, [index: string]: any}[]>,
       required: true
     },
     tileProps: {

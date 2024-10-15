@@ -50,7 +50,7 @@ export const useDataTables = () => {
   const onTableCodeChange = async (
     getUserOrganisationTable: (id: string) => Promise<Ref<UserOrganisationTableDetails | null>>,
     getTable: (tableCode: string) => FSDataTable | null,
-    tableCode: string,
+    tableCode: string | null,
     defaultMode: "table" | "iterator" = "table"
   ): Promise<void> => {
     let done = false;
