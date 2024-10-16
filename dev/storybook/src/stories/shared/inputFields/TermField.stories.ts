@@ -25,7 +25,8 @@ export const Variations: Story = {
       start3: "alertstart - 1h",
       end3: "alertend + 1h",
       start4: "2023-01-01T00:00:00",
-      end4: "2024-01-01T00:00:00"
+      end4: "2024-01-01T00:00:00",
+      meta: {}
     }
   },
   render: (args, { argTypes }) => ({
@@ -69,6 +70,15 @@ export const Variations: Story = {
         :required="true"
         v-model:startDate="args.start4"
         v-model:endDate="args.end4"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSTermField
+        label="Using global update"
+        description="Description for this field"
+        :startDate="args.meta?.startDate"
+        :endDate="args.meta?.endDate"
+        :required="true"
+        @update="args.meta = { ...$event }"
       />
     </FSCol>`
   })

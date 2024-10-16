@@ -30,7 +30,7 @@
     :filters="$props.filters"
     v-model="dialog"
     :selecteds="$props.modelValue || []"
-    @update:selecteds="$emit('update:modelValue', $event)"
+    @update:selecteds="onModelValueChanged"
   />
 </template>
 
@@ -162,6 +162,10 @@ export default defineComponent({
 
     const onRemove = (id: string) => {
       emit("update:modelValue", props.modelValue.filter((i) => i !== id));
+      emit("update", {
+        entityType: props.entityType,
+        modelValue: props.modelValue.filter((i) => i !== id)
+      })
     }
 
     const onEntityTypeChanged = (entityType: EntityType) => {
@@ -173,11 +177,20 @@ export default defineComponent({
       })
     }
 
+    const onModelValueChanged = (modelValue: string[]) => {
+      emit('update:modelValue', modelValue);
+      emit("update", {
+        entityType: props.entityType,
+        modelValue
+      })
+    }
+
     return {
       dialog,
       simpleListFilters,
       onRemove,
-      onEntityTypeChanged
+      onEntityTypeChanged,
+      onModelValueChanged
     }
   }
 });

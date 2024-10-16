@@ -165,7 +165,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["update:startDate", "update:endDate"],
+  emits: ["update", "update:startDate", "update:endDate"],
   setup(props, { emit }) {
     const { parseForPicker, epochToISO, todayToPicker, yesterdayToPicker } = useDateFormat();
     const { getMessages } = useRules();
@@ -206,6 +206,7 @@ export default defineComponent({
       innerStartDate.value = value;
       if (valid.value) {
         emit("update:startDate", value);
+        emit("update", { startDate: innerStartDate.value, endDate: props.endDate });
       }
     };
 
@@ -219,6 +220,7 @@ export default defineComponent({
       innerEndDate.value = value;
       if (valid.value) {
         emit("update:endDate", value);
+        emit("update", { startDate: props.startDate, endDate: innerEndDate.value });
       }
     };
 
@@ -354,6 +356,7 @@ export default defineComponent({
       }
       emit("update:startDate", innerStartDate.value);
       emit("update:endDate", innerEndDate.value);
+      emit("update", { startDate: innerStartDate.value, endDate: innerEndDate.value });
     };
 
     const innerDateValueChange = (value: number) => {
@@ -417,6 +420,7 @@ export default defineComponent({
       }
       emit("update:startDate", innerStartDate.value);
       emit("update:endDate", innerEndDate.value);
+      emit("update", { startDate: innerStartDate.value, endDate: innerEndDate.value });
     };
 
     const onPickDates = (value: number[] | null) => {
@@ -426,6 +430,7 @@ export default defineComponent({
         if (valid.value) {
           emit("update:startDate", innerStartDate.value);
           emit("update:endDate", innerEndDate.value);
+          emit("update", { startDate: innerStartDate.value, endDate: innerEndDate.value });
         }
       }
       else {
@@ -433,12 +438,14 @@ export default defineComponent({
           innerStartDate.value = epochToISO(value[0]);
           if (valid.value) {
             emit("update:startDate", innerStartDate.value);
+            emit("update", { startDate: innerStartDate.value, endDate: props.endDate });
           }
         }
         if (value && value[1] != null && epochToISO(value[1]) !== innerEndDate.value) {
           innerEndDate.value = epochToISO(value[1]);
           if (valid.value) {
             emit("update:endDate", innerEndDate.value);
+            emit("update", { startDate: props.startDate, endDate: innerEndDate.value });
           }
         }
       }
