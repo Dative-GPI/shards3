@@ -7,6 +7,7 @@
       :wrap="false"
       gap="0"
       align="center-center"
+      :style="style"
     >
       <FSRow
         v-for="hour in hours"
@@ -36,14 +37,14 @@
       </FSRow>
     </FSRow>
     <FSRow
-      class="fs-agenda-hours-row"
+      class="fs-agenda-hours-row-markers"
       :wrap="false"
       gap="0"
     >
       <FSRow
-        v-for="hour in hours"
-        :key="hour"
-        :style="getMarkerStyle(displayNow && hour === modelValue)"
+        v-for="hour in 24"
+        :key="hour-1"
+        :style="getMarkerStyle(displayNow && hour-1 === modelValue)"
         width="100%"
         height="0"
         align="center-center"
@@ -59,7 +60,7 @@
 <script lang="ts">
 import { defineComponent, computed, type StyleValue } from 'vue';
 
-import { useColors } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSText from '../FSText.vue';
@@ -90,13 +91,27 @@ export default defineComponent({
   },
   setup() {
     const { getColors } = useColors();
+    const { isMobileSized } = useBreakpoints();
 
     const lightColors = getColors(ColorEnum.Light);
     const primaryColors = getColors(ColorEnum.Primary);
     const fontColor = lightColors.dark;
 
+    const hoursToShow = computed(() => {
+      if(isMobileSized.value) {
+        return 12;
+      }
+      return 24;
+    });
+
     const hours = computed(() => {
-      return Array.from({ length: 24 }, (_, i) => i);
+      return Array.from({ length: hoursToShow.value }, (_, i) => i * (24 / hoursToShow.value));
+    });
+
+    const style = computed((): StyleValue => {
+      return {
+        '--fs-agenda-hours-row-transform': `translateX(calc(-${2.4 * 24 / hoursToShow.value}%))`,
+      }
     });
 
     const getMarkerStyle = (isNowHour: boolean): StyleValue => {
@@ -113,8 +128,9 @@ export default defineComponent({
     const to2Digits = (value: number) => value.toString().padStart(2, '0');
 
     return {
-      fontColor,
       hours,
+      style,
+      fontColor,
       getMarkerStyle,
       to2Digits
     };
