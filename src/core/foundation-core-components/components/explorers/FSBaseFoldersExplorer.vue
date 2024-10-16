@@ -153,7 +153,7 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ["update:modelValue", "update:type", "update:dashboard-type"],
+  emits: ["update", "update:modelValue", "update:type", "update:dashboard-type"],
   setup(props, { emit }) {
 
     const { fetch: fetchUserOrganisation, entity: userOrganisation } = useCurrentUserOrganisation();
@@ -199,9 +199,13 @@ export default defineComponent({
     const onSelect = (values: string[]) => {
       selecteds.value = values;
       const selectedItems = items.value.filter(i => selecteds.value!.includes(i.id));
-      emit("update:dashboard-type", selectedItems.map(i => i.dashboardType));
-      emit("update:modelValue", selectedItems.map(i => i.id));
-      emit("update:type", selectedItems.map(i => i.type));
+      const newDashboardType = selectedItems.map(i => i.dashboardType);
+      const newModelValue = selectedItems.map(i => i.id);
+      const newType = selectedItems.map(i => i.type);
+      emit("update:dashboard-type", newDashboardType);
+      emit("update:modelValue", newModelValue);
+      emit("update:type", newType);
+      emit("update", { dashboardType: newDashboardType, modelValue: newModelValue, type: newType });
     };
 
     const isSelected = (id: string) => {

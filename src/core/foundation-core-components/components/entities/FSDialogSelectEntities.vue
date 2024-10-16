@@ -33,7 +33,7 @@ export default defineComponent({
     FSSelectEntitiesList,
     FSDialogSubmit,
   },
-  emits: ["update:modelValue", "update:selecteds"],
+  emits: ["update", "update:modelValue", "update:selecteds"],
   props: {
     entityType: {
       type: Number as PropType<EntityType>,
@@ -61,6 +61,7 @@ export default defineComponent({
     const onSubmit = () => {
       emit("update:selecteds", actualSelecteds.value);
       emit("update:modelValue", false);
+      emit("update", { selecteds: actualSelecteds.value, modelValue: false });
     }
 
     watch(() => props.selecteds, (value) => {

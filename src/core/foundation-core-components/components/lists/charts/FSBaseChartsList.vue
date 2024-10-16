@@ -141,7 +141,7 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ["update:modelValue", "update:scope"],
+  emits: ["update", "update:modelValue", "update:scope"],
   setup(props, { emit }) {
     const { entities: chartOrganisations, fetching: fetchingChartOrganisations, getMany: getManyChartOrganisations } = useChartOrganisations();
     const { entities: chartOrganisationTypes, fetching: fetchingChartOrganisationTypes, getMany: getManyChartOrganisationTypes } = useChartOrganisationTypes();
@@ -227,11 +227,15 @@ export default defineComponent({
       if(!values){
         emit("update:modelValue", []);
         emit("update:scope", []);
+        emit("update", { modelValue: [], scope: [] });
         return;
       }
       const selectedItems = charts.value.filter(i => values.includes(i.id));
-      emit("update:modelValue", selectedItems.map(i => i.id));
-      emit("update:scope", selectedItems.map(i => i.scope));
+      const newModelValue = selectedItems.map(i => i.id);
+      const newScope = selectedItems.map(i => i.scope);
+      emit("update:modelValue", newModelValue);
+      emit("update:scope", newScope);
+      emit("update", { modelValue: newModelValue, scope: newScope });
     };
  
     watch(() => [props.chartOrganisationFilters,props.chartOrganisationTypeFilters], (next, previous) => {
