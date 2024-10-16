@@ -26,6 +26,15 @@
         {{ item.icon }}
       </FSIcon>
     </template>
+    <template
+      #item.tags="{ item }"
+    >
+      <FSTagGroup
+        variant="slide"
+        :editable="false"
+        :tags="item.tags"
+      />
+    </template>
 
     <template
       #item.tile="{ item, toggleSelect }"
@@ -43,9 +52,8 @@
 
 <script lang="ts">
 import _ from "lodash";
-import type { PropType} from "vue";
 import type { RouteLocation } from "vue-router";
-import { defineComponent, watch } from "vue";
+import { defineComponent, type PropType, watch } from "vue";
 
 import { useFolders } from "@dative-gpi/foundation-core-services/composables";
 
@@ -54,6 +62,7 @@ import { FoldersListType } from "@dative-gpi/foundation-core-components/utils";
 import type { FolderFilters, DashboardInfos } from "@dative-gpi/foundation-core-domain/models";
 
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
+import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
 
 import FSDataTable from "../FSDataTable.vue";
@@ -61,9 +70,10 @@ import FSDataTable from "../FSDataTable.vue";
 export default defineComponent({
   name: "FSBaseFoldersList",
   components: {
+    FSFolderTileUI,
     FSDataTable,
-    FSIcon,
-    FSFolderTileUI
+    FSTagGroup,
+    FSIcon
   },
   props: {
     tableCode: {
