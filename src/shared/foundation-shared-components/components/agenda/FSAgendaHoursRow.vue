@@ -42,9 +42,9 @@
       gap="0"
     >
       <FSRow
-        v-for="hour in Array.from({ length: 24 }, (_, i) => i)"
-        :key="hour"
-        :style="getMarkerStyle(displayNow && hour === modelValue)"
+        v-for="hour in 24"
+        :key="hour-1"
+        :style="getMarkerStyle(displayNow && hour-1 === modelValue)"
         width="100%"
         height="0"
         align="center-center"
