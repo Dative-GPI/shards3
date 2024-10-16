@@ -21,7 +21,7 @@
           :width="infoWidth"
         >
           <FSCol
-            gap="6px"
+            gap="4px"
           >
             <FSSpan
               font="text-button"
@@ -37,59 +37,63 @@
               {{ $props.code }}
             </FSSpan>
           </FSCol>
-          <FSRow
-            v-if="$props.deviceCount"
-            :wrap="false"
-            align="center-left"
+          <FSCol
+            gap="8px"
           >
-            <FSColor
-              width="24px"
-              height="24px"
-              :color="ColorEnum.Light"
-              :border="false"
+            <FSRow
+              v-if="$props.deviceCount"
+              :wrap="false"
+              align="center-left"
             >
-              <FSRow
-                align="center-center"
+              <FSColor
+                width="24px"
+                height="24px"
+                :color="ColorEnum.Light"
+                :border="false"
               >
-                <FSSpan
-                  font="text-overline"
+                <FSRow
+                  align="center-center"
                 >
-                  {{ $props.deviceCount <= 99 ? $props.deviceCount : "99+" }}
-                </FSSpan>
-              </FSRow>
-            </FSColor>
-            <FSSpan
-              font="text-overline"
-            >
-              {{ $tr("entity.location.devices", "Devices") }}
-            </FSSpan>
-          </FSRow>
-          <FSRow
-            v-if="$props.address"
-            :wrap="false"
-            align="center-left"
-          >
-            <FSColor
-              width="24px"
-              height="24px"
-              :color="ColorEnum.Light"
-              :border="false"
-            >
-              <FSRow
-                align="center-center"
+                  <FSSpan
+                    font="text-overline"
+                  >
+                    {{ $props.deviceCount <= 99 ? $props.deviceCount : "99+" }}
+                  </FSSpan>
+                </FSRow>
+              </FSColor>
+              <FSSpan
+                font="text-overline"
               >
-                <FSIcon
-                  icon="mdi-map-marker"
-                  size="16px"
-                />
-              </FSRow>
-            </FSColor>
-            <FSSpan
-              font="text-overline"
+                {{ $tr("entity.location.devices", "Devices") }}
+              </FSSpan>
+            </FSRow>
+            <FSRow
+              v-if="$props.address"
+              :wrap="false"
+              align="center-left"
             >
-              {{ $props.address }}
-            </FSSpan>
-          </FSRow>
+              <FSColor
+                width="24px"
+                height="24px"
+                :color="ColorEnum.Light"
+                :border="false"
+              >
+                <FSRow
+                  align="center-center"
+                >
+                  <FSIcon
+                    icon="mdi-map-marker"
+                    size="16px"
+                  />
+                </FSRow>
+              </FSColor>
+              <FSSpan
+                font="text-overline"
+              >
+                {{ $props.address }}
+              </FSSpan>
+            </FSRow>
+          </FSCol>
         </FSCol>
         <FSIconCard
           backgroundVariant="standard"
