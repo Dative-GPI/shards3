@@ -243,7 +243,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ["update:modelValue", "update:source"],
+  emits: ["update", "update:modelValue", "update:source"],
   setup(props, { emit }) {
     const { isExtraSmall } = useBreakpoints();
     const { getColors } = useColors();
@@ -269,6 +269,10 @@ export default defineComponent({
       emit("update:modelValue", content.substring(content.indexOf(',') + 1));
       if (props.source) {
         emit("update:source", null);
+        emit("update", { source: null, modelValue: content.substring(content.indexOf(',') + 1) });
+      }
+      else {
+        emit("update", { source: props.source, modelValue: content.substring(content.indexOf(',') + 1) });
       }
     };
 
@@ -277,9 +281,11 @@ export default defineComponent({
       fileSelected.value.fileContent = null;
       if (props.modelValue) {
         emit("update:modelValue", null);
+        emit("update", { source: props.source, modelValue: null });
       }
       else {
         emit("update:source", null);
+        emit("update", { source: null, modelValue: props.modelValue });
       }
     };
 

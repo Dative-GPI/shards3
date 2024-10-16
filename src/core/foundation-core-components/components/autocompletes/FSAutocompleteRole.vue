@@ -119,7 +119,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ["update:modelValue", "update:type"],
+  emits: ["update", "update:modelValue", "update:type"],
   setup(props, { emit }) {
     const { getMany: getManyRoleOrganisationTypes, fetching: fetchingRoleOrganisationTypes, entities: roleOrganisationTypes } = useRoleOrganisationTypes();
     const { getMany: getManyRoleOrganisations, fetching: fetchingRoleOrganisations, entities: roleOrganisations } = useRoleOrganisations();
@@ -154,10 +154,12 @@ export default defineComponent({
       if (Array.isArray(value)) {
         emit("update:modelValue", value.map(v => v.id));
         emit("update:type", value.map(v => v.type));
+        emit("update", { value: value.map(v => v.id), type: value.map(v => v.type) });
       }
       else {
         emit("update:modelValue", value?.id);
         emit("update:type", value?.type);
+        emit("update", { value: value?.id, type: value?.type });
       }
     };
 

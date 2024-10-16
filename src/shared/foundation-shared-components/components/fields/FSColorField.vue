@@ -152,7 +152,7 @@ export default defineComponent({
       default: "fill"
     }
   },
-  emits: ["update:modelValue", "update:opacity"],
+  emits: ["update", "update:modelValue", "update:opacity"],
   setup(props, { emit }) {
     const { getColors, getBasePaletteColors } = useColors();
     const { slots } = useSlots();
@@ -192,6 +192,7 @@ export default defineComponent({
       fullColor.value = innerColor.value + innerOpacity.value;
       emit("update:modelValue", innerColor.value);
       emit("update:opacity", getPercentageFromHex(innerOpacity.value));
+      emit("update", { modelValue: innerColor.value, opacity: getPercentageFromHex(innerOpacity.value) });
     };
 
     const reset = (): void => {
