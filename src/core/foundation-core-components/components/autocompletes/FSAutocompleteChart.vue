@@ -151,9 +151,11 @@ export default defineComponent({
 
     const update = (value: Chart[] | Chart | null) => {
       if (Array.isArray(value)) {
-        emit("update:modelValue", value.map(v => v.id));
-        emit("update:type", value.map(v => v.type));
-        emit("update", { modelValue: value.map(v => v.id), type: value.map(v => v.type) });
+        const newModelValue = value.map(v => v.id);
+        const newType = value.map(v => v.type);
+        emit("update:modelValue", newModelValue);
+        emit("update:type", newType);
+        emit("update", { modelValue: newModelValue, type: newType });
       }
       else {
         emit("update:modelValue", value?.id);

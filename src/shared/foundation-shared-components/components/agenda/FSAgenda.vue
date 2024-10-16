@@ -167,33 +167,27 @@ export default defineComponent({
         return;
       }
       if (props.mode === AgendaMode.Week) {
-        emit("update:start", epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000));
-        emit("update:end", epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000));
-        emit("update", { 
-          start: epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000), 
-          end: epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000),
-          mode: props.mode
-        });
+        const newStart = epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000);
+        const newEnd = epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000);
+        emit("update:start", newStart);
+        emit("update:end", newEnd);
+        emit("update", { start: newStart, end: newEnd, mode: props.mode });
         return;
       }
       if (props.mode === AgendaMode.Month) {
         const lastDayOfMonth = new Date(new Date(now.value).getFullYear(), new Date(now.value).getMonth() + 1, 0);
-        emit("update:start", epochToLocalDayStart(new Date(now.value).setDate(1)));
-        emit("update:end", lastDayOfMonth.getTime());
-        emit("update", { 
-          start: epochToLocalDayStart(new Date(now.value).setDate(1)), 
-          end: lastDayOfMonth.getTime(),
-          mode: props.mode
-        });
+        const newStart = epochToLocalDayStart(new Date(now.value).setDate(1));
+        const newEnd = lastDayOfMonth.getTime()
+        emit("update:start", newStart);
+        emit("update:end", newEnd );
+        emit("update", { start: newStart, end: newEnd, mode: props.mode });
         return;
       }
-      emit("update:start", epochToLocalDayStart(now.value));
-      emit("update:end", epochToLocalDayEnd(now.value));
-      emit("update", { 
-        start: epochToLocalDayStart(now.value), 
-        end: epochToLocalDayEnd(now.value),
-        mode: props.mode
-      });
+      const newStart = epochToLocalDayStart(now.value);
+      const newEnd = epochToLocalDayEnd(now.value);
+      emit("update:start", newStart);
+      emit("update:end", newEnd);
+      emit("update", { start: newStart, end: newEnd, mode: props.mode });
     });
 
     onUnmounted(() => {

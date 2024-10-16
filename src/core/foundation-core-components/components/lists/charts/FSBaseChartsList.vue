@@ -231,9 +231,11 @@ export default defineComponent({
         return;
       }
       const selectedItems = charts.value.filter(i => values.includes(i.id));
-      emit("update:modelValue", selectedItems.map(i => i.id));
-      emit("update:scope", selectedItems.map(i => i.scope));
-      emit("update", { modelValue: selectedItems.map(i => i.id), scope: selectedItems.map(i => i.scope) });
+      const newModelValue = selectedItems.map(i => i.id);
+      const newScope = selectedItems.map(i => i.scope);
+      emit("update:modelValue", newModelValue);
+      emit("update:scope", newScope);
+      emit("update", { modelValue: newModelValue, scope: newScope });
     };
  
     watch(() => [props.chartOrganisationFilters,props.chartOrganisationTypeFilters], (next, previous) => {

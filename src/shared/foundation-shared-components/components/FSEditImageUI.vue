@@ -266,13 +266,15 @@ export default defineComponent({
       const content = (await readFile(payload)) as string;
       fileSelected.value.fileName = payload.name;
       fileSelected.value.fileContent = content;
-      emit("update:modelValue", content.substring(content.indexOf(',') + 1));
+      const newModelValue = content.substring(content.indexOf(',') + 1);
       if (props.source) {
+        emit("update:modelValue", newModelValue);
         emit("update:source", null);
-        emit("update", { source: null, modelValue: content.substring(content.indexOf(',') + 1) });
-      }
+        emit("update", { source: null, modelValue: newModelValue });
+      } 
       else {
-        emit("update", { source: props.source, modelValue: content.substring(content.indexOf(',') + 1) });
+        emit("update:modelValue", newModelValue);
+        emit("update", { source: props.source, modelValue: newModelValue });
       }
     };
 
