@@ -22,19 +22,6 @@
     }
 }
 
-.fs-autocomplete-field-label {
-    color: var(--fs-autocomplete-field-color);
-}
-
-.fs-autocomplete-field-messages {
-    align-self: stretch;
-    color: var(--fs-autocomplete-field-error-color);
-}
-
-.fs-autocomplete-field-description {
-    color: var(--fs-autocomplete-field-color);
-}
-
 .v-overlay-container > .v-overlay > .v-autocomplete__content {
     box-shadow: 0px 5px 8px 0px #00000029;
     max-width: none !important;
