@@ -905,8 +905,6 @@ export default defineComponent({
     const intersectionObserver = ref<IntersectionObserver | null>(null);
     const size = ref(props.sizeIterator);
 
-    const dividerRef = ref(null);
-
     const elementId = `id${uuidv4()}`;
 
     const modeOptions: FSToggle[] = [
@@ -1572,7 +1570,6 @@ export default defineComponent({
       draggableDisabled,
       elementId,
       onClickLibrary,
-      dividerRef,
       toggleSelectAll,
       toggleSelectGroup,
       toggleSelect,
