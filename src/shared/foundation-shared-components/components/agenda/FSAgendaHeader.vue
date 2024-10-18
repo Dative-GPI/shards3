@@ -16,12 +16,18 @@
           @click="onPrevious"
         />
         <FSButton
-          width="180px"
+          width="220px"
           color="primary"
           :border="false"
-          :label="epochToMonthYearOnlyFormat($props.start)"
           @click="showCalendarDialog = true"
-        />
+        >
+          <FSSpan
+            class="fs-agenda-header-text"
+            font="text-h3"
+          >
+            {{ epochToMonthYearOnlyFormat($props.start) }}
+          </FSSpan>
+        </FSButton>
         <FSButton
           variant="icon"
           icon="mdi-chevron-right"
@@ -100,6 +106,7 @@ import FSRow from '../FSRow.vue';
 import FSButton from '../FSButton.vue';
 import FSSelectAgendaMode from './FSSelectAgendaMode.vue';
 import FSAgendaDialogCalendar from './FSAgendaDialogCalendar.vue';
+import FSSpan from '@/shared/foundation-shared-components/components/FSSpan.vue';
 
 export default defineComponent({
   name: 'FSAgendaHeader',
