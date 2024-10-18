@@ -117,20 +117,13 @@ export default defineComponent({
         else {
           topMaskHeight.value = sizeToVar(props.maskHeight);
         }
-
-        // const event = {
-        //   target: fadeOutRef.value,
-        //   onTop: topMaskHeight.value === "0px",
-        //   onBottom: bottomMaskHeight.value === "0px",
-        //   goingUp: (fadeOutRef.value as any).scrollTop < lastScroll.value,
-        // };
-
-        // emit("scroll", event);
+        
         lastScroll.value = (fadeOutRef.value as any).scrollTop;
       }
     };
 
-    const debounceMasks = (): void => debounce(handleMasks, 1);
+    // Delay to wait for animations to end before computing masks
+    const debounceMasks = (): void => debounce(handleMasks, 280);
 
     onMounted((): void => {
       debounceMasks();
