@@ -3,112 +3,111 @@
     gap="16px"
   >
     <FSRow
-      align="bottom-left"
-      :wrap="isExtraSmall ? false : true"
-      width="fill"
+      :wrap="false"
+    >
+      <FSRow
+        align="bottom-left"
+        width="100%"
+      >
+        <slot
+          v-if="!isExtraSmall"
+          name="prepend-toolbar"
+        />
+        <template
+          v-if="$props.showSearch"
+        >
+          <FSSearchField
+            class="fs-data-table-search-field"
+            :hideHeader="true"
+            v-model="innerSearch"
+          />
+          <FSButton
+            v-if="filterableHeaders.length > 0"
+            prependIcon="mdi-filter-variant"
+            :variant="innerShowFilters ? 'full' : 'standard'"
+            @click="innerShowFilters = !innerShowFilters"
+          />
+        </template>
+        <FSWrapGroup
+          v-if="!isExtraSmall && $slots.toolbar"
+        >
+          <slot
+            name="toolbar"
+          />
+        </FSWrapGroup>
+      </FSRow>
+      <FSRow
+        v-if="!isExtraSmall"
+        align="center-right"
+      >
+        <slot
+          name="append-toolbar"
+        />
+      </FSRow>
+      <FSRow
+        v-if="!$props.disableTable && !$props.disableIterator"
+        align="center-right"
+      >
+        <FSOptionGroup
+          :values="modeOptions"
+          :singleColor="true"
+          :required="true"
+          variant="slide"
+          v-model="innerMode"
+        />
+      </FSRow>
+    </FSRow>
+    <FSSlideGroup
+      v-if="isExtraSmall && ($slots['prepend-toolbar'] || $slots.toolbar || $slots['append-toolbar'])"
     >
       <slot
-        v-if="!isExtraSmall"
         name="prepend-toolbar"
       />
-      <template
-        v-if="$props.showSearch"
-      >
-        <FSSearchField
-          :hideHeader="true"
-          v-model="innerSearch"
-        />
-        <FSButton
-          v-if="filterableHeaders.length > 0"
-          prependIcon="mdi-filter-variant"
-          :variant="innerShowFilters ? 'full' : 'standard'"
-          @click="innerShowFilters = !innerShowFilters"
-        />
-      </template>
       <slot
-        v-if="!isExtraSmall"
         name="toolbar"
       />
-      <template
-        v-if="!$props.disableTable && !$props.disableIterator"
-      >
-        <FSRow
-          align="center-right"
-        >
-          <FSOptionGroup
-            :values="modeOptions"
-            :singleColor="true"
-            :required="true"
-            variant="slide"
-            v-model="innerMode"
-          />
-        </FSRow>
-      </template>
-    </FSRow>
-    <FSRow
-      v-if="isExtraSmall && hasToolbar"
-    >
-      <FSWrapGroup>
-        <slot
-          name="toolbar"
-        />
-      </FSWrapGroup>
-    </FSRow>
+      <slot
+        name="append-toolbar"
+      />
+    </FSSlideGroup>
     <FSRow
       v-if="showFiltersRow"
-      gap="16px"
     >
-      <FSCol
+      <FSSlideGroup
         v-if="innerShowFilters && hasVisibleFilters"
-        width="hug"
       >
-        <FSRow
-          gap="8px"
+        <FSFilterButton
+          v-for="(header, index) in filterableHeaders"
+          :key="index"
+          :header="header"
+          :filters="filters[header.value]"
+          @update:filter="(value) => toggleFilter(header.value, value)"
         >
-          <FSFilterButton
-            v-for="(header, index) in filterableHeaders"
-            :key="index"
-            :header="header"
-            :filters="filters[header.value]"
-            @update:filter="(value) => toggleFilter(header.value, value)"
+          <template
+            #default="{ filter }"
           >
-            <template
-              #default="{ filter }"
-            >
-              <slot
-                :name="filterSlot(header)"
-                v-bind="{ filter }"
-              />
-            </template>
-          </FSFilterButton>
-        </FSRow>
-      </FSCol>
-      <FSDivider
-        v-if="showFiltersDivider"
-        :size="['30px', '24px']"
-        :vertical="true"
+            <slot
+              :name="filterSlot(header)"
+              v-bind="{ filter }"
+            />
+          </template>
+        </FSFilterButton>
+      </FSSlideGroup>
+      <FSChip
+        v-if="innerShowFilters && resetable"
+        variant="standard"
+        :label="$tr('ui.data-table.reset-filters', 'Reset')"
+        :height="['30px', '24px']"
+        :color="ColorEnum.Error"
+        :editable="true"
+        @click="resetFilter"
       />
-      <FSCol>
-        <FSRow
-          gap="8px"
-        >
-          <FSChip
-            v-if="innerShowFilters && resetable"
-            variant="standard"
-            :label="$tr('ui.data-table.reset-filters', 'Reset')"
-            :height="['30px', '24px']"
-            :color="ColorEnum.Error"
-            :editable="true"
-            @click="resetFilter"
-          />
-          <FSHiddenButton
-            v-if="innerMode === 'table' && hiddenHeaders.length > 0"
-            :headers="hiddenHeaders"
-            :color="$props.color"
-            @update:show="(value) => updateHeader(value, 'hidden', false)"
-          />
-        </FSRow>
-      </FSCol>
+      <FSHiddenButton
+        v-if="innerMode === 'table' && hiddenHeaders.length > 0"
+        :headers="hiddenHeaders"
+        :color="$props.color"
+        @update:show="(value) => updateHeader(value, 'hidden', false)"
+      />
     </FSRow>
     <template
       v-if="innerMode === 'table'"
@@ -350,7 +349,7 @@
                 v-if="$props.modelValue.length >= innerItems.length"
               >
                 <FSRow
-                  gap="2px"
+                  gap="4px"
                 >
                   <FSText
                     font="text-button"
@@ -906,6 +905,8 @@ export default defineComponent({
     const intersectionObserver = ref<IntersectionObserver | null>(null);
     const size = ref(props.sizeIterator);
 
+    const dividerRef = ref(null);
+
     const elementId = `id${uuidv4()}`;
 
     const modeOptions: FSToggle[] = [
@@ -933,22 +934,6 @@ export default defineComponent({
 
     const hasVisibleFilters = computed((): boolean => {
       return filterableHeaders.value.some((header) => !hiddenHeaders.value.includes(header));
-    });
-
-    const showFiltersDivider = computed((): boolean => {
-      switch (innerMode.value) {
-        case "iterator": {
-          return resetable.value;
-        }
-        case "table": {
-          return resetable.value || (hiddenHeaders.value.length > 0 && hasVisibleFilters.value);
-        }
-      }
-      
-    });
-
-    const hasToolbar = computed((): boolean => {
-      return !!useSlots().slots["toolbar"];
     });
 
     const innerSlots = computed((): { [label: string]: Slot<any> } => {
@@ -1566,11 +1551,9 @@ export default defineComponent({
       innerMode,
       modeOptions,
       innerPage,
-      hasToolbar,
       pageOptions,
       innerShowFilters,
       showFiltersRow,
-      showFiltersDivider,
       hasVisibleFilters,
       extraHeaders,
       innerHeaders,
@@ -1589,6 +1572,7 @@ export default defineComponent({
       draggableDisabled,
       elementId,
       onClickLibrary,
+      dividerRef,
       toggleSelectAll,
       toggleSelectGroup,
       toggleSelect,

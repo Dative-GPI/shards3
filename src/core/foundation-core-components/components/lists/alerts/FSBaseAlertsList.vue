@@ -33,21 +33,17 @@
         variant="full"
         v-model="innerHidePending"
       />
-      <FSRow
-        align="center-right"
-      >
-        <FSRow
-          width="hug"
-        >
-          <FSTermField
-            variant="default"
-            :editable="!innerNotTreatedOnly"
-            :hideHeader="true"
-            v-model:startDate="startDate"
-            v-model:endDate="endDate"
-          />
-        </FSRow>
-      </FSRow>
+    </template>
+    <template
+      #append-toolbar
+    >
+      <FSTermField
+        variant="default"
+        :editable="!innerNotTreatedOnly"
+        :hideHeader="true"
+        v-model:startDate="startDate"
+        v-model:endDate="endDate"
+      />
     </template>
     <template
       #item.criticity="{ item }"

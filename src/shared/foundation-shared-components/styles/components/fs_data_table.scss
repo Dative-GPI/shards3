@@ -89,6 +89,10 @@
   }
 }
 
+.fs-data-table-search-field {
+  max-width: 500px !important;
+}
+
 .fs-data-table-grouped {
   & th:first-of-type {
     display: none;
