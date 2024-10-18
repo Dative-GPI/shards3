@@ -13,13 +13,16 @@
       <FSLoader
         variant="button"
       />
-      <v-spacer />
-      <FSLoader
-        variant="button"
-      />
-      <FSLoader
-        variant="button"
-      />
+      <FSRow
+        align="center-right"
+      >
+        <FSLoader
+          variant="button"
+        />
+        <FSLoader
+          variant="button"
+        />
+      </FSRow>
     </FSRow>
     <FSRow>
       <FSLoader

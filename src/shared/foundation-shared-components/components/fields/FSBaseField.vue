@@ -7,39 +7,43 @@
       name="label"
     >
       <FSRow
+        gap="40px"
         :wrap="false"
       >
-        <FSSpan
-          class="fs-base-field-label"
-          font="text-overline"
-        >
-          {{ $props.label }}
-        </FSSpan>
-        <FSSpan
-          v-if="$props.label && $props.required"
-          class="fs-base-field-label"
-          style="margin-left: -8px;"
-          font="text-overline"
-          :ellipsis="false"
-          :style="style"
-        >
-          *
-        </FSSpan>
-        <v-spacer
-          style="min-width: 40px;"
-        />
-        <template
-          v-if="$props.messages"
+        <FSRow
+          gap="2px"
+          :width="widths.label"
+          :wrap="false"
         >
           <FSSpan
-            v-if="$props.messages.length > 0"
+            class="fs-base-field-label"
+            font="text-overline"
+          >
+            {{ $props.label }}
+          </FSSpan>
+          <FSSpan
+            v-if="$props.label && $props.required"
+            class="fs-base-field-label"
+            font="text-overline"
+            :ellipsis="false"
+            :style="style"
+          >
+            *
+          </FSSpan>
+        </FSRow>
+        <FSRow
+          align="center-right"
+          :width="widths.messages"
+        >
+          <FSSpan
+            v-if="$props.messages && $props.messages.length > 0"
             class="fs-base-field-messages"
             font="text-overline"
             :style="style"
           >
             {{ $props.messages.join(", ") }}
           </FSSpan>
-        </template>
+        </FSRow>
       </FSRow>
     </slot>
     <slot />
@@ -136,7 +140,13 @@ export default defineComponent({
       };
     });
 
+    const widths = computed(() => ({
+      label: props.messages && props.messages.length ? "calc(50% - 40px)" : "100%",
+      messages: props.messages && props.messages.length ? "50%" : "0"
+    }));
+
     return {
+      widths,
       style,
       slots
     };
