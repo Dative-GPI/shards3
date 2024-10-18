@@ -43,8 +43,13 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(_, { emit }) {
-    const onUpdate = (value: string) => {
+    const onUpdate = (value: string | null | undefined) => {
+      console.log(value);
       if (value === "-") {
+        return;
+      }
+      if(value === null || value === undefined) {
+        emit("update:modelValue", null);
         return;
       }
       const match = /[-]?([0-9 ]*[,.]?)?[0-9]*/.exec(value);
