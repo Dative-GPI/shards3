@@ -707,7 +707,6 @@ import FSOptionGroup from "../FSOptionGroup.vue";
 import FSToggleSet from "../FSToggleSet.vue";
 import FSDraggable from "./FSDraggable.vue";
 import FSCheckbox from "../FSCheckbox.vue";
-import FSDivider from "../FSDivider.vue";
 import FSCard from "../FSCard.vue";
 import FSChip from "../FSChip.vue";
 import FSIcon from "../FSIcon.vue";
@@ -729,7 +728,6 @@ export default defineComponent({
     FSDraggable,
     FSToggleSet,
     FSCheckbox,
-    FSDivider,
     FSCard,
     FSChip,
     FSIcon,
