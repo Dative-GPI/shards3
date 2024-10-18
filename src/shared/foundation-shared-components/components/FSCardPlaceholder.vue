@@ -6,7 +6,6 @@
     :height="$props.height"
     :width="$props.width"
     :border="true"
-    @click="$emit('click')"
     v-bind="$attrs"
   >
     <FSRow

@@ -6,6 +6,7 @@
     :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :modelValue="$props.modelValue"
+    :headersOptions="headersOptions"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
@@ -28,6 +29,23 @@
     </template>
 
     <template
+      #item.criticity="{ item }"
+    >
+      <FSRow
+        align="center-left"
+      >
+        <FSIcon
+          :color="AlertTools.criticityColor(item.criticity)"
+        >
+          {{ AlertTools.criticityIcon(item.criticity) }}
+        </FSIcon>
+        <FSSpan>
+          {{ AlertTools.criticityLabel(item.criticity) }}
+        </FSSpan>
+      </FSRow>
+    </template>
+    
+    <template
       #item.tags="{ item }"
     >
       <FSTagGroup
@@ -40,9 +58,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, watch } from "vue";
+import { computed, defineComponent, type PropType, watch } from "vue";
 import type { RouteLocation } from "vue-router";
 import _ from "lodash";
+
+import { Criticity } from "@dative-gpi/foundation-shared-domain/enums";
+import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
+import { AlertTools } from "@dative-gpi/foundation-shared-components/tools";
 
 import type { ScenarioOrganisationFilters, ScenarioOrganisationInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useScenarioOrganisations } from "@dative-gpi/foundation-core-services/composables";
@@ -50,13 +72,15 @@ import { useScenarioOrganisations } from "@dative-gpi/foundation-core-services/c
 import FSDataTable from "../FSDataTable.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
 export default defineComponent({
   name: "FSBaseScenarioOrganisationsList",
   components: {
     FSDataTable,
+    FSTagGroup,
     FSIcon,
-    FSTagGroup
+    FSRow
   },
   props: {
     tableCode: {
@@ -88,6 +112,17 @@ export default defineComponent({
   setup(props) {
     const { entities: scenarioOrganisations, fetching: fetchingScenarioOrganisations, getMany: getManyScenarioOrganisations } = useScenarioOrganisations();
 
+
+    const headersOptions = computed(() => ({
+      criticity: {
+        fixedFilters: getEnumEntries(Criticity).filter(f => f.value != Criticity.None).map(e => ({
+          value: e.value,
+          text: AlertTools.criticityLabel(e.value)
+        })),
+        methodFilter: (value: Criticity, item: Criticity) => value == item
+      }
+    }));
+
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
     };
@@ -101,6 +136,8 @@ export default defineComponent({
     return {
       fetchingScenarioOrganisations,
       scenarioOrganisations,
+      headersOptions,
+      AlertTools,
       isSelected
     };
   }

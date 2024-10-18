@@ -76,7 +76,7 @@ export const FOLDERS: FolderDetailsDTO[] = [
             label: "Folder 4",
             index: 1
         }],
-        tags: ["tag 5"],
+        tags: [],
         organisationId: "1",
         imageId: null,
         parentId: "4",

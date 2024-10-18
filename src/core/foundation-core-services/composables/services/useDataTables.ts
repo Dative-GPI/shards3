@@ -1,4 +1,5 @@
 import { ref, type Ref } from "vue";
+import _ from "lodash";
 
 import { type UpdateUserOrganisationTableDTO, type UserOrganisationTableDetails } from "@dative-gpi/foundation-core-domain/models";
 import { type FSDataTable, type FSDataTableColumn } from "@dative-gpi/foundation-shared-components/models";
@@ -10,18 +11,20 @@ export const useDataTables = () => {
 
   const computeTable = (
     headersOptions: { [key: string]: Partial<FSDataTableColumn> },
-    defaultMode: "table" | "iterator" = "table"
+    defaultMode: "table" | "iterator" = "table",
+    extraHeaders: FSDataTableColumn[] = []
   ) => ({
     ...table.value,
     mode: table.value?.mode ?? defaultMode,
-    headers: table.value?.headers.map(header => ({
+    headers: _.sortBy(table.value?.headers.concat(extraHeaders.filter(e => !table.value?.headers.map(h => h.value).includes(e.value))), "index").map((header, i) => ({
       ...header,
+      index: i,
       fixedFilters: (header.value && headersOptions[header.value] && headersOptions[header.value].fixedFilters) || null,
       methodFilter: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilter) || null,
       methodFilterRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].methodFilterRaw) || null,
       sort: (header.value && headersOptions[header.value] && headersOptions[header.value].sort) || null,
-      sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null ,
-      innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null 
+      sortRaw: (header.value && headersOptions[header.value] && headersOptions[header.value].sortRaw) || null,
+      innerValue: (header.value && headersOptions[header.value] && headersOptions[header.value].innerValue) || null
     }))
   });
 

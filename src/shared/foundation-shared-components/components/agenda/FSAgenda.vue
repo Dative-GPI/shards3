@@ -141,7 +141,7 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ['update:mode', 'click:eventId', 'update:start', 'update:end'],
+  emits: ['update', 'update:mode', 'click:eventId', 'update:start', 'update:end'],
   setup(props, { emit }) {
     const { todayToEpoch, epochToLocalDayStart, epochToLocalDayEnd } = useDateFormat();
     const { isExtraSmall } = useBreakpoints();
@@ -167,18 +167,27 @@ export default defineComponent({
         return;
       }
       if (props.mode === AgendaMode.Week) {
-        emit("update:start", epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000));
-        emit("update:end", epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000));
+        const newStart = epochToLocalDayStart(now.value - (new Date(now.value).getDay() - 1) * 24 * 60 * 60 * 1000);
+        const newEnd = epochToLocalDayEnd(now.value + (7 - new Date(now.value).getDay()) * 24 * 60 * 60 * 1000);
+        emit("update:start", newStart);
+        emit("update:end", newEnd);
+        emit("update", { start: newStart, end: newEnd, mode: props.mode });
         return;
       }
       if (props.mode === AgendaMode.Month) {
         const lastDayOfMonth = new Date(new Date(now.value).getFullYear(), new Date(now.value).getMonth() + 1, 0);
-        emit("update:start", epochToLocalDayStart(new Date(now.value).setDate(1)));
-        emit("update:end", lastDayOfMonth.getTime());
+        const newStart = epochToLocalDayStart(new Date(now.value).setDate(1));
+        const newEnd = lastDayOfMonth.getTime()
+        emit("update:start", newStart);
+        emit("update:end", newEnd );
+        emit("update", { start: newStart, end: newEnd, mode: props.mode });
         return;
       }
-      emit("update:start", epochToLocalDayStart(now.value));
-      emit("update:end", epochToLocalDayEnd(now.value));
+      const newStart = epochToLocalDayStart(now.value);
+      const newEnd = epochToLocalDayEnd(now.value);
+      emit("update:start", newStart);
+      emit("update:end", newEnd);
+      emit("update", { start: newStart, end: newEnd, mode: props.mode });
     });
 
     onUnmounted(() => {
@@ -188,8 +197,18 @@ export default defineComponent({
     watch(isExtraSmall, (value) => {
       if (value && props.mode !== AgendaMode.Day) {
         emit('update:mode', AgendaMode.Day);
+        emit("update", {
+          start: props.start,
+          end: props.end,
+          mode: AgendaMode.Day
+        });
       } else if (!value && defaultMode.value !== AgendaMode.Day) {
         emit('update:mode', defaultMode.value);
+        emit("update", {
+          start: props.start,
+          end: props.end,
+          mode: defaultMode.value
+        });
       }
     });
 
