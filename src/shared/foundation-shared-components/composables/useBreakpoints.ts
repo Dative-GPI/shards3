@@ -12,6 +12,11 @@ export const useBreakpoints = () => {
         windowHeight.value = window.innerHeight;
         windowWidth.value = window.innerWidth;
 
+        // Bug in chromium based browsers where window.outerWidth is 0 when tab loads without focus
+        if (!window.document.hasFocus() && window.outerWidth === 0) {
+            windowOuterWidth.value = window.innerWidth;
+            return;
+        }
         windowOuterWidth.value = window.outerWidth;
     };
 
