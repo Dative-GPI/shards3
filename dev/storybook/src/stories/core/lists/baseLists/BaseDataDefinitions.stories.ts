@@ -28,10 +28,12 @@ export const Default: Story = {
     template: `
       <FSBaseDataDefinitionsList
         :tableCode="args.tableCode"
+        v-model="args.modelValue"
       />
     `,
   }),
   args: {
     tableCode: 'dataDefinitions1',
+    modelValue: []
   },
 };

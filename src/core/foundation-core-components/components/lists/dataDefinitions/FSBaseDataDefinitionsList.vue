@@ -17,14 +17,6 @@
       />
     </template>
     <template
-      #toolbar
-    >
-      <FSButtonCheckbox
-        :label="$tr('ui.common.data-correlated','Correlated only')"
-        :color="ColorEnum.Success"
-      />
-    </template>
-    <template
       #item.tile="{ item }"
     >
       <FSClickable
@@ -35,27 +27,22 @@
         @click="$emit('update:modelValue', [item.id])"
         v-bind="$attrs"
       >
-        <template
-          #default
+        <FSRow
+          align="center-center"
+          :wrap="false"
         >
+          <FSSpan>
+            {{ item.label }}
+          </FSSpan>
           <FSRow
-            align="center-center"
+            align="center-right"
           >
-            <FSIcon
-              icon="mdi-thermometer"
-            />
-            <FSSpan
-              :lineClamp="1"
-            >
-              {{ item.label }}
-            </FSSpan>
-            <v-spacer/>
-            <FSIcon
-              :color="ColorEnum.Primary"
-              icon="mdi-link"
+            <FSChip
+              v-if="item.unit"
+              :label="item.unit"
             />
           </FSRow>
-        </template>
+        </FSRow>
       </FSClickable>
     </template>
   </FSDataTable>
@@ -65,27 +52,25 @@
 import { defineComponent, type PropType, watch } from "vue";
 import _ from "lodash";
 
-import {ColorEnum} from "@dative-gpi/foundation-shared-components/models";
-
-import { useDataDefinitions } from "@dative-gpi/foundation-core-services/composables";
 import type { DataDefinitionFilters } from "@dative-gpi/foundation-core-domain/models";
+import { useDataDefinitions } from "@dative-gpi/foundation-core-services/composables";
+import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
+import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
+import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
+import FSClickable from "@dative-gpi/foundation-shared-components/components/FSClickable.vue";
 
 import FSDataTable from "../FSDataTable.vue";
-import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
-import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.vue";
-import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSClickable from "@dative-gpi/foundation-shared-components/components/FSClickable.vue";
-import FSButtonCheckbox from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCheckbox.vue";
 
 export default defineComponent({
   name: "FSBaseDataDefinitionsList",
   components: {
-    FSButtonCheckbox,
     FSDataTable,
     FSClickable,
+    FSChip,
     FSSpan,
-    FSIcon,
-    FSRow,
+    FSRow
   },
   props: {
     tableCode: {
@@ -97,6 +82,11 @@ export default defineComponent({
       type: Object as PropType<DataDefinitionFilters>,
       required: false,
       default: null
+    },
+    correlatedOnly: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     modelValue: {
       type: Array as PropType<string[]>,
