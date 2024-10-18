@@ -1,0 +1,102 @@
+import{F as l}from"./FSButton-BQje8JZk.js";import{F as i}from"./FSForm-BUGdnKjM.js";import{F as a}from"./FSText-tLTPrprs.js";import{F as n}from"./FSAutocompleteRole-RrpHiCmN.js";import{F as s}from"./FSMagicConfigField-BDu8S2UG.js";import{F as d}from"./FSTextField-DPsTjA6v.js";import{T as u}from"./rules-C-NbTnZJ.js";import"./vue.esm-bundler-DTB_q9xr.js";import"./FSClickable-Dnlrfn2W.js";import"./FSCard-DrQswI-1.js";import"./FSCol-B-Vfvg0L.js";import"./css-i8JhJBs1.js";import"./useBreakpoints-BGn0bPYv.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./FSRow-BkWeXIi_.js";import"./useColors-Du1QHlOW.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-DfSX31J9.js";import"./theme-BKYtCmay.js";import"./VProgressCircular-cHoQoKlr.js";import"./color-DBJfw4cY.js";import"./resizeObserver-Bmwp6ruU.js";import"./VIcon-BCDp5TRU.js";import"./FSSpan-CHspDDbd.js";import"./useSlots-BnylMYIF.js";import"./FSIcon-CtLYuQJX.js";import"./form-D8F-RrsG.js";import"./proxiedModel-z3p0-M-h.js";import"./forwardRefs-DWGaNmQL.js";import"./FSAutocompleteField-DsdS2mH3.js";import"./FSSearchField-DJ1HQDjY.js";import"./useTranslations-BehwFxDb.js";import"./FSDialogMenu-DQd6lGHm.js";import"./VDialog-0V5lw7Cu.js";import"./VOverlay-Bt6Cjx3-.js";import"./anchor-Cu9IQeug.js";import"./dimensions-C-vtuVn7.js";import"./display-CKqU0R6P.js";import"./lazy-k0fVkBtC.js";import"./locale-BJQwrXJ7.js";import"./router-DHMAfVHW.js";import"./transition-B83BVatf.js";import"./VDefaultsProvider-S-S54iS4.js";import"./FSSlideGroup-CuNxa7LX.js";import"./uuid-DTaye2KM.js";import"./FSButtonNextIcon-Df26-_J5.js";import"./VSlideGroupItem-DLb7xqc9.js";import"./group-C1BQtzRQ.js";import"./index-CiXeh9xR.js";import"./FSToggleSet-Bu237MSN.js";import"./FSWrapGroup-B9QcRiHf.js";import"./VInput-BwoMaTW2.js";import"./density-CJqFEH6j.js";import"./FSBaseField-DL008ZG5.js";import"./VSpacer-y-n940VK.js";import"./FSCheckbox-BLdBQVgd.js";import"./useRules-D0gcbU57.js";import"./VSelectionControl-tPPxW1bW.js";import"./index-CZlC8CZb.js";import"./VLabel-DFQa5Qos.js";import"./FSFadeOut-CRwwg4VQ.js";import"./FSLoader-DQSvmWsx.js";import"./elevation-RaRrQxn9.js";import"./FSRadio-CN98aZYT.js";import"./VList-LhfMLDEB.js";import"./ssrBoot-BTOmRKcz.js";import"./border-mcG4sAce.js";import"./rounded-DM_o2hWD.js";import"./VImg-I7jXrjsW.js";import"./index-C31q_73Z.js";import"./VSelect-DXUxnIIu.js";import"./VMenu-9eL7kyJm.js";import"./filter-iZr2_yz2.js";import"./FSChip-BRPLsjag.js";import"./useRoleOrganisationTypes-Dc65a5Q2.js";import"./permissionInfos-BPDgTHQl.js";import"./base-XmH0JLOD.js";import"./useAppOrganisationId-C2nceDRs.js";import"./serviceFactory-DAEdCiSt.js";import"./lodash-BiW_TGGX.js";import"./composableFactory-CG8osPlO.js";import"./useRoleOrganisations-CtFWj6Te.js";import"./useAutocomplete-BOJtoY7j.js";import"./useMagicFieldProvider-CTwPJO7n.js";import"./iframe-Bo_gziUT.js";import"../sb-preview/runtime.js";import"./FSButtonRemoveIcon-B2qPDLyB.js";import"./FSButtonAddIcon-DNbTdjZd.js";import"./FSTranslateField--H76wfAi.js";import"./FSDialogSubmit-DbxZJkpx.js";import"./FSDialog-BE45Emn0.js";import"./useAppLanguages-D2v8pp4o.js";import"./VField-2PlKy0GK.js";import"./loader-Cs6S2SUJ.js";import"./useDateFormat-0HRqVufQ.js";import"./datesTools-CGhnvN9k.js";import"./startOfWeek-uXTpkxA4.js";import"./startOfDay-C4pDH4rb.js";import"./useAppLanguageCode-CJD7t5rC.js";import"./useAppTimeZone-ByDiY2xy.js";import"./time-IoQ6C2aa.js";const pe={title:"Foundation/Core/Miscellaneous",component:i,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},r={args:{args:{valid:!1,name:"",roleId:null,roleType:0,fieldLabel:"",fieldTranslations:[],fieldValue:"",fieldType:3,textRules:u}},render:(m,{argTypes:p})=>({components:{FSForm:i,FSText:a,FSTextField:d,FSAutocompleteRole:n,FSMagicConfigField:s,FSButton:l},props:Object.keys(p),setup(){return{...m}},template:`
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <FSForm v-model="args.valid" variant="submit">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <FSText>
+            Form validity: {{ args.valid }}
+          </FSText>
+          <FSTextField
+            label="Name"
+            :rules="[args.textRules.required()]"
+            :required="true"
+            v-model="args.name"
+          />
+          <FSAutocompleteRole
+            label="Role"
+            :rules="[args.textRules.required(), args.textRules.phone()]"
+            :required="true"
+            v-model="args.roleId"
+            v-model:type="args.roleType"
+          />
+          <FSMagicConfigField
+            :type="args.fieldType"
+            v-model:labelDefault="args.fieldLabel"
+            v-model:translations="args.fieldTranslations"
+            v-model="args.fieldValue"
+          />
+          <div style="display: flex; gap: 10px;">
+            <FSButton
+              type="submit"
+              label="Submit form"
+            />
+          </div>
+        </div>
+      </FSForm>
+    </div>`})};var e,t,o;r.parameters={...r.parameters,docs:{...(e=r.parameters)==null?void 0:e.docs,source:{originalSource:`{
+  args: {
+    args: {
+      valid: false,
+      name: "",
+      roleId: null,
+      roleType: 0,
+      fieldLabel: "",
+      fieldTranslations: [],
+      fieldValue: "",
+      fieldType: 3,
+      textRules: TextRules
+    }
+  },
+  render: (args, {
+    argTypes
+  }) => ({
+    components: {
+      FSForm,
+      FSText,
+      FSTextField,
+      FSAutocompleteRole,
+      FSMagicConfigField,
+      FSButton
+    },
+    props: Object.keys(argTypes),
+    setup() {
+      return {
+        ...args
+      };
+    },
+    template: \`
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <FSForm v-model="args.valid" variant="submit">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <FSText>
+            Form validity: {{ args.valid }}
+          </FSText>
+          <FSTextField
+            label="Name"
+            :rules="[args.textRules.required()]"
+            :required="true"
+            v-model="args.name"
+          />
+          <FSAutocompleteRole
+            label="Role"
+            :rules="[args.textRules.required(), args.textRules.phone()]"
+            :required="true"
+            v-model="args.roleId"
+            v-model:type="args.roleType"
+          />
+          <FSMagicConfigField
+            :type="args.fieldType"
+            v-model:labelDefault="args.fieldLabel"
+            v-model:translations="args.fieldTranslations"
+            v-model="args.fieldValue"
+          />
+          <div style="display: flex; gap: 10px;">
+            <FSButton
+              type="submit"
+              label="Submit form"
+            />
+          </div>
+        </div>
+      </FSForm>
+    </div>\`
+  })
+}`,...(o=(t=r.parameters)==null?void 0:t.docs)==null?void 0:o.source}}};const le=["TestForm"];export{r as TestForm,le as __namedExportsOrder,pe as default};
