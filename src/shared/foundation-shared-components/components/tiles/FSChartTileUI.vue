@@ -1,8 +1,9 @@
 <template>
   <FSClickable
-    padding="16px"
     :width="['275px','336px']"
     :height="['124px','156px']"
+    padding="16px 16px 16px 20px"
+    borderRadius="8px"
     v-bind="$attrs"
   >
     <template
@@ -10,27 +11,24 @@
     >
       <FSRow
         align="center-left"
+        gap="16px"
         :wrap="false"
       >
         <FSCol
           align="center-left"
         >
           <FSSpan
-            font="text-button"
-            :lineClamp="2"
+            font="text-overline"
+            :lineClamp="4"
           >
             {{ $props.label }}
           </FSSpan>
           <FSIcon
             :color="ColorEnum.Error"
+            size="18px"
           >
             {{ chartIcon(type) }}
           </FSIcon>
-          <FSSpan
-            font="text-overline"
-          >
-            {{ $props.categoryLabel }}
-          </FSSpan>
         </FSCol>
         <FSCol
           align="center-right"
@@ -38,13 +36,13 @@
         >
           <FSImage
             v-if="$props.imageId"
-            height="92px"
-            width="92px"          
+            height="82px"
+            width="82px"          
             :imageId="$props.imageId"
           />
           <FSIcon
             v-else-if="$props.icon"
-            size="92px"
+            size="82px"
             :icon="$props.icon"
           />
         </FSCol>
@@ -58,7 +56,7 @@ import { defineComponent } from "vue";
 import type { PropType } from "vue";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import type { ChartType } from "@dative-gpi/foundation-shared-domain/enums";
+import { ChartType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { chartIcon } from "@dative-gpi/foundation-shared-components/tools";
 
@@ -69,15 +67,16 @@ import FSIcon from "../FSIcon.vue";
 import FSRow from "../FSRow.vue";
 import FSCol from "../FSCol.vue";
 
+
 export default defineComponent({
   name: "FSChartTileUI",
   components: {
-    FSIcon,
+    FSClickable,
     FSImage,
+    FSIcon,
     FSRow,
     FSCol,
     FSSpan,
-    FSClickable
   },
   props: {
     label: {
@@ -90,11 +89,6 @@ export default defineComponent({
       required: false,
       default: null
     },
-    categoryLabel: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
     icon: {
       type: String as PropType<string | null>,
       required: false,
@@ -103,7 +97,7 @@ export default defineComponent({
     type: {
       type: Number as PropType<ChartType>,
       required: false,
-      default: null
+      default: ChartType.None
     }
   },
   setup() {
