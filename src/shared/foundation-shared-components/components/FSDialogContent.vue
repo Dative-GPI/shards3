@@ -19,13 +19,16 @@
           >
             {{ $props.title }}
           </FSText>
-          <v-spacer />
-          <FSButton
-            icon="mdi-close"
-            variant="icon"
-            :color="ColorEnum.Dark"
-            @click="$emit('update:modelValue', false)"
-          />
+          <FSRow
+            align="center-right"
+          >
+            <FSButton
+              icon="mdi-close"
+              variant="icon"
+              :color="ColorEnum.Dark"
+              @click="$emit('update:modelValue', false)"
+            />
+          </FSRow>
         </FSRow>
         <FSText
           v-if="$props.subtitle"

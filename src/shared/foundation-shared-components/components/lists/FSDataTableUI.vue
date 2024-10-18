@@ -289,25 +289,29 @@
               <slot
                 :name="`${header.slotName}-append`"
               />
-              <v-spacer />
-              <slot
-                :name="`${header.slotName}-configuration`"
+              <FSRow
+                align="center-right"
+                :wrap="false"
               >
-                <FSHeaderButton
-                  :first="index === 0"
-                  :last="index === headersSlots.length - 1"
-                  @update:hide="updateHeader(header, 'hidden', !header.hidden)"
-                  @update:left="updateHeader(header, 'index', -1)"
-                  @update:right="updateHeader(header, 'index', 1)"
-                />
-                <FSButton
-                  v-if="header.sortable"
-                  variant="icon"
-                  :color="sortColor(header, props)"
-                  :icon="sortIcon(header, props)"
-                  @click="toggleSort(header)"
-                />
-              </slot>
+                <slot
+                  :name="`${header.slotName}-configuration`"
+                >
+                  <FSHeaderButton
+                    :first="index === 0"
+                    :last="index === headersSlots.length - 1"
+                    @update:hide="updateHeader(header, 'hidden', !header.hidden)"
+                    @update:left="updateHeader(header, 'index', -1)"
+                    @update:right="updateHeader(header, 'index', 1)"
+                  />
+                  <FSButton
+                    v-if="header.sortable"
+                    variant="icon"
+                    :color="sortColor(header, props)"
+                    :icon="sortIcon(header, props)"
+                    @click="toggleSort(header)"
+                  />
+                </slot>
+              </FSRow>
             </FSRow>
           </slot>
         </template>
@@ -370,7 +374,6 @@
                 </FSText>
               </template>
             </template>
-            <v-spacer />
             <FSRow
               align="center-right"
               width="hug"
@@ -544,7 +547,6 @@
                 </FSText>
               </template>
             </template>
-            <v-spacer />
             <FSRow
               align="center-right"
               :wrap="false"

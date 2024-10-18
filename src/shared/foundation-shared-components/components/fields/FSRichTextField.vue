@@ -29,9 +29,10 @@
           </FSSpan>
         </FSRow>
       </slot>
-      <v-spacer />
-      <template
+      <FSRow
         v-if="$props.editable"
+        align="center-right"
+        :wrap="false"
       >
         <FSIcon
           class="fs-rich-text-field-icon"
@@ -177,7 +178,7 @@
         >
           mdi-format-align-justify
         </FSIcon>
-      </template>
+      </FSRow>
     </FSRow>
     <FSText
       v-if="readonly && !$props.modelValue && $props.emptyLabel"
