@@ -2,7 +2,7 @@
   <FSClickable
     :width="['275px','336px']"
     :height="['124px','156px']"
-    padding="16px 16px 16px 24px"
+    padding="16px 16px 16px 20px"
     borderRadius="8px"
     v-bind="$attrs"
   >
