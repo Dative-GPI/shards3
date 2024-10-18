@@ -106,7 +106,7 @@ import FSRow from '../FSRow.vue';
 import FSButton from '../FSButton.vue';
 import FSSelectAgendaMode from './FSSelectAgendaMode.vue';
 import FSAgendaDialogCalendar from './FSAgendaDialogCalendar.vue';
-import FSSpan from '@/shared/foundation-shared-components/components/FSSpan.vue';
+import FSSpan from '../FSSpan.vue';
 
 export default defineComponent({
   name: 'FSAgendaHeader',
@@ -115,6 +115,7 @@ export default defineComponent({
     FSSelectAgendaMode,
     FSCol,
     FSButton,
+    FSSpan,
     FSRow
   },
   props: {
