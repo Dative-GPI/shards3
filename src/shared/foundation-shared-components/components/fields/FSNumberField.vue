@@ -44,7 +44,6 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(_, { emit }) {
     const onUpdate = (value: string | null | undefined) => {
-      console.log(value);
       if (value === "-") {
         return;
       }
