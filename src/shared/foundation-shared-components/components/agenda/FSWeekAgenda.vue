@@ -125,7 +125,7 @@
               @click="() => $emit('click:eventId', event.id)"
             >
               <template
-                #default="{ label, icon, timeStart, timeEnd, iconBis, variant }"
+                #default="{ label, icon, timeStart, timeEnd, iconBis, variant, width }"
               >
                 <FSRow
                   align="center-left"
@@ -158,7 +158,7 @@
                     </FSRow>
                   </FSCol>
                   <FSCol
-                    v-if="iconBis && variant !== 'current'"
+                    v-if="iconBis && variant !== 'current' && width > 13"
                     align="center-right"
                     padding="8px 8px 8px 0" 
                     width="hug"
