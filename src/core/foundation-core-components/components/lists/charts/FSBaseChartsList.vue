@@ -77,12 +77,13 @@
       #item.tile="{ item }"
     >
       <FSChartTileUI
+        variant="standard"
         :label="item.label"
         :categoryLabel="item.chartCategoryLabel"
         :icon="item.icon"
         :imageId="item.imageId"
         :type="item.chartType"
-        :color="isSelected(item.id) ? ColorEnum.Primary : ColorEnum.Dark"
+        :color="isSelected(item.id) ? ColorEnum.Primary : ColorEnum.Light"
         @click="update(item.id)"
       />
     </template>
