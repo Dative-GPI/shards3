@@ -1,6 +1,6 @@
 <template>
   <FSCard
-    padding="24px"
+    :padding="['24px', '16px', '16px 12px']"
     gap="24px"
     :class="$props.cardClasses"
     :color="$props.color"
