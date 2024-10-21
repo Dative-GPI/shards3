@@ -77,11 +77,13 @@
       #item.tile="{item}"
     >
       <FSChartTileUI
+        variant="standard"
         :label="item.label"
         :category-label="item.chartCategoryLabel"
         :icon="item.icon"
         :imageId="item.imageId"
         :type="item.chartType"
+        :color="ColorEnum.Light"
         :to="$props.itemTo && $props.itemTo(item)"
       />
     </template>
