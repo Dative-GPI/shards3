@@ -1,8 +1,7 @@
 <template>
-  <FSClickable
+  <FSTile
     :width="['275px','336px']"
     :height="['124px','156px']"
-    padding="16px 16px 16px 20px"
     borderRadius="8px"
     v-bind="$attrs"
   >
@@ -11,11 +10,13 @@
     >
       <FSRow
         align="center-left"
+        padding="4px 4px 4px 8px"
         gap="16px"
         :wrap="false"
       >
         <FSCol
           align="center-left"
+          gap="4px"
         >
           <FSSpan
             font="text-overline"
@@ -36,19 +37,19 @@
         >
           <FSImage
             v-if="$props.imageId"
-            height="82px"
-            width="82px"          
+            :height="['82px','90px']"
+            :width="['82px','90px']"          
             :imageId="$props.imageId"
           />
           <FSIcon
             v-else-if="$props.icon"
-            size="82px"
+            :size="['82px','90px']"
             :icon="$props.icon"
           />
         </FSCol>
       </FSRow>
     </template>
-  </FSClickable>
+  </FSTile>
 </template>
 
 <script lang="ts">
@@ -60,8 +61,8 @@ import { ChartType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { chartIcon } from "@dative-gpi/foundation-shared-components/tools";
 
-import FSClickable from "../FSClickable.vue";
 import FSImage from "../FSImage.vue";
+import FSTile from "./FSTile.vue";
 import FSSpan from "../FSSpan.vue";
 import FSIcon from "../FSIcon.vue";
 import FSRow from "../FSRow.vue";
@@ -71,8 +72,8 @@ import FSCol from "../FSCol.vue";
 export default defineComponent({
   name: "FSChartTileUI",
   components: {
-    FSClickable,
     FSImage,
+    FSTile,
     FSIcon,
     FSRow,
     FSCol,
