@@ -59,11 +59,11 @@ export const Variations: Story = {
       <FSText> Text align </FSText>
       <div style="display: flex; gap: 10px;">
         <FSChip width="200px" color="primary" variant="standard" label="200px with long labelllllllllllllllllllllllll" />
-        <FSChip width="500px" textAlign="center" color="primary" variant="standard" label="500px with textAlign center" />
+        <FSChip width="500px" align="center-center" color="primary" variant="standard" label="500px with align center-center" />
       </div>
       <div style="display: flex; gap: 10px;">
-        <FSChip width="fill" textAlign="center" color="primary" variant="standard" label="fill with textAlign center" />
-        <FSChip width="fill" color="primary" variant="standard" label="fill without textAlign center" />
+        <FSChip width="fill" align="center-center" color="primary" variant="standard" label="fill with align center-center" />
+        <FSChip width="fill" color="primary" variant="standard" label="fill without align center-center" />
       </div>
     </div>`
   })

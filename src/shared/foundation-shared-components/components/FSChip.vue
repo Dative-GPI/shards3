@@ -1,7 +1,7 @@
 <template>
   <FSRow
+    :align="$props.align"
     :width="width"
-    :align="align"
     :class="classes"
     :style="style"
     :wrap="false"
@@ -102,10 +102,10 @@ export default defineComponent({
       required: false,
       default: false
     },
-    textAlign: {
-      type: String as PropType<"left" | "center">,
+    align: {
+      type: String as PropType<"center-left" | "center-center">,
       required: false,
-      default: "left"
+      default: "center-left"
     }
   },
   setup(props) {
@@ -166,18 +166,9 @@ export default defineComponent({
 
     const width = computed(() => props.width ? sizeToVar(props.width) : 'hug');
 
-    const align = computed(() => {
-      switch (props.textAlign) {
-        case "center": return "center-center";
-        case "left":
-        default: return "center-left";
-      }
-    })
-
     return {
       classes,
       colors,
-      align,
       width,
       style
     };
