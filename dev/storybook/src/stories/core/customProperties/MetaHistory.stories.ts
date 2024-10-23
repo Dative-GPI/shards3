@@ -27,7 +27,6 @@ export const Variations: Story = {
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Number,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
