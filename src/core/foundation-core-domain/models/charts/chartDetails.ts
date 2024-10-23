@@ -16,8 +16,10 @@ import { ChartOperand } from "./chartOperand";
 import type { ChartOperandDTO } from "./chartOperand";
 import { ChartModifier } from "./chartModifier";
 import type { ChartModifierDTO } from "./chartModifier";
-import { ChartFilter} from "./chartFilter";
+import { ChartFilter } from "./chartFilter";
 import type { ChartFilterDTO } from "./chartFilter";
+import { ChartAllowedStep } from "./chartAllowedStep";
+import type { ChartAllowedStepDTO } from "./chartAllowedStep";
 
 import type { ColorSets } from "@dative-gpi/foundation-shared-domain/enums";
 
@@ -36,6 +38,7 @@ export class ChartDetails extends ChartInfos {
   chartPresets: ChartPreset[];
   chartPresetFilters: ChartPresetFilter[];
   chartPlots: ChartPlot[];
+  chartAllowedSteps: ChartAllowedStep[];
 
   constructor(params: ChartDetailsDTO) {
     super(params);
@@ -55,6 +58,7 @@ export class ChartDetails extends ChartInfos {
     this.chartModifiers = params.chartModifiers.map(cm => new ChartModifier(cm));
     this.chartFilters = params.chartFilters.map(cf => new ChartFilter(cf));
     this.yAxis = params.yAxis.map(ya => new ChartAxis(ya));
+    this.chartAllowedSteps = params.chartAllowedSteps.map(cas => new ChartAllowedStep(cas));
   }
 }
 
@@ -73,4 +77,5 @@ export interface ChartDetailsDTO extends ChartInfosDTO {
   yAxis: ChartAxisDTO[];
   chartPresetFilters: ChartPresetFilterDTO[];
   chartPlots: ChartPlotDTO[];
+  chartAllowedSteps: ChartAllowedStepDTO[];
 }

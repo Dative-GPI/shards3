@@ -13,14 +13,15 @@ import { ChartAxis } from "../charts/chartAxis";
 import type { ChartPlotDTO, CreateChartPlotDTO } from "../charts/chartPlot";
 import { ChartPlot } from "../charts/chartPlot";
 import { ChartFilter } from "../charts/chartFilter";
-import type { ChartFilterDTO,CreateChartFilterDTO } from "../charts/chartFilter";
+import type { ChartFilterDTO, CreateChartFilterDTO } from "../charts/chartFilter";
 import { ChartModifier } from "../charts/chartModifier";
-import type { ChartModifierDTO,CreateChartModifierDTO } from "../charts/chartModifier";
+import type { ChartModifierDTO, CreateChartModifierDTO } from "../charts/chartModifier";
 import { ChartOperand } from "../charts/chartOperand";
-import type { ChartOperandDTO,CreateChartOperandDTO } from "../charts/chartOperand";
+import type { ChartOperandDTO, CreateChartOperandDTO } from "../charts/chartOperand";
 import { ChartSerie } from "../charts/chartSerie";
-import type { ChartSerieDTO,CreateChartSerieDTO } from "../charts/chartSerie";
+import type { ChartSerieDTO, CreateChartSerieDTO } from "../charts/chartSerie";
 import type { ColorSets } from "@dative-gpi/foundation-shared-domain/enums";
+import { ChartAllowedStep, type ChartAllowedStepDTO, type CreateChartAllowedStepDTO } from "../charts/chartAllowedStep";
 
 export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   labelDefault: string;
@@ -39,6 +40,7 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
   chartFilters: ChartFilter[];
   chartModifiers: ChartModifier[];
   yAxis: ChartAxis[];
+  chartAllowedSteps: ChartAllowedStep[];
   translations: ChartTranslation[];
 
   constructor(params: ChartOrganisationTypeDetailsDTO) {
@@ -61,6 +63,7 @@ export class ChartOrganisationTypeDetails extends ChartOrganisationTypeInfos {
     this.chartFilters = params.chartFilters.map(cf => new ChartFilter(cf));
     this.chartModifiers = params.chartModifiers.map(cm => new ChartModifier(cm));
     this.yAxis = params.yAxis.map(ya => new ChartAxis(ya));
+    this.chartAllowedSteps = params.chartAllowedSteps.map(cas => new ChartAllowedStep(cas));
     this.translations = params.translations.map((translation) => new ChartTranslation(translation));
   }
 }
@@ -82,6 +85,7 @@ export interface ChartOrganisationTypeDetailsDTO extends ChartOrganisationTypeIn
   chartFilters: ChartFilterDTO[];
   chartModifiers: ChartModifierDTO[];
   yAxis: ChartAxisDTO[];
+  chartAllowedSteps: ChartAllowedStepDTO[];
   translations: ChartTranslationDTO[];
 }
 
@@ -115,5 +119,6 @@ export interface UpdateChartOrganisationTypeDTO {
   chartFilters: CreateChartFilterDTO[];
   chartModifiers: CreateChartModifierDTO[];
   yAxis: CreateChartAxisDTO[];
+  chartAllowedSteps: CreateChartAllowedStepDTO[];
   translations: ChartTranslationDTO[];
 }
