@@ -10,7 +10,6 @@ export class CustomPropertyInfos {
     index: number;
     entity: PropertyEntity;
     dataType: PropertyDataType;
-    addInInfos: boolean;
     readOnlyCore: boolean;
     readOnlyAdmin: boolean;
     defaultValue: string;
@@ -29,7 +28,6 @@ export class CustomPropertyInfos {
       this.index = params.index;
       this.entity = params.entity;
       this.dataType = params.dataType;
-      this.addInInfos = params.addInInfos;
       this.readOnlyCore = params.readOnlyCore;
       this.readOnlyAdmin = params.readOnlyAdmin;
       this.defaultValue = params.defaultValue;
@@ -50,7 +48,6 @@ export class CustomPropertyInfos {
     index: number;
     entity: number;
     dataType: number;
-    addInInfos: boolean;
     readOnlyCore: boolean;
     readOnlyAdmin: boolean;
     defaultValue: string;
