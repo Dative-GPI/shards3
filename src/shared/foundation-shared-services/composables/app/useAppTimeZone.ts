@@ -21,17 +21,19 @@ export const useAppTimeZone = () => {
     });
   }
 
-  const getUserOffsetName = (): string => {
+  const getUserOffsetName = (epoch: number | null = null): string => {
     const formatter = getUserFormatter();
-    const currentDate = formatter.formatToParts(new Date());
+    const currentDate = formatter.formatToParts(epoch ? new Date(epoch) : new Date());
     const timeZoneName = currentDate.find((part) => part.type === "timeZoneName")?.value || "UTC+00:00";
     return timeZoneName
   }
 
-  const getUserOffset = (): number => {
-    const timeZoneName = getUserOffsetName();
+  const getUserOffset = (epoch: number | null = null): number => {
+    const timeZoneName = getUserOffsetName(epoch);
     const [hours, minutes] = timeZoneName.slice(3).split(':');
-
+    if (isNaN(parseInt(hours)) || isNaN(parseInt(minutes))) {
+      return 0;
+    }
     return (parseInt(hours) * 60 + parseInt(minutes)) * 60 * 1000;
   };
 
@@ -45,7 +47,9 @@ export const useAppTimeZone = () => {
   const getMachineOffset = (): number => {
     const timeZoneName = getMachineOffsetName();
     const [hours, minutes] = timeZoneName.slice(3).split(':');
-
+    if (isNaN(parseInt(hours)) || isNaN(parseInt(minutes))) {
+      return 0;
+    }
     return (parseInt(hours) * 60 + parseInt(minutes)) * 60 * 1000;
   }
 
