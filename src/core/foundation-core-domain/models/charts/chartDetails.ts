@@ -29,6 +29,7 @@ export class ChartDetails extends ChartInfos {
   xAxis: ChartAxis | null;
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
+  showAllowedStep: boolean | null;
   chartVariables: ChartVariable[];
   chartSeries: ChartSerie[];
   chartOperands: ChartOperand[];
@@ -49,6 +50,7 @@ export class ChartDetails extends ChartInfos {
       new ChartAxis(params.xAxis) : null;
     this.aggregates = params.aggregates;
     this.dynamicVariables = params.dynamicVariables;
+    this.showAllowedStep = params.showAllowedStep;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
@@ -68,6 +70,7 @@ export interface ChartDetailsDTO extends ChartInfosDTO {
   xAxis: ChartAxisDTO | null;
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
+  showAllowedStep: boolean | null;
   chartVariables: ChartVariableDTO[];
   chartPresets: ChartPresetDTO[];
   chartSeries: ChartSerieDTO[];
