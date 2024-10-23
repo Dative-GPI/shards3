@@ -1,7 +1,7 @@
 <template>
   <FSRow
     :align="$props.align"
-    :width="width"
+    :width="$props.width"
     :class="classes"
     :style="style"
     :wrap="false"
@@ -164,12 +164,9 @@ export default defineComponent({
       return classNames;
     });
 
-    const width = computed(() => props.width ? sizeToVar(props.width) : 'hug');
-
     return {
       classes,
       colors,
-      width,
       style
     };
   }
