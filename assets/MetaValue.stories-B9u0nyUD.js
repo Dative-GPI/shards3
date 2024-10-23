@@ -1,4 +1,4 @@
-import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-DD5MeAoT.js";import{P as e}from"./customProperties-DqkON8hk.js";import"./vue.esm-bundler-l-siv0w9.js";import"./useAppTimeZone-gpO-zv_9.js";import"./FSIconCheck-C-ecnkWD.js";import"./FSIcon-DfqW6nqQ.js";import"./useBreakpoints-mbnqo5a1.js";import"./useColors-Bs2u1_6J.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-DfSX31J9.js";import"./theme-C2MnUTNI.js";import"./css-C_oz6kYw.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./VIcon-D6ql3n-m.js";import"./color-De-77ojK.js";import"./FSSpan-DwE651wI.js";import"./useSlots-C_N_WAus.js";import"./FSText-4yVUx1mI.js";import"./useDateFormat-BNPZ7oj9.js";import"./datesTools-CGhnvN9k.js";import"./startOfWeek-uXTpkxA4.js";import"./startOfDay-C4pDH4rb.js";import"./useAppLanguageCode-BzH56rSm.js";import"./useTranslations-CJK8D24x.js";const k={title:"Foundation/Core/CustomProperties/MetaValue",component:o,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},a={args:{args:{value1:null,selector:{id:"1",code:"selector",label:"Selector",categoryLabel:"Category",index:0,entity:1,dataType:e.String,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!0,allowedValues:{1:"value1",2:"value 2",3:"value 3","key without value":null}},value2:null,number:{id:"2",code:"number",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value3:null,bool:{id:"3",code:"bool",label:"Boolean",categoryLabel:"Category",index:0,entity:1,dataType:e.Boolean,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},value4:null,string:{id:"4",code:"string",label:"String",categoryLabel:"Category",index:0,entity:1,dataType:e.String,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value5:null,date:{id:"5",code:"date",label:"Date",categoryLabel:"Category",index:0,entity:1,dataType:e.DateTime,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},value6:null,icon:{id:"6",code:"icon",label:"Icon",categoryLabel:"Category",index:0,entity:1,dataType:e.Icon,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},value7:null,null:{id:"7",code:"null",label:"Icon",categoryLabel:"Category",index:0,entity:1,dataType:e.Boolean,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},meta:{selector:"selectorMeta",number:"677",string:"stringMeta",bool:"true",date:"1715699283",icon:"mdi-ab-testing"}}},render:(t,{argTypes:r})=>({components:{FSMetaValue:o,FSCol:g},props:Object.keys(r),setup(){return{...t}},template:`
+import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-DD5MeAoT.js";import{P as e}from"./customProperties-DqkON8hk.js";import"./vue.esm-bundler-l-siv0w9.js";import"./useAppTimeZone-gpO-zv_9.js";import"./FSIconCheck-C-ecnkWD.js";import"./FSIcon-DfqW6nqQ.js";import"./useBreakpoints-mbnqo5a1.js";import"./useColors-Bs2u1_6J.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-DfSX31J9.js";import"./theme-C2MnUTNI.js";import"./css-C_oz6kYw.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./VIcon-D6ql3n-m.js";import"./color-De-77ojK.js";import"./FSSpan-DwE651wI.js";import"./useSlots-C_N_WAus.js";import"./FSText-4yVUx1mI.js";import"./useDateFormat-BNPZ7oj9.js";import"./datesTools-CGhnvN9k.js";import"./startOfWeek-uXTpkxA4.js";import"./startOfDay-C4pDH4rb.js";import"./useAppLanguageCode-BzH56rSm.js";import"./useTranslations-CJK8D24x.js";const k={title:"Foundation/Core/CustomProperties/MetaValue",component:o,tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},a={args:{args:{value1:null,selector:{id:"1",code:"selector",label:"Selector",categoryLabel:"Category",index:0,entity:1,dataType:e.String,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!0,allowedValues:{1:"value1",2:"value 2",3:"value 3","key without value":null}},value2:null,number:{id:"2",code:"number",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value3:null,bool:{id:"3",code:"bool",label:"Boolean",categoryLabel:"Category",index:0,entity:1,dataType:e.Boolean,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},value4:null,string:{id:"4",code:"string",label:"String",categoryLabel:"Category",index:0,entity:1,dataType:e.String,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value5:null,date:{id:"5",code:"date",label:"Date",categoryLabel:"Category",index:0,entity:1,dataType:e.DateTime,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},value6:null,icon:{id:"6",code:"icon",label:"Icon",categoryLabel:"Category",index:0,entity:1,dataType:e.Icon,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},value7:null,null:{id:"7",code:"null",label:"Icon",categoryLabel:"Category",index:0,entity:1,dataType:e.Boolean,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!1,colorMap:[],useOnlyAllowedValues:!1,allowedValues:{}},meta:{selector:"selectorMeta",number:"677",string:"stringMeta",bool:"true",date:"1715699283",icon:"mdi-ab-testing"}}},render:(r,{argTypes:n})=>({components:{FSMetaValue:o,FSCol:g},props:Object.keys(n),setup(){return{...r}},template:`
     <FSCol>
       <FSMetaValue
         label="Only allowed values"
@@ -41,7 +41,7 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         :customProperty="args.null"
         :meta="args.meta"
         v-model="args.value7" />
-    </FSCol>`})},n={args:{args:{value1:null,selector:{id:"1",code:"selector",label:"Selector",categoryLabel:"Category",index:0,entity:1,dataType:e.String,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!0,allowedValues:{1:"value1",2:"value 2",3:"value 3","key without value":null}},value2:null,number:{id:"2",code:"number",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value3:null,bool:{id:"3",code:"bool",label:"Boolean",categoryLabel:"Category",index:0,entity:1,dataType:e.Boolean,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value4:null,string:{id:"4",code:"string",label:"String",categoryLabel:"Category",index:0,entity:1,dataType:e.String,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value5:null,date:{id:"5",code:"date",label:"Date",categoryLabel:"Category",index:0,entity:1,dataType:e.DateTime,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value6:null,icon:{id:"6",code:"icon",label:"Icon",categoryLabel:"Category",index:0,entity:1,dataType:e.Icon,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},valuen2:null,number2:{id:"2",code:"number2",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:l.MoreOrEqual,filterValues:[5],color:"#0000FF"},{priority:2,filterType:l.MoreOrEqual,filterValues:[50],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},valuen3:null,number3:{id:"3",code:"number3",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:l.MoreOrEqual,filterValues:[5],color:"#0000FF"},{priority:2,filterType:l.MoreOrEqual,filterValues:[50],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},values2:null,string2:{id:"2",code:"string2",label:"String2",categoryLabel:"Category",index:0,entity:1,dataType:e.String,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:2,filterType:l.Equal,filterValues:["Bingo"],color:"#00FF00"},{priority:1,filterType:l.None,filterValues:[],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},values3:null,string3:{id:"3",code:"string3",label:"String3",categoryLabel:"Category",index:0,entity:1,dataType:e.String,addInInfos:!0,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:2,filterType:l.Equal,filterValues:["Bingo"],color:"#00FF00"},{priority:1,filterType:l.None,filterValues:[],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},meta:{selector:"selectoerMeta",number:"677",number2:"10",number3:"80",string:"stringMeta",string2:"Bingo",string3:"Not bingo",bool:"true",date:"1715699283",icon:"mdi-ab-testing"}}},render:(t,{argTypes:r})=>({components:{FSMetaValue:o,FSCol:g},props:Object.keys(r),setup(){return{...t}},template:`
+    </FSCol>`})},t={args:{args:{value1:null,selector:{id:"1",code:"selector",label:"Selector",categoryLabel:"Category",index:0,entity:1,dataType:e.String,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!0,allowedValues:{1:"value1",2:"value 2",3:"value 3","key without value":null}},value2:null,number:{id:"2",code:"number",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value3:null,bool:{id:"3",code:"bool",label:"Boolean",categoryLabel:"Category",index:0,entity:1,dataType:e.Boolean,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value4:null,string:{id:"4",code:"string",label:"String",categoryLabel:"Category",index:0,entity:1,dataType:e.String,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value5:null,date:{id:"5",code:"date",label:"Date",categoryLabel:"Category",index:0,entity:1,dataType:e.DateTime,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},value6:null,icon:{id:"6",code:"icon",label:"Icon",categoryLabel:"Category",index:0,entity:1,dataType:e.Icon,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:0,filterValues:[],color:"#FF00FF"}],useOnlyAllowedValues:!1,allowedValues:{}},valuen2:null,number2:{id:"2",code:"number2",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:l.MoreOrEqual,filterValues:[5],color:"#0000FF"},{priority:2,filterType:l.MoreOrEqual,filterValues:[50],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},valuen3:null,number3:{id:"3",code:"number3",label:"Number",categoryLabel:"Category",index:0,entity:1,dataType:e.Number,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:1,filterType:l.MoreOrEqual,filterValues:[5],color:"#0000FF"},{priority:2,filterType:l.MoreOrEqual,filterValues:[50],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},values2:null,string2:{id:"2",code:"string2",label:"String2",categoryLabel:"Category",index:0,entity:1,dataType:e.String,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:2,filterType:l.Equal,filterValues:["Bingo"],color:"#00FF00"},{priority:1,filterType:l.None,filterValues:[],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},values3:null,string3:{id:"3",code:"string3",label:"String3",categoryLabel:"Category",index:0,entity:1,dataType:e.String,readOnlyCore:!1,readOnlyAdmin:!1,defaultValue:"",history:!1,historySize:0,colorful:!0,colorMap:[{priority:2,filterType:l.Equal,filterValues:["Bingo"],color:"#00FF00"},{priority:1,filterType:l.None,filterValues:[],color:"#FF0000"}],useOnlyAllowedValues:!1,allowedValues:{}},meta:{selector:"selectoerMeta",number:"677",number2:"10",number3:"80",string:"stringMeta",string2:"Bingo",string3:"Not bingo",bool:"true",date:"1715699283",icon:"mdi-ab-testing"}}},render:(r,{argTypes:n})=>({components:{FSMetaValue:o,FSCol:g},props:Object.keys(n),setup(){return{...r}},template:`
       <FSCol>
         <FSMetaValue
           label="Only allowed values"
@@ -102,7 +102,7 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
           :customProperty="args.string3"
           :meta="args.meta"
           v-model="args.value3" />
-      </FSCol>`})};var s,d,i;a.parameters={...a.parameters,docs:{...(s=a.parameters)==null?void 0:s.docs,source:{originalSource:`{
+      </FSCol>`})};var s,i,d;a.parameters={...a.parameters,docs:{...(s=a.parameters)==null?void 0:s.docs,source:{originalSource:`{
   args: {
     args: {
       value1: null,
@@ -114,7 +114,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.String,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -139,7 +138,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Number,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -164,7 +162,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Boolean,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -184,7 +181,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.String,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -209,7 +205,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.DateTime,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -229,7 +224,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Icon,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -249,7 +243,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Boolean,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -328,7 +321,7 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         v-model="args.value7" />
     </FSCol>\`
   })
-}`,...(i=(d=a.parameters)==null?void 0:d.docs)==null?void 0:i.source}}};var u,y,p;n.parameters={...n.parameters,docs:{...(u=n.parameters)==null?void 0:u.docs,source:{originalSource:`{
+}`,...(d=(i=a.parameters)==null?void 0:i.docs)==null?void 0:d.source}}};var u,y,p;t.parameters={...t.parameters,docs:{...(u=t.parameters)==null?void 0:u.docs,source:{originalSource:`{
   args: {
     args: {
       value1: null,
@@ -340,7 +333,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.String,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -370,7 +362,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Number,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -395,7 +386,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Boolean,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -420,7 +410,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.String,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -445,7 +434,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.DateTime,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -470,7 +458,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Icon,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -495,7 +482,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Number,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -525,7 +511,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.Number,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -555,7 +540,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.String,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -585,7 +569,6 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
         index: 0,
         entity: 1,
         dataType: PropertyDataType.String,
-        addInInfos: true,
         readOnlyCore: false,
         readOnlyAdmin: false,
         defaultValue: "",
@@ -696,4 +679,4 @@ import{F as o,a as l}from"./FSMetaValue-d3AuM9SN.js";import{F as g}from"./FSCol-
           v-model="args.value3" />
       </FSCol>\`
   })
-}`,...(p=(y=n.parameters)==null?void 0:y.docs)==null?void 0:p.source}}};const j=["Variations","Colors"];export{n as Colors,a as Variations,j as __namedExportsOrder,k as default};
+}`,...(p=(y=t.parameters)==null?void 0:y.docs)==null?void 0:p.source}}};const j=["Variations","Colors"];export{t as Colors,a as Variations,j as __namedExportsOrder,k as default};
