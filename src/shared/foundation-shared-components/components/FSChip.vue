@@ -1,7 +1,7 @@
 <template>
   <FSRow
-    width="hug"
-    align="center-left"
+    :width="width"
+    :align="align"
     :class="classes"
     :style="style"
     :wrap="false"
@@ -82,6 +82,11 @@ export default defineComponent({
       required: false,
       default: () => [24, 20]
     },
+    width: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "hug"
+    },
     variant: {
       type: String as PropType<"standard" | "full" | "borderless">,
       required: false,
@@ -96,6 +101,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    textAlign: {
+      type: String as PropType<"left" | "center">,
+      required: false,
+      default: "left"
     }
   },
   setup(props) {
@@ -154,9 +164,21 @@ export default defineComponent({
       return classNames;
     });
 
+    const width = computed(() => props.width ? sizeToVar(props.width) : 'hug');
+
+    const align = computed(() => {
+      switch (props.textAlign) {
+        case "center": return "center-center";
+        case "left":
+        default: return "center-left";
+      }
+    })
+
     return {
       classes,
       colors,
+      align,
+      width,
       style
     };
   }
