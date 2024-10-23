@@ -46,6 +46,7 @@
               :rules="[TextRules.required(), DateRules.validateExpression($props.variant)]"
               :editable="$props.editable"
               :hideHeader="true"
+              :clearable="false"
               :modelValue="innerStartDate"
               @update:modelValue="innerStartDateChange"
             />
@@ -61,6 +62,7 @@
               :rules="[TextRules.required(), DateRules.validateExpression($props.variant)]"
               :editable="$props.editable"
               :hideHeader="true"
+              :clearable="false"
               :modelValue="innerEndDate"
               @update:modelValue="innerEndDateChange"
             />
@@ -72,6 +74,7 @@
           :rules="[DateRules.required()]"
           :editable="$props.editable"
           :hideHeader="true"
+          :clearable="false"
           :modelValue="actualValue"
           @update:modelValue="onPickDates"
         />
