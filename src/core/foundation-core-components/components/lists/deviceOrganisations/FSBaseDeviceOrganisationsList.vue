@@ -50,6 +50,7 @@
         height="32px"
         width="32px"
         :imageId="item.imageId"
+        :thumbnail="true"
       />
     </template>
     <template

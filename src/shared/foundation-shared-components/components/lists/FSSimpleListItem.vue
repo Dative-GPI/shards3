@@ -39,9 +39,10 @@
             <!-- TODO : add draggable option -->
             <FSImage
               v-if="item.imageId"
-              :imageId="item.imageId"
               width="24px"
               height="24px"
+              :imageId="item.imageId"
+              :thumbnail="true"
             />
             <FSIcon
               size="24px"

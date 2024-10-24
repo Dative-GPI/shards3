@@ -29,9 +29,10 @@
     >
       <FSImage
         v-if="item.imageId"
-        height="38px"
-        width="38px"
+        height="32px"
+        width="32px"
         :imageId="item.imageId"
+        :thumbnail="true"
       />
     </template>
     <template
@@ -95,9 +96,8 @@
 
 <script lang="ts">
 import _ from "lodash";
-import type { PropType} from "vue";
 import type { RouteLocation } from "vue-router";
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 
 import { useOrganisation } from "@dative-gpi/foundation-shared-services/composables";
 import { useDashboardOrganisations, useFolders, useDashboardShallows, useAppOrganisationId, useCurrentUserOrganisation } from "@dative-gpi/foundation-core-services/composables";
@@ -106,12 +106,14 @@ import { DashboardType } from "@dative-gpi/foundation-shared-domain/enums";
 import { FoldersListType, type FoldersListItem } from "@dative-gpi/foundation-core-components/utils";
 import type { FolderFilters, DashboardOrganisationFilters, DashboardShallowFilters, DashboardInfos } from "@dative-gpi/foundation-core-domain/models";
 
-import FSDataTable from "../lists/FSDataTable.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
-import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
-import FSDashboardOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTileUI.vue";
-import FSDashboardShallowTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardShallowTileUI.vue";
+import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
+import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
+import FSDashboardShallowTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardShallowTileUI.vue";
+import FSDashboardOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTileUI.vue";
+
+import FSDataTable from "../lists/FSDataTable.vue";
 
 export default defineComponent({
   name: "FSBaseFoldersExplorer",
@@ -121,7 +123,8 @@ export default defineComponent({
     FSFolderTileUI,
     FSDashboardOrganisationTileUI,
     FSDashboardShallowTileUI,
-    FSIconCheck
+    FSIconCheck,
+    FSImage
   },
   props: {
     foldersFilters: {

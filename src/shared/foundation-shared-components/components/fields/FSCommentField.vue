@@ -5,9 +5,10 @@
     >
       <FSImage
         :imageId="userImageId"
-        :width="32"
-        :height="32"
+        width="32px"
+        height="32px"
         rounded="circle"
+        :thumbnail="true"
       />
       <FSTextArea
         :rows="5"
