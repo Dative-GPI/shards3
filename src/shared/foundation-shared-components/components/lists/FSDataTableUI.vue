@@ -1245,7 +1245,7 @@ export default defineComponent({
           value = header.fixedFilters.map((ff): FSDataTableFilter => ({
             hidden: currentFilters?.find((cf) => cf.value == (ff.value || null))?.hidden ?? false,
             text: ff.text?.toString() ?? "—",
-            value: ff.value || null,
+            value: ff.value ?? null,
             filter: header.methodFilter ?? ((_, property, item) => {
               if (header.methodFilterRaw) {
                 return header.methodFilterRaw(ff.value, item);
