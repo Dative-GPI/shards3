@@ -30,9 +30,10 @@
     >
       <FSImage
         v-if="item.imageId"
-        height="38px"
-        width="38px"
+        height="32px"
+        width="32px"
         :imageId="item.imageId"
+        :thumbnail="true"
       />
     </template>
     <template

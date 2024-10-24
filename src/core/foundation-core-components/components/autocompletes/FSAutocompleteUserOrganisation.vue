@@ -18,6 +18,7 @@
         height="26px"
         width="26px"
         :imageId="item.imageId"
+        :thumbnail="true"
       />
     </template>
     <template
@@ -39,6 +40,7 @@
             height="26px"
             width="26px"
             :imageId="props.item.imageId"
+            :thumbnail="true"
           />
         </template>
       </FSButton>
