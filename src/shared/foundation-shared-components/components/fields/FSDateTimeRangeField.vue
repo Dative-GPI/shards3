@@ -208,13 +208,13 @@ export default defineComponent({
             break;
           }
           case 1: {
-            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffset()) % (24 * 60 * 60 * 1000));
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffset(props.modelValue[0])) % (24 * 60 * 60 * 1000));
             innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value];
             break;
           }
           default: {
-            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffset()) % (24 * 60 * 60 * 1000));
-            innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffset()) % (24 * 60 * 60 * 1000));
+            innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffset(props.modelValue[0])) % (24 * 60 * 60 * 1000));
+            innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffset(props.modelValue[0])) % (24 * 60 * 60 * 1000));
             innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
             break;
           }
