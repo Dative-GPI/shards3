@@ -214,7 +214,7 @@ export default defineComponent({
           }
           default: {
             innerTimeLeft.value = Math.floor((props.modelValue[0] + getUserOffset(props.modelValue[0])) % (24 * 60 * 60 * 1000));
-            innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffset(props.modelValue[0])) % (24 * 60 * 60 * 1000));
+            innerTimeRight.value = Math.floor((props.modelValue[1] + getUserOffset(props.modelValue[1])) % (24 * 60 * 60 * 1000));
             innerDateRange.value = [props.modelValue[0] - innerTimeLeft.value, props.modelValue[1] - innerTimeRight.value];
             break;
           }
