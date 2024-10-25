@@ -674,8 +674,10 @@ export default defineComponent({
       }
       if (props.modelValue != null) {
         editor.update(() => {
-          if(typeof props.modelValue === "string") {
-            editor.setEditorState(editor.parseEditorState(props.modelValue!));
+          if (typeof props.modelValue === "string") {
+            if (props.modelValue !== "") {
+              editor.setEditorState(editor.parseEditorState(props.modelValue!));
+            }
           }
           else {
             editor.setEditorState(editor.parseEditorState(JSON.stringify(props.modelValue)));
