@@ -123,3 +123,31 @@ export const Default: Story = {
     `,
   })
 };
+
+export const NestedFadeOut: Story = {
+  render: () => ({
+    components: { FSFadeOut, FSCol, FSRow },
+    template: `
+      <div style="display: flex; justify-content: center; padding: 20px;">
+        <FSFadeOut height="300px" style="width: 200px; border: 1px solid #333;">
+          <FSCol style="background-color: lightblue; padding: 8px;">
+            <div>Contenu extérieur</div>
+            <FSFadeOut maxHeight="150px" style="border: 1px dashed #333;">
+              <FSCol style="background-color: lightcoral; padding: 8px;">
+                <div v-for="n in 10" :key="n" 
+                     style="display: flex; align-items: center; height: 32px; margin: 4px 0; background-color: #f9c8c8;">
+                  Élément {{ n }}
+                </div>
+              </FSCol>
+            </FSFadeOut>
+             <div
+              v-for="n in 10"
+             >
+              Contenu extérieur
+            </div>
+          </FSCol>
+        </FSFadeOut>
+      </div>
+    `,
+  }),
+};
