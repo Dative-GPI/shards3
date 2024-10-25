@@ -39,3 +39,29 @@ export const Default: Story = {
     height: 'fit-content',
   },
 };
+
+export const RowHug: Story = {
+  render: (args) => ({
+    components: { FSSlideGroup, FSRow },
+    setup() {
+      return { args };
+    },
+    template: `
+      <FSRow
+        width="hug"
+      >
+        <FSSlideGroup 
+          :height="args.height"
+        >
+          <FSRow style="background-color: palegreen;">
+            <div v-for="(item, index) in 10" :key="index" style="display: flex; width: 62px; height: 32px; padding: 4px; background-color: blanchedalmond;">
+              item {{ index + 1 }}
+            </div>
+          </FSRow>
+        </FSSlideGroup>
+      </FSRow>
+    `,
+  }),
+  args: {
+  },
+};
