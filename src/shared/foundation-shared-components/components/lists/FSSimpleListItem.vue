@@ -1,78 +1,62 @@
 <template>
-  <template
-    v-if="$props.loading"
+  <FSTile
+    v-bind="$props.tileProps"
+    :width="$props.width"
+    height="fit-content"
+    :editable="false"
   >
-    <FSLoader
-      v-for="i in 4"
-      :key="i"
-      :width="loaderWidth"
-      height="50px"
-    />
-  </template>
-  <template
-    v-else
-  >
-    <FSTile
-      v-for="item in filteredItems"
-      :key="item.id"
-      v-bind="tileProps(item)"
-      :width="tileWidth"
-      height="fit-content"
-      :editable="false"
+    <slot
+      name="item"
+      :item="{ label, icon, imageId, id }"
     >
-      <slot
-        name="item"
-        :item="item"
+      <FSRow
+        align="center-left"
+        height="24px"
+        :wrap="false"
       >
+        <FSButtonDragIcon
+          v-if="showDraggable"
+        />
+        <slot
+          name="itemContent"
+          :item="{ label, icon, imageId, id }"
+        >
+          <!-- TODO : add draggable option -->
+          <FSImage
+            v-if="$props.imageId"
+            width="24px"
+            height="24px"
+            :imageId="$props.imageId"
+            :thumbnail="true"
+          />
+          <FSIcon
+            size="24px"
+            v-else-if="$props.icon"
+            :icon="$props.icon"
+          />
+          <FSSpan
+            font="text-overline"
+          >
+            {{ $props.label }}
+          </FSSpan>
+        </slot>
         <FSRow
-          align="center-left"
-          height="24px"
+          v-if="showEdit || showRemove"
+          align="center-right"
           :wrap="false"
         >
-          <FSButtonDragIcon
-            v-if="showDraggable"
+          <FSButtonEditIcon
+            v-if="showEdit"
+            @click="$emit('click:edit', $props.id)"
           />
-          <slot
-            name="itemContent"
-            :item="item"
-          >
-            <!-- TODO : add draggable option -->
-            <FSImage
-              v-if="item.imageId"
-              width="24px"
-              height="24px"
-              :imageId="item.imageId"
-              :thumbnail="true"
-            />
-            <FSIcon
-              size="24px"
-              v-else-if="item.icon"
-              :icon="item.icon"
-            />
-            <FSSpan
-              font="text-overline"
-            >
-              {{ item[$props.itemLabel || 'label'] }}
-            </FSSpan>
-          </slot>
-          <FSRow
-            v-if="showEdit || showRemove"
-            align="center-right"
-            :wrap="false"
-          >
-            <FSButtonEditIcon
-              v-if="showEdit"
-              @click="$emit('click:edit', item.id)"
-            />
-            <FSButtonRemoveIcon
-              v-if="showRemove"
-              @click="$emit('click:remove', item.id)"
-            />
-          </FSRow>
+          <FSButtonRemoveIcon
+            v-if="showRemove"
+            @click="$emit('click:remove', $props.id)"
+          />
         </FSRow>
-      </slot>
-    </FSTile>
-  </template>
+      </FSRow>
+    </slot>
+  </FSTile>
 </template>
 
 
@@ -83,7 +67,6 @@ import FSRow from "../FSRow.vue";
 import FSIcon from "../FSIcon.vue";
 import FSSpan from "../FSSpan.vue";
 import FSImage from "../FSImage.vue";
-import FSLoader from "../FSLoader.vue";
 import FSTile from "../tiles/FSTile.vue";
 import FSButtonEditIcon from "../buttons/FSButtonEditIcon.vue";
 import FSButtonDragIcon from "../buttons/FSButtonDragIcon.vue";
@@ -97,20 +80,15 @@ export default defineComponent({
     FSIcon,
     FSSpan,
     FSImage,
-    FSLoader,
     FSButtonEditIcon,
     FSButtonDragIcon,
     FSButtonRemoveIcon,
   },
   props: {
-    filteredItems: {
-      type: Array as PropType<{id: string, label?: string, icon?: string, imageId?: string | null, [index: string]: any}[]>,
-      required: true
-    },
     tileProps: {
-      type: Function as PropType<(item: any) => Record<string, any>>,
+      type: Object as PropType<Record<string, any>>,
       required: false,
-      default: () => () => ({})
+      default: () => ({})
     },
     showEdit: {
       type: Boolean,
@@ -127,35 +105,26 @@ export default defineComponent({
       required: false,
       default: false
     },
-    search: {
-      type: String,
-      required: false,
-      default: ""
-    },
-    noFilter: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    itemLabel: {
-      type: String,
-      required: false,
-      default: "label"
-    },
-    loaderWidth:{
+    width:{
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null | undefined>,
       required: false,
       default: undefined
     },
-    tileWidth:{
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null | undefined>,
-      required: false,
-      default: undefined
+    id: {
+      type: String,
+      required: true
     },
-    loading: {
-      type: Boolean,
-      required: false,
-      default: false
+    label: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      required: false
+    },
+    imageId: {
+      type: String as PropType<string | null>,
+      required: false
     }
   },
   emits: ["click:edit", "click:remove"]

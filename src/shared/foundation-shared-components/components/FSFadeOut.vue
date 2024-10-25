@@ -85,8 +85,8 @@ export default defineComponent({
     const elementId = `id${uuidv4()}`;
 
     const style = computed((): StyleValue => ({
-      "--fs-fade-out-height"            : props.height ? sizeToVar(props.height) : undefined,
-      "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : undefined,
+      "--fs-fade-out-height"            : props.height ? sizeToVar(props.height) : "initial",
+      "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : "initial",
       "--fs-fade-out-width"             : sizeToVar(props.width),
       "--fs-fade-out-padding"           : sizeToVar(props.padding),
       "--fs-fade-out-width-offset"      : props.scrollOutside ? '12px' : '0px',
