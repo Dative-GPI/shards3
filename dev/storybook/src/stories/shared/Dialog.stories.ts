@@ -1,13 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSDateRangeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue";
+import FSTranslateField from "@dative-gpi/foundation-shared-components/components/fields/FSTranslateField.vue";
 import FSDialogMultiForm from "@dative-gpi/foundation-shared-components/components/FSDialogMultiForm.vue";
-import FSDateField from "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue";
 import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
 import FSDialogSubmit from "@dative-gpi/foundation-shared-components/components/FSDialogSubmit.vue";
 import FSDialogRemove from "@dative-gpi/foundation-shared-components/components/FSDialogRemove.vue";
 import FSDialogForm from "@dative-gpi/foundation-shared-components/components/FSDialogForm.vue";
-import FSToggleSet from "@dative-gpi/foundation-shared-components/components/FSToggleSet.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSDialog from "@dative-gpi/foundation-shared-components/components/FSDialog.vue";
 import FSCard from "@dative-gpi/foundation-shared-components/components/FSCard.vue";
@@ -76,7 +74,7 @@ export const Form: Story = {
     label4: ""
   },
   render: (args, { argTypes }) => ({
-    components: { FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    components: { FSTranslateField, FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return {
@@ -158,7 +156,7 @@ export const Form: Story = {
         v-model="args.value4"
       >
         <template #body>
-          <FSTextField
+          <FSTranslateField
             label="Label 4"
             :required="true"
             :rules="[v => !!v || 'Label is required']"

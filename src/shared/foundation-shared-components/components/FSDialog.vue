@@ -4,6 +4,7 @@
     :class="classes"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
+    @click="$emit('update:modelValue', false)"
     v-bind="$attrs"
   >
     <slot>
@@ -13,6 +14,7 @@
         :width="$props.width"
         :modelValue="$props.modelValue"
         @update:modelValue="$emit('update:modelValue', $event)"
+        @click.stop="$emit('click', $event)"
       >
         <template
           v-for="(_, name) in $slots"
@@ -67,7 +69,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["click", "update:modelValue"],
   setup() {
     const { isExtraSmall } = useBreakpoints();
 
