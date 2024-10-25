@@ -123,7 +123,7 @@ export default defineComponent({
       required: false
     },
     imageId: {
-      type: String,
+      type: String as PropType<string | null>,
       required: false
     }
   },
