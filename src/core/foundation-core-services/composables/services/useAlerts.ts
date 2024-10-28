@@ -15,6 +15,7 @@ const AlertServiceFactory = new ServiceFactory<AlertDetailsDTO, AlertDetails>("a
     notifyRemove: (alertId: string) => notifyService.notify("delete", alertId),
     ...ServiceFactory.addCustom("acknowledge", (axios, alertId: string) => axios.patch(ALERT_URL(alertId)), (dto: AlertDetailsDTO) => {
       const result = new AlertDetails(dto);
+      notifyService.notify("update", result);
       notifyService.notify("reset");
       return result;
     })
