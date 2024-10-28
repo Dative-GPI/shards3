@@ -30,6 +30,7 @@ export class ChartDetails extends ChartInfos {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   showAllowedStep: boolean | null;
+  showPlotPerOnGraph: boolean | null;
   chartVariables: ChartVariable[];
   chartSeries: ChartSerie[];
   chartOperands: ChartOperand[];
@@ -51,6 +52,7 @@ export class ChartDetails extends ChartInfos {
     this.aggregates = params.aggregates;
     this.dynamicVariables = params.dynamicVariables;
     this.showAllowedStep = params.showAllowedStep;
+    this.showPlotPerOnGraph = params.showPlotPerOnGraph;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
@@ -71,6 +73,7 @@ export interface ChartDetailsDTO extends ChartInfosDTO {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   showAllowedStep: boolean | null;
+  showPlotPerOnGraph: boolean | null;
   chartVariables: ChartVariableDTO[];
   chartPresets: ChartPresetDTO[];
   chartSeries: ChartSerieDTO[];
