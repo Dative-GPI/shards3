@@ -12,7 +12,6 @@ export class ChartSerie {
   chartPlotHiddenCode: string;
   serieType: number;
   plotPer?: number;
-  showPlotPerOnGraph?: boolean;
   shift?: ChartTimeStep;
   step?: ChartTimeStep;
   stacked?: boolean;
@@ -55,7 +54,6 @@ export class ChartSerie {
     this.chartPlotHiddenCode = params.chartPlotHiddenCode;
     this.serieType = params.serieType;
     this.plotPer = params.plotPer;
-    this.showPlotPerOnGraph = params.showPlotPerOnGraph;
     this.shift = params.shift ? new ChartTimeStep(params.shift) : undefined;
     this.step = params.step ? new ChartTimeStep(params.step) : undefined;
     this.stacked = params.stacked;
@@ -100,7 +98,6 @@ export interface ChartSerieDTO {
   chartPlotHiddenCode: string;
   serieType: number;
   plotPer?: number;
-  showPlotPerOnGraph?: boolean;
   shift?: ChartTimeStepDTO;
   step?: ChartTimeStepDTO;
   stacked?: boolean;
@@ -142,7 +139,6 @@ export interface CreateChartSerieDTO {
   chartPlotHiddenCode: string;
   serieType: number;
   plotPer?: number;
-  showPlotPerOnGraph?: boolean;
   shift?: CreateChartTimeStepDTO;
   step?: CreateChartTimeStepDTO;
   stacked?: boolean;

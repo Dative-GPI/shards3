@@ -32,6 +32,7 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   showAllowedStep: boolean | null;
+  showPlotPerOnGraph: boolean | null;
   chartVariables: ChartVariable[];
   chartPresets: ChartPreset[];
   chartPresetFilters: ChartPresetFilter[];
@@ -56,6 +57,7 @@ export class ChartOrganisationDetails extends ChartOrganisationInfos {
     this.aggregates = params.aggregates;
     this.dynamicVariables = params.dynamicVariables;
     this.showAllowedStep = params.showAllowedStep;
+    this.showPlotPerOnGraph = params.showPlotPerOnGraph;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
@@ -79,6 +81,7 @@ export interface ChartOrganisationDetailsDTO extends ChartOrganisationInfosDTO {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   showAllowedStep: boolean | null;
+  showPlotPerOnGraph: boolean | null;
   chartVariables: ChartVariableDTO[];
   chartPresets: ChartPresetDTO[];
   chartPresetFilters: ChartPresetFilterDTO[];
@@ -121,6 +124,7 @@ export interface UpdateChartOrganisationDTO {
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
   showAllowedStep: boolean | null;
+  showPlotPerOnGraph: boolean | null;
   chartVariables: CreateChartVariableDTO[];
   chartPresets: CreateChartPresetDTO[];
   chartPresetFilters: CreateChartPresetFilterDTO[];
