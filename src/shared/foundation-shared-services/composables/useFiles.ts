@@ -6,7 +6,12 @@ export const useFiles = () => {
   const { authToken } = useAppAuthToken();
 
   const downloadFile = (id: string): void => {
-    window.open(FILE_URL(id, authToken.value), "_blank");
+    if (window.top != window.self) {
+      window.open(document.referrer.slice(0, -1) + FILE_URL(id, authToken.value), "_blank");
+    }
+    else {
+      window.open(FILE_URL(id, authToken.value), "_blank");
+    }
   };
 
   const readFile = (file: File): Promise<string | ArrayBuffer | null> => {

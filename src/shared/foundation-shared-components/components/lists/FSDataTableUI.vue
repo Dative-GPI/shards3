@@ -1108,7 +1108,12 @@ export default defineComponent({
           row: (event: PointerEvent, row: any) => {
             if (props.itemTo && router) {
               if (event.metaKey || event.ctrlKey || event.button === 1) {
-                window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
+                if (window.top != window.self) {
+                  window.open(document.referrer.slice(0, -1) + router.resolve(props.itemTo(row.item)).href, "_blank");
+                }
+                else {
+                  window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
+                }
               }
               else {
                 router.push(props.itemTo(row.item));

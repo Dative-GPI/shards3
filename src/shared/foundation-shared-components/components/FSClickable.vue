@@ -40,7 +40,7 @@
       />
     </template>
   </a>
-  <router-link
+  <FSRouterLink
     v-else-if="$props.to"
     :style="style"
     :to="$props.to"
@@ -80,7 +80,7 @@
         :color="loadColor"
       />
     </template>
-  </router-link>
+  </FSRouterLink>
   <button
     v-else
     :type="$props.type"
@@ -134,11 +134,13 @@ import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-compone
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
+import FSRouterLink from "./FSRouterLink.vue";
 import FSCard from "./FSCard.vue";
 
 export default defineComponent({
   name: "FSClickable",
   components: {
+    FSRouterLink,
     FSCard
   },
   props: {
@@ -163,7 +165,7 @@ export default defineComponent({
       default: null
     },
     to: {
-      type: [String, Object] as PropType<string | RouteLocation | null>,
+      type: Object as PropType<RouteLocation | null>,
       required: false,
       default: null
     },

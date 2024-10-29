@@ -129,7 +129,7 @@
     <template
       v-else-if="$props.to"
     >
-      <router-link
+      <FSRouterLink
         :to="$props.to"
       >
         <FSIcon
@@ -143,7 +143,7 @@
         >
           {{ $props.label }}
         </FSSpan>
-      </router-link>
+      </FSRouterLink>
     </template>
     <template
       v-else
@@ -170,6 +170,7 @@ import { type RouteLocation } from "vue-router";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
+import FSRouterLink from "./FSRouterLink.vue";
 import FSClickable from "./FSClickable.vue";
 import FSSpan from "./FSSpan.vue";
 import FSIcon from "./FSIcon.vue";
@@ -185,6 +186,7 @@ const DEFAULT_PADDING = PADDING_ICON_LABEL;
 export default defineComponent({
   name: "FSButton",
   components: {
+    FSRouterLink,
     FSClickable,
     FSSpan,
     FSIcon,
@@ -198,7 +200,7 @@ export default defineComponent({
       default: DEFAULT_PADDING
     },
     to: {
-      type: [String, Object] as PropType<string | RouteLocation | null>,
+      type: Object as PropType<RouteLocation | null>,
       required: false,
       default: null
     },
