@@ -23,6 +23,7 @@ export * from "./groups";
 export * from "./locations";
 export * from "./manufacturers";
 export * from "./models";
+export * from "./modelStatuses";
 export * from "./organisations";
 export * from "./organisationTypes";
 export * from "./permissionCategories";
