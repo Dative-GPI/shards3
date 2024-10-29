@@ -1,8 +1,8 @@
 <template>
   <router-link
     :to="$props.to"
-    @auxclick="onAuxClick"
-    @click="onClick"
+    @auxclick="handleOpenTabEvent($event, $props.to)"
+    @click="handleOpenTabEvent($event, $props.to)"
     v-bind="$attrs"
   >
     <template
@@ -19,7 +19,9 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
-import { type RouteLocation, useRouter } from "vue-router";
+import { type RouteLocation } from "vue-router";
+
+import { useOpenTab } from "@dative-gpi/foundation-shared-services/composables";
 
 export default defineComponent({
   name: "FSRouterLink",
@@ -29,28 +31,11 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
-    const router = useRouter();
-
-    const onAuxClick = (event: MouseEvent) => {
-      if (window.top != window.self) {
-        event.preventDefault();
-        window.open(document.referrer.slice(0, -1) + router.resolve(props.to).href, "_blank");
-      }
-    };
-
-    const onClick = (event: MouseEvent) => {
-      if (window.top != window.self) {
-        if (event.metaKey || event.ctrlKey || event.button === 1) {
-          event.preventDefault();
-          window.open(document.referrer.slice(0, -1) + router.resolve(props.to).href, "_blank");
-        }
-      }
-    };
+  setup() {
+    const { handleOpenTabEvent } = useOpenTab();
 
     return {
-      onAuxClick,
-      onClick
+      handleOpenTabEvent
     };
   }
 });

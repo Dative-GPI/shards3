@@ -1,17 +1,13 @@
 import { FILE_URL } from "../config/urls";
 
-import { useAppAuthToken } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppAuthToken, useOpenTab } from "@dative-gpi/foundation-shared-services/composables";
 
 export const useFiles = () => {
   const { authToken } = useAppAuthToken();
+  const { openTab } = useOpenTab();
 
   const downloadFile = (id: string): void => {
-    if (window.top != window.self) {
-      window.open(document.referrer.slice(0, -1) + FILE_URL(id, authToken.value), "_blank");
-    }
-    else {
-      window.open(FILE_URL(id, authToken.value), "_blank");
-    }
+    openTab(FILE_URL(id, authToken.value));
   };
 
   const readFile = (file: File): Promise<string | ArrayBuffer | null> => {
