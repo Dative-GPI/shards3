@@ -1,0 +1,53 @@
+import{F as s}from"./FSTile-DX4IdlJV.js";import{F as i}from"./FSLocationTileUI-BffjtzWl.js";import"./vue.esm-bundler-l-siv0w9.js";import"./FSClickable-Up0p3Vk8.js";import"./FSCard-DL4SLpmS.js";import"./FSCol-BvqytbKT.js";import"./css-CP2C2-Fe.js";import"./useBreakpoints-C5IzU8MC.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./FSRow-CbEgVN08.js";import"./useColors-Bs2u1_6J.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-DfSX31J9.js";import"./theme-C2MnUTNI.js";import"./VProgressCircular-RI9KLr8_.js";import"./color-De-77ojK.js";import"./resizeObserver-CjMDZ25n.js";import"./VIcon-D6ql3n-m.js";import"./FSCheckbox-BlsFOPfN.js";import"./FSIcon-uIr9VdFq.js";import"./FSSpan-Di50moR2.js";import"./useSlots-C_N_WAus.js";import"./useRules-QHk8iD4m.js";import"./VSelectionControl-Br2dHavx.js";import"./density-Dt_pQxP_.js";import"./proxiedModel-KpugNjnZ.js";import"./index-Cr304eD2.js";import"./VLabel-Dswg7Ov5.js";import"./VInput-BkciVi2d.js";import"./locale-CTwwbPAi.js";import"./index-B089V-om.js";import"./transition-AZsQzdUZ.js";import"./form-CLJq5y5w.js";import"./FSIconCard-Ch3OITf8.js";import"./FSColor-DXUGLDNs.js";const H={title:"Foundation/Shared/Tiles/Location",component:i,subcomponents:{FSTile:s},tags:["autodocs"],argTypes:{color:{control:"color"},height:{control:"number"},width:{control:"number"}}},e={render:n=>({components:{FSLocationTileUI:i},setup(){return{args:n}},template:`
+      <FSLocationTileUI
+        :label="args.label"
+        :code="args.code"
+        :address="args.address"
+        :color="args.color"
+        :icon="args.icon"
+        :deviceCount="args.deviceCount"
+        :width="args.width"
+        :height="args.height"
+        :singleSelect="args.singleSelect"
+        :selected="args.selected"
+        :modelValue="args.modelValue"
+      />
+    `}),args:{label:"Location test 2",code:"location-test-code-long-format-with-description",color:"#9F2424",icon:"mdi-cog",deviceCount:1,address:"50 rue des Vignes, 75000 Paris",width:418,height:140,singleSelect:!1,modelValue:!1}};var o,t,r;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  render: args => ({
+    components: {
+      FSLocationTileUI
+    },
+    setup() {
+      return {
+        args
+      };
+    },
+    template: \`
+      <FSLocationTileUI
+        :label="args.label"
+        :code="args.code"
+        :address="args.address"
+        :color="args.color"
+        :icon="args.icon"
+        :deviceCount="args.deviceCount"
+        :width="args.width"
+        :height="args.height"
+        :singleSelect="args.singleSelect"
+        :selected="args.selected"
+        :modelValue="args.modelValue"
+      />
+    \`
+  }),
+  args: {
+    label: 'Location test 2',
+    code: 'location-test-code-long-format-with-description',
+    color: '#9F2424',
+    icon: 'mdi-cog',
+    deviceCount: 1,
+    address: '50 rue des Vignes, 75000 Paris',
+    width: 418,
+    height: 140,
+    singleSelect: false,
+    modelValue: false
+  }
+}`,...(r=(t=e.parameters)==null?void 0:t.docs)==null?void 0:r.source}}};const J=["Default"];export{e as Default,J as __namedExportsOrder,H as default};
