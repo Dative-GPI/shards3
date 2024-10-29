@@ -154,8 +154,8 @@ const modelStatuses = [{
 const deviceStatuses = [{
   modelStatusId: "1",
   statusGroups: [{
-    label: "State",
-    value: "On",
+    label: "On",
+    value: "true",
     icon: "mdi-power",
     color: "#009933",
     sourceTimestamp: 1623345600000
@@ -163,8 +163,8 @@ const deviceStatuses = [{
 }, {
   modelStatusId: "2",
   statusGroups: [{
-    label: "Folder",
-    value: "Check",
+    label: "Check",
+    value: "true",
     icon: "mdi-folder-check-outline",
     color: "#003399",
     sourceTimestamp: 1623345600000
@@ -172,8 +172,8 @@ const deviceStatuses = [{
 }, {
   modelStatusId: "3",
   statusGroups: [{
-    label: "Luminosity",
-    value: "Bright",
+    label: "Bright",
+    value: "200",
     icon: "mdi-lightbulb-outline",
     color: "#996699",
     sourceTimestamp: 1623345600000
@@ -181,8 +181,8 @@ const deviceStatuses = [{
 }, {
   modelStatusId: "4",
   statusGroups: [{
-    label: "Lock",
-    value: "Locked",
+    label: "Locked",
+    value: "true",
     icon: "mdi-lock-outline",
     color: "#999933",
     sourceTimestamp: 1623345600000
@@ -190,8 +190,8 @@ const deviceStatuses = [{
 }, {
   modelStatusId: "5",
   statusGroups: [{
-    label: "Print",
-    value: "Printing",
+    label: "Printing",
+    value: "1",
     icon: "mdi-printer-outline",
     color: "#338888",
     sourceTimestamp: 1623345600000
@@ -199,7 +199,7 @@ const deviceStatuses = [{
 }, {
   modelStatusId: "6",
   statusGroups: [{
-    label: "Temperatures",
+    label: "",
     value: "200",
     groupByValue: "1",
     unit: "°C",
@@ -207,7 +207,7 @@ const deviceStatuses = [{
     color: "#FF0000",
     sourceTimestamp: 1623345600000
   }, {
-    label: "Temperatures",
+    label: "",
     value: "50",
     groupByValue: "2",
     unit: "°C",
@@ -218,7 +218,7 @@ const deviceStatuses = [{
 }, {
   modelStatusId: "7",
   statusGroups: [{
-    label: "Energies",
+    label: "",
     value: "100.005985757579",
     groupByValue: "1",
     unit: "kWh",
@@ -226,7 +226,7 @@ const deviceStatuses = [{
     color: "#FF0000",
     sourceTimestamp: 1623345600000
   }, {
-    label: "Energies",
+    label: "",
     value: "50.4841561816168",
     groupByValue: "2",
     unit: "kWh",
@@ -237,7 +237,7 @@ const deviceStatuses = [{
 }, {
   modelStatusId: "8",
   statusGroups: [{
-    label: "Recipes",
+    label: "",
     value: "Bread",
     icon: "mdi-chef-hat",
     color: "#0000FF",

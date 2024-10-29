@@ -82,9 +82,9 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             enqueuedTimestamp: ONLINE_ENQUEUED.toISOString(),
             processedTimestamp: ONLINE_PROCESSED.toISOString(),
             groupByValue: null,
-            value: "On",
+            value: "true",
             unit: null,
-            label: "Status",
+            label: "On",
             icon: "mdi-power-standby",
             color: "#33FF33"
         }]
@@ -97,7 +97,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "1",
             value: "240",
             unit: "°C",
-            label: "Temperature",
+            label: "",
             icon: "mdi-thermometer",
             color: "#FF3333"
         }, {
@@ -107,7 +107,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "2",
             value: "240",
             unit: "°C",
-            label: "Temperature",
+            label: "",
             icon: "mdi-thermometer",
             color: "#FF3333"
         }, {
@@ -117,7 +117,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "3",
             value: "120",
             unit: "°C",
-            label: "Temperature",
+            label: "",
             icon: "mdi-thermometer",
             color: "#999933"
         }, {
@@ -127,7 +127,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "4",
             value: "120",
             unit: "°C",
-            label: "Temperature",
+            label: "",
             icon: "mdi-thermometer",
             color: "#999933"
         }]
@@ -140,7 +140,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "1",
             value: "2400",
             unit: "W",
-            label: "Energy",
+            label: "",
             icon: "mdi-power-plug",
             color: "#33FF33"
         }, {
@@ -150,7 +150,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "2",
             value: "2400",
             unit: "W",
-            label: "Energy",
+            label: "",
             icon: "mdi-power-plug",
             color: "#33FF33"
         }, {
@@ -160,7 +160,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "3",
             value: "800",
             unit: "W",
-            label: "Energy",
+            label: "",
             icon: "mdi-power-plug",
             color: "#999933"
         }, {
@@ -170,7 +170,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: "4",
             value: "800",
             unit: "W",
-            label: "Energy",
+            label: "",
             icon: "mdi-power-plug",
             color: "#999933"
         }]
@@ -186,7 +186,7 @@ const DEVICESTATUS: DeviceStatusDetailsDTO[] = [{
             groupByValue: null,
             value: "Stand-by",
             unit: null,
-            label: "Status",
+            label: "",
             icon: "mdi-power-standby",
             color: "#999933"
         }]
