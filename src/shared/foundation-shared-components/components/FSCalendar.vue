@@ -145,11 +145,22 @@ export default defineComponent({
 
     const years = computed((): any[] => {
       const years = [];
-      for (let i = innerYear.value - 30; i < innerYear.value + 30; i++) {
-        years.push({
-          label: i.toString(),
-          id: i
-        });
+      switch (props.limit) {
+        case "past":
+          for (let i = 1900; i < new Date().getFullYear(); i++) {
+            years.push({ label: i.toString(), id: i });
+          }
+          break;
+        case "future":
+          for (let i = new Date().getFullYear(); i < 2100; i++) {
+            years.push({ label: i.toString(), id: i });
+          }
+          break;
+        default:
+          for (let i = 1900; i < 2100; i++) {
+            years.push({ label: i.toString(), id: i });
+          }
+          break;
       }
       return years;
     });
