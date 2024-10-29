@@ -166,7 +166,7 @@ export default defineComponent({
         methodFilter: (value: string, items: ChartModelLabel[]) => (items.length == 0 && value == '') || (items.length  > 0 && items.some(ml => ml.id == value))
       },
       chartType: {
-        fixedFilters: getEnumEntries(ChartType).filter(f => f.value != ChartType.None).map(e => ({
+        fixedFilters: getEnumEntries(ChartType).map(e => ({
           value: e.value,
           text: chartTypeLabel(e.value)
         })),
