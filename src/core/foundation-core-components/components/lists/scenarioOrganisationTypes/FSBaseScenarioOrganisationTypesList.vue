@@ -127,7 +127,7 @@ export default defineComponent({
 
     const headersOptions = computed(() => ({
       criticity: {
-        fixedFilters: getEnumEntries(Criticity).filter(f => f.value != Criticity.None).map(e => ({
+        fixedFilters: getEnumEntries(Criticity).map(e => ({
           value: e.value,
           text: AlertTools.criticityLabel(e.value)
         })),
