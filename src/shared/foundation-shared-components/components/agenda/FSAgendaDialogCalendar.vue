@@ -5,10 +5,11 @@
   >
     <FSCard
       :elevation="true"
+      @click.stop
     >
       <FSCol
-        gap="12px"
         padding="16px"
+        gap="12px"
       >
         <FSCalendar
           v-model="calendarValue"
