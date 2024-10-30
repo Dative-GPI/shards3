@@ -1,13 +1,6 @@
 .fs-dialog-mobile > .v-overlay__content {
   flex-direction: column-reverse !important;
-}
 
-.fs-dialog > .v-overlay__content {
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-.v-dialog > .v-overlay__content {
   max-height: 100vh !important;
   max-width: 100vw !important;
   height: 100% !important;
