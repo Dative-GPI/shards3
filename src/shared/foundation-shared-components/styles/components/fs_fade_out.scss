@@ -4,7 +4,6 @@
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-x: var(--fs-fade-out-x-overflow);
     max-height: var(--fs-fade-out-max-height);
-    min-height: var(--fs-fade-out-height);
     height: var(--fs-fade-out-height);
     padding: var(--fs-fade-out-padding);
 
@@ -12,11 +11,6 @@
     padding-right: calc(var(--fs-fade-out-padding) + var(--fs-fade-out-padding-offset));
     width: calc(var(--fs-fade-out-width) + var(--fs-fade-out-width-offset));
     margin-right: var(--fs-fade-out-margin-right);
-
-
-    flex-direction: column;
-    position: relative;
-    display: flex;
     
     mask:
         linear-gradient(to top, transparent 0, var(--fs-fade-out-mask-color)) 0 (0 / calc(100% - 8px)) var(--fs-fade-out-top-mask-height), 

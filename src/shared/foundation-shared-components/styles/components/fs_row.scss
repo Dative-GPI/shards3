@@ -86,7 +86,8 @@
 
 .fs-col > .fs-row-height {
     &-fill {
-        flex: 1 0 0;
+        flex: 1 0 fit-content;
+        min-height: 0;
     }
 
     &-fixed {
