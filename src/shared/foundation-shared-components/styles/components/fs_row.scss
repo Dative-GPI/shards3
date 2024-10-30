@@ -55,6 +55,7 @@
 :not(.fs-col) > .fs-row-width {
     &-fill {
         flex: 1 0 0;
+        min-width: 0;
     }
 
     &-fixed {
