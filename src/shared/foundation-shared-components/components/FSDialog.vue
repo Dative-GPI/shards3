@@ -70,7 +70,7 @@ export default defineComponent({
     }
   },
   emits: ["click", "update:modelValue"],
-  setup(_, { emit }) {
+  setup() {
     const { isExtraSmall } = useBreakpoints();
 
     const classes = computed((): string[] => {
