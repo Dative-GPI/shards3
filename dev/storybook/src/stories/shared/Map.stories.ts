@@ -162,7 +162,6 @@ export const MultiLocationMap: Story = {
   args: {
     locations: [location2, location3, location4, location5],
     selectedLocationId: null,
-    overlayMode: 'half',
     currentLayer: 'imagery',
   },
   render: (args) => ({
@@ -172,7 +171,7 @@ export const MultiLocationMap: Story = {
     },
     template: `
       <FSMap
-        v-model:overlayMode="args.overlayMode"
+        :overlayMode="args.selectedLocationId ? 'half' : 'collapse'"
         v-model:currentLayer="args.currentLayer"
         v-model:selectedLocationId="args.selectedLocationId"
         :locations="args.locations"

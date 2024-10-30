@@ -327,7 +327,24 @@ export default defineComponent({
       if(!map.value) {
         return;
       }
-      map.value.flyTo(calculateTargetPosition(latLng(lat, lng), zoom), zoom, options);
+
+      if(isExtraSmall.value) {
+        // We wait for bottom offset to be calculated and stable to focus on the right position
+        let tries = 0;
+        let oldBottomOffset = bottomOffset.value;
+        const interval = setInterval(() => {
+          if(oldBottomOffset === bottomOffset.value || tries >= 30) {
+            clearInterval(interval);
+            map.value!.flyTo(calculateTargetPosition(latLng(lat, lng), zoom), zoom, options);
+          }
+          oldBottomOffset = bottomOffset.value;
+          tries++;
+        }, 20);
+        
+      } else {
+        map.value.flyTo(calculateTargetPosition(latLng(lat, lng), zoom), zoom, options);
+      }
+      
     }
 
     const setView = (lat: number, lng: number, zoom: number) => {
