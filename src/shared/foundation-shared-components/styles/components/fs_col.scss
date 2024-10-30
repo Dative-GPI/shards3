@@ -75,8 +75,7 @@
 
 .fs-col > .fs-col-height {
     &-fill {
-        flex: 1 0 fit-content;
-        min-height: 0;
+        flex: 1 1 fit-content;
     }
 
     &-fixed {

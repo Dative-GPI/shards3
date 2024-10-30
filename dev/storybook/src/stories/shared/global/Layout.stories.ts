@@ -2,6 +2,7 @@ import type { StoryObj } from '@storybook/vue3';
 
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
 
 const meta = {
   title: 'Foundation/Shared/Global/Layout',
@@ -303,7 +304,7 @@ export const Compositions: Story = {
   args: {
   },
   render: (args, { argTypes }) => ({
-  components: { FSRow, FSCol },
+  components: { FSFadeOut, FSRow, FSCol },
   props: Object.keys(argTypes),
   setup() {
     return { ...args };
@@ -340,12 +341,8 @@ export const Compositions: Story = {
   &lt;FSRow width="hug"  height="fill" /&gt;
 &lt;/FSCol&gt;</pre>
       <div style="display: flex; width: 200px; height: 200px; border: 2px dotted black; align-items: flex-start;">
-        <FSCol width="fill" height="hug" style="background-color: plum; padding: 4px;">
-          <FSRow width="hug" height="hug" style="background-color: palegreen; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-          </FSRow>
-          <FSRow width="fill" height="hug" style="background-color: palegreen; padding: 4px;">
+        <FSCol width="fill" height="fill" style="background-color: plum; padding: 4px;">
+          <FSRow width="hug" height="fill" style="background-color: palegreen; padding: 4px;">
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
           </FSRow>
@@ -353,6 +350,20 @@ export const Compositions: Story = {
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
           </FSRow>
+          <FSFadeOut :scrollOutside="false">
+            <FSRow width="hug" height="hug" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+            <FSRow width="fill" height="hug" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+            <FSRow width="hug" height="fill" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+          </FSFadeOut>
         </FSCol>
       </div>
     </div>
