@@ -1,4 +1,4 @@
-import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";import"./vue.esm-bundler-l-siv0w9.js";import"./css-CP2C2-Fe.js";import"./useBreakpoints-C5IzU8MC.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const k={title:"Foundation/Shared/Global/Layout",tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},l={render:()=>({components:{FSRow:s},template:`
+import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";import{_ as f}from"./FSFadeOut-K3Ty9hFX.js";import"./vue.esm-bundler-l-siv0w9.js";import"./css-CP2C2-Fe.js";import"./useBreakpoints-C5IzU8MC.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./uuid-DTaye2KM.js";import"./useColors-Bs2u1_6J.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-DfSX31J9.js";import"./theme-C2MnUTNI.js";const _={title:"Foundation/Shared/Global/Layout",tags:["autodocs"],argTypes:{onClick:{action:"clicked"}}},l={render:()=>({components:{FSRow:s},template:`
     <div style="display: flex; gap: 80px; margin-bottom: 80px;">
       <div style="display: flex; flex-direction: column; align-items: center;">
         <pre>&lt;FSRow width="hug" height="hug" /&gt;</pre>
@@ -263,7 +263,7 @@ import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";
         </div>
       </div>
     </div>
-    `})},d={args:{},render:(e,{argTypes:t})=>({components:{FSRow:s,FSCol:y},props:Object.keys(t),setup(){return{...e}},template:`
+    `})},d={args:{},render:(e,{argTypes:t})=>({components:{FSFadeOut:f,FSRow:s,FSCol:y},props:Object.keys(t),setup(){return{...e}},template:`
   <div style="display: flex; gap: 80px; margin-bottom: 80px;">
     <div style="display: flex; flex-direction: column; align-items: center;">
       <pre>&lt;FSCol width="fill" height="fill"&gt;
@@ -295,12 +295,8 @@ import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";
   &lt;FSRow width="hug"  height="fill" /&gt;
 &lt;/FSCol&gt;</pre>
       <div style="display: flex; width: 200px; height: 200px; border: 2px dotted black; align-items: flex-start;">
-        <FSCol width="fill" height="hug" style="background-color: plum; padding: 4px;">
-          <FSRow width="hug" height="hug" style="background-color: palegreen; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-          </FSRow>
-          <FSRow width="fill" height="hug" style="background-color: palegreen; padding: 4px;">
+        <FSCol width="fill" height="fill" style="background-color: plum; padding: 4px;">
+          <FSRow width="hug" height="fill" style="background-color: palegreen; padding: 4px;">
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
           </FSRow>
@@ -308,6 +304,20 @@ import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
           </FSRow>
+          <FSFadeOut :scrollOutside="false">
+            <FSRow width="hug" height="hug" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+            <FSRow width="fill" height="hug" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+            <FSRow width="hug" height="fill" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+          </FSFadeOut>
         </FSCol>
       </div>
     </div>
@@ -700,6 +710,7 @@ import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";
     argTypes
   }) => ({
     components: {
+      FSFadeOut,
       FSRow,
       FSCol
     },
@@ -741,12 +752,8 @@ import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";
   &lt;FSRow width="hug"  height="fill" /&gt;
 &lt;/FSCol&gt;</pre>
       <div style="display: flex; width: 200px; height: 200px; border: 2px dotted black; align-items: flex-start;">
-        <FSCol width="fill" height="hug" style="background-color: plum; padding: 4px;">
-          <FSRow width="hug" height="hug" style="background-color: palegreen; padding: 4px;">
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
-            <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
-          </FSRow>
-          <FSRow width="fill" height="hug" style="background-color: palegreen; padding: 4px;">
+        <FSCol width="fill" height="fill" style="background-color: plum; padding: 4px;">
+          <FSRow width="hug" height="fill" style="background-color: palegreen; padding: 4px;">
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
           </FSRow>
@@ -754,6 +761,20 @@ import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
             <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
           </FSRow>
+          <FSFadeOut :scrollOutside="false">
+            <FSRow width="hug" height="hug" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+            <FSRow width="fill" height="hug" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+            <FSRow width="hug" height="fill" style="background-color: palegreen; padding: 4px;">
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 1 </div>
+              <div style="display: flex; width: 54px; height: 32px; padding: 4px; background-color: blanchedalmond;"> item 2 </div>
+            </FSRow>
+          </FSFadeOut>
         </FSCol>
       </div>
     </div>
@@ -854,4 +875,4 @@ import{_ as s}from"./FSRow-CbEgVN08.js";import{F as y}from"./FSCol-BvqytbKT.js";
   </div>
   \`
   })
-}`,...(c=(r=d.parameters)==null?void 0:r.docs)==null?void 0:c.source}}};const S=["Rows","Cols","Compositions"];export{i as Cols,d as Compositions,l as Rows,S as __namedExportsOrder,k as default};
+}`,...(c=(r=d.parameters)==null?void 0:r.docs)==null?void 0:c.source}}};const T=["Rows","Cols","Compositions"];export{i as Cols,d as Compositions,l as Rows,T as __namedExportsOrder,_ as default};
