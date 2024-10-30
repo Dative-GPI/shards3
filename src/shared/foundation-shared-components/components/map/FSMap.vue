@@ -355,23 +355,23 @@ export default defineComponent({
     }
 
     const fitBounds = (bounds: LatLngBounds, options?: FitBoundsOptions) => {
-      if (!map.value) {
-        return;
-      }
+      if (!map.value) {return;}
+      const paddingTopLeft: [number, number] = [
+        leftOffset.value,
+        0
+      ];
 
-      let paddingRatio = 1
-      if(leftOffset.value) {
-        paddingRatio = leftOffset.value / map.value.getSize().x
-      }
-      else if(bottomOffset.value) {
-        paddingRatio = bottomOffset.value / map.value.getSize().y
-      }
-      if(paddingRatio > 0.5) {
-        paddingRatio = 0.5;
-      }
-      const paddedBounds = bounds.pad(paddingRatio);
+      const paddingBottomRight: [number, number] = [
+        0,
+        bottomOffset.value
+      ];
+      const paddingOptions = {
+        paddingTopLeft,
+        paddingBottomRight,
+        ...options,
+      };
 
-      map.value.fitBounds(paddedBounds, options);
+      map.value.fitBounds(bounds, paddingOptions);
     };
 
     onMounted(() => {

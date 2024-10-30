@@ -10,7 +10,7 @@
     v-show="isExtraSmall"
     ref="mobileOverlayWrapper"
     class="fs-map-overlay-mobile"
-    :style="{ height: $props.mode === 'expand' ? '90%' : ($props.mode === 'half' ? '50%' : '20px') }"
+    :style="{ height: $props.mode === 'expand' ? '90%' : ($props.mode === 'half' ? '60%' : '20px') }"
   >
     <FSCard
       width="100%"
