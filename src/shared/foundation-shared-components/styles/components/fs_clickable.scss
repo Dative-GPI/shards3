@@ -11,18 +11,7 @@
     &.fs-clickable-disabled {
         cursor: default;
     }
-
-    &:not(.fs-clickable-disabled):hover:not(:has( .fs-stopclick:hover)) {
-        background-color: var(--fs-clickable-hover-background-color) !important;
-        border-color: var(--fs-clickable-hover-border-color) !important;
-        color: var(--fs-clickable-hover-color) !important;
-
-        & .fs-card-clickable {
-            transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-            background-color: var(--fs-clickable-hover-background-color);
-        }
-    }
-
+    
     &:not(.fs-clickable-disabled):active:not(:has( .fs-stopclick:hover)) {
         background-color: var(--fs-clickable-active-background-color) !important;
         border-color: var(--fs-clickable-active-border-color) !important;
@@ -31,6 +20,19 @@
         & .fs-card-clickable {
             transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             background-color: var(--fs-clickable-active-background-color);
+        }
+    }
+
+    @include clickscreen {
+        &:not(.fs-clickable-disabled):hover:not(:has( .fs-stopclick:hover)) {
+            background-color: var(--fs-clickable-hover-background-color) !important;
+            border-color: var(--fs-clickable-hover-border-color) !important;
+            color: var(--fs-clickable-hover-color) !important;
+    
+            & .fs-card-clickable {
+                transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+                background-color: var(--fs-clickable-hover-background-color);
+            }
         }
     }
 }

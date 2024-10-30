@@ -8,16 +8,18 @@
         padding-right: 32px;
     }
 
-    &:hover::after {
-        content: "";
-        background-color: black;
-        pointer-events: none;
-        position: absolute;
-        opacity: 0.04;
-        height: 100%;
-        width: 100%;
-        left: 0;
-        top: 0;
+    @include clickscreen {
+        &:hover::after {
+            content: "";
+            background-color: black;
+            pointer-events: none;
+            position: absolute;
+            opacity: 0.04;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+        }
     }
 }
 
