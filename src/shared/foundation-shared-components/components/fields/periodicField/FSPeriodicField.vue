@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted, type PropType, watch } from "vue";
+import { ref, defineComponent, type PropType, watch } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui";
 
@@ -71,7 +71,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: String as PropType<"daily" | "weekly" | "monthly" | "yearly">,
+      type: String as PropType<string>,
       required: true
     },
     editable: {
@@ -118,9 +118,9 @@ export default defineComponent({
       emit('update:modelValue', period.item.default);
     });
 
-    onMounted(() => {
+    watch(() => props.modelValue, () => {
       selectedPeriod.value = getPeriod(props.modelValue);
-    });
+    }, { immediate: true });
 
     return {
       availablePeriod,
