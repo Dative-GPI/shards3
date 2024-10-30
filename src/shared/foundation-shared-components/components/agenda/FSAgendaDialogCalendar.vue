@@ -5,6 +5,7 @@
   >
     <FSCard
       :elevation="true"
+      @click.stop="$emit('click', $event)"
     >
       <FSCol
         gap="12px"
@@ -52,7 +53,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:modelValue', 'update:dialog'],
+  emits: ['click', 'update:modelValue', 'update:dialog'],
   setup(props, { emit }) {
     const calendarValue = ref<number>(props.modelValue);
 

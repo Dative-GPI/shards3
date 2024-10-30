@@ -1,7 +1,6 @@
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    :contentProps="contentProps"
     :class="classes"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -15,6 +14,7 @@
         :width="$props.width"
         :modelValue="$props.modelValue"
         @update:modelValue="$emit('update:modelValue', $event)"
+        @click.stop="$emit('click', $event)"
       >
         <template
           v-for="(_, name) in $slots"
@@ -73,15 +73,6 @@ export default defineComponent({
   setup(_, { emit }) {
     const { isExtraSmall } = useBreakpoints();
 
-    const contentProps = computed((): { [key: string]: any } => ({
-      onClick: (event: any): void => {
-        if (event.target.className != "v-overlay__content") {
-          event.stopPropagation();
-          emit("click", event);
-        }
-      }
-    }));
-
     const classes = computed((): string[] => {
       const classNames: string[] = [];
       if (isExtraSmall.value) {
@@ -94,7 +85,6 @@ export default defineComponent({
     });
 
     return {
-      contentProps,
       classes
     };
   }

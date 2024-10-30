@@ -51,14 +51,14 @@ export const Submit: Story = {
         title="Form 1"
         :showCancelButton="args.showCancelButton1"
         :showSubmitButton="args.showSubmitButton1"
-        v-model="value1"
+        v-model="args.value1"
       >
         <template #body>
           <FSSpan>
-          This is a submit dialog
+            This is a submit dialog
           </FSSpan>
         </template>
-      </FSDialogForm>
+      </FSDialogSubmit>
     </div>`
   })
 }
