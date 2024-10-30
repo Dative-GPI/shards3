@@ -10,7 +10,7 @@
       <FSChip
         :prependIcon="$props.statusGroup.icon"
         :color="$props.statusGroup.color"
-        :label="statusLabel"
+        :label="$props.modelStatus.label"
       />
       <FSCol
         v-if="$props.statusGroup.value"
@@ -27,7 +27,7 @@
           font="text-button"
           :color="$props.statusGroup.color"
         >
-          {{ statusValue }} {{ $props.statusGroup.unit }}
+          {{ statusValue }}
         </FSText>
       </FSCol>
       <FSText
@@ -78,15 +78,14 @@ export default defineComponent({
   setup(props) {
     const { epochToLongTimeFormat } = useDateFormat();
 
-    const statusLabel = computed((): string => {
-      return props.statusGroup.label || props.modelStatus.label;
-    });
-
     const statusValue = computed((): string => {
-      if (props.statusGroup.value && !isNaN(parseFloat(props.statusGroup.value))) {
-        return parseFloat(props.statusGroup.value).toLocaleString("fullwide", { maximumFractionDigits: 2 });
+      if (props.statusGroup.label) {
+        return props.statusGroup.label;
       }
-      return props.statusGroup.value || "";
+      if (props.statusGroup.value && !isNaN(parseFloat(props.statusGroup.value))) {
+        return `${parseFloat(props.statusGroup.value).toLocaleString("fullwide", { maximumFractionDigits: 2 })} ${props.statusGroup.unit}`;
+      }
+      return `${props.statusGroup.value} ${props.statusGroup.unit}`;
     });
 
     const deviceTimestamp = computed((): string => {
@@ -98,7 +97,6 @@ export default defineComponent({
 
     return {
       deviceTimestamp,
-      statusLabel,
       statusValue
     };
   }

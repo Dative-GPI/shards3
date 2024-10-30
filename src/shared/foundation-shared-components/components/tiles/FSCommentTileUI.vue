@@ -26,15 +26,19 @@
             -
             {{ timestamp }}
           </FSText>
-          <v-spacer />
-          <FSButtonEditIcon
-            v-if="canEditRemove"
-            @click="showEditComment = true"
-          />
-          <FSButtonRemoveIcon
-            v-if="canEditRemove"
-            @click="removeDialog = true"
-          />
+          <FSRow
+            align="center-right"
+            :wrap="false"
+          >
+            <FSButtonEditIcon
+              v-if="canEditRemove"
+              @click="showEditComment = true"
+            />
+            <FSButtonRemoveIcon
+              v-if="canEditRemove"
+              @click="removeDialog = true"
+            />
+          </FSRow>
         </FSRow>
       </template>
       <template

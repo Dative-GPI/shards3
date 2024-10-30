@@ -95,6 +95,7 @@
         width="32px"
         height="32px"
         :imageId="item.deviceOrganisationImageId"
+        :thumbnail="true"
       />
     </template>
     <template
@@ -125,6 +126,7 @@
         width="32px"
         height="32px"
         :imageId="item.acknowledgingUserImageId"
+        :thumbnail="true"
       />
     </template>
     <template

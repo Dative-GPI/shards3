@@ -52,7 +52,6 @@
           </template>
         </template>
       </FSCol>
-      <v-spacer />
       <FSRow
         v-if="itemEndSlot(item.code)"
         align="center-right"

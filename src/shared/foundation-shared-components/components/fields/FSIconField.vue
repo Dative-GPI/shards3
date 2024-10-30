@@ -28,7 +28,6 @@
       </template>
     </FSTextField>
     <FSToggleSet
-      class="fs-icon-field-set"
       ref="toggleSetRef"
       variant="slide"
       :buttonColor="$props.buttonColor"

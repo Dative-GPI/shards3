@@ -40,6 +40,7 @@
         height="32px"
         width="32px"
         :imageId="item.imageId"
+        :thumbnail="true"
       />
     </template>
     <template
@@ -77,11 +78,13 @@
       #item.tile="{item}"
     >
       <FSChartTileUI
+        variant="standard"
         :label="item.label"
         :category-label="item.chartCategoryLabel"
         :icon="item.icon"
         :imageId="item.imageId"
         :type="item.chartType"
+        :color="ColorEnum.Light"
         :to="$props.itemTo && $props.itemTo(item)"
       />
     </template>
@@ -156,11 +159,14 @@ export default defineComponent({
         }, []).map((m) =>  ({
           value: m.id,
           text: m.label
-        })),
-        methodFilter: (value: string, items: ChartModelLabel[]) => items.some(ml => ml.id == value)
+        })).concat({
+          value: '',
+          text: '--'
+        }),
+        methodFilter: (value: string, items: ChartModelLabel[]) => (items.length == 0 && value == '') || (items.length  > 0 && items.some(ml => ml.id == value))
       },
       chartType: {
-        fixedFilters: getEnumEntries(ChartType).filter(f => f.value != ChartType.None).map(e => ({
+        fixedFilters: getEnumEntries(ChartType).map(e => ({
           value: e.value,
           text: chartTypeLabel(e.value)
         })),

@@ -30,9 +30,9 @@
           v-else-if="$props.icon"
           :backgroundVariant="$props.iconBackgroundVariant"
           :backgroundColor="$props.iconBackgroundColors"
+          :iconColor="$props.iconColor"
           :border="$props.iconBorder"
           :icon="$props.icon"
-          :iconColor="$props.color"
           :size="actualImageSize"
         />
         <FSCol
@@ -144,15 +144,15 @@ export default defineComponent({
       required: false,
       default: () => ["124px", "96px", "80px"]
     },
-    color: {
-      type: String as PropType<ColorBase>,
-      required: false,
-      default: null
-    },
     icon: {
       type: String as PropType<string>,
       required: false,
       default: "mdi-ab-testing"
+    },
+    iconColor: {
+      type: String as PropType<ColorBase>,
+      required: false,
+      default: null
     },
     iconBackgroundVariant: {
       type: String as PropType<"background" | "standard" | "full" | "gradient">,
@@ -194,7 +194,6 @@ export default defineComponent({
 
       topOffset.value = Math.max(0, Math.min(actualScrollTop, actualMinSize + 16 + 24));
     }
-
 
     delete slots.title;
 

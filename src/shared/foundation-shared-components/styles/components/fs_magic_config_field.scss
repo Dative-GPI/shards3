@@ -1,5 +1,4 @@
-.fs-magic-config-field > .fs-col:has(.v-switch) {
-    margin: 0 0 6px 0;
+.fs-magic-config-field > :has(.v-switch) {
     align-self: end;
 }
 

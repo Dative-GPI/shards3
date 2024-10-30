@@ -1,6 +1,6 @@
 <template>
   <FSCard
-    padding="24px"
+    :padding="['24px', '16px', '16px 12px']"
     gap="24px"
     :class="$props.cardClasses"
     :color="$props.color"
@@ -19,13 +19,16 @@
           >
             {{ $props.title }}
           </FSText>
-          <v-spacer />
-          <FSButton
-            icon="mdi-close"
-            variant="icon"
-            :color="ColorEnum.Dark"
-            @click="$emit('update:modelValue', false)"
-          />
+          <FSRow
+            align="center-right"
+          >
+            <FSButton
+              icon="mdi-close"
+              variant="icon"
+              :color="ColorEnum.Dark"
+              @click="$emit('update:modelValue', false)"
+            />
+          </FSRow>
         </FSRow>
         <FSText
           v-if="$props.subtitle"

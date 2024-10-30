@@ -28,9 +28,10 @@
     >
       <FSImage
         v-if="item.deviceOrganisationImageId"
-        width="34px"
-        height="34px"
+        height="32px"
+        width="32px"
         :imageId="item.deviceOrganisationImageId"
+        :thumbnail="true"
       />
     </template>
     <template

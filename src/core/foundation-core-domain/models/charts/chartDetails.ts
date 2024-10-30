@@ -16,8 +16,10 @@ import { ChartOperand } from "./chartOperand";
 import type { ChartOperandDTO } from "./chartOperand";
 import { ChartModifier } from "./chartModifier";
 import type { ChartModifierDTO } from "./chartModifier";
-import { ChartFilter} from "./chartFilter";
+import { ChartFilter } from "./chartFilter";
 import type { ChartFilterDTO } from "./chartFilter";
+import { ChartAllowedStep } from "./chartAllowedStep";
+import type { ChartAllowedStepDTO } from "./chartAllowedStep";
 
 import type { ColorSets } from "@dative-gpi/foundation-shared-domain/enums";
 
@@ -27,6 +29,8 @@ export class ChartDetails extends ChartInfos {
   xAxis: ChartAxis | null;
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
+  showAllowedStep: boolean | null;
+  showPlotPerOnGraph: boolean | null;
   chartVariables: ChartVariable[];
   chartSeries: ChartSerie[];
   chartOperands: ChartOperand[];
@@ -36,6 +40,7 @@ export class ChartDetails extends ChartInfos {
   chartPresets: ChartPreset[];
   chartPresetFilters: ChartPresetFilter[];
   chartPlots: ChartPlot[];
+  chartAllowedSteps: ChartAllowedStep[];
 
   constructor(params: ChartDetailsDTO) {
     super(params);
@@ -46,6 +51,8 @@ export class ChartDetails extends ChartInfos {
       new ChartAxis(params.xAxis) : null;
     this.aggregates = params.aggregates;
     this.dynamicVariables = params.dynamicVariables;
+    this.showAllowedStep = params.showAllowedStep;
+    this.showPlotPerOnGraph = params.showPlotPerOnGraph;
     this.chartVariables = params.chartVariables.map(cv => new ChartVariable(cv));
     this.chartPresets = params.chartPresets.map(cp => new ChartPreset(cp));
     this.chartPresetFilters = params.chartPresetFilters.map(cpf => new ChartPresetFilter(cpf));
@@ -55,6 +62,7 @@ export class ChartDetails extends ChartInfos {
     this.chartModifiers = params.chartModifiers.map(cm => new ChartModifier(cm));
     this.chartFilters = params.chartFilters.map(cf => new ChartFilter(cf));
     this.yAxis = params.yAxis.map(ya => new ChartAxis(ya));
+    this.chartAllowedSteps = params.chartAllowedSteps.map(cas => new ChartAllowedStep(cas));
   }
 }
 
@@ -64,6 +72,8 @@ export interface ChartDetailsDTO extends ChartInfosDTO {
   xAxis: ChartAxisDTO | null;
   aggregates: boolean | null;
   dynamicVariables: boolean | null;
+  showAllowedStep: boolean | null;
+  showPlotPerOnGraph: boolean | null;
   chartVariables: ChartVariableDTO[];
   chartPresets: ChartPresetDTO[];
   chartSeries: ChartSerieDTO[];
@@ -73,4 +83,5 @@ export interface ChartDetailsDTO extends ChartInfosDTO {
   yAxis: ChartAxisDTO[];
   chartPresetFilters: ChartPresetFilterDTO[];
   chartPlots: ChartPlotDTO[];
+  chartAllowedSteps: ChartAllowedStepDTO[];
 }

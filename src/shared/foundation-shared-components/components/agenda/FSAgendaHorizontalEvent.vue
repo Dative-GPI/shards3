@@ -15,7 +15,7 @@
     @click="$emit('click', $props.id)"
   >
     <template
-      #default="{ label, icon, timeStart, timeEnd, iconBis, variant }"
+      #default="{ label, icon, timeStart, timeEnd, iconBis, variant, width }"
     >
       <slot
         name="default"
@@ -25,6 +25,7 @@
         :timeStart="timeStart"
         :timeEnd="timeEnd"
         :variant="variant"
+        :width="width"
       />
     </template>
   </FSAgendaHorizontalEvent>
@@ -47,6 +48,7 @@
       :timeStart="epochToShortTimeOnlyFormat($props.start)"
       :timeEnd="epochToShortTimeOnlyFormat($props.end)"
       :variant="$props.variant"
+      :width="width"
     />
   </FSClickable>
 </template>

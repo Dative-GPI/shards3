@@ -55,6 +55,16 @@ export const Variations: Story = {
         <FSChip color="light" variant="standard" :editable="true" label="Light, standard, editable" />
         <FSChip color="dark" label="Dark, full, uneditable" />
       </div>
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSText> Text align </FSText>
+      <div style="display: flex; gap: 10px;">
+        <FSChip width="200px" color="primary" variant="standard" label="200px with long labelllllllllllllllllllllllll" />
+        <FSChip width="500px" align="center-center" color="primary" variant="standard" label="500px with align center-center" />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <FSChip width="fill" align="center-center" color="primary" variant="standard" label="fill with align center-center" />
+        <FSChip width="fill" color="primary" variant="standard" label="fill without align center-center" />
+      </div>
     </div>`
   })
 }

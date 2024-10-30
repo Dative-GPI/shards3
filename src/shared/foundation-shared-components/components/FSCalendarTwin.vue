@@ -165,8 +165,6 @@ export default defineComponent({
     const innerRightMonth = ref(new Date().getMonth());
     const innerRightYear = ref(new Date().getFullYear());
 
-    const toggle = ref((props.modelValue?.length ?? 0) % 2);
-
     const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
     const darks = getColors(ColorEnum.Dark);
@@ -323,43 +321,42 @@ export default defineComponent({
 
     const onClickLeft = (value: unknown): void => {
       const dates = value as Date[];
-      const clicked = pickerToEpoch(dates[dates.length - 1]);
-      if (!props.modelValue || !props.modelValue.length) {
-        emit("update:modelValue", [clicked, clicked]);
+
+      // Click on the same date while only one date is selected on the left calendar
+      if (dates.length === 0) {
+        if (props.modelValue && props.modelValue.length > 0) {
+          emit("update:modelValue", [props.modelValue[0], props.modelValue[0]]);
+        }
+        return;
       }
-      else if (props.modelValue.length === 1) {
+      
+      const clicked = pickerToEpoch(dates[dates.length - 1]);
+      if (props.modelValue && props.modelValue[0] === props.modelValue[1]) {
         emit("update:modelValue", [props.modelValue[0], clicked].sort());
       }
       else {
-        if (innerLeftValue.value.length === 0) {
-          emit("update:modelValue", [clicked, props.modelValue[1]]);
-        }
-        else {
-          emit("update:modelValue", [clicked, props.modelValue[toggle.value]].sort());
-          toggle.value = (++toggle.value) % 2;
-        }
+        emit("update:modelValue", [clicked, clicked]);
       }
     };
 
     const onClickRight = (value: unknown): void => {
       const dates = value as Date[];
-      const clicked = pickerToEpoch(dates[dates.length - 1]);
-      if (!props.modelValue || !props.modelValue.length) {
-        emit("update:modelValue", [clicked, clicked]);
+
+      // Click on the same date while only one date is selected on the right calendar
+      if (dates.length === 0) {
+        if (props.modelValue && props.modelValue.length > 0) {
+          emit("update:modelValue", [props.modelValue[props.modelValue.length - 1], props.modelValue[props.modelValue.length - 1]]);
+        }
+        return;
       }
-      else if (props.modelValue.length === 1) {
+      
+      const clicked = pickerToEpoch(dates[dates.length - 1]);
+      if (props.modelValue && props.modelValue[0] === props.modelValue[1]) {
         emit("update:modelValue", [props.modelValue[0], clicked].sort());
       }
       else {
-        if (innerRightValue.value.length === 0) {
-          emit("update:modelValue", [props.modelValue[0], clicked]);
-        }
-        else {
-          emit("update:modelValue", [clicked, props.modelValue[toggle.value]].sort());
-          toggle.value = (++toggle.value) % 2;
-        }
+        emit("update:modelValue", [clicked, clicked]);
       }
-      toggle.value = (++toggle.value) % 2;
     };
 
     const allowedDates = (value: unknown): boolean => {
