@@ -3,6 +3,8 @@ export * from "./useAutocomplete";
 export * from "./useBreakpoints";
 export * from "./useColors";
 export * from "./useDebounce";
+export * from "./useDialog";
+export * from "./useEnvironment";
 export * from "./useMagicFieldProvider";
 export * from "./useRules";
 export * from "./useSlots";

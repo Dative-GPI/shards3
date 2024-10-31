@@ -7,32 +7,37 @@
     :width="$props.width"
     v-bind="$attrs"
   >
-    <slot>
-      <FSDialogContent
-        :title="$props.title"
-        :subtitle="$props.subtitle"
-        :width="$props.width"
-        :modelValue="$props.modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
-      >
-        <template
-          v-for="(_, name) in $slots"
-          v-slot:[name]="slotData"
+    <div
+      style="height: 100%; width: 100%;"
+      ref="element"
+    >
+      <slot>
+        <FSDialogContent
+          :title="$props.title"
+          :subtitle="$props.subtitle"
+          :width="$props.width"
+          :modelValue="$props.modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
         >
-          <slot
-            :name="name"
-            v-bind="slotData"
-          />
-        </template>
-      </FSDialogContent>
-    </slot>
+          <template
+            v-for="(_, name) in $slots"
+            v-slot:[name]="slotData"
+          >
+            <slot
+              :name="name"
+              v-bind="slotData"
+            />
+          </template>
+        </FSDialogContent>
+      </slot>
+    </div>
   </v-dialog>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { useBreakpoints } from "@dative-gpi/foundation-shared-components/composables";
+import { useBreakpoints, useDialog } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSDialogContent from "./FSDialogContent.vue";
 
@@ -71,6 +76,7 @@ export default defineComponent({
   emits: ["click", "update:modelValue"],
   setup() {
     const { isExtraSmall } = useBreakpoints();
+    const { element } = useDialog();
 
     const classes = computed((): string[] => {
       const classNames: string[] = [];
@@ -84,6 +90,7 @@ export default defineComponent({
     });
 
     return {
+      element,
       classes
     };
   }
