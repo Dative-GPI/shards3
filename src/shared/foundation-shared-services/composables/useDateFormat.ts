@@ -174,7 +174,8 @@ export const useDateFormat = () => {
   };
 
   const yesterdayToPicker = (): string => {
-    const date = addMilliseconds(subDays(new Date(), 1), -getMachineOffset());
+    const yesterday = subDays(new Date(), 1);
+    const date = addMilliseconds(yesterday, -getMachineOffset(yesterday.getTime()));
     date.setSeconds(0, 0);
     return format(date, ISO_FORMAT);
   };
@@ -187,9 +188,9 @@ export const useDateFormat = () => {
     return date.getTime();
   };
 
-  const epochToISO = (date: number | null): string => {
-    if (date != null) {
-      return format(date - getMachineOffset(date), ISO_FORMAT);
+  const epochToISO = (epoch: number | null): string => {
+    if (epoch != null) {
+      return format(epoch - getMachineOffset(epoch), ISO_FORMAT);
     }
     return "";
   };

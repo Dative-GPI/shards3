@@ -73,7 +73,7 @@ export default defineComponent({
 
     const firstDayOfMonth = computed(() => {
       const date = new Date(props.year, props.month - 1, 1);
-      const offset = getMachineOffset();
+      const offset = getMachineOffset(date.getTime());
 
       date.setTime(date.getTime() + offset);
 
@@ -84,8 +84,7 @@ export default defineComponent({
       const day = new Date(firstDayOfMonth.value);
       
       const date = startOfWeek(day, { weekStartsOn: 1 });
-
-      const offset = getMachineOffset();
+      const offset = getMachineOffset(date.getTime());
 
       date.setTime(date.getTime() + offset);
 
@@ -94,10 +93,9 @@ export default defineComponent({
 
     const endDayOfMonth = computed(() => {
       const day = new Date(firstDayOfMonth.value);
-      
-      const date = endOfMonth(day);
 
-      const offset = getMachineOffset();
+      const date = endOfMonth(day);
+      const offset = getMachineOffset(date.getTime());
 
       date.setTime(date.getTime() + offset);
 
@@ -106,10 +104,9 @@ export default defineComponent({
 
     const lastSunday = computed(() => {
       const day = new Date(endDayOfMonth.value);
-      
-      const date = endOfWeek(day, { weekStartsOn: 1 });
 
-      const offset = getMachineOffset();
+      const date = endOfWeek(day, { weekStartsOn: 1 });
+      const offset = getMachineOffset(date.getTime());
 
       date.setTime(date.getTime() + offset);
 
@@ -143,7 +140,6 @@ export default defineComponent({
       dayLabel,
       days
     };
-    
   }
 });
 </script>
