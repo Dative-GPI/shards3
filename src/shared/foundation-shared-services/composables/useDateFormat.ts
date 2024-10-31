@@ -189,7 +189,7 @@ export const useDateFormat = () => {
 
   const epochToISO = (date: number | null): string => {
     if (date != null) {
-      return format(date - getMachineOffset(), ISO_FORMAT);
+      return format(date - getMachineOffset(date), ISO_FORMAT);
     }
     return "";
   };
