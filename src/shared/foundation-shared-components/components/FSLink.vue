@@ -2,13 +2,16 @@
   <a
     v-if="$props.href"
     :href="$props.href"
+    :class="classes"
     :style="style"
   >
     <slot>
-      {{ $props.label }}
+      <FSSpan>
+        {{ $props.label }}
+      </FSSpan>
     </slot>
   </a>
-  <router-link
+  <FSRouterLink
     v-else-if="$props.to"
     :to="$props.to"
     :class="classes"
@@ -19,9 +22,11 @@
     <slot
       v-bind="props"
     >
-      {{ $props.label }}
+      <FSSpan>
+        {{ $props.label }}
+      </FSSpan>
     </slot>
-  </router-link>
+  </FSRouterLink>
 </template>
 
 <script lang="ts">
@@ -31,8 +36,15 @@ import { type RouteLocation } from "vue-router";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSRouterLink from "./FSRouterLink.vue";
+import FSSpan from "./FSSpan.vue";
+
 export default defineComponent({
   name: "FSLink",
+  components: {
+    FSRouterLink,
+    FSSpan
+  },
   props: {
     label: {
       type: String as PropType<string | null>,
@@ -40,7 +52,7 @@ export default defineComponent({
       default: null
     },
     to: {
-      type: [String, Object] as PropType<string | RouteLocation | null>,
+      type: Object as PropType<RouteLocation | null>,
       required: false,
       default: null
     },
