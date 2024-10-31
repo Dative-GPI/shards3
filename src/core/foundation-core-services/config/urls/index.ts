@@ -19,6 +19,7 @@ export * from "./deviceConnectivities";
 export * from "./deviceOrganisations";
 export * from "./deviceStatuses";
 export * from "./folders";
+export * from "./groupItems";
 export * from "./groups";
 export * from "./locations";
 export * from "./manufacturers";
