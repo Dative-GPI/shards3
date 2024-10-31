@@ -1,8 +1,8 @@
 <template>
   <router-link
     :to="$props.to"
-    @auxclick="handleOpenTabEvent($event, $props.to)"
-    @click="handleOpenTabEvent($event, $props.to)"
+    @auxclick="handleRoutingEvent($event, $props.to)"
+    @click="handleRoutingEvent($event, $props.to)"
     v-bind="$attrs"
   >
     <template
@@ -21,7 +21,7 @@
 import { defineComponent, type PropType } from "vue";
 import { type RouteLocation } from "vue-router";
 
-import { useOpenTab } from "@dative-gpi/foundation-shared-services/composables";
+import { useRouting } from "@dative-gpi/foundation-shared-services/composables";
 
 export default defineComponent({
   name: "FSRouterLink",
@@ -32,10 +32,10 @@ export default defineComponent({
     }
   },
   setup() {
-    const { handleOpenTabEvent } = useOpenTab();
+    const { handleRoutingEvent } = useRouting();
 
     return {
-      handleOpenTabEvent
+      handleRoutingEvent
     };
   }
 });

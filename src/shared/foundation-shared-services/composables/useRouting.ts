@@ -2,18 +2,17 @@ import { type RouteLocation, useRouter } from "vue-router";
 
 import { useAppHost } from "@dative-gpi/foundation-shared-services/composables";
 
-export const useOpenTab = () => {
+export const useRouting = () => {
   const { host } = useAppHost();
   const router = useRouter();
 
-  const handleOpenTabEvent = (event: MouseEvent, target: string | RouteLocation): void => {
-    event.preventDefault();
-
-    // If a new tab is requested, check if it comes from an extension and act accordingly
+  const handleRoutingEvent = (event: MouseEvent, target: string | RouteLocation, handleDefaultBehavior: boolean = false): void => {
+    // If a redirection is requested, check if it comes from an extension and act accordingly
     if (event.ctrlKey || event.metaKey || event.button === 1) {
+      event.preventDefault();
       openTab(target);
     }
-    else {
+    else if (handleDefaultBehavior) {
       router.push(target);
     }
   };
@@ -32,7 +31,7 @@ export const useOpenTab = () => {
   };
 
   return {
-    handleOpenTabEvent,
+    handleRoutingEvent,
     openTab
   };
 }

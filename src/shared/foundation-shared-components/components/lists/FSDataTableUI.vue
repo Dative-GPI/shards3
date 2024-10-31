@@ -696,7 +696,7 @@ import { useRouter } from "vue-router";
 import { ColorEnum, type FSDataTableColumn, type FSDataTableFilter, type FSDataTableOrder, type FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
-import { useOpenTab } from "@dative-gpi/foundation-shared-services/composables";
+import { useRouting } from "@dative-gpi/foundation-shared-services/composables";
 import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid"
 
 import { alphanumericSort, containsSearchTerm, sizeToVar } from "../../utils";
@@ -889,7 +889,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:headers", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
-    const { handleOpenTabEvent } = useOpenTab();
+    const { handleRoutingEvent } = useRouting();
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();
@@ -1109,7 +1109,7 @@ export default defineComponent({
           clickable: true,
           row: (event: PointerEvent, row: any) => {
             if (props.itemTo && router) {
-              handleOpenTabEvent(event, props.itemTo(row.item));
+              handleRoutingEvent(event, props.itemTo(row.item), true);
             }
             else {
               emit("click:row", row.item);

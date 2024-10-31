@@ -1,10 +1,10 @@
 import { FILE_URL } from "../config/urls";
 
-import { useAppAuthToken, useOpenTab } from "@dative-gpi/foundation-shared-services/composables";
+import { useAppAuthToken, useRouting } from "@dative-gpi/foundation-shared-services/composables";
 
 export const useFiles = () => {
   const { authToken } = useAppAuthToken();
-  const { openTab } = useOpenTab();
+  const { openTab } = useRouting();
 
   const downloadFile = (id: string): void => {
     openTab(FILE_URL(id, authToken.value));
