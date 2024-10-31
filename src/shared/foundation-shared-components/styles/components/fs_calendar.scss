@@ -70,12 +70,10 @@
     }
 }
 
-@include clickscreen {
-    .v-date-picker-month__day:not(.v-date-picker-month__day--selected):hover > button {
-        background-color: var(--fs-calendar-hover-background-color);
-        border: 1px solid var(--fs-calendar-hover-border-color);
-        color: var(--fs-calendar-hover-color);
-    }
+.v-date-picker-month__day:not(.v-date-picker-month__day--selected):hover > button {
+    background-color: var(--fs-calendar-hover-background-color);
+    border: 1px solid var(--fs-calendar-hover-border-color);
+    color: var(--fs-calendar-hover-color);
 }
 
 .v-date-picker-month__day--selected > button {
@@ -131,12 +129,10 @@
         }
     }
 
-    @include clickscreen {
-        & .v-date-picker-month__day--selected ~ .v-date-picker-month__day > button,
-        .v-date-picker-month__day--selected ~ .v-date-picker-month__day--selected ~ .v-date-picker-month__day:hover > button {
-            background-color: var(--fs-calendar-hover-background-color);
-            border: 1px solid var(--fs-calendar-hover-border-color);
-            color: var(--fs-calendar-hover-color);
-        }
+    & .v-date-picker-month__day--selected ~ .v-date-picker-month__day > button,
+    .v-date-picker-month__day--selected ~ .v-date-picker-month__day--selected ~ .v-date-picker-month__day:hover > button {
+        background-color: var(--fs-calendar-hover-background-color);
+        border: 1px solid var(--fs-calendar-hover-border-color);
+        color: var(--fs-calendar-hover-color);
     }
 }
