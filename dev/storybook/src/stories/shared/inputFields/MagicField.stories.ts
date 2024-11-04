@@ -24,7 +24,8 @@ export const Variations: Story = {
       value4: "",
       value5: "",
       value6: "",
-      value7: null
+      value7: null,
+      value8: 3
     }
   },
   render: (args, { argTypes }) => ({
@@ -75,6 +76,12 @@ export const Variations: Story = {
         label="Time step field"
         :type="7"
         v-model="args.value7"
+      />
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSMagicField
+        label="Plot per field"
+        :type="8"
+        v-model="args.value8"
       />
     </FSCol>`
   })
@@ -151,7 +158,8 @@ export const Selects: Story = {
         {
           value: { value: 1, unit: 5 }
         }
-      ]
+      ],
+      value8: 3
     }
   },
   render: (args, { argTypes }) => ({
