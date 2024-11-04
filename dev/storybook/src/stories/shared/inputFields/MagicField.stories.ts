@@ -143,7 +143,7 @@ export const Selects: Story = {
       }, {
         value: 7200
       }],
-      value7: "",
+      value7: null,
       allowedValues7: [
         {
           value: { value: 15, unit: 3 },
@@ -221,8 +221,6 @@ export const Selects: Story = {
         <FSMagicField
           label="Time step field"
           :type="7"
-          :useOnlyAllowedValues="true"
-          :allowedValues="args.allowedValues7"
           v-model="args.value7"
         />
       </FSCol>`
