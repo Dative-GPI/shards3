@@ -4,7 +4,7 @@ import { DeviceStatusDetails, type DeviceStatusDetailsDTO } from "../deviceStatu
 import { ModelStatusInfos, type ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
 import { PathCrumb, type PathCrumbDTO } from "../shared/pathCrumb";
 
-export class GroupItemInfos {
+export class DevicesExplorerElementInfos {
   id: string;
   organisationId: string;
   parentId: string | null;
@@ -40,7 +40,7 @@ export class GroupItemInfos {
     return this.connectivity;
   }
 
-  constructor(params: GroupItemInfosDTO) {
+  constructor(params: DevicesExplorerElementInfosDTO) {
     this.id = params.id;
     this.organisationId = params.organisationId;
     this.parentId = params.parentId;
@@ -75,7 +75,7 @@ export class GroupItemInfos {
   }
 }
 
-export interface GroupItemInfosDTO {
+export interface DevicesExplorerElementInfosDTO {
   id: string;
   organisationId: string;
   parentId: string | null;
@@ -108,7 +108,7 @@ export interface GroupItemInfosDTO {
   worstAlert: DeviceOrganisationAlertDTO | null;
 }
 
-export interface GroupItemFilters {
+export interface DevicesExplorerElementFilters {
   parentId?: string | null;
   root?: boolean | null;
   search?: string | null;

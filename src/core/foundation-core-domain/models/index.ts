@@ -26,11 +26,11 @@ export * from "./dataDefinitions";
 export * from "./dataDefinitionMappings";               // No service
 export * from "./deviceConnectivities";
 export * from "./deviceOrganisations";
+export * from "./devicesExplorerElements";
 export * from "./deviceStatuses";
 export * from "./extensionApplications";
 export * from "./folders";
 export * from "./groups";
-export * from "./groupItems";
 export * from "./locations";
 export * from "./manufacturers";
 export * from "./models";
