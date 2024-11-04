@@ -9,13 +9,8 @@
       gap="0"
       :wrap="false"
     >
-      <FSCol
-        height="100%"
-        :width="$props.firstColumnWidth"
-      >
-      </FSCol>
-    
       <FSAgendaHoursRow
+        :firstColumnWidth="$props.firstColumnWidth"
         :displayNow="$props.nowIsInSelectedRange"
         :modelValue="nowHour"
       />

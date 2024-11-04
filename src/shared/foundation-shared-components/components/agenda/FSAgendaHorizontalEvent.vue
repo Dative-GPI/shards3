@@ -134,7 +134,7 @@ export default defineComponent({
     const width = computed(() => {
       let start = props.start - dayDurationOffset.value;
       let end = props.end - dayDurationOffset.value;
-      if(props.variant === 'current') {
+      if(props.variant === 'current' && dayEnd.value > props.now) {
         end = props.now;
       } else if (props.end > dayEnd.value) {
         end = dayEnd.value - dayDurationOffset.value;

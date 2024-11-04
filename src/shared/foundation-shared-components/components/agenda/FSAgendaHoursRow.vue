@@ -3,11 +3,11 @@
     gap="0"
   >
     <FSRow
+      :padding="`0 calc( 0.5 * ((100% - ${$props.firstColumnWidth}) / ${hoursToShow})) 0 calc(${$props.firstColumnWidth} - 0.5 * ((100% - ${$props.firstColumnWidth}) / ${hoursToShow}))`"
       class="fs-agenda-hours-row"
       :wrap="false"
       gap="0"
       align="center-center"
-      :style="style"
     >
       <FSRow
         v-for="hour in hours"
@@ -37,6 +37,7 @@
       </FSRow>
     </FSRow>
     <FSRow
+      :padding="`0 calc( 0.5 * ((100% - ${$props.firstColumnWidth}) / 24)) 0 calc(${$props.firstColumnWidth} - 0.5 * ((100% - ${$props.firstColumnWidth}) / 24))`"
       class="fs-agenda-hours-row-markers"
       :wrap="false"
       gap="0"
@@ -88,6 +89,10 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    firstColumnWidth: {
+      type: String,
+      required: true,
+    },
   },
   setup() {
     const { getColors } = useColors();
@@ -108,12 +113,6 @@ export default defineComponent({
       return Array.from({ length: hoursToShow.value }, (_, i) => i * (24 / hoursToShow.value));
     });
 
-    const style = computed((): StyleValue => {
-      return {
-        '--fs-agenda-hours-row-transform': `translateX(calc(-${2.4 * 24 / hoursToShow.value}%))`,
-      }
-    });
-
     const getMarkerStyle = (isNowHour: boolean): StyleValue => {
       if(isNowHour) {
         return {
@@ -129,8 +128,8 @@ export default defineComponent({
 
     return {
       hours,
-      style,
       fontColor,
+      hoursToShow,
       getMarkerStyle,
       to2Digits
     };
