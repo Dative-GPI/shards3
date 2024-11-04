@@ -29,9 +29,10 @@
           </FSSpan>
         </FSRow>
       </slot>
-      <v-spacer />
-      <template
+      <FSRow
         v-if="$props.editable"
+        align="center-right"
+        :wrap="false"
       >
         <FSIcon
           class="fs-rich-text-field-icon"
@@ -177,7 +178,7 @@
         >
           mdi-format-align-justify
         </FSIcon>
-      </template>
+      </FSRow>
     </FSRow>
     <FSText
       v-if="readonly && !$props.modelValue && $props.emptyLabel"
@@ -673,8 +674,10 @@ export default defineComponent({
       }
       if (props.modelValue != null) {
         editor.update(() => {
-          if(typeof props.modelValue === "string") {
-            editor.setEditorState(editor.parseEditorState(props.modelValue!));
+          if (typeof props.modelValue === "string") {
+            if (props.modelValue !== "") {
+              editor.setEditorState(editor.parseEditorState(props.modelValue!));
+            }
           }
           else {
             editor.setEditorState(editor.parseEditorState(JSON.stringify(props.modelValue)));

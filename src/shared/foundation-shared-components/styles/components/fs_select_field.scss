@@ -21,19 +21,6 @@
     }
 }
 
-.fs-select-field-label {
-    color: var(--fs-select-field-color);
-}
-
-.fs-select-field-messages {
-    align-self: stretch;
-    color: var(--fs-select-field-error-color);
-}
-
-.fs-select-field-description {
-    color: var(--fs-select-field-color);
-}
-
 .v-overlay-container > .v-overlay > .v-select__content > .v-list {
     @extend .fs-hide-y-scrollbar;
 

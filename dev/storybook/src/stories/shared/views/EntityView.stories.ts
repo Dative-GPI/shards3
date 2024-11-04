@@ -27,11 +27,13 @@ export const Default: Story = {
     title: 'MIZAR CDC',
     subtitle: '93000000000000128751',
     description: 'Description d\'un four Mizar sous Lorem Ipsum en maquettes.',
-    imageId: '1',
+    // imageId: '1',
     imageCover: true,
     icon: 'mdi-chemical-weapon',
-    color: ColorEnum.Primary,
-    iconBackgroundColors: undefined,
+    iconBackgroundColors: ['#FF0000', '#0000FF'],
+    iconBackgroundVariant: 'gradient',
+    iconBorder: false,
+    iconColor: ColorEnum.Dark,
     breadcrumbs: [
       { title: 'Lorem', to: '/' },
       { title: 'MIZAR CDC', disabled: true }

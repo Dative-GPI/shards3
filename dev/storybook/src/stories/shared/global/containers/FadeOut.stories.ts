@@ -1,6 +1,7 @@
 import type { StoryObj } from '@storybook/vue3';
 import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 
 const meta = {
@@ -14,10 +15,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => ({
-    components: { FSFadeOut, FSCol, FSButton },
+    components: { FSFadeOut, FSCol, FSButton, FSRow },
     template: `
       <div style="display: flex; flex-direction: column; gap: 80px;">
-      <div style="display: flex; gap: 80px;">
+      <FSRow gap="80px">
         <div style="display: flex; flex-direction: column;">
           <pre>&lt;FSFadeOut height="200px"&gt;
   &lt;FSCol width="fill" height="hug" /&gt;
@@ -72,8 +73,9 @@ export const Default: Story = {
           </FSFadeout>
           If the content is smaller than the FSFadeOut, the container size fit the content
         </div>
-      </div>
-      <div style="display: flex; gap: 80px;">
+      </FSRow>
+
+      <FSRow gap="80px">
         <div style="display: flex; flex-direction: column;">
           <pre>&lt;FSFadeOut height="200px"&gt;
   &lt;FSCol width="fill" height="hug" /&gt;
@@ -88,8 +90,64 @@ export const Default: Story = {
           </FSFadeout>
           If the content starts to fit after mounting, the mask and scrollbar disappear
         </div>
-      </div>
-    </div>
+
+        <FSCol width="350px" style="margin: 8px">
+          <FSFadeOut height="180px" style="border: 0px dotted black;">
+            <FSCol style="background-color: plum; padding: 4px;">
+              <FSButton icon="mdi-numeric-1" />
+              <FSButton icon="mdi-numeric-2" />
+              <FSButton icon="mdi-numeric-3" />
+              <FSButton icon="mdi-numeric-4" />
+            </FSCol>
+          </FSFadeout>
+        </FSCol>
+
+      </FSRow>
+
+
+      <FSRow padding="24px 4px" width="min(800px, 100%)" style="border: 0px dotted black;">
+        <FSCol 
+          style="min-height: 0;"
+          height="fill"
+        >
+          <FSFadeOut height="180px" >
+            <FSCol style="background-color: plum; padding: 4px;">
+              <FSButton icon="mdi-numeric-1" label="Conqsjqsdjkq qjsdjkqds kjqsd jk" />
+              <FSButton icon="mdi-numeric-2" />
+              <FSButton icon="mdi-numeric-3" />
+              <FSButton icon="mdi-numeric-4" />
+            </FSCol>
+          </FSFadeout>
+        </FSCol>
+      </FSRow>
     `,
   })
+};
+
+export const NestedFadeOut: Story = {
+  render: () => ({
+    components: { FSFadeOut, FSCol, FSRow },
+    template: `
+      <div style="display: flex; justify-content: center; padding: 20px;">
+        <FSFadeOut height="300px" style="width: 200px; border: 1px solid #333;">
+          <FSCol style="background-color: lightblue; padding: 8px;">
+            <div>Contenu extérieur</div>
+            <FSFadeOut maxHeight="150px" style="border: 1px dashed #333;">
+              <FSCol style="background-color: lightcoral; padding: 8px;">
+                <div v-for="n in 10" :key="n" 
+                     style="display: flex; align-items: center; height: 32px; margin: 4px 0; background-color: #f9c8c8;">
+                  Élément {{ n }}
+                </div>
+              </FSCol>
+            </FSFadeOut>
+             <div
+              v-for="n in 10"
+             >
+              Contenu extérieur
+            </div>
+          </FSCol>
+        </FSFadeOut>
+      </div>
+    `,
+  }),
 };

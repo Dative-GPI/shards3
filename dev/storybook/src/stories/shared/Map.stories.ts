@@ -13,7 +13,17 @@ import FSDialogMultiForm from '@dative-gpi/foundation-shared-components/componen
 const meta = {
   title: 'Foundation/Shared/Map',
   component: FSMap,
-  tags: ['autodocs']
+  tags: ['autodocs'],
+  argTypes: {
+    currentLayer: {
+      control: 'select',
+      options: ['map', 'imagery'],
+    },
+    overlayMode: {
+      control: 'select',
+      options: ['collapse', 'half', 'expand'],
+    },
+  },
 } satisfies Meta<typeof FSMap>;
 
 export default meta;
@@ -162,8 +172,8 @@ export const MultiLocationMap: Story = {
   args: {
     locations: [location2, location3, location4, location5],
     selectedLocationId: null,
-    overlayMode: 'half',
     currentLayer: 'imagery',
+    overlayMode: 'half',
   },
   render: (args) => ({
     components: { FSMap, FSFadeOut, FSRow, FSCol },
@@ -173,6 +183,60 @@ export const MultiLocationMap: Story = {
     template: `
       <FSMap
         v-model:overlayMode="args.overlayMode"
+        v-model:currentLayer="args.currentLayer"
+        v-model:selectedLocationId="args.selectedLocationId"
+        :locations="args.locations"
+      >
+        <template v-slot:overlay>
+          <FSRow
+            padding="8px"
+          >
+            <span>Custom overlay with fade out</span>
+          </FSRow>
+          <FSCol height="hug" style="min-height: 0;">
+            <FSFadeOut height="100%">
+              <div style="padding:8px; border-radius:4px; display: flex; flex-direction: column; gap: 10px;">
+                <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+                  <span>Left overlay</span>
+              </div>
+            </FSFadeOut>
+          </FSCol>
+        </template>
+      </FSMap>
+    `,
+  }),
+};
+
+export const MultiLocationMapClick: Story = {
+  args: {
+    locations: [location2, location3, location4, location5],
+    selectedLocationId: null,
+    currentLayer: 'map',
+  },
+  render: (args) => ({
+    components: { FSMap, FSFadeOut, FSRow, FSCol },
+    setup() {
+      return { args };
+    },
+    template: `
+      <FSMap
+        :overlayMode="args.selectedLocationId ? 'half' : 'collapse'"
         v-model:currentLayer="args.currentLayer"
         v-model:selectedLocationId="args.selectedLocationId"
         :locations="args.locations"

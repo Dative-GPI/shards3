@@ -301,7 +301,7 @@ export default defineComponent({
       if (props.modelValue) {
         // FSClock just gives two numbers without consideration for the time zone
         // We must adjust the time to the user's time zone
-        innerTime.value = Math.floor((props.modelValue + getUserOffset()) % (24 * 60 * 60 * 1000));
+        innerTime.value = Math.floor((props.modelValue + getUserOffset(props.modelValue)) % (24 * 60 * 60 * 1000));
         innerDate.value = props.modelValue - innerTime.value;
       }
       else {

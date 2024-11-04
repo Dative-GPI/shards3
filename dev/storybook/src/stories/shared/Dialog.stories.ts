@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSDateRangeField from "@dative-gpi/foundation-shared-components/components/fields/FSDateRangeField.vue";
+import FSTranslateField from "@dative-gpi/foundation-shared-components/components/fields/FSTranslateField.vue";
 import FSDialogMultiForm from "@dative-gpi/foundation-shared-components/components/FSDialogMultiForm.vue";
-import FSDateField from "@dative-gpi/foundation-shared-components/components/fields/FSDateField.vue";
 import FSTextField from "@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue";
 import FSDialogSubmit from "@dative-gpi/foundation-shared-components/components/FSDialogSubmit.vue";
 import FSDialogRemove from "@dative-gpi/foundation-shared-components/components/FSDialogRemove.vue";
 import FSDialogForm from "@dative-gpi/foundation-shared-components/components/FSDialogForm.vue";
-import FSToggleSet from "@dative-gpi/foundation-shared-components/components/FSToggleSet.vue";
+import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSDialog from "@dative-gpi/foundation-shared-components/components/FSDialog.vue";
 import FSCard from "@dative-gpi/foundation-shared-components/components/FSCard.vue";
@@ -53,11 +52,11 @@ export const Submit: Story = {
         title="Form 1"
         :showCancelButton="args.showCancelButton1"
         :showSubmitButton="args.showSubmitButton1"
-        v-model="value1"
+        v-model="args.value1"
       >
         <template #body>
-          <FSSpan>
-          This is a submit dialog
+          <FSSpan v-for="i in 100" :key="i" style="min-height: fit-content">
+            This is a submit dialog
           </FSSpan>
         </template>
       </FSDialogForm>
@@ -76,7 +75,7 @@ export const Form: Story = {
     label4: ""
   },
   render: (args, { argTypes }) => ({
-    components: { FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    components: { FSTranslateField, FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return {
@@ -158,7 +157,7 @@ export const Form: Story = {
         v-model="args.value4"
       >
         <template #body>
-          <FSTextField
+          <FSTranslateField
             label="Label 4"
             :required="true"
             :rules="[v => !!v || 'Label is required']"
@@ -273,6 +272,51 @@ export const Remove: Story = {
         @click:submitButton="() => args.removing3 = true"
         v-model="args.value3"
       />
+    </div>`
+  })
+}
+
+
+export const FullScreen: Story = {
+  args: {
+    value1: false,
+    showCancelButton1: true,
+    showSubmitButton1: true
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSDialog, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow, FSFadeOut },
+    props: Object.keys(argTypes),
+    setup() {
+      return {
+        args
+      };
+    },
+    template: `
+    <div style="display: flex; gap: 10px;">
+      <FSButton
+        color="primary"
+        label="Dialog submit"
+        @click="() => args.value1 = true"
+      />
+      <FSDialog
+        title="Form 1"
+        :showCancelButton="args.showCancelButton1"
+        :showSubmitButton="args.showSubmitButton1"
+        v-model="value1"
+        :fullscreen="true"
+        width="100%"
+      >
+        <FSCard width="100%" height="100%" padding="20px" :border="false">
+          <FSFadeOut maxHeight="100%" :scrollOutside="false">
+            <FSCol>
+              <FSSpan v-for="i in 100" :key="i" style="min-height: fit-content">
+                This is a fullscreen dialog
+              </FSSpan>
+              <FSButton label="Close" @click="() => args.value1 = false" />
+            </FSCol>
+          </FSFadeOut>
+        </FSCard>
+      </FSDialogForm>
     </div>`
   })
 }

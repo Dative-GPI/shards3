@@ -289,25 +289,29 @@
               <slot
                 :name="`${header.slotName}-append`"
               />
-              <v-spacer />
-              <slot
-                :name="`${header.slotName}-configuration`"
+              <FSRow
+                align="center-right"
+                :wrap="false"
               >
-                <FSHeaderButton
-                  :first="index === 0"
-                  :last="index === headersSlots.length - 1"
-                  @update:hide="updateHeader(header, 'hidden', !header.hidden)"
-                  @update:left="updateHeader(header, 'index', -1)"
-                  @update:right="updateHeader(header, 'index', 1)"
-                />
-                <FSButton
-                  v-if="header.sortable"
-                  variant="icon"
-                  :color="sortColor(header, props)"
-                  :icon="sortIcon(header, props)"
-                  @click="toggleSort(header)"
-                />
-              </slot>
+                <slot
+                  :name="`${header.slotName}-configuration`"
+                >
+                  <FSHeaderButton
+                    :first="index === 0"
+                    :last="index === headersSlots.length - 1"
+                    @update:hide="updateHeader(header, 'hidden', !header.hidden)"
+                    @update:left="updateHeader(header, 'index', -1)"
+                    @update:right="updateHeader(header, 'index', 1)"
+                  />
+                  <FSButton
+                    v-if="header.sortable"
+                    variant="icon"
+                    :color="sortColor(header, props)"
+                    :icon="sortIcon(header, props)"
+                    @click="toggleSort(header)"
+                  />
+                </slot>
+              </FSRow>
             </FSRow>
           </slot>
         </template>
@@ -370,7 +374,6 @@
                 </FSText>
               </template>
             </template>
-            <v-spacer />
             <FSRow
               align="center-right"
               width="hug"
@@ -544,7 +547,6 @@
                 </FSText>
               </template>
             </template>
-            <v-spacer />
             <FSRow
               align="center-right"
               :wrap="false"
@@ -694,6 +696,7 @@ import { useRouter } from "vue-router";
 import { ColorEnum, type FSDataTableColumn, type FSDataTableFilter, type FSDataTableOrder, type FSToggle } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints, useColors, useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
+import { useRouting } from "@dative-gpi/foundation-shared-services/composables";
 import { uuidv4 } from "@dative-gpi/bones-ui/tools/uuid"
 
 import { alphanumericSort, containsSearchTerm, sizeToVar } from "../../utils";
@@ -886,6 +889,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:headers", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
+    const { handleRoutingEvent } = useRouting();
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();
@@ -1105,12 +1109,7 @@ export default defineComponent({
           clickable: true,
           row: (event: PointerEvent, row: any) => {
             if (props.itemTo && router) {
-              if (event.metaKey || event.ctrlKey || event.button === 1) {
-                window.open(router.resolve(props.itemTo(row.item)).href, "_blank");
-              }
-              else {
-                router.push(props.itemTo(row.item));
-              }
+              handleRoutingEvent(event, props.itemTo(row.item), true);
             }
             else {
               emit("click:row", row.item);
@@ -1243,7 +1242,7 @@ export default defineComponent({
           value = header.fixedFilters.map((ff): FSDataTableFilter => ({
             hidden: currentFilters?.find((cf) => cf.value == (ff.value || null))?.hidden ?? false,
             text: ff.text?.toString() ?? "—",
-            value: ff.value || null,
+            value: ff.value ?? null,
             filter: header.methodFilter ?? ((_, property, item) => {
               if (header.methodFilterRaw) {
                 return header.methodFilterRaw(ff.value, item);

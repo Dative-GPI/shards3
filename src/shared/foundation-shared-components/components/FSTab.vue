@@ -26,19 +26,6 @@
             {{ $props.label }}
           </FSSpan>
         </slot>
-        <v-spacer
-          v-if="$props.tag"
-        />
-        <slot
-          name="tag"
-        >
-          <FSSpan
-            v-if="$props.tag"
-            class="fs-tab-tag"
-          >
-            {{ $props.tag }}
-          </FSSpan>
-        </slot>
         <slot
           name="append"
         >
@@ -49,6 +36,21 @@
             {{ $props.appendIcon }}
           </FSIcon>
         </slot>
+        <FSRow
+          align="center-right"
+          :wrap="false"
+        >
+          <slot
+            name="tag"
+          >
+            <FSSpan
+              v-if="$props.tag"
+              class="fs-tab-tag"
+            >
+              {{ $props.tag }}
+            </FSSpan>
+          </slot>
+        </FSRow>
       </FSRow>
     </slot>
   </v-tab>

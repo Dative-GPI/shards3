@@ -1,3 +1,5 @@
+export * from "./chartAllowedStep";
+export * from "./chartAllowedStepTranslation";
 export * from "./chartAxis";
 export * from "./chartDetails";
 export * from "./chartFilter";
