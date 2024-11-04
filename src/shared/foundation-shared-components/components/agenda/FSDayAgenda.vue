@@ -2,7 +2,6 @@
   <FSRow
     class="fs-day-agenda"
     height="100%"
-    padding="8px 0 0 0"
     :wrap="false"
     gap="0px"
     :style="style"
