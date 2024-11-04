@@ -3,7 +3,7 @@
     gap="0"
   >
     <FSRow
-      :padding="`0 calc( 0.5 * ((100% - ${$props.firstColumnWidth}) / ${hoursToShow})) 0 calc(${$props.firstColumnWidth} - 0.5 * ((100% - ${$props.firstColumnWidth}) / ${hoursToShow}))`"
+      :padding="`0 ${paddingRightHours} 0 ${paddingLeftHours}`"
       class="fs-agenda-hours-row"
       :wrap="false"
       gap="0"
@@ -37,7 +37,7 @@
       </FSRow>
     </FSRow>
     <FSRow
-      :padding="`0 calc( 0.5 * ((100% - ${$props.firstColumnWidth}) / 24)) 0 calc(${$props.firstColumnWidth} - 0.5 * ((100% - ${$props.firstColumnWidth}) / 24))`"
+      :padding="`0 ${paddingRightMarkers} 0 ${paddingLeftMarkers}`"
       class="fs-agenda-hours-row-markers"
       :wrap="false"
       gap="0"
@@ -94,7 +94,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const { getColors } = useColors();
     const { isMobileSized } = useBreakpoints();
 
@@ -113,6 +113,27 @@ export default defineComponent({
       return Array.from({ length: hoursToShow.value }, (_, i) => i * (24 / hoursToShow.value));
     });
 
+    const paddingLeftHours = computed(() => {
+      // ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}) is the width of each hour slot (2 hour if 12 hours are shown, 1 hour if 24 hours are shown)
+      // 0.5 * ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}) is half of the width of each hour slot
+      // So we have : ${props.firstColumnWidth} - Half of the width of each hour slot
+      return `calc(${props.firstColumnWidth} - 0.5 * ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}))`;
+    });
+
+    const paddingRightHours = computed(() => {
+      return `calc(0.5 * ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}))`;
+    });
+
+    const paddingLeftMarkers = computed(() => {
+      return `calc(${props.firstColumnWidth} - 0.5 * ((100% - ${props.firstColumnWidth}) / 24))`;
+    });
+
+    const paddingRightMarkers = computed(() => {
+      return `calc(0.5 * ((100% - ${props.firstColumnWidth}) / 24))`;
+    });
+
+
+
     const getMarkerStyle = (isNowHour: boolean): StyleValue => {
       if(isNowHour) {
         return {
@@ -130,6 +151,10 @@ export default defineComponent({
       hours,
       fontColor,
       hoursToShow,
+      paddingLeftHours,
+      paddingRightHours,
+      paddingLeftMarkers,
+      paddingRightMarkers,
       getMarkerStyle,
       to2Digits
     };
