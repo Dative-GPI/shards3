@@ -3,11 +3,11 @@
     gap="0"
   >
     <FSRow
+      :padding="`0 ${paddingRightHours} 0 ${paddingLeftHours}`"
       class="fs-agenda-hours-row"
       :wrap="false"
       gap="0"
       align="center-center"
-      :style="style"
     >
       <FSRow
         v-for="hour in hours"
@@ -37,6 +37,7 @@
       </FSRow>
     </FSRow>
     <FSRow
+      :padding="`0 ${paddingRightMarkers} 0 ${paddingLeftMarkers}`"
       class="fs-agenda-hours-row-markers"
       :wrap="false"
       gap="0"
@@ -88,8 +89,12 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    firstColumnWidth: {
+      type: String,
+      required: true,
+    },
   },
-  setup() {
+  setup(props) {
     const { getColors } = useColors();
     const { isMobileSized } = useBreakpoints();
 
@@ -108,11 +113,26 @@ export default defineComponent({
       return Array.from({ length: hoursToShow.value }, (_, i) => i * (24 / hoursToShow.value));
     });
 
-    const style = computed((): StyleValue => {
-      return {
-        '--fs-agenda-hours-row-transform': `translateX(calc(-${2.4 * 24 / hoursToShow.value}%))`,
-      }
+    const paddingLeftHours = computed(() => {
+      // ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}) is the width of each hour slot (2 hour if 12 hours are shown, 1 hour if 24 hours are shown)
+      // 0.5 * ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}) is half of the width of each hour slot
+      // So we have : ${props.firstColumnWidth} - Half of the width of each hour slot
+      return `calc(${props.firstColumnWidth} - 0.5 * ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}))`;
     });
+
+    const paddingRightHours = computed(() => {
+      return `calc(0.5 * ((100% - ${props.firstColumnWidth}) / ${hoursToShow.value}))`;
+    });
+
+    const paddingLeftMarkers = computed(() => {
+      return `calc(${props.firstColumnWidth} - 0.5 * ((100% - ${props.firstColumnWidth}) / 24))`;
+    });
+
+    const paddingRightMarkers = computed(() => {
+      return `calc(0.5 * ((100% - ${props.firstColumnWidth}) / 24))`;
+    });
+
+
 
     const getMarkerStyle = (isNowHour: boolean): StyleValue => {
       if(isNowHour) {
@@ -129,8 +149,12 @@ export default defineComponent({
 
     return {
       hours,
-      style,
       fontColor,
+      hoursToShow,
+      paddingLeftHours,
+      paddingRightHours,
+      paddingLeftMarkers,
+      paddingRightMarkers,
       getMarkerStyle,
       to2Digits
     };
