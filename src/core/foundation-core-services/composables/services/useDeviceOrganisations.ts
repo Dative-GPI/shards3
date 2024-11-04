@@ -1,12 +1,15 @@
-import { type Ref } from "vue";
+import { onUnmounted, type Ref } from "vue";
 
 import { type ChangeDeviceOrganisationGroupDTO, type ChangeDeviceOrganisationLocationDTO, type CreateDeviceOrganisationDTO, DeviceOrganisationDetails, type DeviceOrganisationDetailsDTO, type DeviceOrganisationFilters, DeviceOrganisationInfos, type DeviceOrganisationInfosDTO, type UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
+import { type AllCallback } from "@dative-gpi/bones-ui";
 
 import { DEVICE_ORGANISATIONS_URL, DEVICE_ORGANISATION_URL, DEVICE_ORGANISATION_GROUP_URL, DEVICE_ORGANISATION_LOCATION_URL } from "../../config/urls";
 
 import { useTrackDeviceConnectivity, useWatchDeviceConnectivity } from "./useDeviceConnectivities";
 import { useTrackDeviceStatuses, useWatchDeviceStatuses } from "./useDeviceStatuses";
+
+let subscribersIds: number[] = [];
 
 const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDetailsDTO, DeviceOrganisationDetails>("deviceOrganisation", DeviceOrganisationDetails).create(factory => factory.build(
   factory.addGet(DEVICE_ORGANISATION_URL),
@@ -24,7 +27,14 @@ const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDe
       const result = new DeviceOrganisationDetails(dto);
       notifyService.notify("update", result);
       return result;
-    })
+    }),
+    subscribeToMany: (callback: AllCallback<DeviceOrganisationDetails>) => {
+      onUnmounted(() => {
+        subscribersIds.forEach(id => notifyService.unsubscribe(id));
+        subscribersIds = [];
+      });
+      subscribersIds.push(notifyService.subscribe("all", callback));
+    }
   }))
 ));
 
@@ -61,6 +71,8 @@ const trackDeviceOrganisations = () => {
     }
   }
 }
+
+export const subscribeToDeviceOrganisations = DeviceOrganisationServiceFactory.subscribeToMany;
 
 export const useDeviceOrganisation = ComposableFactory.get(DeviceOrganisationServiceFactory, trackDeviceOrganisation);
 export const useDeviceOrganisations = ComposableFactory.getMany(DeviceOrganisationServiceFactory, trackDeviceOrganisations);

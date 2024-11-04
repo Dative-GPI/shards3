@@ -1,7 +1,12 @@
+import { onUnmounted } from "vue";
+
 import { type ChangeGroupParentDTO, type CreateGroupDTO, GroupDetails, type GroupDetailsDTO, type GroupFilters, GroupInfos, type GroupInfosDTO, type UpdateGroupDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
+import { type AllCallback } from "@dative-gpi/bones-ui";
 
 import { GROUPS_URL, GROUP_URL } from "../../config/urls";
+
+let subscribersIds: number[] = [];
 
 const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("group", GroupDetails).create(factory => factory.build(
   factory.addGet(GROUP_URL),
@@ -14,9 +19,18 @@ const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("g
       const result = new GroupDetails(dto);
       notifyService.notify("update", result);
       return result;
-    })
+    }),
+    subscribeToMany: (callback: AllCallback<GroupDetails>) => {
+      onUnmounted(() => {
+        subscribersIds.forEach(id => notifyService.unsubscribe(id));
+        subscribersIds = [];
+      });
+      subscribersIds.push(notifyService.subscribe("all", callback))
+    }
   }))
 ));
+
+export const subscribeToGroups = GroupServiceFactory.subscribeToMany;
 
 export const useGroup = ComposableFactory.get(GroupServiceFactory);
 export const useGroups = ComposableFactory.getMany(GroupServiceFactory);

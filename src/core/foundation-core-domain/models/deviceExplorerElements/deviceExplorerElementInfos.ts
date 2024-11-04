@@ -8,7 +8,7 @@ import { PathCrumb, type PathCrumbDTO } from "../shared/pathCrumb";
 
 export class DeviceExplorerElementInfos {
   id: string;
-  organisationId: string;
+  organisationId: string | null;
   parentId: string | null;
   imageId: string | null;
   code: string;
@@ -17,29 +17,29 @@ export class DeviceExplorerElementInfos {
   path: PathCrumb[];
   type: DeviceExplorerElementType;
 
-  icon: string;
-  groupsIds: string[];
-  deviceOrganisationsIds: string[];
-  modelsIds: string[];
-  recursiveGroupsIds: string[];
-  recursiveDeviceOrganisationsIds: string[];
-  recursiveModelsIds: string[];
+  icon: string | null;
+  groupsIds: string[] | null;
+  deviceOrganisationsIds: string[] | null;
+  modelsIds: string[] | null;
+  recursiveGroupsIds: string[] | null;
+  recursiveDeviceOrganisationsIds: string[] | null;
+  recursiveModelsIds: string[] | null;
 
-  manufacturerLabel: string;
-  articleLabel: string;
-  modelLabel: string;
+  manufacturerLabel: string | null;
+  articleLabel: string | null;
+  modelLabel: string | null;
   ownerLabel: string | null;
   managerName: string | null;
-  unrestricted: boolean;
-  online: number;
-  meta: { [key: string]: string };
-  modelStatuses: ModelStatusInfos[];
-  status: DeviceStatusDetails;
-  connectivity: DeviceConnectivityDetails;
-  alerts: DeviceOrganisationAlert[];
+  unrestricted: boolean | null;
+  online: number | null;
+  meta: { [key: string]: string } | null;
+  modelStatuses: ModelStatusInfos[] | null;
+  status: DeviceStatusDetails | null;
+  connectivity: DeviceConnectivityDetails | null;
+  alerts: DeviceOrganisationAlert[] | null;
   worstAlert: DeviceOrganisationAlert | null;
 
-  get connectable(): DeviceConnectivityDetails | undefined {
+  get connectable(): DeviceConnectivityDetails | null {
     return this.connectivity;
   }
 
@@ -55,12 +55,12 @@ export class DeviceExplorerElementInfos {
     this.type = params.type;
 
     this.icon = params.icon;
-    this.groupsIds = params.groupsIds.slice();
-    this.deviceOrganisationsIds = params.deviceOrganisationsIds.slice();
-    this.modelsIds = params.modelsIds.slice();
-    this.recursiveGroupsIds = params.recursiveGroupsIds.slice();
-    this.recursiveDeviceOrganisationsIds = params.recursiveDeviceOrganisationsIds.slice();
-    this.recursiveModelsIds = params.recursiveModelsIds.slice();
+    this.groupsIds = params.groupsIds?.slice() ?? null;
+    this.deviceOrganisationsIds = params.deviceOrganisationsIds?.slice() ?? null;
+    this.modelsIds = params.modelsIds?.slice() ?? null;
+    this.recursiveGroupsIds = params.recursiveGroupsIds?.slice() ?? null;
+    this.recursiveDeviceOrganisationsIds = params.recursiveDeviceOrganisationsIds?.slice() ?? null;
+    this.recursiveModelsIds = params.recursiveModelsIds?.slice() ?? null;
 
     this.manufacturerLabel = params.manufacturerLabel;
     this.articleLabel = params.articleLabel;
@@ -69,19 +69,18 @@ export class DeviceExplorerElementInfos {
     this.managerName = params.managerName;
     this.unrestricted = params.unrestricted;
     this.online = params.online;
-    this.meta = { ...params.meta };
-    this.modelStatuses = params.modelStatuses.map(dto => new ModelStatusInfos(dto));
-    this.status = new DeviceStatusDetails(params.status);
-    this.connectivity = new DeviceConnectivityDetails(params.connectivity);
-    this.alerts = params.alerts.map(dto => new DeviceOrganisationAlert(dto));
-    this.worstAlert = params.worstAlert != null ?
-      new DeviceOrganisationAlert(params.worstAlert) : null;
+    this.meta = params.meta ? { ...params.meta } : null;
+    this.modelStatuses = params.modelStatuses?.map(dto => new ModelStatusInfos(dto)) ?? null;
+    this.status = params.status ? new DeviceStatusDetails(params.status) : null;
+    this.connectivity = params.connectivity ? new DeviceConnectivityDetails(params.connectivity) : null;
+    this.alerts = params.alerts?.map(dto => new DeviceOrganisationAlert(dto)) ?? null;
+    this.worstAlert = params.worstAlert ? new DeviceOrganisationAlert(params.worstAlert) : null;
   }
 }
 
 export interface DeviceExplorerElementInfosDTO {
   id: string;
-  organisationId: string;
+  organisationId: string | null;
   parentId: string | null;
   imageId: string | null;
   code: string;
@@ -90,26 +89,26 @@ export interface DeviceExplorerElementInfosDTO {
   path: PathCrumbDTO[];
   type: number;
 
-  icon: string;
-  groupsIds: string[];
-  deviceOrganisationsIds: string[];
-  modelsIds: string[];
-  recursiveGroupsIds: string[];
-  recursiveDeviceOrganisationsIds: string[];
-  recursiveModelsIds: string[];
+  icon: string | null;
+  groupsIds: string[] | null;
+  deviceOrganisationsIds: string[] | null;
+  modelsIds: string[] | null;
+  recursiveGroupsIds: string[] | null;
+  recursiveDeviceOrganisationsIds: string[] | null;
+  recursiveModelsIds: string[] | null;
 
-  manufacturerLabel: string;
-  articleLabel: string;
-  modelLabel: string;
+  manufacturerLabel: string | null;
+  articleLabel: string | null;
+  modelLabel: string | null;
   ownerLabel: string | null;
   managerName: string | null;
-  unrestricted: boolean;
-  online: number;
-  meta: { [key: string]: string };
-  modelStatuses: ModelStatusInfosDTO[];
-  status: DeviceStatusDetailsDTO;
-  connectivity: DeviceConnectivityDetailsDTO;
-  alerts: DeviceOrganisationAlertDTO[];
+  unrestricted: boolean | null;
+  online: number | null;
+  meta: { [key: string]: string } | null;
+  modelStatuses: ModelStatusInfosDTO[] | null;
+  status: DeviceStatusDetailsDTO | null;
+  connectivity: DeviceConnectivityDetailsDTO | null;
+  alerts: DeviceOrganisationAlertDTO[] | null;
   worstAlert: DeviceOrganisationAlertDTO | null;
 }
 
