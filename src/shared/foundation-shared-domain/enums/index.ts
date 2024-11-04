@@ -8,6 +8,7 @@ export * from "./customProperties";
 export * from "./dashboards";
 export * from "./datas";
 export * from "./dates";
+export * from "./deviceExplorerElements";
 export * from "./filters";
 export * from "./index";
 export * from "./lists";

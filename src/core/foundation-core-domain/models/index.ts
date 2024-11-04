@@ -25,8 +25,8 @@ export * from "./dataCategories";
 export * from "./dataDefinitions";
 export * from "./dataDefinitionMappings";               // No service
 export * from "./deviceConnectivities";
+export * from "./deviceExplorerElements";
 export * from "./deviceOrganisations";
-export * from "./devicesExplorerElements";
 export * from "./deviceStatuses";
 export * from "./extensionApplications";
 export * from "./folders";

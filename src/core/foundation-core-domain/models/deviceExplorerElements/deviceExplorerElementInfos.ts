@@ -1,10 +1,12 @@
+import { type DeviceExplorerElementType } from "@dative-gpi/foundation-shared-domain/enums";
+
 import { DeviceConnectivityDetails, type DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
 import { DeviceOrganisationAlert, type DeviceOrganisationAlertDTO } from "../deviceOrganisations/deviceOrganisationAlert";
 import { DeviceStatusDetails, type DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
 import { ModelStatusInfos, type ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
 import { PathCrumb, type PathCrumbDTO } from "../shared/pathCrumb";
 
-export class DevicesExplorerElementInfos {
+export class DeviceExplorerElementInfos {
   id: string;
   organisationId: string;
   parentId: string | null;
@@ -13,6 +15,7 @@ export class DevicesExplorerElementInfos {
   label: string;
   tags: string[];
   path: PathCrumb[];
+  type: DeviceExplorerElementType;
 
   icon: string;
   groupsIds: string[];
@@ -40,7 +43,7 @@ export class DevicesExplorerElementInfos {
     return this.connectivity;
   }
 
-  constructor(params: DevicesExplorerElementInfosDTO) {
+  constructor(params: DeviceExplorerElementInfosDTO) {
     this.id = params.id;
     this.organisationId = params.organisationId;
     this.parentId = params.parentId;
@@ -49,6 +52,7 @@ export class DevicesExplorerElementInfos {
     this.label = params.label;
     this.tags = params.tags;
     this.path = params.path.map(dto => new PathCrumb({ ...dto })).sort((a, b) => b.index - a.index);
+    this.type = params.type;
 
     this.icon = params.icon;
     this.groupsIds = params.groupsIds.slice();
@@ -75,7 +79,7 @@ export class DevicesExplorerElementInfos {
   }
 }
 
-export interface DevicesExplorerElementInfosDTO {
+export interface DeviceExplorerElementInfosDTO {
   id: string;
   organisationId: string;
   parentId: string | null;
@@ -84,6 +88,7 @@ export interface DevicesExplorerElementInfosDTO {
   label: string;
   tags: string[];
   path: PathCrumbDTO[];
+  type: number;
 
   icon: string;
   groupsIds: string[];
@@ -108,7 +113,7 @@ export interface DevicesExplorerElementInfosDTO {
   worstAlert: DeviceOrganisationAlertDTO | null;
 }
 
-export interface DevicesExplorerElementFilters {
+export interface DeviceExplorerElementFilters {
   parentId?: string | null;
   root?: boolean | null;
   search?: string | null;
