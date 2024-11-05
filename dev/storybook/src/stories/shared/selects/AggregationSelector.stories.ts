@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import FSAggregationSelector from "@dative-gpi/foundation-core-components/components/selects/FSAggregationSelector.vue";
+import FSAggregationSelector from "@dative-gpi/foundation-shared-components/components/selects/chartSelectors/FSAggregationSelector.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 
 const meta = {
-  title: 'Foundation/Core/Selects/AggregationSelector',
+  title: 'Foundation/Shared/Selects/AggregationSelector',
   component: FSAggregationSelector,
   tags: ['autodocs'],
   argTypes: {

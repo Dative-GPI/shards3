@@ -36,7 +36,8 @@ export default defineComponent({
     const dashboardVariableTypes = computed((): { id: DashboardVariableType; label: string }[] => ([
       { id: DashboardVariableType.Number, label: $tr("ui.dashboard-variable-type.number", "Number") },
       { id: DashboardVariableType.String, label: $tr("ui.dashboard-variable-type.string", "String") },
-      { id: DashboardVariableType.TimeStep, label: $tr("ui.dashboard-variable-type.time-step", "Time step") }
+      { id: DashboardVariableType.TimeStep, label: $tr("ui.dashboard-variable-type.time-step", "Time step")},
+      { id: DashboardVariableType.PlotPer, label: $tr("ui.dashboard-variable-type.plot-per", "Plot per")}
     ]));
 
     return {

@@ -42,7 +42,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { DateRules, IconRules, NumberRules, TextRules, TimeRules, TimeStepRules } from "../../models";
+import { DateRules, IconRules, NumberRules, TextRules, TimeRules, TimeStepRules, AutocompleteRules } from "../../models";
 import { useMagicFieldProvider } from "../../composables";
 import { MagicFieldType } from "../../models/magicFields";
 
@@ -104,6 +104,8 @@ export default defineComponent({
           return [TimeRules.required()];
         case MagicFieldType.TimeStepField:
           return [TimeStepRules.required()];
+        case MagicFieldType.PlotPerField:
+          return [AutocompleteRules.required()];
       }
       return [];
     });
