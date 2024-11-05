@@ -1,8 +1,7 @@
-import { onUnmounted, type Ref } from "vue";
+import { type Ref } from "vue";
 
 import { type ChangeDeviceOrganisationGroupDTO, type ChangeDeviceOrganisationLocationDTO, type CreateDeviceOrganisationDTO, DeviceOrganisationDetails, type DeviceOrganisationDetailsDTO, type DeviceOrganisationFilters, DeviceOrganisationInfos, type DeviceOrganisationInfosDTO, type UpdateDeviceOrganisationDTO } from "@dative-gpi/foundation-core-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import { type AllCallback } from "@dative-gpi/bones-ui";
 
 import { DEVICE_ORGANISATIONS_URL, DEVICE_ORGANISATION_URL, DEVICE_ORGANISATION_GROUP_URL, DEVICE_ORGANISATION_LOCATION_URL } from "../../config/urls";
 
@@ -63,22 +62,7 @@ const trackDeviceOrganisations = () => {
   }
 }
 
-export const useSubscribeToDeviceOrganisations = () => {
-  let subscribersIds: number[] = [];
-
-  onUnmounted(() => {
-    subscribersIds.forEach(id => DeviceOrganisationServiceFactory.unsubscribe(id));
-    subscribersIds = [];
-  });
-
-  const subscribe = (event: any, callback: AllCallback<DeviceOrganisationDetails>) => {
-    subscribersIds.push(DeviceOrganisationServiceFactory.subscribe(event, callback));
-  }
-
-  return {
-    subscribe
-  }
-};
+export const useSubscribeToDeviceOrganisations = ComposableFactory.subscribe(DeviceOrganisationServiceFactory);
 
 export const useDeviceOrganisation = ComposableFactory.get(DeviceOrganisationServiceFactory, trackDeviceOrganisation);
 export const useDeviceOrganisations = ComposableFactory.getMany(DeviceOrganisationServiceFactory, trackDeviceOrganisations);
