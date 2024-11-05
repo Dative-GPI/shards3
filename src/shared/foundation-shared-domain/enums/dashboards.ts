@@ -10,7 +10,7 @@ export enum DashboardVariableType {
   Number   = 1,
   String   = 2,
   TimeStep = 3,
-  PLotper  = 4
+  PlotPer  = 4
 }
 
 export enum AutoRefresh {
