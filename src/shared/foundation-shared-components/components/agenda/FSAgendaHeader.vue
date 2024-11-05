@@ -23,7 +23,7 @@
         >
           <FSSpan
             class="fs-agenda-header-text"
-            font="text-h3"
+            font="text-button"
           >
             {{ epochToMonthYearOnlyFormat($props.start) }}
           </FSSpan>

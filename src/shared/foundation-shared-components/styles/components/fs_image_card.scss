@@ -1,7 +1,7 @@
 .fs-image-card {
   > .fs-card {
     background-image: var(--fs-image-card-background);
-    background-size: 100%;
+    background-size: cover;
     background-position: center;
   }
 

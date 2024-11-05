@@ -9,7 +9,7 @@ const meta = {
   component: FSPeriodicField,
   tags: ['autodocs'],
   argTypes: {
-    onClick: { action: 'clicked' }
+    "onUpdate:modelValue": { action: "update:modelValue" }
   },
 } satisfies Meta<typeof FSPeriodicField>;
 
@@ -18,42 +18,21 @@ type Story = StoryObj<typeof meta>;
 
 export const Variations: Story = {
   args: {
-    args: {
-      value1: "0 14 */3 * *",
-      value2: "30 14 * * 4",
-      value3: "35 22 15 * *",
-      value4: "0 9 8-14 * 4",
-      value5: "0 4 14 6 *"
-    }
+    modelValue: "0 7 * * 1",
+    editable: true
   },
   render: (args, { argTypes }) => ({
     components: { FSPeriodicField, FSCol, FSDivider },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      return { args };
     },
     template: `
     <FSCol>
       <FSPeriodicField
-        @update:modelValue="console.log($event)"
-        v-model="args.value1"
-      />
-      <FSDivider />
-      <FSPeriodicField
-        v-model="args.value2"
-      />
-      <FSDivider />
-      <FSPeriodicField
-        v-model="args.value3"
-      />
-      <FSDivider />
-      <FSPeriodicField
-        v-model="args.value4"
-      />
-      <FSDivider />
-      <FSPeriodicField
-        :editable="false"
-        v-model="args.value5"
+        v-model="args.modelValue"
+        v-model:editable="args.editable"
+        @update:modelValue="args['onUpdate:modelValue']"
       />
     </FSCol>`
   })

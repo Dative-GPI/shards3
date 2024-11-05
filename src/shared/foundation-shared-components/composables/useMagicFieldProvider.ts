@@ -10,6 +10,7 @@ const FIELDS = {
   [MagicFieldType.IconField]      : defineAsyncComponent(() => import("../components/fields/FSIconField.vue")),
   [MagicFieldType.TimeField]      : defineAsyncComponent(() => import("../components/fields/FSTimeField.vue")),
   [MagicFieldType.TimeStepField]  : defineAsyncComponent(() => import("../components/fields/FSTimeStepField.vue")),
+  [MagicFieldType.PlotPerField]   : defineAsyncComponent(() => import("../components/selects/chartSelectors/FSPlotPerSelector.vue")),
 };
 
 export const useMagicFieldProvider = () => {
