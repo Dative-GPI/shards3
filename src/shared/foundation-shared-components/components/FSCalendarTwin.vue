@@ -2,15 +2,22 @@
   <FSCol
     width="hug"
   >
-    <FSRow
-      v-if="$props.label"
-    >
-      <FSSpan
-        class="fs-calendar-label"
-        font="text-overline"
+    <FSRow>
+      <FSSelectField
+        :hideHeader="true"
+        :clearable="false"
+        :items="years"
+        :modelValue="innerLeftYear"
+        @update:modelValue="onChangeYear"
+      />
+      <FSRow
+        align="center-right"
       >
-        {{ $props.label }}
-      </FSSpan>
+        <FSButton
+          :label="$tr('ui.calendar.today', 'Today')"
+          @click="onClickToday"
+        />
+      </FSRow>
     </FSRow>
     <FSRow
       class="fs-calendar-twin"
@@ -118,6 +125,7 @@ import { useDateFormat, useAppLanguageCode } from "@dative-gpi/foundation-shared
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 
+import FSSelectField from "./fields/FSSelectField.vue";
 import FSButton from "./FSButton.vue";
 import FSSpan from "./FSSpan.vue";
 import FSCol from "./FSCol.vue";
@@ -126,17 +134,13 @@ import FSRow from "./FSRow.vue";
 export default defineComponent({
   name: "FSCalendarTwin",
   components: {
+    FSSelectField,
     FSButton,
     FSSpan,
     FSCol,
     FSRow
   },
   props: {
-    label: {
-      type: String as PropType<string | null>,
-      required: false,
-      default: null
-    },
     modelValue: {
       type: Array as PropType<number[] | null>,
       required: false,
@@ -167,13 +171,14 @@ export default defineComponent({
 
     const colors = computed(() => getColors(props.color));
     const backgrounds = getColors(ColorEnum.Background);
+    const lights = getColors(ColorEnum.Light);
     const darks = getColors(ColorEnum.Dark);
 
     const style = computed((): StyleValue => ({
       "--fs-calendar-background-color"       : backgrounds.base,
       "--fs-calendar-hover-background-color" : colors.value.light,
       "--fs-calendar-active-background-color": colors.value.base,
-      "--fs-calendar-border-color"           : darks.base,
+      "--fs-calendar-border-color"           : lights.dark,
       "--fs-calendar-hover-border-color"     : colors.value.base,
       "--fs-calendar-active-border-color"    : colors.value.base,
       "--fs-calendar-color"                  : darks.base,
@@ -257,6 +262,28 @@ export default defineComponent({
         }
       }
       return classNames;
+    });
+
+    const years = computed((): any[] => {
+      const years = [];
+      switch (props.limit) {
+        case "past":
+          for (let i = 1900; i < new Date().getFullYear(); i++) {
+            years.push({ label: i.toString(), id: i });
+          }
+          break;
+        case "future":
+          for (let i = new Date().getFullYear(); i < 2100; i++) {
+            years.push({ label: i.toString(), id: i });
+          }
+          break;
+        default:
+          for (let i = 1900; i < 2100; i++) {
+            years.push({ label: i.toString(), id: i });
+          }
+          break;
+      }
+      return years;
     });
 
     const compare = (operator: "before" | "during" | "after", side: "left" | "right", date: { d: number, m: number, y: number }): boolean => {
@@ -359,6 +386,35 @@ export default defineComponent({
       }
     };
 
+    const onClickToday = (): void => {
+      const today = new Date();
+      innerLeftMonth.value = today.getMonth();
+      innerLeftYear.value = today.getFullYear();
+
+      if (innerLeftMonth.value === 11) {
+        innerRightMonth.value = 0;
+        innerRightYear.value = innerLeftYear.value + 1;
+      }
+      else {
+        innerRightMonth.value = innerLeftMonth.value + 1;
+        innerRightYear.value = innerLeftYear.value;
+      }
+      
+      today.setHours(0, 0, 0, 0);
+      emit("update:modelValue", [pickerToEpoch(today), pickerToEpoch(today)]);
+    };
+
+    const onChangeYear = (value: number): void => {
+      if (innerRightYear.value !== innerLeftYear.value) {
+        innerLeftYear.value = value;
+        innerRightYear.value = value + 1;
+      }
+      else {
+        innerLeftYear.value = value;
+        innerRightYear.value = value;
+      }
+    }
+
     const allowedDates = (value: unknown): boolean => {
       if (!(value instanceof Date)) {
         return false;
@@ -411,11 +467,14 @@ export default defineComponent({
       innerRightMonth,
       innerRightYear,
       innerRightValue,
+      years,
       epochToPicker,
       onClickPrevious,
       onClickNext,
       onClickLeft,
       onClickRight,
+      onClickToday,
+      onChangeYear,
       allowedDates
     };
   }
