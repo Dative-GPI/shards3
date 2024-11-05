@@ -131,6 +131,8 @@ export default defineComponent({
           return props.modelValue === "true";
         case MagicFieldType.TimeStepField:
           return JSON.parse(props.modelValue);
+        case MagicFieldType.PlotPerField:
+          return parseInt(props.modelValue);
         default:
           return props.modelValue;
       }
@@ -174,6 +176,9 @@ export default defineComponent({
           break;
         case MagicFieldType.TimeStepField:
           emit("update:modelValue", JSON.stringify(value));
+          break;
+        case MagicFieldType.PlotPerField:
+          emit("update:modelValue", value.toString());
           break;
         default:
           emit("update:modelValue", value);
