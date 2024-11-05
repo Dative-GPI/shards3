@@ -6,8 +6,6 @@ import { type AllCallback } from "@dative-gpi/bones-ui";
 
 import { GROUPS_URL, GROUP_URL } from "../../config/urls";
 
-let subscribersIds: number[] = [];
-
 const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("group", GroupDetails).create(factory => factory.build(
   factory.addGet(GROUP_URL),
   factory.addGetMany<GroupInfosDTO, GroupInfos, GroupFilters>(GROUPS_URL, GroupInfos),
@@ -19,18 +17,26 @@ const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("g
       const result = new GroupDetails(dto);
       notifyService.notify("update", result);
       return result;
-    }),
-    subscribeToMany: (callback: AllCallback<GroupDetails>) => {
-      onUnmounted(() => {
-        subscribersIds.forEach(id => notifyService.unsubscribe(id));
-        subscribersIds = [];
-      });
-      subscribersIds.push(notifyService.subscribe("all", callback))
-    }
+    })
   }))
 ));
 
-export const subscribeToGroups = GroupServiceFactory.subscribeToMany;
+export const subscribeToGroups = () => {
+  let subscribersIds: number[] = [];
+
+  onUnmounted(() => {
+    subscribersIds.forEach(id => GroupServiceFactory.unsubscribe(id));
+    subscribersIds = [];
+  });
+
+  const subscribeToMany = (callback: AllCallback<GroupDetails>) => {
+    subscribersIds.push(GroupServiceFactory.subscribe("all", callback));
+  }
+
+  return {
+    subscribeToMany
+  }
+};
 
 export const useGroup = ComposableFactory.get(GroupServiceFactory);
 export const useGroups = ComposableFactory.getMany(GroupServiceFactory);

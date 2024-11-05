@@ -9,8 +9,6 @@ import { DEVICE_ORGANISATIONS_URL, DEVICE_ORGANISATION_URL, DEVICE_ORGANISATION_
 import { useTrackDeviceConnectivity, useWatchDeviceConnectivity } from "./useDeviceConnectivities";
 import { useTrackDeviceStatuses, useWatchDeviceStatuses } from "./useDeviceStatuses";
 
-let subscribersIds: number[] = [];
-
 const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDetailsDTO, DeviceOrganisationDetails>("deviceOrganisation", DeviceOrganisationDetails).create(factory => factory.build(
   factory.addGet(DEVICE_ORGANISATION_URL),
   factory.addGetMany<DeviceOrganisationInfosDTO, DeviceOrganisationInfos, DeviceOrganisationFilters>(DEVICE_ORGANISATIONS_URL, DeviceOrganisationInfos),
@@ -27,14 +25,7 @@ const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDe
       const result = new DeviceOrganisationDetails(dto);
       notifyService.notify("update", result);
       return result;
-    }),
-    subscribeToMany: (callback: AllCallback<DeviceOrganisationDetails>) => {
-      onUnmounted(() => {
-        subscribersIds.forEach(id => notifyService.unsubscribe(id));
-        subscribersIds = [];
-      });
-      subscribersIds.push(notifyService.subscribe("all", callback));
-    }
+    })
   }))
 ));
 
@@ -72,7 +63,22 @@ const trackDeviceOrganisations = () => {
   }
 }
 
-export const subscribeToDeviceOrganisations = DeviceOrganisationServiceFactory.subscribeToMany;
+export const subscribeToDeviceOrganisations = () => {
+  let subscribersIds: number[] = [];
+
+  onUnmounted(() => {
+    subscribersIds.forEach(id => DeviceOrganisationServiceFactory.unsubscribe(id));
+    subscribersIds = [];
+  });
+
+  const subscribeToMany = (callback: AllCallback<DeviceOrganisationDetails>) => {
+    subscribersIds.push(DeviceOrganisationServiceFactory.subscribe("all", callback));
+  }
+
+  return {
+    subscribeToMany
+  }
+};
 
 export const useDeviceOrganisation = ComposableFactory.get(DeviceOrganisationServiceFactory, trackDeviceOrganisation);
 export const useDeviceOrganisations = ComposableFactory.getMany(DeviceOrganisationServiceFactory, trackDeviceOrganisations);

@@ -24,19 +24,12 @@ export const useDeviceExplorerElements = () => {
   const { track: trackDeviceConnectivity } = useTrackDeviceConnectivity();
   const { track: trackDeviceStatuses } = useTrackDeviceStatuses();
 
+  const { subscribeToMany: subscribeToManyDeviceOrganisations } = subscribeToDeviceOrganisations();
+  const { subscribeToMany: subscribeToManyGroups } = subscribeToGroups();
+
   const fetching = ref(false);
   const entities = ref<DeviceExplorerElementInfos[]>([]);
   const filters = ref<DeviceExplorerElementFilters | null>(null);
-
-  subscribeToDeviceOrganisations((ev: AllEvent, el: DeviceOrganisationDetails) => {
-    const changeHandler = onCollectionChanged(entities, () => filterDeviceOrganisation(el, filters.value));
-    changeHandler(ev as never, fromDeviceOrganisation(el));
-  });
-
-  subscribeToGroups((ev: AllEvent, el: GroupDetails) => {
-    const changeHandler = onCollectionChanged(entities, () => filterGroup(el, filters.value));
-    changeHandler(ev as never, fromGroup(el));
-  });
 
   const getMany = async (...args: Parameters<typeof DeviceExplorerElementServiceFactory.getMany>) => {
     fetching.value = true;
@@ -44,6 +37,16 @@ export const useDeviceExplorerElements = () => {
 
     try {
       entities.value = await DeviceExplorerElementServiceFactory.getMany(...args);
+
+      subscribeToManyDeviceOrganisations((ev: AllEvent, el: DeviceOrganisationDetails) => {
+        const changeHandler = onCollectionChanged(entities, () => filterDeviceOrganisation(el, filters.value));
+        changeHandler(ev as never, fromDeviceOrganisation(el));
+      });
+
+      subscribeToManyGroups((ev: AllEvent, el: GroupDetails) => {
+        const changeHandler = onCollectionChanged(entities, () => filterGroup(el, filters.value));
+        changeHandler(ev as never, fromGroup(el));
+      });
 
       watchDevicesStatuses();
       watchDevicesConnectivity();
