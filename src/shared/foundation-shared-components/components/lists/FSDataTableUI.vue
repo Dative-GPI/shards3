@@ -820,6 +820,11 @@ export default defineComponent({
       required: false,
       default: true
     },
+    useSearch: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     singleSelect: {
       type: Boolean,
       required: false,
@@ -886,7 +891,7 @@ export default defineComponent({
       default: "12px"
     },
   },
-  emits: ["update:modelValue", "update:headers", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
+  emits: ["update:modelValue", "update:headers", "update:search", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
     const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
@@ -1057,7 +1062,7 @@ export default defineComponent({
               return false;
             }
           }
-          if (innerSearchFormatted) {
+          if (props.useSearch && innerSearchFormatted) {
             return containsSearchTerm(item, innerSearchFormatted);
           }
           return true;
@@ -1511,6 +1516,7 @@ export default defineComponent({
 
     watch(innerSearch, () => {
       innerPage.value = 1;
+      emit("update:search", innerSearch.value);
     });
 
     watch(innerShowFilters, () => {

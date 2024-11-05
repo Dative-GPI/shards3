@@ -21,7 +21,7 @@ export const filterDeviceOrganisation = (deviceOrganisation: DeviceOrganisationI
     return true;
   }
   if (!filters.search) {
-    return (filters.root && !deviceOrganisation.groupId) || (filters.parentId == deviceOrganisation.groupId);
+    return (filters.root && !deviceOrganisation.groupId) || (!!filters.parentId && filters.parentId == deviceOrganisation.groupId);
   }
 
   const fullText = `${deviceOrganisation.label} ${deviceOrganisation.code} ${deviceOrganisation.description} ${deviceOrganisation.tags.join(" ")}`;
@@ -53,7 +53,7 @@ export const filterGroup = (group: GroupInfos, filters: DeviceExplorerElementFil
     return true;
   }
   if (!filters.search) {
-    return (filters.root && !group.parentId) || (filters.parentId == group.parentId);
+    return (filters.root && !group.parentId) || (!!filters.parentId && filters.parentId == group.parentId);
   }
 
   const fullText = `${group.label} ${group.code} ${group.tags.join(" ")}`;
