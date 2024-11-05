@@ -5,7 +5,6 @@
   >
     <FSCard
       :elevation="true"
-      @click.stop
     >
       <FSCol
         padding="16px"
