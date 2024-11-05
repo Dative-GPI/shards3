@@ -13,6 +13,9 @@ const meta: Meta<typeof FSBaseDevicesExplorer> = {
       control: "select",
       options: ["devicesExplorer1", "devicesExplorer2"],
     },
+    deviceExplorerElementFilters: {
+      control: "object",
+    }
   },
 };
 
@@ -23,6 +26,9 @@ export const Default: Story = {
   args: {
     modelValue: [],
     tableCode: "devicesExplorer1",
+    deviceExplorerElementFilters: {
+      root: true
+    }
   },
   render: (args) => ({
     components: { FSBaseDevicesExplorer },
@@ -32,6 +38,7 @@ export const Default: Story = {
     template: `
       <FSBaseDevicesExplorer
         :tableCode="args.tableCode"
+        :deviceExplorerElementFilters="args.deviceExplorerElementFilters"
         v-model:modelValue="args.modelValue"
       />
     `,

@@ -63,7 +63,7 @@ const trackDeviceOrganisations = () => {
   }
 }
 
-export const subscribeToDeviceOrganisations = () => {
+export const useSubscribeToDeviceOrganisations = () => {
   let subscribersIds: number[] = [];
 
   onUnmounted(() => {
@@ -71,12 +71,12 @@ export const subscribeToDeviceOrganisations = () => {
     subscribersIds = [];
   });
 
-  const subscribeToMany = (callback: AllCallback<DeviceOrganisationDetails>) => {
-    subscribersIds.push(DeviceOrganisationServiceFactory.subscribe("all", callback));
+  const subscribe = (event: any, callback: AllCallback<DeviceOrganisationDetails>) => {
+    subscribersIds.push(DeviceOrganisationServiceFactory.subscribe(event, callback));
   }
 
   return {
-    subscribeToMany
+    subscribe
   }
 };
 

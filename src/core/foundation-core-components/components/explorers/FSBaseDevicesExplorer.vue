@@ -285,7 +285,7 @@ export default defineComponent({
         debounceFetch();
       }
     });
-  
+
     return {
       fetchingDeviceExplorerElements,
       DeviceExplorerElementType,

@@ -21,7 +21,7 @@ const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("g
   }))
 ));
 
-export const subscribeToGroups = () => {
+export const useSubscribeToGroups = () => {
   let subscribersIds: number[] = [];
 
   onUnmounted(() => {
@@ -29,12 +29,12 @@ export const subscribeToGroups = () => {
     subscribersIds = [];
   });
 
-  const subscribeToMany = (callback: AllCallback<GroupDetails>) => {
-    subscribersIds.push(GroupServiceFactory.subscribe("all", callback));
+  const subscribe = (event: any, callback: AllCallback<GroupDetails>) => {
+    subscribersIds.push(GroupServiceFactory.subscribe(event, callback));
   }
 
   return {
-    subscribeToMany
+    subscribe
   }
 };
 
