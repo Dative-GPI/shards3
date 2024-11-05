@@ -48,17 +48,17 @@ export const useDeviceExplorerElements = () => {
         (fullText.toLowerCase().includes(filters.value.search.toLowerCase()));
     };
 
+    const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod);
+
     try {
       entities.value = await DeviceExplorerElementServiceFactory.getMany(...args);
 
       subscribeToDeviceOrganisations("all", (ev: AllEvent, el: DeviceOrganisationDetails) => {
-        const changeHandler = onCollectionChanged(entities, filterMethod);
-        changeHandler(ev as never, fromDeviceOrganisation(el));
+        onCollectionChangedCustom(ev as never, fromDeviceOrganisation(el));
       });
 
       subscribeToGroups("all", (ev: AllEvent, el: GroupDetails) => {
-        const changeHandler = onCollectionChanged(entities, filterMethod);
-        changeHandler(ev as never, fromGroup(el));
+        onCollectionChangedCustom(ev as never, fromGroup(el));
       });
 
       watchDevicesStatuses();
