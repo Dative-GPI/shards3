@@ -3,7 +3,7 @@
     class="fs-window"
     :touch="false"
     :style="style"
-    :modelValue="$props.modelValue"
+    :modelValue="actualModelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
@@ -63,6 +63,14 @@ export default defineComponent({
     const showOverflow = ref(true);
     const overflowTimeout = ref<NodeJS.Timeout | null>(null);
 
+    const actualModelValue = computed(() => {
+      const possibleValues = getChildren().map((component: VNode, index: number) => component?.props?.value ?? index);
+      if (possibleValues.length && !possibleValues.includes(props.modelValue)) {
+        return possibleValues[0];
+      }
+      return props.modelValue;
+    });
+
     const style = computed((): StyleValue => ({
       "--fs-window-overflow": showOverflow.value ? "visible" : "hidden",
       "--fs-window-height"  : sizeToVar(props.height),
@@ -85,6 +93,7 @@ export default defineComponent({
     });
 
     return {
+      actualModelValue,
       slots,
       style,
       getChildren,
