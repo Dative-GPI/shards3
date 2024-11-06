@@ -60,7 +60,7 @@ export const useDeviceExplorerElements = () => {
             onCollectionChangedCustom(ev as never, fromDeviceOrganisation(el));
             break;
           case "delete":
-            onCollectionChangedCustom(ev as never, el.id);
+            onCollectionChangedCustom(ev as never, el);
             break;
         }
       });
@@ -72,7 +72,7 @@ export const useDeviceExplorerElements = () => {
             onCollectionChangedCustom(ev as never, fromGroup(el));
             break;
           case "delete":
-            onCollectionChangedCustom(ev as never, el.id);
+            onCollectionChangedCustom(ev as never, el);
             break;
         }
       });
