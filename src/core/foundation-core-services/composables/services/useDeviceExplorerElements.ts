@@ -1,8 +1,8 @@
 import { ref } from "vue";
 
 import { DeviceExplorerElementDetails, type DeviceExplorerElementDetailsDTO, type DeviceExplorerElementFilters, DeviceExplorerElementInfos, type DeviceExplorerElementInfosDTO, type DeviceOrganisationDetails, type GroupDetails } from "@dative-gpi/foundation-core-domain/models";
+import { type AddOrUpdateCallback, type DeleteCallback, type NotifyEvent, onCollectionChanged } from "@dative-gpi/bones-ui";
 import { fromDeviceOrganisation, fromGroup } from "@dative-gpi/foundation-shared-domain/tools";
-import { type AllEvent, onCollectionChanged } from "@dative-gpi/bones-ui";
 import { ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { DEVICE_EXPLORER_ELEMENTS_URL } from "../../config/urls";
@@ -48,31 +48,31 @@ export const useDeviceExplorerElements = () => {
         (fullText.toLowerCase().includes(filters.value.search.toLowerCase()));
     };
 
-    const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod);
+    const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod) ;
 
     try {
       entities.value = await DeviceExplorerElementServiceFactory.getMany(...args);
 
-      subscribeToDeviceOrganisations("all", (ev: AllEvent, el: DeviceOrganisationDetails) => {
+      subscribeToDeviceOrganisations("all", (ev: NotifyEvent, el: DeviceOrganisationDetails | any) => {
         switch(ev) {
           case "add":
           case "update":
-            onCollectionChangedCustom(ev as never, fromDeviceOrganisation(el));
+            (onCollectionChangedCustom as AddOrUpdateCallback<DeviceExplorerElementInfos>)(ev, fromDeviceOrganisation(el));
             break;
           case "delete":
-            onCollectionChangedCustom(ev as never, el);
+            (onCollectionChangedCustom as DeleteCallback)(ev, el);
             break;
         }
       });
 
-      subscribeToGroups("all", (ev: AllEvent, el: GroupDetails) => {
+      subscribeToGroups("all", (ev: NotifyEvent, el: GroupDetails | any) => {
         switch(ev) {
           case "add":
           case "update":
-            onCollectionChangedCustom(ev as never, fromGroup(el));
+            (onCollectionChangedCustom as AddOrUpdateCallback<DeviceExplorerElementInfos>)(ev, fromGroup(el));
             break;
           case "delete":
-            onCollectionChangedCustom(ev as never, el);
+            (onCollectionChangedCustom as DeleteCallback)(ev, el);
             break;
         }
       });
