@@ -18,6 +18,8 @@ const GroupServiceFactory = new ServiceFactory<GroupDetailsDTO, GroupDetails>("g
   }))
 ));
 
+export const useSubscribeToGroups = ComposableFactory.subscribe(GroupServiceFactory);
+
 export const useGroup = ComposableFactory.get(GroupServiceFactory);
 export const useGroups = ComposableFactory.getMany(GroupServiceFactory);
 export const useCreateGroup = ComposableFactory.create(GroupServiceFactory);

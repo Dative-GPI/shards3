@@ -821,6 +821,11 @@ export default defineComponent({
       required: false,
       default: true
     },
+    noSearch: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     singleSelect: {
       type: Boolean,
       required: false,
@@ -887,7 +892,7 @@ export default defineComponent({
       default: "12px"
     },
   },
-  emits: ["update:modelValue", "update:headers", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
+  emits: ["update:modelValue", "update:headers", "update:search", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
     const { handleRoutingEvent } = useRouting();
     const { isExtraSmall } = useBreakpoints();
@@ -1059,7 +1064,7 @@ export default defineComponent({
               return false;
             }
           }
-          if (innerSearchFormatted) {
+          if (!props.noSearch && innerSearchFormatted) {
             return containsSearchTerm(item, innerSearchFormatted);
           }
           return true;
@@ -1508,6 +1513,7 @@ export default defineComponent({
 
     watch(innerSearch, () => {
       innerPage.value = 1;
+      emit("update:search", innerSearch.value);
     });
 
     watch(innerShowFilters, () => {

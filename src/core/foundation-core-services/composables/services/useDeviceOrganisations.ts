@@ -62,6 +62,8 @@ const trackDeviceOrganisations = () => {
   }
 }
 
+export const useSubscribeToDeviceOrganisations = ComposableFactory.subscribe(DeviceOrganisationServiceFactory);
+
 export const useDeviceOrganisation = ComposableFactory.get(DeviceOrganisationServiceFactory, trackDeviceOrganisation);
 export const useDeviceOrganisations = ComposableFactory.getMany(DeviceOrganisationServiceFactory, trackDeviceOrganisations);
 export const useCreateDeviceOrganisation = ComposableFactory.create(DeviceOrganisationServiceFactory, trackDeviceOrganisation);

@@ -29,13 +29,6 @@
       </FSIcon>
     </template>
     <template
-      #header.connectable-title
-    >
-      <FSIcon>
-        mdi-wifi
-      </FSIcon>
-    </template>
-    <template
       #header.connectivity-title
     >
       <FSIcon>
@@ -52,16 +45,6 @@
         :imageId="item.imageId"
         :thumbnail="true"
       />
-    </template>
-    <template
-      #item.connectable="{ item }"
-    >
-      <FSCol>
-        <FSConnectivity
-          v-if="item.connectivity.status != ConnectivityStatus.None"
-          :deviceConnectivity="item.connectivity"
-        />
-      </FSCol>
     </template>
     <template
       #item.connectivity="{ item }"
@@ -262,33 +245,6 @@ export default defineComponent({
     });
 
     const headersOptions = computed(() => ({
-      connectable: {
-        fixedFilters: [{
-          value: ConnectivityStatus.None,
-          text: "—"
-        }, {
-          value: ConnectivityStatus.Offline,
-          text: connectivityLabel(ConnectivityStatus.Offline)
-        }, {
-          value: ConnectivityStatus.AlmostOffline,
-          text: connectivityLabel(ConnectivityStatus.AlmostOffline)
-        }, {
-          value: ConnectivityStatus.PartiallyConnected,
-          text: connectivityLabel(ConnectivityStatus.PartiallyConnected)
-        }, {
-          value: ConnectivityStatus.Connected,
-          text: connectivityLabel(ConnectivityStatus.Connected)
-        }],
-        methodFilter: (value: ConnectivityStatus, item: DeviceConnectivityDetails) => {
-          switch(value) {
-            case ConnectivityStatus.None:
-              return !item.status;
-            default:
-              return item.status == value;
-          }
-        },
-        sort: (a: DeviceConnectivityDetails, b: DeviceConnectivityDetails) => alphanumericSort(a?.status, b?.status)
-      },
       connectivity: {
         fixedFilters: [{
           value: ConnectivityStatus.None,

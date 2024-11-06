@@ -1,11 +1,8 @@
-import type { DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
-import { DeviceConnectivityDetails } from "../deviceConnectivities/deviceConnectivityDetails";
-import type { DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
-import { DeviceStatusDetails } from "../deviceStatuses/deviceStatusDetails";
-import type { DeviceOrganisationAlertDTO } from "./deviceOrganisationAlert";
-import { DeviceOrganisationAlert } from "./deviceOrganisationAlert";
-import type { ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
-import { ModelStatusInfos } from "../modelStatuses/modelStatusInfos";
+import { DeviceConnectivityDetails, type DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
+import { DeviceStatusDetails, type DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
+import { DeviceOrganisationAlert, type DeviceOrganisationAlertDTO } from "./deviceOrganisationAlert";
+import { ModelStatusInfos, type ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
+import { PathCrumb, type PathCrumbDTO } from "../shared/pathCrumb";
 
 export class DeviceOrganisationInfos {
   id: string;
@@ -34,16 +31,13 @@ export class DeviceOrganisationInfos {
   tags: string[];
   unrestricted: boolean;
   online: number;
+  path: PathCrumb[];
   meta: { [key: string]: string };
   modelStatuses: ModelStatusInfos[];
   status: DeviceStatusDetails;
   connectivity: DeviceConnectivityDetails;
   alerts: DeviceOrganisationAlert[];
   worstAlert: DeviceOrganisationAlert | null;
-
-  get connectable(): DeviceConnectivityDetails | undefined {
-    return this.connectivity;
-  }
 
   constructor(params: DeviceOrganisationInfosDTO) {
     this.id = params.id;
@@ -72,6 +66,7 @@ export class DeviceOrganisationInfos {
     this.tags = params.tags.slice();
     this.unrestricted = params.unrestricted;
     this.online = params.online;
+    this.path = params.path.map(dto => new PathCrumb({ ...dto })).sort((a, b) => b.index - a.index);
     this.meta = { ...params.meta };
     this.modelStatuses = params.modelStatuses.map(dto => new ModelStatusInfos(dto));
     this.status = new DeviceStatusDetails(params.status);
@@ -109,6 +104,7 @@ export interface DeviceOrganisationInfosDTO {
   tags: string[];
   unrestricted: boolean;
   online: number;
+  path: PathCrumbDTO[];
   meta: { [key: string]: string };
   modelStatuses: ModelStatusInfosDTO[];
   status: DeviceStatusDetailsDTO;

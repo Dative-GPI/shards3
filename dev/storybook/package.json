@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@babel/types": "7.21.4",
-    "@dative-gpi/bones-ui": "1.0.2",
+    "@dative-gpi/bones-ui": "1.0.5",
     "@dative-gpi/foundation-core-components": "*",
     "@dative-gpi/foundation-shared-components": "*",
     "@dative-gpi/foundation-shared-loader": "*",
