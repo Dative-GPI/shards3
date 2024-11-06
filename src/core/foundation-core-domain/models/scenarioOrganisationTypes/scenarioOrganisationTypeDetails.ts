@@ -1,11 +1,18 @@
-import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/enums";
+import type { PlotPer, ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/enums";
 
 import type { ScenarioOrganisationTypeInfosDTO } from "./scenarioOrganisationTypeInfos";
 import { ScenarioOrganisationTypeInfos } from "./scenarioOrganisationTypeInfos";
 import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
 import { TimeRange } from "../shared/timeRange";
-import { ScenarioParameter, type CreateScenarioChartDTO, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
-import { ScenarioTranslation } from "../scenarios";
+import {
+  ScenarioParameter,
+  ScenarioTranslation,
+  type CreateScenarioChartDTO,
+  type CreateScenarioParameterDTO,
+  type ScenarioParameterDTO,
+  type ScenarioTranslationDTO
+} from "../scenarios";
+import type { CreateChartTimeStepDTO } from "../charts/chartTimeStep";
 
 export class ScenarioOrganisationTypeDetails extends ScenarioOrganisationTypeInfos {
   groupByIds: string[];
@@ -110,6 +117,8 @@ export interface UpdateScenarioOrganisationTypeDTO {
   tags: string[];
   chartStartDate: string;
   chartEndDate: string;
+  chartPlotPer: PlotPer | null;
+  chartStep: CreateChartTimeStepDTO | null;
   alertLabelDefault: string;
   alertDescriptionDefault: string;
   alertCode: string;
