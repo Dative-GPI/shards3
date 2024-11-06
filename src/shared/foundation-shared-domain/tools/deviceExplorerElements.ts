@@ -6,7 +6,6 @@ export const fromDeviceOrganisation = (deviceOrganisation: DeviceOrganisationInf
   ...deviceOrganisation,
   type: DeviceExplorerElementType.DeviceOrganisation,
   parentId: deviceOrganisation.groupId,
-  connectable: deviceOrganisation.connectivity,
   icon: null,
   groupsIds: null,
   deviceOrganisationsIds: null,
@@ -19,7 +18,6 @@ export const fromDeviceOrganisation = (deviceOrganisation: DeviceOrganisationInf
 export const fromGroup = (group: GroupInfos): DeviceExplorerElementInfos => ({
   ...group,
   type: DeviceExplorerElementType.Group,
-  connectable: null,
   manufacturerLabel: null,
   articleLabel:  null,
   modelLabel: null,

@@ -39,10 +39,6 @@ export class DeviceExplorerElementInfos {
   alerts: DeviceOrganisationAlert[] | null;
   worstAlert: DeviceOrganisationAlert | null;
 
-  get connectable(): DeviceConnectivityDetails | null {
-    return this.connectivity;
-  }
-
   constructor(params: DeviceExplorerElementInfosDTO) {
     this.id = params.id;
     this.organisationId = params.organisationId;

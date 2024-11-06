@@ -30,13 +30,6 @@
       </FSIcon>
     </template>
     <template
-      #header.connectable-title
-    >
-      <FSIcon>
-        mdi-wifi
-      </FSIcon>
-    </template>
-    <template
       #header.connectivity-title
     >
       <FSIcon>
@@ -86,18 +79,6 @@
       >
         {{ item.icon }}
       </FSIcon>
-    </template>
-    <template
-      #item.connectable="{ item }"
-    >
-      <FSCol
-        v-if="item.type === DeviceExplorerElementType.DeviceOrganisation"
-      >
-        <FSConnectivity
-          v-if="item.connectivity.status != ConnectivityStatus.None"
-          :deviceConnectivity="item.connectivity"
-        />
-      </FSCol>
     </template>
     <template
       #item.connectivity="{ item }"

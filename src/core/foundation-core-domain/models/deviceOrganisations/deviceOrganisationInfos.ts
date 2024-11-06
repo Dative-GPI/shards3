@@ -39,10 +39,6 @@ export class DeviceOrganisationInfos {
   alerts: DeviceOrganisationAlert[];
   worstAlert: DeviceOrganisationAlert | null;
 
-  get connectable(): DeviceConnectivityDetails | null {
-    return this.connectivity;
-  }
-
   constructor(params: DeviceOrganisationInfosDTO) {
     this.id = params.id;
     this.deviceId = params.deviceId;

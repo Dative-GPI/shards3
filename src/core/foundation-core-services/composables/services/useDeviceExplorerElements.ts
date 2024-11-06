@@ -54,11 +54,27 @@ export const useDeviceExplorerElements = () => {
       entities.value = await DeviceExplorerElementServiceFactory.getMany(...args);
 
       subscribeToDeviceOrganisations("all", (ev: AllEvent, el: DeviceOrganisationDetails) => {
-        onCollectionChangedCustom(ev as never, fromDeviceOrganisation(el));
+        switch(ev) {
+          case "add":
+          case "update":
+            onCollectionChangedCustom(ev as never, fromDeviceOrganisation(el));
+            break;
+          case "delete":
+            onCollectionChangedCustom(ev as never, el.id);
+            break;
+        }
       });
 
       subscribeToGroups("all", (ev: AllEvent, el: GroupDetails) => {
-        onCollectionChangedCustom(ev as never, fromGroup(el));
+        switch(ev) {
+          case "add":
+          case "update":
+            onCollectionChangedCustom(ev as never, fromGroup(el));
+            break;
+          case "delete":
+            onCollectionChangedCustom(ev as never, el.id);
+            break;
+        }
       });
 
       watchDevicesStatuses();
