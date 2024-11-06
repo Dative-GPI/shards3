@@ -7,7 +7,7 @@
     :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :itemTo="$props.itemTo"
-    :useSearch="false"
+    :noSearch="true"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-model:search="search"

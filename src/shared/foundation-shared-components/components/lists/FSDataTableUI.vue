@@ -820,10 +820,10 @@ export default defineComponent({
       required: false,
       default: true
     },
-    useSearch: {
+    noSearch: {
       type: Boolean,
       required: false,
-      default: true
+      default: false
     },
     singleSelect: {
       type: Boolean,
@@ -1062,7 +1062,7 @@ export default defineComponent({
               return false;
             }
           }
-          if (props.useSearch && innerSearchFormatted) {
+          if (!props.noSearch && innerSearchFormatted) {
             return containsSearchTerm(item, innerSearchFormatted);
           }
           return true;
