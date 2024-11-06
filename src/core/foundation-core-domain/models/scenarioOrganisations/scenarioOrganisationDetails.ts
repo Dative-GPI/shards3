@@ -1,11 +1,18 @@
-import type { ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/enums";
+import type { PlotPer, ResolveOn, TriggerOn } from "@dative-gpi/foundation-shared-domain/enums";
 
 import type { ScenarioOrganisationInfosDTO } from "./scenarioOrganisationInfos";
 import { ScenarioOrganisationInfos } from "./scenarioOrganisationInfos";
 import type { CreateTimeRangeDTO, TimeRangeDTO } from "../shared/timeRange";
 import { TimeRange } from "../shared/timeRange";
-import { ScenarioParameter, type CreateScenarioChartDTO, type CreateScenarioParameterDTO, type ScenarioParameterDTO, type ScenarioTranslationDTO } from "../scenarios";
-import { ScenarioTranslation } from "../scenarios";
+import {
+  ScenarioParameter,
+  ScenarioTranslation,
+  type CreateScenarioChartDTO,
+  type CreateScenarioParameterDTO,
+  type ScenarioParameterDTO,
+  type ScenarioTranslationDTO
+} from "../scenarios";
+import type { CreateChartTimeStepDTO } from "../charts/chartTimeStep";
 
 export class ScenarioOrganisationDetails extends ScenarioOrganisationInfos {
   groupByIds: string[];
@@ -109,6 +116,8 @@ export interface CreateScenarioOrganisationDTO {
   alertTags: string[];
   chartStartDate: string;
   chartEndDate: string;
+  chartPlotPer: PlotPer | null;
+  chartStep: CreateChartTimeStepDTO | null;
   timeRanges: CreateTimeRangeDTO[];
   triggerOn: number;
   triggerCondition: string;
@@ -138,6 +147,8 @@ export interface UpdateScenarioOrganisationDTO {
   tags: string[];
   chartStartDate: string;
   chartEndDate: string;
+  chartPlotPer: PlotPer | null;
+  chartStep: CreateChartTimeStepDTO | null;
   alertLabelDefault: string;
   alertDescriptionDefault: string;
   alertCode: string;
