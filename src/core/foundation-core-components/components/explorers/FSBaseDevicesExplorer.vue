@@ -9,7 +9,7 @@
     :itemTo="$props.itemTo"
     :noSearch="true"
     :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:modelValue="onUpdate"
     v-model:search="search"
     v-bind="$attrs"
   >
@@ -227,8 +227,8 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ["update:modelValue"],
-  setup(props) {
+  emits: ["update:modelValue", "update:groupsIds", "update:deviceOrganisationsIds"],
+  setup(props, { emit }) {
     const { entities, fetching: fetchingDeviceExplorerElements, getMany: getManyDeviceExplorerElements } = useDeviceExplorerElements();
     const { debounce } = useDebounce();
 
@@ -247,6 +247,20 @@ export default defineComponent({
     const isSelected = (id: string): boolean => {
       return props.modelValue.includes(id);
     };
+
+    const onUpdate = (value: string[]): void => {
+      const groupsIds = value.filter(id => {
+        return entities.value.find(dee => dee.id === id)?.type === DeviceExplorerElementType.Group;
+      });
+      emit("update:groupsIds", groupsIds);
+
+      const deviceOrganisationsIds = value.filter(id => {
+        return entities.value.find(dee => dee.id === id)?.type === DeviceExplorerElementType.DeviceOrganisation;
+      });
+      emit("update:deviceOrganisationsIds", deviceOrganisationsIds);
+
+      emit("update:modelValue", value);
+    }
 
     const fetch = () => {
       getManyDeviceExplorerElements({ ...props.deviceExplorerElementFilters, search: search.value });
@@ -273,7 +287,8 @@ export default defineComponent({
       deviceExplorerElements,
       ConnectivityStatus,
       search,
-      isSelected
+      isSelected,
+      onUpdate
     };
   }
 });
