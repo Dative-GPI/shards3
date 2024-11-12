@@ -15,6 +15,7 @@
     :modelValue="toShortDateFormat"
     @click="onClick"
     @update:modelValue="onClear"
+    v-bind="$attrs"
   >
     <template
       #prepend-inner

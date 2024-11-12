@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-delete-outline"
-    :label="$tr('ui.button.remove', 'Remove')"
+    :label="$tr('button.remove', 'Remove')"
     :color="ColorEnum.Error"
     v-bind="$attrs"
   />

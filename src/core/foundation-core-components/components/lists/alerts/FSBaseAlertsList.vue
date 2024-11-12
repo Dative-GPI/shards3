@@ -23,12 +23,12 @@
       #toolbar
     >
       <FSButtonCheckbox
-        :label="$tr('page.alerts.not-acknowledged-only', 'Not acknowledged only')"
+        :label="$tr('ui.alert.not-acknowledged-only', 'Not acknowledged only')"
         :color="ColorEnum.Warning"
         v-model="innerNotTreatedOnly"
       />
       <FSButtonCheckbox
-        :label="$tr('page.alerts.hide-pending', 'Hide pending')"
+        :label="$tr('ui.alert.hide-pending', 'Hide pending')"
         :color="ColorEnum.Light"
         variant="full"
         v-model="innerHidePending"

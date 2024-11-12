@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('ui.button.duplicate', 'Duplicate')"
+    :label="$tr('button.duplicate', 'Duplicate')"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

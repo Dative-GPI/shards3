@@ -134,7 +134,7 @@ export default defineComponent({
 
     const roleLabel = computed((): string | null => {
       if (props.admin) {
-        return $tr("ui.user-organisation.admin", "Administrator");
+        return $tr("entity.user.admin", "Administrator");
       }
       return props.roleLabel;
     });

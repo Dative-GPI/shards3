@@ -1,7 +1,7 @@
 <template>
   <div>
     <FSButton
-      :label="$tr('ui.button.import-file', 'Import file')"
+      :label="$tr('button.import-file', 'Import file')"
       :color="ColorEnum.Light"
       @click="onClick"
       v-bind="$attrs"

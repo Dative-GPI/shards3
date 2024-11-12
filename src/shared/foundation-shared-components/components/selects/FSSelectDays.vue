@@ -40,16 +40,16 @@ export default defineComponent({
 
     const days = computed((): { id: Days; label: string }[] => {
       const items = [
-        { id: Days.Monday, label: $tr("ui.days.monday", "Monday") },
-        { id: Days.Tuesday, label: $tr("ui.days.tuesday", "Tuesday") },
-        { id: Days.Wednesday, label: $tr("ui.days.wednesday", "Wednesday") },
-        { id: Days.Thursday, label: $tr("ui.days.thursday", "Thursday") },
-        { id: Days.Friday, label: $tr("ui.days.friday", "Friday") },
-        { id: Days.Saturday, label: $tr("ui.days.saturday", "Saturday") },
-        { id: Days.Sunday, label: $tr("ui.days.sunday", "Sunday") }
+        { id: Days.Monday, label: $tr("ui.common.monday", "Monday") },
+        { id: Days.Tuesday, label: $tr("ui.common.tuesday", "Tuesday") },
+        { id: Days.Wednesday, label: $tr("ui.common.wednesday", "Wednesday") },
+        { id: Days.Thursday, label: $tr("ui.common.thursday", "Thursday") },
+        { id: Days.Friday, label: $tr("ui.common.friday", "Friday") },
+        { id: Days.Saturday, label: $tr("ui.common.saturday", "Saturday") },
+        { id: Days.Sunday, label: $tr("ui.common.sunday", "Sunday") }
       ];
       if (props.useAllDays) {
-        items.unshift({ id: Days.AllDays, label: $tr("ui.days.all-days", "All days") });
+        items.unshift({ id: Days.AllDays, label: $tr("ui.common.all-days", "All days") });
       }
       return items;
     });

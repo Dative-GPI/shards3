@@ -16,7 +16,7 @@
         <FSButton
           color="primary"
           width="100%"
-          :label="$tr('ui.agenda.calendar.dialog.submit', 'Validate')"
+          :label="$tr('button.submit', 'Validate')"
           @click="onSubmit"
         />
       </FSCol>

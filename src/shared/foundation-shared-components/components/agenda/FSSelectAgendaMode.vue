@@ -42,8 +42,8 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const items = [
-      { id: AgendaMode.Week, label: $tr('ui.agenda.week', 'Week'), icon: 'mdi-calendar-week' },
-      { id: AgendaMode.Month, label: $tr('ui.agenda.month', 'Month'), icon: 'mdi-calendar-month' },
+      { id: AgendaMode.Week, label: $tr('ui.common.week', 'Week'), icon: 'mdi-calendar-week' },
+      { id: AgendaMode.Month, label: $tr('ui.common.month', 'Month'), icon: 'mdi-calendar-month' },
     ];
 
     return {

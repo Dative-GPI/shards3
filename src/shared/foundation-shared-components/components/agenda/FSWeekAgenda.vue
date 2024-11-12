@@ -70,7 +70,7 @@
                 class="fs-agenda-week-number-label"
                 :color="weekTextColor"
               >
-                {{ $tr('ui.common.agenda.week-short', 'W{0}',day.weekNumber) }}
+                {{ $tr('ui.common.week-short', 'W{0}',day.weekNumber) }}
               </FSText>
             </FSCol>
           </FSCard>
