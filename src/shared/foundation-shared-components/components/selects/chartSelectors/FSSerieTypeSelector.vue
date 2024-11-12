@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.serie-type','Serie type')"
+    :label="label ?? $tr('autocomplete.serie-type.label','Serie type')"
     :items="serieTypeItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

@@ -48,7 +48,7 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const placeholder = computed(() => {
-      return props.placeholder ?? $tr('ui.search.placeholder', 'Search...');
+      return props.placeholder ?? $tr('search-field.placeholder', 'Search...');
     });
 
     return {

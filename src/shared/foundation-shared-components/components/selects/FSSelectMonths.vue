@@ -40,21 +40,21 @@ export default defineComponent({
 
     const months = computed((): { id: Months; label: string }[] => {
       const items = [
-        { id: Months.January, label: $tr("ui.months.january", "January") },
-        { id: Months.February, label: $tr("ui.months.february", "February") },
-        { id: Months.March, label: $tr("ui.months.march", "March") },
-        { id: Months.April, label: $tr("ui.months.april", "April") },
-        { id: Months.May, label: $tr("ui.months.may", "May") },
-        { id: Months.June, label: $tr("ui.months.june", "June") },
-        { id: Months.July, label: $tr("ui.months.july", "July") },
-        { id: Months.August, label: $tr("ui.months.august", "August") },
-        { id: Months.September, label: $tr("ui.months.september", "September") },
-        { id: Months.October, label: $tr("ui.months.october", "October") },
-        { id: Months.November, label: $tr("ui.months.november", "November") },
-        { id: Months.December, label: $tr("ui.months.december", "December") }
+        { id: Months.January, label: $tr("ui.common.january", "January") },
+        { id: Months.February, label: $tr("ui.common.february", "February") },
+        { id: Months.March, label: $tr("ui.common.march", "March") },
+        { id: Months.April, label: $tr("ui.common.april", "April") },
+        { id: Months.May, label: $tr("ui.common.may", "May") },
+        { id: Months.June, label: $tr("ui.common.june", "June") },
+        { id: Months.July, label: $tr("ui.common.july", "July") },
+        { id: Months.August, label: $tr("ui.common.august", "August") },
+        { id: Months.September, label: $tr("ui.common.september", "September") },
+        { id: Months.October, label: $tr("ui.common.october", "October") },
+        { id: Months.November, label: $tr("ui.common.november", "November") },
+        { id: Months.December, label: $tr("ui.common.december", "December") }
       ];
       if (props.useAllMonths) {
-        items.unshift({ id: Months.AllMonths, label: $tr("ui.months.all-months", "All months") });
+        items.unshift({ id: Months.AllMonths, label: $tr("ui.common.all-months", "All months") });
       }
       return items;
     });

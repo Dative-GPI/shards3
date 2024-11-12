@@ -7,7 +7,7 @@
     >
       <FSRichTextField
         :editable="false"
-        :label="$tr('ui.translate-rich-text-field.default-value', 'Default value')"
+        :label="$tr('translate-rich-text-field.default-value', 'Default value')"
         :modelValue="$props.modelValue"
         v-bind="$attrs"
       />
@@ -30,7 +30,7 @@
               class="fs-translate-field-label"
               font="text-overline"
             >
-              {{ $tr('ui.translate-rich-text-field.translate-in', 'Translate in {0}', language.label) }}
+              {{ $tr('translate-rich-text-field.translate-in', 'Translate in {0}', language.label) }}
             </FSSpan>
             <FSIcon>{{ language.icon }}</FSIcon>
           </FSRow>
@@ -50,7 +50,7 @@
         prependIcon="mdi-check"
         color="primary"
         width="100%"
-        :label="$tr('ui.translate-rich-text-field.validate-button.label', 'Validate translations')"
+        :label="$tr('translate-rich-text-field.validate-button.label', 'Validate translations')"
         @click="onSubmitTranslations"
       />
     </FSRow>
@@ -69,7 +69,7 @@
         prependIcon="mdi-translate"
         color="primary"
         width="100%"
-        :label="$tr('ui.translate-rich-text-field.translate-button.label', 'Manage translations')"
+        :label="$tr('translate-rich-text-field.translate-button.label', 'Manage translations')"
         @click="() => $emit('update:translationsExpanded', true)"
       />
     </template>

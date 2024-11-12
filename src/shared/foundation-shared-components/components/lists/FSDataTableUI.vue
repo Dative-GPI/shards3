@@ -95,7 +95,7 @@
           <FSChip
             v-if="innerShowFilters && resetable"
             variant="standard"
-            :label="$tr('ui.data-table.reset-filters', 'Reset')"
+            :label="$tr('data-table.reset-filters', 'Reset')"
             :height="['30px', '24px']"
             :color="ColorEnum.Error"
             :editable="true"
@@ -147,7 +147,7 @@
           <FSText
             font="text-overline"
           >
-            {{ $tr("ui.data-table.empty", "No data") }}
+            {{ $tr("data-table.empty", "No data") }}
           </FSText>
         </template>
         <template
@@ -359,10 +359,10 @@
                   <FSText
                     font="text-button"
                   >
-                    {{ $tr("ui.data-table.all-selected-bold", "Warning:") }}
+                    {{ $tr("data-table.all-selected-bold", "Warning:") }}
                   </FSText>
                   <FSText>
-                    {{ $tr("ui.data-table.all-selected-regular", "All elements selected") }}
+                    {{ $tr("data-table.all-selected-regular", "All elements selected") }}
                   </FSText>
                 </FSRow>
               </template>
@@ -370,7 +370,7 @@
                 v-else
               >
                 <FSText>
-                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
+                  {{ $tr("data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
                 </FSText>
               </template>
             </template>
@@ -382,7 +382,7 @@
               <FSText
                 font="text-overline"
               >
-                {{ $tr("ui.data-table.rows-per-page", "Rows per page") }}
+                {{ $tr("data-table.rows-per-page", "Rows per page") }}
               </FSText>
               <FSSelectField
                 class="fs-data-table-rows-per-page fs-small-input"
@@ -434,7 +434,7 @@
           <FSText
             font="text-overline"
           >
-            {{ $tr("ui.data-table.empty", "No data") }}
+            {{ $tr("data-table.empty", "No data") }}
           </FSText>
         </template>
         <template
@@ -532,10 +532,10 @@
                   <FSText
                     font="text-button"
                   >
-                    {{ $tr("ui.data-table.all-selected-bold", "Warning:") }}
+                    {{ $tr("data-table.all-selected-bold", "Warning:") }}
                   </FSText>
                   <FSText>
-                    {{ $tr("ui.data-table.all-selected-regular", "All elements selected") }}
+                    {{ $tr("data-table.all-selected-regular", "All elements selected") }}
                   </FSText>
                 </FSRow>
               </template>
@@ -543,7 +543,7 @@
                 v-else
               >
                 <FSText>
-                  {{ $tr("ui.data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
+                  {{ $tr("data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
                 </FSText>
               </template>
             </template>
@@ -554,7 +554,7 @@
               <FSText
                 font="text-overline"
               >
-                {{ $tr("ui.data-table.rows-per-page", "Rows per page") }}
+                {{ $tr("data-table.rows-per-page", "Rows per page") }}
               </FSText>
               <FSRow
                 width="120px"
@@ -603,7 +603,7 @@
           <FSText
             font="text-overline"
           >
-            {{ $tr("ui.data-table.empty", "No data") }}
+            {{ $tr("data-table.empty", "No data") }}
           </FSText>
         </template>
         <template
@@ -926,7 +926,7 @@ export default defineComponent({
       { id: 5, label: "5" },
       { id: 10, label: "10" },
       { id: 30, label: "30" },
-      { id: -1, label: $tr("ui.data-table.all-rows", "All") }
+      { id: -1, label: $tr("data-table.all-rows", "All") }
     ];
 
     const showFiltersRow = computed((): boolean => {

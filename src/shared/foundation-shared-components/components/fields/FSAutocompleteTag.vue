@@ -62,7 +62,7 @@ export default defineComponent({
       if (!props.modelValue || props.modelValue.length === 0) {
         return null;
       }
-      return props.placeholder ?? $tr("ui.autocomplete-tag.items-selected", "{0} item(s) selected", props.modelValue?.length ?? 0);
+      return props.placeholder ?? $tr("autocomplete.tag.selecteds", "{0} item(s) selected", props.modelValue?.length ?? 0);
     });
 
     const onUpdateModelValue = (value: string[] | null): void => {

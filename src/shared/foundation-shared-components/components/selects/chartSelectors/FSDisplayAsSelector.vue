@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.display-as','Display as')"
+    :label="label ?? $tr('autcomplete.display-as.label','Display as')"
     :items="displayAsItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

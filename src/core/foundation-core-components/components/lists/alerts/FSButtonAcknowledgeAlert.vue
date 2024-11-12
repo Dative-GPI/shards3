@@ -1,11 +1,11 @@
 <template>
   <FSButton
     prependIcon="mdi-checkbox-blank-outline"
-    :label="$tr('page.alert.acknowledge', 'Acknowledge')"
+    :label="$tr('ui.alert.acknowledge', 'Acknowledge')"
     @click="dialog = true"
   />
   <FSDialogSubmit
-    :title="$tr('page.alert.acknowledge', 'Acknowledge')"
+    :title="$tr('ui.alert.acknowledge', 'Acknowledge')"
     :load="acknowledgingAlert"
     @click:submitButton="onAcknowledge"
     v-model="dialog"
@@ -26,12 +26,12 @@
             gap="2px"
           >
             <FSSpan>
-              {{ $tr("page.alert.acknowledge-warning", "Do you want to acknowledge this alert?") }}
+              {{ $tr("ui.alert.acknowledge-warning", "Do you want to acknowledge this alert?") }}
             </FSSpan>
           </FSRow>
         </FSRow>
         <FSSpan>
-          {{ $tr("page.alert.acknowledge-final-warning", "This action is definitive") }}
+          {{ $tr("ui.alert.acknowledge-final-warning", "This action is definitive") }}
         </FSSpan>
         <FSErrorToast
           v-if="error"

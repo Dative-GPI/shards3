@@ -81,14 +81,14 @@
                 font="text-overline"
                 :style="style"
               >
-                {{ $tr('ui.edit-image.format', 'PNG or JPG format') }}
+                {{ $tr('edit-image.format', 'PNG or JPG format') }}
               </FSText>
               <FSText
                 class="fs-edit-image-overline"
                 font="text-overline"
                 :style="style"
               >
-                {{ $tr('ui.edit-image.size', '10 MB Maximum') }}
+                {{ $tr('edit-image.size', '10 MB Maximum') }}
               </FSText>
             </FSCol>
           </FSCol>
@@ -154,7 +154,7 @@
           font="text-body"
           :lineClamp="2"
         >
-          {{ $tr('ui.edit-image.add-image', 'Add an image.') }}
+          {{ $tr('edit-image.add-image', 'Add an image.') }}
         </FSText>
         <FSButtonFileMini
           class="fs-edit-image-hidden-button"

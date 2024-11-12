@@ -11,7 +11,7 @@
         :height="[30, 24]"
         :color="ColorEnum.Light"
         :editable="true"
-        :label="$tr('ui.data-table.hidden-columns', '{0} hidden column(s)', $props.headers.length.toString())"
+        :label="$tr('data-table.hidden-columns', '{0} hidden column(s)', $props.headers.length.toString())"
         v-bind="props"
       />
     </template>
@@ -30,7 +30,7 @@
           <FSSpan
             font="text-overline"
           >
-            {{ $tr("ui.data-table.show-columns", "Show columns") }}
+            {{ $tr("data-table.show-columns", "Show columns") }}
           </FSSpan>
         </FSCol>
         <FSFadeOut

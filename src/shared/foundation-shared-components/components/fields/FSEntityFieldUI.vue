@@ -24,7 +24,7 @@
           v-if="itemsCount > 0"
         >
           <FSButton
-            :label="$tr('ui.entity-field.edit', 'Edit')"
+            :label="$tr('button.edit', 'Edit')"
             icon="mdi-pencil"
             @click="$emit('click:select')"
           />
@@ -33,7 +33,7 @@
           v-else
         >
           <FSButton
-            :label="$tr('ui.entity-field.select', 'Select')"
+            :label="$tr('button.select', 'Select')"
             icon="mdi-plus-circle-multiple-outline"
             @click="$emit('click:select')"
           />
@@ -60,7 +60,7 @@
               <FSSpan
                 font="text-overline"
               >
-                {{ $tr('ui.entity-field.selected', '{0} selected(s)', itemsCount) }}
+                {{ $tr('entity-field.selected', '{0} selected(s)', itemsCount) }}
               </FSSpan>
             </FSRow>
           </FSColor>
@@ -84,7 +84,7 @@
               <FSSpan
                 font="text-overline"
               >
-                {{ $tr('ui.entity-field.no-entity-selected', 'No entity selected') }}
+                {{ $tr('entity-field.no-entity-selected', 'No entity selected') }}
               </FSSpan>
             </FSRow>
           </FSColor>

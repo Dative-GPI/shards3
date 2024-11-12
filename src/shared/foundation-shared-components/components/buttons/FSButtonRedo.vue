@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-redo-variant"
-    :label="$tr('ui.button.redo', 'Redo')"
+    :label="$tr('button.redo', 'Redo')"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

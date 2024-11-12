@@ -148,9 +148,9 @@ export default defineComponent({
           return value.toString();
         case MagicFieldType.Switch:
           if (value) {
-            return $tr("ui.magic-field.true", "True");
+            return $tr("magic-field.true", "True");
           }
-          return $tr("ui.magic-field.false", "False");
+          return $tr("magic-field.false", "False");
         case MagicFieldType.DateTimeField:
           return epochToShortTimeFormat(parseFloat(value));
         case MagicFieldType.TimeField:

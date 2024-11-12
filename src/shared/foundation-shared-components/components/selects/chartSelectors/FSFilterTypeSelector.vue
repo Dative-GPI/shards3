@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.filter-type','Filter type')"
+    :label="label ?? $tr('autocomplete.filter-type.label','Filter type')"
     :toggleSet="true"
     :items="filterTypeItems"
     :modelValue="modelValue"
