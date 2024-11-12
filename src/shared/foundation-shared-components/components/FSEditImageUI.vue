@@ -88,7 +88,7 @@
                 font="text-overline"
                 :style="style"
               >
-                {{ $tr('edit-image.size', '10 MB Maximum') }}
+                {{ $tr('edit-image.max-size', '10 MB Maximum') }}
               </FSText>
             </FSCol>
           </FSCol>

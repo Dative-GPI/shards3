@@ -50,7 +50,7 @@
         prependIcon="mdi-check"
         color="primary"
         width="100%"
-        :label="$tr('translate-rich-text-field.validate-button.label', 'Validate translations')"
+        :label="$tr('translate-rich-text-field.validate', 'Validate translations')"
         @click="onSubmitTranslations"
       />
     </FSRow>
@@ -69,7 +69,7 @@
         prependIcon="mdi-translate"
         color="primary"
         width="100%"
-        :label="$tr('translate-rich-text-field.translate-button.label', 'Manage translations')"
+        :label="$tr('translate-rich-text-field.manage-translations', 'Manage translations')"
         @click="() => $emit('update:translationsExpanded', true)"
       />
     </template>
