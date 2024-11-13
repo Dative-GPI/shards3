@@ -26,7 +26,7 @@
         @click="() => dialogRef.resetFormValidation()"
       />
       <FSText>
-        The current validity of the form is: {{ dialogRef.valid == true }}
+        The current validity of the form is: {{ dialogRef.validForm == true }}
       </FSText>
       <FSText>
         The dialogRef is null : {{ dialogRef == null }}
