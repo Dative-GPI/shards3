@@ -369,9 +369,11 @@
               <template
                 v-else
               >
-                <FSText>
-                  {{ $tr("data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
-                </FSText>
+                <FSRow>
+                  <FSText>
+                    {{ $tr("data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
+                  </FSText>
+                </FSRow>
               </template>
             </template>
             <FSRow
@@ -542,9 +544,11 @@
               <template
                 v-else
               >
-                <FSText>
-                  {{ $tr("data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
-                </FSText>
+                <FSRow>
+                  <FSText>
+                    {{ $tr("data-table.some-selected", "{0} element(s) selected", $props.modelValue.length.toString()) }}
+                  </FSText>
+                </FSRow>
               </template>
             </template>
             <FSRow
