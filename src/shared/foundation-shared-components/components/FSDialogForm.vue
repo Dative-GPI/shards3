@@ -91,9 +91,9 @@ export default defineComponent({
       emit("update:modelValue", false);
     };
 
-    const ResetFormValidation = () => {
+    const resetFormValidation = () => {
       if (bodyRef.value) {
-        bodyRef.value.ResetFormValidation();
+        bodyRef.value.resetFormValidation();
       }
     };
 
@@ -104,7 +104,7 @@ export default defineComponent({
     };
 
     return {
-      ResetFormValidation,
+      resetFormValidation,
       validateForm,
       onValidate,
       validForm,

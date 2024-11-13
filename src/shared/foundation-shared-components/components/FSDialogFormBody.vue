@@ -248,9 +248,9 @@ export default defineComponent({
       return props.validateButtonLabel ??  $tr("ui.button.validate", "Done");
     });
 
-    const ResetFormValidation = () => {
+    const resetFormValidation = () => {
       if (formRef.value) {
-        formRef.value.ResetValidation();
+        formRef.value.resetValidation();
       }
     };
 
@@ -275,7 +275,7 @@ export default defineComponent({
     }, { immediate: true });
 
     return {
-      ResetFormValidation,
+      resetFormValidation,
       validateLabel,
       validateForm,
       cancelLabel,
