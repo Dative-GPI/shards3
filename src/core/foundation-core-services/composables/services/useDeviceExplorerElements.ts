@@ -51,7 +51,7 @@ export const useDeviceExplorerElements = () => {
     const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod) ;
 
     try {
-      entities.value = await DeviceExplorerElementServiceFactory.getMany(...args);
+      entities.value = await DeviceExplorerElementServiceFactory.getMany({ ...filters.value });
 
       subscribeToDeviceOrganisations("all", (ev: NotifyEvent, el: DeviceOrganisationDetails | any) => {
         switch(ev) {
