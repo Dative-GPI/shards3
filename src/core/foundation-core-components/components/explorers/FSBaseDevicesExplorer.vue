@@ -227,7 +227,7 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ["update:modelValue", "update:groupsIds", "update:deviceOrganisationsIds"],
+  emits: ["update:modelValue", "update:types"],
   setup(props, { emit }) {
     const { entities, fetching: fetchingDeviceExplorerElements, getMany: getManyDeviceExplorerElements } = useDeviceExplorerElements();
     const { debounce } = useDebounce();
@@ -249,15 +249,8 @@ export default defineComponent({
     };
 
     const onUpdate = (value: string[]): void => {
-      const groupsIds = value.filter(id => {
-        return entities.value.find(dee => dee.id === id)?.type === DeviceExplorerElementType.Group;
-      });
-      emit("update:groupsIds", groupsIds);
-
-      const deviceOrganisationsIds = value.filter(id => {
-        return entities.value.find(dee => dee.id === id)?.type === DeviceExplorerElementType.DeviceOrganisation;
-      });
-      emit("update:deviceOrganisationsIds", deviceOrganisationsIds);
+      const types = value.map(id => entities.value.find(dee => dee.id === id)?.type);
+      emit("update:types", types);
 
       emit("update:modelValue", value);
     }
