@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.aggregation-type','Aggregation')"
+    :label="label ?? $tr('autocomplete.aggregation.label','Aggregation')"
     :items="aggregationTypeItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

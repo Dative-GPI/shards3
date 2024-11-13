@@ -40,16 +40,16 @@ export default defineComponent({
 
     const autoRefreshes = computed((): { id: AutoRefresh; label: string }[] => {
       const items = [
-        { id: AutoRefresh.FifteenSeconds, label: $tr("ui.auto-refresh.fifteen-seconds", "Fifteen seconds") },
-        { id: AutoRefresh.ThirtySeconds, label: $tr("ui.auto-refresh.thirty-seconds", "Thirty seconds") },
-        { id: AutoRefresh.OneMinute, label: $tr("ui.auto-refresh.one-minute", "One minute") },
-        { id: AutoRefresh.FiveMinutes, label: $tr("ui.auto-refresh.five-minutes", "Five minutes") },
-        { id: AutoRefresh.FifteenMinutes, label: $tr("ui.auto-refresh.fifteen-minutes", "Fifteen minutes") },
-        { id: AutoRefresh.ThirtyMinutes, label: $tr("ui.auto-refresh.thirty-minutes", "Thirty minutes") },
-        { id: AutoRefresh.OneHour, label: $tr("ui.auto-refresh.one-hour", "One hour") },
+        { id: AutoRefresh.FifteenSeconds, label: $tr("ui.common.fifteen-seconds", "Fifteen seconds") },
+        { id: AutoRefresh.ThirtySeconds, label: $tr("ui.common.thirty-seconds", "Thirty seconds") },
+        { id: AutoRefresh.OneMinute, label: $tr("ui.common.one-minute", "One minute") },
+        { id: AutoRefresh.FiveMinutes, label: $tr("ui.common.five-minutes", "Five minutes") },
+        { id: AutoRefresh.FifteenMinutes, label: $tr("ui.common.fifteen-minutes", "Fifteen minutes") },
+        { id: AutoRefresh.ThirtyMinutes, label: $tr("ui.common.thirty-minutes", "Thirty minutes") },
+        { id: AutoRefresh.OneHour, label: $tr("ui.common.one-hour", "One hour") },
       ];
       if (props.useNone) {
-        items.unshift({ id: AutoRefresh.None, label: $tr("ui.auto-refresh.none", "None") });
+        items.unshift({ id: AutoRefresh.None, label: $tr("ui.common.none", "None") });
       }
       return items;
     });

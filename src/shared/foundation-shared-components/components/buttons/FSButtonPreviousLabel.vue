@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('ui.button.previous', 'Previous')"
+    :label="$tr('button.previous', 'Previous')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

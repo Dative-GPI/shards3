@@ -255,7 +255,7 @@ export default defineComponent({
     const mapLayers: MapLayer[] = [
       {
         name: "map",
-        label: $tr("ui.map.layer.map", "Map"),
+        label: $tr("ui.map-layer.map", "Map"),
         image: new URL("../../assets/images/map/map.png", import.meta.url).href,
         layer: tileLayer(`http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
           maxZoom: 22,
@@ -265,7 +265,7 @@ export default defineComponent({
       },
       {
         name: "imagery",
-        label: $tr("ui.map.layer.imagery", "Imagery"),
+        label: $tr("ui.map-layer.imagery", "Imagery"),
         image: new URL("../../assets/images/map/imagery.png", import.meta.url).href,
         layer: tileLayer(`http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
           maxZoom: 22,

@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.operation-on','Operation on')"
+    :label="label ?? $tr('autocomplete.operation-on.label','Operation on')"
     :items="operationOnItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

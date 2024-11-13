@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.heat-rule','Heat rule')"
+    :label="label ?? $tr('autocomplete.heat-rule.label','Heat rule')"
     :items="heatmapRuleItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

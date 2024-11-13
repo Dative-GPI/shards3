@@ -7,7 +7,7 @@
   />
   <FSDialog
     v-model="dialog"
-    :title="$tr('ui.map.select-layer', 'Select layer')"
+    :title="$tr('ui.map-layer.select', 'Select layer')"
     :contained="true"
   >
     <template

@@ -1,6 +1,7 @@
 <template>
   <FSAutocompleteField
     itemTitle="name"
+    :label="$props.label ?? $tr('autocomplete.user.label', 'User')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"
@@ -87,6 +88,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     }
   },
   emits: ["update:modelValue"],
@@ -100,7 +106,7 @@ export default defineComponent({
 
     const placeholder = computed((): string | null => {
       if (props.multiple && props.modelValue) {
-        return $tr("ui.autocomplete-user-organisation.placeholder", "{0} user(s) selected", props.modelValue.length);
+        return $tr("autocomplete.user.placeholder", "{0} user(s) selected", props.modelValue.length);
       }
       return null;
     });

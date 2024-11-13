@@ -24,7 +24,7 @@
         <FSSpan
           font="text-overline"
         >
-          {{ $tr("ui.data-table.column-options", "Options for this column") }}
+          {{ $tr("data-table.column-options", "Options for this column") }}
         </FSSpan>
         <FSCol
           padding="6px"
@@ -33,7 +33,7 @@
             prependIcon="mdi-eye-off-outline"
             class="fs-header-button-chip"
             variant="borderless"
-            :label="$tr('ui.data-table.hide-column', 'Hide column')"
+            :label="$tr('data-table.hide-column', 'Hide column')"
             :height="[30, 24]"
             :editable="true"
             @click="$emit('update:hide')"
@@ -43,7 +43,7 @@
             class="fs-header-button-chip"
             variant="borderless"
             prependIcon="mdi-chevron-left"
-            :label="$tr('ui.data-table.move-left', 'Move to the left')"
+            :label="$tr('data-table.move-left', 'Move to the left')"
             :height="[30, 24]"
             :editable="true"
             @click="$emit('update:left')"
@@ -53,7 +53,7 @@
             class="fs-header-button-chip"
             variant="borderless"
             prependIcon="mdi-chevron-right"
-            :label="$tr('ui.data-table.move-right', 'Move to the right')"
+            :label="$tr('data-table.move-right', 'Move to the right')"
             :height="[30, 24]"
             :editable="true"
             @click="$emit('update:right')"

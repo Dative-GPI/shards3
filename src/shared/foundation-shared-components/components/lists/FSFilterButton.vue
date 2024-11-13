@@ -32,11 +32,11 @@
           <FSSpan
             font="text-overline"
           >
-            {{ $tr("ui.data-table.filter", "Filter") }}
+            {{ $tr("button.filter", "Filter") }}
           </FSSpan>
           <FSChip
             class="fs-filter-button-chip"
-            :label="$tr('ui.data-table.all-values', 'All values')"
+            :label="$tr('ui.common.all-values', 'All values')"
             :height="['30px', '24px']"
             :variant="getAllVariant()"
             :color="$props.color"
@@ -136,10 +136,10 @@ export default defineComponent({
         if (props.filters) {
           const hidden = props.filters.filter(f => f.hidden).length;
           if (hidden > 0) {
-            return $tr("ui.data-table.some-filters-visible", "{0}: {1} visible", props.header.text, (props.filters.length - hidden).toString());
+            return $tr("filter-button.some-filters-visible", "{0}: {1} visible", props.header.text, (props.filters.length - hidden).toString());
           }
         }
-        return $tr("ui.data-table.all-filters-visible", "{0}: All visible", props.header.text);
+        return $tr("filter-button.all-filters-visible", "{0}: All visible", props.header.text);
       }
       return null;
     });

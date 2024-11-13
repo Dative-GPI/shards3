@@ -5,7 +5,7 @@
     <component
       class="fs-magic-config-field-value"
       :is="get($props.type)"
-      :label="$tr('ui.magic-config-field.value', 'Value')"
+      :label="$tr('magic-config-field.value', 'Value')"
       :editable="$props.editable"
       :required="true"
       :rules="rules"
@@ -16,7 +16,7 @@
       gap="24px"
     >
       <FSTranslateField
-        :label="$tr('ui.magic-config-field.label', 'Label')"
+        :label="$tr('magic-config-field.label', 'Label')"
         :editable="$props.editable"
         :modelValue="$props.labelDefault"
         :translations="$props.translations"

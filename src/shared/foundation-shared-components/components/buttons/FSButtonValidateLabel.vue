@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('ui.button.validate', 'Validate')"
+    :label="$tr('button.validate', 'Validate')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />
