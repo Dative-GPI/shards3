@@ -6,7 +6,7 @@
       ref="formRef"
       :variant="$props.variant"
       @submit="onSubmit"
-      v-model="valid"
+      v-model="validForm"
     >
       <FSCol
         gap="24px"
@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref } from "vue";
+import { computed, defineComponent, type PropType, ref, watch } from "vue";
 
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -113,11 +113,6 @@ export default defineComponent({
       type: String as PropType<"standard" | "submit">,
       required: false,
       default: "submit"
-    },
-    modelValue: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     subtitle: {
       type: String as PropType<string | null>,
@@ -225,13 +220,13 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["click:cancelButton", "click:submitButton", "click:validateButton"],
+  emits: ["click:cancelButton", "click:submitButton", "click:validateButton", "update:validForm"],
   setup(props, { emit }) {
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const formRef = ref<HTMLElement | null>(null);
-    const valid = ref(false);
+    const validForm = ref(false);
 
     const maxHeight = computed(() => {
       const other = 24 + 24                                          // Paddings
@@ -253,8 +248,20 @@ export default defineComponent({
       return props.validateButtonLabel ??  $tr("ui.button.validate", "Done");
     });
 
+    const ResetFormValidation = () => {
+      if (formRef.value) {
+        (formRef.value as any).ResetValidation();
+      }
+    };
+
+    const validateForm =  async () => {
+      if (formRef.value) {
+        await (formRef.value as any).validate();
+      }
+    };
+
     const onSubmit = () => {
-      if (valid.value) {
+      if (validForm.value) {
         emit("click:submitButton");
       }
     };
@@ -262,17 +269,23 @@ export default defineComponent({
     const onValidate = () => {
       emit("click:validateButton");
     };
+    
+    watch(() => validForm.value, () => {
+      emit("update:validForm", validForm.value);
+    }, { immediate: true });
 
     return {
+      ResetFormValidation,
       validateLabel,
+      validateForm,
       cancelLabel,
       submitLabel,
+      onValidate,
       ColorEnum,
       maxHeight,
-      formRef,
-      valid,
-      onValidate,
-      onSubmit
+      validForm,
+      onSubmit,
+      formRef
     };
   }
 });
