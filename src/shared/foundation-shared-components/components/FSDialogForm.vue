@@ -18,7 +18,7 @@
         @click:cancelButton="$emit('update:modelValue', false)"
         @click:submitButton="$emit('click:submitButton')"
         @click:validateButton="onValidate"
-        @update:valid="validForm = $event"
+        @update:validForm="validForm = $event"
       >
         <template
           v-for="(_, name) in $slots"
