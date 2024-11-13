@@ -29,7 +29,7 @@ export const useDeviceExplorerElements = () => {
 
   const fetching = ref(false);
   const entities = ref<DeviceExplorerElementInfos[]>([]);
-  const filters = ref<DeviceExplorerElementFilters | undefined>(undefined);
+  const filters = ref<DeviceExplorerElementFilters>();
 
   const getMany = async (filter?: DeviceExplorerElementFilters) => {
     fetching.value = true;
