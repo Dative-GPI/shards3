@@ -76,7 +76,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "click:validateButton", "click:submitButton"],
   setup(props, { emit }) {
-    const bodyRef = ref<HTMLElement | null>(null);
+    const bodyRef = ref<typeof FSDialogFormBody | null>(null);
     const validForm = ref(false);
 
     const onClose = () => {
@@ -93,13 +93,13 @@ export default defineComponent({
 
     const ResetFormValidation = () => {
       if (bodyRef.value) {
-        (bodyRef.value as any).ResetFormValidation();
+        bodyRef.value.ResetFormValidation();
       }
     };
 
     const validateForm = async () => {
       if (bodyRef.value) {
-        await (bodyRef.value as any).validateForm();
+        await bodyRef.value.validateForm();
       }
     };
 
