@@ -51,8 +51,7 @@ export default defineComponent({
 
     const validate = async () => {
       submitted.value = true;
-      await (formRef.value as any).validate();
-      emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
+      return await (formRef.value as any).validate();
     };
 
     const reset = () => {

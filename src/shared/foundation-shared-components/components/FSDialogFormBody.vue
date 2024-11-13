@@ -6,7 +6,7 @@
       ref="formRef"
       :variant="$props.variant"
       @submit="onSubmit"
-      v-model="validForm"
+      v-model="isValidForm"
     >
       <FSCol
         gap="24px"
@@ -220,13 +220,13 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ["click:cancelButton", "click:submitButton", "click:validateButton", "update:validForm"],
+  emits: ["click:cancelButton", "click:submitButton", "click:validateButton", "update:isValidForm"],
   setup(props, { emit }) {
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const formRef = ref<typeof FSForm | null>(null);
-    const validForm = ref(false);
+    const isValidForm = ref(null);
 
     const maxHeight = computed(() => {
       const other = 24 + 24                                          // Paddings
@@ -248,20 +248,20 @@ export default defineComponent({
       return props.validateButtonLabel ??  $tr("button.validate", "Done");
     });
 
-    const ResetFormValidation = () => {
+    const resetFormValidation = () => {
       if (formRef.value) {
-        formRef.value.ResetValidation();
+        formRef.value.resetValidation();
       }
     };
 
     const validateForm =  async () => {
       if (formRef.value) {
-        await formRef.value.validate();
+        return await formRef.value.validate();
       }
     };
 
     const onSubmit = () => {
-      if (validForm.value) {
+      if (isValidForm.value) {
         emit("click:submitButton");
       }
     };
@@ -270,20 +270,20 @@ export default defineComponent({
       emit("click:validateButton");
     };
     
-    watch(() => validForm.value, () => {
-      emit("update:validForm", validForm.value);
+    watch(() => isValidForm.value, () => {
+      emit("update:isValidForm", isValidForm.value);
     }, { immediate: true });
 
     return {
-      ResetFormValidation,
+      resetFormValidation,
       validateLabel,
       validateForm,
+      isValidForm,
       cancelLabel,
       submitLabel,
       onValidate,
       ColorEnum,
       maxHeight,
-      validForm,
       onSubmit,
       formRef
     };

@@ -18,7 +18,7 @@
         @click:cancelButton="$emit('update:modelValue', false)"
         @click:submitButton="$emit('click:submitButton')"
         @click:validateButton="onValidate"
-        @update:validForm="validForm = $event"
+        @update:isValidForm="isValidForm = $event"
       >
         <template
           v-for="(_, name) in $slots"
@@ -77,7 +77,7 @@ export default defineComponent({
   emits: ["update:modelValue", "click:validateButton", "click:submitButton"],
   setup(props, { emit }) {
     const bodyRef = ref<typeof FSDialogFormBody | null>(null);
-    const validForm = ref(false);
+    const isValidForm = ref(false);
 
     const onClose = () => {
       if (props.validation) {
@@ -91,23 +91,23 @@ export default defineComponent({
       emit("update:modelValue", false);
     };
 
-    const ResetFormValidation = () => {
+    const resetFormValidation = () => {
       if (bodyRef.value) {
-        bodyRef.value.ResetFormValidation();
+        bodyRef.value.resetFormValidation();
       }
     };
 
     const validateForm = async () => {
       if (bodyRef.value) {
-        await bodyRef.value.validateForm();
+        return await bodyRef.value.validateForm();
       }
     };
 
     return {
-      ResetFormValidation,
+      resetFormValidation,
       validateForm,
+      isValidForm,
       onValidate,
-      validForm,
       bodyRef,
       onClose
     };
