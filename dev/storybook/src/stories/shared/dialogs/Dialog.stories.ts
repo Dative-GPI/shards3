@@ -14,6 +14,8 @@ import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.v
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
+import DialogFormRef from "./DialogFormRef.vue";
+
 const meta = {
   title: 'Foundation/Shared/Dialog',
   component: FSDialog,
@@ -59,7 +61,7 @@ export const Submit: Story = {
             This is a submit dialog
           </FSSpan>
         </template>
-      </FSDialogForm>
+      </FSDialogSubmit>
     </div>`
   })
 }
@@ -75,7 +77,7 @@ export const Form: Story = {
     label4: ""
   },
   render: (args, { argTypes }) => ({
-    components: { FSTranslateField, FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow },
+    components: { FSTranslateField, FSDialogForm, FSTextField, FSButton, FSCard, FSSpan, FSCol, FSRow, DialogFormRef },
     props: Object.keys(argTypes),
     setup() {
       return {
@@ -164,7 +166,8 @@ export const Form: Story = {
             v-model="args.label4"
           />
         </template>
-      </FSDialogForm>      
+      </FSDialogForm>
+      <DialogFormRef/> 
     </div>`
   })
 }
