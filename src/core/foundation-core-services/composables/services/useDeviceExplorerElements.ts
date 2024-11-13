@@ -29,11 +29,11 @@ export const useDeviceExplorerElements = () => {
 
   const fetching = ref(false);
   const entities = ref<DeviceExplorerElementInfos[]>([]);
-  const filters = ref<DeviceExplorerElementFilters | null>(null);
+  const filters = ref<DeviceExplorerElementFilters | undefined>(undefined);
 
-  const getMany = async (...args: Parameters<typeof DeviceExplorerElementServiceFactory.getMany>) => {
+  const getMany = async (filter?: DeviceExplorerElementFilters) => {
     fetching.value = true;
-    filters.value = args.pop() ?? null;
+    filters.value = filter;
 
     const filterMethod = (el: DeviceExplorerElementInfos): boolean => {
       if (!filters.value) {
@@ -51,7 +51,7 @@ export const useDeviceExplorerElements = () => {
     const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod) ;
 
     try {
-      entities.value = await DeviceExplorerElementServiceFactory.getMany({ ...filters.value });
+      entities.value = await DeviceExplorerElementServiceFactory.getMany(filters.value);
 
       subscribeToDeviceOrganisations("all", (ev: NotifyEvent, el: DeviceOrganisationDetails | any) => {
         switch(ev) {
