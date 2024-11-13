@@ -225,7 +225,7 @@ export default defineComponent({
     const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
-    const formRef = ref<HTMLElement | null>(null);
+    const formRef = ref<typeof FSForm | null>(null);
     const validForm = ref(false);
 
     const maxHeight = computed(() => {
@@ -250,13 +250,13 @@ export default defineComponent({
 
     const ResetFormValidation = () => {
       if (formRef.value) {
-        (formRef.value as any).ResetValidation();
+        formRef.value.ResetValidation();
       }
     };
 
     const validateForm =  async () => {
       if (formRef.value) {
-        await (formRef.value as any).validate();
+        await formRef.value.validate();
       }
     };
 
