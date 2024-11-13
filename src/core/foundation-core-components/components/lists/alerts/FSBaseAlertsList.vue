@@ -315,7 +315,7 @@ export default defineComponent({
           getManyAlerts({
             ...props.alertFilters,
             statuses: props.hidePending ?
-              [AlertStatus.Unresolved, AlertStatus.Resolved, AlertStatus.Triggered] : undefined
+              [AlertStatus.Unresolved, AlertStatus.Resolved, AlertStatus.Triggered] : props.alertFilters.statuses
           }); // TODO, gérer les conditions pour que les alertes s'affichent ici notamment lorsqu'elles sont acquittées
           // la FilterFactory gère pas ces conditions correctement
         }
