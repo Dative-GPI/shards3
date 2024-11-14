@@ -107,6 +107,7 @@ import { useChartOrganisationTypes } from "@dative-gpi/foundation-core-services/
 import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSChartTileUI.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
+import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 
@@ -120,6 +121,7 @@ export default defineComponent({
     FSTagGroup,
     FSImage,
     FSIcon,
+    FSText,
     FSRow
   },
   props: {

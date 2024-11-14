@@ -105,13 +105,13 @@ import type { ChartModelLabel, ChartOrganisationFilters, ChartOrganisationInfos 
 import { useChartOrganisations } from "@dative-gpi/foundation-core-services/composables";
 
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
+import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSChartTileUI.vue";
 
 import FSDataTable from "../FSDataTable.vue";
-
 
 export default defineComponent({
   name: "FSBaseChartOrganisationsList",
@@ -121,6 +121,7 @@ export default defineComponent({
     FSTagGroup,
     FSImage,
     FSIcon,
+    FSText,
     FSRow,
   },
   props: {
