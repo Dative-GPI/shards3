@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { DeviceExplorerElementDetails, type DeviceExplorerElementDetailsDTO, type DeviceExplorerElementFilters, DeviceExplorerElementInfos, type DeviceExplorerElementInfosDTO, type DeviceOrganisationDetails, type GroupDetails } from "@dative-gpi/foundation-core-domain/models";
 import { type AddOrUpdateCallback, type DeleteCallback, type NotifyEvent, onCollectionChanged } from "@dative-gpi/bones-ui";
 import { fromDeviceOrganisation, fromGroup } from "@dative-gpi/foundation-shared-domain/tools";
+import { alphanumericSort } from "@dative-gpi/foundation-shared-components/utils";
 import { ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { DEVICE_EXPLORER_ELEMENTS_URL } from "../../config/urls";
@@ -48,7 +49,16 @@ export const useDeviceExplorerElements = () => {
         (fullText.toLowerCase().includes(filters.value.search.toLowerCase()));
     };
 
-    const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod) ;
+    const sortMethod = (): void => {
+      entities.value = entities.value.sort((a, b) => {
+        if (a.type === b.type) {
+          return alphanumericSort(a.label, b.label);
+        }
+        return a.type - b.type;
+      });
+    };
+
+    const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod);
 
     try {
       entities.value = await DeviceExplorerElementServiceFactory.getMany(filters.value);
@@ -63,6 +73,7 @@ export const useDeviceExplorerElements = () => {
             (onCollectionChangedCustom as DeleteCallback)(ev, el);
             break;
         }
+        sortMethod();
       });
 
       subscribeToGroups("all", (ev: NotifyEvent, el: GroupDetails | any) => {
@@ -75,6 +86,7 @@ export const useDeviceExplorerElements = () => {
             (onCollectionChangedCustom as DeleteCallback)(ev, el);
             break;
         }
+        sortMethod();
       });
 
       watchDevicesStatuses();
