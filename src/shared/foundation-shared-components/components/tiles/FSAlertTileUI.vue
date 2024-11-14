@@ -14,23 +14,23 @@
         :icon="$props.icon"
         size="24px"
       />
-      <FSText
+      <FSSpan
         :lineClamp="1"
       >
         {{ $props.label }}
-      </FSText>
+      </FSSpan>
       <FSSpan
         font="text-overline"
         :lineClamp="1"
       >
         {{ epochToShortTimeFormat($props.triggerProcessedTimestamp) }}
       </FSSpan>
-      <FSText
+      <FSSpan
         font="text-overline"
         :lineClamp="1"
       >
         {{ $props.deviceOrganisationLabel }}
-      </FSText>
+      </FSSpan>
     </FSCol>
   </FSTile>
 </template>
@@ -42,7 +42,6 @@ import type { PropType } from "vue";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import FSText from "../FSText.vue";
 import FSTile from "./FSTile.vue";
 import FSSpan from "../FSSpan.vue";
 import FSIcon from "../FSIcon.vue";
@@ -52,7 +51,6 @@ import FSCol from "../FSCol.vue";
 export default defineComponent({
   name: "FSAlertTileUI",
   components: {
-    FSText,
     FSTile,
     FSIcon,
     FSSpan,
