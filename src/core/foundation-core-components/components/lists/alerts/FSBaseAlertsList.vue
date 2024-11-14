@@ -19,36 +19,7 @@
         v-bind="slotData"
       />
     </template>
-    <template
-      #toolbar
-    >
-      <FSButtonCheckbox
-        :label="$tr('ui.alert.not-acknowledged-only', 'Not acknowledged only')"
-        :color="ColorEnum.Warning"
-        v-model="innerNotTreatedOnly"
-      />
-      <FSButtonCheckbox
-        :label="$tr('ui.alert.hide-pending', 'Hide pending')"
-        :color="ColorEnum.Light"
-        variant="full"
-        v-model="innerHidePending"
-      />
-      <FSRow
-        align="center-right"
-      >
-        <FSRow
-          width="hug"
-        >
-          <FSTermField
-            variant="default"
-            :editable="!innerNotTreatedOnly"
-            :hideHeader="true"
-            v-model:startDate="startDate"
-            v-model:endDate="endDate"
-          />
-        </FSRow>
-      </FSRow>
-    </template>
+    
     <template
       #item.criticity="{ item }"
     >
@@ -223,19 +194,33 @@
         {{ epochToShortTimeFormat(item.currentProcessedTimestamp) }}
       </FSSpan>
     </template>
+    <template
+      #item.tile="{ item }"
+    >
+      <FSAlertTileUI
+        variant="standard"
+        :label="item.label"
+        :deviceOrganisationLabel="item.deviceOrganisationLabel"
+        :icon="item.icon"
+        :triggerProcessedTimestamp="item.triggerProcessedTimestamp"
+        :to="$props.itemTo && $props.itemTo(item)"
+        :color="alertColorByCriticity(item.criticity)"
+      />
+    </template>
   </FSDataTable>
 </template>
 
 <script lang="ts">
 import type { PropType} from "vue";
 import type { RouteLocation } from "vue-router";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, watch } from "vue";
 import _ from "lodash";
 
 import type { AlertFilters, AlertInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { useAlerts } from "@dative-gpi/foundation-core-services/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
+import type { Criticity } from "@dative-gpi/foundation-shared-domain/enums";
 import { AlertStatus } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { AlertTools } from "@dative-gpi/foundation-shared-components/tools";
@@ -247,21 +232,19 @@ import FSSpan from "@dative-gpi/foundation-shared-components/components/FSSpan.v
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
 import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
-import FSTermField from "@dative-gpi/foundation-shared-components/components/fields/FSTermField.vue";
-import FSButtonCheckbox from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCheckbox.vue";
+import FSAlertTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSAlertTileUI.vue";
 
 export default defineComponent({
   name: "FSBaseAlertsList",
   components: {
     FSButtonAcknowledgeAlert,
-    FSButtonCheckbox,
+    FSAlertTileUI,
     FSDataTable,
-    FSIcon,
-    FSImage,
-    FSRow,
-    FSSpan,
     FSTagGroup,
-    FSTermField,
+    FSImage,
+    FSIcon,
+    FSSpan,
+    FSRow
   },
   props: {
     tableCode: {
@@ -295,21 +278,20 @@ export default defineComponent({
     itemTo: {
       type: Function as PropType<(item: AlertInfos) => Partial<RouteLocation>>,
       required: false
-    }
+    },
   },
   emits: ["update:modelValue"],
   setup(props) {
     const { getMany: getManyAlerts, entities: alerts, fetching : fetchingAlerts } = useAlerts();
     const { epochToShortTimeFormat } = useDateFormat();
 
-    const innerNotTreatedOnly = ref<boolean | undefined>(props.notAcknowledged);
-    const innerHidePending = ref<boolean | undefined>(props.hidePending);
-    const startDate = ref<string>("now - 1w");
-    const endDate = ref<string>("now");
-
 
     const criticityColor = (row: any) => {
       return AlertTools.criticityColor(row.criticity);
+    };
+
+    const alertColorByCriticity = (criticity: Criticity | number) => {
+      return AlertTools.criticityColor(criticity);
     };
 
     const alertsOrdered = computed(() => {
@@ -320,9 +302,9 @@ export default defineComponent({
       }); 
     });
 
-    watch(() => [props.alertFilters, innerNotTreatedOnly.value,startDate.value, endDate.value,innerHidePending.value], (next, previous) => {
+    watch(() => [props.alertFilters, props.notAcknowledged, props.hidePending], (next, previous) => {
       if (!_.isEqual(next, previous)) {
-        if(innerNotTreatedOnly.value){
+        if(props.notAcknowledged){
           getManyAlerts({
             ...props.alertFilters,
             acknowledged: false,
@@ -332,28 +314,22 @@ export default defineComponent({
         else{
           getManyAlerts({
             ...props.alertFilters,
-            statuses: innerHidePending.value ?
-              [AlertStatus.Unresolved, AlertStatus.Resolved, AlertStatus.Triggered] : undefined,
-            startDate: startDate.value,
-            endDate: endDate.value 
+            statuses: props.hidePending ?
+              [AlertStatus.Unresolved, AlertStatus.Resolved, AlertStatus.Triggered] : props.alertFilters?.statuses
           }); // TODO, gérer les conditions pour que les alertes s'affichent ici notamment lorsqu'elles sont acquittées
           // la FilterFactory gère pas ces conditions correctement
         }
-        
       }
     }, { immediate: true });
 
 
     return {
-      innerNotTreatedOnly,
+      fetchingAlerts,
+      alertsOrdered,
       AlertTools,
       ColorEnum,
-      alertsOrdered,
-      fetchingAlerts,
-      startDate,
-      endDate,
-      innerHidePending,
       epochToShortTimeFormat,
+      alertColorByCriticity,
       criticityColor
     };
   }
