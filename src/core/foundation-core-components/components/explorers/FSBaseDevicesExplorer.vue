@@ -235,13 +235,14 @@ export default defineComponent({
     const search = ref("");
 
     const deviceExplorerElements = computed((): DeviceExplorerElementInfos[] => {
+      let elements = entities.value.slice();
       if (props.connectedOnly) {
-        return entities.value.filter(dee => 
+        elements = elements.filter(dee => 
           dee.type === DeviceExplorerElementType.Group ||
           (dee.connectivity != null && dee.connectivity.status != ConnectivityStatus.None)
         );
       }
-      return entities.value;
+      return elements.sort((a, b) => a.type - b.type);
     });
 
     const isSelected = (id: string): boolean => {

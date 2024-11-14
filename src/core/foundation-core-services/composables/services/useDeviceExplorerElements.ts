@@ -48,7 +48,7 @@ export const useDeviceExplorerElements = () => {
         (fullText.toLowerCase().includes(filters.value.search.toLowerCase()));
     };
 
-    const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod) ;
+    const onCollectionChangedCustom = onCollectionChanged(entities, filterMethod);
 
     try {
       entities.value = await DeviceExplorerElementServiceFactory.getMany(filters.value);
