@@ -38,6 +38,7 @@
         {{ $tr("ui.common.entities-list", "Entities list") }}
       </FSText>
       <FSBaseEntitiesList
+        :singleSelect="$props.singleSelect"
         :entity-type="$props.entityType"
         :tableCode="tableCode"
         :modelValue="$props.modelValue"
@@ -80,6 +81,11 @@ export default defineComponent({
     entityType: {
       type: Number as PropType<EntityType>,
       required: true
+    },
+    singleSelect: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     modelValue: {
       type: Array as PropType<string[]>,
