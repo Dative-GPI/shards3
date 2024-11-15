@@ -15,7 +15,7 @@
 
         <FSRow
           padding="24px 16px 16px 24px"
-          style="position: sticky; top: 0px; z-index: 1;"
+          style="position: sticky; top: 0px; z-index: 2;"
           :style="{ backgroundColor, marginTop: $props.stickyTitleTopOffset }"
         >
           <slot
