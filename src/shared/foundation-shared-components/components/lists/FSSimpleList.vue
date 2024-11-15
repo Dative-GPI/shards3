@@ -45,20 +45,20 @@
         </template>
       </FSCol>
     </FSFadeOut>
-    <FSRow
+    <template
       v-else-if="$props.direction == 'row'"
     >
-      <template
+      <FSRow
         v-if="$props.loading"
       >
         <FSLoader
           v-for="i in 4"
           :key="i"
-          width="100%"
+          width="100px"
           height="50px"
         />
-      </template>
-      <template
+      </FSRow>
+      <FSRow
         v-else
       >
         <FSSimpleListItem 
@@ -76,8 +76,8 @@
           @click:edit="$emit('click:edit', $event)"
           @click:remove="$emit('click:remove', $event)"
         />
-      </template>
-    </FSRow>
+      </FSRow>
+    </template>
     <FSSlideGroup
       v-else
     >

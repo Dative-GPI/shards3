@@ -10,6 +10,7 @@
       #body
     >
       <FSSelectEntitiesList
+        :singleSelect="$props.singleSelect"
         :entityType="$props.entityType"
         :modelValue="actualSelecteds"
         :filters="$props.filters"
@@ -43,6 +44,11 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: false,
       default: () => []
+    },
+    singleSelect: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     filters: {
       type: Object,

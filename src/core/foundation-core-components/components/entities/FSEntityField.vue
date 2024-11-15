@@ -26,6 +26,7 @@
     </template>
   </FSEntityFieldUI>
   <FSDialogSelectEntities
+    :singleSelect="$props.singleSelect"
     :entity-type="$props.entityType"
     :filters="$props.filters"
     v-model="dialog"
@@ -113,6 +114,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    singleSelect: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     showCount: {
       type: Boolean,
