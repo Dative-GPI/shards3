@@ -11,12 +11,14 @@
       #body
     >
       <FSDialogFormBody 
+        ref="bodyRef"
         v-bind="$attrs"
         :subtitle="$props.subtitle"
         :validation="$props.validation"
         @click:cancelButton="$emit('update:modelValue', false)"
         @click:submitButton="$emit('click:submitButton')"
         @click:validateButton="onValidate"
+        @update:isValidForm="isValidForm = $event"
       >
         <template
           v-for="(_, name) in $slots"
@@ -33,8 +35,8 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { defineComponent } from "vue";
+import type { PropType } from "vue";
+import { defineComponent, ref } from "vue";
 
 import FSDialogFormBody from "./FSDialogFormBody.vue";
 import FSDialog from "./FSDialog.vue";
@@ -74,6 +76,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "click:validateButton", "click:submitButton"],
   setup(props, { emit }) {
+    const bodyRef = ref<typeof FSDialogFormBody | null>(null);
+    const isValidForm = ref(false);
 
     const onClose = () => {
       if (props.validation) {
@@ -87,8 +91,24 @@ export default defineComponent({
       emit("update:modelValue", false);
     };
 
+    const resetFormValidation = () => {
+      if (bodyRef.value) {
+        bodyRef.value.resetFormValidation();
+      }
+    };
+
+    const validateForm = async () => {
+      if (bodyRef.value) {
+        return await bodyRef.value.validateForm();
+      }
+    };
+
     return {
+      resetFormValidation,
+      validateForm,
+      isValidForm,
       onValidate,
+      bodyRef,
       onClose
     };
   }
