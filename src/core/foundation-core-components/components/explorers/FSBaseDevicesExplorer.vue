@@ -257,7 +257,18 @@ export default defineComponent({
     }
 
     const fetch = () => {
-      getManyDeviceExplorerElements({ ...props.deviceExplorerElementFilters, search: search.value });
+      if (search.value) {
+        getManyDeviceExplorerElements({
+          ancestorId: props.deviceExplorerElementFilters?.parentId,
+          root: props.deviceExplorerElementFilters?.root,
+          search: search.value
+        });
+      }
+      else {
+        getManyDeviceExplorerElements({
+          ...props.deviceExplorerElementFilters
+        });
+      }
     }
 
     // Delay to wait before fetching after a search change
