@@ -79,13 +79,13 @@ export default defineComponent({
   },
   setup(props){
     const actualIconSize = computed(() => {
-      if(props.iconSize){
+      if (props.iconSize){
         return props.iconSize;
-      } else if (props.size) {
-        return sizeToVar(`calc(${props.size} * 0.42)`);
-      } else {
-        return "42px";
       }
+      else if (props.size) {
+        return `calc(${sizeToVar(props.size)} * 0.42)`;
+      }
+      return "42px";
     });
 
     return {
