@@ -32,8 +32,8 @@
           :backgroundColor="$props.iconBackgroundColors"
           :iconColor="$props.iconColor"
           :border="$props.iconBorder"
-          :icon="$props.icon"
           :size="actualImageSize"
+          :icon="$props.icon"
         />
         <FSCol
           align="center-left"

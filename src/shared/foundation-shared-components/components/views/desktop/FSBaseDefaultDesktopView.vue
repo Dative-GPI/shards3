@@ -15,7 +15,7 @@
 
         <FSRow
           padding="24px 16px 16px 24px"
-          style="position: sticky; top: 0px; z-index: 1;"
+          style="position: sticky; top: 0px; z-index: 2;"
           :style="{ backgroundColor, marginTop: $props.stickyTitleTopOffset }"
         >
           <slot
@@ -46,7 +46,7 @@
         <FSRow
           v-if="$slots.toolbar"
           padding="0px 16px 8px 24px"
-          :style="stickyToolbar ? `position: sticky; top: ${$props.toolbarTopOffset}; z-index: 1; background-color: ${backgroundColor}` : undefined"
+          :style="stickyToolbar ? `position: sticky; top: ${$props.toolbarTopOffset}; z-index: 2; background-color: ${backgroundColor}` : undefined"
         >
           <FSSlideGroup
             width="100%"
