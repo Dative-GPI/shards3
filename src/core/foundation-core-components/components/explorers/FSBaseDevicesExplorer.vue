@@ -266,7 +266,8 @@ export default defineComponent({
       }
       else {
         getManyDeviceExplorerElements({
-          ...props.deviceExplorerElementFilters
+          parentId: props.deviceExplorerElementFilters?.parentId,
+          root: props.deviceExplorerElementFilters?.root
         });
       }
     }
