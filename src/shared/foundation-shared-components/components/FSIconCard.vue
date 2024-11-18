@@ -25,9 +25,10 @@ import { defineComponent, type PropType, computed } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import { sizeToVar } from "../utils";
+
 import FSCard from "./FSCard.vue";
 import FSIcon from "./FSIcon.vue";
-import { sizeToVar } from "../utils";
 
 export default defineComponent({
   name: "FSIconCard",
