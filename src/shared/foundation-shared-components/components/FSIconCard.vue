@@ -9,10 +9,10 @@
     <FSRow
       align="center-center"
     >
-      <FSIcon 
+      <FSIcon
         :variant="$props.iconVariant"
         :color="$props.iconColor"
-        :size="$props.iconSize"
+        :size="actualIconSize"
       >
         {{ $props.icon }}
       </FSIcon>
@@ -21,12 +21,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { defineComponent, type PropType, computed } from "vue";
 
 import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
 import FSCard from "./FSCard.vue";
 import FSIcon from "./FSIcon.vue";
+import { sizeToVar } from "../utils";
 
 export default defineComponent({
   name: "FSIconCard",
@@ -68,13 +69,28 @@ export default defineComponent({
     iconSize: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
-      default: "42px"
+      default: null
     },
     border: {
       type: Boolean,
       required: false,
       default: true
     }
+  },
+  setup(props){
+    const actualIconSize = computed(() => {
+      if(props.iconSize){
+        return props.iconSize;
+      } else if (props.size) {
+        return sizeToVar(`calc(${props.size} * 0.42)`);
+      } else {
+        return "42px";
+      }
+    });
+
+    return {
+      actualIconSize
+    };
   }
 });
 </script>
