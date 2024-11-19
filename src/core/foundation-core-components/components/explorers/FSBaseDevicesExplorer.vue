@@ -267,7 +267,7 @@ export default defineComponent({
     }
 
     const fetch = () => {
-      if (props.recursiveSearch) {
+      if (props.recursiveSearch && search.value) {
         getManyDeviceExplorerElements({
           ancestorId: props.parentId,
           root: props.root,
