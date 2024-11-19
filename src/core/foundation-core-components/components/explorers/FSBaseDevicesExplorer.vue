@@ -7,7 +7,7 @@
     :showSelect="$props.editable"
     :tableCode="$props.tableCode"
     :itemTo="$props.itemTo"
-    :noSearch="true"
+    :noSearch="$props.recursiveSearch"
     :modelValue="$props.modelValue"
     @update:modelValue="onUpdate"
     v-model:search="search"
@@ -159,9 +159,9 @@ import { computed, defineComponent, type PropType, ref, watch } from "vue";
 import { type RouteLocation } from "vue-router";
 import _ from "lodash";
   
-import { type DeviceExplorerElementFilters, type DeviceExplorerElementInfos} from "@dative-gpi/foundation-core-domain/models";
 import { ConnectivityStatus, DeviceExplorerElementType } from "@dative-gpi/foundation-shared-domain/enums";
 import { useDeviceExplorerElements } from "@dative-gpi/foundation-core-services/composables";
+import { type DeviceExplorerElementInfos} from "@dative-gpi/foundation-core-domain/models";
 import { useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 
 import FSDeviceOrganisationTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDeviceOrganisationTileUI.vue";
@@ -197,10 +197,15 @@ export default defineComponent({
       required: false,
       default: true
     },
-    deviceExplorerElementFilters: {
-      type: Object as PropType<DeviceExplorerElementFilters>,
+    parentId: {
+      type: String as PropType<string | null>,
       required: false,
       default: null
+    },
+    root: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     connectedOnly: {
       type: Boolean,
@@ -262,24 +267,32 @@ export default defineComponent({
     }
 
     const fetch = () => {
-      getManyDeviceExplorerElements({
-        ...props.deviceExplorerElementFilters,
-        recursiveSearch: props.recursiveSearch && !!search.value,
-        search: search.value
-      });
+      if (props.recursiveSearch) {
+        getManyDeviceExplorerElements({
+          ancestorId: props.parentId,
+          root: props.root,
+          search: search.value
+        });
+      }
+      else {
+        getManyDeviceExplorerElements({
+          parentId: props.parentId,
+          root: props.root
+        });
+      }
     }
 
     // Delay to wait before fetching after a search change
     const debounceFetch = (): void => debounce(fetch, 1500);
   
-    watch(() => props.deviceExplorerElementFilters, (next, previous) => {
+    watch([() => props.parentId, () => props.root], (next, previous) => {
       if ((!next && !previous) || !_.isEqual(next, previous)) {
         fetch();
       }
     }, { immediate: true });
 
     watch(search, (next, previous) => {
-      if (next !== previous && next.length === 0 || next.length >= 3) {
+      if (props.recursiveSearch && next !== previous && next.length === 0 || next.length >= 3) {
         debounceFetch();
       }
     });
