@@ -25,8 +25,8 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      tab1: 8,
-      tab2: 1,
+      tab1: 0,
+      tab2: 0,
       tab3: 2,
       tab4: 3,
       tab5: 0,

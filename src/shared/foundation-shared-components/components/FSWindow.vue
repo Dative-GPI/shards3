@@ -1,6 +1,6 @@
 <template>
   <template 
-    v-if="showDefault"
+    v-if="noMatch"
   >
     <slot 
       name="error" 
@@ -26,7 +26,6 @@
   <v-window
     class="fs-window"
     :touch="false"
-    :mandatory="true"
     :style="style"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
@@ -125,7 +124,7 @@ export default defineComponent({
       }, 560);
     });
 
-    const showDefault = computed(() => {
+    const noMatch = computed(() => {
       if(!window.value) { return; }
 
       // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/components/VWindow/VWindow.tsx
@@ -137,12 +136,12 @@ export default defineComponent({
 
     return {
       ColorEnum,
-      showDefault,
+      noMatch,
       window,
       slots,
       style,
       getChildren,
-      value,
+      value
     };
   }
 });
