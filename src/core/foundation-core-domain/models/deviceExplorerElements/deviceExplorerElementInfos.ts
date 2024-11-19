@@ -109,8 +109,8 @@ export interface DeviceExplorerElementInfosDTO {
 }
 
 export interface DeviceExplorerElementFilters {
-  ancestorId?: string | null;
   parentId?: string | null;
   root?: boolean | null;
+  recursiveSearch?: boolean | null;
   search?: string | null;
 }

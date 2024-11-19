@@ -192,6 +192,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    recursiveSearch: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     deviceExplorerElementFilters: {
       type: Object as PropType<DeviceExplorerElementFilters>,
       required: false,
@@ -257,19 +262,11 @@ export default defineComponent({
     }
 
     const fetch = () => {
-      if (search.value) {
-        getManyDeviceExplorerElements({
-          ancestorId: props.deviceExplorerElementFilters?.parentId,
-          root: props.deviceExplorerElementFilters?.root,
-          search: search.value
-        });
-      }
-      else {
-        getManyDeviceExplorerElements({
-          parentId: props.deviceExplorerElementFilters?.parentId,
-          root: props.deviceExplorerElementFilters?.root
-        });
-      }
+      getManyDeviceExplorerElements({
+        ...props.deviceExplorerElementFilters,
+        recursiveSearch: props.recursiveSearch && !!search.value,
+        search: search.value
+      });
     }
 
     // Delay to wait before fetching after a search change
