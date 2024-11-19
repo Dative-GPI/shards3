@@ -25,8 +25,8 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
-      tab1: 0,
-      tab2: 0,
+      tab1: 8,
+      tab2: 1,
       tab3: 2,
       tab4: 3,
       tab5: 0,
@@ -40,7 +40,7 @@ export const Variations: Story = {
     components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSRow, FSFadeOut, FSSlideGroup, FSButton },
     props: Object.keys(argTypes),
     setup() {
-      return { ...args };
+      return args;
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 30px;">

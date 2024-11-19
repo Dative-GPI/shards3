@@ -1,11 +1,37 @@
 <template>
+  <template 
+    v-if="showDefault"
+  >
+    <slot 
+      name="error" 
+    >
+      <FSCard 
+        padding="20px"
+        :width="width"
+        :height="height"
+        :color="ColorEnum.Warning"
+        variant="standard"
+      >
+        <FSRow>
+          <FSIcon>
+            mdi-alert-circle
+          </FSIcon>
+          <FSSpan>
+            {{ $tr("ui.error", "You should not be there ...") }}
+          </FSSpan>
+        </FSRow>
+      </FSCard>
+    </slot>
+  </template>
   <v-window
     class="fs-window"
     :touch="false"
+    :mandatory="true"
     :style="style"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
+    ref="window"
   >
     <template
       v-for="(_, name) in slots"
@@ -35,8 +61,21 @@ import { computed, defineComponent, type PropType, ref, type StyleValue, type VN
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
+import { ColorEnum } from "../models";
+
+import FSCard from "./FSCard.vue";
+import FSIcon from "./FSIcon.vue";
+import FSRow from "./FSRow.vue";
+import FSSpan from "./FSSpan.vue";
+
 export default defineComponent({
   name: "FSWindow",
+  components: {
+    FSCard,
+    FSRow,
+    FSIcon,
+    FSSpan
+  },
   props: {
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
@@ -59,6 +98,8 @@ export default defineComponent({
     const { slots, getChildren } = useSlots();
 
     delete slots.default;
+
+    const window = ref<any | null>(null);
     
     const showOverflow = ref(true);
     const overflowTimeout = ref<NodeJS.Timeout | null>(null);
@@ -84,11 +125,24 @@ export default defineComponent({
       }, 560);
     });
 
+    const showDefault = computed(() => {
+      if(!window.value) { return; }
+
+      // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/components/VWindow/VWindow.tsx
+      // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/composables/group.ts#L161
+      const group = window.value.group;
+
+      return !group.items.value.find((item: any) => item.value === props.modelValue);
+    })
+
     return {
+      ColorEnum,
+      showDefault,
+      window,
       slots,
       style,
       getChildren,
-      value
+      value,
     };
   }
 });
