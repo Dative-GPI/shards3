@@ -292,7 +292,7 @@ export default defineComponent({
     }, { immediate: true });
 
     watch(search, (next, previous) => {
-      if (props.recursiveSearch && next !== previous && next.length === 0 || next.length >= 3) {
+      if (props.recursiveSearch && next !== previous) {
         debounceFetch();
       }
     });
