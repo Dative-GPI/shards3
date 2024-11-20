@@ -5,32 +5,50 @@
     <slot 
       name="error" 
     >
-      <FSCard 
-        padding="20px"
-        :width="width"
-        :height="height"
-        :color="ColorEnum.Warning"
-        variant="standard"
+      <FSRow
+        padding="16px"
+        :width="$props.width"
       >
-        <FSRow>
-          <FSIcon>
-            mdi-alert-circle
-          </FSIcon>
-          <FSSpan>
-            {{ $tr("ui.error", "You should not be there ...") }}
-          </FSSpan>
-        </FSRow>
-      </FSCard>
+        <FSCol
+          align="center-center"
+          gap="16px"
+        >
+          <FSCol
+            align="center-center"
+          >
+            <FSIcon
+              size="42px"
+              :color="ColorEnum.Error"
+            >
+              mdi-alert-outline
+            </FSIcon>
+            <FSText
+              font="text-h3"
+            >
+              {{ $tr("ui.no-access-title", "Nothing to see here") }}
+            </FSText>
+          </FSCol>
+          <FSText
+            :lineClamp="2"
+          >
+            {{ $tr("ui.no-access-body", "It seems you either do not have access to this content, or there is nothing to display here") }}
+          </FSText>
+          <FSButton
+            :label="$tr('ui.no-access-button', 'Go back')"
+            :color="ColorEnum.Primary"
+            @click="goBack"
+          />
+        </FSCol>
+      </FSRow>
     </slot>
   </template>
   <v-window
     class="fs-window"
+    ref="windowRef"
     :touch="false"
     :style="style"
     :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
-    ref="window"
   >
     <template
       v-for="(_, name) in slots"
@@ -62,18 +80,20 @@ import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
 import { ColorEnum } from "../models";
 
+import FSButton from "./FSButton.vue";
 import FSCard from "./FSCard.vue";
 import FSIcon from "./FSIcon.vue";
+import FSText from "./FSText.vue";
 import FSRow from "./FSRow.vue";
-import FSSpan from "./FSSpan.vue";
 
 export default defineComponent({
   name: "FSWindow",
   components: {
+    FSButton,
     FSCard,
-    FSRow,
     FSIcon,
-    FSSpan
+    FSText,
+    FSRow
   },
   props: {
     width: {
@@ -93,12 +113,12 @@ export default defineComponent({
     }
   },
   emits: ["update:modelValue"],
-  setup(props) {
+  setup(props, { emit }) {
     const { slots, getChildren } = useSlots();
 
     delete slots.default;
 
-    const window = ref<any | null>(null);
+    const windowRef = ref<any | null>(null);
     
     const showOverflow = ref(true);
     const overflowTimeout = ref<NodeJS.Timeout | null>(null);
@@ -125,22 +145,38 @@ export default defineComponent({
     });
 
     const noMatch = computed(() => {
-      if(!window.value) { return; }
+      if (!windowRef.value) {
+        return;
+      }
 
       // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/components/VWindow/VWindow.tsx
       // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/composables/group.ts#L161
-      const group = window.value.group;
-
+      const group = windowRef.value.group;
       return !group.items.value.find((item: any) => item.value === props.modelValue);
-    })
+    });
+
+    const goBack = (): void => {
+      if (!windowRef.value) {
+        emit("update:modelValue", -1);
+        return;
+      }
+      
+      const group = windowRef.value.group;
+      if (!group.items.value.length) {
+        emit("update:modelValue", -1);
+        return;
+      }
+      emit("update:modelValue", group.items.value[0].value);
+    };
 
     return {
       ColorEnum,
+      windowRef,
       noMatch,
-      window,
       slots,
       style,
       getChildren,
+      goBack,
       value
     };
   }
