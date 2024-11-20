@@ -1,6 +1,7 @@
 <template>
   <FSCol
     gap="16px"
+    style="position: relative;"
   >
     <FSRow
       v-if="$props.showSearch || (!isExtraSmall && ($slots.prependToolbar || $slots.toolbar )) || (!$props.disableTable && !$props.disableIterator)"
@@ -687,11 +688,11 @@
         </template>
       </v-data-iterator>
     </template>
+    <div
+      class="fs-data-table-intersection"
+      :id="elementId"
+    /> 
   </FSCol>
-  <div
-    class="fs-data-table-intersection"
-    :id="elementId"
-  /> 
 </template>
 
 <script lang="ts">
