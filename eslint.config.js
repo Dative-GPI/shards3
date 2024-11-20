@@ -44,6 +44,14 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-function-type": "off",
       "@typescript-eslint/consistent-type-imports": "error",
       "curly": ["error", "all"],
+
+      "no-multi-spaces": "error",
+      "object-curly-spacing": ["error", "always", { "arraysInObjects": true, "objectsInObjects": true }],
+      "arrow-spacing": ["error", { "before": true, "after": true }],
+      "space-unary-ops": ["error", { "words": true, "nonwords": false }],
+      "space-infix-ops": "error",
+      "max-statements-per-line": ["error", { "max": 1 }],
+
       "vue/html-indent": ["error", 2, {
         "baseIndent": 1,
         "closeBracket": 0,
