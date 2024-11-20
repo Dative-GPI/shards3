@@ -43,8 +43,8 @@ export default tseslint.config(
       "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/no-unsafe-function-type": "off",
       "@typescript-eslint/consistent-type-imports": "error",
-      "curly": ["error", "all"],
 
+      "curly": ["error", "all"],
       "no-multi-spaces": "error",
       "object-curly-spacing": ["error", "always", { "arraysInObjects": true, "objectsInObjects": true }],
       "arrow-spacing": ["error", { "before": true, "after": true }],
@@ -89,6 +89,7 @@ export default tseslint.config(
           "multiline": "always"
         }
       }],
+      
       'tr-kebab-case/tr-kebab-case-tr': 'error',
     },
   }
