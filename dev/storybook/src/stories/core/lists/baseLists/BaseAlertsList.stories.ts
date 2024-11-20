@@ -27,10 +27,12 @@ export const Default: Story = {
     },
     template: `
       <FSBaseAlertsList
+        mode="table"
         :tableCode="args.tableCode"
         :notAcknowledged="args.notAcknowledged"
         :hidePending="args.hidePending"
         :allowAcknowledge="args.allowAcknowledge"
+        :showSearch="false"
         v-model="args.modelValue"
       />
     `,
