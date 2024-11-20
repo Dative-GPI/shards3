@@ -270,7 +270,6 @@ export default defineComponent({
       if (props.recursiveSearch && search.value) {
         getManyDeviceExplorerElements({
           ancestorId: props.parentId,
-          root: props.root,
           search: search.value
         });
       }
