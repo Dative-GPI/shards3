@@ -3,7 +3,7 @@
     gap="16px"
   >
     <FSRow
-      v-if="$props.showSearch || $slots.prependToolbar || $slots.toolbar || (!$props.disableTable && !$props.disableIterator)"
+      v-if="$props.showSearch || (!isExtraSmall && ($slots.prependToolbar || $slots.toolbar )) || (!$props.disableTable && !$props.disableIterator)"
       align="bottom-left"
       :wrap="isExtraSmall ? false : true"
       width="fill"
