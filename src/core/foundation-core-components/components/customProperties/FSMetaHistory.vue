@@ -1,12 +1,12 @@
 <template>
   <FSButton
     prependIcon="mdi-history"
-    :label="$tr('entity.custom-property.history', 'History')"
+    :label="$tr('ui.custom-property.history', 'History')"
     @click="dialog = !dialog"
   />
   <FSDialog
     width="500px"
-    :label="$tr('entity.custom-property.history', 'History')"
+    :label="$tr('ui.custom-property.history', 'History')"
     v-model="dialog"
   >
     <template
