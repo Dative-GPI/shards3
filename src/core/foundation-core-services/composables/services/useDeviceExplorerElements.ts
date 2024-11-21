@@ -2,7 +2,6 @@ import { ref } from "vue";
 
 import { DeviceExplorerElementDetails, type DeviceExplorerElementDetailsDTO, type DeviceExplorerElementFilters, DeviceExplorerElementInfos, type DeviceExplorerElementInfosDTO, type DeviceOrganisationDetails, type GroupDetails } from "@dative-gpi/foundation-core-domain/models";
 import { type AddOrUpdateCallback, type DeleteCallback, type NotifyEvent, onCollectionChanged } from "@dative-gpi/bones-ui";
-import { fromDeviceOrganisation, fromGroup } from "@dative-gpi/foundation-core-domain/tools";
 import { ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { DEVICE_EXPLORER_ELEMENTS_URL } from "../../config/urls";
@@ -57,7 +56,7 @@ export const useDeviceExplorerElements = () => {
         switch(ev) {
           case "add":
           case "update":
-            (onCollectionChangedCustom as AddOrUpdateCallback<DeviceExplorerElementInfos>)(ev, fromDeviceOrganisation(el));
+            (onCollectionChangedCustom as AddOrUpdateCallback<DeviceExplorerElementInfos>)(ev, DeviceExplorerElementInfos.fromDeviceOrganisation(el));
             break;
           case "delete":
             (onCollectionChangedCustom as DeleteCallback)(ev, el);
@@ -69,7 +68,7 @@ export const useDeviceExplorerElements = () => {
         switch(ev) {
           case "add":
           case "update":
-            (onCollectionChangedCustom as AddOrUpdateCallback<DeviceExplorerElementInfos>)(ev, fromGroup(el));
+            (onCollectionChangedCustom as AddOrUpdateCallback<DeviceExplorerElementInfos>)(ev, DeviceExplorerElementInfos.fromGroup(el));
             break;
           case "delete":
             (onCollectionChangedCustom as DeleteCallback)(ev, el);
