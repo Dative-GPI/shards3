@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 import { DeviceExplorerElementDetails, type DeviceExplorerElementDetailsDTO, type DeviceExplorerElementFilters, DeviceExplorerElementInfos, type DeviceExplorerElementInfosDTO, type DeviceOrganisationDetails, type GroupDetails } from "@dative-gpi/foundation-core-domain/models";
 import { type AddOrUpdateCallback, type DeleteCallback, type NotifyEvent, onCollectionChanged } from "@dative-gpi/bones-ui";
-import { fromDeviceOrganisation, fromGroup } from "@dative-gpi/foundation-shared-domain/tools";
+import { fromDeviceOrganisation, fromGroup } from "@dative-gpi/foundation-core-domain/tools";
 import { ServiceFactory } from "@dative-gpi/bones-ui/core";
 
 import { DEVICE_EXPLORER_ELEMENTS_URL } from "../../config/urls";

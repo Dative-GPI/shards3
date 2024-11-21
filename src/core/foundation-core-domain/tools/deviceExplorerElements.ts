@@ -1,6 +1,6 @@
-import { type DeviceExplorerElementInfos, type DeviceOrganisationInfos, type GroupInfos } from "@dative-gpi/foundation-core-domain/models";
+import { DeviceExplorerElementType } from "@dative-gpi/foundation-shared-domain/enums";
 
-import { DeviceExplorerElementType } from "../enums";
+import { type DeviceExplorerElementInfos, type DeviceOrganisationInfos, type GroupInfos } from "../models";
 
 export const fromDeviceOrganisation = (deviceOrganisation: DeviceOrganisationInfos): DeviceExplorerElementInfos => ({
   ...deviceOrganisation,
