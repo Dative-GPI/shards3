@@ -25,16 +25,16 @@
             <FSText
               font="text-h3"
             >
-              {{ $tr("ui.no-access-title", "Nothing to see here") }}
+              {{ $tr("window.no-access-title", "Nothing to see here") }}
             </FSText>
           </FSCol>
           <FSText
             :lineClamp="2"
           >
-            {{ $tr("ui.no-access-body", "It seems you either do not have access to this content, or there is nothing to display here") }}
+            {{ $tr("window.no-access-body", "It seems you either do not have access to this content, or there is nothing to display here") }}
           </FSText>
           <FSButton
-            :label="$tr('ui.no-access-button', 'Go back')"
+            :label="$tr('window.no-access-button', 'Go back')"
             :color="ColorEnum.Primary"
             @click="goBack"
           />
