@@ -266,7 +266,7 @@ export const Variations: Story = {
 export const Errors: Story = {
   args: {
     args: {
-      tab1: 2
+      tab1: 0
     }
   },
   render: (args, { argTypes }) => ({
@@ -278,13 +278,14 @@ export const Errors: Story = {
   template: `
     <div style="display: flex; flex-direction: column; gap: 30px;">
       <FSText> Tabs with error on window </FSText>
+      <FSButton @click="args.tab1 = 2"> Go to error page </FSButton>
       <FSTabs v-model:tab="args.tab1">
         <FSTab :value="0" label="Tab 1" tag="1" />
         <FSTab :value="1" label="Tab 2" tag="2" />
       </FSTabs>
       <FSWindow v-model="args.tab1" width="100%">
-        <FSText :value="0"> This is allowed </FSText>
-        <FSText :value="1"> This is allowed too </FSText>
+        <FSText :value="0"> This tab is allowed </FSText>
+        <FSText :value="1"> This tab is allowed too </FSText>
       </FSWindow>
     </div>
   `,
