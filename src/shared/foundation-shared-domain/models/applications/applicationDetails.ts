@@ -1,7 +1,5 @@
-import type { LanguageInfosDTO } from "../languages/languageInfos";
-import { LanguageInfos } from "../languages/languageInfos";
-import type { ApplicationInfosDTO } from "./applicationInfos";
-import { ApplicationInfos } from "./applicationInfos";
+import { LanguageInfos, type LanguageInfosDTO } from "../languages/languageInfos";
+import { ApplicationInfos, type ApplicationInfosDTO } from "./applicationInfos";
 
 export class ApplicationDetails extends ApplicationInfos {
     languages: LanguageInfos[];

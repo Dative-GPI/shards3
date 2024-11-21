@@ -1,5 +1,4 @@
-import type { TimeZoneInfosDTO } from "./timeZoneInfos";
-import { TimeZoneInfos } from "./timeZoneInfos";
+import { TimeZoneInfos, type TimeZoneInfosDTO } from "./timeZoneInfos";
 
 export class TimeZoneDetails extends TimeZoneInfos {
     constructor(params: TimeZoneDetailsDTO) {

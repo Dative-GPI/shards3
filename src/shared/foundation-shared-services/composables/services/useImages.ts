@@ -1,6 +1,5 @@
+import { ImageDetails, type ImageDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
 import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui/core";
-import type { ImageDetailsDTO } from "@dative-gpi/foundation-shared-domain/models";
-import { ImageDetails } from "@dative-gpi/foundation-shared-domain/models";
 
 import { IMAGE_URL } from "../../config/urls";
 

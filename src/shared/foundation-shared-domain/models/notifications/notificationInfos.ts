@@ -1,5 +1,7 @@
-import { type Criticity, type MessageType, type Scope } from "@dative-gpi/foundation-shared-domain/enums";
-import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { type MessageType } from "../../enums/messages";
+import { type Scope } from "../../enums/applications";
+import { type Criticity } from "../../enums/alerts";
+import { isoToEpoch } from "../../tools/datesTools";
 
 export class NotificationInfos {
   id: string;
