@@ -112,7 +112,7 @@ export default defineComponent({
       default: 0
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "error"],
   setup(props, { emit }) {
     const { slots, getChildren } = useSlots();
 
@@ -157,13 +157,13 @@ export default defineComponent({
 
     const goBack = (): void => {
       if (!windowRef.value) {
-        emit("update:modelValue", -1);
+        emit("error");
         return;
       }
       
       const group = windowRef.value.group;
       if (!group.items.value.length) {
-        emit("update:modelValue", -1);
+        emit("error");
         return;
       }
       emit("update:modelValue", group.items.value[0].value);
