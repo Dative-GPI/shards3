@@ -10,16 +10,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, computed } from "vue";
-import type { PropType } from "vue";
+import { computed, defineComponent, type PropType, watch } from "vue";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { chartIcon } from "@dative-gpi/foundation-shared-components/tools";
 
 import { useChartOrganisation, useChartOrganisationType } from "@dative-gpi/foundation-core-services/composables";
-
 import { ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
-import FSChartTileUI from "./FSChartTileUI.vue";
+
+import FSChartTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSChartTileUI.vue";
 
 export default defineComponent({
   name: "FSChartTile",
@@ -37,28 +36,26 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { get : fetchChartOrganisationType, entity : chartOrganisationType } = useChartOrganisationType();
+    const { get : fetchChartOrganisation, entity : chartOrganisation } = useChartOrganisation();
 
-    const {get : fetchChartOrganisation, entity : chartOrganisation } = useChartOrganisation();
-    const {get : fetchChartOrganisationType, entity : chartOrganisationType } = useChartOrganisationType();
-
-    const chart = computed(() =>{
-      if(props.scope == ApplicationScope.Organisation){
+    const chart = computed(() => {
+      if (props.scope == ApplicationScope.Organisation) {
         return chartOrganisation.value;
       }
-      else if(props.scope == ApplicationScope.OrganisationType){
+      else if (props.scope == ApplicationScope.OrganisationType) {
         return chartOrganisationType.value;
       }
-      else{
+      else {
         return null
       }
-    })
+    });
 
-    watch(() => [props.chartId, props.scope], () =>{
-      if(props.scope == ApplicationScope.Organisation){
+    watch(() => [props.chartId, props.scope], () => {
+      if (props.scope == ApplicationScope.Organisation) {
         fetchChartOrganisation(props.chartId);
       }
-      else if(props.scope == ApplicationScope.OrganisationType)
-      {
+      else if (props.scope == ApplicationScope.OrganisationType) {
         fetchChartOrganisationType(props.chartId)
       }
     }, {immediate : true})
