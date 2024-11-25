@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('button.copy', 'Copy')"
+    :label="$tr('ui.common.copy', 'Copy')"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

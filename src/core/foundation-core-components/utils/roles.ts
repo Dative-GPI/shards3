@@ -7,8 +7,8 @@ const { $tr } = useTranslationsProvider();
 export const roleTypeLabel = (type: RoleType): string => {
   switch (type) {
     case RoleType.None:             return $tr("ui.common.none", "None");
-    case RoleType.Organisation:     return $tr("ui.role-type.custom", "Custom");
-    case RoleType.OrganisationType: return $tr("ui.role-type.shared", "Shared");
+    case RoleType.Organisation:     return $tr("ui.common.custom", "Custom");
+    case RoleType.OrganisationType: return $tr("ui.common.shared", "Shared");
   }
 };
 

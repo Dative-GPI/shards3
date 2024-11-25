@@ -9,8 +9,8 @@ const { $tr } = useTranslationsProvider();
 export const chartOriginLabel = (type: ChartOrigin): string => {
   switch (type) {
     case ChartOrigin.None: return $tr("ui.common.none", "None");
-    case ChartOrigin.Organisation: return $tr("ui.chart-origin.custom", "Custom");
-    case ChartOrigin.OrganisationType: return $tr("ui.chart-origin.shared", "Shared");
+    case ChartOrigin.Organisation: return $tr("ui.common.custom", "Custom");
+    case ChartOrigin.OrganisationType: return $tr("ui.common.shared", "Shared");
   }
 };
 
@@ -43,7 +43,7 @@ export const colorSetLabel = (value: ColorSets | number): string => {
     case ColorSets.Hash: return $tr("ui.color-sets.hash", "Hash");
     case ColorSets.Kelly: return $tr("ui.color-sets.material", "Kelly");
     case ColorSets.ZeileisHornikMurrell: return $tr("ui.color-sets.material", "ZeileisHornikMurrell");
-    default: return $tr("ui.color-sets.none", "None");
+    default: return $tr("ui.common.none", "None");
   }
 }
 
@@ -95,7 +95,7 @@ export const aggregationTypeLabel = (aggregationType: AggregationType): string =
     case AggregationType.Minimum: return $tr("ui.common.minimum", "Minimum");
     case AggregationType.Maximum: return $tr("ui.common.maximum", "Maximum");
     case AggregationType.Range: return $tr("ui.aggregation-type.range", "Range");
-    default: return $tr("ui.aggregation-type.none", "None");
+    default: return $tr("ui.common.none", "None");
   }
 };
 
@@ -110,16 +110,16 @@ export const axisTypeLabel = (axisType: AxisType | number): string => {
 
 export const displayAsLabel = (display: DisplayAs | number): string => {
   switch (display) {
-    case DisplayAs.Bars: return $tr("ui.display-as.bars", "Bars");
-    case DisplayAs.Lines: return $tr("ui.display-as.lines", "Lines");
-    case DisplayAs.Points: return $tr("ui.display-as.point", "Points");
-    default: return $tr("ui.display-as.none", "None");
+    case DisplayAs.Bars: return $tr("ui.common.bars", "Bars");
+    case DisplayAs.Lines: return $tr("ui.common.lines", "Lines");
+    case DisplayAs.Points: return $tr("ui.common.point", "Points");
+    default: return $tr("ui.common.none", "None");
   }
 };
 
 export const filterTypeLabel = (filterType: FilterType | number): string => {
   switch (filterType) {
-    case FilterType.Contains: return $tr("ui.filter-type.contains", "contains");
+    case FilterType.Contains: return $tr("ui.common.contains", "contains");
     case FilterType.Different: return "≠";
     case FilterType.EndsWith: return $tr("ui.filter-type.ends-with", "ends with");
     case FilterType.Equal: return "=";
@@ -128,7 +128,7 @@ export const filterTypeLabel = (filterType: FilterType | number): string => {
     case FilterType.More: return ">";
     case FilterType.MoreOrEqual: return "≥";
     case FilterType.StartsWith: return $tr("ui.filter-type.starts-with", "start with");
-    default: return $tr("ui.filter-type.none", "None");
+    default: return $tr("ui.common.none", "None");
   }
 };
 
