@@ -44,7 +44,7 @@
         gap="32px"
       >
         <FSTextArea
-          :label="$tr('translate-text-area.default-value', 'Default value')"
+          :label="$tr('ui.common.default-value', 'Default value')"
           :editable="false"
           :rows="($attrs.rows as number)"
           :modelValue="$props.modelValue"

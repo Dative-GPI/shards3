@@ -32,7 +32,7 @@
           <FSSpan
             font="text-overline"
           >
-            {{ $tr("button.filter", "Filter") }}
+            {{ $tr("ui.common.filter", "Filter") }}
           </FSSpan>
           <FSChip
             class="fs-filter-button-chip"

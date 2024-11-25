@@ -1,7 +1,7 @@
 <template>
   <FSAutocompleteField
     itemTitle="id"
-    :label="$tr('autocomplete.time-zone.label', 'Time zone')"
+    :label="$tr('ui.common.time-zone', 'Time zone')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"

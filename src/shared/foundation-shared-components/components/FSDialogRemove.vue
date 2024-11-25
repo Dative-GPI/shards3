@@ -2,7 +2,7 @@
   <FSDialogSubmit
     width="460px"
     :title="title"
-    :submitButtonLabel="$tr('button.remove', 'Remove')"
+    :submitButtonLabel="$tr('ui.common.remove', 'Remove')"
     :submitButtonColor="ColorEnum.Error"
     :modelValue="$props.modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

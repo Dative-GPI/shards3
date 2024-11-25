@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="$props.label ?? $tr('autocomplete.address.label', 'Address')"
+    :label="$props.label ?? $tr('ui.common.address', 'Address')"
     :clearable="false"
     :toggleSet="false"
     :multiple="false"

@@ -34,10 +34,10 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const dashboardVariableTypes = computed((): { id: DashboardVariableType; label: string }[] => ([
-      { id: DashboardVariableType.Number, label: $tr("ui.dashboard-variable-type.number", "Number") },
-      { id: DashboardVariableType.String, label: $tr("ui.dashboard-variable-type.string", "String") },
-      { id: DashboardVariableType.TimeStep, label: $tr("ui.dashboard-variable-type.time-step", "Time step")},
-      { id: DashboardVariableType.PlotPer, label: $tr("ui.dashboard-variable-type.plot-per", "Plot per")}
+      { id: DashboardVariableType.Number, label: $tr("ui.common.number", "Number") },
+      { id: DashboardVariableType.String, label: $tr("ui.common.string", "String") },
+      { id: DashboardVariableType.TimeStep, label: $tr("ui.common.time-step", "Time step")},
+      { id: DashboardVariableType.PlotPer, label: $tr("ui.common.plot-per", "Plot per")}
     ]));
 
     return {

@@ -237,15 +237,15 @@ export default defineComponent({
     });
 
     const cancelLabel = computed(() => {
-      return props.cancelButtonLabel ?? $tr("button.cancel", "Cancel");
+      return props.cancelButtonLabel ?? $tr("ui.common.cancel", "Cancel");
     });
 
     const submitLabel = computed(() => {
-      return props.submitButtonLabel ??  $tr("button.submit", "Submit");
+      return props.submitButtonLabel ??  $tr("ui.common.submit", "Submit");
     });
 
     const validateLabel = computed(() => {
-      return props.validateButtonLabel ??  $tr("button.validate", "Done");
+      return props.validateButtonLabel ??  $tr("ui.common.validate", "Validate");
     });
 
     const resetFormValidation = () => {

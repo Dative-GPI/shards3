@@ -24,7 +24,7 @@
           v-if="itemsCount > 0"
         >
           <FSButton
-            :label="$tr('button.edit', 'Edit')"
+            :label="$tr('ui.common.edit', 'Edit')"
             icon="mdi-pencil"
             @click="$emit('click:select')"
           />
@@ -33,7 +33,7 @@
           v-else
         >
           <FSButton
-            :label="$tr('button.select', 'Select')"
+            :label="$tr('ui.common.select', 'Select')"
             icon="mdi-plus-circle-multiple-outline"
             @click="$emit('click:select')"
           />

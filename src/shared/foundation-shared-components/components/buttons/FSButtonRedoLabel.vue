@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('button.redo', 'Redo')"
+    :label="$tr('ui.common.redo', 'Redo')"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

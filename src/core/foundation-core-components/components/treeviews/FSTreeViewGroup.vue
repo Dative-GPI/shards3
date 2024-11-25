@@ -1,6 +1,6 @@
 <template>
   <FSTreeViewField
-    :label="$props.label ?? $tr('tree-view.group.label', 'Group')"
+    :label="$props.label ?? $tr('ui.common.group', 'Group')"
     :multiple="$props.multiple"
     :loading="fetchingGroups"
     :items="groups"

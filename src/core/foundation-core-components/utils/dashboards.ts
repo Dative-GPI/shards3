@@ -7,10 +7,10 @@ const { $tr } = useTranslationsProvider();
 
 export const dashboardTypeLabel = (type: DashboardType): string => {
   switch (type) {
-    case DashboardType.None:             return $tr("ui.dashboard-type.none", "None");
+    case DashboardType.None:             return $tr("ui.common.none", "None");
     case DashboardType.Organisation:
-    case DashboardType.Shallow:          return $tr("ui.dashboard-type.organisation", "Custom");
-    case DashboardType.OrganisationType: return $tr("ui.dashboard-type.organisation-type", "Shared");
+    case DashboardType.Shallow:          return $tr("ui.dashboard-type.custom", "Custom");
+    case DashboardType.OrganisationType: return $tr("ui.dashboard-type.shared", "Shared");
   }
 };
 

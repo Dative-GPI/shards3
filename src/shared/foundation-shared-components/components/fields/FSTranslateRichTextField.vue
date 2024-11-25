@@ -7,7 +7,7 @@
     >
       <FSRichTextField
         :editable="false"
-        :label="$tr('translate-rich-text-field.default-value', 'Default value')"
+        :label="$tr('ui.common.default-value', 'Default value')"
         :modelValue="$props.modelValue"
         v-bind="$attrs"
       />

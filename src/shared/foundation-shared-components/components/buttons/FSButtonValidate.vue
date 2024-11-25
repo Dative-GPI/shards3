@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-check"
-    :label="$tr('button.validate', 'Validate')"
+    :label="$tr('ui.common.validate', 'Validate')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />
