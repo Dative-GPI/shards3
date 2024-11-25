@@ -40,7 +40,7 @@ export default defineComponent({
   
     const items = [
       { id: ListModes.Table, label: $tr("ui.common.table", "Table"), icon: "mdi-format-list-bulleted" },
-      { id: ListModes.Iterator, label: $tr("ui.common.iterator", "Tuile"), icon: "mdi-view-grid-outline" },
+      { id: ListModes.Iterator, label: $tr("ui.common.iterator", "Tile"), icon: "mdi-view-grid-outline" },
     ];
   
     return {
