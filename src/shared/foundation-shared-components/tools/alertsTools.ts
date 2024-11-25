@@ -47,10 +47,10 @@ export const AlertTools = {
   },
   criticityLabel(value: Criticity): string {
     switch (value) {
-      case Criticity.Warning: return $tr("ui.criticity.warning", "Warning");
-      case Criticity.Error: return $tr("ui.criticity.error", "Error");
-      case Criticity.Information: return $tr("ui.criticity.information", "Information")
-      default: return $tr("ui.criticity.none", "None");
+      case Criticity.Warning: return $tr("ui.common.warning", "Warning");
+      case Criticity.Error: return $tr("ui.common.error", "Error");
+      case Criticity.Information: return $tr("ui.common.information", "Information")
+      default: return $tr("ui.common.none", "None");
     }
   }
 }

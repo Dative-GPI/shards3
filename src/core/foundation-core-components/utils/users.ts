@@ -5,9 +5,9 @@ const { $tr } = useTranslationsProvider();
 
 export const userTypeLabel = (type: UserType): string => {
   switch (type) {
-    case UserType.User:           return $tr("ui.user-type.user", "User");
-    case UserType.ServiceAccount: return $tr("ui.user-type.service-account", "Service account");
-    case UserType.Extension:      return $tr("ui.user-type.extension", "Extension");
+    case UserType.User:           return $tr("ui.common.user", "User");
+    case UserType.ServiceAccount: return $tr("ui.common.service-account", "Service account");
+    case UserType.Extension:      return $tr("ui.common.extension", "Extension");
     default:                      return "";
   }
 };

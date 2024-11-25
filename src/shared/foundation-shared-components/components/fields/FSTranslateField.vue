@@ -43,7 +43,7 @@
         gap="32px"
       >
         <FSTextField
-          :label="$tr('translate-field.default-value', 'Default value')"
+          :label="$tr('ui.common.default-value', 'Default value')"
           :editable="false"
           :modelValue="$props.modelValue"
         />

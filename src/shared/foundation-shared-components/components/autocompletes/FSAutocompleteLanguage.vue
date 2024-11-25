@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="$tr('autocomplete.language.label', 'Language')"
+    :label="$tr('ui.common.language', 'Language')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"

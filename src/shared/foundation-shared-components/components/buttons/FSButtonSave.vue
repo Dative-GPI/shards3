@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-content-save-outline"
-    :label="$tr('button.save', 'Save')"
+    :label="$tr('ui.common.save', 'Save')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

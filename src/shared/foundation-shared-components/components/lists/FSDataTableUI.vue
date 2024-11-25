@@ -149,7 +149,7 @@
           <FSText
             font="text-overline"
           >
-            {{ $tr("data-table.empty", "No data") }}
+            {{ $tr("ui.common.no-data", "No data") }}
           </FSText>
         </template>
         <template
@@ -438,7 +438,7 @@
           <FSText
             font="text-overline"
           >
-            {{ $tr("data-table.empty", "No data") }}
+            {{ $tr("ui.common.no-data", "No data") }}
           </FSText>
         </template>
         <template
@@ -609,7 +609,7 @@
           <FSText
             font="text-overline"
           >
-            {{ $tr("data-table.empty", "No data") }}
+            {{ $tr("ui.common.no-data", "No data") }}
           </FSText>
         </template>
         <template
@@ -932,7 +932,7 @@ export default defineComponent({
       { id: 5, label: "5" },
       { id: 10, label: "10" },
       { id: 30, label: "30" },
-      { id: -1, label: $tr("data-table.all-rows", "All") }
+      { id: -1, label: $tr("ui.common.all", "All") }
     ];
 
     const showFiltersRow = computed((): boolean => {
