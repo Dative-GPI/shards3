@@ -23,7 +23,7 @@ export const alphanumericSort = (a: any, b: any) => {
   if (b == null) {
     return 1;
   }
-  a = asString(a);
-  b = asString(b);
+  a = asString(a).trim();
+  b = asString(b).trim();
   return a.localeCompare(b, undefined, { numeric: true });
 };
