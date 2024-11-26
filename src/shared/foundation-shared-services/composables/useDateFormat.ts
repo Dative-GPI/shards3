@@ -57,10 +57,10 @@ export const useDateFormat = () => {
     }
     const date = new Date(value);
     if (isEpochToday(value)) {
-      return $tr("ui.time-zone.today", "Today");
+      return $tr("ui.common.today", "Today");
     }
     if (isEpochYesterday(value)) {
-      return $tr("ui.time-zone.yesterday", "Yesterday");
+      return $tr("ui.common.yesterday", "Yesterday");
     }
     const dateString = date.toLocaleString(languageCode.value, { ...OPTIONS.longDate, timeZone: timeZone.value });
     return dateString[0].toLocaleUpperCase() + dateString.slice(1);
@@ -96,10 +96,10 @@ export const useDateFormat = () => {
     }
     const date = new Date(value);
     if (isEpochToday(value)) {
-      return `${$tr("ui.time-zone.today-at", "Today at")} ${date.toLocaleString(languageCode.value, { ...OPTIONS.time, timeZone: timeZone.value })}`;
+      return `${$tr("ui.common.today-at", "Today at")} ${date.toLocaleString(languageCode.value, { ...OPTIONS.time, timeZone: timeZone.value })}`;
     }
     if (isEpochYesterday(value)) {
-      return `${$tr("ui.time-zone.yesterday-at", "Yesterday at")} ${date.toLocaleString(languageCode.value, { ...OPTIONS.time, timeZone: timeZone.value })}`;
+      return `${$tr("ui.common.yesterday-at", "Yesterday at")} ${date.toLocaleString(languageCode.value, { ...OPTIONS.time, timeZone: timeZone.value })}`;
     }
     const dateString = date.toLocaleString(languageCode.value, { ...OPTIONS.longTime, timeZone: timeZone.value });
     return dateString[0].toLocaleUpperCase() + dateString.slice(1);

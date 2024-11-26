@@ -112,7 +112,7 @@ export const displayAsLabel = (display: DisplayAs | number): string => {
   switch (display) {
     case DisplayAs.Bars: return $tr("ui.common.bars", "Bars");
     case DisplayAs.Lines: return $tr("ui.common.lines", "Lines");
-    case DisplayAs.Points: return $tr("ui.common.point", "Points");
+    case DisplayAs.Points: return $tr("ui.common.points", "Points");
     default: return $tr("ui.common.none", "None");
   }
 };
@@ -179,7 +179,7 @@ export const serieTypeLabel = (serieType: SerieType): string => {
     case SerieType.Operation: return $tr("ui.common.operation", "Operation");
     case SerieType.Planning: return $tr("ui.common.planning", "Planning");
     case SerieType.ScatterPlot: return $tr("ui.common.scatter-plot", "Scatter plot");
-    case SerieType.Top: return $tr("ui.common.top", "Top");
+    case SerieType.Top: return $tr("ui.serie-type.top", "Top");
     case SerieType.Bars: return $tr("ui.common.bars", "Bars");
     case SerieType.StackedBars: return $tr("ui.common.stacked-bars", "Stacked bars");
     case SerieType.Pie: return $tr("ui.common.pie", "Pie");
@@ -187,7 +187,7 @@ export const serieTypeLabel = (serieType: SerieType): string => {
     case SerieType.Slider: return $tr("ui.common.slider", "Slider");
     case SerieType.Gauge: return $tr("ui.common.gauge", "Gauge");
     case SerieType.ScoreCard: return $tr("ui.common.score-card", "Score card");
-    case SerieType.Table: return $tr("ui.common.table", "Table");
+    case SerieType.Table: return $tr("ui.serie-type.table", "Table");
     default: return "";
   }
 };
