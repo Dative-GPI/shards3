@@ -184,6 +184,66 @@ export const Variations: Story = {
         </FSDataTableUI>
     </div>`
   })
+
+}
+export const Emptys: Story = {
+  args: {
+    args: {
+      headers1: [{
+        text: "Column 1 - sortable",
+        value: "column1",
+        index: 0,
+        hidden: false,
+        width: "100px",
+        sortable: true,
+        filterable: true
+      }, {
+        text: "Column 2",
+        value: "column2",
+        index: 1,
+        hidden: false,
+        width: "80px"
+      }, {
+        text: "Column 3",
+        value: "column3",
+        index: 2,
+        hidden: false,
+        width: "120px",
+        sortable: true,
+        filterable: true
+      }],
+      value1: [],
+      groupBy: {
+        key: "column4",
+        order: "asc"
+      },
+      disableItemTo: true,
+      itemTo: (item: any) => ({ name: 'device', params: { deviceId: item.id } }),
+      clickRow: () => { console.log("clicked"); }
+    }
+  },
+  render: (args, { argTypes }) => ({
+    components: { FSDataTableUI, FSButton },
+    props: Object.keys(argTypes),
+    setup() {
+      return { ...args };
+    },
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <FSDataTableUI
+          :items="[]"
+          :groupBy="args.groupBy"
+          :sneakyHeaders="['column1']"
+          v-model:headers="args.headers1"
+        />
+    <div style="display: flex; flex-direction: column; gap: 10px;" />
+        <FSDataTableUI
+          :items="[]"
+          :sneakyHeaders="['column1']"
+          v-model:headers="args.headers1"
+        />
+    </div>`
+  })
 }
 
 export const DragAndDrop: Story = {
