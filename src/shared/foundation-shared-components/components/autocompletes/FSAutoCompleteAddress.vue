@@ -1,5 +1,6 @@
 <template>
   <FSAutocompleteField
+    :label="$props.label ?? $tr('ui.common.address', 'Address')"
     :clearable="false"
     :toggleSet="false"
     :multiple="false"
@@ -32,6 +33,11 @@ export default defineComponent({
       required: false,
       default: null
     },
+    label: {
+      type: String,
+      required: false,
+      default: null
+    }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {

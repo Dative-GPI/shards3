@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('ui.button.save', 'Save')"
+    :label="$tr('ui.common.save', 'Save')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

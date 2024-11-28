@@ -31,7 +31,7 @@
     </template>
   </FSTextField>
   <FSDialogSubmit
-    :title="$tr('ui.translate-field.title', 'Handle translations')"
+    :title="$tr('translate-field.title', 'Handle translations')"
     :submitButtonColor="$props.buttonColor"
     @click:submitButton="onSubmit"
     v-model="dialog"
@@ -43,7 +43,7 @@
         gap="32px"
       >
         <FSTextField
-          :label="$tr('ui.translate-field.default-value', 'Default value')"
+          :label="$tr('ui.common.default-value', 'Default value')"
           :editable="false"
           :modelValue="$props.modelValue"
         />
@@ -69,7 +69,7 @@
                   font="text-overline"
                   :style="style"
                 >
-                  {{ $tr("ui.translate-field.translate-in", "Translate in {0}", language.label) }}
+                  {{ $tr("translate-field.translate-in", "Translate in {0}", language.label) }}
                 </FSSpan>
                 <FSIcon>
                   {{ language.icon }}

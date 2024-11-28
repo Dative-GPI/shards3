@@ -14,7 +14,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.yearly.everyyear", "Every year") }}
+          {{ $tr("ui.common.every-year", "Every year") }}
         </FSSpan>
         <FSSelectMonths
           :editable="$props.editable"
@@ -33,7 +33,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.yearly.at", "at") }}
+          {{ $tr("ui.common.at", "at") }}
         </FSSpan>
         <FSClock
           :editable="$props.editable"

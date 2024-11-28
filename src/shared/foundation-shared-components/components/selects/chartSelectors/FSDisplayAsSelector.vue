@@ -1,7 +1,7 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.serie-type','Serie type')"
-    :items="serieTypeItems"
+    :label="label ?? $tr('autocomplete.display-as.label','Display as')"
+    :items="displayAsItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -11,13 +11,12 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import {SerieType} from "@dative-gpi/foundation-shared-domain/enums";
+import {DisplayAs} from "@dative-gpi/foundation-shared-domain/enums";
 
 import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
-import { serieTypeLabel } from "@dative-gpi/foundation-shared-components/tools";
+import { displayAsLabel } from "@dative-gpi/foundation-shared-components/tools";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
-
 
 export default defineComponent({
   components: {
@@ -25,28 +24,29 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Number as PropType<SerieType>,
+      type: Number as PropType<DisplayAs>,
       required: false
     },
     label: {
       type: String,
       required: false
     }
+    
   },
   emits: ['update:modelValue'],
   setup() {
     
-    const serieTypeItems = computed(()=>{
-      return getEnumEntries(SerieType).filter(f=>f.value != SerieType.None).map((f)=>{
+    const displayAsItems = computed(()=>{
+      return getEnumEntries(DisplayAs).filter(f=>f.value != DisplayAs.None).map((f)=>{
         return {
           id: f.value,
-          label: serieTypeLabel(f.value)
+          label: displayAsLabel(f.value)
         }
       })
     });
 
     return {
-      serieTypeItems
+      displayAsItems,
     }
   }
 })

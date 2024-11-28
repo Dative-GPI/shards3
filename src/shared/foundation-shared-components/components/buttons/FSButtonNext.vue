@@ -1,7 +1,7 @@
 <template>
   <FSButton
     appendIcon="mdi-chevron-right"
-    :label="$tr('ui.button.next', 'Next')"
+    :label="$tr('ui.common.next', 'Next')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-chevron-left"
-    :label="$tr('ui.button.previous', 'Previous')"
+    :label="$tr('ui.common.previous', 'Previous')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

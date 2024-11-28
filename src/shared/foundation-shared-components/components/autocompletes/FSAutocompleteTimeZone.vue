@@ -1,6 +1,7 @@
 <template>
   <FSAutocompleteField
     itemTitle="id"
+    :label="$tr('ui.common.time-zone', 'Time zone')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"
@@ -81,6 +82,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     }
   },
   emits: ["update:modelValue"],
@@ -94,7 +100,7 @@ export default defineComponent({
 
     const placeholder = computed((): string | null => {
       if (props.multiple && props.modelValue) {
-        return $tr("ui.autocomplete-time-zone.placeholder", "{0} time zone(s) selected", props.modelValue.length);
+        return $tr("autocomplete.time-zone.placeholder", "{0} time zone(s) selected", props.modelValue.length);
       }
       return null;
     });

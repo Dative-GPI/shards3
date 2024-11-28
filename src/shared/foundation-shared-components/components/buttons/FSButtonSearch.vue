@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-magnify"
-    :label="$tr('ui.button.search', 'Search')"
+    :label="$tr('ui.common.search', 'Search')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

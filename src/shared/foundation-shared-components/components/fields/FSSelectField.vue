@@ -207,7 +207,7 @@
           padding="4px 3px"
         >
           <FSSpan>
-            {{ $tr("ui.select-field.no-data", "No data") }}
+            {{ $tr("ui.common.no-data", "No data") }}
           </FSSpan>
         </FSRow>
       </template>
@@ -394,7 +394,7 @@
             padding="15px"
           >
             <FSSpan>
-              {{ $tr("ui.select-field.no-data", "No data") }}
+              {{ $tr("ui.common.no-data", "No data") }}
             </FSSpan>
           </FSRow>
         </template>

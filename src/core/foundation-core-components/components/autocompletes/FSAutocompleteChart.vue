@@ -1,5 +1,6 @@
 <template>
   <FSAutocompleteField
+    :label="$props.label ?? $tr('ui.common.chart', 'Chart')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"
@@ -116,6 +117,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     }
   },
   emits: ["update", "update:modelValue", "update:type"],
@@ -144,7 +150,7 @@ export default defineComponent({
 
     const placeholder = computed((): string | null => {
       if (props.multiple && props.modelValue) {
-        return $tr("ui.autocomplete-chart.placeholder", "{0} chart(s) selected", props.modelValue.length);
+        return $tr("autocomplete.chart.placeholder", "{0} chart(s) selected", props.modelValue.length);
       }
       return null;
     });

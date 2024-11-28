@@ -1,5 +1,6 @@
 <template>
   <FSAutocompleteField
+    :label="$props.label ?? $tr('ui.common.group', 'Group')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"
@@ -58,6 +59,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     }
   },
   emits: ["update:modelValue"],
@@ -71,7 +77,7 @@ export default defineComponent({
 
     const placeholder = computed((): string | null => {
       if (props.multiple && props.modelValue) {
-        return $tr("ui.autocomplete-group.placeholder", "{0} group(s) selected", props.modelValue.length);
+        return $tr("autocomplete.group.placeholder", "{0} group(s) selected", props.modelValue.length);
       }
       return null;
     });

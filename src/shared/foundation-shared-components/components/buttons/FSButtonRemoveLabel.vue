@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('ui.button.remove', 'Remove')"
+    :label="$tr('ui.common.remove', 'Remove')"
     :color="ColorEnum.Error"
     v-bind="$attrs"
   />

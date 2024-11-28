@@ -1,5 +1,6 @@
 <template>
   <FSTreeViewField
+    :label="$props.label ?? $tr('ui.common.group', 'Group')"
     :multiple="$props.multiple"
     :loading="fetchingGroups"
     :items="groups"
@@ -55,7 +56,12 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
+    } 
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {

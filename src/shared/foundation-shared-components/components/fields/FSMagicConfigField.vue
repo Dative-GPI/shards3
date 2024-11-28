@@ -5,7 +5,7 @@
     <component
       class="fs-magic-config-field-value"
       :is="get($props.type)"
-      :label="$tr('ui.magic-config-field.value', 'Value')"
+      :label="$tr('ui.common.value', 'Value')"
       :editable="$props.editable"
       :required="true"
       :rules="rules"
@@ -16,7 +16,7 @@
       gap="24px"
     >
       <FSTranslateField
-        :label="$tr('ui.magic-config-field.label', 'Label')"
+        :label="$tr('ui.common.label', 'Label')"
         :editable="$props.editable"
         :modelValue="$props.labelDefault"
         :translations="$props.translations"
@@ -42,7 +42,7 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { DateRules, IconRules, NumberRules, TextRules, TimeRules, TimeStepRules } from "../../models";
+import { DateRules, IconRules, NumberRules, TextRules, TimeRules, TimeStepRules, AutocompleteRules } from "../../models";
 import { useMagicFieldProvider } from "../../composables";
 import { MagicFieldType } from "../../models/magicFields";
 
@@ -104,6 +104,8 @@ export default defineComponent({
           return [TimeRules.required()];
         case MagicFieldType.TimeStepField:
           return [TimeStepRules.required()];
+        case MagicFieldType.PlotPerField:
+          return [AutocompleteRules.required()];
       }
       return [];
     });
@@ -125,6 +127,8 @@ export default defineComponent({
           return props.modelValue === "true";
         case MagicFieldType.TimeStepField:
           return JSON.parse(props.modelValue);
+        case MagicFieldType.PlotPerField:
+          return parseInt(props.modelValue);
         default:
           return props.modelValue;
       }
@@ -144,6 +148,9 @@ export default defineComponent({
           break;
         case MagicFieldType.TimeStepField:
           emit("update:modelValue", JSON.stringify(value));
+          break;
+        case MagicFieldType.PlotPerField:
+          emit("update:modelValue", value.toString());
           break;
         default:
           emit("update:modelValue", value);

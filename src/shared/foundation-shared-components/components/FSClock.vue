@@ -30,7 +30,7 @@
       v-if="$props.slider"
     >
       <FSSlider
-        :label="$tr('ui.clock.hours', 'Hours')"
+        :label="$tr('ui.common.hours', 'Hours')"
         :readonly="!$props.editable"
         :color="$props.color"
         :step="1"
@@ -39,7 +39,7 @@
         v-model="innerHours"
       />
       <FSSlider
-        :label="$tr('ui.clock.minutes', 'Minutes')"
+        :label="$tr('ui.common.minutes', 'Minutes')"
         :readonly="!$props.editable"
         :color="$props.color"
         :step="1"

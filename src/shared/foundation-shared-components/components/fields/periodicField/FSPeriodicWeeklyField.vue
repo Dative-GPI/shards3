@@ -14,7 +14,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.weekly.every", "Every") }}
+          {{ $tr("ui.common.every", "Every") }}
         </FSSpan>
         <FSSelectDays
           :editable="$props.editable"
@@ -26,7 +26,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.weekly.at", "at") }}
+          {{ $tr("ui.common.at", "at") }}
         </FSSpan>
         <FSClock
           :editable="$props.editable"

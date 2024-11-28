@@ -32,7 +32,7 @@
     </template>
   </FSTextArea>
   <FSDialogSubmit
-    :title="$tr('ui.translate-text-area.title', 'Handle translations')"
+    :title="$tr('translate-text-area.title', 'Handle translations')"
     :submitButtonColor="$props.buttonColor"
     @click:submitButton="onSubmit"
     v-model="dialog"
@@ -44,7 +44,7 @@
         gap="32px"
       >
         <FSTextArea
-          :label="$tr('ui.translate-text-area.default-value', 'Default value')"
+          :label="$tr('ui.common.default-value', 'Default value')"
           :editable="false"
           :rows="($attrs.rows as number)"
           :modelValue="$props.modelValue"
@@ -71,7 +71,7 @@
                   font="text-overline"
                   :style="style"
                 >
-                  {{ $tr("ui.translate-field.translate-in", "Translate in {0}", language.label) }}
+                  {{ $tr("translate-field.translate-in", "Translate in {0}", language.label) }}
                 </FSSpan>
                 <FSIcon>
                   {{ language.icon }}

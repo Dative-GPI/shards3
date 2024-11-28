@@ -1,5 +1,6 @@
 <template>
   <FSAutocompleteField
+    :label="$tr('ui.common.language', 'Language')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"
@@ -58,6 +59,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     }
   },
   emits: ["update:modelValue"],
@@ -71,7 +77,7 @@ export default defineComponent({
 
     const placeholder = computed((): string | null => {
       if (props.multiple && props.modelValue) {
-        return $tr("ui.autocomplete-language.placeholder", "{0} language(s) selected", props.modelValue.length);
+        return $tr("autocomplete.language.placeholder", "{0} language(s) selected", props.modelValue.length);
       }
       return null;
     });

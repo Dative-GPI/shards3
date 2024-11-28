@@ -212,7 +212,7 @@
         >
           <FSButton
             variant="icon"
-            :label="$tr('ui.autocomplete-field.add-item', 'Add new item')"
+            :label="$tr('autocomplete-field.add-item', 'Add new item')"
             :color="ColorEnum.Primary"
             @click="$emit('add:item', search)"
           />
@@ -222,7 +222,7 @@
           padding="4px 3px"
         >
           <FSSpan>
-            {{ $tr("ui.autocomplete-field.no-data", "No data") }}
+            {{ $tr("ui.common.no-data", "No data") }}
           </FSSpan>
         </FSRow>
       </template>
@@ -414,7 +414,7 @@
           >
             <FSButton
               variant="icon"
-              :label="$tr('ui.autocomplete-field.add-item', 'Add new item')"
+              :label="$tr('autocomplete-field.add-item', 'Add new item')"
               :color="ColorEnum.Primary"
               @click="$emit('add:item', search)"
             />

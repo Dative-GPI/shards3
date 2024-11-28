@@ -47,7 +47,7 @@
           />
           <FSButton
             prependIcon="mdi-calendar-today-outline"
-            :label="$tr('ui.agenda.today', 'Today')"
+            :label="$tr('ui.common.today', 'Today')"
             @click="onToday"
           />
         </FSRow>
@@ -58,7 +58,7 @@
     >
       <FSButton
         prependIcon="mdi-calendar-today-outline"
-        :label="$tr('ui.agenda.today', 'Today')"
+        :label="$tr('ui.common.today', 'Today')"
         width="100%"
         @click="onToday"
       />

@@ -38,7 +38,11 @@ const BaseStory: Story = {
     },
     template: `
     <div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
-        <FSEntityField v-bind="args" v-model="value" v-model:entityType="entityType">
+        <FSEntityField
+          v-bind="args" 
+          v-model="value" 
+          v-model:entityType="entityType"
+        >
             <FSText font="text-button">Obiwan kenobi</FSText>
             <FSText> - Hello there!</FSText>
         </FSEntityField>
@@ -71,10 +75,11 @@ export const AllTypes: Story = {
 export const One: Story = {
   ...BaseStory,
   args: {
-    label: "Entity selection",
+    label: "Entity selection with single select",
     modelValue: ["1"],
     entityType: EntityType.Device,
     allowedEntityTypes: [EntityType.Device, EntityType.Location, EntityType.Group, EntityType.Model],
+    singleSelect: true
   },
 }
 

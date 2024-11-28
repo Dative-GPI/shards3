@@ -1,5 +1,6 @@
 <template>
   <FSAutocompleteField
+    :label="$props.label ?? $tr('ui.common.data-category', 'Data category')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"
@@ -15,13 +16,13 @@
       <FSChip
         v-if="item.correlated"
         prependIcon="mdi-link"
-        :label="$tr('ui.autocomplete-data-category.linked','Linked')"
+        :label="$tr('autocomplete.data-category.linked','Linked')"
         :color="ColorEnum.Success"
       />
       <FSChip
         v-else
         prependIcon="mdi-link-off"
-        :label="$tr('ui.autocomplete-data-category.not-linked','Not linked')"
+        :label="$tr('autocomplete.data-category.not-linked','Not linked')"
         :color="ColorEnum.Warning"
       />
     </template>
@@ -41,13 +42,13 @@
           <FSChip
             v-if="props.item.correlated"
             prependIcon="mdi-link"
-            :label="$tr('ui.autocomplete-data-category.linked','Linked')"
+            :label="$tr('autocomplete.data-category.linked','Linked')"
             :color="ColorEnum.Success"
           />
           <FSChip
             v-else
             prependIcon="mdi-link-off"
-            :label="$tr('ui.autocomplete-data-category.not-linked','Not linked')"
+            :label="$tr('autocomplete.data-category.not-linked','Not linked')"
             :color="ColorEnum.Warning"
           />
         </template>
@@ -96,6 +97,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    label: {
+      type: String as PropType<string | null>,
+      required: false,
+      default: null
     }
   },
   emits: ["update:modelValue"],
@@ -109,7 +115,7 @@ export default defineComponent({
 
     const placeholder = computed((): string | null => {
       if (props.multiple && props.modelValue) {
-        return $tr("ui.autocomplete-data-category.placeholder", "{0} data category(ies) selected", props.modelValue.length);
+        return $tr("autocomplete.data-category.placeholder", "{0} data category(ies) selected", props.modelValue.length);
       }
       return null;
     });

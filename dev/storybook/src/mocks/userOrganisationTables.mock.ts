@@ -805,5 +805,78 @@ export const USERORGANISATIONTABLES: UserOrganisationTableInfosDTO[] = [
         ],
         sortByKey: null,
         sortByOrder: null
+    },
+    {
+        id: "18",
+        code: "devicesExplorer1",
+        mode: "table",
+        rowsPerPage: 10,
+        columns: [{
+            columnId: "both1",
+            text: "Label",
+            value: "label",
+            index: 0,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "both2",
+            text: "Code",
+            value: "code",
+            index: 1,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "both3",
+            text: "Type",
+            value: "type",
+            index: 2,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "group1",
+            text: "Icon",
+            value: "icon",
+            index: 3,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }, {
+            columnId: "device1",
+            text: "Image",
+            value: "imageId",
+            index: 4,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }, {
+            columnId: "device2",
+            text: "Connectivity",
+            value: "connectivity",
+            index: 5,
+            hidden: false,
+            sortable: true,
+            filterable: true
+        }, {
+            columnId: "device3",
+            text: "Alerts",
+            value: "alerts",
+            index: 6,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }, {
+            columnId: "device4",
+            text: "Status",
+            value: "status",
+            index: 7,
+            hidden: false,
+            sortable: false,
+            filterable: false
+        }],
+        sortByKey: null,
+        sortByOrder: null
     }
 ];

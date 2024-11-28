@@ -1,6 +1,7 @@
-import type { Criticity, ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
+import type { Criticity, ApplicationScope, PlotPer } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { ScenarioParameter, type ScenarioChartDTO, type ScenarioParameterDTO, ScenarioChart } from "../scenarios";
+import { ChartTimeStep, type ChartTimeStepDTO } from "../charts/chartTimeStep";
 
 export class ScenarioOrganisationInfos {
   id: string;
@@ -21,6 +22,8 @@ export class ScenarioOrganisationInfos {
   tags: string[];
   chartStartDate: string;
   chartEndDate: string;
+  chartPlotPer: PlotPer | null;
+  chartStep: ChartTimeStep | null;
   charts: ScenarioChart[];
   parameters: ScenarioParameter[];
 
@@ -42,6 +45,8 @@ export class ScenarioOrganisationInfos {
     this.draft = params.draft;
     this.chartStartDate = params.chartStartDate;
     this.chartEndDate = params.chartEndDate;
+    this.chartPlotPer = params.chartPlotPer;
+    this.chartStep = params.chartStep != null ? new ChartTimeStep(params.chartStep) : null;
     this.tags = params.tags.slice();
     this.charts = params.charts.map(p => new ScenarioChart(p))
     this.parameters = params.parameters.map(p => new ScenarioParameter(p));
@@ -67,6 +72,8 @@ export interface ScenarioOrganisationInfosDTO {
   tags: string[];
   chartStartDate: string;
   chartEndDate: string;
+  chartPlotPer: PlotPer | null;
+  chartStep: ChartTimeStepDTO | null;
   charts: ScenarioChartDTO[];
   parameters: ScenarioParameterDTO[];
 }

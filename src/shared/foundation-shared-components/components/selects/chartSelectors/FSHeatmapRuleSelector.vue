@@ -1,7 +1,7 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.aggregation-type','Aggregation')"
-    :items="aggregationTypeItems"
+    :label="label ?? $tr('autocomplete.heat-rule.label','Heat rule')"
+    :items="heatmapRuleItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
@@ -11,41 +11,43 @@
 <script lang="ts">
 import { computed, defineComponent, type PropType } from "vue";
 
-import { AggregationType } from "@dative-gpi/foundation-shared-domain/enums";
+import {HeatmapRule} from "@dative-gpi/foundation-shared-domain/enums";
 
 import { getEnumEntries } from "@dative-gpi/foundation-shared-domain/tools";
-import { aggregationTypeLabel } from "@dative-gpi/foundation-shared-components/tools";
+import { heatmapRuleLabel } from "@dative-gpi/foundation-shared-components/tools";
 
 import FSAutocompleteField from "@dative-gpi/foundation-shared-components/components/fields/FSAutocompleteField.vue";
+
 
 export default defineComponent({
   components: {
     FSAutocompleteField
   },
   props: {
-    modelValue : {
-      type: Number as PropType<AggregationType>,
+    modelValue: {
+      type: Number as PropType<HeatmapRule>,
       required: false
     },
-    label : {
+    label: {
       type: String,
       required: false
     }
+    
   },
   emits: ['update:modelValue'],
   setup() {
-
-    const aggregationTypeItems = computed(()=>{
-      return getEnumEntries(AggregationType).filter(f=>f.value != AggregationType.None).map((f)=>{
+    
+    const heatmapRuleItems = computed(()=>{
+      return getEnumEntries(HeatmapRule).filter(f=>f.value != HeatmapRule.None).map((f)=>{
         return {
           id: f.value,
-          label: aggregationTypeLabel(f.value)
+          label: heatmapRuleLabel(f.value)
         }
       })
     });
 
     return {
-      aggregationTypeItems
+      heatmapRuleItems
     }
   }
 })

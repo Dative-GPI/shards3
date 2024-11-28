@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-undo-variant"
-    :label="$tr('ui.button.undo', 'Undo')"
+    :label="$tr('ui.common.undo', 'Undo')"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

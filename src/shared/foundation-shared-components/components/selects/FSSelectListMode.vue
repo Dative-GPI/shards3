@@ -39,8 +39,8 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
   
     const items = [
-      { id: ListModes.Table, label: $tr("ui.common.table-mode", "Table"), icon: "mdi-format-list-bulleted" },
-      { id: ListModes.Iterator, label: $tr("ui.common.tile-mode", "Tuile"), icon: "mdi-view-grid-outline" },
+      { id: ListModes.Table, label: $tr("ui.common.table", "Table"), icon: "mdi-format-list-bulleted" },
+      { id: ListModes.Iterator, label: $tr("ui.common.iterator", "Tile"), icon: "mdi-view-grid-outline" },
     ];
   
     return {

@@ -84,29 +84,29 @@ export default defineComponent({
     const monthToString = (month: number) => {
       switch(month) {
         case Months.January:
-          return $tr("ui.months.january", "January");
+          return $tr("ui.common.january", "January");
         case Months.February:
-          return $tr("ui.months.february", "February");
+          return $tr("ui.common.february", "February");
         case Months.March:
-          return $tr("ui.months.march", "March");
+          return $tr("ui.common.march", "March");
         case Months.April:
-          return $tr("ui.months.april", "April");
+          return $tr("ui.common.april", "April");
         case Months.May:
-          return $tr("ui.months.may", "May");
+          return $tr("ui.common.may", "May");
         case Months.June:
-          return $tr("ui.months.june", "June");
+          return $tr("ui.common.june", "June");
         case Months.July:
-          return $tr("ui.months.july", "July");
+          return $tr("ui.common.july", "July");
         case Months.August:
-          return $tr("ui.months.august", "August");
+          return $tr("ui.common.august", "August");
         case Months.September:
-          return $tr("ui.months.september", "September");
+          return $tr("ui.common.september", "September");
         case Months.October:
-          return $tr("ui.months.october", "October");
+          return $tr("ui.common.october", "October");
         case Months.November:
-          return $tr("ui.months.november", "November");
+          return $tr("ui.common.november", "November");
         case Months.December:
-          return $tr("ui.months.december", "December");
+          return $tr("ui.common.december", "December");
       }
     }
 

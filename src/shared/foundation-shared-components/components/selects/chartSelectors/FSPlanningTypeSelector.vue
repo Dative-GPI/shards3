@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('ui.common.planning-type','Planning type')"
+    :label="label ?? $tr('autocomplete.planning-type.label','Planning type')"
     :items="planningTypeItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

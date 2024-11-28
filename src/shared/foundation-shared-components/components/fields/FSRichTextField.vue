@@ -141,7 +141,7 @@
             <FSAutoCompleteField
               itemTitle="label"
               itemValue="code"
-              :placeholder="$tr('ui.rich-text-field.variable-placeholder', 'Choose a variable...')"
+              :placeholder="$tr('rich-text-field.variable-placeholder', 'Choose a variable...')"
               :items="$props.variableReferences"
               @update:modelValue="insertVariable($event)"
             />

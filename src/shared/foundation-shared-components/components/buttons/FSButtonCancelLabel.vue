@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('ui.button.cancel', 'Cancel')"
+    :label="$tr('ui.common.cancel', 'Cancel')"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

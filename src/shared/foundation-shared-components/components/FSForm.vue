@@ -12,6 +12,9 @@
 
 <script lang="ts">
 import type { PropType} from "vue";
+
+import type VForm from "vuetify/lib/components/VForm";
+
 import { computed, defineComponent, provide, ref } from "vue";
 
 export default defineComponent({
@@ -30,7 +33,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "submit"],
   setup(props, { emit }) {
-    const formRef = ref<HTMLFormElement | null>(null);
+    const formRef = ref<typeof VForm | null>(null);
     const submitted = ref(false);
 
     const validateOn = computed((): "submit" | "input"  => {
@@ -44,25 +47,24 @@ export default defineComponent({
       event.stopImmediatePropagation();
       event.preventDefault();
       submitted.value = true;
-      await (formRef.value as any).validate();
-      emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
-      emit("submit", !!((formRef.value as any).isValid ?? true));
+      await formRef.value.validate();
+      emit("update:modelValue", !!(formRef.value.isValid ?? true));
+      emit("submit", !!(formRef.value.isValid ?? true));
     }; 
 
     const validate = async () => {
       submitted.value = true;
-      await (formRef.value as any).validate();
-      emit("update:modelValue", !!((formRef.value as any).isValid ?? true));
+      return await formRef.value.validate();
     };
 
     const reset = () => {
       submitted.value = false;
-      (formRef.value as any).reset();
+      formRef.value.reset();
     };
 
     const resetValidation = () => {
       submitted.value = false;
-      (formRef.value as any).resetValidation();
+      formRef.value.resetValidation();
     };
 
     provide("validateOn", validateOn);

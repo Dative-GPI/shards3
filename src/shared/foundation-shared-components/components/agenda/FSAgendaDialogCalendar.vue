@@ -7,8 +7,8 @@
       :elevation="true"
     >
       <FSCol
-        gap="12px"
         padding="16px"
+        gap="12px"
       >
         <FSCalendar
           v-model="calendarValue"
@@ -16,7 +16,7 @@
         <FSButton
           color="primary"
           width="100%"
-          :label="$tr('ui.agenda.calendar.dialog.submit', 'Validate')"
+          :label="$tr('ui.common.submit', 'Validate')"
           @click="onSubmit"
         />
       </FSCol>

@@ -1,6 +1,6 @@
 <template>
   <FSSelectField
-    class="fs-select-date-setting"
+    class="select.date-setting.label"
     :items="dateSettings"
     :clearable="false"
     :modelValue="$props.modelValue"
@@ -88,7 +88,7 @@ export default defineComponent({
         dateSettings.push({ id: DateSetting.LastPeriod, label: $tr("ui.date-setting.last-period", "Last period") });
       }
       if (props.useNone) {
-        dateSettings.unshift({ id: DateSetting.None, label: $tr("ui.date-setting.none", "None") });
+        dateSettings.unshift({ id: DateSetting.None, label: $tr("ui.common.none", "None") });
       }
       return dateSettings;
     })

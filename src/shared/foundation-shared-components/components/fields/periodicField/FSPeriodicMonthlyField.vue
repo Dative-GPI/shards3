@@ -14,7 +14,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.monthly.day", "Day") }}
+          {{ $tr("ui.common.day", "Day") }}
         </FSSpan>
         <FSSelectField
           :editable="$props.editable"
@@ -27,7 +27,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.monthly.every-month-at", "every month at") }}
+          {{ $tr("periodic-monthly-field.every-month-at", "every month at") }}
         </FSSpan>
         <FSClock
           :editable="$props.editable"
@@ -45,7 +45,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.monthly.every", "Every") }}
+          {{ $tr("ui.common.every", "Every") }}
         </FSSpan>
         <FSSelectField
           :editable="$props.editable"
@@ -65,7 +65,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr("ui.periodicfield.monthly.at", "at") }}
+          {{ $tr("ui.common.at", "at") }}
         </FSSpan>
         <FSClock
           :editable="$props.editable"
@@ -119,10 +119,10 @@ export default defineComponent({
     const { $tr } = useTranslationsProvider();
 
     const dayWeekNumbers = [
-      { id: 1, label: $tr("ui.periodicfield.monthly.first" , "First") },
-      { id: 2, label: $tr("ui.periodicfield.monthly.second", "Second") },
-      { id: 3, label: $tr("ui.periodicfield.monthly.third" , "Third") },
-      { id: 4, label: $tr("ui.periodicfield.monthly.fourth", "Fourth") },
+      { id: 1, label: $tr("ui.common.first" , "First") },
+      { id: 2, label: $tr("ui.common.second", "Second") },
+      { id: 3, label: $tr("ui.common.third" , "Third") },
+      { id: 4, label: $tr("ui.common.fourth", "Fourth") },
     ];
 
     const availableConfigurations = [
