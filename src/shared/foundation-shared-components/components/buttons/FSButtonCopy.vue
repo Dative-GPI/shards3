@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-content-copy"
-    :label="$tr('button.copy', 'Copy')"
+    :label="$tr('ui.common.copy', 'Copy')"
     :color="ColorEnum.Light"
     v-bind="$attrs"
   />

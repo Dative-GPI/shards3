@@ -90,7 +90,7 @@
         v-else
         font="text-overline"
       >
-        {{ $tr('entity.alert.not-acknowledged', 'Not acknowledged') }}
+        {{ $tr('ui.alert.not-acknowledged', 'Not acknowledged') }}
       </FSSpan>
     </template>
     <template

@@ -200,14 +200,14 @@ export default defineComponent({
 
     const previousButtonLabel = computed(() => {
       return currentStep.value == 1
-        ? props.cancelButtonLabel ?? $tr("button.cancel", "Cancel")
-        : $tr("button.back", "Back");
+        ? props.cancelButtonLabel ?? $tr("ui.common.cancel", "Cancel")
+        : $tr("ui.common.back", "Back");
     });
 
     const nextButtonLabel = computed(() => {
       return currentStep.value == props.steps
-        ? props.submitButtonLabel ?? $tr("button.validate", "Validate")
-        : $tr("button.next", "Next");
+        ? props.submitButtonLabel ?? $tr("ui.common.validate", "Validate")
+        : $tr("ui.common.next", "Next");
     });
 
     const nextButtonVariant = computed(() => {

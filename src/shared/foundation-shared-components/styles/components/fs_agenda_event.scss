@@ -8,7 +8,7 @@
   }
 
   >.fs-card {
-    border-left: solid 3px var(--fs-clickable-border-color) !important;
+    border-left: solid var(--fs-agenda-event-border-width) var(--fs-clickable-border-color) !important;
   }
 }
 

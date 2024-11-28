@@ -44,7 +44,7 @@
       name="default"
       :label="label"
       :icon="icon"
-      :iconBis="iconBis"
+      :iconBis="endToday ? iconBis : null"
       :timeStart="epochToShortTimeOnlyFormat($props.start)"
       :timeEnd="epochToShortTimeOnlyFormat($props.end)"
       :variant="$props.variant"
@@ -120,12 +120,20 @@ export default defineComponent({
       return dayEnd.value - props.dayStart;
     });
 
+    const startToday = computed(() => {
+      return props.start >= props.dayStart;
+    });
+
+    const endToday = computed(() => {
+      return props.end <= dayEnd.value;
+    });
+
     const dayDurationOffset = computed(() => {
       return dayDuration.value - dayToMillisecond(1);
     });
 
     const leftPosition = computed(() => {
-      if (props.start < props.dayStart) {
+      if (!startToday.value) {
         return 0;
       }
       return millisecondToDay(props.start - props.dayStart - dayDurationOffset.value) * 100;
@@ -136,10 +144,10 @@ export default defineComponent({
       let end = props.end - dayDurationOffset.value;
       if(props.variant === 'current' && dayEnd.value > props.now) {
         end = props.now;
-      } else if (props.end > dayEnd.value) {
+      } else if (!endToday.value) {
         end = dayEnd.value - dayDurationOffset.value;
       }
-      if (props.start < props.dayStart) {
+      if (!startToday.value) {
         start = props.dayStart;
       }
       
@@ -150,12 +158,14 @@ export default defineComponent({
     const style = computed((): StyleValue => {
       return {
         '--fs-agenda-event-left': `${leftPosition.value}%`,
+        '--fs-agenda-event-border-width': startToday.value ? '3px' : '0px',
       };
     });
 
     return {
       style,
       width,
+      endToday,
       epochToShortTimeOnlyFormat
     };
   }

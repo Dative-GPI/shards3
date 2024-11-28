@@ -1,7 +1,7 @@
 <template>
   <FSButton
     prependIcon="mdi-pencil-outline"
-    :label="$tr('button.update', 'Update')"
+    :label="$tr('ui.common.update', 'Update')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

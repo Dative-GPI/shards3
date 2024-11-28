@@ -1,6 +1,6 @@
 <template>
   <FSButton
-    :label="$tr('button.search', 'Search')"
+    :label="$tr('ui.common.search', 'Search')"
     :color="ColorEnum.Primary"
     v-bind="$attrs"
   />

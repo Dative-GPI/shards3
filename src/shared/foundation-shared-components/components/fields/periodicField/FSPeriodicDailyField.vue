@@ -14,7 +14,7 @@
         <FSSpan
           :font="font"
         >
-          {{ $tr('periodic-field.every', 'Every') }}
+          {{ $tr('ui.common.every', 'Every') }}
         </FSSpan>
         <FSNumberField
           :editable="$props.editable"

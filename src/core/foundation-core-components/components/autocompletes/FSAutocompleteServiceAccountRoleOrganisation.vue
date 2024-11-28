@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="$props.label ?? $tr('autocomplete.service-account-role.label', 'Service account role')"
+    :label="$props.label ?? $tr('ui.common.service-account-role', 'Service account role')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :items="serviceAccountRoleOrganisations"
     :multiple="$props.multiple"

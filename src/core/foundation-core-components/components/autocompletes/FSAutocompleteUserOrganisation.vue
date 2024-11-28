@@ -1,7 +1,7 @@
 <template>
   <FSAutocompleteField
     itemTitle="name"
-    :label="$props.label ?? $tr('autocomplete.user.label', 'User')"
+    :label="$props.label ?? $tr('ui.common.user', 'User')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"
