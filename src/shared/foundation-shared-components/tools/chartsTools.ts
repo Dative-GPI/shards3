@@ -39,10 +39,10 @@ export const colorSetLabel = (value: ColorSets | number): string => {
   switch (value) {
     case ColorSets.Default: return $tr("ui.color-sets.am-charts", "Am Charts");
     case ColorSets.Grafana: return $tr("ui.color-sets.grafana", "Grafana");
-    case ColorSets.Armytage: return $tr("ui.color-sets.armytage", "Armytage");
+    case ColorSets.Armytage: return $tr("ui.color-sets.armytage", "High contrast (26 contrasts)");
     case ColorSets.Hash: return $tr("ui.color-sets.hash", "Hash");
-    case ColorSets.Kelly: return $tr("ui.color-sets.material", "Kelly");
-    case ColorSets.ZeileisHornikMurrell: return $tr("ui.color-sets.material", "ZeileisHornikMurrell");
+    case ColorSets.Kelly: return $tr("ui.color-sets.kelly", "High contrast (22 colors)");
+    case ColorSets.ZeileisHornikMurrell: return $tr("ui.color-sets.zeileis", "Colorblind accessible");
     default: return $tr("ui.common.none", "None");
   }
 }

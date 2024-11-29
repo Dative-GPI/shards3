@@ -16,7 +16,7 @@ namespace Foundation.Shared.Translations.Generator
     {
         const string SRC_PATH = "../../../src";
         static string[] FILES_PATTERN = new[] { ".vue", ".ts" };
-        const string REGEX_PATTERN = @"\$tr\(\s*['""]([\w\.-]*)['""],\s*(?:[']([^']*)[']|[""]([^""]*)[""])\s*\)";
+        const string REGEX_PATTERN = @"\$tr\(\s*['""]([\w\.-]*)['""],\s*(?:[']([^']*)[']|[""]([^""]*)[""])\s*(?:,\s*[^)]+)?\s*\)";
         static readonly Regex Regex = new(REGEX_PATTERN);
 
         public static void Generate()
