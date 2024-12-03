@@ -39,8 +39,8 @@ export const useAppTimeZone = () => {
 
   const getMachineOffsetName = (epoch: number | null = null): string => {
     const formatter = getMachineFormatter();
-    const currentDate = formatter.formatToParts(epoch ? new Date(epoch) : new Date());
-    const timeZoneName = currentDate.find((part) => part.type === "timeZoneName")?.value || "UTC+00:00";
+    const date = formatter.formatToParts(epoch ? new Date(epoch) : new Date());
+    const timeZoneName = date.find((part) => part.type === "timeZoneName")?.value || "UTC+00:00";
     return timeZoneName;
   };
 
