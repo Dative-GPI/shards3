@@ -4,7 +4,7 @@
   >
     <slot 
       name="error"
-      v-bind="{ goBack, width: $props.width }"
+      v-bind="{ goBack, width: $props.width, height: $props.height }"
     />
   </template>
   <v-window
