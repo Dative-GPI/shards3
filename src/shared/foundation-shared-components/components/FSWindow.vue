@@ -3,44 +3,9 @@
     v-if="noMatch"
   >
     <slot 
-      name="error" 
-    >
-      <FSRow
-        padding="16px"
-        :width="$props.width"
-      >
-        <FSCol
-          align="center-center"
-          gap="16px"
-        >
-          <FSCol
-            align="center-center"
-          >
-            <FSIcon
-              size="42px"
-              :color="ColorEnum.Error"
-            >
-              mdi-alert-outline
-            </FSIcon>
-            <FSText
-              font="text-h3"
-            >
-              {{ $tr("window.no-access-title", "Nothing to see here") }}
-            </FSText>
-          </FSCol>
-          <FSText
-            :lineClamp="2"
-          >
-            {{ $tr("window.no-access-body", "It seems you either do not have access to this content, or there is nothing to display here") }}
-          </FSText>
-          <FSButton
-            :label="$tr('window.no-access-button', 'Go back')"
-            :color="ColorEnum.Primary"
-            @click="goBack"
-          />
-        </FSCol>
-      </FSRow>
-    </slot>
+      name="error"
+      v-bind="{ goBack, width: $props.width }"
+    />
   </template>
   <v-window
     class="fs-window"
@@ -78,23 +43,8 @@ import { computed, defineComponent, type PropType, ref, type StyleValue, type VN
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
-import { ColorEnum } from "../models";
-
-import FSButton from "./FSButton.vue";
-import FSCard from "./FSCard.vue";
-import FSIcon from "./FSIcon.vue";
-import FSText from "./FSText.vue";
-import FSRow from "./FSRow.vue";
-
 export default defineComponent({
   name: "FSWindow",
-  components: {
-    FSButton,
-    FSCard,
-    FSIcon,
-    FSText,
-    FSRow
-  },
   props: {
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
@@ -170,7 +120,6 @@ export default defineComponent({
     };
 
     return {
-      ColorEnum,
       windowRef,
       noMatch,
       slots,
