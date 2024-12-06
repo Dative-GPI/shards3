@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
+import FSWindowError from "@dative-gpi/foundation-shared-components/components/FSWindowError.vue";
 import FSSlideGroup from "@dative-gpi/foundation-shared-components/components/FSSlideGroup.vue";
 import FSFadeOut from "@dative-gpi/foundation-shared-components/components/FSFadeOut.vue";
 import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
@@ -270,7 +271,7 @@ export const Errors: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-  components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSRow, FSFadeOut, FSSlideGroup, FSButton },
+  components: { FSTabs, FSTab, FSText, FSWindow, FSButton, FSWindowError },
   props: Object.keys(argTypes),
   setup() {
     return args;
@@ -284,6 +285,9 @@ export const Errors: Story = {
         <FSTab :value="1" label="Tab 2" tag="2" />
       </FSTabs>
       <FSWindow v-model="args.tab1" width="100%">
+        <template #error="{ goBack, width }">
+          <FSWindowError :goBack="goBack" :width="width" />
+        </template>
         <FSText :value="0"> This tab is allowed </FSText>
         <FSText :value="1"> This tab is allowed too </FSText>
       </FSWindow>
