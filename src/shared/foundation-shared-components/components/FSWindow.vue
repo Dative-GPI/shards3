@@ -1,9 +1,10 @@
 <template>
   <template 
-    v-if="noMatch"
+    v-if="showError"
   >
     <slot 
-      name="error" 
+      name="error"
+      v-bind="{ goBack, width: $props.width, height: $props.height }"
     >
       <FSRow
         padding="16px"
@@ -144,14 +145,18 @@ export default defineComponent({
       }, 560);
     });
 
-    const noMatch = computed(() => {
+    const showError = computed((): boolean => {
       if (!windowRef.value) {
-        return;
+        return false;
       }
 
       // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/components/VWindow/VWindow.tsx
       // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/composables/group.ts#L161
       const group = windowRef.value.group;
+
+      if (!group.items.value.length) {
+        return false;
+      }
       return !group.items.value.find((item: any) => item.value === props.modelValue);
     });
 
@@ -172,7 +177,7 @@ export default defineComponent({
     return {
       ColorEnum,
       windowRef,
-      noMatch,
+      showError,
       slots,
       style,
       getChildren,
