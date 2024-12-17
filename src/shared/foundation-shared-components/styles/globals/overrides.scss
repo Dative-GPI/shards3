@@ -137,9 +137,14 @@
     }
 }
 
-// Ellipsis on input of all fields
 input {
+    // Ellipsis on all fields
     text-overflow: ellipsis;
+}
+
+input, select, textarea {
+    // No zoom on focus for user of a certain version of Chrome, and who ask their mobile to zoom if font-size < 16px
+    touch-action: none;
 }
 
 // No up / down buttons in input field of type number
@@ -187,9 +192,11 @@ $nthOverlay: 25;
 }
 
 // Change color on arrows when hovered
-.v-slide-group__prev:hover,
-.v-slide-group__next:hover {
-    color: var(--fs-group-hover-color);
+@include clickscreen {
+    .v-slide-group__prev:hover,
+    .v-slide-group__next:hover {
+        color: var(--fs-group-hover-color);
+    }
 }
 
 /***************************************************************************/
