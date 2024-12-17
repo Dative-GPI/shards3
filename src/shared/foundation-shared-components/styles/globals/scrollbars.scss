@@ -47,9 +47,19 @@
 @include touchscreen {
   .fs-hide-x-scrollbar {
     overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
   }
 
   .fs-hide-y-scrollbar {
     overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
   }
 }
