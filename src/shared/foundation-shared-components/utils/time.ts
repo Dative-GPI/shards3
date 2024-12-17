@@ -5,13 +5,13 @@ import { TimeUnit } from "@dative-gpi/foundation-shared-domain/enums"
 const { $tr } = useTranslationsProvider();
 
 export const timeSteps = [
-  { id: TimeUnit.Second,      label: $tr("ui.common.second", "Second"), plural: $tr("ui.common.seconds", "Seconds") },
-  { id: TimeUnit.Minute,      label: $tr("ui.common.minute", "Minute"), plural: $tr("ui.common.minutes", "Minutes") },
-  { id: TimeUnit.Hour,        label: $tr("ui.common.hour", "Hour"),     plural: $tr("ui.common.hours", "Hours") },
-  { id: TimeUnit.Day,         label: $tr("ui.common.day", "Day"),       plural: $tr("ui.common.days", "Days") },
-  { id: TimeUnit.Week,        label: $tr("ui.common.week", "Week"),     plural: $tr("ui.common.weeks", "Weeks") },
-  { id: TimeUnit.Month,       label: $tr("ui.common.month", "Month"),   plural: $tr("ui.common.months", "Months") },
-  { id: TimeUnit.Year,        label: $tr("ui.common.year", "Year"),     plural: $tr("ui.common.years", "Years") },
+  { id: TimeUnit.Second, get label() { return $tr("ui.common.second", "Second") }, get plural() { return $tr("ui.common.seconds", "Seconds") } },
+  { id: TimeUnit.Minute, get label() { return $tr("ui.common.minute", "Minute") }, get plural() { return $tr("ui.common.minutes", "Minutes") } },
+  { id: TimeUnit.Hour,   get label() { return $tr("ui.common.hour", "Hour") },     get plural() { return $tr("ui.common.hours", "Hours") } },
+  { id: TimeUnit.Day,    get label() { return $tr("ui.common.day", "Day") },       get plural() { return $tr("ui.common.days", "Days") } },
+  { id: TimeUnit.Week,   get label() { return $tr("ui.common.week", "Week") },     get plural() { return $tr("ui.common.weeks", "Weeks") } },
+  { id: TimeUnit.Month,  get label() { return $tr("ui.common.month", "Month") },   get plural() { return $tr("ui.common.months", "Months") } },
+  { id: TimeUnit.Year,   get label() { return $tr("ui.common.year", "Year") },     get plural() { return $tr("ui.common.years", "Years") } },
 ];
 
 export const timeStepToString = (value: { value: number, unit: TimeUnit } | null): string => {
@@ -28,12 +28,12 @@ export const timeStepToString = (value: { value: number, unit: TimeUnit } | null
 };
 
 // TODO : remove everything below this line
-export const timeScale: any[] = [
-  { id: 1,      label: $tr("ui.common.second", "Second"), plural: $tr("ui.common.seconds", "Seconds") },
-  { id: 60,     label: $tr("ui.common.minute", "Minute"), plural: $tr("ui.common.minutes", "Minutes") },
-  { id: 3600,   label: $tr("ui.common.hour", "Hour"),     plural: $tr("ui.common.hours", "Hours") },
-  { id: 86400,  label: $tr("ui.common.day", "Day"),       plural: $tr("ui.common.days", "Days") },
-  { id: 604800, label: $tr("ui.common.week", "Week"),     plural: $tr("ui.common.weeks", "Weeks") },
+export const timeScale = [
+  { id: 1,      get label() { return $tr("ui.common.second", "Second") }, get plural() { return $tr("ui.common.seconds", "Seconds") } },
+  { id: 60,     get label() { return $tr("ui.common.minute", "Minute") }, get plural() { return $tr("ui.common.minutes", "Minutes") } },
+  { id: 3600,   get label() { return $tr("ui.common.hour", "Hour") },     get plural() { return $tr("ui.common.hours", "Hours") } },
+  { id: 86400,  get label() { return $tr("ui.common.day", "Day") },       get plural() { return $tr("ui.common.days", "Days") } },
+  { id: 604800, get label() { return $tr("ui.common.week", "Week") },     get plural() { return $tr("ui.common.weeks", "Weeks") } },
 ];
 
 export const getTimeScaleIndex = (value: number): number => {

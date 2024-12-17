@@ -270,7 +270,7 @@ export const Errors: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-  components: { FSTabs, FSTab, FSText, FSWindow, FSCol, FSRow, FSFadeOut, FSSlideGroup, FSButton },
+  components: { FSTabs, FSTab, FSText, FSWindow, FSButton },
   props: Object.keys(argTypes),
   setup() {
     return args;
@@ -287,6 +287,13 @@ export const Errors: Story = {
         <FSText :value="0"> This tab is allowed </FSText>
         <FSText :value="1"> This tab is allowed too </FSText>
       </FSWindow>
+      <div style="width: 100%; border-bottom: 2px dotted lightgrey" />
+      <FSText> Window has no child, and thus do not show the error message </FSText>
+      <FSTabs>
+        <FSTab :value="0" label="Tab 1" tag="1" />
+        <FSTab :value="1" label="Tab 2" tag="2" />
+      </FSTabs>
+      <FSWindow width="100%" />
     </div>
   `,
 })
