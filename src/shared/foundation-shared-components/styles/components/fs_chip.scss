@@ -12,15 +12,17 @@
 .fs-chip-editable {
     cursor: pointer !important;
 
-    &:hover {
-        background-color: var(--fs-chip-hover-background-color) !important;
-        border-color: var(--fs-chip-hover-border-color) !important;
-        color: var(--fs-chip-hover-color) !important;
-    }
-
     &:active {
         background-color: var(--fs-chip-active-background-color) !important;
         border-color: var(--fs-chip-active-border-color) !important;
         color: var(--fs-chip-active-color) !important;
+    }
+
+    @include clickscreen {
+        &:hover {
+            background-color: var(--fs-chip-hover-background-color) !important;
+            border-color: var(--fs-chip-hover-border-color) !important;
+            color: var(--fs-chip-hover-color) !important;
+        }
     }
 }
