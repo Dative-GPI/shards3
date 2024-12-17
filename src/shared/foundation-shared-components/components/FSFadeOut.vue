@@ -84,7 +84,7 @@ export default defineComponent({
 
     const elementId = `id${uuidv4()}`;
 
-    const showOutsideScrollbar = computed(() => props.scrollOutside && !isTouchScreenEnabled);
+    const showOutsideScrollbar = computed(() => props.scrollOutside && !isTouchScreenEnabled.value);
 
     const style = computed((): StyleValue => ({
       "--fs-fade-out-height"            : props.height ? sizeToVar(props.height) : "initial",
