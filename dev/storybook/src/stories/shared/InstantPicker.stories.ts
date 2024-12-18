@@ -20,9 +20,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    startDate: 1734342404000,
-    endDate: 1734515204000,
-    modelValue: 1734515204000,
+    startDate: 'now - 3d',
+    endDate: 'now',
+    modelValue: 0,
   },
   render: (args, { argTypes }) => ({
     components: { FSCol, FSInstantPicker },

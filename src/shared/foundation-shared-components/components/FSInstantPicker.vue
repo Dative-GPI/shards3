@@ -3,17 +3,13 @@
     align="center-center"
     gap="32px"
   >
-    <!-- <FSTermField
+    <FSTermField
       width="430px"
       :label="$props.label"
-      v-model:startDate="startDate"
-      v-model:endDate="endDate"
-    /> -->
-    <FSDateTimeRangeField
-      width="430px"
-      :label="$props.label"
-      :modelValue="[$props.startDate, $props.endDate]"
-      @update:modelValue="updateDate"
+      :startDate="$props.startDate"
+      :endDate="$props.endDate"
+      @update:startDate="$emit('update:startDate', $event)"
+      @update:endDate="$emit('update:endDate', $event)"
     />
     <FSCol>
       <FSSlider
@@ -22,8 +18,8 @@
         :thumb-size="18"
         thumb-label="always"
         :step="60000"
-        :min="$props.startDate"
-        :max="$props.endDate"
+        :min="startTimestamp"
+        :max="endTimestamp"
         :ticks="ticks"
         showTicks="always"
         :modelValue="$props.modelValue"
@@ -62,18 +58,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, watch } from "vue";
+import { computed, defineComponent, watch } from "vue";
 
-import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
+import { useDateFormat, useTermFieldDate } from "@dative-gpi/foundation-shared-services/composables";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 import { useBreakpoints } from '@dative-gpi/foundation-shared-components/composables';
+
 import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
-import FSTermField from '@dative-gpi/foundation-shared-components/components/fields/FSTermField.vue';
-import FSSlider from '@dative-gpi/foundation-shared-components/components/FSSlider.vue';
 import FSSpan from '@dative-gpi/foundation-shared-components/components/FSSpan.vue';
 import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
-import FSDateTimeRangeField from '@dative-gpi/foundation-shared-components/components/fields/FSDateTimeRangeField.vue';
+import FSSlider from '@dative-gpi/foundation-shared-components/components/FSSlider.vue';
+import FSTermField from '@dative-gpi/foundation-shared-components/components/fields/FSTermField.vue';
 
 export default defineComponent({
   name: "FSInstantPicker",
@@ -88,34 +84,35 @@ export default defineComponent({
       default: 0,
     },
     startDate: {
-      type: Number,
-      required: false,
-      default: 0,
+      type: String,
+      required: true
     },
     endDate: {
-      type: Number,
-      required: false,
-      default: 0,
+      type: String,
+      required: true
     },
   },
   components: {
     FSCol,
-    FSTermField,
-    FSDateTimeRangeField,
-    FSSlider,
     FSSpan,
-    FSText
+    FSText,
+    FSSlider,
+    FSTermField,
   },
   emits: ['update:modelValue', 'update:startDate', 'update:endDate'],
   setup(props, { emit }) {
-    const { todayToEpoch, epochToShortTimeOnlyFormat, epochToShortDateFormat, epochToShortTimeFormat, epochToISO } = useDateFormat();
+    const { epochToShortTimeOnlyFormat, epochToShortDateFormat, epochToShortTimeFormat, epochToISO } = useDateFormat();
     const { isMobileSized, isExtraSmall } = useBreakpoints();
+    const { convert : convertTermToEpoch } = useTermFieldDate();
+
+    const startTimestamp = computed(() => convertTermToEpoch(props.startDate));
+    const endTimestamp = computed(() => convertTermToEpoch(props.endDate));
 
     const intervalTime = computed(() => {
       const possibleIntervals = [60000, 3600000, 86400000];
 
       const interval = possibleIntervals.find(interval => {
-        return (props.endDate - props.startDate) / interval < 100;
+        return (endTimestamp.value - startTimestamp.value) / interval < 100;
       });
 
       if (interval) {
@@ -127,8 +124,8 @@ export default defineComponent({
     const ticks = computed(() => {
       const ticks: number[] = [];
 
-      const firstTick = Math.ceil(props.startDate / intervalTime.value) * intervalTime.value;
-      for (let i = firstTick; i <= props.endDate; i += intervalTime.value) {
+      const firstTick = Math.ceil(startTimestamp.value / intervalTime.value) * intervalTime.value;
+      for (let i = firstTick; i <= endTimestamp.value; i += intervalTime.value) {
         ticks.push(i);
       }
       return ticks;
@@ -142,38 +139,11 @@ export default defineComponent({
         return 4;
       }
       return 8;
-    })
-
-    const updateDate = (dates: [number, number]) => {
-      if (dates[0] > dates[1]) {
-        emit('update:startDate', dates[1]);
-        emit("update:endDate", dates[0]);
-        emit('update:modelValue', dates[0]);
-      }
-      else {
-        emit('update:startDate', dates[0]);
-        emit('update:endDate', dates[1]);
-        emit('update:modelValue', dates[1]);
-      }
-    }
-
-    onMounted(() => {
-      const defaultStart = todayToEpoch() - 86400000 * 2;
-      const defaultEnd = todayToEpoch();
-
-      if (!props.startDate && !props.endDate) {
-        emit('update:startDate', defaultStart);
-        emit('update:endDate', defaultEnd);
-      }
-
-      if (!props.modelValue) {
-        emit('update:modelValue', defaultEnd);
-      }
     });
 
     watch(() => [props.startDate, props.endDate], () => {
-      if(props.modelValue < props.startDate || props.modelValue > props.endDate) {
-        emit('update:modelValue', props.endDate);
+      if(props.modelValue < startTimestamp.value || props.modelValue > endTimestamp.value) {
+        emit('update:modelValue', endTimestamp.value);
       }
     }, { immediate: true });
 
@@ -181,8 +151,9 @@ export default defineComponent({
       ticks,
       ColorEnum,
       intervalTime,
+      endTimestamp,
+      startTimestamp,
       maximumTickToShow,
-      updateDate,
       epochToISO,
       epochToShortTimeFormat,
       epochToShortDateFormat,
