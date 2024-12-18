@@ -18,19 +18,22 @@
     }
 }
 
-// .fs-breadcrumbs-divider {
-//     margin-bottom: 2px !important;
-// }
-
 .fs-breadcrumbs.v-breadcrumbs {
-    line-height: normal!important;
+    height: var(--fs-breadcrumbs-height) !important;
+    display: flex !important;
     padding: 0 !important;
     gap: 8px !important;
-    height: 20px;
 }
 
 .v-breadcrumbs-item {
     padding: 0 !important;
+
+    align-self: stretch;
+    display: flex;
+    flex: 1 0 0;
+
+    max-width: fit-content;
+    min-width: 20px;
 
     &--disabled {
         opacity: 1 !important;

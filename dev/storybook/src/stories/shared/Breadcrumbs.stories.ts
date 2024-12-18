@@ -17,11 +17,21 @@ type Story = StoryObj<typeof meta>;
 export const Standard: Story = {
   args: {
     args: {
-        items: [
+        items1: [
             { title: "First (clickable)", disabled: false, active: false },
             { title: "Second (disabled)", disabled: true, active: false },
             { title: "Third (clickable)", disabled: false, active: false },
             { title: "Last (active)", disabled: true, active: true }
+        ],
+        items2: [
+            { title: "First", disabled: false, active: false },
+            { title: "Second", disabled: true, active: false },
+            { title: "Last with a really long name", disabled: true, active: true }
+        ],
+        items3: [
+            { title: "First", disabled: false, active: false },
+            { title: "Second with a really long name", disabled: true, active: false },
+            { title: "Last", disabled: true, active: true }
         ]
     }
   },
@@ -32,7 +42,9 @@ export const Standard: Story = {
       return { ...args };
     },
     template: `
-        <Breadcrumbs v-bind="args" />
+        <Breadcrumbs :items="args.items1" />
+        <Breadcrumbs :items="args.items2" />
+        <Breadcrumbs :items="args.items3" />
     `,
   })
 };
