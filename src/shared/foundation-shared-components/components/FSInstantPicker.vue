@@ -19,6 +19,7 @@
         @update:endDate="$emit('update:endDate', $event)"
       />
       <FSRow
+        padding="0 0 2px 0"
         align="center-center"
       >
         <FSCol
@@ -27,8 +28,9 @@
           <FSSlider
             minWidth='min(300px, 90vw)'
             :color="ColorEnum.Light"
-            :thumb-color="ColorEnum.Primary"
-            :thumb-size="18"
+            :thumbColor="ColorEnum.Primary"
+            :thumbSize="18"
+            :trackSize="8"
             thumb-label="always"
             :step="$props.stepTime"
             :min="startTimestamp"
@@ -44,7 +46,7 @@
               <FSSpan
                 font="text-overline"
               >
-                {{ epochToShortTimeFormat(modelValue) }}
+                {{ epochToMonthShortTimeFormat(modelValue) }}
               </FSSpan>
             </template>
             <template
@@ -54,13 +56,14 @@
                 v-if="index % Math.trunc(ticks.length / maximumTickToShow) === 0 || ticks.length < maximumTickToShow"
               >
                 <FSText
+                  :color="lightColors.dark"
                   font="text-overline"
                 >
                   {{ intervalTime <= 3600000
                     ?
                       epochToShortTimeOnlyFormat(tick.value)
                     :
-                      epochToShortDateFormat(tick.value)
+                      epochToDayMonthShortOnly(tick.value)
                   }}
                 </FSText>
               </FSRow>
@@ -85,7 +88,7 @@ import { computed, defineComponent, ref, watch } from "vue";
 import { useDateFormat, useTermFieldDate } from "@dative-gpi/foundation-shared-services/composables";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
-import { useBreakpoints } from '@dative-gpi/foundation-shared-components/composables';
+import { useBreakpoints, useColors } from '@dative-gpi/foundation-shared-components/composables';
 
 import FSCol from '@dative-gpi/foundation-shared-components/components/FSCol.vue';
 import FSSpan from '@dative-gpi/foundation-shared-components/components/FSSpan.vue';
@@ -162,10 +165,12 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'update:startDate', 'update:endDate'],
   setup(props, { emit }) {
-    const { epochToShortTimeOnlyFormat, epochToShortDateFormat, epochToShortTimeFormat, epochToISO } = useDateFormat();
-    const { isMobileSized, isExtraSmall } = useBreakpoints();
+    const { epochToShortTimeOnlyFormat, epochToShortDateFormat, epochToDayMonthShortOnly, epochToISO, epochToMonthShortTimeFormat } = useDateFormat();
     const { convert : convertTermToEpoch } = useTermFieldDate();
+    const { isMobileSized, isExtraSmall } = useBreakpoints();
+    const { getColors } = useColors();
 
+    const lightColors = getColors(ColorEnum.Light);
     const playing = ref(false);
     const playingInterval = ref();
 
@@ -242,6 +247,7 @@ export default defineComponent({
       ticks,
       playing,
       ColorEnum,
+      lightColors,
       intervalTime,
       endTimestamp,
       startTimestamp,
@@ -250,9 +256,10 @@ export default defineComponent({
       onPlayingChange,
       onClickForward,
       onClickBackward,
-      epochToShortTimeFormat,
       epochToShortDateFormat,
-      epochToShortTimeOnlyFormat
+      epochToShortTimeOnlyFormat,
+      epochToDayMonthShortOnly,
+      epochToMonthShortTimeFormat
     };
   },
 });
