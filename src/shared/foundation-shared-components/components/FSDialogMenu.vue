@@ -6,8 +6,8 @@
   >
     <FSCard
       width="calc(100vw - 48px)"
-      padding="8px"
-      gap="24px"
+      :padding="$props.cardPadding"
+      :gap="$props.cardGap"
       :color="$props.color"
       :class="classes"
     >
@@ -42,6 +42,16 @@ export default defineComponent({
       type: [Array, String] as PropType<string[] | string | null>,
       required: false,
       default: null
+    },
+    cardPadding: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "8px"
+    },
+    cardGap: {
+      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
+      required: false,
+      default: "24px"
     },
     modelValue: {
       type: Boolean,

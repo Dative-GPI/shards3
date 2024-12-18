@@ -122,6 +122,7 @@
       </FSCard>
     </FSSlideGroup>
     <FSDialogMenu
+      cardPadding="16px"
       v-model="dialog"
     >
       <template
@@ -135,68 +136,51 @@
           >
             <FSRow
               v-for="(item, index) in $props.items"
+              align="center-left"
+              height="36px"
+              :wrap="false"
               :key="index"
+              @click="$props.multiple ?
+                onCheckboxChange(item[$props.itemValue!]) :
+                onRadioChange(item[$props.itemValue!])
+              "
             >
-              <FSCheckbox
-                v-if="$props.multiple"
-                :label="item[$props.itemTitle!]"
-                :editable="$props.editable"
-                :modelValue="$props.modelValue?.includes(item[$props.itemValue!])"
-                @update:modelValue="() => onCheckboxChange(item[$props.itemValue!])"
+              <FSRow
+                style="min-width: 0;"
+                :wrap="false"
               >
-                <template
-                  #label="{ font }"
+                <slot
+                  name="item-prepend"
+                  v-bind="{ item }"
+                />
+                <FSSpan
+                  :font="selectedItems.includes(item) ? 'text-button' : 'text-body'"
                 >
-                  <FSRow
-                    align="center-left"
-                    :wrap="false"
-                  >
-                    <slot
-                      name="item-prepend"
-                      v-bind="{ item }"
-                    />
-                    <FSSpan
-                      :font="font"
-                    >
-                      {{ item[$props.itemTitle!] }}
-                    </FSSpan>
-                  </FSRow>
-                </template>
-              </FSCheckbox>
-              <FSRadio
-                v-else
-                :selected="$props.modelValue === item[$props.itemValue!]"
-                :label="item[$props.itemTitle!]"
-                :editable="$props.editable"
-                :item="item"
-                :modelValue="item[$props.itemValue!]"
-                @update:modelValue="() => onRadioChange(item[$props.itemValue!])"
-              >
-                <template
-                  #label="{ font }"
-                >
-                  <FSRow
-                    align="center-left"
-                    :wrap="false"
-                  >
-                    <slot
-                      name="item-prepend"
-                      v-bind="{ item }"
-                    />
-                    <FSSpan
-                      :font="font"
-                    >
-                      {{ item[$props.itemTitle!] }}
-                    </FSSpan>
-                  </FSRow>
-                </template>
-              </FSRadio>
+                  {{ item[$props.itemTitle!] }}
+                </FSSpan>
+              </FSRow>
               <FSRow
                 align="center-right"
+                width="hug"
+                :wrap="false"
               >
                 <slot
                   name="item-append"
                   v-bind="{ item }"
+                />
+                <FSCheckbox
+                  v-if="$props.multiple"
+                  :editable="$props.editable"
+                  :modelValue="$props.modelValue?.includes(item[$props.itemValue!])"
+                  @update:modelValue="onCheckboxChange(item[$props.itemValue!])"
+                />
+                <FSRadio
+                  v-else
+                  :selected="$props.modelValue === item[$props.itemValue!]"
+                  :editable="$props.editable"
+                  :item="item"
+                  :modelValue="item[$props.itemValue!]"
+                  @update:modelValue="onRadioChange(item[$props.itemValue!])"
                 />
               </FSRow>
             </FSRow>
