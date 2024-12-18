@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType, watch } from "vue";
+import _ from "lodash";
 
 import type { ModelFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useModels } from "@dative-gpi/foundation-core-services/composables";
@@ -33,7 +34,11 @@ export default defineComponent({
       getMany(props.modelFilters);
     }
 
-    watch(() => props.modelFilters, fetch, { immediate: true });
+    watch(() => props.modelFilters, (newVal, oldVal) =>{
+      if(!_.isEqual(newVal, oldVal)){
+        fetch();
+      }
+    }, { immediate: true });
 
     return {
       models,

@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType, watch } from "vue";
+import _ from "lodash";
 
 import type { DeviceOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDeviceOrganisations } from "@dative-gpi/foundation-core-services/composables";
@@ -33,7 +34,11 @@ export default defineComponent({
       getMany(props.deviceOrganisationFilters);
     }
 
-    watch(() => props.deviceOrganisationFilters, fetch, { immediate: true });
+    watch(() => props.deviceOrganisationFilters, (newVal, oldVal) => {
+      if(!_.isEqual(newVal, oldVal)){
+        fetch();
+      }
+    }, { immediate: true })
 
     return {
       deviceOrganisations,

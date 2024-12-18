@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType, watch, computed } from "vue";
+import _ from "lodash";
 
 import type { DashboardOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useDashboardOrganisations } from "@dative-gpi/foundation-core-services/composables";
@@ -52,7 +53,11 @@ export default defineComponent({
       getManyDashboardOrganisationTypes(props.dashboardOrganisationTypeFilters);
     }
 
-    watch(() => [props.dashboardOrganisationFilters, props.dashboardOrganisationTypeFilters], fetch, { immediate: true });
+    watch(() => [props.dashboardOrganisationFilters, props.dashboardOrganisationTypeFilters], (newVal, oldVal) => {
+      if(!_.isEqual(newVal, oldVal)){
+        fetch();
+      }
+    }, { immediate: true });
 
     return {
       dashboards,

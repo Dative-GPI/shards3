@@ -1,7 +1,7 @@
 <template>
   <FSSimpleList
-    :items="userOrganisations"
     itemLabel="name"
+    :items="userOrganisations"
     :loading="fetching"
     v-bind="$attrs"
   />
@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType, watch } from "vue";
+import _ from "lodash";
 
 import type { UserOrganisationFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useUserOrganisations } from "@dative-gpi/foundation-core-services/composables";
@@ -34,7 +35,11 @@ export default defineComponent({
       getMany(props.userOrganisationFilters);
     }
 
-    watch(() => props.userOrganisationFilters, fetch, { immediate: true });
+    watch(() => props.userOrganisationFilters, (newVal, oldVal) => {
+      if(!_.isEqual(newVal, oldVal)){
+        fetch();
+      }
+    }, { immediate: true });
 
     return {
       userOrganisations,
