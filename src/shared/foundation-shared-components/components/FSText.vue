@@ -1,13 +1,15 @@
 <template>
-  <span
+  <div
     :class="classes"
     :style="style"
     v-bind="$attrs"
   >
-    <slot>
-      {{ $props.label }}
-    </slot>
-  </span>
+    <span>
+      <slot>
+        {{ $props.label }}
+      </slot>
+    </span>
+  </div>
 </template>
 
 <script lang="ts">
