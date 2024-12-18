@@ -19,7 +19,8 @@
             :entity-type="$props.entityType"
             :filters="simpleListFilters"
             :showEdit="false"
-            :showRemove="false"
+            :showRemove="showRemove"
+            @click:remove="$emit('update:modelValue', $props.modelValue?.filter((id) => id !== $event))"
             direction="row"
           />
         </FSSlideGroup>
@@ -96,6 +97,11 @@ export default defineComponent({
       type: Object,
       required: false,
       default: null
+    },
+    showRemove: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup(props, { attrs }){
