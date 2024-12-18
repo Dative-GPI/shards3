@@ -1,5 +1,15 @@
+.fs-span {
+    align-self: stretch;
+    display: flex;
+    flex: 1 0 0;
+
+    max-width: fit-content;
+    min-width: 0;
+}
+
 .fs-span > span {
     text-align: var(--fs-span-text-align);
+    align-content: center;
     max-width: 100%;
 }
 
@@ -19,13 +29,4 @@
 
 .fs-span-pre-wrap > span {
     white-space: pre-wrap;
-}
-
-.fs-span {
-    align-self: stretch;
-    display: flex;
-    flex: 1 0 0;
-
-    max-width: fit-content;
-    min-width: 0;
 }
