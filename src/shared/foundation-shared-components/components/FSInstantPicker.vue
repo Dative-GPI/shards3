@@ -202,12 +202,12 @@ export default defineComponent({
 
     const maximumTickToShow = computed(() => {
       if (isMobileSized.value) {
-        return 6;
+        return 5;
       }
       if (isExtraSmall.value) {
         return 4;
       }
-      return 8;
+      return 6;
     });
 
     const onPlayingChange = (value: boolean) => {
