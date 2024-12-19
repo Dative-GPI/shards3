@@ -20,7 +20,7 @@
             :filters="simpleListFilters"
             :showEdit="false"
             :showRemove="showRemove"
-            @click:remove="$emit('update:modelValue', $props.modelValue?.filter((id) => id !== $event))"
+            @click:remove="onRemove"
             direction="row"
           />
         </FSSlideGroup>
@@ -104,7 +104,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup(props, { attrs }){
+  setup(props, { emit, attrs }){
     const simpleListFilters = computed(() => {
       switch(props.entityType) {
         case EntityType.Device:
@@ -194,10 +194,15 @@ export default defineComponent({
       };
     });
 
+    const onRemove = (id: string) => {
+      emit("update:modelValue", props.modelValue.filter((i) => i !== id));
+    }
+
     return {
       simpleListFilters,
       baseTableAttrs,
-      tableCode
+      tableCode,
+      onRemove
     }
   }
 });

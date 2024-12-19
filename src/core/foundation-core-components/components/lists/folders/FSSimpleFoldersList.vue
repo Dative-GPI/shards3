@@ -8,7 +8,6 @@
 
 <script lang="ts">
 import { defineComponent, type PropType, watch } from "vue";
-import _ from "lodash";
 
 import type { FolderFilters } from "@dative-gpi/foundation-core-domain/models";
 import { useFolders } from "@dative-gpi/foundation-core-services/composables";
@@ -34,11 +33,7 @@ export default defineComponent({
       getMany(props.folderFilters);
     }
 
-    watch(() => props.folderFilters, (newVal, oldVal) => {
-      if(!_.isEqual(newVal, oldVal)){
-        fetch();
-      }
-    }, { immediate: true });
+    watch(() => props.folderFilters, fetch, { immediate: true });
 
     return {
       folders,
