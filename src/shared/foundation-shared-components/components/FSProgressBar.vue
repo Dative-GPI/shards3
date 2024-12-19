@@ -2,7 +2,6 @@
   <FSRow
     align="center-center"
     :style="style"
-    gap="8px"
   >
     <div
       class="fs-progress-bar-gradient"
@@ -25,8 +24,15 @@ import { useColors } from '@dative-gpi/foundation-shared-components/composables'
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
+import FSRow from '@dative-gpi/foundation-shared-components/components/FSRow.vue';
+import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
+
 export default defineComponent({
   name: "FSProgressBar",
+  components: {
+    FSText,
+    FSRow
+  },
   props: {
     modelValue: {
       type: Number,
@@ -45,8 +51,6 @@ export default defineComponent({
       required: false,
       default: true
     }
-  },
-  components: {
   },
   setup(props) {
     const { getColors } = useColors();
