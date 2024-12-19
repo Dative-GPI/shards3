@@ -9,7 +9,7 @@
       #title="{ item }"
     >
       <FSSpan
-        :class="classes(item)"
+        class="fs-breadcrumbs-label"
       >
         {{ item.title }}
       </FSSpan>
@@ -76,18 +76,9 @@ export default defineComponent({
       return props.items;
     });
 
-    const classes = (item: FSBreadcrumbItem): string[] => {
-      const classNames = ["fs-breadcrumbs-label"];
-      if (item.disabled) {
-        classNames.push("fs-breadcrumbs-label-disabled");
-      }
-      return classNames;
-    };
-
     return {
       items,
-      style,
-      classes
+      style
     };
   }
 });

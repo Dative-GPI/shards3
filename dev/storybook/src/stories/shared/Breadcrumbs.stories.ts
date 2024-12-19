@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import Breadcrumbs from "@dative-gpi/foundation-shared-components/components/FSBreadcrumbs.vue";
+import FSBreadcrumbs from "@dative-gpi/foundation-shared-components/components/FSBreadcrumbs.vue";
 
 const meta = {
   title: 'Foundation/Shared/Breadcrumbs',
-  component: Breadcrumbs,
+  component: FSBreadcrumbs,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   }
-} satisfies Meta<typeof Breadcrumbs>;
+} satisfies Meta<typeof FSBreadcrumbs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -17,26 +17,26 @@ type Story = StoryObj<typeof meta>;
 export const Standard: Story = {
   args: {
     args: {
-        items1: [
-            { title: "First (clickable)", disabled: false, active: false },
-            { title: "Second (disabled)", disabled: true, active: false },
-            { title: "Third (clickable)", disabled: false, active: false },
-            { title: "Last (active)", disabled: true, active: true }
-        ],
-        items2: [
-            { title: "First", disabled: false, active: false },
-            { title: "Second", disabled: true, active: false },
-            { title: "Last with a really long name", disabled: true, active: true }
-        ],
-        items3: [
-            { title: "First", disabled: false, active: false },
-            { title: "Second with a really long name", disabled: true, active: false },
-            { title: "Last", disabled: true, active: true }
-        ]
+      items1: [
+        { title: "First (clickable)", disabled: false, to: "/first" },
+        { title: "Second (disabled)", disabled: true },
+        { title: "Third (clickable)", disabled: false, to: "/third" },
+        { title: "Last (active)", disabled: true }
+      ],
+      items2: [
+        { title: "First",  disabled: false, to: "/first" },
+        { title: "Second", disabled: true },
+        { title: "Last with a really long name", disabled: true }
+      ],
+      items3: [
+        { title: "First", disabled: false, to: "/first" },
+        { title: "Second with a really long name", disabled: true },
+        { title: "Last", disabled: true }
+      ]
     }
   },
   render: (args, { argTypes }) => ({
-    components: { Breadcrumbs },
+    components: { FSBreadcrumbs },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };

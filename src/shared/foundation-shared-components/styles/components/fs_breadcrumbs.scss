@@ -1,30 +1,16 @@
-.fs-breadcrumbs-label {
-    cursor: pointer;
-    user-select: none;
-    color: var(--fs-breadcrumbs-color);
-
-    &-disabled {
-        color: var(--fs-breadcrumbs-disabled-color) !important;
-    }
-
-    &:hover {
-        text-decoration: underline;
-    }
-
-    &:active {
-        color: var(--fs-breadcrumbs-active-color) !important;
-    }
-}
-
-.fs-breadcrumbs.v-breadcrumbs {
+.fs-breadcrumbs {
     height: var(--fs-breadcrumbs-height) !important;
-    display: flex !important;
     padding: 0 !important;
-    gap: 8px !important;
+    gap: 0 !important;
+
+    max-width: 100%;
 }
 
-.v-breadcrumbs-item {
+.v-breadcrumbs-item,
+.v-breadcrumbs-item--link {
     padding: 0 !important;
+    user-select: none;
+    cursor: pointer;
 
     align-self: stretch;
     display: flex;
@@ -37,15 +23,14 @@
         opacity: 1 !important;
         color: var(--fs-breadcrumbs-disabled-color) !important;
     }
+}
 
-    &:last-child > .fs-breadcrumbs-label-disabled {
-        @extend .text-button;
+.v-breadcrumbs-item:last-child > .fs-breadcrumbs-label {
+    @extend .text-button;
 
-        color: var(--fs-breadcrumbs-active-color) !important;
-    }
+    color: var(--fs-breadcrumbs-active-color) !important;
 }
 
 .v-breadcrumbs-divider {
-    padding: 0 !important;
     color: var(--fs-breadcrumbs-color) !important;
 }
