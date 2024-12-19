@@ -33,7 +33,7 @@ export default defineComponent({
       getMany(props.deviceOrganisationFilters);
     }
 
-    watch(() => props.deviceOrganisationFilters, fetch, { immediate: true })
+    watch(() => props.deviceOrganisationFilters, fetch, { immediate: true });
 
     return {
       deviceOrganisations,
