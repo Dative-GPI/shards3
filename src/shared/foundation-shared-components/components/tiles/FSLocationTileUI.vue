@@ -46,7 +46,7 @@
               align="center-left"
             >
               <FSColor
-                width="24px"
+                padding="0 8px"
                 height="24px"
                 :color="ColorEnum.Light"
                 :border="false"
