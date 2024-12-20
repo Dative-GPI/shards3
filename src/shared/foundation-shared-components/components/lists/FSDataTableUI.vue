@@ -4,7 +4,7 @@
     style="position: relative;"
   >
     <FSRow
-      v-if="$props.showSearch || (!isMobileSized && ($slots.prependToolbar || $slots.toolbar )) || (!$props.disableTable && !$props.disableIterator)"
+      v-if="$props.showSearch || (!isMobileSized && ($slots['prepend-toolbar'] || $slots['toolbar'] || $slots['append-toolbar'])) || (!$props.disableTable && !$props.disableIterator)"
       align="bottom-left"
       :wrap="isMobileSized ? false : true"
       width="fill"
@@ -32,7 +32,7 @@
         name="toolbar"
       />
       <template
-        v-if="$slots.appendToolbar || (!$props.disableTable && !$props.disableIterator)"
+        v-if="$slots['append-toolbar'] || (!$props.disableTable && !$props.disableIterator)"
       >
         <FSRow
           align="center-right"
@@ -54,7 +54,7 @@
       </template>
     </FSRow>
     <FSRow
-      v-if="isMobileSized && ($slots.prependToolbar || $slots.toolbar || $slots.appendToolbar)"
+      v-if="isMobileSized && ($slots['prepend-toolbar'] || $slots['toolbar'] || $slots['append-toolbar'])"
     >
       <FSSlideGroup>
         <slot
