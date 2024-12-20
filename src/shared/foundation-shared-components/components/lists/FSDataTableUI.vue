@@ -4,13 +4,13 @@
     style="position: relative;"
   >
     <FSRow
-      v-if="$props.showSearch || (!isExtraSmall && ($slots.prependToolbar || $slots.toolbar )) || (!$props.disableTable && !$props.disableIterator)"
+      v-if="$props.showSearch || (!isMobileSized && ($slots.prependToolbar || $slots.toolbar )) || (!$props.disableTable && !$props.disableIterator)"
       align="bottom-left"
-      :wrap="isExtraSmall ? false : true"
+      :wrap="isMobileSized ? false : true"
       width="fill"
     >
       <slot
-        v-if="!isExtraSmall"
+        v-if="!isMobileSized"
         name="prepend-toolbar"
       />
       <template
@@ -28,17 +28,22 @@
         />
       </template>
       <slot
-        v-if="!isExtraSmall"
+        v-if="!isMobileSized"
         name="toolbar"
       />
       <template
-        v-if="!$props.disableTable && !$props.disableIterator"
+        v-if="$slots.appendToolbar || (!$props.disableTable && !$props.disableIterator)"
       >
         <FSRow
-          :width="isMobileSized ? 'hug' : 'fill'"
           align="center-right"
+          :width="isExtraSmall ? 'hug' : 'fill'"
         >
+          <slot
+            v-if="!isMobileSized"
+            name="append-toolbar"
+          />
           <FSOptionGroup
+            v-if="!$props.disableTable && !$props.disableIterator"
             :values="modeOptions"
             :singleColor="true"
             :required="true"
@@ -49,13 +54,19 @@
       </template>
     </FSRow>
     <FSRow
-      v-if="isExtraSmall && hasToolbar"
+      v-if="isMobileSized && ($slots.prependToolbar || $slots.toolbar || $slots.appendToolbar)"
     >
-      <FSWrapGroup>
+      <FSSlideGroup>
+        <slot
+          name="prepend-toolbar"
+        />
         <slot
           name="toolbar"
         />
-      </FSWrapGroup>
+        <slot
+          name="append-toolbar"
+        />
+      </FSSlideGroup>
     </FSRow>
     <FSRow
       v-if="showFiltersRow"
@@ -963,10 +974,6 @@ export default defineComponent({
       
     });
 
-    const hasToolbar = computed((): boolean => {
-      return !!useSlots().slots["toolbar"];
-    });
-
     const innerSlots = computed((): { [label: string]: Slot<any> } => {
       const slots = { ...useSlots().slots };
       delete slots["toolbar"];
@@ -1578,7 +1585,6 @@ export default defineComponent({
       innerMode,
       modeOptions,
       innerPage,
-      hasToolbar,
       pageOptions,
       innerShowFilters,
       showFiltersRow,

@@ -32,7 +32,6 @@ export const Default: Story = {
         :notAcknowledged="args.notAcknowledged"
         :hidePending="args.hidePending"
         :allowAcknowledge="args.allowAcknowledge"
-        :showSearch="false"
         v-model="args.modelValue"
       />
     `,
