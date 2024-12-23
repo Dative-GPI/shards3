@@ -1,4 +1,4 @@
-import { type AlertStatus, type Criticity } from "@dative-gpi/foundation-shared-domain/enums";
+import { type ApplicationScope, type AlertStatus, type Criticity } from "@dative-gpi/foundation-shared-domain/enums";
 import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { AlertDataDefinition, type AlertDataDefinitionDTO } from "./alertDataDefinition";
@@ -8,7 +8,8 @@ import { type DateVariable } from "../shared/dateVariable";
 
 export class AlertInfos {
   id: string;
-  deprecatedScenarioId: string;
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
   scenarioLabel: string;
   organisationId: string;
   deviceOrganisationId: string;
@@ -39,7 +40,8 @@ export class AlertInfos {
 
   constructor(params: AlertInfosDTO) {
     this.id = params.id;
-    this.deprecatedScenarioId = params.deprecatedScenarioId;
+    this.scenarioId = params.scenarioId;
+    this.scenarioScope = params.scenarioScope;
     this.scenarioLabel = params.scenarioLabel;
     this.organisationId = params.organisationId;
     this.deviceOrganisationId = params.deviceOrganisationId;
@@ -79,7 +81,8 @@ export class AlertInfos {
 
 export interface AlertInfosDTO {
   id: string;
-  deprecatedScenarioId: string;
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
   scenarioLabel: string;
   organisationId: string;
   deviceOrganisationId: string;
@@ -110,7 +113,7 @@ export interface AlertInfosDTO {
 }
 
 export interface AlertFilters {
-  deprecatedScenarioId?: string | null;
+  scenarioId?: string | null;
   deviceOrganisationId?: string | null;
   statuses?: AlertStatus[] | null;
   acknowledged?: boolean | null;

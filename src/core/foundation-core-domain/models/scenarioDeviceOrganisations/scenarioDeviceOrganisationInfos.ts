@@ -8,7 +8,6 @@ import type { ApplicationScope } from "@/shared/foundation-shared-domain/enums";
 
 export class ScenarioDeviceOrganisationInfos {
   id: string;
-  deprecatedScenarioId: string;
   scenarioLabel: string;
   deviceOrganisationId: string;
   deviceOrganisationImageId: string | null;
@@ -28,7 +27,6 @@ export class ScenarioDeviceOrganisationInfos {
 
   constructor(params: ScenarioDeviceOrganisationInfosDTO) {
     this.id = params.id;
-    this.deprecatedScenarioId = params.deprecatedScenarioId;
     this.scenarioLabel = params.scenarioLabel;
     this.deviceOrganisationId = params.deviceOrganisationId;
     this.deviceOrganisationImageId = params.deviceOrganisationImageId;
@@ -51,7 +49,6 @@ export class ScenarioDeviceOrganisationInfos {
 
 export interface ScenarioDeviceOrganisationInfosDTO {
   id: string;
-  deprecatedScenarioId: string;
   scenarioLabel: string;
   deviceOrganisationId: string;
   deviceOrganisationImageId: string | null;
@@ -71,7 +68,7 @@ export interface ScenarioDeviceOrganisationInfosDTO {
 }
 
 export interface ScenarioDeviceOrganisationFilters {
-  deprecatedScenarioId?: string | null;
+  scenarioId?: string | null;
   deviceOrganisationId?: string | null;
   deviceOrganisationsIds?: string[] | null;
 }
