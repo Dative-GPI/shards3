@@ -114,6 +114,7 @@ export interface AlertInfosDTO {
 
 export interface AlertFilters {
   scenarioId?: string | null;
+  scenarioScope?: ApplicationScope | null;
   deviceOrganisationId?: string | null;
   statuses?: AlertStatus[] | null;
   acknowledged?: boolean | null;
