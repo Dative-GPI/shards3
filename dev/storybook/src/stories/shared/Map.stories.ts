@@ -157,7 +157,7 @@ export const SingleLocationMap: Story = {
             :showZoomButtons="args.showZoomButtons"
             :enableScrollWheelZoom="args.enableScrollWheelZoom"
           >
-            <template v-slot:overlay>
+            <template #overlay-body>
               <FSRow>
                 <span>Fixed header for the overlay</span>
               </FSRow>
@@ -187,7 +187,7 @@ export const MultiLocationMap: Story = {
         v-model:selectedLocationId="args.selectedLocationId"
         :locations="args.locations"
       >
-        <template v-slot:overlay>
+        <template #overlay-body>
           <FSRow
             padding="8px"
           >
@@ -241,7 +241,7 @@ export const MultiLocationMapClick: Story = {
         v-model:selectedLocationId="args.selectedLocationId"
         :locations="args.locations"
       >
-        <template v-slot:overlay>
+        <template #overlay-body>
           <FSRow
             padding="8px"
           >
@@ -300,9 +300,14 @@ export const AreaMap: Story = {
         :locations="args.locations"
         :areas="args.areas"
       >
-        <template v-slot:overlay>
+        <template #overlay-body>
           <FSRow>
             <span>Overlay for area selection</span>
+          </FSRow>
+        </template>
+        <template #overlay-collapsed>
+          <FSRow>
+            <span>Collapsed overlay</span>
           </FSRow>
         </template>
       </FSMap>

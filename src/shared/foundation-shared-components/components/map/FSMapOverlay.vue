@@ -10,7 +10,7 @@
     v-show="isExtraSmall"
     ref="mobileOverlayWrapper"
     class="fs-map-overlay-mobile"
-    :style="{ height: $props.mode === 'expand' ? '90%' : ($props.mode === 'half' ? '60%' : '20px') }"
+    :style="{ height: $props.mode === 'expand' ? '90%' : ($props.mode === 'half' ? '60%' : 'auto') }"
   >
     <FSCard
       width="100%"
@@ -32,10 +32,10 @@
             <FSIcon>
               {{ $props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up' }}
             </FSIcon>
-            <slot
-              name="collapsed"
-            />
           </FSRow>
+          <slot
+            name="collapsed"
+          />
         </template>
         <template
           v-else
@@ -48,10 +48,10 @@
               :icon="$props.mode === 'expand' ? 'mdi-chevron-down' : 'mdi-chevron-up'"
               @click="$props.mode === 'expand' ? $emit('update:mode', 'collapse') : $emit('update:mode', 'expand')"
             />
-            <slot
-              name="collapsed"
-            />
           </FSRow>
+          <slot
+            name="collapsed"
+          />
         </template>
         <FSCol
           v-if="$props.mode !== 'collapse'"

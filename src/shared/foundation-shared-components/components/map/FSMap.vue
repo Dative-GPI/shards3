@@ -100,17 +100,18 @@
     </FSCol>
 
     <FSMapOverlay
-      v-if="$slots['overlay']"
       :mode="$props.overlayMode"
       @update:mode="$emit('update:overlayMode', $event)"
       @update:height="(height) => overlayHeight = height"
       @update:width="(width) => overlayWidth = width"
     >
       <template
-        #body
+        v-for="(_, name) in overlaySlots"
+        v-slot:[name]="slotData"
       >
         <slot
-          name="overlay"
+          :name="'overlay-' + name"
+          v-bind="slotData"
         />
       </template>
     </FSMapOverlay>
@@ -126,7 +127,7 @@ import { map as createMap, control, tileLayer, latLngBounds, latLng, type LatLng
 import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui/composables";
 import { type FSArea } from '@dative-gpi/foundation-shared-domain/models';
 
-import { useBreakpoints, useColors } from "../../composables";
+import { useBreakpoints, useColors, useSlots } from "../../composables";
 import { ColorEnum, type FSLocation, type MapLayer } from "../../models";
 
 import FSMapLayerButton from "./FSMapLayerButton.vue";
@@ -231,8 +232,9 @@ export default defineComponent({
   emits: ["update:modelValue", "update:selectedLocationId", "update:selectedAreaId", 'update:overlayMode', 'update:currentLayer', "click:latlng"],
   setup(props, { emit }) {
     const { $tr } = useTranslationsProvider();
-    const { getColors } = useColors();
     const { isExtraSmall } = useBreakpoints();
+    const { getColors } = useColors();
+    const { slots } = useSlots();
 
     const leafletContainer = ref<HTMLElement>();
     const locationGroupBounds = ref<LatLngBounds>();
@@ -312,6 +314,13 @@ export default defineComponent({
         bounds = areaGroupBounds.value;
       }
       return bounds as LatLngBounds;
+    });
+
+    const overlaySlots = computed(() => {
+      return Object.keys(slots).filter((slot) => slot.startsWith("overlay-")).reduce((acc, slot) => {
+        acc[slot.replace("overlay-", "")] = slots[slot];
+        return acc;
+      }, {} as Record<string, unknown>);
     });
 
     const calculateTargetPosition = (target: L.LatLng, zoom?: number) => {
@@ -468,7 +477,8 @@ export default defineComponent({
       actualLayer,
       mapLayers,
       gpsPosition,
-      style
+      style,
+      overlaySlots
     };
   }
 });
