@@ -34,6 +34,7 @@
             </FSIcon>
           </FSRow>
           <slot
+            v-if="$props.mode === 'collapse'"
             name="collapsed"
           />
         </template>
@@ -50,6 +51,7 @@
             />
           </FSRow>
           <slot
+            v-if="$props.mode === 'collapse'"
             name="collapsed"
           />
         </template>
