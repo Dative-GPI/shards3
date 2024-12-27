@@ -64,7 +64,7 @@
               <FSSpan
                 font="text-overline"
               >
-                {{ $tr("location-tile.devices", "Devices") }}
+                {{ $tr("ui.common.devices", "Equipment(s)") }}
               </FSSpan>
             </FSRow>
             <FSRow

@@ -2,7 +2,7 @@
   <div>
     <FSButton
       prependIcon="mdi-upload-outline"
-      :label="$tr('button.import-file', 'Import file')"
+      :label="$tr('ui.common.import-file', 'Import file')"
       :color="ColorEnum.Light"
       @click="onClick"
       v-bind="$attrs"

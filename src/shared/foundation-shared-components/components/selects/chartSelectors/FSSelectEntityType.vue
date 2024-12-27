@@ -40,13 +40,13 @@ export default defineComponent({
 
     const entityTypes = computed((): { id: EntityType; label: string }[] => {
       const items = [
-        { id: EntityType.Model, label: $tr("ui.entity-type.models", "Models") },
-        { id: EntityType.Device, label: $tr("ui.entity-type.devices", "Devices") },
-        { id: EntityType.Group, label: $tr("ui.entity-type.groups", "Groups") },
-        { id: EntityType.Location, label: $tr("ui.entity-type.locations", "Locations") }
+        { id: EntityType.Model, label: $tr("ui.common.models", "Model(s)") },
+        { id: EntityType.Device, label: $tr("ui.common.devices", "Device(s)") },
+        { id: EntityType.Group, label: $tr("ui.common.groups", "Group(s)") },
+        { id: EntityType.Location, label: $tr("ui.common.locations", "Location(s)") }
       ];
       if (props.useNone) {
-        items.unshift({ id: EntityType.None, label: $tr("ui.entity-type.none", "None") });
+        items.unshift({ id: EntityType.None, label: $tr("ui.common.none", "None") });
       }
       return items;
     });

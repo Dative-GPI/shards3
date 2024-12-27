@@ -24,7 +24,7 @@
           v-if="itemsCount > 0"
         >
           <FSButton
-            :label="$tr('button.edit', 'Edit')"
+            :label="$tr('ui.common.edit', 'Edit')"
             icon="mdi-pencil"
             @click="$emit('click:select')"
           />
@@ -33,7 +33,7 @@
           v-else
         >
           <FSButton
-            :label="$tr('button.select', 'Select')"
+            :label="$tr('ui.common.select', 'Select')"
             icon="mdi-plus-circle-multiple-outline"
             @click="$emit('click:select')"
           />
@@ -205,31 +205,31 @@ export default defineComponent({
       const items = [
         {
           id: EntityType.Model,
-          label: $tr("ui.entity-type.models", "Models")
+          label: $tr("ui.common.models", "Models")
         },
         {
           id: EntityType.Group,
-          label: $tr("ui.entity-type.groups", "Groups")
+          label: $tr("ui.common.groups", "Groups")
         },
         {
           id: EntityType.Location,
-          label: $tr("ui.entity-type.locations", "Locations")
+          label: $tr("ui.common.locations", "Locations")
         },
         {
           id: EntityType.Device,
-          label: $tr("ui.entity-type.devices", "Devices")
+          label: $tr("ui.common.devices", "Devices")
         },
         {
           id: EntityType.User,
-          label: $tr("ui.entity-type.users", "Users")
+          label: $tr("ui.common.users", "Users")
         },
         {
           id: EntityType.Dashboard,
-          label: $tr("ui.entity-type.dashboards", "Dashboards")
+          label: $tr("ui.common.dashboards", "Dashboards")
         },
         {
           id: EntityType.Folder,
-          label: $tr("ui.entity-type.folders", "Folders")
+          label: $tr("ui.common.folders", "Folders")
         }
       ];
 

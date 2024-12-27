@@ -128,7 +128,7 @@ export default defineComponent({
       if(props.showAssociation){
         return [{
           columnId: "association",
-          text: $tr("ui.common.association", ""),
+          text: $tr("ui.common.association", "Association"),
           value: "association",
           sortable: false,
           filterable: false,

@@ -106,20 +106,20 @@ export interface DateTimeRange {
 export const dayLabel = (day: Days | number): string => {
   switch (day) {
     case Days.Monday:
-      return $tr("ui.days.monday", "Monday");
+      return $tr("ui.common.monday", "Monday");
     case Days.Tuesday:
-      return $tr("ui.days.tuesday", "Tuesday");
+      return $tr("ui.common.tuesday", "Tuesday");
     case Days.Wednesday:
-      return $tr("ui.days.wednesday", "Wednesday");
+      return $tr("ui.common.wednesday", "Wednesday");
     case Days.Thursday:
-      return $tr("ui.days.thursday", "Thursday");
+      return $tr("ui.common.thursday", "Thursday");
     case Days.Friday:
-      return $tr("ui.days.friday", "Friday");
+      return $tr("ui.common.friday", "Friday");
     case Days.Saturday:
-      return $tr("ui.days.saturday", "Saturday");
+      return $tr("ui.common.saturday", "Saturday");
     case Days.Sunday:
-      return $tr("ui.days.sunday", "Sunday");
+      return $tr("ui.common.sunday", "Sunday");
     default:
-      return $tr("ui.days.all-days", "All days");
+      return $tr("ui.common.all-days", "All days");
   }
 }

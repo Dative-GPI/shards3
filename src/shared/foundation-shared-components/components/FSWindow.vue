@@ -1,10 +1,54 @@
 <template>
+  <template 
+    v-if="showError"
+  >
+    <slot 
+      name="error"
+      v-bind="{ goBack, width: $props.width, height: $props.height }"
+    >
+      <FSRow
+        padding="16px"
+        :width="$props.width"
+      >
+        <FSCol
+          align="center-center"
+          gap="16px"
+        >
+          <FSCol
+            align="center-center"
+          >
+            <FSIcon
+              size="42px"
+              :color="ColorEnum.Error"
+            >
+              mdi-alert-outline
+            </FSIcon>
+            <FSText
+              font="text-h3"
+            >
+              {{ $tr("window.no-access-title", "Nothing to see here") }}
+            </FSText>
+          </FSCol>
+          <FSText
+            :lineClamp="2"
+          >
+            {{ $tr("window.no-access-body", "It seems you either do not have access to this content, or there is nothing to display here") }}
+          </FSText>
+          <FSButton
+            :label="$tr('window.no-access-button', 'Go back')"
+            :color="ColorEnum.Primary"
+            @click="goBack"
+          />
+        </FSCol>
+      </FSRow>
+    </slot>
+  </template>
   <v-window
     class="fs-window"
+    ref="windowRef"
     :touch="false"
     :style="style"
     :modelValue="$props.modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
     v-bind="$attrs"
   >
     <template
@@ -35,8 +79,23 @@ import { computed, defineComponent, type PropType, ref, type StyleValue, type VN
 import { useSlots } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
+import { ColorEnum } from "../models";
+
+import FSButton from "./FSButton.vue";
+import FSCard from "./FSCard.vue";
+import FSIcon from "./FSIcon.vue";
+import FSText from "./FSText.vue";
+import FSRow from "./FSRow.vue";
+
 export default defineComponent({
   name: "FSWindow",
+  components: {
+    FSButton,
+    FSCard,
+    FSIcon,
+    FSText,
+    FSRow
+  },
   props: {
     width: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
@@ -54,11 +113,13 @@ export default defineComponent({
       default: 0
     }
   },
-  emits: ["update:modelValue"],
-  setup(props) {
+  emits: ["update:modelValue", "error"],
+  setup(props, { emit }) {
     const { slots, getChildren } = useSlots();
 
     delete slots.default;
+
+    const windowRef = ref<any | null>(null);
     
     const showOverflow = ref(true);
     const overflowTimeout = ref<NodeJS.Timeout | null>(null);
@@ -84,10 +145,43 @@ export default defineComponent({
       }, 560);
     });
 
+    const showError = computed((): boolean => {
+      if (!windowRef.value) {
+        return false;
+      }
+
+      // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/components/VWindow/VWindow.tsx
+      // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/composables/group.ts#L161
+      const group = windowRef.value.group;
+
+      if (!group.items.value.length) {
+        return false;
+      }
+      return !group.items.value.find((item: any) => item.value === props.modelValue);
+    });
+
+    const goBack = (): void => {
+      if (!windowRef.value) {
+        emit("error");
+        return;
+      }
+      
+      const group = windowRef.value.group;
+      if (!group.items.value.length) {
+        emit("error");
+        return;
+      }
+      emit("update:modelValue", group.items.value[0].value);
+    };
+
     return {
+      ColorEnum,
+      windowRef,
+      showError,
       slots,
       style,
       getChildren,
+      goBack,
       value
     };
   }

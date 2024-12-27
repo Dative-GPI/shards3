@@ -48,7 +48,7 @@ export default defineComponent({
         { id: Position.Ordinate, label: $tr("ui.position.ordinate", "Bottom") }
       ];
       if (props.useNone) {
-        items.unshift({ id: Position.None, label: $tr("ui.position.none", "None") });
+        items.unshift({ id: Position.None, label: $tr("ui.common.none", "None") });
       }
       return items;
     });

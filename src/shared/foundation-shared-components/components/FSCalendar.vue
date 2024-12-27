@@ -13,7 +13,7 @@
         align="center-right"
       >
         <FSButton
-          :label="$tr('ui.calendar.today', 'Today')"
+          :label="$tr('ui.common.today', 'Today')"
           @click="onClickToday"
         />
       </FSRow>

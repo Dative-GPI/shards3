@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="label ?? $tr('autocomplete.plot-per.label','Plot per')"
+    :label="label ?? $tr('ui.common.plot-per','Plot per')"
     :items="plotPerItems"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"

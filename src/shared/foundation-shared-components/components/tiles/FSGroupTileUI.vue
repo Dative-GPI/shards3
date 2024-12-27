@@ -62,7 +62,7 @@
               <FSSpan
                 font="text-overline"
               >
-                {{ $tr("group-tile.groups", "Group(s)") }}
+                {{ $tr("ui.common.groups", "Group(s)") }}
               </FSSpan>
             </FSRow>
             <FSRow
@@ -87,7 +87,7 @@
               <FSSpan
                 font="text-overline"
               >
-                {{ $tr("group-tile.devices", "Device(s)") }}
+                {{ $tr("ui.common.devices", "Device(s)") }}
               </FSSpan>
             </FSRow>
           </FSCol>

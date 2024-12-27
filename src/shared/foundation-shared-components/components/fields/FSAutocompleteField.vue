@@ -222,7 +222,7 @@
           padding="4px 3px"
         >
           <FSSpan>
-            {{ $tr("autocomplete-field.no-data", "No data") }}
+            {{ $tr("ui.common.no-data", "No data") }}
           </FSSpan>
         </FSRow>
       </template>

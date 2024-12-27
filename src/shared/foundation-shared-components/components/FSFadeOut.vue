@@ -69,7 +69,7 @@ export default defineComponent({
   },
   emits: ["scroll"],
   setup(props) {
-    const { windowHeight, windowWidth } = useBreakpoints();
+    const { windowHeight, windowWidth, isTouchScreenEnabled } = useBreakpoints();
     const { debounce } = useDebounce();
     const { getColors } = useColors();
 
@@ -84,14 +84,16 @@ export default defineComponent({
 
     const elementId = `id${uuidv4()}`;
 
+    const showOutsideScrollbar = computed(() => props.scrollOutside && !isTouchScreenEnabled);
+
     const style = computed((): StyleValue => ({
       "--fs-fade-out-height"            : props.height ? sizeToVar(props.height) : "initial",
       "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : "initial",
       "--fs-fade-out-width"             : sizeToVar(props.width),
       "--fs-fade-out-padding"           : sizeToVar(props.padding),
-      "--fs-fade-out-width-offset"      : props.scrollOutside ? '12px' : '0px',
-      "--fs-fade-out-padding-offset"    : props.scrollOutside ? '4px' : '0px',
-      "--fs-fade-out-margin-right"      : props.scrollOutside ? '-12px' : '0px',
+      "--fs-fade-out-width-offset"      : showOutsideScrollbar.value ? '12px' : '0px',
+      "--fs-fade-out-padding-offset"    : showOutsideScrollbar.value ? '4px' : '0px',
+      "--fs-fade-out-margin-right"      : showOutsideScrollbar.value ? '-12px' : '0px',
       "--fs-fade-out-mask-color"        : backgrounds.base,
       "--fs-fade-out-top-mask-height"   : props.disableTopMask ? '0px' : topMaskHeight.value,
       "--fs-fade-out-bottom-mask-height": props.disableBottomMask ? '0px' : bottomMaskHeight.value,

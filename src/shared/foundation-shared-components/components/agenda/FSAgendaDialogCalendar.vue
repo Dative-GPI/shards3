@@ -16,7 +16,7 @@
         <FSButton
           color="primary"
           width="100%"
-          :label="$tr('button.submit', 'Validate')"
+          :label="$tr('ui.common.submit', 'Validate')"
           @click="onSubmit"
         />
       </FSCol>

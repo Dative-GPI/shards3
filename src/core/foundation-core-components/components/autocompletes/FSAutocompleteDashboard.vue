@@ -1,6 +1,6 @@
 <template>
   <FSAutocompleteField
-    :label="$props.label ?? $tr('autocomplete.dashboard.label', 'Dashboard')"
+    :label="$props.label ?? $tr('ui.common.dashboard', 'Dashboard')"
     :toggleSet="!$props.toggleSetDisabled && toggleSet"
     :multiple="$props.multiple"
     :placeholder="placeholder"

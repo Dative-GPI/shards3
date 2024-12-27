@@ -37,15 +37,15 @@ export const useAppTimeZone = () => {
     return (parseInt(hours) * 60 + parseInt(minutes)) * 60 * 1000;
   };
 
-  const getMachineOffsetName = (): string => {
+  const getMachineOffsetName = (epoch: number | null = null): string => {
     const formatter = getMachineFormatter();
-    const currentDate = formatter.formatToParts(new Date());
-    const timeZoneName = currentDate.find((part) => part.type === "timeZoneName")?.value || "UTC+00:00";
+    const date = formatter.formatToParts(epoch ? new Date(epoch) : new Date());
+    const timeZoneName = date.find((part) => part.type === "timeZoneName")?.value || "UTC+00:00";
     return timeZoneName;
   };
 
-  const getMachineOffset = (): number => {
-    const timeZoneName = getMachineOffsetName();
+  const getMachineOffset = (epoch: number | null = null): number => {
+    const timeZoneName = getMachineOffsetName(epoch);
     const [hours, minutes] = timeZoneName.slice(3).split(':');
     if (isNaN(parseInt(hours)) || isNaN(parseInt(minutes))) {
       return 0;
