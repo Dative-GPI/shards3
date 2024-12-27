@@ -19,7 +19,8 @@
             :entity-type="$props.entityType"
             :filters="simpleListFilters"
             :showEdit="false"
-            :showRemove="false"
+            :showRemove="showRemove"
+            @click:remove="onRemove"
             direction="row"
           />
         </FSSlideGroup>
@@ -96,9 +97,14 @@ export default defineComponent({
       type: Object,
       required: false,
       default: null
+    },
+    showRemove: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
-  setup(props, { attrs }){
+  setup(props, { emit, attrs }){
     const simpleListFilters = computed(() => {
       switch(props.entityType) {
         case EntityType.Device:
@@ -188,10 +194,15 @@ export default defineComponent({
       };
     });
 
+    const onRemove = (id: string) => {
+      emit("update:modelValue", props.modelValue.filter((i) => i !== id));
+    }
+
     return {
       simpleListFilters,
       baseTableAttrs,
-      tableCode
+      tableCode,
+      onRemove
     }
   }
 });
