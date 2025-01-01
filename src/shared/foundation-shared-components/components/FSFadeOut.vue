@@ -3,7 +3,6 @@
     class="fs-fade-out"
     ref="fadeOutRef"
     :id="elementId"
-    :style="style"
     @scroll="$emit('scroll', $event); debounceMasks()"
   >
     <slot />
@@ -11,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, type StyleValue, watch } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, type PropType, ref, watch } from "vue";
 
 import { useBreakpoints, useColors, useDebounce } from "@dative-gpi/foundation-shared-components/composables";
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
@@ -65,6 +64,10 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    style:{
+      type: Object,
+      required: false
     }
   },
   emits: ["scroll"],
@@ -75,7 +78,7 @@ export default defineComponent({
 
     const backgrounds = getColors(ColorEnum.Background);
 
-    const fadeOutRef = ref(null);
+    const fadeOutRef = ref<HTMLElement | null>(null);
     const bottomMaskHeight = ref("0px");
     const topMaskHeight = ref("0px");
     const lastScroll = ref(0);
@@ -86,7 +89,7 @@ export default defineComponent({
 
     const showOutsideScrollbar = computed(() => props.scrollOutside && !isTouchScreenEnabled);
 
-    const style = computed((): StyleValue => ({
+    const style = computed((): {[index: string]: string} => ({
       "--fs-fade-out-height"            : props.height ? sizeToVar(props.height) : "initial",
       "--fs-fade-out-max-height"        : props.maxHeight ? sizeToVar(props.maxHeight) : "initial",
       "--fs-fade-out-width"             : sizeToVar(props.width),
@@ -97,7 +100,8 @@ export default defineComponent({
       "--fs-fade-out-mask-color"        : backgrounds.base,
       "--fs-fade-out-top-mask-height"   : props.disableTopMask ? '0px' : topMaskHeight.value,
       "--fs-fade-out-bottom-mask-height": props.disableBottomMask ? '0px' : bottomMaskHeight.value,
-      "--fs-fade-out-x-overflow"        : props.hideHorizontalOverflow ? 'hidden' : 'auto'
+      "--fs-fade-out-x-overflow"        : props.hideHorizontalOverflow ? 'hidden' : 'auto', 
+      ...props.style
     }));
 
     const handleMasks = () => {
@@ -147,6 +151,15 @@ export default defineComponent({
     });
 
     watch([() => windowWidth.value, () => windowHeight.value], debounceMasks);
+
+    watch(() => [style.value, fadeOutRef.value], () => {
+      if(!fadeOutRef.value || !style.value) {
+        return;
+      }
+      for(const key in style.value){
+        fadeOutRef.value.style.setProperty(key, style.value[key])
+      }
+    }, { immediate: true})
 
     return {
       fadeOutRef,
