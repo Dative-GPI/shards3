@@ -2,6 +2,7 @@ import type { CreateTimeRangeDTO } from "../shared/timeRange";
 import type { ScenarioDeviceOrganisationInfosDTO } from "./scenarioDeviceOrganisationInfos";
 import { ScenarioDeviceOrganisationInfos } from "./scenarioDeviceOrganisationInfos";
 import type { CreateScenarioParameterOverrideDTO } from "../scenarios/scenarioParameterOverride";
+import type { ApplicationScope } from "@dative-gpi/foundation-shared-domain/enums";
 
 
 export class ScenarioDeviceOrganisationDetails extends ScenarioDeviceOrganisationInfos {
@@ -16,7 +17,8 @@ export interface ScenarioDeviceOrganisationDetailsDTO extends ScenarioDeviceOrga
 }
 
 export interface CreateScenarioDeviceOrganisationDTO {
-  deprecatedScenarioId: string;
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
   deviceOrganisationId: string;
   overrideTimeRanges: boolean;
   timeRanges: CreateTimeRangeDTO[] | null;
@@ -27,7 +29,8 @@ export interface CreateScenarioDeviceOrganisationDTO {
 }
 
 export interface CreateManyScenarioDeviceOrganisationDTO {
-  deprecatedScenarioId: string;
+  scenarioId: string;
+  scenarioScope: ApplicationScope;
   deviceOrganisationsIds: string[];
   overrideTimeRanges: boolean;
   timeRanges: CreateTimeRangeDTO[] | null;
