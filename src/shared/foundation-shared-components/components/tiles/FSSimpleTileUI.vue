@@ -113,9 +113,9 @@ export default defineComponent({
       default: true
     },
     iconColor: {
-      type: String as PropType<ColorBase | null>,
+      type: String as PropType<ColorBase>,
       required: false,
-      default: null
+      default: ColorEnum.Light
     },
     activeColor: {
       type: String as PropType<ColorBase>,
