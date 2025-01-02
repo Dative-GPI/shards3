@@ -17,10 +17,13 @@
           {{ $tr("ui.common.every", "Every") }}
         </FSSpan>
         <FSSelectDays
+          width="200px"
+          :placeholder="$tr('ui.common.selected-days', '{0} selected day(s)', days.length)"
           :editable="$props.editable"
+          :multiple="true"
           :useAllDays="false"
           :hideHeader="true"
-          :modelValue="day"
+          :modelValue="days"
           @update:modelValue="onUpdateDay($event)"
         />
         <FSSpan
@@ -80,11 +83,13 @@ export default defineComponent({
 
     const selectedConfiguration = ref("custom");
 
-    const day = computed((): number => {
-      if (isNaN(parseInt(props.modelValue[4]))) {
-        return 0;
+    const days = computed((): number[] => {
+      try {
+        return props.modelValue[4].split(",").map((day) => parseInt(day) - 1);
+      } catch (error) {
+        console.error("Error parsing days:", error);
+        return [];
       }
-      return parseInt(props.modelValue[4]) - 1;
     });
 
     const time = computed((): number => {
@@ -94,16 +99,21 @@ export default defineComponent({
       return ((parseInt(props.modelValue[0])) + (parseInt(props.modelValue[1]) * 60)) * 60 * 1000;
     });
 
-    const onUpdateDay = (value: number): void => {
-      const hours = Math.floor(value / (60 * 60 * 1000));
-      const minutes = Math.floor(value / (60 * 1000) % 60);
-      emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${value + 1}`]);
+    const onUpdateDay = (value: number[]): void => {
+      if(value.length === 0) {
+        return;
+      }
+      const hours = Math.floor(time.value / (60 * 60 * 1000));
+      const minutes = Math.floor(time.value / (60 * 1000) % 60);
+      const daysCron = value.map((day) => day + 1).join(",");
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${daysCron}`]);
     };
 
     const onUpdateHours = (value: number): void => {
       const hours = Math.floor(value / (60 * 60 * 1000));
       const minutes = Math.floor(value / (60 * 1000) % 60);
-      emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${day.value + 1}`]);
+      const daysCron = days.value.map((day) => day + 1).join(",");
+      emit("update:modelValue", [`${minutes}`, `${hours}`, `*`, `*`, `${daysCron}`]);
     };
 
     return {
@@ -111,7 +121,7 @@ export default defineComponent({
       selectedConfiguration,
       ColorEnum,
       time,
-      day,
+      days,
       onUpdateHours,
       onUpdateDay
     };
