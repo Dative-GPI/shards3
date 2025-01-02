@@ -22,13 +22,50 @@
           gap="24px"
         >
           <FSFadeOut
+            :disableBottomMask="isKeyboardOpen"
             :maxHeight="maxHeight"
           >
             <slot
               :name="`step-${step}`"
             />
+            <FSRow
+              v-if="isKeyboardOpen"
+              padding="24px 0 0 0"
+            >
+              <slot
+                name="left-footer"
+              />
+              <FSRow
+                class="fs-dialog-actions"
+                align="top-right"
+                :wrap="false"
+              >
+                <FSButton
+                  v-if="$props.showCancelButton || currentStep > 1"
+                  :prependIcon="$props.cancelButtonPrependIcon"
+                  :appendIcon="$props.cancelButtonAppendIcon"
+                  :variant="$props.cancelButtonVariant"
+                  :color="$props.cancelButtonColor"
+                  :label="previousButtonLabel"
+                  @click="onPrevious()"
+                />
+                <FSButton
+                  v-if="$props.showSubmitButton || currentStep < $props.steps"
+                  type="submit"
+                  :prependIcon="$props.submitButtonPrependIcon"
+                  :appendIcon="$props.submitButtonAppendIcon"
+                  :color="$props.submitButtonColor"
+                  :variant="nextButtonVariant"
+                  :editable="$props.editable"
+                  :label="nextButtonLabel"
+                  :load="$props.load"
+                />
+              </FSRow>
+            </FSRow>
           </FSFadeOut>
-          <FSRow>
+          <FSRow
+            v-if="!isKeyboardOpen"
+          >
             <slot
               name="left-footer"
             />
@@ -182,7 +219,7 @@ export default defineComponent({
   },
   emits: ["click:cancelButton", "click:submitButton"],
   setup(props, { emit }) {
-    const { isMobileSized } = useBreakpoints();
+    const { isKeyboardOpen, isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const currentStep = ref(1);
@@ -190,12 +227,12 @@ export default defineComponent({
     const valids = ref(Array.from({ length: props.steps }, () => false));
 
     const maxHeight = computed(() => {
-      const other = 24 + 24                                          // Paddings
-        + (isMobileSized.value ? 24 : 32) + 24                       // Title
-        + (props.subtitle ? (isMobileSized.value ? 16 : 20) + 8 : 0) // Subtitle
-        + (props.steps > 1 ? 24 + 4 : 0)                             // Pagination
-        + (isMobileSized.value ? 36 : 40) + 24;                      // Footer
-      return `calc(100vh - 42px - ${other}px)`;
+      const other = 24 + 24                                                   // Paddings
+        + (isMobileSized.value ? 24 : 32) + 24                                // Title
+        + (props.subtitle ? (isMobileSized.value ? 16 : 20) + 8 : 0)          // Subtitle
+        + (props.steps > 1 ? 24 + 4 : 0)                                      // Pagination
+        + (isKeyboardOpen.value ? 0 : (isMobileSized.value ? 36 : 40) + 24);  // Footer
+      return `calc(100vh - 12px - ${other}px)`;
     });
 
     const previousButtonLabel = computed(() => {
@@ -241,6 +278,7 @@ export default defineComponent({
       previousButtonLabel,
       nextButtonVariant,
       nextButtonLabel,
+      isKeyboardOpen,
       currentStep,
       ColorEnum,
       maxHeight,
