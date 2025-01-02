@@ -103,9 +103,9 @@ export default defineComponent({
       default: false
     },
     align: {
-      type: String as PropType<"center-left" | "center-center">,
+      type: String as PropType<"center-center" | "center-left">,
       required: false,
-      default: "center-left"
+      default: "center-center"
     }
   },
   setup(props) {
