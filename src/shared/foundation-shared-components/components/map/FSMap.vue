@@ -259,7 +259,7 @@ export default defineComponent({
         name: "map",
         label: $tr("ui.map-layer.map", "Map"),
         image: new URL("../../assets/images/map/map.png", import.meta.url).href,
-        layer: tileLayer(`http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
+        layer: tileLayer(`https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
           maxZoom: 22,
           subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
           attribution: '© Google Map Data'
@@ -269,7 +269,7 @@ export default defineComponent({
         name: "imagery",
         label: $tr("ui.map-layer.imagery", "Imagery"),
         image: new URL("../../assets/images/map/imagery.png", import.meta.url).href,
-        layer: tileLayer(`http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
+        layer: tileLayer(`https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ""}`, {
           maxZoom: 22,
           subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
           attribution: '© Google Map Data'
