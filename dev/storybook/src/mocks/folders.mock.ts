@@ -83,4 +83,32 @@ export const FOLDERS: FolderDetailsDTO[] = [
         parentLabel: null,
         parentIcon: null
     },
+    {
+        id: "6",
+        label: "Folder 6",
+        code: "code 6",
+        colors: ["#000000", "#FFFFFF", "#cffcc7"],
+        icon: "mdi-folder-outline",
+        path: [],
+        tags: ["tag 6"],
+        organisationId: "1",
+        imageId: null,
+        parentId: null,
+        parentLabel: null,
+        parentIcon: null
+    },
+    {
+        id: "7",
+        label: "Folder 7",
+        code: "code 7",
+        colors: ["#FFFFFF", "#000000", "#15520b"],
+        icon: "mdi-folder-outline",
+        path: [],
+        tags: ["tag 7"],
+        organisationId: "1",
+        imageId: null,
+        parentId: null,
+        parentLabel: null,
+        parentIcon: null
+    },
 ]

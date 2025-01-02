@@ -20,9 +20,13 @@ export const Variations: Story = {
       values: [
           "1",
           "2",
-          "3"
+          "3",
+          "6",
+          "7"
       ],
       selected: [
+        false,
+        false,
         false,
         false,
         false
