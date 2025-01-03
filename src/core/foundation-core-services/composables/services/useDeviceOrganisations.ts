@@ -24,7 +24,8 @@ const DeviceOrganisationServiceFactory = new ServiceFactory<DeviceOrganisationDe
       const result = new DeviceOrganisationDetails(dto);
       notifyService.notify("update", result);
       return result;
-    })
+    }),
+    notifyReset: () => notifyService.notify("reset")
   }))
 ));
 
@@ -63,6 +64,8 @@ const trackDeviceOrganisations = () => {
 }
 
 export const useSubscribeToDeviceOrganisations = ComposableFactory.subscribe(DeviceOrganisationServiceFactory);
+
+export const resetDeviceOrganisations = DeviceOrganisationServiceFactory.notifyReset;
 
 export const useDeviceOrganisation = ComposableFactory.get(DeviceOrganisationServiceFactory, trackDeviceOrganisation);
 export const useDeviceOrganisations = ComposableFactory.getMany(DeviceOrganisationServiceFactory, trackDeviceOrganisations);
