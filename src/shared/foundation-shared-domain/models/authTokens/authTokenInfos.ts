@@ -1,4 +1,4 @@
-import { isoToEpoch } from "../../tools";
+import { isoToEpoch } from "../../tools/datesTools";
 
 export class AuthTokenInfos {
   id: string;

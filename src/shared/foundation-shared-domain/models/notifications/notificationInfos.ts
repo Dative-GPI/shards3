@@ -1,5 +1,7 @@
-import { type Criticity, type MessageType, type Scope } from "@dative-gpi/foundation-shared-domain/enums";
-import { isoToEpoch } from "@dative-gpi/foundation-shared-domain/tools";
+import { type MessageType } from "../../enums/messages";
+import { isoToEpoch } from "../../tools/datesTools";
+import { Scope } from "../../enums/applications";
+import { Criticity } from "../../enums/alerts";
 
 export class NotificationInfos {
   id: string;
@@ -32,6 +34,43 @@ export class NotificationInfos {
     this.acknowledgingTimestamp = params.acknowledgingTimestamp ?
       isoToEpoch(params.acknowledgingTimestamp) : null;
   }
+
+  static getFromAudience = (
+    notifications: NotificationInfos[],
+    application: boolean,
+    criticity: Criticity,
+    organisationId?: string | null,
+    userId?: string | null,
+  ): NotificationInfos[] => notifications.filter((n: NotificationInfos) => {
+    if (n.acknowledged) {
+      return false;
+    }
+    if (![Criticity.None, n.criticity].includes(criticity)) {
+      return false;
+    }
+    switch (n.audienceScope) {
+      case Scope.Organisation    :
+      case Scope.UserOrganisation: return organisationId && n.organisationId && n.organisationId === organisationId;
+      case Scope.User            : return userId && n.audienceId === userId;
+      case Scope.Application     :
+      case Scope.Public          : return application;
+  
+    }
+    return false;
+  });
+
+  static getForDrawer = (
+    notifications: NotificationInfos[],
+    organisationId: string,
+    userId: string,
+    criticity: Criticity = Criticity.None
+  ): NotificationInfos[] => NotificationInfos.getFromAudience(notifications, true, criticity, organisationId, userId);
+
+  static getForCard = (
+    notifications: NotificationInfos[],
+    organisationId: string,
+    criticity: Criticity = Criticity.None
+  ): NotificationInfos[] => NotificationInfos.getFromAudience(notifications, false, criticity, organisationId, null);
 }
 
 export interface NotificationInfosDTO {
