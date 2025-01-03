@@ -30,7 +30,7 @@ export const useBreakpoints = () => {
     });
 
     const isKeyboardOpen = computed((): boolean => {
-        return visualViewportHeight.value + 300 < window.screen.height;
+        return (visualViewportHeight.value + 300 < window.screen.height) && isTouchScreenEnabled.value;
     });
 
     const isMobileSized = computed((): boolean => {
