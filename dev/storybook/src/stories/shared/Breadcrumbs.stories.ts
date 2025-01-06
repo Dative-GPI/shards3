@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import Breadcrumbs from "@dative-gpi/foundation-shared-components/components/FSBreadcrumbs.vue";
+import FSBreadcrumbs from "@dative-gpi/foundation-shared-components/components/FSBreadcrumbs.vue";
 
 const meta = {
   title: 'Foundation/Shared/Breadcrumbs',
-  component: Breadcrumbs,
+  component: FSBreadcrumbs,
   tags: ['autodocs'],
   argTypes: {
     onClick: { action: 'clicked' }
   }
-} satisfies Meta<typeof Breadcrumbs>;
+} satisfies Meta<typeof FSBreadcrumbs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -36,15 +36,15 @@ export const Standard: Story = {
     }
   },
   render: (args, { argTypes }) => ({
-    components: { Breadcrumbs },
+    components: { FSBreadcrumbs },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
-        <Breadcrumbs :items="args.items1" />
-        <Breadcrumbs :items="args.items2" />
-        <Breadcrumbs :items="args.items3" />
+        <FSBreadcrumbs :items="args.items1" />
+        <FSBreadcrumbs :items="args.items2" />
+        <FSBreadcrumbs :items="args.items3" />
     `,
   })
 };
