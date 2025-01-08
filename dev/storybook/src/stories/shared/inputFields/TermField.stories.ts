@@ -31,7 +31,7 @@ export const Variations: Story = {
       end3: "alertend + 1h",
       start4: "2023-01-01T00:00:00",
       end4: "2024-01-01T00:00:00",
-      meta: { startDate: "2024-10-01T00:00:00", endDate: "2024-11-01T00:00:00" }
+      meta: {}
     }
   },
   render: (args, { argTypes }) => ({
