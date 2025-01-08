@@ -189,8 +189,8 @@ export default defineComponent({
     });
 
     const actualValue = computed(() => {
-      const dates = [parseForPicker(innerStartDate.value), parseForPicker(innerEndDate.value)]
-      if(dates.some(d => d == null)) {
+      const dates = [parseForPicker(innerStartDate.value), parseForPicker(innerEndDate.value)];
+      if (dates.some(d => d == null)) {
         return null;
       }
       return dates as [number, number];

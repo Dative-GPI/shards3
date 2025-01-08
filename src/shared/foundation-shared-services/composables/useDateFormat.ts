@@ -181,10 +181,11 @@ export const useDateFormat = () => {
   };
 
   const parseForPicker = (value: string, dateFormat: string = ISO_FORMAT): number | null => {
-    const date = addMilliseconds(parse(value, dateFormat, new Date()), getUserOffset());
-    if (!isFinite(date.getTime())) {
+    const dateWithoutDST = parse(value, dateFormat, new Date());
+    if (!isFinite(dateWithoutDST.getTime())) {
       return null;
     }
+    const date = addMilliseconds(dateWithoutDST, getUserOffset() + (getMachineOffset(dateWithoutDST.getTime()) - getUserOffset()));
     return date.getTime();
   };
 

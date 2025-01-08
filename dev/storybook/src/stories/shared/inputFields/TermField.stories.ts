@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSTermField from "@dative-gpi/foundation-shared-components/components/fields/FSTermField.vue";
+import FSButton from "@dative-gpi/foundation-shared-components/components/FSButton.vue";
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
+import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
+
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 const meta = {
   title: 'Foundation/Shared/Input fields/TermField',
@@ -18,6 +22,7 @@ type Story = StoryObj<typeof meta>;
 export const Variations: Story = {
   args: {
     args: {
+      setTimeZone: useAppTimeZone().setAppTimeZone,
       start1: "now/h",
       end1: "now",
       start2: "now - 3d",
@@ -26,17 +31,35 @@ export const Variations: Story = {
       end3: "alertend + 1h",
       start4: "2023-01-01T00:00:00",
       end4: "2024-01-01T00:00:00",
-      meta: {}
+      meta: { startDate: "2024-10-01T00:00:00", endDate: "2024-11-01T00:00:00" }
     }
   },
   render: (args, { argTypes }) => ({
-    components: { FSCol, FSTermField },
+    components: { FSTermField, FSButton, FSCol, FSRow },
     props: Object.keys(argTypes),
     setup() {
       return { ...args };
     },
     template: `
     <FSCol>
+      <FSRow>
+        <FSButton
+          label="Africa/Abidjan"
+          @click="args.setTimeZone('Africa/Abidjan')"
+        />
+        <FSButton
+          label="Europe/Paris"
+          @click="args.setTimeZone('Europe/Paris')"
+        />
+        <FSButton
+          label="America/Guatemala"
+          @click="args.setTimeZone('America/Guatemala')"
+        />
+        <FSButton
+          label="Asia/Kamchatka"
+          @click="args.setTimeZone('Asia/Kamchatka')"
+        />
+      </FSRow>
       <FSTermField
         label="Term"
         v-model:startDate="args.start1"
