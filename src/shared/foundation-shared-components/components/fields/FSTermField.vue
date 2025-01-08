@@ -652,22 +652,24 @@ export default defineComponent({
 
     watch(() => props.startDate, () => {
       if (props.startDate && parseForPicker(props.startDate) != null) {
+        innerDateSetting.value = DateSetting.Pick;
         if (props.startDate !== innerStartDate.value) {
           innerStartDate.value = props.startDate;
         }
       }
-      else {
+      else if (props.endDate !== innerEndDate.value) {
         reset();
       }
     });
 
     watch(() => props.endDate, () => {
       if (props.endDate && parseForPicker(props.endDate) != null) {
+        innerDateSetting.value = DateSetting.Pick;
         if (props.endDate !== innerEndDate.value) {
           innerEndDate.value = props.endDate;
         }
       }
-      else {
+      else if (props.startDate !== innerStartDate.value) {
         reset();
       }
     });
