@@ -2,11 +2,14 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { reactive, computed, ref } from 'vue';
 
 import { useDateFormat, useTermFieldDate } from '@dative-gpi/foundation-shared-services/composables';
+import { useAppTimeZone } from "@dative-gpi/foundation-shared-services/composables";
 
 import FSCol from "@dative-gpi/foundation-shared-components/components/FSCol.vue";
 import FSText from '@dative-gpi/foundation-shared-components/components/FSText.vue';
+import FSDivider from '@dative-gpi/foundation-shared-components/components/FSDivider.vue';
 import FSTermField from "@dative-gpi/foundation-shared-components/components/fields/FSTermField.vue";
 import FSTextField from '@dative-gpi/foundation-shared-components/components/fields/FSTextField.vue';
+import FSAutocompleteTimeZone from '@dative-gpi/foundation-shared-components/components/autocompletes/FSAutocompleteTimeZone.vue';
 
 const meta = {
   title: 'Foundation/Shared/Input fields/TermField',
@@ -40,13 +43,21 @@ export const Variations: Story = {
     editable: true,
   },
   render: (args, { argTypes }) => ({
-    components: { FSCol, FSTermField, FSText, FSTextField },
+    components: {
+      FSCol,
+      FSText,
+      FSDivider,
+      FSTermField,
+      FSTextField,
+      FSAutocompleteTimeZone
+    },
     setup() {
-      // Crée une copie locale réactive des args
+      
       const localArgs = reactive({
         ...args
       });
-
+      
+      const { setAppTimeZone, timeZone } = useAppTimeZone();
       const { convert } = useTermFieldDate();
       const { epochToLongTimeFormat } = useDateFormat();
 
@@ -54,8 +65,11 @@ export const Variations: Story = {
         variable: 'now - 2d',
       });
 
-      const convertedStartDate = computed(() => epochToLongTimeFormat(convert(localArgs.startDate, variables.value)));
-      const convertedEndDate = computed(() => epochToLongTimeFormat(convert(localArgs.endDate, variables.value)));
+      const convertedStartEpoch = computed(() => convert(localArgs.startDate, variables.value));
+      const convertedEndEpoch = computed(() => convert(localArgs.endDate, variables.value));
+
+      const convertedStartDate = computed(() => epochToLongTimeFormat(convertedStartEpoch.value));
+      const convertedEndDate = computed(() => epochToLongTimeFormat(convertedEndEpoch.value));
 
       // Émet les événements d'update vers Storybook
       const updateStartDate = (value: string) => {
@@ -68,7 +82,18 @@ export const Variations: Story = {
         args['onUpdate:endDate']?.(value);
       };
 
-      return { localArgs, convertedStartDate, convertedEndDate, updateStartDate, updateEndDate, variables };
+      return {
+        timeZone,
+        variables,
+        localArgs,
+        convertedEndDate,
+        convertedEndEpoch,
+        convertedStartDate,
+        convertedStartEpoch,
+        updateEndDate,
+        setAppTimeZone,
+        updateStartDate,
+      };
     },
     template: `
       <FSCol
@@ -82,31 +107,50 @@ export const Variations: Story = {
           @update:startDate="updateStartDate"
           @update:endDate="updateEndDate"
         />
-        <FSCol gap="4px">
+        <FSDivider />
+        <FSCol gap="24px">
           <FSText
-            font="text-h3"
+            font="text-h2"
           >
-            Evaluation de la date de début et de fin avec useTermFieldDate:
+            Outils supplémentaires:
           </FSText>
-          <FSRow>
+          <FSCol>
             <FSText
-              font="text-button"
+              font="text-h3"
             >
-              Date de début:
+              App time zone:
             </FSText>
-            <FSText>{{ convertedStartDate }}</FSText>
-          </FSRow>
-          <FSRow>
+            <FSAutocompleteTimeZone
+              :modelValue="timeZone"
+              @update:modelValue="setAppTimeZone"
+            />
+          </FSCol>
+          <FSCol>
             <FSText
-              font="text-button"
+              font="text-h3"
             >
-              Date de fin:
+              Evaluation de la date de début et de fin avec useTermFieldDate:
             </FSText>
-            <FSText>{{ convertedEndDate }}</FSText>
-          </FSRow>
-          <FSText>
-            Variables: {{ variables }}
-          </FSText>
+            <FSRow>
+              <FSText
+                font="text-button"
+              >
+                {{ localArgs.startDate }} :
+              </FSText>
+              <FSText>{{ convertedStartDate }} ( {{ convertedStartEpoch }} )</FSText>
+            </FSRow>
+            <FSRow>
+              <FSText
+                font="text-button"
+              >
+                {{ localArgs.endDate }} :
+              </FSText>
+              <FSText>{{ convertedEndDate }} ( {{ convertedEndEpoch }} )</FSText>
+            </FSRow>
+            <FSText>
+              Variables: {{ variables }}
+            </FSText>
+          <FSCol>
         </FSCol>
       </FSCol>
     `

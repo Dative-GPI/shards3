@@ -28,6 +28,7 @@ export const DeviceOrganisations: Story = {
     template: `
       <FSSelectEntitiesList
         :entityType="args.entityType"
+        :showRemove="true"
         v-model="args.modelValue"
       />
     `,

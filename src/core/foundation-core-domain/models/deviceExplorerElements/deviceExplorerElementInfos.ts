@@ -1,10 +1,12 @@
-import { type DeviceExplorerElementType } from "@dative-gpi/foundation-shared-domain/enums";
+import { DeviceExplorerElementType } from "@dative-gpi/foundation-shared-domain/enums";
 
 import { DeviceConnectivityDetails, type DeviceConnectivityDetailsDTO } from "../deviceConnectivities/deviceConnectivityDetails";
 import { DeviceOrganisationAlert, type DeviceOrganisationAlertDTO } from "../deviceOrganisations/deviceOrganisationAlert";
 import { DeviceStatusDetails, type DeviceStatusDetailsDTO } from "../deviceStatuses/deviceStatusDetails";
 import { ModelStatusInfos, type ModelStatusInfosDTO } from "../modelStatuses/modelStatusInfos";
+import { type DeviceOrganisationInfos } from "../deviceOrganisations/deviceOrganisationInfos";
 import { PathCrumb, type PathCrumbDTO } from "../shared/pathCrumb";
+import { type GroupInfos } from "../groups/groupInfos";
 
 export class DeviceExplorerElementInfos {
   id: string;
@@ -72,6 +74,37 @@ export class DeviceExplorerElementInfos {
     this.alerts = params.alerts?.map(dto => new DeviceOrganisationAlert(dto)) ?? null;
     this.worstAlert = params.worstAlert ? new DeviceOrganisationAlert(params.worstAlert) : null;
   }
+
+  static fromDeviceOrganisation = (deviceOrganisation: DeviceOrganisationInfos): DeviceExplorerElementInfos => ({
+    ...deviceOrganisation,
+    type: DeviceExplorerElementType.DeviceOrganisation,
+    parentId: deviceOrganisation.groupId,
+    icon: null,
+    groupsIds: null,
+    deviceOrganisationsIds: null,
+    modelsIds: null,
+    recursiveGroupsIds: null,
+    recursiveDeviceOrganisationsIds: null,
+    recursiveModelsIds: null
+  });
+
+  static fromGroup = (group: GroupInfos): DeviceExplorerElementInfos => ({
+    ...group,
+    type: DeviceExplorerElementType.Group,
+    manufacturerLabel: null,
+    articleLabel:  null,
+    modelLabel: null,
+    ownerLabel: null,
+    managerName: null,
+    unrestricted: null,
+    online: null,
+    meta: null,
+    modelStatuses: null,
+    status: null,
+    connectivity: null,
+    alerts: null,
+    worstAlert: null
+  });
 }
 
 export interface DeviceExplorerElementInfosDTO {
