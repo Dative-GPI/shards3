@@ -1,23 +1,23 @@
 import { useAppTimeZone } from './app/useAppTimeZone';
-import { useDateFormat } from './useDateFormat';
+import { useDateFormat } from '@dative-gpi/foundation-shared-services/composables/useDateFormat';
 
 export const useTermFieldDate = () => {
-  const { todayToEpoch } = useDateFormat();
-  const { getUserOffset } = useAppTimeZone();
+  const { getOffsetDifference } = useAppTimeZone();
+  const { parseForPicker } = useDateFormat();
 
   const EXPRESSION = /(?:(?:([-\+])(\d*))?(\w+))?(?:\/(\w))?/g;
   const NOW = 'now';
 
   const convert = (value: string, variables: { [key: string]: number | string } = {}): number => {
     //Try to convert the value to a date
-    const date = new Date(value);
-    if (!isNaN(date.getTime())) {
-      return date.getTime() + getUserOffset(date.getTime());
+    const date = parseForPicker(value);
+    if (date) {
+      return date;
     }
 
     const currentVariables = {
       ...variables,
-      [NOW]: todayToEpoch()
+      [NOW]: new Date().getTime()
     };
 
     return applyFormula(value, currentVariables);
@@ -108,23 +108,24 @@ export const useTermFieldDate = () => {
     }
   }
 
-  const applySpecial = (timestamp: number, special: string): number => {
+  const applySpecial = (timestamp: number, special: string): number => {    
+    timestamp += getOffsetDifference(timestamp);
     switch (special) {
       case "h":
-        return new Date(timestamp).setMinutes(0, 0, 0);
+        return new Date(timestamp).setMinutes(0, 0, 0) - getOffsetDifference(timestamp);
       case "d":
-        return new Date(timestamp).setHours(0, 0, 0, 0);
+        return new Date(timestamp).setHours(0, 0, 0, 0) - getOffsetDifference(timestamp);
       case "w":
         const date = new Date(timestamp);
         const day = date.getDay();
         const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-        return new Date(date.setDate(diff)).setHours(0, 0, 0, 0);
+        return new Date(date.setDate(diff)).setHours(0, 0, 0, 0) - getOffsetDifference(timestamp);
       case "M":
         const dateM = new Date(timestamp);
-        return new Date(dateM.setMonth(dateM.getMonth(), 1)).setHours(0, 0, 0, 0);
+        return new Date(dateM.setMonth(dateM.getMonth(), 1)).setHours(0, 0, 0, 0) - getOffsetDifference(timestamp);
       case "y":
         const dateY = new Date(timestamp);
-        return new Date(dateY.setMonth(0, 1)).setHours(0, 0, 0, 0);
+        return new Date(dateY.setMonth(0, 1)).setHours(0, 0, 0, 0) - getOffsetDifference(timestamp);
       default:
         break;
     }

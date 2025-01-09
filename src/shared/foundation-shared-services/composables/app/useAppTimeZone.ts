@@ -53,8 +53,8 @@ export const useAppTimeZone = () => {
     return (parseInt(hours) * 60 + parseInt(minutes)) * 60 * 1000;
   }
 
-  const getOffsetDifference = (): number => {
-    return getUserOffset() - getMachineOffset();
+  const getOffsetDifference = (epoch: number | null = null): number => {
+    return getUserOffset(epoch) - getMachineOffset(epoch);
   };
 
   const ready = computed(() => timeZone.value !== null);
