@@ -162,14 +162,14 @@ export const useDateFormat = () => {
 
   const pickerToEpoch = (value: Date | null | undefined): number => {
     if (value != null) {
-      return value.getTime() - getOffsetDifference();
+      return value.getTime() - getOffsetDifference(value.getTime());
     }
     return 0;
   };
 
   const epochToPicker = (value: number | null | undefined): Date => {
     if (value != null) {
-      return new Date(value + getOffsetDifference());
+      return new Date(value + getOffsetDifference(value));
     }
     return new Date(0);
   };
@@ -201,7 +201,7 @@ export const useDateFormat = () => {
     if (!isFinite(dateWithoutDST.getTime())) {
       return null;
     }
-    const date = addMilliseconds(dateWithoutDST, getUserOffset() + (getMachineOffset(dateWithoutDST.getTime()) - getUserOffset()));
+    const date = addMilliseconds(dateWithoutDST, getMachineOffset(dateWithoutDST.getTime()));
     return date.getTime();
   };
 
