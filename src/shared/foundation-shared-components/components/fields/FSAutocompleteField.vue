@@ -689,7 +689,7 @@ export default defineComponent({
     const maxHeight = computed(() => {
       const other = 8 + 8                      // Paddings
         + (isMobileSized.value ? 36 : 40) + 8; // Header
-      return `calc(100vh - 40px - ${other}px)`;
+      return `calc(100dvh - 40px - ${other}px)`;
     });
 
     const mobileValue = computed((): string | null => {
