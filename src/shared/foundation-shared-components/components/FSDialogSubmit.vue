@@ -11,53 +11,14 @@
       #body
     >
       <FSFadeOut
-        :disableBottomMask="isKeyboardOpen"
         :maxHeight="maxHeight"
       >
         <slot
           name="body"
         />
-        <slot
-          v-if="isKeyboardOpen"
-          name="footer"
-        >
-          <FSRow
-            padding="24px 0 0 0"
-          >
-            <slot
-              name="left-footer"
-            />
-            <FSRow
-              align="top-right"
-              :wrap="false"
-            >
-              <FSButton
-                v-if="$props.showCancelButton"
-                :prependIcon="$props.cancelButtonPrependIcon"
-                :appendIcon="$props.cancelButtonAppendIcon"
-                :variant="$props.cancelButtonVariant"
-                :color="$props.cancelButtonColor"
-                :label="cancelLabel"
-                @click="$emit('update:modelValue', false)"
-              />
-              <FSButton
-                v-if="$props.showSubmitButton"
-                :prependIcon="$props.submitButtonPrependIcon"
-                :appendIcon="$props.submitButtonAppendIcon"
-                :variant="$props.submitButtonVariant"
-                :color="$props.submitButtonColor"
-                :editable="$props.editable"
-                :label="submitLabel"
-                :load="$props.load"
-                @click="$emit('click:submitButton')"
-              />
-            </FSRow>
-          </FSRow>
-        </slot>
       </FSFadeOut>
     </template>
     <template
-      v-if="!isKeyboardOpen"
       #footer
     >
       <slot
@@ -212,14 +173,14 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "click:submitButton"],
   setup(props) {
-    const { isKeyboardOpen, isMobileSized } = useBreakpoints();
+    const { isMobileSized } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
 
     const maxHeight = computed(() => {
-      const other = 24 + 24                                                   // Paddings
-        + (isMobileSized.value ? 24 : 32) + 24                                // Title
-        + (props.subtitle ? (isMobileSized.value ? 16 : 20) + 8 : 0)          // Subtitle
-        + (isKeyboardOpen.value ? 0 : (isMobileSized.value ? 36 : 40) + 24);  // Footer
+      const other = 24 + 24                                          // Paddings
+        + (isMobileSized.value ? 24 : 32) + 24                       // Title
+        + (props.subtitle ? (isMobileSized.value ? 16 : 20) + 8 : 0) // Subtitle
+        + (isMobileSized.value ? 36 : 40) + 24;                      // Footer
       return `calc(100vh - 12px - ${other}px)`;
     });
 
@@ -232,7 +193,6 @@ export default defineComponent({
     });
 
     return {
-      isKeyboardOpen,
       cancelLabel,
       submitLabel,
       ColorEnum,

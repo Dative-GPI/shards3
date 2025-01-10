@@ -29,10 +29,6 @@ export const useBreakpoints = () => {
         return navigator.maxTouchPoints > 0;
     });
 
-    const isKeyboardOpen = computed((): boolean => {
-        return (visualViewportHeight.value + 300 < window.screen.height) && isTouchScreenEnabled.value;
-    });
-
     const isMobileSized = computed((): boolean => {
         return windowOuterWidth.value < 1264;
     });
@@ -74,7 +70,6 @@ export const useBreakpoints = () => {
 
     return {
         isTouchScreenEnabled,
-        isKeyboardOpen,
         isMobileSized,
         isExtraSmall,
         windowHeight,
