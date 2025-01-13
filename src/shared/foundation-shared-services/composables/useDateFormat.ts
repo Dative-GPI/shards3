@@ -43,6 +43,14 @@ export const useDateFormat = () => {
     return date.toLocaleString(languageCode.value, { ...OPTIONS.dayMonthLongOnly, timeZone: timeZone.value });
   }
 
+  const epochToDayMonthShortOnly = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.dayMonthShortOnly, timeZone: timeZone.value });
+  }
+
   const epochToShortDateFormat = (value: number | null | undefined): string => {
     if (value == null || !isFinite(value)) {
       return "";
@@ -72,6 +80,14 @@ export const useDateFormat = () => {
     }
     const date = new Date(value);
     return date.toLocaleString(languageCode.value, { ...OPTIONS.shortTime, timeZone: timeZone.value });
+  };
+
+  const epochToMonthShortTimeFormat = (value: number | null | undefined): string => {
+    if (value == null || !isFinite(value)) {
+      return "";
+    }
+    const date = new Date(value);
+    return date.toLocaleString(languageCode.value, { ...OPTIONS.monthShortTime, timeZone: timeZone.value });
   };
 
   const epochToLocalDayStart = (value: number | null | undefined): number => {
@@ -213,6 +229,8 @@ export const useDateFormat = () => {
     epochToMonthYearOnlyFormat,
     epochToShortDateFormat,
     epochToShortTimeFormat,
+    epochToDayMonthShortOnly,
+    epochToMonthShortTimeFormat,
     epochToShortTimeOnlyFormat,
     epochToTimeOnlyFormat,
     epochToWeekNumber,

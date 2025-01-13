@@ -5,3 +5,4 @@ export * from "./useDateFormat";
 export * from "./useFiles";
 export * from "./useFoundationShared";
 export * from "./useRouting";
+export * from "./useTermFieldDate";

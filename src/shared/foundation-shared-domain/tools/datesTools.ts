@@ -7,6 +7,10 @@ export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
     day: "2-digit",
     month: "long"
   },
+  dayMonthShortOnly: {
+    day: "2-digit",
+    month: "2-digit"
+  },
   shortDate: {
     day: "2-digit",
     month: "2-digit",
@@ -17,6 +21,12 @@ export const OPTIONS: { [key: string]: Intl.DateTimeFormatOptions } = {
     day: "2-digit",
     month: "long",
     year: "numeric"
+  },
+  monthShortTime: {
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
   },
   shortTime: {
     day: "2-digit",
