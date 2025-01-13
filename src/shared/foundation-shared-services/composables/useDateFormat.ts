@@ -9,7 +9,7 @@ export const useDateFormat = () => {
   const { $tr } = useTranslationsProvider();
 
   const { languageCode } = useAppLanguageCode();
-  const { timeZone, getOffsetDifference, getMachineOffset, getUserOffset } = useAppTimeZone();
+  const { timeZone, getOffsetDifference, getMachineOffset } = useAppTimeZone();
 
   const isEpochToday = (value: number | null | undefined): boolean => {
     if (value == null || !isFinite(value)) {
@@ -146,14 +146,14 @@ export const useDateFormat = () => {
 
   const pickerToEpoch = (value: Date | null | undefined): number => {
     if (value != null) {
-      return value.getTime() - getOffsetDifference();
+      return value.getTime() - getOffsetDifference(value.getTime());
     }
     return 0;
   };
 
   const epochToPicker = (value: number | null | undefined): Date => {
     if (value != null) {
-      return new Date(value + getOffsetDifference());
+      return new Date(value + getOffsetDifference(value));
     }
     return new Date(0);
   };
@@ -181,10 +181,14 @@ export const useDateFormat = () => {
   };
 
   const parseForPicker = (value: string, dateFormat: string = ISO_FORMAT): number | null => {
-    const date = addMilliseconds(parse(value, dateFormat, new Date()), getUserOffset());
-    if (!isFinite(date.getTime())) {
+    // parse the date with the machine's current timezone. The last parameter is used to fill the gaps in the date string
+    const dateWithoutCorrection = parse(value, dateFormat, new Date());
+    if (!isFinite(dateWithoutCorrection.getTime())) {
       return null;
     }
+    // check if the timezone at the time of the date is different from the current machine timezone
+    // adjust if needed (this is the case when the date is at summer time and the machine is at winter time, for example)
+    const date = addMilliseconds(dateWithoutCorrection, getMachineOffset(dateWithoutCorrection.getTime()));
     return date.getTime();
   };
 

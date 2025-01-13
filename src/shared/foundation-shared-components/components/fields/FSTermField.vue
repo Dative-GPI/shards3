@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type PropType, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from "vue";
 import _ from "lodash";
 
 import { DateRules, NumberRules, TextRules } from "@dative-gpi/foundation-shared-components/models";
@@ -189,8 +189,8 @@ export default defineComponent({
     });
 
     const actualValue = computed(() => {
-      const dates = [parseForPicker(innerStartDate.value), parseForPicker(innerEndDate.value)]
-      if(dates.some(d => d == null)) {
+      const dates = [parseForPicker(innerStartDate.value), parseForPicker(innerEndDate.value)];
+      if (dates.some(d => d == null)) {
         return null;
       }
       return dates as [number, number];
@@ -650,14 +650,33 @@ export default defineComponent({
       innerDateValue.value = 1;
     };
 
-    watch([() => props.startDate, () => props.endDate], () => {
-      if (
-        innerStartDate.value !== props.startDate ||
-        innerEndDate.value !== props.endDate
-      ) {
+    watch(() => props.startDate, () => {
+      if (props.startDate && parseForPicker(props.startDate) != null) {
+        innerDateSetting.value = DateSetting.Pick;
+        if (props.startDate !== innerStartDate.value) {
+          innerStartDate.value = props.startDate;
+        }
+      }
+      else if (props.endDate !== innerEndDate.value) {
         reset();
       }
-    }, { immediate: true });
+    });
+
+    watch(() => props.endDate, () => {
+      if (props.endDate && parseForPicker(props.endDate) != null) {
+        innerDateSetting.value = DateSetting.Pick;
+        if (props.endDate !== innerEndDate.value) {
+          innerEndDate.value = props.endDate;
+        }
+      }
+      else if (props.startDate !== innerStartDate.value) {
+        reset();
+      }
+    });
+
+    onMounted((): void => {
+      reset();
+    });
 
     return {
       innerDateSetting,
