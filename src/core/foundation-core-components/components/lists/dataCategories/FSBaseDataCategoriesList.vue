@@ -19,6 +19,7 @@
       maskHeight="0px"
     >
       <FSDataTable
+        defaultMode="iterator"
         :loading="fetchingDataCategories"
         :items="dataCategories"
         :modelValue="$props.modelValue"
