@@ -65,6 +65,15 @@
       />
     </template>
     <template
+      #item.tags="{ item }"
+    >
+      <FSTagGroup
+        variant="slide"
+        :editable="false"
+        :tags="item.tags"
+      />
+    </template>
+    <template
       #item.tile="{ item, toggleSelect }"
     >
       <FSFolderTileUI
@@ -109,6 +118,7 @@ import type { FolderFilters, DashboardOrganisationFilters, DashboardShallowFilte
 
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSImage from "@dative-gpi/foundation-shared-components/components/FSImage.vue";
+import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSIconCheck from "@dative-gpi/foundation-shared-components/components/FSIconCheck.vue";
 import FSFolderTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSFolderTileUI.vue";
 import FSDashboardShallowTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardShallowTileUI.vue";
@@ -119,13 +129,14 @@ import FSDataTable from "../lists/FSDataTable.vue";
 export default defineComponent({
   name: "FSBaseFoldersExplorer",
   components: {
-    FSDataTable,
-    FSIcon,
-    FSFolderTileUI,
     FSDashboardOrganisationTileUI,
     FSDashboardShallowTileUI,
+    FSFolderTileUI,
+    FSDataTable,
     FSIconCheck,
-    FSImage
+    FSTagGroup,
+    FSImage,
+    FSIcon
   },
   props: {
     foldersFilters: {

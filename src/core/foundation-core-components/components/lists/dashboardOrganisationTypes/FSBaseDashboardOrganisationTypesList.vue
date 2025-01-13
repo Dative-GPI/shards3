@@ -55,6 +55,15 @@
       />
     </template>
     <template
+      #item.tags="{ item }"
+    >
+      <FSTagGroup
+        variant="slide"
+        :editable="false"
+        :tags="item.tags"
+      />
+    </template>
+    <template
       #item.tile="{ item, toggleSelect }"
     >
       <FSDashboardOrganisationTypeTileUI
@@ -69,26 +78,28 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
+import { computed, defineComponent, onMounted, type PropType, watch } from "vue";
 import type { RouteLocation } from "vue-router";
-import { computed, defineComponent, onMounted, watch } from "vue";
 import _ from "lodash";
 
 import { useAppOrganisationId, useCurrentUserOrganisation, useDashboardOrganisationTypes } from "@dative-gpi/foundation-core-services/composables";
 import type { DashboardOrganisationTypeFilters, DashboardOrganisationTypeInfos } from "@dative-gpi/foundation-core-domain/models";
 import { useOrganisation } from "@dative-gpi/foundation-shared-services/composables";
 
-import FSDataTable from "../FSDataTable.vue";
+import FSTagGroup from "@dative-gpi/foundation-shared-components/components/FSTagGroup.vue";
 import FSIcon from "@dative-gpi/foundation-shared-components/components/FSIcon.vue";
 import FSRow from "@dative-gpi/foundation-shared-components/components/FSRow.vue";
 import FSText from "@dative-gpi/foundation-shared-components/components/FSText.vue";
 import FSChip from "@dative-gpi/foundation-shared-components/components/FSChip.vue";
 import FSDashboardOrganisationTypeTileUI from "@dative-gpi/foundation-shared-components/components/tiles/FSDashboardOrganisationTypeTileUI.vue";
 
+import FSDataTable from "../FSDataTable.vue";
+
 export default defineComponent({
   name: "FSBaseDashboardOrganisationTypesList",
   components: {
     FSDataTable,
+    FSTagGroup,
     FSIcon,
     FSRow,
     FSText,
