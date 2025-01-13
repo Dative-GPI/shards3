@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :loading="fetchingDataDefinitions"
     :items="dataDefinitions"
     :tableCode="$props.tableCode"

@@ -62,8 +62,8 @@ export const Variations: Story = {
         <FSChip width="500px" align="center-center" color="primary" variant="standard" label="500px with align center-center" />
       </div>
       <div style="display: flex; gap: 10px;">
-        <FSChip width="fill" align="center-center" color="primary" variant="standard" label="fill with align center-center" />
-        <FSChip width="fill" color="primary" variant="standard" label="fill without align center-center" />
+        <FSChip width="fill" align="center-left" color="primary" variant="standard" label="fill with align center-left" />
+        <FSChip width="fill" color="primary" variant="standard" label="fill without align center-left" />
       </div>
     </div>`
   })

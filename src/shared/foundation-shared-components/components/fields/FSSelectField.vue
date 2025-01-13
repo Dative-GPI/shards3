@@ -199,6 +199,7 @@
   </FSCol>
   <FSBaseField
     v-else
+    :style="style"
     :description="$props.description"
     :hideHeader="$props.hideHeader"
     :required="$props.required"
@@ -246,7 +247,6 @@
         :rules="$props.rules"
         :hideDetails="true"
         :menuIcon="null"
-        :style="style"
         :modelValue="$props.modelValue"
         @update:modelValue="onSingleChange"
         v-bind="$attrs"
@@ -385,6 +385,7 @@
       </v-select>
       <FSSlideGroup
         v-if="$props.multiple && Array.isArray($props.modelValue)"
+        class="fs-select-field-multiple-slide-group"
       >
         <FSCard
           v-for="(item, index) in $props.items.filter((item: any) => $props.modelValue.includes(item[$props.itemValue!]))"
@@ -412,6 +413,7 @@
             <FSButton
               icon="mdi-close"
               variant="icon"
+              :editable="$props.editable"
               :color="ColorEnum.Dark"
               @click="() => onCheckboxChange(item[$props.itemValue!])"
             />
@@ -566,6 +568,7 @@ export default defineComponent({
           "--fs-select-field-border-color"       : lights.base,
           "--fs-select-field-color"              : lights.dark,
           "--fs-select-field-active-border-color": lights.base,
+          "--fs-select-field-multiple-opacity"   : "var(--v-disabled-opacity)",
           "--fs-base-field-input-height"         : isMobileSized.value ? "34px" : "38px",
           ...fontStyles.value
         };
@@ -577,6 +580,7 @@ export default defineComponent({
         "--fs-select-field-color"              : darks.base,
         "--fs-select-field-active-border-color": darks.dark,
         "--fs-select-field-error-border-color" : errors.base,
+        "--fs-select-field-multiple-opacity"   : "1",
         "--fs-base-field-input-height"         : isMobileSized.value ? "34px" : "38px",
         ...fontStyles.value
       };

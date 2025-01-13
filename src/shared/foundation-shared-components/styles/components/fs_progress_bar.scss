@@ -1,0 +1,14 @@
+.fs-progress-bar-gradient {
+    flex: 1;
+    background-color: var(--progress-bar-background-color);
+    height: 8px;
+    border-radius: 4px;
+
+    div {
+        transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        background: linear-gradient(to right, var(--progress-bar-gradient-start-color) 0%, var(--progress-bar-gradient-end-color) var(--progress-bar-total-relative-width));
+        width: var(--progress-bar-gradient-width);
+        border-radius: 4px;
+    }
+}

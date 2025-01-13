@@ -72,6 +72,7 @@
       v-else
     >
       <v-menu
+        min-width="300px"
         :closeOnContentClick="false"
         :modelValue="menu && $props.editable"
         @update:modelValue="menu = $event"
