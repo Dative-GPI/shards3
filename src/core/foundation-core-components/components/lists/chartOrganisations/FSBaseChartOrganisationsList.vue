@@ -1,5 +1,6 @@
 <template>
   <FSDataTable
+    defaultMode="iterator"
     :items="chartOrganisations"
     :itemTo="$props.itemTo"
     :loading="fetchingChartOrganisations"
