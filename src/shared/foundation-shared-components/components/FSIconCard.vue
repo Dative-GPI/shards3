@@ -26,10 +26,10 @@ import { defineComponent, type PropType, computed } from "vue";
 import { ColorEnum, type ColorBase } from "@dative-gpi/foundation-shared-components/models";
 
 import { sizeToVar } from "../utils";
+import { useColors } from "../composables";
 
 import FSCard from "./FSCard.vue";
 import FSIcon from "./FSIcon.vue";
-import { useColors } from "../composables";
 
 export default defineComponent({
   name: "FSIconCard",
@@ -81,6 +81,7 @@ export default defineComponent({
   },
   setup(props){
     const { getColors } = useColors();
+    
     const colors = computed(() => {
       return Array.isArray(props.backgroundColor) 
         ? getColors(props.backgroundColor[Math.floor(props.backgroundColor.length/2)]) 
@@ -102,12 +103,10 @@ export default defineComponent({
         case "standard":
           switch (props.iconColor) {
             case ColorEnum.Dark :
-            case ColorEnum.Light: return colors.value.lightContrast!;
+            case ColorEnum.Light:
             default: return colors.value.lightContrast!
           };
         case "background": return colors.value.base
-        case "gradient" :
-        case "full": 
         default: return colors.value.baseContrast!
       }
     });

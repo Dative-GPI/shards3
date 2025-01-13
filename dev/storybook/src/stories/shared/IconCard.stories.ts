@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import FSIconCard from "@dative-gpi/foundation-shared-components/components/FSIconCard.vue";
-import { icon } from 'leaflet';
 
 const meta = {
   title: 'Foundation/Shared/IconCard',
