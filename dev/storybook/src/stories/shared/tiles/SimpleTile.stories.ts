@@ -4,7 +4,7 @@ import FSSimpleTileUI from "@dative-gpi/foundation-shared-components/components/
 import { icon } from 'leaflet';
 
 const meta = {
-  title: 'Foundation/Shared/Tiles/SimpleIcon',
+  title: 'Foundation/Shared/Tiles/SimpleTile',
   component: FSSimpleTileUI,
   tags: ['autodocs'],
   argTypes: {
@@ -29,8 +29,15 @@ export const Variations: Story = {
           singleSelect: true
         }, {
           id: "3",
-          label: "Simple Icon tile with color",
+          label: "Simple tile with color",
           bottomColor: ["#0000FF", "#FFFFFF"]
+        }, {
+          id: "4",
+          label: "Simple tile with color",
+          icon: "mdi-account",
+          bottomColor: ["#0000FF", "#FF0000"],
+          iconBackgroundColor: ["#0000FF", "#FF0000"],
+          iconBackgroundVariant: "gradient"
         }
       ],
         selected: [
