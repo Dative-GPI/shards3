@@ -6,6 +6,7 @@ const windowHeight = ref(window.innerHeight);
 const windowWidth = ref(window.innerWidth);
 
 const windowOuterWidth = ref(!window.document.hasFocus() && window.outerWidth === 0 ? window.innerWidth : window.outerWidth);
+const visualViewportHeight = ref(window.visualViewport!.height);
 
 export const useBreakpoints = () => {
     const onSizeChange = (): void => {
@@ -18,6 +19,10 @@ export const useBreakpoints = () => {
             return;
         }
         windowOuterWidth.value = window.outerWidth;
+    };
+
+    const onVisualViewportResize = (): void => {
+        visualViewportHeight.value = window.visualViewport!.height;
     };
 
     const isTouchScreenEnabled = computed((): boolean => {
@@ -34,6 +39,7 @@ export const useBreakpoints = () => {
 
     if (!initialized) {
         window.addEventListener("resize", onSizeChange);
+        window.visualViewport!.addEventListener ("resize", onVisualViewportResize);
         initialized = true;
     }
 

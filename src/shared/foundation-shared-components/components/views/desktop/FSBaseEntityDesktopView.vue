@@ -36,6 +36,7 @@
           :icon="$props.icon"
         />
         <FSCol
+          style="min-width: 0"
           align="center-left"
           height="fill"
         >

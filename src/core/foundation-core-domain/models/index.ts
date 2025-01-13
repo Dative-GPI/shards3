@@ -28,7 +28,6 @@ export * from "./deviceConnectivities";
 export * from "./deviceExplorerElements";
 export * from "./deviceOrganisations";
 export * from "./deviceStatuses";
-export * from "./extensionApplications";
 export * from "./folders";
 export * from "./groups";
 export * from "./locations";

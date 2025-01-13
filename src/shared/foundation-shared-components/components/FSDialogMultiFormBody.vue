@@ -195,7 +195,7 @@ export default defineComponent({
         + (props.subtitle ? (isMobileSized.value ? 16 : 20) + 8 : 0) // Subtitle
         + (props.steps > 1 ? 24 + 4 : 0)                             // Pagination
         + (isMobileSized.value ? 36 : 40) + 24;                      // Footer
-      return `calc(100vh - 42px - ${other}px)`;
+      return `calc(100dvh - 12px - ${other}px)`;
     });
 
     const previousButtonLabel = computed(() => {

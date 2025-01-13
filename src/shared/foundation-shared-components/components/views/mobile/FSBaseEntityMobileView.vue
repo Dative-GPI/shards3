@@ -28,6 +28,7 @@
           :size="actualImageSize"
         />
         <FSCol
+          style="min-width: 0"
           align="center-left"
           height="fill"
         >

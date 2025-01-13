@@ -211,9 +211,8 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
+import { computed, defineComponent, type PropType, watch } from "vue";
 import type { RouteLocation } from "vue-router";
-import { computed, defineComponent, watch } from "vue";
 import _ from "lodash";
 
 import type { AlertFilters, AlertInfos } from "@dative-gpi/foundation-core-domain/models";
@@ -285,7 +284,6 @@ export default defineComponent({
     const { getMany: getManyAlerts, entities: alerts, fetching : fetchingAlerts } = useAlerts();
     const { epochToShortTimeFormat } = useDateFormat();
 
-
     const criticityColor = (row: any) => {
       return AlertTools.criticityColor(row.criticity);
     };
@@ -304,14 +302,14 @@ export default defineComponent({
 
     watch(() => [props.alertFilters, props.notAcknowledged, props.hidePending], (next, previous) => {
       if (!_.isEqual(next, previous)) {
-        if(props.notAcknowledged){
+        if (props.notAcknowledged) {
           getManyAlerts({
             ...props.alertFilters,
             acknowledged: false,
             statuses: [AlertStatus.Unresolved, AlertStatus.Triggered],
           });
         }
-        else{
+        else {
           getManyAlerts({
             ...props.alertFilters,
             statuses: props.hidePending ?
@@ -321,7 +319,6 @@ export default defineComponent({
         }
       }
     }, { immediate: true });
-
 
     return {
       fetchingAlerts,

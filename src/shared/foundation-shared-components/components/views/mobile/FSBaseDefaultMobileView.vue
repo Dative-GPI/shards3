@@ -12,11 +12,9 @@
       <slot
         name="header"
       >
-
         <FSRow
-          padding="24px 16px 16px 24px"
-          style="position: sticky; top: 0px; z-index: 3;"
-          :style="{ backgroundColor, marginTop: $props.stickyTitleTopOffset }"
+          :style="`position: sticky; top: 0px; z-index: 3; background-color: ${backgroundColor}; margin-top: ${$props.stickyTitleTopOffset};`"
+          :padding="`24px ${isTouchScreenEnabled ? '24px' : '16px'} 16px 24px`"
         >
           <slot
             name="title"
@@ -45,8 +43,8 @@
         </FSCol>
         <FSRow
           v-if="$slots.toolbar"
-          padding="0px 16px 8px 24px"
           :style="stickyToolbar ? `position: sticky; top: ${$props.toolbarTopOffset}; z-index: 3; background-color: ${backgroundColor}` : undefined"
+          :padding="`0px ${isTouchScreenEnabled ? '24px' : '16px'} 8px 24px`"
         >
           <FSSlideGroup>
             <slot
@@ -58,8 +56,8 @@
 
       <FSCol
         height="fill"
-        :padding="$slots.toolbar ? '8px 16px 24px 24px' : '16px 16px 24px 24px'"
         gap="0px"
+        :padding="`${$slots.toolbar ? '8px' : '16px'} ${isTouchScreenEnabled ? '24px' : '16px'} 24px 24px`"
       >
         <slot />
       </FSCol>
@@ -72,7 +70,7 @@ import { defineComponent, type PropType, computed } from "vue";
 
 import { type FSBreadcrumbItem, ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 
-import { useColors } from "../../../composables"
+import { useBreakpoints, useColors } from "../../../composables"
  
 import FSCol from "../../FSCol.vue";
 import FSRow from "../../FSRow.vue"
@@ -117,7 +115,8 @@ export default defineComponent({
       default: "0px"
     }
   },
-  setup(){
+  setup() {
+    const { isTouchScreenEnabled } = useBreakpoints();
     const { getColors } = useColors();
 
     const backgroundColor = computed(() => {
@@ -125,8 +124,9 @@ export default defineComponent({
     });
 
     return {
+      isTouchScreenEnabled,
       backgroundColor
-    }
+    };
   }
 });
 </script>

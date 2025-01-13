@@ -1,13 +1,15 @@
 <template>
-  <span
+  <div
     :class="classes"
     :style="style"
     v-bind="$attrs"
   >
-    <slot>
-      {{ $props.label }}
-    </slot>
-  </span>
+    <span>
+      <slot>
+        {{ $props.label }}
+      </slot>
+    </span>
+  </div>
 </template>
 
 <script lang="ts">
@@ -49,6 +51,7 @@ export default defineComponent({
     const { slots } = useSlots();
 
     const style = computed((): StyleValue => ({
+      "--fs-span-text-align": props.align,
       "--fs-span-line-clamp": props.lineClamp.toString(),
       ...fontStyles.value
     }));

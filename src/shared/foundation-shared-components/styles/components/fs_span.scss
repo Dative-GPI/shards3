@@ -1,9 +1,17 @@
 .fs-span {
+    display: flex;
+
     max-width: 100%;
-    text-align: left;
+    min-width: 0;
 }
 
-.fs-span-line-clamp {
+.fs-span > span {
+    text-align: var(--fs-span-text-align);
+    align-content: center;
+    max-width: 100%;
+}
+
+.fs-span-line-clamp > span {
     overflow: hidden;
     display: -webkit-box;
     line-clamp: var(--fs-span-line-clamp);
@@ -11,12 +19,12 @@
     -webkit-line-clamp: var(--fs-span-line-clamp);
 }
 
-.fs-span-ellipsis {
+.fs-span-ellipsis > span {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.fs-span-pre-wrap {
+.fs-span-pre-wrap > span {
     white-space: pre-wrap;
 }

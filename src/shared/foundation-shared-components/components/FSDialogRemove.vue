@@ -21,7 +21,7 @@
             mdi-alert-outline
           </FSIcon>
           <FSRow
-            gap="2px"
+            gap="4px"
           >
             <FSSpan>
               {{ $tr("dialog-remove.body-regular", "This action is") }}

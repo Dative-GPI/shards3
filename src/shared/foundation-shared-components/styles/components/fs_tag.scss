@@ -13,17 +13,19 @@
     background-color: var(--fs-tag-background-color) !important;
     color: var(--fs-tag-color) !important;
 
-    &:hover {
-        background-color: var(--fs-tag-hover-background-color) !important;
-        color: var(--fs-tag-hover-color) !important;
-    }
+    min-width: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
 
     &:active {
         background-color: var(--fs-tag-active-background-color) !important;
         color: var(--fs-tag-active-color) !important;
     }
 
-    min-width: 20px !important;
-    width: 20px !important;
-    height: 20px !important;
+    @include clickscreen {
+        &:hover {
+            background-color: var(--fs-tag-hover-background-color) !important;
+            color: var(--fs-tag-hover-color) !important;
+        }
+    }
 }

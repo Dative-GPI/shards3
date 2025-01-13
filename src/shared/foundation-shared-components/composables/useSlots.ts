@@ -20,11 +20,12 @@ export const useSlots = () => {
         // Directive wrapper (v-for, v-if)
         case "symbol":
           switch (element.type) {
+            // On a v-for, we want to get the children of the v-for
             case Symbol.for("v-fgt"):
               returnElements.push(...recursiveGetChildren(element.children));
               break;
+              // On a negative v-if, we want to get nothing
             case Symbol.for("v-cmt"):
-              returnElements.push(element);
               break;
             default:
               returnElements.push(element);

@@ -181,7 +181,7 @@ export default defineComponent({
         + (isMobileSized.value ? 24 : 32) + 24                       // Title
         + (props.subtitle ? (isMobileSized.value ? 16 : 20) + 8 : 0) // Subtitle
         + (isMobileSized.value ? 36 : 40) + 24;                      // Footer
-      return `calc(100vh - 42px - ${other}px)`;
+      return `calc(100dvh - 12px - ${other}px)`;
     });
 
     const cancelLabel = computed(() => {
