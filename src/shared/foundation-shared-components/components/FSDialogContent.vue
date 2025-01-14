@@ -1,51 +1,51 @@
 <template>
   <FSCard
     :padding="['24px', '16px', '16px 12px']"
-    gap="24px"
     :class="$props.cardClasses"
     :color="$props.color"
     :width="cardWidth"
   >
-    <template
-      #header
-    >
-      <FSCol>
-        <FSRow
-          align="center-left"
-          :wrap="false"
-        >
-          <FSText
-            font="text-h2"
-          >
-            {{ $props.title }}
-          </FSText>
-          <FSRow
-            align="center-right"
-          >
-            <FSButton
-              icon="mdi-close"
-              variant="icon"
-              :color="ColorEnum.Dark"
-              @click="$emit('update:modelValue', false)"
-            />
-          </FSRow>
-        </FSRow>
-        <FSText
-          v-if="$props.subtitle"
-        >
-          {{ $props.subtitle }}
-        </FSText>
-      </FSCol>
-    </template>
-    <template
-      v-for="(_, name) in $slots"
-      v-slot:[name]="slotData"
+    <FSCol
+      gap="24px"
     >
       <slot
-        :name="name"
-        v-bind="slotData"
+        name="header"
+      >
+        <FSCol>
+          <FSRow
+            align="center-left"
+            :wrap="false"
+          >
+            <FSText
+              font="text-h2"
+            >
+              {{ $props.title }}
+            </FSText>
+            <FSRow
+              align="center-right"
+            >
+              <FSButton
+                icon="mdi-close"
+                variant="icon"
+                :color="ColorEnum.Dark"
+                @click="$emit('update:modelValue', false)"
+              />
+            </FSRow>
+          </FSRow>
+          <FSText
+            v-if="$props.subtitle"
+          >
+            {{ $props.subtitle }}
+          </FSText>
+        </FSCol>
+      </slot>
+      <slot
+        name="body"
       />
-    </template>
+      <slot
+        name="footer"
+      />
+    </FSCol>
   </FSCard>
 </template>
 

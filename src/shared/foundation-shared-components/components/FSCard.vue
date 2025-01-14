@@ -3,33 +3,7 @@
     :class="classes"
     :style="style"
   >
-    <slot>
-      <FSCol
-        :gap="$props.gap"
-      >
-        <FSRow
-          v-if="$slots.header"
-        >
-          <slot
-            name="header"
-          />
-        </FSRow>
-        <FSRow
-          v-if="$slots.body"
-        >
-          <slot
-            name="body"
-          />
-        </FSRow>
-        <FSRow
-          v-if="$slots.footer"
-        >
-          <slot
-            name="footer"
-          />
-        </FSRow>
-      </FSCol>
-    </slot>
+    <slot />
   </div>
 </template>
 
@@ -40,15 +14,8 @@ import { type ColorBase, ColorEnum } from "@dative-gpi/foundation-shared-compone
 import { useColors } from "@dative-gpi/foundation-shared-components/composables";
 import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 
-import FSCol from "./FSCol.vue";
-import FSRow from "./FSRow.vue";
-
 export default defineComponent({
   name: "FSCard",
-  components: {
-    FSCol,
-    FSRow
-  },
   props: {
     height: {
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
@@ -64,11 +31,6 @@ export default defineComponent({
       type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
       required: false,
       default: "0"
-    },
-    gap: {
-      type: [Array, String, Number] as PropType<string[] | number[] | string | number | null>,
-      required: false,
-      default: "8px"
     },
     variant: {
       type: String as PropType<"background" | "standard" | "full" | "gradient">,

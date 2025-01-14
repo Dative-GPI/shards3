@@ -82,7 +82,6 @@ import { sizeToVar } from "@dative-gpi/foundation-shared-components/utils";
 import { ColorEnum } from "../models";
 
 import FSButton from "./FSButton.vue";
-import FSCard from "./FSCard.vue";
 import FSIcon from "./FSIcon.vue";
 import FSText from "./FSText.vue";
 import FSRow from "./FSRow.vue";
@@ -91,7 +90,6 @@ export default defineComponent({
   name: "FSWindow",
   components: {
     FSButton,
-    FSCard,
     FSIcon,
     FSText,
     FSRow

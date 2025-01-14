@@ -6,9 +6,7 @@
       padding="8px"
       width="500px"
     >
-      <template
-        #header
-      >
+      <FSCol>
         <FSRow
           align="center-center"
           gap="12px"
@@ -40,20 +38,12 @@
             />
           </FSRow>
         </FSRow>
-      </template>
-      <template
-        #body
-      >
         <FSText 
           class="text-wrap"
         >
           {{ comment }}
         </FSText>
-      </template>
-      <template
-        #footer
-      >
-      </template>
+      </FSCol>
     </FSCard>
     <FSCol
       width="500px"
@@ -77,8 +67,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType} from "vue";
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, type PropType, ref, watch } from "vue";
 
 import { ColorEnum } from "@dative-gpi/foundation-shared-components/models";
 

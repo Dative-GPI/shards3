@@ -36,27 +36,23 @@
         @click="$emit('update:modelValue', [item.id])"
         v-bind="$attrs"
       >
-        <template
-          #default
+        <FSRow
+          align="center-center"
         >
-          <FSRow
-            align="center-center"
+          <FSIcon
+            icon="mdi-thermometer"
+          />
+          <FSSpan
+            :lineClamp="1"
           >
-            <FSIcon
-              icon="mdi-thermometer"
-            />
-            <FSSpan
-              :lineClamp="1"
-            >
-              {{ item.label }}
-            </FSSpan>
-            <v-spacer/>
-            <FSIcon
-              :color="ColorEnum.Primary"
-              icon="mdi-link"
-            />
-          </FSRow>
-        </template>
+            {{ item.label }}
+          </FSSpan>
+          <v-spacer/>
+          <FSIcon
+            :color="ColorEnum.Primary"
+            icon="mdi-link"
+          />
+        </FSRow>
       </FSClickable>
     </template>
   </FSDataTable>

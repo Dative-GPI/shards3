@@ -18,15 +18,9 @@
       :class="classes"
       v-bind="$attrs"
     >
-      <template
-        v-for="(_, name) in $slots"
-        v-slot:[name]="slotData"
-      >
-        <slot
-          :name="name"
-          v-bind="{ ...slotData, contentVariant }"
-        />
-      </template>
+      <slot
+        v-bind="{ contentVariant }"
+      />
     </FSCard>
     <template
       v-if="$props.load"
@@ -59,15 +53,9 @@
       :class="classes"
       v-bind="$attrs"
     >
-      <template
-        v-for="(_, name) in $slots"
-        v-slot:[name]="slotData"
-      >
-        <slot
-          :name="name"
-          v-bind="{ ...slotData, contentVariant }"
-        />
-      </template>
+      <slot
+        v-bind="{ contentVariant }"
+      />
     </FSCard>
     <template
       v-if="$props.load"
@@ -102,15 +90,9 @@
       :class="classes"
       v-bind="$attrs"
     >
-      <template
-        v-for="(_, name) in $slots"
-        v-slot:[name]="slotData"
-      >
-        <slot
-          :name="name"
-          v-bind="{ ...slotData, contentVariant }"
-        />
-      </template>
+      <slot
+        v-bind="{ contentVariant }"
+      />
     </FSCard>
     <template
       v-if="$props.load"

@@ -7,19 +7,22 @@
     <FSCard
       width="calc(100vw - 48px)"
       padding="8px"
-      gap="24px"
       :color="$props.color"
       :class="classes"
     >
-      <template
-        v-for="(_, name) in $slots"
-        v-slot:[name]="slotData"
+      <FSCol
+        gap="24px"
       >
         <slot
-          :name="name"
-          v-bind="slotData"
+          name="header"
         />
-      </template>
+        <slot
+          name="body"
+        />
+        <slot
+          name="footer"
+        />
+      </FSCol>
     </FSCard>
   </v-dialog>
 </template>

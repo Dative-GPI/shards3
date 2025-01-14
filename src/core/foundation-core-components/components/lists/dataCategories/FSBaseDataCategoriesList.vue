@@ -49,26 +49,22 @@
             @click="$emit('update:modelValue', [item.id])"
             v-bind="$attrs"
           >
-            <template
-              #default
+            <FSRow
+              align="center-center"
+              :wrap="false"
             >
-              <FSRow
-                align="center-center"
-                :wrap="false"
+              <FSSpan
+                :lineClamp="1"
               >
-                <FSSpan
-                  :lineClamp="1"
-                >
-                  {{ item.label }}
-                </FSSpan>
-                <v-spacer/>
-                <FSIcon
-                  :color="item.correlated ? ColorEnum.Primary : ColorEnum.Light"
-                  :icon="item.correlated ? 'mdi-link' : 'mdi-link-off'"
-                  variant="dark"
-                />
-              </FSRow>
-            </template>
+                {{ item.label }}
+              </FSSpan>
+              <v-spacer/>
+              <FSIcon
+                :color="item.correlated ? ColorEnum.Primary : ColorEnum.Light"
+                :icon="item.correlated ? 'mdi-link' : 'mdi-link-off'"
+                variant="dark"
+              />
+            </FSRow>
           </FSClickable>
         </template>
       </FSDataTable>
