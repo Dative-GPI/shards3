@@ -2,8 +2,9 @@ import { useTranslations as useTranslationsProvider } from "@dative-gpi/bones-ui
 import { useDateFormat } from "@dative-gpi/foundation-shared-services/composables";
 import { validateExpression } from "@dative-gpi/foundation-shared-domain/tools";
 
-import { getTimeBestString } from "../utils";
-import type { TimeUnit } from "@/shared/foundation-shared-domain/enums";
+import type { TimeUnit } from "@dative-gpi/foundation-shared-domain/enums";
+
+import { getTimeBestString, validateOperation } from "../utils";
 
 const { epochToLongDateFormat } = useDateFormat()!;
 const { $tr } = useTranslationsProvider();
@@ -22,6 +23,8 @@ export const TextRules = {
     different: (original: string, message: string | undefined = undefined) => (value: string) => value != original || (message ?? $tr("ui.rules.text-different", "Must be different from original")),
     outside: (values: string[], message: string | undefined = undefined) => (value: string) => !values.includes(value) || (message ?? $tr("ui.rules.text-outside", "Must be different from others")),
     inside: (values: string[], message: string | undefined = undefined) => (value: string) => values.includes(value) || (message ?? $tr("ui.rules.text-inside", "Must be one of the options")),
+    operation: (operands: string[], variables: string[], message: string | undefined = undefined) => (value: string) => validateOperation(value, operands, variables) || (message ?? $tr("ui.rules.text-operation", "Invalid operation")),
+    singleWord: (message: string | undefined = undefined) => (value: string) => !value.includes(" ") || (message ?? $tr("ui.rules.text-single-word", "Must be a single word")),
 };
 
 export const TagRules = {

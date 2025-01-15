@@ -8,6 +8,7 @@ export * from "./icons";
 export * from "./leafletMarkers"
 export * from "./levenshtein";
 export * from "./lexical";
+export * from "./operations";
 export * from "./sort";
 export * from "./statuses";
 export * from "./time";
