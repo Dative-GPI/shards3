@@ -22,6 +22,7 @@ export class UserOrganisationInfos {
   lastName: string;
   name: string;
   tags: string[];
+  kioskMode: boolean;
 
   constructor(params: UserOrganisationInfosDTO) {
     this.id = params.id;
@@ -44,6 +45,7 @@ export class UserOrganisationInfos {
     this.lastName = params.lastName;
     this.name = params.name;
     this.tags = params.tags && params.tags.slice() || [];
+    this.kioskMode = params.kioskMode;
   }
 }
 
@@ -68,6 +70,7 @@ export interface UserOrganisationInfosDTO {
   lastName: string;
   name: string;
   tags: string[] | null;
+  kioskMode: boolean;
 }
 
 export interface UserOrganisationFilters {

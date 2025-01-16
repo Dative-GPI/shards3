@@ -53,6 +53,7 @@ export interface UpdateUserOrganisationDTO {
     mainDashboardType: DashboardType;
     mainDashboardId: string | null;
     tags: string[];
+    kioskMode?: boolean;
 }
 
 export interface ChangeCurrentUserOrganisationDashboardDTO {
