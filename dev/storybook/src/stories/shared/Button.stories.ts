@@ -182,6 +182,7 @@ import FSButtonPrevious from      "@dative-gpi/foundation-shared-components/comp
 import FSButtonPreviousLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPreviousLabel.vue";
 import FSButtonPreviousMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPreviousMini.vue";
 import FSButtonPreviousIcon from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPreviousIcon.vue";
+import FSButtonPrint from         "@dative-gpi/foundation-shared-components/components/buttons/FSButtonPrint.vue";
 import FSButtonRedo from      "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRedo.vue";
 import FSButtonRedoLabel from "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRedoLabel.vue";
 import FSButtonRedoMini from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonRedoMini.vue";
@@ -469,6 +470,7 @@ export const Submit: Story = {
 
 import FSButtonCheckbox from  "@dative-gpi/foundation-shared-components/components/buttons/FSButtonCheckbox.vue";
 import FSTagField from '@dative-gpi/foundation-shared-components/components/fields/FSTagField.vue';
+import { defineComponent, ref } from 'vue';
 
 export const Checkbox: Story = {
   args: {
@@ -495,6 +497,30 @@ export const Checkbox: Story = {
         v-model="args.value2"
       />
     </div>`
+  })
+}
+
+import FSBaseGroupsList from '@dative-gpi/foundation-core-components/components/lists/groups/FSBaseGroupsList.vue';
+
+export const Print: Story = {
+  
+  render: (args) => 
+    defineComponent ({
+      setup() {
+        const elementToPrint = ref(null);
+
+        return { elementToPrint };
+      },
+      components: { FSButtonPrint, FSBaseGroupsList },
+      template: `
+      <div>
+        <FSButtonPrint
+          :elementToPrint="elementToPrint?.$el"
+        />
+        <FSBaseGroupsList
+          ref="elementToPrint"
+        />
+      </div>`
   })
 }
 

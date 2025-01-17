@@ -21,7 +21,8 @@
     "tests/packages-build"
   ],
   "dependencies": {
-    "axios-mock-adapter": "1.22.0"
+    "axios-mock-adapter": "1.22.0",
+    "html2canvas": "^1.4.1"
   },
   "devDependencies": {
     "@dative-gpi/bones-ui": "1.0.5",
