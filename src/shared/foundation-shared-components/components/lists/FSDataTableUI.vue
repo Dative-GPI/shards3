@@ -35,6 +35,7 @@
         v-if="!$props.disableTable && !$props.disableIterator"
       >
         <FSRow
+          :width="isMobileSized ? 'hug' : 'fill'"
           align="center-right"
         >
           <FSOptionGroup
@@ -900,8 +901,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "update:headers", "update:search", "update:showFilters", "update:filters", "update:mode", "update:sortBy", "update:rowsPerPage", "update:page", "update:include", "update:items", "click:row"],
   setup(props, { emit }) {
+    const { isExtraSmall, isMobileSized } = useBreakpoints();
     const { handleRoutingEvent } = useRouting();
-    const { isExtraSmall } = useBreakpoints();
     const { $tr } = useTranslationsProvider();
     const { getColors } = useColors();
     const router = useRouter();
@@ -1596,6 +1597,7 @@ export default defineComponent({
       classes,
       style,
       size,
+      isMobileSized,
       isExtraSmall,
       draggableDisabled,
       elementId,
