@@ -134,7 +134,15 @@ export default defineComponent({
   setup(props, { emit }) {
     const { languages } = useAppLanguages();
 
-    const innerTranslations = ref(props.translations);
+    const innerTranslations = ref(props.translations.map((tranlation) => {
+      if(typeof tranlation[props.property] === 'string'){
+        return tranlation;
+      }
+      return {
+        ...tranlation,
+        [props.property]: JSON.stringify(tranlation[props.property])
+      }
+    }));
 
     const getTranslation = (languageCode: string): string | object => {
       if (!innerTranslations.value) {
