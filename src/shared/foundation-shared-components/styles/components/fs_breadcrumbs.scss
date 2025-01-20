@@ -7,8 +7,10 @@
         color: var(--fs-breadcrumbs-disabled-color) !important;
     }
 
-    &:hover {
-        text-decoration: underline;
+    @include clickscreen {
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     &:active {

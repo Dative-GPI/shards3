@@ -11,8 +11,10 @@
   }
 }
 
-.fs-image-card:hover {
-  > .fs-card {
-    background-size: 105%;
+@include clickscreen {
+  .fs-image-card:hover {
+    > .fs-card {
+      background-size: 105%;
+    }
   }
 }
