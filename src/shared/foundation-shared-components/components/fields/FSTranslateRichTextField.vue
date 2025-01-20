@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType, ref } from 'vue';
+import { defineComponent, type PropType, ref, computed, watch } from 'vue';
 
 import { useAppLanguages } from "@dative-gpi/foundation-shared-services/composables";
 
@@ -134,26 +134,21 @@ export default defineComponent({
   setup(props, { emit }) {
     const { languages } = useAppLanguages();
 
-    const innerTranslations = ref(props.translations.map((tranlation) => {
-      if(typeof tranlation[props.property] === 'string'){
-        return tranlation;
-      }
-      return {
-        ...tranlation,
-        [props.property]: JSON.stringify(tranlation[props.property])
-      }
-    }));
+    const innerTranslations = ref<{
+      languageCode: string;
+      [key: string]: string | object | null;
+    }[]>([]);
 
-    const getTranslation = (languageCode: string): string | object => {
-      if (!innerTranslations.value) {
-        return emptyLexicalState;
+    const getTranslation = computed(() => {
+      const translationsMap = new Map(
+        innerTranslations.value.map((t) => [t.languageCode, t[props.property]])
+      );
+
+      return (languageCode: string) => {
+        return translationsMap.get(languageCode) || emptyLexicalState;
       }
-      const translation = innerTranslations.value.find((t) => t.languageCode === languageCode);
-      if (!translation || !translation[props.property]) {
-        return emptyLexicalState;
-      }
-      return translation[props.property]!;
-    };
+        
+    });
 
     const setTranslation = (languageCode: string, value: string): void => {
       if (!innerTranslations.value) {
@@ -185,6 +180,18 @@ export default defineComponent({
     const onCancelTranslations  = (): void => {
       emit('update:translationsExpanded', false);
     };
+
+    watch(() => props.translations, (newTranslations) => {
+      innerTranslations.value = newTranslations.map((tranlation) => {
+        if(typeof tranlation[props.property] === 'string'){
+          return tranlation;
+        }
+        return {
+          ...tranlation,
+          [props.property]: JSON.stringify(tranlation[props.property])
+        }
+      });
+    }, { immediate: true });
 
     return {
       languages,
