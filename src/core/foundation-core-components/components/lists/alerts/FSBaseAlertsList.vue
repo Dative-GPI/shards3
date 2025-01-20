@@ -24,6 +24,7 @@
       #item.criticity="{ item }"
     >
       <FSRow
+        :wrap="false" 
         align="center-left"
         gap="2px"
       >
