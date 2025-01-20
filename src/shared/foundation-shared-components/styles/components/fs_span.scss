@@ -1,16 +1,8 @@
 .fs-span {
     display: flex;
-    flex: 1 0 0;
 
-    min-width: 0;
-}
-
-:not(.fs-col) > .fs-span {
-    max-width: fit-content;
-}
-
-.fs-col > .fs-span {
     max-width: 100%;
+    min-width: 0;
 }
 
 .fs-span > span {
