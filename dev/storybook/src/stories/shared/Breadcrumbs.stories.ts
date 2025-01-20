@@ -17,11 +17,21 @@ type Story = StoryObj<typeof meta>;
 export const Standard: Story = {
   args: {
     args: {
-        items: [
-            { title: "First (clickable)", disabled: false, active: false },
-            { title: "Second (disabled)", disabled: true, active: false },
-            { title: "Third (clickable)", disabled: false, active: false },
-            { title: "Last (active)", disabled: true, active: true }
+        items1: [
+            { title: "First (clickable)", disabled: false, to: "/first" },
+            { title: "Second (disabled)", disabled: true },
+            { title: "Third (clickable)", disabled: false, to: "/third" },
+            { title: "Last (active)", disabled: true }
+        ],
+        items2: [
+            { title: "First",  disabled: false, to: "/first" },
+            { title: "Second", disabled: true },
+            { title: "Last with a really long name", disabled: true }
+        ],
+        items3: [
+            { title: "First", disabled: false, to: "/first" },
+            { title: "Second with a really long name", disabled: true },
+            { title: "Last", disabled: true }
         ]
     }
   },
